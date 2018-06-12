@@ -55,7 +55,7 @@ namespace SFGraphics
         /// </summary>
         /// <param name="h">Hue in range [0,360]</param>
         /// <param name="s">Saturation in range [0,1]. Values outside range are clamped.</param>
-        /// <param name="v"></param>
+        /// <param name="v">Value</param>
         /// <param name="r"></param>
         /// <param name="g"></param>
         /// <param name="b"></param>
@@ -154,6 +154,15 @@ namespace SFGraphics
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="r"></param>
+        /// <param name="g"></param>
+        /// <param name="b"></param>
+        /// <param name="h"></param>
+        /// <param name="s"></param>
+        /// <param name="v"></param>
         public static void RgbToHsv(float r, float g, float b, out float h, out float s, out float v)
         {
             h = 360.0f;
@@ -333,14 +342,20 @@ namespace SFGraphics
             return Color.FromArgb(color.A, 255 - color.R, 255 - color.G, 255 - color.B);
         }
 
-        public static int FloatToIntClamp(float f)
+        /// <summary>
+        /// Converts f to an int clamped to the specified range.
+        /// </summary>
+        /// <param name="f">Multiplied by 255 and casted to int before being clamped</param>
+        /// <param name="min"></param>
+        /// <param name="max"></param>
+        /// <returns></returns>
+        public static int FloatToIntClamp(float f, int min = 0, int max = 255)
         {
-            // Clamp 0 to 255. Useful for setting colors of GUI stuff.
             int i = (int)(f * 255);
-            if (i > 255)
-                return 255;
-            else if (i < 0)
-                return 0;
+            if (i > max)
+                return max;
+            else if (i < min)
+                return min;
             return i;
         }
     }
