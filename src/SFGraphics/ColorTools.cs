@@ -34,6 +34,8 @@ namespace SFGraphics
             DarkOliveGreen = 0xFF232C16
         }
 
+        private static readonly float MaxHueAngle = 360;
+
         public static Color ColorFromUint(uint hexColor)
         {
             byte alpha = (byte)(hexColor >> 24);
@@ -48,6 +50,15 @@ namespace SFGraphics
             return new Vector4(color.R / 255f, color.G / 255f, color.B / 255f, color.A / 255f);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="h">Hue in range [0,360]</param>
+        /// <param name="s">Saturation in range [0,1]. Values outside range are clamped.</param>
+        /// <param name="v"></param>
+        /// <param name="r"></param>
+        /// <param name="g"></param>
+        /// <param name="b"></param>
         public static void HsvToRgb(float h, float s, float v, out float r, out float g, out float b)
         {
             r = 1.0f;
@@ -57,17 +68,26 @@ namespace SFGraphics
             CalculateRgbFromHsv(h, s, v, ref r, ref g, ref b);
         }
 
-        public static void HsvToRgb(Vector3 hsv, out Vector3 rgb)
+        /// <summary>
+        /// Calculates a floating point RGB color given HSV values.
+        /// </summary>
+        /// <param name="hsv">
+        /// X: Hue in range [0,1],
+        /// Y: Saturation in range [0,1],
+        /// Z: Value
+        /// </param>
+        /// <returns>The given HSV color in RGB</returns>
+        public static Vector3 HsvToRgb(Vector3 hsv)
         {
             float r = 1.0f;
             float g = 1.0f;
             float b = 1.0f;
-            float h = hsv.X;
+            float h = hsv.X * MaxHueAngle;
             float s = hsv.Y;
             float v = hsv.Z;
 
             CalculateRgbFromHsv(h, s, v, ref r, ref g, ref b);
-            rgb = new Vector3(r, g, b);
+            return new Vector3(r, g, b);
         }
 
         private static void CalculateRgbFromHsv(float h, float s, float v, ref float r, ref float g, ref float b)
@@ -143,7 +163,14 @@ namespace SFGraphics
             CalculateHsvFromRgb(r, g, b, ref h, ref s, ref v);
         }
 
-        public static void RgbToHsv(Vector3 rgb, out Vector3 hsv)
+        /// <summary>
+        /// Converts the floating point color in RGB to HSV. 
+        /// output.X: hue in range [0,1], output.Y: saturation in range [0,1], 
+        /// output.Z: value.
+        /// </summary>
+        /// <param name="rgb"></param>
+        /// <returns></returns>
+        public static Vector3 RgbToHsv(Vector3 rgb)
         {
             float h = 360.0f;
             float s = 1.0f;
@@ -153,7 +180,7 @@ namespace SFGraphics
             float b = rgb.Z;
 
             CalculateHsvFromRgb(r, g, b, ref h, ref s, ref v);
-            hsv = new Vector3(h, s, v);
+            return new Vector3(h / MaxHueAngle, s, v);
         }
 
         private static void CalculateHsvFromRgb(float r, float g, float b, ref float h, ref float s, ref float v)
@@ -185,6 +212,13 @@ namespace SFGraphics
                 h += 360.0f;
         }
 
+        /// <summary>
+        /// Calculates a visually similar RGB color to a blackbody.
+        /// </summary>
+        /// <param name="temp">The color temperature in Kelvin. Ex: temp = 6500 for a calibrated PC monitor.</param>
+        /// <param name="R"></param>
+        /// <param name="G"></param>
+        /// <param name="B"></param>
         public static void ColorTemp2RGB(float temp, out float R, out float G, out float B)
         {
             // Adapted from an approximation of the black body curve by Tanner Helland.
@@ -194,8 +228,8 @@ namespace SFGraphics
             G = 1.0f;
             B = 1.0f;
 
-            // use doubles for calculations and convert to float at the end
-            // no need for double precision floating point colors on GPU
+            // Use doubles for calculations and convert to float at the end.
+            // No need for double precision floating point colors on GPU.
             double Red = 255.0;
             double Green = 255.0;
             double Blue = 255.0;
@@ -259,29 +293,41 @@ namespace SFGraphics
             B = (float)Blue;
         }
 
-
-        public static int ClampInt(int i) 
+        /// <summary>
+        /// Returns an int restricted between min and max.
+        /// </summary>
+        /// <param name="i"></param>
+        /// <returns>0</returns>
+        public static int ClampInt(int i, int min = 0, int max = 255) 
         {
-            // Restricts RGB values to 0 to 255
-            if (i > 255)
-                return 255;
-            else if (i < 0)
-                return 0;
+            if (i > max)
+                return max;
+            else if (i < min)
+                return min;
             else
                 return i;
         }
 
-        public static float ClampFloat(float f) 
+        /// <summary>
+        /// Returns a float restricted between min and max.
+        /// </summary>
+        /// <param name="f"></param>
+        /// <returns></returns>
+        public static float ClampFloat(float f, float min = 0, float max = 1) 
         {
-            // Restricts RGB values to 0.0 to 1.0
-            if (f > 1.0f)
-                return 1.0f;
-            else if (f < 0.0f)
-                return 0.0f;
+            if (f > max)
+                return max;
+            else if (f < min)
+                return min;
             else
                 return f;
         }
 
+        /// <summary>
+        /// Creates a new color with inverted RGB channels. Alpha is unchanged.
+        /// </summary>
+        /// <param name="color">The color used to calculate the inverted color</param>
+        /// <returns>A color with inverted RGB but identical alpha as color</returns>
         public static Color InvertColor(Color color)
         {
             return Color.FromArgb(color.A, 255 - color.R, 255 - color.G, 255 - color.B);
