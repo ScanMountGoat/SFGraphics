@@ -39,6 +39,11 @@ namespace SFGraphics.Tools
 
         private static readonly float MaxHueAngle = 360;
 
+        /// <summary>
+        /// Converts an ARGB hex color to a system color.
+        /// </summary>
+        /// <param name="hexColor">ARGB color</param>
+        /// <returns></returns>
         public static Color ColorFromUint(uint hexColor)
         {
             byte alpha = (byte)(hexColor >> 24);
@@ -314,7 +319,9 @@ namespace SFGraphics.Tools
         /// Returns an int restricted between min and max.
         /// </summary>
         /// <param name="i"></param>
-        /// <returns>0</returns>
+        /// <param name="min">Values lower than min are clamped to min.</param>
+        /// <param name="max">Values higher than max are clamped to max.</param>
+        /// <returns></returns>
         public static int ClampInt(int i, int min = 0, int max = 255) 
         {
             if (i > max)
@@ -329,6 +336,8 @@ namespace SFGraphics.Tools
         /// Returns a float restricted between min and max.
         /// </summary>
         /// <param name="f"></param>
+        /// <param name="min">Values lower than min are clamped to min.</param>
+        /// <param name="max">Values higher than max are clamped to max.</param>
         /// <returns></returns>
         public static float ClampFloat(float f, float min = 0, float max = 1) 
         {
@@ -354,8 +363,8 @@ namespace SFGraphics.Tools
         /// Converts f to an int clamped to the specified range.
         /// </summary>
         /// <param name="f">Multiplied by 255 and casted to int before being clamped</param>
-        /// <param name="min"></param>
-        /// <param name="max"></param>
+        /// <param name="min">Values lower than min are clamped to min.</param>
+        /// <param name="max">Values higher than max are clamped to max.</param>
         /// <returns></returns>
         public static int FloatToIntClamp(float f, int min = 0, int max = 255)
         {

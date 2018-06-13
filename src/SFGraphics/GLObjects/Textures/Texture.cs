@@ -43,8 +43,14 @@ namespace SFGraphics.GLObjects.Textures
         /// </summary>
         public int Id { get; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         protected TextureTarget textureTarget = TextureTarget.Texture2D;
 
+        /// <summary>
+        /// 
+        /// </summary>
         public PixelInternalFormat PixelInternalFormat { get; }
 
         private TextureMinFilter minFilter;
