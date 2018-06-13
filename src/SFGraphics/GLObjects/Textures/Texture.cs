@@ -7,7 +7,10 @@ using OpenTK.Graphics.OpenGL;
 
 namespace SFGraphics.GLObjects.Textures
 {
-    public abstract class Texture
+    /// <summary>
+    /// 
+    /// </summary>
+    public abstract class Texture : IGLObject
     {
         private static HashSet<int> texturesToDelete = new HashSet<int>();
 
