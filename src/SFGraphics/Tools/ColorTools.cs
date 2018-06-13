@@ -378,11 +378,7 @@ namespace SFGraphics.Tools
         public static int FloatToIntClamp(float f, int min = 0, int max = 255)
         {
             int i = (int)(f * 255);
-            if (i > max)
-                return max;
-            else if (i < min)
-                return min;
-            return i;
+            return ClampInt(i, min, max);
         }
     }
 }
