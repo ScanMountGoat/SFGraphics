@@ -8,6 +8,9 @@ using System.Text;
 
 namespace SFGraphics.GLObjects.Shaders
 {
+    /// <summary>
+    /// Stores hardware info, OpenGL/GLSL version, invalid uniform/attribute names, shader compilation errors, and linker errors.
+    /// </summary>
     class ShaderLog
     {
         private StringBuilder errorLog = new StringBuilder();

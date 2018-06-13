@@ -4,6 +4,9 @@ using OpenTK;
 
 namespace SFGraphics.Tools
 {
+    /// <summary>
+    /// Conversion methods for HSV, RGB, color temperature, and system Colors using floats or OpenTK vectors.
+    /// </summary>
     public static class ColorTools
     {
         // See https://stackoverflow.com/questions/470690/how-to-automatically-generate-n-distinct-colors
