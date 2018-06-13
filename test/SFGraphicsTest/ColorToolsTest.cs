@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Drawing;
 using OpenTK;
-using SFGraphics;
+using SFGraphics.Tools;
 
 namespace SFGraphicsTest
 {

@@ -2,7 +2,7 @@
 using System.Drawing;
 using OpenTK;
 
-namespace SFGraphics
+namespace SFGraphics.Tools
 {
     public static class ColorTools
     {
@@ -45,6 +45,11 @@ namespace SFGraphics
             return Color.FromArgb(alpha, red, green, blue);
         }
 
+        /// <summary>
+        /// Converts the byte channel values of the input color [0,255] to float [0.0,1.0].
+        /// </summary>
+        /// <param name="color"></param>
+        /// <returns></returns>
         public static Vector4 Vector4FromColor(Color color)
         {
             return new Vector4(color.R / 255f, color.G / 255f, color.B / 255f, color.A / 255f);
@@ -72,8 +77,8 @@ namespace SFGraphics
         /// Calculates a floating point RGB color given HSV values.
         /// </summary>
         /// <param name="hsv">
-        /// X: Hue in range [0,1],
-        /// Y: Saturation in range [0,1],
+        /// X: Hue in range [0.0,1.0],
+        /// Y: Saturation in range [0.0,1.0],
         /// Z: Value
         /// </param>
         /// <returns>The given HSV color in RGB</returns>
