@@ -54,7 +54,7 @@ namespace SFGraphics.Tools
         }
 
         /// <summary>
-        /// Converts the byte channel values of the input color [0,255] to float [0.0,1.0].
+        /// Converts the byte channel values of the input color [0,255] to float [0.0,1.0]. XYZW = RGBA.
         /// </summary>
         /// <param name="color"></param>
         /// <returns></returns>
@@ -216,22 +216,31 @@ namespace SFGraphics.Tools
             if (delta == 0)
                 h = 0;
 
+            // Check for divide by 0.
             if (v == 0)
                 s = 0.0f;
             else
                 s = delta / v;
 
-            if (r == cMax)
-                h = 60.0f * (((g - b) / delta));
+            // Check for divide by 0.
+            if (delta == 0)
+            {
+                h = 0;
+            }
+            else
+            {
+                if (r == cMax)
+                    h = 60.0f * (((g - b) / delta));
 
-            else if (g == cMax)
-                h = 60.0f * (((b - r) / delta) + 2);
+                else if (g == cMax)
+                    h = 60.0f * (((b - r) / delta) + 2);
 
-            else if (b == cMax)
-                h = 60.0f * (((r - g) / delta) + 4);
+                else if (b == cMax)
+                    h = 60.0f * (((r - g) / delta) + 4);
 
-            while (h < 0.0f)
-                h += 360.0f;
+                while (h < 0.0f)
+                    h += 360.0f;
+            }
         }
 
         /// <summary>

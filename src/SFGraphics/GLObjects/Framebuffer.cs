@@ -11,6 +11,9 @@ using System.Diagnostics;
 
 namespace SFGraphics.GLObjects
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class Framebuffer : IGLObject
     {
         /// <summary>
@@ -18,8 +21,14 @@ namespace SFGraphics.GLObjects
         /// </summary>
         public int Id { get; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public FramebufferTarget FramebufferTarget { get; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public PixelInternalFormat PixelInternalFormat { get; }
 
         private int width = 1;
@@ -58,6 +67,13 @@ namespace SFGraphics.GLObjects
 
         private int rboDepth;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="target"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <param name="pixelInternalFormat"></param>
         public Framebuffer(FramebufferTarget target, int width, int height, PixelInternalFormat pixelInternalFormat = PixelInternalFormat.Rgba)
         {
             Id = GL.GenFramebuffer();
@@ -100,6 +116,11 @@ namespace SFGraphics.GLObjects
             GL.FramebufferRenderbuffer(FramebufferTarget, FramebufferAttachment.DepthAttachment, RenderbufferTarget.Renderbuffer, rboDepth);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="saveAlpha">The alpha channel is saved when true or discarded when false</param>
+        /// <returns></returns>
         public Bitmap ReadImagePixels(bool saveAlpha = false)
         {
             // Calculate the number of bytes needed.
@@ -120,6 +141,12 @@ namespace SFGraphics.GLObjects
             return bmp;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="x">The horizontal pixel coordinate</param>
+        /// <param name="y">The vertical pixel coordinate</param>
+        /// <returns></returns>
         public Color SamplePixelColor(int x, int y)
         {
             Bind();
@@ -149,6 +176,9 @@ namespace SFGraphics.GLObjects
             return fixedPixels;
         }
 
+        /// <summary>
+        /// Binds the framebuffer to the target specified at creation.
+        /// </summary>
         public void Bind()
         {
             GL.BindFramebuffer(FramebufferTarget, Id);

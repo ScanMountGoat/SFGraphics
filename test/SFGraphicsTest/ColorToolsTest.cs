@@ -24,6 +24,38 @@ namespace SFGraphicsTest
         }
 
         [TestClass]
+        public class Vector4FromColorTest
+        {
+            [TestMethod]
+            public void Vector4FromBlack()
+            {
+                Color color = Color.FromArgb(128, 0, 0, 0);
+                Vector4 actual = ColorTools.Vector4FromColor(color);
+
+                float delta = 0.01f; 
+                Vector4 expected = new Vector4(0, 0, 0, 0.5f);
+                Assert.AreEqual(expected.X, actual.X, delta);
+                Assert.AreEqual(expected.Y, actual.Y, delta);
+                Assert.AreEqual(expected.Z, actual.Z, delta);
+                Assert.AreEqual(expected.W, actual.W, delta);
+            }
+
+            [TestMethod]
+            public void Vector4FromAllChannels()
+            {
+                Color color = Color.FromArgb(128, 64, 32, 16);
+                Vector4 actual = ColorTools.Vector4FromColor(color);
+
+                float delta = 0.01f;
+                Vector4 expected = new Vector4(0.25f, 0.13f, 0.06f, 0.5f);
+                Assert.AreEqual(expected.X, actual.X, delta);
+                Assert.AreEqual(expected.Y, actual.Y, delta);
+                Assert.AreEqual(expected.Z, actual.Z, delta);
+                Assert.AreEqual(expected.W, actual.W, delta);
+            }
+        }
+
+        [TestClass]
         public class HsvToRgbVec3Test
         {
             [TestMethod]
@@ -37,6 +69,16 @@ namespace SFGraphicsTest
             }
 
             [TestMethod]
+            public void HsvToRgbVec3White()
+            {
+                Vector3 whiteHsv = new Vector3(0, 0, 1);
+                Vector3 actualRgb = ColorTools.HsvToRgb(whiteHsv);
+
+                Vector3 expectedRgb = new Vector3(1);
+                Assert.AreEqual(expectedRgb, actualRgb);
+            }
+
+            [TestMethod]
             public void HsvToRgbVec3Red()
             {
                 Vector3 redHsv = new Vector3(0, 1, 1);
@@ -44,6 +86,40 @@ namespace SFGraphicsTest
 
                 Vector3 expectedRgb = new Vector3(1, 0, 0);
                 Assert.AreEqual(expectedRgb, actualRgb);
+            }
+        }
+
+        [TestClass]
+        public class RgbToHsvVec3Test
+        {
+            [TestMethod]
+            public void RgbToHsvVec3Black()
+            {
+                Vector3 blackRgb = new Vector3(0);
+                Vector3 actualHsv = ColorTools.RgbToHsv(blackRgb);
+
+                Vector3 expectedHsv = new Vector3(0);
+                Assert.AreEqual(expectedHsv, actualHsv);
+            }
+
+            [TestMethod]
+            public void RgbToHsvVec3White()
+            {
+                Vector3 whiteRgb = new Vector3(1);
+                Vector3 actualHsv = ColorTools.RgbToHsv(whiteRgb);
+
+                Vector3 expectedHsv = new Vector3(0, 0, 1);
+                Assert.AreEqual(expectedHsv, actualHsv);
+            }
+
+            [TestMethod]
+            public void RgbToHsvVec3Red()
+            {
+                Vector3 redRgb = new Vector3(1, 0, 0);
+                Vector3 actualHsv = ColorTools.RgbToHsv(redRgb);
+
+                Vector3 expectedHsv = new Vector3(0, 1, 1);
+                Assert.AreEqual(expectedHsv, actualHsv);
             }
         }
 
@@ -61,6 +137,19 @@ namespace SFGraphicsTest
                 Assert.AreEqual(0, r);
                 Assert.AreEqual(0, g);
                 Assert.AreEqual(0, b);
+            }
+
+            [TestMethod]
+            public void HsvToRgbWhite()
+            {
+                float r;
+                float g;
+                float b;
+                ColorTools.HsvToRgb(0, 0, 1, out r, out g, out b);
+
+                Assert.AreEqual(1, r);
+                Assert.AreEqual(1, g);
+                Assert.AreEqual(1, b);
             }
 
             [TestMethod]
