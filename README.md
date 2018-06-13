@@ -6,7 +6,25 @@ Originally based on the rendering implemented for Smash Forge.
 WIP
 
 # Documentation
-WIP. Most public methods contain doc style xml comments.
+WIP. Most public methods contain xml comments.
+# Features Overview
+**ClassName**  
+*Interface*
+### SFGraphics
+The main graphics library.
+* *GLObject*
+    * Shaders
+        * **Shader**
+        * **ShaderLog**
+    * Textures
+        * **Texture2D**
+        * **TextureCubeMap**
+    * **Framebuffer**
+* Tools
+    * **ColorTools**
+        * RGB -> HSV, HSV -> RGB
+        * Color Temperature -> RGB
+        * System.Drawing.Color -> OpenTK.Vector4
 
 # Credits
 ### OpenTK  
