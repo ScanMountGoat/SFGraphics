@@ -9,11 +9,20 @@ namespace SFGraphics.GLObjects.Textures
 {
     public class Texture2D : Texture
     {
+        /// <summary>
+        /// Initialize an empty Texture2D of the specified dimensions.
+        /// </summary>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
         public Texture2D(int width, int height) : base(TextureTarget.Texture2D, width, height)
         {
 
         }
 
+        /// <summary>
+        /// Initialize an RGBA texture from the specified bitmap.
+        /// </summary>
+        /// <param name="image"></param>
         public Texture2D(Bitmap image) : base(TextureTarget.Texture2D, image.Width, image.Height)
         {
             // Load the image data.
