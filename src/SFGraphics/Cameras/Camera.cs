@@ -157,7 +157,14 @@ namespace SFGraphics.Cameras
         }
         private float nearClipPlane = 1;
 
+        /// <summary>
+        /// 
+        /// </summary>
         public int renderWidth = 1;
+
+        /// <summary>
+        /// 
+        /// </summary>
         public int renderHeight = 1;
 
         // Matrices shouldn't be changed directly.
@@ -207,12 +214,6 @@ namespace SFGraphics.Cameras
         /// </summary>
         public Matrix4 PerspectiveMatrix { get { return perspectiveMatrix; } }
 
-        // Camera control settings. 
-        protected float zoomDistanceScale = 1;
-        protected float rotateYSpeed = 1;
-        protected float rotateXSpeed = 1;
-        protected float zoomSpeed = 1;
-
         /// <summary>
         /// 
         /// </summary>
@@ -241,12 +242,12 @@ namespace SFGraphics.Cameras
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="xAmount"></param>
-        /// <param name="yAmount"></param>
+        /// <param name="xAmount">Amount to rotate around the x-axis in radians</param>
+        /// <param name="yAmount">Amount to rotate around the y-axis in radians</param>
         public void Rotate(float xAmount, float yAmount)
         {
-            rotationYRadians += rotateYSpeed * xAmount;
-            rotationXRadians += rotateXSpeed * yAmount;
+            rotationXRadians += xAmount;
+            rotationYRadians += yAmount;
         }
 
         /// <summary>
@@ -284,23 +285,48 @@ namespace SFGraphics.Cameras
         public void Zoom(float amount, bool scaleByDistanceToOrigin = true)
         {
             // Increase zoom speed when zooming out. 
-            float zoomscale = zoomSpeed;
+            float zoomScale = 1;
             if (scaleByDistanceToOrigin)
-                zoomscale *= Math.Abs(position.Z) * zoomDistanceScale;
+                zoomScale *= Math.Abs(position.Z);
 
-            position.Z += amount * zoomscale;
+            position.Z += amount * zoomScale;
         }
 
         /// <summary>
-        /// 
+        /// Updates the translation, rotation, perspective, modelview, and modelviewprojection matrices.
         /// </summary>
         public void UpdateMatrices()
         {
-            translationMatrix = Matrix4.CreateTranslation(position.X, -position.Y, position.Z);
-            rotationMatrix = Matrix4.CreateRotationY(rotationYRadians) * Matrix4.CreateRotationX(rotationXRadians);
-            perspectiveMatrix = Matrix4.CreatePerspectiveFieldOfView(fovRadians, renderWidth / (float)renderHeight, nearClipPlane, farClipPlane);
+            UpdateTranslationMatrix();
+            UpdateRotationMatrix();
+            UpdatePerspectiveMatrix();
 
+            UpdateModelViewMatrix();
+            UpdateMvpMatrix();
+        }
+
+        private void UpdateTranslationMatrix()
+        {
+            translationMatrix = Matrix4.CreateTranslation(position.X, -position.Y, position.Z);
+        }
+
+        private void UpdateRotationMatrix()
+        {
+            rotationMatrix = Matrix4.CreateRotationY(rotationYRadians) * Matrix4.CreateRotationX(rotationXRadians);
+        }
+
+        private void UpdatePerspectiveMatrix()
+        {
+            perspectiveMatrix = Matrix4.CreatePerspectiveFieldOfView(fovRadians, renderWidth / (float)renderHeight, nearClipPlane, farClipPlane);
+        }
+
+        private void UpdateModelViewMatrix()
+        {
             modelViewMatrix = rotationMatrix * translationMatrix;
+        }
+
+        private void UpdateMvpMatrix()
+        {
             mvpMatrix = modelViewMatrix * perspectiveMatrix;
         }
 
