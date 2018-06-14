@@ -15,7 +15,8 @@ namespace SFGraphics.GLObjects.Textures
         private static HashSet<int> texturesToDelete = new HashSet<int>();
 
         /// <summary>
-        /// Calls GL.DeleteTexture on all texture Ids still flagged for deletion.
+        /// Calls GL.DeleteTexture on all texture IDs still flagged for deletion.
+        /// All textures are assumed to be deleted successfully, and the list of IDs to delete is cleared.
         /// </summary>
         public static void DeleteUnusedTextures()
         {
@@ -28,10 +29,10 @@ namespace SFGraphics.GLObjects.Textures
 
         /// <summary>
         /// Avoids the following scenario. Should be called on context destruction.
-        /// <para>1. Texture is created.</para>
-        /// <para>2. Context is destroyed and resources are freed.</para>
+        /// <para>1. A texture is created.</para>
+        /// <para>2. The context is destroyed and all resources are freed.</para>
         /// <para>3. A texture with the same Id is made in a new context.</para>
-        /// <para>4. The new texture is deleted because of the shared Id.</para>
+        /// <para>4. The new texture is deleted because the Id is still flagged for deletion when deleting unused textures.</para>
         /// </summary>
         public static void ClearTexturesFlaggedForDeletion()
         {
@@ -53,7 +54,6 @@ namespace SFGraphics.GLObjects.Textures
         /// </summary>
         public PixelInternalFormat PixelInternalFormat { get; }
 
-        private TextureMinFilter minFilter;
         /// <summary>
         /// Binds and updates the TextureParameter when set.
         /// </summary>
@@ -67,8 +67,8 @@ namespace SFGraphics.GLObjects.Textures
                 GL.TexParameter(textureTarget, TextureParameterName.TextureMinFilter, (int)value);
             }
         }
+        private TextureMinFilter minFilter;
 
-        private TextureMagFilter magFilter;
         /// <summary>
         /// Binds and updates the TextureParameter when set.
         /// </summary>
@@ -82,8 +82,8 @@ namespace SFGraphics.GLObjects.Textures
                 GL.TexParameter(textureTarget, TextureParameterName.TextureMagFilter, (int)value);
             }
         }
+        private TextureMagFilter magFilter;
 
-        private TextureWrapMode textureWrapS;
         /// <summary>
         /// Binds and updates the TextureParameter when set.
         /// </summary>
@@ -97,8 +97,8 @@ namespace SFGraphics.GLObjects.Textures
                 GL.TexParameter(textureTarget, TextureParameterName.TextureWrapS, (int)value);
             }
         }
+        private TextureWrapMode textureWrapS;
 
-        private TextureWrapMode textureWrapT;
         /// <summary>
         /// Binds and updates the TextureParameter when set.
         /// </summary>
@@ -112,8 +112,8 @@ namespace SFGraphics.GLObjects.Textures
                 GL.TexParameter(textureTarget, TextureParameterName.TextureWrapT, (int)value);
             }
         }
+        private TextureWrapMode textureWrapT;
 
-        private TextureWrapMode textureWrapR;
         /// <summary>
         /// Binds and updates the TextureParameter when set.
         /// </summary>
@@ -127,6 +127,7 @@ namespace SFGraphics.GLObjects.Textures
                 GL.TexParameter(textureTarget, TextureParameterName.TextureWrapR, (int)value);
             }
         }
+        private TextureWrapMode textureWrapR;
 
         public Texture(TextureTarget target, int width, int height, PixelInternalFormat pixelInternalFormat = PixelInternalFormat.Rgba)
         {

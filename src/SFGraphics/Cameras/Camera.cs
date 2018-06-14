@@ -8,13 +8,15 @@ using OpenTK;
 namespace SFGraphics.Cameras
 {
     /// <summary>
-    /// 
+    /// A container for 4x4 camera matrices. The matrices can not be set directly.
+    /// To edit the translation matrix, the camera position should be changed, for example.
+    /// <para>Keyboard/mouse controls can be added by inheriting from this class and using the Pan(), Rotate(), Zoom() methods.</para>
     /// </summary>
     public class Camera
     {
-        private Vector3 position = new Vector3(0, 10, -80);
         /// <summary>
-        /// 
+        /// The position of the camera in scene units. 
+        /// Updates all matrices when set.
         /// </summary>
         public Vector3 Position
         {
@@ -25,18 +27,19 @@ namespace SFGraphics.Cameras
                 UpdateMatrices();
             }
         }
+        private Vector3 position = new Vector3(0, 10, -80);
 
         /// <summary>
         /// The vertical field of view in radians. 
         /// Updates all matrices when set.
-        /// Values less than or equal to 0 or greater than or equal to PI are ignored.
+        /// <para>Values less than or equal to 0 or greater than or equal to PI are ignored.</para>
         /// </summary>
         public float FovRadians
         {
             get { return fovRadians; }
             set
             {
-                if (value > 0 && value <= Math.PI)
+                if (value > 0 && value < Math.PI)
                 {
                     fovRadians = value;
                     UpdateMatrices();
@@ -47,17 +50,20 @@ namespace SFGraphics.Cameras
 
         /// <summary>
         /// The vertical field of view in degrees. 
-        /// The value should be greater than 0 and less than or equal to 180.
         /// Updates all matrices when set.
+        /// <para>Values less than or equal to 0 or greater than or equal to 180 are ignored.</para>
         /// </summary>
         public float FovDegrees
         {
+            // Only store radians internally.
             get { return (float)(fovRadians * 180.0f / Math.PI); }
             set
             {
-                // Only store radians internally.
-                fovRadians = (float)(value / 180.0f * Math.PI);
-                UpdateMatrices();
+                if (value > 0 && value < 180)
+                {
+                    fovRadians = (float)(value / 180.0f * Math.PI);
+                    UpdateMatrices();
+                }
             }
         }
 

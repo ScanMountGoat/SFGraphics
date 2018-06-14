@@ -17,23 +17,20 @@ namespace SFGraphics.GLObjects.Shaders
         /// </summary>
 		public int Id { get; }
 
-        /// <summary>
-        /// True when the link status is ok and all attached shaders compiled.
-        /// If false, rendering with this shader will most likely cause a crash.
-        /// </summary>
         private bool programStatusIsOk = true;
 
+        // TODO: Class or struct for attached shaders?
         private int vertShaderId;
         private int fragShaderId;
 
         private bool hasGeometryShader = false;
         private int geomShaderId;
 
-        private bool hasCheckedProgramCreation = false;
         /// <summary>
         /// True when the program and shader compilation have been checked for errors.
         /// </summary>
         public bool HasCheckedCompilation { get { return hasCheckedProgramCreation; } }
+        private bool hasCheckedProgramCreation = false;
 
         private ShaderLog errorLog = new ShaderLog();
 
@@ -52,6 +49,14 @@ namespace SFGraphics.GLObjects.Shaders
         {
             Id = GL.CreateProgram();
             errorLog.AppendHardwareAndVersionInfo();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        ~Shader()
+        {
+            // TODO: Flag some unused stuff for deletion.
         }
 
         /// <summary>
@@ -142,7 +147,9 @@ namespace SFGraphics.GLObjects.Shaders
         /// Names not present in the shader are ignored and saved to the error log.
         /// </summary>
         /// <param name="uniformName">The uniform variable name</param>
-        /// <param name="value">The value to assign to the uniform</param>
+        /// <param name="x"></param>        
+        /// <param name="y"></param>
+        /// <param name="z"></param>
         public void SetVector3(string uniformName, float x, float y, float z)
         {
             if (!vertexAttributeAndUniformLocations.ContainsKey(uniformName) && !invalidUniformNames.Contains(uniformName))
@@ -174,7 +181,10 @@ namespace SFGraphics.GLObjects.Shaders
         /// Names not present in the shader are ignored and saved to the error log.
         /// </summary>
         /// <param name="uniformName">The uniform variable name</param>
-        /// <param name="value">The value to assign to the uniform</param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="z"></param>
+        /// <param name="w"></param>
         public void SetVector4(string uniformName, float x, float y, float z, float w)
         {
             if (!vertexAttributeAndUniformLocations.ContainsKey(uniformName) && !invalidUniformNames.Contains(uniformName))
@@ -279,7 +289,6 @@ namespace SFGraphics.GLObjects.Shaders
         private void LoadUniforms()
         {
             GL.GetProgram(Id, GetProgramParameterName.ActiveUniforms, out activeUniformCount);
-            //errorLog.AppendLine("Uniform Count: " + activeUniformCount);
 
             for (int i = 0; i < activeUniformCount; i++)
             {
@@ -298,7 +307,6 @@ namespace SFGraphics.GLObjects.Shaders
         private void LoadAttributes()
         {
             GL.GetProgram(Id, GetProgramParameterName.ActiveAttributes, out activeAttributeCount);
-            //errorLog.AppendLine("Attribute Count: " + activeAttributeCount);
 
             for (int i = 0; i < activeAttributeCount; i++)
             {
@@ -341,6 +349,7 @@ namespace SFGraphics.GLObjects.Shaders
 
         private void LoadShaderBasedOnType(string filePath)
         {
+            // Use the file extensions supported by the GLSL reference compiler.
             if (filePath.EndsWith(".frag"))
             {
                 AttachAndCompileShader(filePath, ShaderType.FragmentShader, Id, out fragShaderId);
@@ -356,7 +365,8 @@ namespace SFGraphics.GLObjects.Shaders
             }
             else
             {
-                throw new NotSupportedException(filePath + " does not have a suppported shader type extension.");
+                // No compute shaders or anything fancy like that currently.
+                throw new NotSupportedException(filePath + " does not have a supported shader type extension.");
             }
         }
 
@@ -375,6 +385,10 @@ namespace SFGraphics.GLObjects.Shaders
             errorLog.AppendShaderInfoLog(shaderName, id, type);
         }
 
+        /// <summary>
+        /// True when the link status is ok and all attached shaders compiled.
+        /// If false, rendering with this shader will most likely cause a crash.
+        /// </summary>
         public bool ProgramCreatedSuccessfully()
         {
             // Should be checked before rendering. 
