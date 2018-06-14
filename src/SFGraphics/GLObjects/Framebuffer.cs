@@ -31,7 +31,6 @@ namespace SFGraphics.GLObjects
         /// </summary>
         public PixelInternalFormat PixelInternalFormat { get; }
 
-        private int width = 1;
         /// <summary>
         /// All attached textures, renderbuffers, etc are resized when set. The framebuffer's contents will not be preserved when resizing.
         /// </summary>
@@ -44,8 +43,8 @@ namespace SFGraphics.GLObjects
                 Resize();
             }
         }
+        private int width = 1;
 
-        private int height = 1;
         /// <summary>
         /// All attached textures, renderbuffers, etc are resized when set. The framebuffer's contents will not be preserved when resizing.
         /// </summary>
@@ -58,6 +57,7 @@ namespace SFGraphics.GLObjects
                 Resize();
             }
         }
+        private int height = 1;
 
         private int colorAttachment0Tex;
         /// <summary>
@@ -88,12 +88,18 @@ namespace SFGraphics.GLObjects
             SetupColorAttachment0(width, height);
             SetupRboDepth(width, height);
 
-            // Check if any of the settings were incorrect when creating the fbo.
-            string error = String.Format("FBO: {0} {1}", Id, GL.CheckNamedFramebufferStatus(Id, FramebufferTarget));
-            Debug.WriteLine(error);
-
             // Bind the default framebuffer again.
             GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
+        }
+
+        /// <summary>
+        /// Gets the named framebuffer status for this framebuffer.
+        /// </summary>
+        /// <returns></returns>
+        public String GetStatus()
+        {
+            // Check if any of the settings were incorrect when creating the fbo.
+            return GL.CheckNamedFramebufferStatus(Id, FramebufferTarget).ToString();
         }
 
         private void SetupColorAttachment0(int width, int height)
@@ -142,11 +148,13 @@ namespace SFGraphics.GLObjects
         }
 
         /// <summary>
-        /// 
+        /// The origin (0,0) corresponds to the top left of the screen.
+        /// The coordinates are based on the framebuffer's dimensions 
+        /// and not the screen's dimensions.
         /// </summary>
         /// <param name="x">The horizontal pixel coordinate</param>
         /// <param name="y">The vertical pixel coordinate</param>
-        /// <returns></returns>
+        /// <returns>A color with the RGBA values of the selected pixel</returns>
         public Color SamplePixelColor(int x, int y)
         {
             Bind();
