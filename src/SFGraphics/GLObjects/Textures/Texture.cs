@@ -149,10 +149,11 @@ namespace SFGraphics.GLObjects.Textures
             GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
         }
 
+        /// <summary>
+        /// The context probably isn't current here, so any GL function will crash. The texture will need to be cleaned up later. 
+        /// </summary>
         ~Texture()
         {
-            // The context probably isn't current here, so any GL function will crash.
-            // The texture will need to be cleaned up later. 
             if (!texturesToDelete.Contains(Id))
                 texturesToDelete.Add(Id);            
         }
