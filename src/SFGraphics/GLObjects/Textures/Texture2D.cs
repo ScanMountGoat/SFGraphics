@@ -7,6 +7,9 @@ using OpenTK.Graphics.OpenGL;
 
 namespace SFGraphics.GLObjects.Textures
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class Texture2D : Texture
     {
         /// <summary>

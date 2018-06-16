@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cameras\Camera.cs" />
+    <Compile Include="GLObjects\BufferObject.cs" />
     <Compile Include="GLObjects\Framebuffer.cs" />
     <Compile Include="GLObjects\GLObjectManager.cs" />
     <Compile Include="GLObjects\IGLObject.cs" />

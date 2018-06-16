@@ -17,6 +17,7 @@ namespace SFGraphics.GLObjects
     {
         // Use internal methods/variables so people can't mess this up.
         internal static ConcurrentDictionary<int, int> referenceCountByTextureId = new ConcurrentDictionary<int, int>();
+        internal static ConcurrentDictionary<int, int> referenceCountByBufferId = new ConcurrentDictionary<int, int>();
 
         internal static void AddReference(ConcurrentDictionary<int, int> referenceCountById, int id)
         {
@@ -44,19 +45,34 @@ namespace SFGraphics.GLObjects
         public static void DeleteUnusedGLObjects()
         {
             DeleteUnusedTextures();
+            DeleteUnusedBuffers();
         }
 
         private static void DeleteUnusedTextures()
         {
-            HashSet<int> deletedTextureIds = FindIdsWithNoReferences(referenceCountByTextureId);
+            HashSet<int> idsReadyForDeletion = FindIdsWithNoReferences(referenceCountByTextureId);
 
             // Remove any IDs with no more references.
             // Only delete the texture if the ID was present.
-            foreach (int id in deletedTextureIds)
+            foreach (int id in idsReadyForDeletion)
             {
                 int value;
                 if (referenceCountByTextureId.TryRemove(id, out value))
                     GL.DeleteTexture(id);
+            }
+        }
+
+        private static void DeleteUnusedBuffers()
+        {
+            HashSet<int> idsReadyForDeletion = FindIdsWithNoReferences(referenceCountByBufferId);
+
+            // Remove any IDs with no more references.
+            // Only delete the texture if the ID was present.
+            foreach (int id in idsReadyForDeletion)
+            {
+                int value;
+                if (referenceCountByBufferId.TryRemove(id, out value))
+                    GL.DeleteBuffer(id);
             }
         }
 

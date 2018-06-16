@@ -135,7 +135,7 @@ namespace SFGraphics.GLObjects.Textures
         }
 
         /// <summary>
-        /// The context probably isn't current here, so any GL function will crash. The texture will need to be cleaned up later. 
+        /// Decrement the reference count for this ID. The context probably isn't current, so the data is deleted later by GLObjectManager.
         /// </summary>
         ~Texture()
         {
