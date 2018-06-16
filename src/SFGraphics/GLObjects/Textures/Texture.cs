@@ -5,6 +5,7 @@ using System.Drawing.Imaging;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
+
 namespace SFGraphics.GLObjects.Textures
 {
     /// <summary>
@@ -12,31 +13,29 @@ namespace SFGraphics.GLObjects.Textures
     /// </summary>
     public abstract class Texture : IGLObject
     {
-        private static HashSet<int> texturesToDelete = new HashSet<int>();
+        private static Dictionary<int, int> referenceCountByTextureId = new Dictionary<int, int>();
 
         /// <summary>
-        /// Calls GL.DeleteTexture on all texture IDs still flagged for deletion.
-        /// All textures are assumed to be deleted successfully, and the list of IDs to delete is cleared.
+        /// Texture IDs will not be deleted while there is still a reference to texture with that ID.
+        /// There is no guarantee of when a texture will finally be deleted.
         /// </summary>
         public static void DeleteUnusedTextures()
         {
-            foreach (int texture in texturesToDelete)
+            HashSet<int> deletedTextureIds = new HashSet<int>();
+            foreach (var texture in referenceCountByTextureId)
             {
-                GL.DeleteTexture(texture);
+                if (texture.Value == 0)
+                {
+                    GL.DeleteTexture(texture.Key);
+                    deletedTextureIds.Add(texture.Key);
+                }
             }
-            texturesToDelete.Clear();
-        }
 
-        /// <summary>
-        /// Avoids the following scenario. Should be called on context destruction.
-        /// <para>1. A texture is created.</para>
-        /// <para>2. The context is destroyed and all resources are freed.</para>
-        /// <para>3. A texture with the same Id is made in a new context.</para>
-        /// <para>4. The new texture is deleted because the Id is still flagged for deletion when deleting unused textures.</para>
-        /// </summary>
-        public static void ClearTexturesFlaggedForDeletion()
-        {
-            texturesToDelete.Clear();
+            // Remove any IDs with no more references.
+            foreach (int id in deletedTextureIds)
+            {
+                referenceCountByTextureId.Remove(id);
+            }
         }
 
         /// <summary>
@@ -129,10 +128,19 @@ namespace SFGraphics.GLObjects.Textures
         }
         private TextureWrapMode textureWrapR;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="target"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <param name="pixelInternalFormat"></param>
         public Texture(TextureTarget target, int width, int height, PixelInternalFormat pixelInternalFormat = PixelInternalFormat.Rgba)
         {
             // These should only be set once at object creation.
             Id = GL.GenTexture();
+            IncrementReferenceCountForId();
+
             textureTarget = target;
             PixelInternalFormat = pixelInternalFormat;
 
@@ -150,13 +158,24 @@ namespace SFGraphics.GLObjects.Textures
             GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
         }
 
+        private void IncrementReferenceCountForId()
+        {
+            if (referenceCountByTextureId.ContainsKey(Id))
+                referenceCountByTextureId[Id] += 1;
+            else
+                referenceCountByTextureId.Add(Id, 1);
+        }
+
         /// <summary>
         /// The context probably isn't current here, so any GL function will crash. The texture will need to be cleaned up later. 
         /// </summary>
         ~Texture()
         {
-            if (!texturesToDelete.Contains(Id))
-                texturesToDelete.Add(Id);            
+            if (referenceCountByTextureId.ContainsKey(Id))
+            {
+                if (referenceCountByTextureId[Id] > 0)
+                    referenceCountByTextureId[Id] -= 1;
+            }
         }
 
         /// <summary>
