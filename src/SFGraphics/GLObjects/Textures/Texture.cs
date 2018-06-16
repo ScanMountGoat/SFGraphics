@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.Drawing;
 using System.Drawing.Imaging;
 using OpenTK;
@@ -13,13 +14,26 @@ namespace SFGraphics.GLObjects.Textures
     /// </summary>
     public abstract class Texture : IGLObject
     {
-        private static Dictionary<int, int> referenceCountByTextureId = new Dictionary<int, int>();
+        // The finalizers and actual deletion won't be on the same thread.
+        private static ConcurrentDictionary<int, int> referenceCountByTextureId = new ConcurrentDictionary<int, int>();
 
         /// <summary>
         /// Texture IDs will not be deleted while there is still a reference to texture with that ID.
         /// There is no guarantee of when a texture will finally be deleted.
         /// </summary>
         public static void DeleteUnusedTextures()
+        {
+            HashSet<int> deletedTextureIds = FindIdsWithNoReferences();
+
+            // Remove any IDs with no more references.
+            foreach (int id in deletedTextureIds)
+            {
+                int value;
+                referenceCountByTextureId.TryRemove(id, out value);
+            }
+        }
+
+        private static HashSet<int> FindIdsWithNoReferences()
         {
             HashSet<int> deletedTextureIds = new HashSet<int>();
             foreach (var texture in referenceCountByTextureId)
@@ -31,11 +45,7 @@ namespace SFGraphics.GLObjects.Textures
                 }
             }
 
-            // Remove any IDs with no more references.
-            foreach (int id in deletedTextureIds)
-            {
-                referenceCountByTextureId.Remove(id);
-            }
+            return deletedTextureIds;
         }
 
         /// <summary>
@@ -163,7 +173,7 @@ namespace SFGraphics.GLObjects.Textures
             if (referenceCountByTextureId.ContainsKey(Id))
                 referenceCountByTextureId[Id] += 1;
             else
-                referenceCountByTextureId.Add(Id, 1);
+                referenceCountByTextureId.TryAdd(Id, 1);
         }
 
         /// <summary>
