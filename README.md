@@ -5,8 +5,9 @@ Originally based on the rendering implemented for Smash Forge. **This library is
 # Building
 WIP. Support for platforms other than Windows not planned. There may be issues with the .NET target framework not matching, but this can be changed before building.
 
-# Documentation
-WIP. Most public methods and classes contain xml comments.
+# [Documentation](https://scanmountgoat.github.io/SFGraphics/)
+Online documentation for all classes, methods, etc. Still a WIP. Add the .xml file from the build directory to the same directory as the .dll if you want the comments to appear in Visual Studio.
+
 # Features Overview
 **ClassName**  
 
