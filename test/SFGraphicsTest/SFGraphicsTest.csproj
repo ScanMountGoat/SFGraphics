@@ -60,6 +60,7 @@
     <Compile Include="CameraTest.cs" />
     <Compile Include="ColorToolsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="VectorToolsTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

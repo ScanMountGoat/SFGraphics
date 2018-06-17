@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OpenTK;
+using SFGraphics.Tools;
 
 namespace SFGraphics.Cameras
 {
@@ -56,12 +57,12 @@ namespace SFGraphics.Cameras
         public float FovDegrees
         {
             // Only store radians internally.
-            get { return (float)(fovRadians * 180.0f / Math.PI); }
+            get { return (float)VectorTools.GetDegrees(fovRadians); }
             set
             {
                 if (value > 0 && value < 180)
                 {
-                    fovRadians = (float)(value / 180.0f * Math.PI);
+                    fovRadians = (float)VectorTools.GetRadians(value);
                     UpdateMatrices();
                 }
             }
@@ -88,11 +89,11 @@ namespace SFGraphics.Cameras
         /// </summary>
         public float RotationXDegrees
         {
-            get { return (float)(rotationXRadians * 180.0f / Math.PI); }
+            get { return (float)VectorTools.GetDegrees(rotationXRadians); }
             set
             {
                 // Only store radians internally.
-                rotationXRadians = (float)(value / 180.0f * Math.PI);
+                rotationXRadians = (float)VectorTools.GetRadians(value);
                 UpdateMatrices();
             }
         }
@@ -118,11 +119,11 @@ namespace SFGraphics.Cameras
         /// </summary>
         public float RotationYDegrees
         {
-            get { return (float)(rotationYRadians * 180.0f / Math.PI); }
+            get { return (float)VectorTools.GetDegrees(rotationYRadians); }
             set
             {
                 // Only store radians internally.
-                rotationYRadians = (float)(value / 180.0f * Math.PI);
+                rotationYRadians = (float)VectorTools.GetRadians(value);
                 UpdateMatrices();
             }
         }
