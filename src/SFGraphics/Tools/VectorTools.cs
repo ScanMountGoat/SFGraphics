@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OpenTK;
 
 namespace SFGraphics.Tools
 {
@@ -29,6 +30,21 @@ namespace SFGraphics.Tools
         public static double GetRadians(double degrees)
         {
             return degrees / 180.0 * Math.PI;
+        }
+
+        /// <summary>
+        /// Uses the Gran-Schmidt method for orthogonalizing a vector to another vector.
+        /// The resulting vector is normalized.        
+        /// <para>
+        /// Ex: <c>Vector3 tanOrthoToNrm = Orthogonalize(tan, nrm);</c>
+        /// </para>
+        /// </summary>
+        /// <param name="target">The vector to normalize</param>
+        /// <param name="source">The vector to normalize against</param>
+        /// <returns></returns>
+        public static Vector3 Orthogonalize(Vector3 target, Vector3 source)
+        {
+            return Vector3.Normalize(target - source * Vector3.Dot(source, target));
         }
     }
 }
