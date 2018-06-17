@@ -8,7 +8,9 @@ using System.Text;
 namespace SFGraphics.GLObjects.Shaders
 {
     /// <summary>
-    /// Encapsulates a shader program and attached shaders. Errors are stored to an internal log, which can be exported. Check if the shader was created successfully before rendering!
+    /// Encapsulates a shader program and attached shaders. 
+    /// Errors are stored to an internal log, which can be exported with <see cref="GetErrorLog"/>.
+    /// <para>Ensure that <see cref="ProgramCreatedSuccessfully"/> returns <c>true</c> before rendering to avoid crashes.</para>
     /// </summary>
 	public class Shader : IGLObject
 	{
@@ -27,7 +29,7 @@ namespace SFGraphics.GLObjects.Shaders
         private int geomShaderId;
 
         /// <summary>
-        /// True when the program and shader compilation have been checked for errors.
+        /// Returns <c>true</c> when the program and shader compilation have been checked for errors.
         /// </summary>
         public bool HasCheckedCompilation { get { return hasCheckedProgramCreation; } }
         private bool hasCheckedProgramCreation = false;
@@ -256,9 +258,10 @@ namespace SFGraphics.GLObjects.Shaders
 		}
 
         /// <summary>
-        /// Gets the error log containing hardware info, version number, compilation/linker errors, and attempts to initialize invalid uniform or vertex attribute names.
+        /// Gets the error log containing hardware info, version number, compilation/linker errors, 
+        /// and attempts to initialize invalid uniform or vertex attribute names.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A String of all detected errors</returns>
         public string GetErrorLog()
         {
             // Don't append program errors until all the shaders are attached and compiled.
@@ -386,13 +389,16 @@ namespace SFGraphics.GLObjects.Shaders
         }
 
         /// <summary>
-        /// True when the link status is ok and all attached shaders compiled.
-        /// If false, rendering with this shader will most likely cause a crash.
+        /// Returns <c>true</c> when the link status is ok and all attached shaders compiled.
+        /// If <c>false</c>, rendering with this shader will most likely cause a crash.
+        /// <para>
+        /// The status is only updated the first time <see cref="ProgramCreatedSuccessfully"/> is called,
+        /// so there is little cost in checking this method frequently.
+        /// </para>
         /// </summary>
         public bool ProgramCreatedSuccessfully()
         {
-            // Should be checked before rendering. 
-            // Rendering when this returns false will almost always result in a crash.
+            // Only check once for performance reasons.
             if (!hasCheckedProgramCreation)
                 programStatusIsOk = CheckProgramStatus();
             return programStatusIsOk;

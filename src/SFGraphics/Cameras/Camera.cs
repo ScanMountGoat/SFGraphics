@@ -31,7 +31,7 @@ namespace SFGraphics.Cameras
 
         /// <summary>
         /// The vertical field of view in radians. 
-        /// Updates all matrices when set.
+        /// Updates <see cref="FovDegrees"/> and all matrices when set.
         /// <para>Values less than or equal to 0 or greater than or equal to PI are ignored.</para>
         /// </summary>
         public float FovRadians
@@ -50,7 +50,7 @@ namespace SFGraphics.Cameras
 
         /// <summary>
         /// The vertical field of view in degrees. 
-        /// Updates all matrices when set.
+        /// Updates <see cref="FovRadians"/> and all matrices when set.
         /// <para>Values less than or equal to 0 or greater than or equal to 180 are ignored.</para>
         /// </summary>
         public float FovDegrees
@@ -69,7 +69,7 @@ namespace SFGraphics.Cameras
 
         /// <summary>
         /// The rotation around the x-axis in radians.
-        /// Updates all matrices when set.
+        /// Updates <see cref="RotationXDegrees"/> and all matrices when set.
         /// </summary>
         public float RotationXRadians
         {
@@ -84,7 +84,7 @@ namespace SFGraphics.Cameras
 
         /// <summary>
         /// The rotation around the x-axis in degrees.
-        /// Updates all matrices when set.
+        /// Updates <see cref="rotationXRadians"/> and all matrices when set.
         /// </summary>
         public float RotationXDegrees
         {
@@ -143,7 +143,7 @@ namespace SFGraphics.Cameras
         private float farClipPlane = 100000;
 
         /// <summary>
-        /// The far clip plane of the perspective matrix.
+        /// The near clip plane of the perspective matrix.
         /// Updates all matrices when set.
         /// </summary>
         public float NearClipPlane
@@ -158,59 +158,61 @@ namespace SFGraphics.Cameras
         private float nearClipPlane = 1;
 
         /// <summary>
-        /// 
+        /// The width of the viewport or rendered region in pixels.
+        /// Only the ratio between <see cref="renderWidth"/> and <see cref="renderHeight"/> is important.
         /// </summary>
         public int renderWidth = 1;
 
         /// <summary>
-        /// 
+        /// The height of the viewport or rendered region in pixels.
+        /// Only the ratio between <see cref="renderWidth"/> and <see cref="renderHeight"/> is important.
         /// </summary>
         public int renderHeight = 1;
 
-        // Matrices shouldn't be changed directly.
-        // To change the rotation matrix, set the rotation values, for example.
         /// <summary>
-        /// 
+        /// See <see cref="ModelViewMatrix"/>
         /// </summary>
         protected Matrix4 modelViewMatrix = Matrix4.Identity;
         /// <summary>
-        /// 
+        /// The result of <see cref="RotationMatrix"/> * <see cref="TranslationMatrix"/>
         /// </summary>
         public Matrix4 ModelViewMatrix { get { return modelViewMatrix; } }
 
         /// <summary>
-        /// 
+        /// See <see cref="MvpMatrix"/>
         /// </summary>
         protected Matrix4 mvpMatrix = Matrix4.Identity;
         /// <summary>
-        /// 
+        /// The result of <see cref="ModelViewMatrix"/> * <see cref="PerspectiveMatrix"/>
         /// </summary>
         public Matrix4 MvpMatrix { get { return mvpMatrix; } }
 
         /// <summary>
-        /// 
+        /// See <see cref="RotationMatrix"/>
         /// </summary>
         protected Matrix4 rotationMatrix = Matrix4.Identity;
         /// <summary>
-        /// 
+        /// The result of <see cref="Matrix4.CreateRotationY(float)"/> * <see cref="Matrix4.CreateRotationX(float)"/>
         /// </summary>
         public Matrix4 RotationMatrix { get { return rotationMatrix; } }
 
         /// <summary>
-        /// 
+        /// See <see cref="TranslationMatrix"/>
         /// </summary>
         protected Matrix4 translationMatrix = Matrix4.Identity;
         /// <summary>
-        /// 
+        /// The result of <see cref="Matrix4.CreateTranslation(float, float, float)"/> for X, -Y, Z of <see cref="Position"/>
         /// </summary>
         public Matrix4 TranslationMatrix { get { return translationMatrix; } }
 
         /// <summary>
-        /// 
+        /// See <see cref="PerspectiveMatrix"/>
         /// </summary>
         protected Matrix4 perspectiveMatrix = Matrix4.Identity;
         /// <summary>
-        /// 
+        /// The result of <see cref="Matrix4.CreatePerspectiveFieldOfView(float, float, float, float)"/> for 
+        /// <see cref="FovRadians"/>, <see cref="renderWidth"/> / <see cref="renderHeight"/>, <see cref="NearClipPlane"/>,
+        /// <see cref="FarClipPlane"/>
         /// </summary>
         public Matrix4 PerspectiveMatrix { get { return perspectiveMatrix; } }
 
@@ -225,11 +227,11 @@ namespace SFGraphics.Cameras
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="position"></param>
-        /// <param name="rotX"></param>
-        /// <param name="rotY"></param>
-        /// <param name="renderWidth"></param>
-        /// <param name="renderHeight"></param>
+        /// <param name="position">The initial position of the camera.</param>
+        /// <param name="rotX">The rotation around the x-axis in radians</param>
+        /// <param name="rotY">The rotation around the y-axis in radians</param>
+        /// <param name="renderWidth">The width of the viewport in pixels</param>
+        /// <param name="renderHeight">The height of the viewport in pixels</param>
         public Camera(Vector3 position, float rotX, float rotY, int renderWidth = 1, int renderHeight = 1)
         {
             Position = position;
@@ -240,7 +242,7 @@ namespace SFGraphics.Cameras
         }
 
         /// <summary>
-        /// 
+        /// Rotates the camera around the x and y axes by the specified amounts.
         /// </summary>
         /// <param name="xAmount">Amount to rotate around the x-axis in radians</param>
         /// <param name="yAmount">Amount to rotate around the y-axis in radians</param>
@@ -251,11 +253,13 @@ namespace SFGraphics.Cameras
         }
 
         /// <summary>
-        /// 
+        /// Translates the camera along the x and y axes by a specified amount.
         /// </summary>
-        /// <param name="xAmount"></param>
-        /// <param name="yAmount"></param>
-        /// <param name="scaleByDistanceToOrigin"></param>
+        /// <param name="xAmount">The amount to add to the camera's x coordinate</param>
+        /// <param name="yAmount">The amount to add to the camera's y coordinate</param>
+        /// <param name="scaleByDistanceToOrigin">When <c>true</c>, the <paramref name="xAmount"/>
+        /// and <paramref name="yAmount"/> are multiplied by the magnitude of <see cref="Position"/>
+        /// and the sine of <see cref="FovRadians"/></param>
         public void Pan(float xAmount, float yAmount, bool scaleByDistanceToOrigin = true)
         {
             // Find the change in normalized screen coordinates.
@@ -278,10 +282,11 @@ namespace SFGraphics.Cameras
         }
 
         /// <summary>
-        /// 
+        /// Translates the camera along the z-axis by a specified amount.
         /// </summary>
         /// <param name="amount"></param>
-        /// <param name="scaleByDistanceToOrigin"></param>
+        /// <param name="scaleByDistanceToOrigin">When <c>true</c>, the <paramref name="amount"/> 
+        /// is multiplied by the magnitude of <see cref="Position"/></param>
         public void Zoom(float amount, bool scaleByDistanceToOrigin = true)
         {
             // Increase zoom speed when zooming out. 
@@ -293,7 +298,9 @@ namespace SFGraphics.Cameras
         }
 
         /// <summary>
-        /// Updates the translation, rotation, perspective, modelview, and modelviewprojection matrices.
+        /// Updates the <see cref="TranslationMatrix"/>, <see cref="RotationMatrix"/>, 
+        /// <see cref="PerspectiveMatrix"/>, <see cref="ModelViewMatrix"/>, 
+        /// and <see cref="MvpMatrix"/>.
         /// </summary>
         public void UpdateMatrices()
         {
@@ -331,7 +338,7 @@ namespace SFGraphics.Cameras
         }
 
         /// <summary>
-        /// 
+        /// Sets <see cref="rotationXRadians"/> and <see cref="RotationYRadians"/> to 0.
         /// </summary>
         public void ResetToDefaultPosition()
         {
