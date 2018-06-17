@@ -68,7 +68,7 @@ namespace SFGraphics.GLObjects
         private int rboDepth;
 
         /// <summary>
-        /// Generates an empty framebuffer bound to the specified target.
+        /// Generates an empty framebuffer bound to the specified target. Binds the framebuffer.
         /// </summary>
         /// <param name="framebufferTarget"></param>
         public Framebuffer(FramebufferTarget framebufferTarget)
@@ -80,6 +80,7 @@ namespace SFGraphics.GLObjects
 
         /// <summary>
         /// Generates a framebuffer with a color attachment of the specified pixel format and dimensions. A render buffer of the same dimensions as the color attachment is generated for the depth component.
+        /// Binds the framebuffer.
         /// </summary>
         /// <param name="framebufferTarget"></param>
         /// <param name="width"></param>
