@@ -88,5 +88,45 @@ namespace SFGraphicsTest
                 Assert.AreEqual(a, aOrthoToB);
             }
         }
+
+        [TestClass]
+        public class GenerateTangentBitangentTest
+        {
+            private readonly double delta = 0.0001;
+
+            [TestMethod]
+            public void DifferentUVs()
+            {
+                // TODO: Not implemented.
+                Assert.Fail();
+            }
+
+            [TestMethod]
+            public void SameUVs()
+            {
+                // TODO: Not implemented.
+                Assert.Fail();
+            }
+        }
+
+        [TestClass]
+        public class GenerateNormalsTest
+        {
+            private readonly double delta = 0.0001;
+
+            [TestMethod]
+            public void PositiveNormal()
+            {
+                // TODO: Not implemented.
+                Assert.Fail();
+            }
+
+            [TestMethod]
+            public void NegativeNormal()
+            {
+                // TODO: Not implemented.
+                Assert.Fail();
+            }
+        }
     }
 }

@@ -34,14 +34,15 @@ namespace SFGraphics.Tools
 
         /// <summary>
         /// Uses the Gran-Schmidt method for orthogonalizing a vector to another vector.
-        /// The resulting vector is normalized.        
+        /// The resulting vector is normalized.    
+        /// <para></para>
         /// <para>
         /// Ex: <c>Vector3 tanOrthoToNrm = Orthogonalize(tan, nrm);</c>
         /// </para>
         /// </summary>
         /// <param name="target">The vector to normalize</param>
         /// <param name="source">The vector to normalize against</param>
-        /// <returns></returns>
+        /// <returns><paramref name="target"/> orthogonalized to <paramref name="source"/></returns>
         public static Vector3 Orthogonalize(Vector3 target, Vector3 source)
         {
             return Vector3.Normalize(target - source * Vector3.Dot(source, target));
@@ -108,6 +109,22 @@ namespace SFGraphics.Tools
                 s = new Vector3(1, 0, 0);
                 t = new Vector3(0, 1, 0);
             }
+        }
+
+        /// <summary>
+        /// Calculates the face normal of a triangle. The result is not normalized.
+        /// </summary>
+        /// <param name="v1">The position of the first vertex</param>
+        /// <param name="v2">The position of the second vertex</param>
+        /// <param name="v3">The position of the third vertex</param>
+        /// <returns>The calculated face normal</returns>
+        public static  Vector3 CalculateNormal(Vector3 v1, Vector3 v2, Vector3 v3)
+        {
+            Vector3 U = v2 - v1;
+            Vector3 V = v3 - v1;
+
+            // Don't normalize here, so surface area can be calculated. 
+            return Vector3.Cross(U, V);
         }
     }
 }
