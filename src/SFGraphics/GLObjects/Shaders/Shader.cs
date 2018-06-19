@@ -50,15 +50,16 @@ namespace SFGraphics.GLObjects.Shaders
         public Shader()
         {
             Id = GL.CreateProgram();
+            GLObjectManager.AddReference(GLObjectManager.referenceCountByProgramId, Id);
             errorLog.AppendHardwareAndVersionInfo();
         }
 
         /// <summary>
-        /// 
+        /// Decrement the reference count for this ID. The context probably isn't current, so the data is deleted later by GLObjectManager.
         /// </summary>
         ~Shader()
         {
-            // TODO: Flag some unused stuff for deletion.
+            GLObjectManager.RemoveReference(GLObjectManager.referenceCountByProgramId, Id);
         }
 
         /// <summary>
@@ -343,28 +344,34 @@ namespace SFGraphics.GLObjects.Shaders
         public void LoadShader(string filePath)
         {
             // Compile and attach before linking.
-            LoadShaderBasedOnType(filePath);
+            // The shader can be marked for deletion after linking.
+            int shaderId = LoadShaderBasedOnType(filePath);
             GL.LinkProgram(Id);
+            GL.DeleteShader(shaderId);
 
             LoadAttributes();
             LoadUniforms();
         }
 
-        private void LoadShaderBasedOnType(string filePath)
+        private int LoadShaderBasedOnType(string filePath)
         {
+            // Returns the shader Id that was generated.
             // Use the file extensions supported by the GLSL reference compiler.
             if (filePath.EndsWith(".frag"))
             {
                 AttachAndCompileShader(filePath, ShaderType.FragmentShader, Id, out fragShaderId);
+                return fragShaderId;
             }
             else if (filePath.EndsWith(".vert"))
             {
                 AttachAndCompileShader(filePath, ShaderType.VertexShader, Id, out vertShaderId);
+                return vertShaderId;
             }
             else if (filePath.EndsWith(".geom"))
             {
                 AttachAndCompileShader(filePath, ShaderType.GeometryShader, Id, out geomShaderId);
                 hasGeometryShader = true;
+                return geomShaderId;
             }
             else
             {
