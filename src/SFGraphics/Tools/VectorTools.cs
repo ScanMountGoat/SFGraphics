@@ -113,6 +113,8 @@ namespace SFGraphics.Tools
 
         /// <summary>
         /// Calculates the face normal of a triangle. The result is not normalized.
+        /// A triangle facing the camera will have a positive normal when 
+        /// the verts are ordered counter-clockwise.
         /// </summary>
         /// <param name="v1">The position of the first vertex</param>
         /// <param name="v2">The position of the second vertex</param>
