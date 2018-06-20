@@ -407,36 +407,48 @@ namespace SFGraphics.GLObjects.Shaders
         {
             // Only check once for performance reasons.
             if (!hasCheckedProgramCreation)
+            {
                 programStatusIsOk = CheckProgramStatus();
+                hasCheckedProgramCreation = true;
+            }
             return programStatusIsOk;
         }
 
         private bool CheckProgramStatus()
         {
-            // This is checked frequently, so only do it once.
-            hasCheckedProgramCreation = true;
-
             // Check for linker errors first. 
-            int linkStatus = 1;
-            GL.GetProgram(Id, GetProgramParameterName.LinkStatus, out linkStatus);
-            if (linkStatus == 0)
+            bool programLinkedSuccessfully = ProgramLinked();
+            if (!programLinkedSuccessfully)
                 return false;
 
-            // Make sure the shaders were compiled correctly.
-            int compileStatusVS = 1;
-            GL.GetShader(vertShaderId, ShaderParameter.CompileStatus, out compileStatusVS);
+            // Check fragment and vertex shader compilation.
+            bool vertShaderCompiled = ShaderCompiled(vertShaderId);
+            bool fragShaderCompiled = ShaderCompiled(fragShaderId);
 
-            int compileStatusFS = 1;
-            GL.GetShader(fragShaderId, ShaderParameter.CompileStatus, out compileStatusFS);
-
-            // Most shaders won't use a geometry shader.
-            int compileStatusGS = 1;
+            // Only check the geometry shader if present.
+            bool geomShaderCompiled = true; 
             if (hasGeometryShader)
-                GL.GetShader(geomShaderId, ShaderParameter.CompileStatus, out compileStatusGS);
+                geomShaderCompiled = ShaderCompiled(geomShaderId);
 
-            // The program was linked, but the shaders may have minor syntax errors.
-            return (compileStatusFS != 0 && compileStatusVS != 0 && compileStatusGS != 0);
+            // The program was linked, but the shaders may have syntax errors.
+            return (fragShaderCompiled && vertShaderCompiled && geomShaderCompiled);
         }
-	}
+        
+        private bool ProgramLinked()
+        {
+            // 1: linked successfully. 0: linker errors
+            int linkStatus = 1;
+            GL.GetProgram(Id, GetProgramParameterName.LinkStatus, out linkStatus);
+            return linkStatus != 0;
+        }
+
+        private bool ShaderCompiled(int shaderId)
+        {
+            // 1: shader compiled. 0: compilation errors
+            int compileStatus = 1;
+            GL.GetShader(shaderId, ShaderParameter.CompileStatus, out compileStatus);
+            return compileStatus != 0;
+        }
+    }
 }
 
