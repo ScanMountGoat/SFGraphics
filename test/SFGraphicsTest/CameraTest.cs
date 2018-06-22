@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SFGraphics.Cameras;
 using OpenTK;
+using OpenTK.Graphics;
+using OpenTK.Graphics.OpenGL;
+
 
 namespace SFGraphicsTest
 {
@@ -64,7 +67,6 @@ namespace SFGraphicsTest
                 camera.FovDegrees = 0;
                 Assert.AreEqual(original, camera.FovRadians, 0.001);
             }
-
         }
     }
 }

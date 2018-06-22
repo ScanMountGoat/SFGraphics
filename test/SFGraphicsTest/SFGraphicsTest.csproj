@@ -59,7 +59,9 @@
   <ItemGroup>
     <Compile Include="CameraTest.cs" />
     <Compile Include="ColorToolsTest.cs" />
+    <Compile Include="OpenTKWindowlessContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TextureTest.cs" />
     <Compile Include="VectorToolsTest.cs" />
   </ItemGroup>
   <ItemGroup>
