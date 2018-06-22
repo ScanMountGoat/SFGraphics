@@ -10,7 +10,8 @@ namespace SFGraphics.GLObjects.Shaders
     /// <summary>
     /// Encapsulates a shader program and attached shaders. 
     /// Errors are stored to an internal log, which can be exported with <see cref="GetErrorLog"/>.
-    /// <para>Ensure that <see cref="ProgramCreatedSuccessfully"/> returns <c>true</c> before rendering to avoid crashes.</para>
+    /// <para></para> <para></para>
+    /// Ensure that <see cref="ProgramCreatedSuccessfully"/> returns <c>true</c> before rendering to avoid crashes.
     /// </summary>
 	public class Shader : IGLObject
 	{
@@ -55,7 +56,7 @@ namespace SFGraphics.GLObjects.Shaders
         }
 
         /// <summary>
-        /// Decrement the reference count for this ID. The context probably isn't current, so the data is deleted later by GLObjectManager.
+        /// Decrement the reference count for <see cref="Id"/>. The context probably isn't current, so the data is deleted later by <see cref="GLObjectManager"/>.
         /// </summary>
         ~Shader()
         {

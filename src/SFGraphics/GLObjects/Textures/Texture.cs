@@ -13,10 +13,9 @@ namespace SFGraphics.GLObjects.Textures
     /// Encapsulates the state for an OpenGL texture object. To support texture types other than 
     /// <see cref="Texture2D"/> and <see cref="TextureCubeMap"/>, inherit from this class
     /// and add the necessary additional methods. 
-    /// <para>
+    /// <para></para> <para></para>
     /// Avoid creating textures manually to prevent issues with textures being deleted by 
-    /// <see cref="SFGraphics.GLObjects.GLObjectManager.DeleteUnusedGLObjects"/>.
-    /// </para>
+    /// <see cref="GLObjectManager.DeleteUnusedGLObjects"/>.
     /// </summary>
     public abstract class Texture : IGLObject
     {
@@ -141,7 +140,7 @@ namespace SFGraphics.GLObjects.Textures
         }
 
         /// <summary>
-        /// Decrement the reference count for this ID. The context probably isn't current, so the data is deleted later by GLObjectManager.
+        /// Decrement the reference count for <see cref="Id"/>. The context probably isn't current, so the data is deleted later by <see cref="GLObjectManager"/>.
         /// </summary>
         ~Texture()
         {

@@ -7,6 +7,10 @@ using OpenTK.Graphics.OpenGL;
 
 namespace SFGraphics.GLObjects.Textures
 {
+    /// <summary>
+    /// A <see cref="Texture"/> class for TextureTarget.TextureCubeMap textures. 
+    /// Provides a constructor for initializing the cube map faces from faces arranged vertically in a single bitmap.
+    /// </summary>
     public class TextureCubeMap : Texture
     {
         /// <summary>

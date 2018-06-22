@@ -8,7 +8,8 @@ using OpenTK.Graphics.OpenGL;
 namespace SFGraphics.GLObjects.Textures
 {
     /// <summary>
-    /// 
+    /// A <see cref="Texture"/> class for TextureTarget.Texture2D textures. 
+    /// Provides constructors to initialize the image data from bitmaps or byte arrays in the specified PixelInternalFormat.
     /// </summary>
     public class Texture2D : Texture
     {
