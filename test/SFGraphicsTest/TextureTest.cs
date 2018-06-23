@@ -20,13 +20,13 @@ namespace SFGraphicsTest
             public void Initialize()
             {
                 // Set up the context for all the tests.
-                OpenTKWindowlessContext.CreateDummyContext();
+                TestTools.OpenTKWindowlessContext.CreateDummyContext();
             }
 
             [TestMethod]
             public void GenerateId()
             {
-                Texture texture = new Texture2D(1, 1);
+                var texture = new Texture2D(1, 1);
                 Assert.AreNotEqual(0, texture.Id);
             }
         }

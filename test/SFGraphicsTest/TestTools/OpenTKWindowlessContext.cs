@@ -7,7 +7,7 @@ using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 
-namespace SFGraphicsTest
+namespace SFGraphicsTest.TestTools
 {
     class OpenTKWindowlessContext
     {

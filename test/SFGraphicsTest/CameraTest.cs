@@ -20,7 +20,7 @@ namespace SFGraphicsTest
             public void RadiansToDegreesMaxFov()
             {
                 // Value is outside of range and should be ignored.
-                Camera camera = new Camera();
+                var camera = new Camera();
                 float original = camera.FovDegrees;
                 camera.FovRadians = (float)Math.PI;
                 Assert.AreEqual(original, camera.FovDegrees, 0.001);
@@ -30,7 +30,7 @@ namespace SFGraphicsTest
             public void RadiansToDegreesMinFov()
             {
                 // Value is outside of range and should be ignored.
-                Camera camera = new Camera();
+                var camera = new Camera();
                 float original = camera.FovDegrees;
                 camera.FovRadians = 0;
                 Assert.AreEqual(original, camera.FovDegrees, 0.001);
@@ -39,7 +39,7 @@ namespace SFGraphicsTest
             [TestMethod]
             public void RadiansToDegreesInsideRange()
             {
-                Camera camera = new Camera();
+                var camera = new Camera();
                 camera.FovRadians = (float)Math.PI / 2.0f;
                 Assert.AreEqual(90, camera.FovDegrees, 0.001);
             }
