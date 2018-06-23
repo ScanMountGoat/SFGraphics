@@ -99,5 +99,108 @@ namespace SFGraphicsTest.ShaderTests
                 Assert.IsFalse(shader.ProgramCreatedSuccessfully());
             }
         }
+
+        [TestClass]
+        public class SetFloat
+        {
+            Shader shader;
+
+            [TestInitialize()]
+            public void Initialize()
+            {
+                // Set up the context for all the tests.
+                TestTools.OpenTKWindowlessContext.CreateDummyContext();
+
+                // Load the shader file from the embedded resources.
+                shader = new Shader();
+                string shaderSource = TestTools.ResourceShaders.GetShader("SFGraphicsTest.Shaders.validFrag.frag");
+                shader.LoadShader(shaderSource, ShaderType.FragmentShader);
+
+            }
+
+            [TestMethod]
+            public void SetFloatValidName()
+            {
+                shader.SetFloat("float1", 0);
+                string expected = "[Warning] Attempted to set undeclared uniform variable float1.";
+                Assert.IsFalse(shader.GetErrorLog().Contains(expected));
+            }
+
+            [TestMethod]
+            public void SetFloatInvalidName()
+            {
+                shader.SetFloat("memes", 0);
+                string expected = "[Warning] Attempted to set undeclared uniform variable memes.";
+                Assert.IsTrue(shader.GetErrorLog().Contains(expected));
+            }
+        }
+
+        [TestClass]
+        public class SetInt
+        {
+            Shader shader;
+
+            [TestInitialize()]
+            public void Initialize()
+            {
+                // Set up the context for all the tests.
+                TestTools.OpenTKWindowlessContext.CreateDummyContext();
+
+                // Load the shader file from the embedded resources.
+                shader = new Shader();
+                string shaderSource = TestTools.ResourceShaders.GetShader("SFGraphicsTest.Shaders.validFrag.frag");
+                shader.LoadShader(shaderSource, ShaderType.FragmentShader);
+            }
+
+            [TestMethod]
+            public void SetIntValidName()
+            {
+                shader.SetInt("int1", 0);
+                string expected = "[Warning] Attempted to set undeclared uniform variable int1.";
+                Assert.IsFalse(shader.GetErrorLog().Contains(expected));
+            }
+
+            [TestMethod]
+            public void SetFloatInvalidName()
+            {
+                shader.SetInt("memes", 0);
+                string expected = "[Warning] Attempted to set undeclared uniform variable memes.";
+                Assert.IsTrue(shader.GetErrorLog().Contains(expected));
+            }
+        }
+
+        [TestClass]
+        public class SetBoolToInt
+        {
+            Shader shader;
+
+            [TestInitialize()]
+            public void Initialize()
+            {
+                // Set up the context for all the tests.
+                TestTools.OpenTKWindowlessContext.CreateDummyContext();
+
+                // Load the shader file from the embedded resources.
+                shader = new Shader();
+                string shaderSource = TestTools.ResourceShaders.GetShader("SFGraphicsTest.Shaders.validFrag.frag");
+                shader.LoadShader(shaderSource, ShaderType.FragmentShader);
+            }
+
+            [TestMethod]
+            public void SetBoolValidName()
+            {
+                shader.SetBoolToInt("boolInt1", true);
+                string expected = "[Warning] Attempted to set undeclared uniform variable boolInt1.";
+                Assert.IsFalse(shader.GetErrorLog().Contains(expected));
+            }
+
+            [TestMethod]
+            public void SetBoolInvalidName()
+            {
+                shader.SetBoolToInt("memes", true);
+                string expected = "[Warning] Attempted to set undeclared uniform variable memes.";
+                Assert.IsTrue(shader.GetErrorLog().Contains(expected));
+            }
+        }
     }
 }
