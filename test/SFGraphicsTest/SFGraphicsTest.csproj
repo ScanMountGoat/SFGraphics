@@ -69,6 +69,8 @@
   <ItemGroup>
     <None Include="packages.config" />
     <EmbeddedResource Include="Shaders\invalidFrag.frag" />
+    <EmbeddedResource Include="Shaders\validVert.vert" />
+    <EmbeddedResource Include="Shaders\invalidVert.vert" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\SFGraphics\SFGraphics.csproj">
