@@ -25,7 +25,7 @@ namespace SFGraphics.GLObjects.Textures
 
             // #cubemapthings
             MagFilter = TextureMagFilter.Linear;
-            MinFilter = TextureMinFilter.Linear; 
+            MinFilter = TextureMinFilter.Linear;
 
             const int cubeMapFaceCount = 6;
 
