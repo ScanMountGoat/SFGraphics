@@ -235,8 +235,52 @@ namespace SFGraphicsTest.ShaderTests
             [TestMethod]
             public void SetVector3FloatsInvalidName()
             {
-                shader.SetVector3("memes", 1, 1, 1);
+                shader.SetVector3("memes2", 1, 1, 1);
+                string expected = "[Warning] Attempted to set undeclared uniform variable memes2.";
+                Assert.IsTrue(shader.GetErrorLog().Contains(expected));
+            }
+        }
+
+        [TestClass]
+        public class SetVector2
+        {
+            Shader shader;
+
+            [TestInitialize()]
+            public void Initialize()
+            {
+                shader = SetupContextCreateValidFragShader();
+            }
+
+            [TestMethod]
+            public void SetVector2ValidName()
+            {
+                shader.SetVector2("vector3a", new Vector2(1));
+                string expected = "[Warning] Attempted to set undeclared uniform variable vector3a.";
+                Assert.IsFalse(shader.GetErrorLog().Contains(expected));
+            }
+
+            [TestMethod]
+            public void SetVector2InvalidName()
+            {
+                shader.SetVector2("memes", new Vector2(1));
                 string expected = "[Warning] Attempted to set undeclared uniform variable memes.";
+                Assert.IsTrue(shader.GetErrorLog().Contains(expected));
+            }
+
+            [TestMethod]
+            public void SetVector2FloatsValidName()
+            {
+                shader.SetVector2("vector2a", 1, 1);
+                string expected = "[Warning] Attempted to set undeclared uniform variable vector3a.";
+                Assert.IsFalse(shader.GetErrorLog().Contains(expected));
+            }
+
+            [TestMethod]
+            public void SetVector2FloatsInvalidName()
+            {
+                shader.SetVector2("memes2", 1, 1);
+                string expected = "[Warning] Attempted to set undeclared uniform variable memes2.";
                 Assert.IsTrue(shader.GetErrorLog().Contains(expected));
             }
         }

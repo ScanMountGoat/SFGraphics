@@ -135,6 +135,33 @@ namespace SFGraphics.GLObjects.Shaders
         /// </summary>
         /// <param name="uniformName">The uniform variable name</param>
         /// <param name="value">The value to assign to the uniform</param>
+        public void SetVector2(string uniformName, Vector2 value)
+        {
+            if (!vertexAttributeAndUniformLocations.ContainsKey(uniformName) && !invalidUniformNames.Contains(uniformName))
+            {
+                invalidUniformNames.Add(uniformName);
+                return;
+            }
+
+            GL.Uniform2(GetVertexAttributeUniformLocation(uniformName), value);
+        }
+
+        /// <summary>
+        /// Names not present in the shader are ignored and saved to the error log.
+        /// </summary>
+        /// <param name="uniformName">The uniform variable name</param>
+        /// <param name="x"></param>        
+        /// <param name="y"></param>
+        public void SetVector2(string uniformName, float x, float y)
+        {
+            SetVector2(uniformName, new Vector2(x, y));
+        }
+
+        /// <summary>
+        /// Names not present in the shader are ignored and saved to the error log.
+        /// </summary>
+        /// <param name="uniformName">The uniform variable name</param>
+        /// <param name="value">The value to assign to the uniform</param>
         public void SetVector3(string uniformName, Vector3 value)
         {
             if (!vertexAttributeAndUniformLocations.ContainsKey(uniformName) && !invalidUniformNames.Contains(uniformName))
