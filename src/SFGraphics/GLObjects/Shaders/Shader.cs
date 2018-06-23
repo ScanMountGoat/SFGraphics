@@ -20,18 +20,15 @@ namespace SFGraphics.GLObjects.Shaders
         /// </summary>
         public int Id { get; }
 
+        // True when all shaders compiled and linked correctly.
         private bool programStatusIsOk = false;
+        private bool hasCheckedProgramCreation = false;
 
         // GL.CreateShader() will not return 0 if shader creation was successful.
         private int vertShaderId = 0;
         private int fragShaderId = 0;
         private int geomShaderId = 0;
 
-        /// <summary>
-        /// Returns <c>true</c> when the program and shader compilation have been checked for errors.
-        /// </summary>
-        public bool HasCheckedCompilation { get { return hasCheckedProgramCreation; } }
-        private bool hasCheckedProgramCreation = false;
 
         private ShaderLog errorLog = new ShaderLog();
 
@@ -359,7 +356,8 @@ namespace SFGraphics.GLObjects.Shaders
 
         /// <summary>
         /// Attempts to compile and attach the shader. 
-        /// Supported shader types are fragment, vertex (.vert, and geometry (.geom).
+        /// The value returned by <see cref="ProgramCreatedSuccessfully"/> is updated.
+        /// Supported shader types are fragment, vertex , and geometry.
         /// </summary>
         /// <param name="shaderSource">A string containing the shader text</param>
         /// <param name="shaderType">Supported types are ShaderType.FragmentShader, ShaderType.VertexShader, or ShaderType.GeometryShader</param>
@@ -417,10 +415,10 @@ namespace SFGraphics.GLObjects.Shaders
         /// <summary>
         /// Returns <c>true</c> when the link status is ok and all attached shaders compiled.
         /// If <c>false</c>, rendering with this shader will most likely cause a crash.
-        /// <para>
-        /// The status is only updated the first time <see cref="ProgramCreatedSuccessfully"/> is called,
+        /// <para></para><para></para>
+        /// The status is only updated the first time <see cref="ProgramCreatedSuccessfully"/> is called 
+        /// and with each call to <see cref="LoadShader(string, ShaderType, string)"/>,
         /// so there is little cost in checking this method frequently.
-        /// </para>
         /// </summary>
         public bool ProgramCreatedSuccessfully()
         {
