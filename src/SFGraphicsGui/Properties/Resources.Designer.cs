@@ -59,5 +59,21 @@ namespace SFGraphicsGui.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to #version 330
+        ///
+        ///out vec4 fragColor;
+        ///
+        ///void main()
+        ///{
+        ///	fragColor = vec4(1);
+        ///}.
+        /// </summary>
+        internal static string shaderValidFrag {
+            get {
+                return ResourceManager.GetString("shaderValidFrag", resourceCulture);
+            }
+        }
     }
 }

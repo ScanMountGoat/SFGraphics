@@ -37,7 +37,7 @@ namespace SFGraphics.GLObjects.Shaders
             errorLog.AppendLine();
         }
 
-        public void AppendShaderInfoLog(string shaderName, int shader, ShaderType type)
+        public void AppendShaderInfoLog(string shaderName, int shader)
         {
             // Append compilation errors for the current shader. 
             errorLog.AppendLine(shaderName + " Shader Log:");
