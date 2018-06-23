@@ -71,6 +71,7 @@
     <EmbeddedResource Include="Shaders\invalidFrag.frag" />
     <EmbeddedResource Include="Shaders\validVert.vert" />
     <EmbeddedResource Include="Shaders\invalidVert.vert" />
+    <EmbeddedResource Include="Shaders\linkError.frag" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\SFGraphics\SFGraphics.csproj">

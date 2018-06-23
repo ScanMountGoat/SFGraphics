@@ -94,8 +94,57 @@ namespace SFGraphicsTest.ShaderTests
             [TestMethod]
             public void NoShaders()
             {
-                // Load the shader file from the embedded resources.
                 Shader shader = new Shader();
+                Assert.IsFalse(shader.ProgramCreatedSuccessfully());
+            }
+        }
+
+        [TestClass]
+        public class ProgramCreationValidFragInvalidVert
+        {
+            [TestInitialize()]
+            public void Initialize()
+            {
+                // Set up the context for all the tests.
+                TestTools.OpenTKWindowlessContext.CreateDummyContext();
+            }
+
+            [TestMethod]
+            public void ValidFragInvalidVert()
+            {
+                Shader shader = new Shader();
+
+                // Load the shader files from the embedded resources.
+                string fragSource = TestTools.ResourceShaders.GetShader("SFGraphicsTest.Shaders.validFrag.frag");
+                shader.LoadShader(fragSource, ShaderType.FragmentShader);
+                // Force an update of compilation/link status.
+                Assert.IsTrue(shader.ProgramCreatedSuccessfully());
+
+                // Make sure the compilation/link status still updates.
+                string vertSource = TestTools.ResourceShaders.GetShader("SFGraphicsTest.Shaders.invalidVert.vert");
+                shader.LoadShader(vertSource, ShaderType.VertexShader);
+                Assert.IsFalse(shader.ProgramCreatedSuccessfully());
+            }
+        }
+
+        [TestClass]
+        public class ProgramCreationLinkError
+        {
+            [TestInitialize()]
+            public void Initialize()
+            {
+                // Set up the context for all the tests.
+                TestTools.OpenTKWindowlessContext.CreateDummyContext();
+            }
+
+            [TestMethod]
+            public void LinkError()
+            {
+                Shader shader = new Shader();
+
+                // The shader declared but does not define a function.
+                string fragSource = TestTools.ResourceShaders.GetShader("SFGraphicsTest.Shaders.linkError.frag");
+                shader.LoadShader(fragSource, ShaderType.FragmentShader);
                 Assert.IsFalse(shader.ProgramCreatedSuccessfully());
             }
         }

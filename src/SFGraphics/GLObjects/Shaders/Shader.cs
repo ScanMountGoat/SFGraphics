@@ -20,7 +20,7 @@ namespace SFGraphics.GLObjects.Shaders
         /// </summary>
         public int Id { get; }
 
-        private bool programStatusIsOk = true;
+        private bool programStatusIsOk = false;
 
         // GL.CreateShader() will not return 0 if shader creation was successful.
         private int vertShaderId = 0;
@@ -367,10 +367,14 @@ namespace SFGraphics.GLObjects.Shaders
         public void LoadShader(string shaderSource, ShaderType shaderType, string shaderName = "Shader")
         {
             // Compile and attach before linking.
-            // The shader can be marked for deletion after linking.
             int shaderId = LoadShaderBasedOnType(shaderSource, shaderType);
             AppendShaderCompilationErrors(shaderName, shaderId);
             GL.LinkProgram(Id);
+
+            // Some errors may not appear until all shaders are loaded.
+            programStatusIsOk = CheckProgramStatus();
+
+            // The shader won't be deleted until the program is deleted.
             GL.DeleteShader(shaderId);
 
             LoadAttributes();
