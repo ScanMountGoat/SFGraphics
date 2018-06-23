@@ -8,7 +8,7 @@ using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using SFGraphics.GLObjects.Textures;
 
-namespace SFGraphicsTest
+namespace SFGraphicsTest.TextureTests
 {
     [TestClass]
     public class TextureTest
@@ -26,7 +26,7 @@ namespace SFGraphicsTest
             [TestMethod]
             public void GenerateId()
             {
-                var texture = new Texture2D(1, 1);
+                Texture2D texture = new Texture2D(1, 1);
                 Assert.AreNotEqual(0, texture.Id);
             }
         }

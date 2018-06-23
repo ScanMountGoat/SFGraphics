@@ -8,7 +8,7 @@ using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 
 
-namespace SFGraphicsTest
+namespace SFGraphicsTest.CameraTests
 {
     [TestClass]
     public class CameraTest

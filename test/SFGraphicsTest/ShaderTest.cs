@@ -10,7 +10,7 @@ using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using SFGraphics.GLObjects.Shaders;
 
-namespace SFGraphicsTest
+namespace SFGraphicsTest.ShaderTests
 {
     [TestClass]
     public class ShaderTest
@@ -77,6 +77,25 @@ namespace SFGraphicsTest
                 string shaderSource = TestTools.ResourceShaders.GetShader("SFGraphicsTest.Shaders.invalidVert.vert");
                 shader.LoadShader(shaderSource, ShaderType.VertexShader);
 
+                Assert.IsFalse(shader.ProgramCreatedSuccessfully());
+            }
+        }
+
+        [TestClass]
+        public class ProgramCreationNoShaders
+        {
+            [TestInitialize()]
+            public void Initialize()
+            {
+                // Set up the context for all the tests.
+                TestTools.OpenTKWindowlessContext.CreateDummyContext();
+            }
+
+            [TestMethod]
+            public void NoShaders()
+            {
+                // Load the shader file from the embedded resources.
+                Shader shader = new Shader();
                 Assert.IsFalse(shader.ProgramCreatedSuccessfully());
             }
         }

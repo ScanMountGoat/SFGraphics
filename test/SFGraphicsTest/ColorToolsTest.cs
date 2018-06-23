@@ -4,7 +4,7 @@ using System.Drawing;
 using OpenTK;
 using SFGraphics.Tools;
 
-namespace SFGraphicsTest
+namespace SFGraphicsTest.ColorToolsTests
 {
     [TestClass]
     public class ColorToolsTest
