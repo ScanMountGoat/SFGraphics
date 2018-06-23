@@ -155,13 +155,7 @@ namespace SFGraphics.GLObjects.Shaders
         /// <param name="z"></param>
         public void SetVector3(string uniformName, float x, float y, float z)
         {
-            if (!vertexAttributeAndUniformLocations.ContainsKey(uniformName) && !invalidUniformNames.Contains(uniformName))
-            {
-                invalidUniformNames.Add(uniformName);
-                return;
-            }
-
-            GL.Uniform3(GetVertexAttributeUniformLocation(uniformName), x, y, z);
+            SetVector3(uniformName, new Vector3(x, y, z));
         }
 
         /// <summary>
