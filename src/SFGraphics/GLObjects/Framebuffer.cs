@@ -70,7 +70,7 @@ namespace SFGraphics.GLObjects
         /// <summary>
         /// Generates an empty framebuffer bound to the specified target. Binds the framebuffer.
         /// </summary>
-        /// <param name="framebufferTarget">The target which <see cref="Id"/> is bound.</param>
+        /// <param name="framebufferTarget">The target to which <see cref="Id"/> is bound</param>
         public Framebuffer(FramebufferTarget framebufferTarget)
         {
             Id = GL.GenFramebuffer();
@@ -91,9 +91,9 @@ namespace SFGraphics.GLObjects
         /// Generates a framebuffer with a color attachment of the specified pixel format and dimensions. A render buffer of the same dimensions as the color attachment is generated for the depth component.
         /// Binds the framebuffer.
         /// </summary>
-        /// <param name="framebufferTarget"></param>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
+        /// <param name="framebufferTarget">The target to which <see cref="Id"/> is bound</param>
+        /// <param name="width">The width of attached textures or renderbuffers</param>
+        /// <param name="height">The height of attached textures or renderbuffers</param>
         /// <param name="pixelInternalFormat"></param>
         public Framebuffer(FramebufferTarget framebufferTarget, int width, int height, PixelInternalFormat pixelInternalFormat = PixelInternalFormat.Rgba) : this(framebufferTarget)
         {
