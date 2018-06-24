@@ -320,7 +320,6 @@ namespace SFGraphics.GLObjects.Shaders
                 string uniform = GL.GetActiveUniform(Id, i, out uniformSize, out uniformType);
                 if (uniformType != 0)
                 {
-                    uniform = RemoveEndingBrackets(uniform);
                     AddUniform(uniform);
                 }
             }
@@ -338,20 +337,9 @@ namespace SFGraphics.GLObjects.Shaders
                 string attribute = GL.GetActiveAttrib(Id, i, out attributeSize, out attributeType);
                 if (attributeType != ActiveAttribType.None)
                 {
-                    attribute = RemoveEndingBrackets(attribute);
                     AddVertexAttribute(attribute);
                 }
             }
-        }
-
-        private static string RemoveEndingBrackets(string name)
-        {
-            // Removes the brackets at the end of the name.
-            // Ex: "name[0]" becomes "name".
-            int index = name.IndexOf('[');
-            if (index > 0)
-                name = name.Substring(0, index);
-            return name;
         }
 
         /// <summary>
