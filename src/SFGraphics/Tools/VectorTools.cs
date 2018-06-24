@@ -99,11 +99,16 @@ namespace SFGraphics.Tools
             float tZ = s1 * z2 - s2 * z1;
             t = new Vector3(tX, tY, tZ) * r;
 
-            // Prevents black tangents or bitangents due to having vertices with the same UV coordinates. 
+            // Calculate if the vertices have the same UVs or position.
             float delta = 0.00075f;
-            bool sameU = (Math.Abs(uv1.X - uv2.X) < delta) && (Math.Abs(uv2.X - uv3.X) < delta);
-            bool sameV = (Math.Abs(uv1.Y - uv2.Y) < delta) && (Math.Abs(uv2.Y - uv3.Y) < delta);
-            if (sameU || sameV)
+            bool sameU = (Math.Abs(s1) < delta) && (Math.Abs(s2) < delta);
+            bool sameV = (Math.Abs(t1) < delta) && (Math.Abs(t2) < delta);
+            bool sameX = (Math.Abs(x1) < delta) && (Math.Abs(x2) < delta);
+            bool sameY = (Math.Abs(y1) < delta) && (Math.Abs(y2) < delta);
+            bool sameZ = (Math.Abs(z1) < delta) && (Math.Abs(z2) < delta);
+
+            // Prevent black tangents/bitangents for vertices with the same UV coordinates or positin. 
+            if (sameU || sameV || sameX || sameY || sameZ)
             {
                 // Let's pick some arbitrary tangent vectors.
                 s = new Vector3(1, 0, 0);
