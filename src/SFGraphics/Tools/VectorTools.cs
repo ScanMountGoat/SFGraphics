@@ -51,12 +51,12 @@ namespace SFGraphics.Tools
         /// <summary>
         /// Generates a tangent vector <paramref name="s"/> and a bitangent vector
         /// <paramref name="t"/> for a triangle face. 
-        /// <para>
-        /// <para></para>
+        /// If the three vertices have the same UVs or position, <paramref name="s"/> is set to (1, 0, 0)
+        /// and <paramref name="t"/> is set to (0, 1, 0). This prevents black shading artifacts.
+        /// <para></para><para></para>
         /// <paramref name="s"/> and <paramref name="t"/> should be added to the existing tangent
         /// and bitangent value for each vertex in the triangle. Normalizing the final sum 
         /// averages the tangents and bitangents for smoother results.
-        /// </para>
         /// </summary>
         /// <param name="v1">The position of the first vertex</param>
         /// <param name="v2">The position of the second vertex</param>
@@ -107,7 +107,7 @@ namespace SFGraphics.Tools
             bool sameY = (Math.Abs(y1) < delta) && (Math.Abs(y2) < delta);
             bool sameZ = (Math.Abs(z1) < delta) && (Math.Abs(z2) < delta);
 
-            // Prevent black tangents/bitangents for vertices with the same UV coordinates or positin. 
+            // Prevent black tangents/bitangents for vertices with the same UV coordinates or position. 
             if (sameU || sameV || sameX || sameY || sameZ)
             {
                 // Let's pick some arbitrary tangent vectors.
