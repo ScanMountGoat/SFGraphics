@@ -376,5 +376,35 @@ namespace SFGraphicsTest.ShaderTests
                 Assert.IsTrue(shader.GetErrorLog().Contains(expected));
             }
         }
+
+        [TestClass]
+        public class SetMatrix4x4
+        {
+            Shader shader;
+
+            [TestInitialize()]
+            public void Initialize()
+            {
+                shader = SetupContextCreateValidFragShader();
+            }
+
+            [TestMethod]
+            public void SetMatrix4x4ValidName()
+            {
+                Matrix4 matrix4 = Matrix4.Identity;
+                shader.SetMatrix4x4("matrix4a", ref matrix4);
+                string expected = "[Warning] Attempted to set undeclared uniform variable vector3a.";
+                Assert.IsFalse(shader.GetErrorLog().Contains(expected));
+            }
+
+            [TestMethod]
+            public void SetMatrix4x4InvalidName()
+            {
+                Matrix4 matrix4 = Matrix4.Identity;
+                shader.SetMatrix4x4("memes", ref matrix4);
+                string expected = "[Warning] Attempted to set undeclared uniform variable memes.";
+                Assert.IsTrue(shader.GetErrorLog().Contains(expected));
+            }         
+        }
     }
 }
