@@ -28,6 +28,12 @@ namespace SFGraphics.GLObjects.Shaders
                 errorLog.AppendLine(String.Format("[Warning] Attempted to set undeclared uniform variable {0}.", uniform));
         }
 
+        public void AppendUniformTypeErrors(Dictionary<string, ActiveUniformType> invalidUniformTypes)
+        {
+            foreach (var uniform in invalidUniformTypes)
+                errorLog.AppendLine(String.Format("[Warning] Type mismatch for uniform {0} {1}.", uniform.Value.ToString(), uniform.Key));
+        }
+
         public void AppendHardwareAndVersionInfo()
         {
             errorLog.AppendLine("Vendor: " + GL.GetString(StringName.Vendor));

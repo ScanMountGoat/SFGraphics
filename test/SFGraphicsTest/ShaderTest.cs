@@ -182,6 +182,22 @@ namespace SFGraphicsTest.ShaderTests
             }
 
             [TestMethod]
+            public void SetFloatInvalidType()
+            {
+                shader.SetFloat("int1", 0);
+                string expected = "[Warning] Type mismatch for uniform Float int1.";
+                Assert.IsTrue(shader.GetErrorLog().Contains(expected));
+            }
+
+            [TestMethod]
+            public void SetFloatValidType()
+            {
+                shader.SetFloat("float1", 0);
+                string expected = "[Warning] Type mismatch for uniform Float int1.";
+                Assert.IsFalse(shader.GetErrorLog().Contains(expected));
+            }
+
+            [TestMethod]
             public void SetFloatInvalidName()
             {
                 shader.SetFloat("memes", 0);
