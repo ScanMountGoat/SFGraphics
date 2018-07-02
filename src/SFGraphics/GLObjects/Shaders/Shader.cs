@@ -364,11 +364,27 @@ namespace SFGraphics.GLObjects.Shaders
         }
 
         /// <summary>
+        /// Returns the integer ID created by GL.CreateShader(). Compiles the shader.
+        /// This method can reduce load times by avoiding redundant shader compilations when used
+        /// in conjunction with <see cref="AttachShader(int, ShaderType)"/>
+        /// </summary>
+        /// <param name="shaderSource">A string containing the shader source text</param>
+        /// <param name="shaderType">Supported types are ShaderType.FragmentShader, ShaderType.VertexShader, or ShaderType.GeometryShader</param>
+        /// <returns></returns>
+        public static int CreateGlShader(string shaderSource, ShaderType shaderType)
+        {
+            int id = GL.CreateShader(shaderType);
+            GL.ShaderSource(id, shaderSource);
+            GL.CompileShader(id);
+            return id;
+        }
+
+        /// <summary>
         /// Attempts to compile and attach the shader. 
         /// The value returned by <see cref="ProgramCreatedSuccessfully"/> is updated.
         /// Supported shader types are fragment, vertex , and geometry.
         /// </summary>
-        /// <param name="shaderSource">A string containing the shader text</param>
+        /// <param name="shaderSource">A string containing the shader source text</param>
         /// <param name="shaderType">Supported types are ShaderType.FragmentShader, ShaderType.VertexShader, or ShaderType.GeometryShader</param>
         /// <param name="shaderName">The title used for the compilation errors section of the error log</param>
         public void LoadShader(string shaderSource, ShaderType shaderType, string shaderName = "Shader")
@@ -410,10 +426,33 @@ namespace SFGraphics.GLObjects.Shaders
 
         private void AttachAndCompileShader(string shaderText, ShaderType type, int program, out int id)
         {
-            id = GL.CreateShader(type);
-            GL.ShaderSource(id, shaderText);
-            GL.CompileShader(id);
+            id = CreateGlShader(shaderText, type);
             GL.AttachShader(program, id);
+        }
+
+        /// <summary>
+        /// Attaches <paramref name="shaderId"/> and links the program. 
+        /// The value returned by <see cref="ProgramCreatedSuccessfully"/> is updated.
+        /// </summary>
+        /// <param name="shaderId">The integer ID returned by <see cref="CreateGlShader(string, ShaderType)"/></param>
+        /// <param name="shaderType">Supported types are ShaderType.FragmentShader, ShaderType.VertexShader, or ShaderType.GeometryShader</param>
+        public void AttachShader(int shaderId, ShaderType shaderType)
+        {
+            // Make sure these are initialized before checking compilation.
+            if (shaderType == ShaderType.FragmentShader)
+                fragShaderId = shaderId;
+            else if (shaderType == ShaderType.VertexShader)
+                vertShaderId = shaderId;
+            else if (shaderType == ShaderType.GeometryShader)
+                geomShaderId = shaderId;
+
+            GL.AttachShader(Id, shaderId);
+            GL.LinkProgram(Id);
+
+            programStatusIsOk = CheckProgramStatus();
+
+            LoadAttributes();
+            LoadUniforms();
         }
 
         private void AppendShaderCompilationErrors(string shaderName, int id)
