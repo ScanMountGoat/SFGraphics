@@ -63,19 +63,6 @@ namespace SFGraphics.GLObjects.Shaders
             GLObjectManager.RemoveReference(GLObjectManager.referenceCountByProgramId, Id);
         }
 
-        /// <summary>
-        /// Names not present in the shader are ignored and saved to the error log.
-        /// </summary>
-        /// <param name="uniformName">The uniform variable name</param>
-        /// <param name="value">The value to assign to the uniform</param>
-        public void SetFloat(string uniformName, float value)
-        {
-            if (!UniformTypeAndNameCorrect(uniformName, ActiveUniformType.Float))
-                return;
-
-            GL.Uniform1(GetVertexAttributeUniformLocation(uniformName), value);
-        }
-
         private bool UniformTypeAndNameCorrect(string uniformName, ActiveUniformType inputType)
         {
             if (!CorrectUniformAttributeName(uniformName, invalidUniformNames))
@@ -120,13 +107,23 @@ namespace SFGraphics.GLObjects.Shaders
         /// </summary>
         /// <param name="uniformName">The uniform variable name</param>
         /// <param name="value">The value to assign to the uniform</param>
+        public void SetFloat(string uniformName, float value)
+        {
+            if (!UniformTypeAndNameCorrect(uniformName, ActiveUniformType.Float))
+                return;
+
+            GL.Uniform1(GetVertexAttributeUniformLocation(uniformName), value);
+        }
+
+        /// <summary>
+        /// Names not present in the shader are ignored and saved to the error log.
+        /// </summary>
+        /// <param name="uniformName">The uniform variable name</param>
+        /// <param name="value">The value to assign to the uniform</param>
         public void SetInt(string uniformName, int value)
         {
-            if (!vertexAttributeAndUniformLocations.ContainsKey(uniformName) && !invalidUniformNames.Contains(uniformName))
-            {
-                invalidUniformNames.Add(uniformName);
+            if (!UniformTypeAndNameCorrect(uniformName, ActiveUniformType.Int))
                 return;
-            }
 
             GL.Uniform1(GetVertexAttributeUniformLocation(uniformName), value);
         }
@@ -138,11 +135,8 @@ namespace SFGraphics.GLObjects.Shaders
         /// <param name="value">The value to assign to the uniform</param>
         public void SetUint(string uniformName, uint value)
         {
-            if (!vertexAttributeAndUniformLocations.ContainsKey(uniformName) && !invalidUniformNames.Contains(uniformName))
-            {
-                invalidUniformNames.Add(uniformName);
+            if (!UniformTypeAndNameCorrect(uniformName, ActiveUniformType.UnsignedInt))
                 return;
-            }
 
             GL.Uniform1(GetVertexAttributeUniformLocation(uniformName), value);
         }
@@ -154,11 +148,8 @@ namespace SFGraphics.GLObjects.Shaders
         /// <param name="value">The value to assign to the uniform. True = 1. False = 0.</param>
         public void SetBoolToInt(string uniformName, bool value)
         {
-            if (!vertexAttributeAndUniformLocations.ContainsKey(uniformName) && !invalidUniformNames.Contains(uniformName))
-            {
-                invalidUniformNames.Add(uniformName);
+            if (!UniformTypeAndNameCorrect(uniformName, ActiveUniformType.Int))
                 return;
-            }
 
             // if/else is faster than the ternary operator. 
             if (value)
@@ -174,11 +165,8 @@ namespace SFGraphics.GLObjects.Shaders
         /// <param name="value">The value to assign to the uniform</param>
         public void SetVector2(string uniformName, Vector2 value)
         {
-            if (!vertexAttributeAndUniformLocations.ContainsKey(uniformName) && !invalidUniformNames.Contains(uniformName))
-            {
-                invalidUniformNames.Add(uniformName);
+            if (!UniformTypeAndNameCorrect(uniformName, ActiveUniformType.FloatVec2))
                 return;
-            }
 
             GL.Uniform2(GetVertexAttributeUniformLocation(uniformName), value);
         }
@@ -201,11 +189,8 @@ namespace SFGraphics.GLObjects.Shaders
         /// <param name="value">The value to assign to the uniform</param>
         public void SetVector3(string uniformName, Vector3 value)
         {
-            if (!vertexAttributeAndUniformLocations.ContainsKey(uniformName) && !invalidUniformNames.Contains(uniformName))
-            {
-                invalidUniformNames.Add(uniformName);
+            if (!UniformTypeAndNameCorrect(uniformName, ActiveUniformType.FloatVec3))
                 return;
-            }
 
             GL.Uniform3(GetVertexAttributeUniformLocation(uniformName), value);
         }
@@ -229,11 +214,8 @@ namespace SFGraphics.GLObjects.Shaders
         /// <param name="value">The value to assign to the uniform</param>
         public void SetVector4(string uniformName, Vector4 value)
         {
-            if (!vertexAttributeAndUniformLocations.ContainsKey(uniformName) && !invalidUniformNames.Contains(uniformName))
-            {
-                invalidUniformNames.Add(uniformName);
+            if (!UniformTypeAndNameCorrect(uniformName, ActiveUniformType.FloatVec4))
                 return;
-            }
 
             GL.Uniform4(GetVertexAttributeUniformLocation(uniformName), value);
         }
@@ -248,13 +230,7 @@ namespace SFGraphics.GLObjects.Shaders
         /// <param name="w"></param>
         public void SetVector4(string uniformName, float x, float y, float z, float w)
         {
-            if (!vertexAttributeAndUniformLocations.ContainsKey(uniformName) && !invalidUniformNames.Contains(uniformName))
-            {
-                invalidUniformNames.Add(uniformName);
-                return;
-            }
-
-            GL.Uniform4(GetVertexAttributeUniformLocation(uniformName), x, y, z, w);
+            SetVector4(uniformName, new Vector4(x, y, z, w));
         }
 
         /// <summary>
@@ -264,11 +240,8 @@ namespace SFGraphics.GLObjects.Shaders
         /// <param name="value">The value to assign to the uniform</param>
         public void SetMatrix4x4(string uniformName, ref Matrix4 value)
         {
-            if (!vertexAttributeAndUniformLocations.ContainsKey(uniformName) && !invalidUniformNames.Contains(uniformName))
-            {
-                invalidUniformNames.Add(uniformName);
+            if (!UniformTypeAndNameCorrect(uniformName, ActiveUniformType.FloatMat4))
                 return;
-            }
 
             GL.UniformMatrix4(GetVertexAttributeUniformLocation(uniformName), false, ref value);
         }

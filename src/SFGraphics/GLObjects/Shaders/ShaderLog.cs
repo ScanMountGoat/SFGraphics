@@ -31,7 +31,7 @@ namespace SFGraphics.GLObjects.Shaders
         public void AppendUniformTypeErrors(Dictionary<string, ActiveUniformType> invalidUniformTypes)
         {
             foreach (var uniform in invalidUniformTypes)
-                errorLog.AppendLine(String.Format("[Warning] Type mismatch for uniform {0} {1}.", uniform.Value.ToString(), uniform.Key));
+                errorLog.AppendLine(String.Format("[Warning] No uniform variable {0} of type {1}.", uniform.Key, uniform.Value.ToString()));
         }
 
         public void AppendHardwareAndVersionInfo()

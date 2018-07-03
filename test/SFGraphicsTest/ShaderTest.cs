@@ -10,6 +10,7 @@ using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using SFGraphics.GLObjects.Shaders;
 
+
 namespace SFGraphicsTest.ShaderTests
 {
     [TestClass]
@@ -185,7 +186,7 @@ namespace SFGraphicsTest.ShaderTests
             public void SetFloatInvalidType()
             {
                 shader.SetFloat("int1", 0);
-                string expected = "[Warning] Type mismatch for uniform Float int1.";
+                string expected = "[Warning] No uniform variable int1 of type Float.";
                 Assert.IsTrue(shader.GetErrorLog().Contains(expected));
             }
 
@@ -193,7 +194,7 @@ namespace SFGraphicsTest.ShaderTests
             public void SetFloatValidType()
             {
                 shader.SetFloat("float1", 0);
-                string expected = "[Warning] Type mismatch for uniform Float int1.";
+                string expected = "[Warning] No uniform variable float1 of type Float.";
                 Assert.IsFalse(shader.GetErrorLog().Contains(expected));
             }
 
@@ -260,6 +261,22 @@ namespace SFGraphicsTest.ShaderTests
                 string expected = "[Warning] Attempted to set undeclared uniform variable memes.";
                 Assert.IsTrue(shader.GetErrorLog().Contains(expected));
             }
+
+            [TestMethod]
+            public void SetBoolInvalidType()
+            {
+                shader.SetBoolToInt("float1", true);
+                string expected = "[Warning] No uniform variable float1 of type Int.";
+                Assert.IsTrue(shader.GetErrorLog().Contains(expected));
+            }
+
+            [TestMethod]
+            public void SetBoolValidType()
+            {
+                shader.SetBoolToInt("int1", true);
+                string expected = "[Warning] No uniform variable int1 of type Int.";
+                Assert.IsFalse(shader.GetErrorLog().Contains(expected));
+            }
         }
 
         [TestClass]
@@ -287,6 +304,22 @@ namespace SFGraphicsTest.ShaderTests
                 shader.SetVector3("memes", new Vector3(1));
                 string expected = "[Warning] Attempted to set undeclared uniform variable memes.";
                 Assert.IsTrue(shader.GetErrorLog().Contains(expected));
+            }
+
+            [TestMethod]
+            public void SetVector3InvalidType()
+            {
+                shader.SetVector3("float1", 1, 1, 1);
+                string expected = "[Warning] No uniform variable float1 of type FloatVec3.";
+                Assert.IsTrue(shader.GetErrorLog().Contains(expected));
+            }
+
+            [TestMethod]
+            public void SetVector3ValidType()
+            {
+                shader.SetVector3("vector3a", 1, 1, 1);
+                string expected = "[Warning] No uniform variable vector3a of type FloatVec3.";
+                Assert.IsFalse(shader.GetErrorLog().Contains(expected));
             }
 
             [TestMethod]
@@ -347,6 +380,22 @@ namespace SFGraphicsTest.ShaderTests
                 string expected = "[Warning] Attempted to set undeclared uniform variable memes2.";
                 Assert.IsTrue(shader.GetErrorLog().Contains(expected));
             }
+
+            [TestMethod]
+            public void SetVector4InvalidType()
+            {
+                shader.SetVector4("float1", 1, 1, 1, 1);
+                string expected = "[Warning] No uniform variable float1 of type FloatVec4.";
+                Assert.IsTrue(shader.GetErrorLog().Contains(expected));
+            }
+
+            [TestMethod]
+            public void SetVector4ValidType()
+            {
+                shader.SetVector4("vector4a", 1, 1, 1, 1);
+                string expected = "[Warning] No uniform variable vector4a of type FloatVec4.";
+                Assert.IsFalse(shader.GetErrorLog().Contains(expected));
+            }
         }
 
         [TestClass]
@@ -391,6 +440,22 @@ namespace SFGraphicsTest.ShaderTests
                 string expected = "[Warning] Attempted to set undeclared uniform variable memes2.";
                 Assert.IsTrue(shader.GetErrorLog().Contains(expected));
             }
+
+            [TestMethod]
+            public void SetVector2InvalidType()
+            {
+                shader.SetVector2("float1", 1, 1);
+                string expected = "[Warning] No uniform variable float1 of type FloatVec2.";
+                Assert.IsTrue(shader.GetErrorLog().Contains(expected));
+            }
+
+            [TestMethod]
+            public void SetVector2ValidType()
+            {
+                shader.SetVector2("vector2a", 1, 1);
+                string expected = "[Warning] No uniform variable vector2a of type FloatVec2.";
+                Assert.IsFalse(shader.GetErrorLog().Contains(expected));
+            }
         }
 
         [TestClass]
@@ -420,7 +485,25 @@ namespace SFGraphicsTest.ShaderTests
                 shader.SetMatrix4x4("memes", ref matrix4);
                 string expected = "[Warning] Attempted to set undeclared uniform variable memes.";
                 Assert.IsTrue(shader.GetErrorLog().Contains(expected));
-            }         
+            }
+
+            [TestMethod]
+            public void SetMatrix4x4InvalidType()
+            {
+                Matrix4 matrix4 = Matrix4.Identity;
+                shader.SetMatrix4x4("float1", ref matrix4);
+                string expected = "[Warning] No uniform variable float1 of type FloatMat4.";
+                Assert.IsTrue(shader.GetErrorLog().Contains(expected));
+            }
+
+            [TestMethod]
+            public void SetMatrix4x4ValidType()
+            {
+                Matrix4 matrix4 = Matrix4.Identity;
+                shader.SetMatrix4x4("matrix4a", ref matrix4);
+                string expected = "[Warning] No uniform variable vector4a of type FloatMat4.";
+                Assert.IsFalse(shader.GetErrorLog().Contains(expected));
+            }
         }
     }
 }
