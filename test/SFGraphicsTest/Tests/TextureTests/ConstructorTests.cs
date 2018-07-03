@@ -1,17 +1,9 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SFGraphics.Cameras;
-using OpenTK;
-using OpenTK.Graphics;
-using OpenTK.Graphics.OpenGL;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SFGraphics.GLObjects.Textures;
 
 namespace SFGraphicsTest.TextureTests
 {
-    [TestClass]
-    public class TextureTest
+    public partial class TextureTest
     {
         [TestClass]
         public class ConstructorTests
