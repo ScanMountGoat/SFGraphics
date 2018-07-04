@@ -16,6 +16,7 @@ namespace SFGraphicsTest.TextureTests
             }
 
             [TestMethod]
+            [TestCategory("UnsafeRendering")]
             public void GenerateId()
             {
                 Texture2D texture = new Texture2D(1, 1);

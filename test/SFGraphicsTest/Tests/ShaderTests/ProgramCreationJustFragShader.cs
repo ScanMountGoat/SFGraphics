@@ -18,6 +18,7 @@ namespace SFGraphicsTest.ShaderTests
             }
 
             [TestMethod]
+            [TestCategory("UnsafeRendering")]
             public void ValidFragShader()
             {
                 // Load the shader file from the embedded resources.
@@ -29,6 +30,7 @@ namespace SFGraphicsTest.ShaderTests
             }
 
             [TestMethod]
+            [TestCategory("UnsafeRendering")]
             public void InvalidFragShader()
             {
                 // Load the shader file from the embedded resources.
