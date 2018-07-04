@@ -18,6 +18,7 @@ namespace SFGraphicsTest.ShaderTests
             }
 
             [TestMethod]
+            [TestCategory("UnsafeRendering")]
             public void ValidFragInvalidVert()
             {
                 Shader shader = new Shader();

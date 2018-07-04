@@ -19,6 +19,7 @@ namespace SFGraphicsTest.ShaderTests
             }
 
             [TestMethod]
+            [TestCategory("UnsafeRendering")]
             public void SetVector2ValidName()
             {
                 shader.SetVector2("vector3a", new Vector2(1));
@@ -27,6 +28,7 @@ namespace SFGraphicsTest.ShaderTests
             }
 
             [TestMethod]
+            [TestCategory("UnsafeRendering")]
             public void SetVector2InvalidName()
             {
                 shader.SetVector2("memes", new Vector2(1));
@@ -35,6 +37,7 @@ namespace SFGraphicsTest.ShaderTests
             }
 
             [TestMethod]
+            [TestCategory("UnsafeRendering")]
             public void SetVector2FloatsValidName()
             {
                 shader.SetVector2("vector2a", 1, 1);
@@ -43,6 +46,7 @@ namespace SFGraphicsTest.ShaderTests
             }
 
             [TestMethod]
+            [TestCategory("UnsafeRendering")]
             public void SetVector2FloatsInvalidName()
             {
                 shader.SetVector2("memes2", 1, 1);
@@ -51,6 +55,7 @@ namespace SFGraphicsTest.ShaderTests
             }
 
             [TestMethod]
+            [TestCategory("UnsafeRendering")]
             public void SetVector2InvalidType()
             {
                 shader.SetVector2("float1", 1, 1);
@@ -59,6 +64,7 @@ namespace SFGraphicsTest.ShaderTests
             }
 
             [TestMethod]
+            [TestCategory("UnsafeRendering")]
             public void SetVector2ValidType()
             {
                 shader.SetVector2("vector2a", 1, 1);

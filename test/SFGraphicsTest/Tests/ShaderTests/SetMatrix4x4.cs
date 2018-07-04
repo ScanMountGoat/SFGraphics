@@ -19,6 +19,7 @@ namespace SFGraphicsTest.ShaderTests
             }
 
             [TestMethod]
+            [TestCategory("UnsafeRendering")]
             public void SetMatrix4x4ValidName()
             {
                 Matrix4 matrix4 = Matrix4.Identity;
@@ -28,6 +29,7 @@ namespace SFGraphicsTest.ShaderTests
             }
 
             [TestMethod]
+            [TestCategory("UnsafeRendering")]
             public void SetMatrix4x4InvalidName()
             {
                 Matrix4 matrix4 = Matrix4.Identity;
@@ -37,6 +39,7 @@ namespace SFGraphicsTest.ShaderTests
             }
 
             [TestMethod]
+            [TestCategory("UnsafeRendering")]
             public void SetMatrix4x4InvalidType()
             {
                 Matrix4 matrix4 = Matrix4.Identity;
@@ -46,6 +49,7 @@ namespace SFGraphicsTest.ShaderTests
             }
 
             [TestMethod]
+            [TestCategory("UnsafeRendering")]
             public void SetMatrix4x4ValidType()
             {
                 Matrix4 matrix4 = Matrix4.Identity;

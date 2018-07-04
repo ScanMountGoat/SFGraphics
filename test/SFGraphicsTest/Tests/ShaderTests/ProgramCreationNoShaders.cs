@@ -17,6 +17,7 @@ namespace SFGraphicsTest.ShaderTests
             }
 
             [TestMethod]
+            [TestCategory("UnsafeRendering")]
             public void NoShaders()
             {
                 Shader shader = new Shader();

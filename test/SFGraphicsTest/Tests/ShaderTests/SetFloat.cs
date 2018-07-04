@@ -27,6 +27,7 @@ namespace SFGraphicsTest.ShaderTests
             }
 
             [TestMethod]
+            [TestCategory("UnsafeRendering")]
             public void SetFloatValidName()
             {
                 shader.SetFloat("float1", 0);
@@ -35,6 +36,7 @@ namespace SFGraphicsTest.ShaderTests
             }
 
             [TestMethod]
+            [TestCategory("UnsafeRendering")]
             public void SetFloatInvalidType()
             {
                 shader.SetFloat("int1", 0);
@@ -43,6 +45,7 @@ namespace SFGraphicsTest.ShaderTests
             }
 
             [TestMethod]
+            [TestCategory("UnsafeRendering")]
             public void SetFloatValidType()
             {
                 shader.SetFloat("float1", 0);
@@ -51,6 +54,7 @@ namespace SFGraphicsTest.ShaderTests
             }
 
             [TestMethod]
+            [TestCategory("UnsafeRendering")]
             public void SetFloatInvalidName()
             {
                 shader.SetFloat("memes", 0);

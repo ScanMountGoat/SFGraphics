@@ -18,6 +18,7 @@ namespace SFGraphicsTest.ShaderTests
             }
 
             [TestMethod]
+            [TestCategory("UnsafeRendering")]
             public void ValidVertShader()
             {
                 // Load the shader file from the embedded resources.
@@ -29,6 +30,7 @@ namespace SFGraphicsTest.ShaderTests
             }
 
             [TestMethod]
+            [TestCategory("UnsafeRendering")]
             public void InvalidVertShader()
             {
                 // Load the shader file from the embedded resources.

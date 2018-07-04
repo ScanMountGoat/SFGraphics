@@ -27,6 +27,7 @@ namespace SFGraphicsTest.ShaderTests
             }
 
             [TestMethod]
+            [TestCategory("UnsafeRendering")]
             public void SetBoolValidName()
             {
                 shader.SetBoolToInt("boolInt1", true);
@@ -35,6 +36,7 @@ namespace SFGraphicsTest.ShaderTests
             }
 
             [TestMethod]
+            [TestCategory("UnsafeRendering")]
             public void SetBoolInvalidName()
             {
                 shader.SetBoolToInt("memes", true);
@@ -43,6 +45,7 @@ namespace SFGraphicsTest.ShaderTests
             }
 
             [TestMethod]
+            [TestCategory("UnsafeRendering")]
             public void SetBoolInvalidType()
             {
                 shader.SetBoolToInt("float1", true);
@@ -51,6 +54,7 @@ namespace SFGraphicsTest.ShaderTests
             }
 
             [TestMethod]
+            [TestCategory("UnsafeRendering")]
             public void SetBoolValidType()
             {
                 shader.SetBoolToInt("int1", true);

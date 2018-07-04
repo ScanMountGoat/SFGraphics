@@ -18,6 +18,7 @@ namespace SFGraphicsTest.ShaderTests
             }
 
             [TestMethod]
+            [TestCategory("UnsafeRendering")]
             public void LinkError()
             {
                 Shader shader = new Shader();

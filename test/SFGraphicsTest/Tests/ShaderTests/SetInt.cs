@@ -18,6 +18,7 @@ namespace SFGraphicsTest.ShaderTests
             }
 
             [TestMethod]
+            [TestCategory("UnsafeRendering")]
             public void SetIntValidName()
             {
                 shader.SetInt("int1", 0);
@@ -26,6 +27,7 @@ namespace SFGraphicsTest.ShaderTests
             }
 
             [TestMethod]
+            [TestCategory("UnsafeRendering")]
             public void SetIntInvalidName()
             {
                 shader.SetInt("memes", 0);
