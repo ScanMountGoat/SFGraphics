@@ -12,20 +12,6 @@ namespace SFGraphics.Tools
         private static readonly float MaxHueAngle = 360;
 
         /// <summary>
-        /// Converts an ARGB hex color to a system color.
-        /// </summary>
-        /// <param name="hexColor">ARGB color</param>
-        /// <returns></returns>
-        public static Color ColorFromUint(uint hexColor)
-        {
-            byte alpha = (byte)(hexColor >> 24);
-            byte red = (byte)(hexColor >> 16);
-            byte green = (byte)(hexColor >> 8);
-            byte blue = (byte)(hexColor >> 0);
-            return Color.FromArgb(alpha, red, green, blue);
-        }
-
-        /// <summary>
         /// Converts the byte channel values of the input color [0,255] to float [0.0,1.0]. XYZW = RGBA.
         /// </summary>
         /// <param name="color"></param>

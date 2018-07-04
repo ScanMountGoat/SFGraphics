@@ -110,7 +110,7 @@ namespace SFGraphics.Tools
             // Prevent black tangents/bitangents for vertices with the same UV coordinates or position. 
             if (sameU || sameV || sameX || sameY || sameZ)
             {
-                // Let's pick some arbitrary tangent vectors.
+                // HACK: Let's pick some arbitrary tangent vectors.
                 s = new Vector3(1, 0, 0);
                 t = new Vector3(0, 1, 0);
             }
