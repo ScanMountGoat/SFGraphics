@@ -1,8 +1,7 @@
 # SFGraphics
 [![Build status](https://ci.appveyor.com/api/projects/status/2u86186wtxiq77jw/branch/master?svg=true)](https://ci.appveyor.com/project/ScanMountGoat/sfgraphics/branch/master)  
 
-**This library is still in early stages of development, so don't use this for any important projects
-*until the first official release. Appveyor support is WIP.**
+**This library is still in early stages of development, so don't use this for any important projects until the first official release. Appveyor support is WIP.**
 
 An OpenGL utility library using OpenTK. Classes in the GLObjects namespace provide object oriented
 wrappers for OpenGL textures, shaders, buffers, etc. This makes changing state less error prone.
@@ -17,7 +16,7 @@ Feel free to use this library for your projects but please make sure to provide 
 to the source code and license for this repository.
 
 # Issues
-Please report all issues in the [bug tracker](https://github.com/ScanMountGoat/SFGraphics/issues). 
+Please report all issues in the [bug tracker](https://github.com/ScanMountGoat/SFGraphics/issues).  
 
 # Building WIP
 Support for platforms other than Windows not planned. There may be issues with the .NET target
