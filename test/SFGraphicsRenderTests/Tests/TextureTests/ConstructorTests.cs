@@ -1,13 +1,12 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SFGraphics.GLObjects.Shaders;
+using SFGraphics.GLObjects.Textures;
 
-
-namespace SFGraphicsTest.ShaderTests
+namespace SFGraphicsRenderTests.TextureTests
 {
-    public partial class ShaderTest
+    public partial class TextureTest
     {
         [TestClass]
-        public class ProgramCreationNoShaders
+        public class ConstructorTests
         {
             [TestInitialize()]
             public void Initialize()
@@ -17,11 +16,11 @@ namespace SFGraphicsTest.ShaderTests
             }
 
             [TestMethod]
-            [TestCategory("UnsafeRendering")]
-            public void NoShaders()
+
+            public void GenerateId()
             {
-                Shader shader = new Shader();
-                Assert.IsFalse(shader.ProgramCreatedSuccessfully());
+                Texture2D texture = new Texture2D(1, 1);
+                Assert.AreNotEqual(0, texture.Id);
             }
         }
     }

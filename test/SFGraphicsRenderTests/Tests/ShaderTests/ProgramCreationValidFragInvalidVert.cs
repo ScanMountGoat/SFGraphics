@@ -3,7 +3,7 @@ using OpenTK.Graphics.OpenGL;
 using SFGraphics.GLObjects.Shaders;
 
 
-namespace SFGraphicsTest.ShaderTests
+namespace SFGraphicsRenderTests.ShaderTests
 {
     public partial class ShaderTest
     {
@@ -18,19 +18,18 @@ namespace SFGraphicsTest.ShaderTests
             }
 
             [TestMethod]
-            [TestCategory("UnsafeRendering")]
             public void ValidFragInvalidVert()
             {
                 Shader shader = new Shader();
 
                 // Load the shader files from the embedded resources.
-                string fragSource = TestTools.ResourceShaders.GetShader("SFGraphicsTest.Shaders.validFrag.frag");
+                string fragSource = TestTools.ResourceShaders.GetShader("SFGraphicsRenderTests.Shaders.validFrag.frag");
                 shader.LoadShader(fragSource, ShaderType.FragmentShader);
                 // Force an update of compilation/link status.
                 Assert.IsTrue(shader.ProgramCreatedSuccessfully());
 
                 // Make sure the compilation/link status still updates.
-                string vertSource = TestTools.ResourceShaders.GetShader("SFGraphicsTest.Shaders.invalidVert.vert");
+                string vertSource = TestTools.ResourceShaders.GetShader("SFGraphicsRenderTests.Shaders.invalidVert.vert");
                 shader.LoadShader(vertSource, ShaderType.VertexShader);
                 Assert.IsFalse(shader.ProgramCreatedSuccessfully());
             }

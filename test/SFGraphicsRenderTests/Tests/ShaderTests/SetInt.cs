@@ -2,7 +2,7 @@
 using SFGraphics.GLObjects.Shaders;
 
 
-namespace SFGraphicsTest.ShaderTests
+namespace SFGraphicsRenderTests.ShaderTests
 {
     public partial class ShaderTest
     {
@@ -18,7 +18,6 @@ namespace SFGraphicsTest.ShaderTests
             }
 
             [TestMethod]
-            [TestCategory("UnsafeRendering")]
             public void SetIntValidName()
             {
                 shader.SetInt("int1", 0);
@@ -27,7 +26,6 @@ namespace SFGraphicsTest.ShaderTests
             }
 
             [TestMethod]
-            [TestCategory("UnsafeRendering")]
             public void SetIntInvalidName()
             {
                 shader.SetInt("memes", 0);

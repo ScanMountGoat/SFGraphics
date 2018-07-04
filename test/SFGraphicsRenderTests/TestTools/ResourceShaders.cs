@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Reflection;
 
-namespace SFGraphicsTest.TestTools
+namespace SFGraphicsRenderTests.TestTools
 {
     class ResourceShaders
     {

@@ -4,12 +4,12 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{66831642-DBFF-4FB8-91D0-CBF634F98CB3}</ProjectGuid>
+    <ProjectGuid>{91A71848-B6E5-450C-A629-3F41651296DE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SFGraphicsTest</RootNamespace>
-    <AssemblyName>SFGraphicsTest</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <RootNamespace>SFGraphicsRenderTests</RootNamespace>
+    <AssemblyName>SFGraphicsRenderTests</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">15.0</VisualStudioVersion>
@@ -19,7 +19,6 @@
     <TestProjectType>UnitTest</TestProjectType>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -45,39 +44,38 @@
     <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\MSTest.TestFramework.1.2.1\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll</HintPath>
     </Reference>
-    <Reference Include="OpenTK, Version=3.0.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\OpenTK.dll</HintPath>
-    </Reference>
-    <Reference Include="OpenTK.GLControl">
-      <HintPath>..\..\lib\OpenTK.GLControl.dll</HintPath>
+    <Reference Include="OpenTK">
+      <HintPath>..\..\..\Smash-Forge\Smash Forge\lib\OpenTK.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Tests\CameraTests\CameraTest.cs" />
-    <Compile Include="Tests\CameraTests\FovDegreesTest.cs" />
-    <Compile Include="Tests\CameraTests\FovRadiansTest.cs" />
-    <Compile Include="Tests\ColorToolsTests\ClampFloatTest.cs" />
-    <Compile Include="Tests\ColorToolsTests\ClampIntTest.cs" />
-    <Compile Include="Tests\ColorToolsTests\FloatToIntClampTest.cs" />
-    <Compile Include="Tests\ColorToolsTests\HsvToRgbFloatTest.cs" />
-    <Compile Include="Tests\ColorToolsTests\HsvToRgbVec3Test.cs" />
-    <Compile Include="Tests\ColorToolsTests\InvertColorTest.cs" />
-    <Compile Include="Tests\ColorToolsTests\RgbToHsvFloatTest.cs" />
-    <Compile Include="Tests\ColorToolsTests\RgbToHsvVec3Test.cs" />
-    <Compile Include="Tests\ColorToolsTests\Vector4FromColorTest.cs" />
-    <Compile Include="Tests\VectorToolsTests\GenerateNormalsTest.cs" />
-    <Compile Include="Tests\VectorToolsTests\GenerateTangentBitangentTest.cs" />
-    <Compile Include="Tests\VectorToolsTests\GetDegreesTest.cs" />
-    <Compile Include="Tests\VectorToolsTests\GetRadiansTest.cs" />
-    <Compile Include="Tests\VectorToolsTests\OrthogonalizeTst.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tests\ShaderTests\ProgramCreationJustFragShader.cs" />
+    <Compile Include="Tests\ShaderTests\ProgramCreationJustVertShader.cs" />
+    <Compile Include="Tests\ShaderTests\ProgramCreationLinkError.cs" />
+    <Compile Include="Tests\ShaderTests\ProgramCreationNoShaders.cs" />
+    <Compile Include="Tests\ShaderTests\ProgramCreationValidFragInvalidVert.cs" />
+    <Compile Include="Tests\ShaderTests\SetBoolToInt.cs" />
+    <Compile Include="Tests\ShaderTests\SetFloat.cs" />
+    <Compile Include="Tests\ShaderTests\SetInt.cs" />
+    <Compile Include="Tests\ShaderTests\SetMatrix4x4.cs" />
+    <Compile Include="Tests\ShaderTests\SetVector2.cs" />
+    <Compile Include="Tests\ShaderTests\SetVector3.cs" />
+    <Compile Include="Tests\ShaderTests\SetVector4.cs" />
+    <Compile Include="Tests\ShaderTests\ShaderTest.cs" />
+    <Compile Include="Tests\TextureTests\ConstructorTests.cs" />
+    <Compile Include="TestTools\OpenTKWindowlessContext.cs" />
+    <Compile Include="TestTools\ResourceShaders.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <EmbeddedResource Include="Shaders\invalidFrag.frag" />
+    <EmbeddedResource Include="Shaders\invalidVert.vert" />
+    <EmbeddedResource Include="Shaders\linkError.frag" />
+    <EmbeddedResource Include="Shaders\validFrag.frag" />
+    <EmbeddedResource Include="Shaders\validVert.vert" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\SFGraphics\SFGraphics.csproj">

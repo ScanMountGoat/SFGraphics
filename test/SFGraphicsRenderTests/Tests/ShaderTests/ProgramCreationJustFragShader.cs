@@ -3,12 +3,12 @@ using OpenTK.Graphics.OpenGL;
 using SFGraphics.GLObjects.Shaders;
 
 
-namespace SFGraphicsTest.ShaderTests
+namespace SFGraphicsRenderTests.ShaderTests
 {
     public partial class ShaderTest
     {
         [TestClass]
-        public class ProgramCreationJustVertShader
+        public class ProgramCreationJustFragShader
         {
             [TestInitialize()]
             public void Initialize()
@@ -18,25 +18,23 @@ namespace SFGraphicsTest.ShaderTests
             }
 
             [TestMethod]
-            [TestCategory("UnsafeRendering")]
-            public void ValidVertShader()
+            public void ValidFragShader()
             {
                 // Load the shader file from the embedded resources.
                 Shader shader = new Shader();
-                string shaderSource = TestTools.ResourceShaders.GetShader("SFGraphicsTest.Shaders.validVert.vert");
-                shader.LoadShader(shaderSource, ShaderType.VertexShader);
+                string shaderSource = TestTools.ResourceShaders.GetShader("SFGraphicsRenderTests.Shaders.validFrag.frag");
+                shader.LoadShader(shaderSource, ShaderType.FragmentShader);
 
                 Assert.IsTrue(shader.ProgramCreatedSuccessfully());
             }
 
             [TestMethod]
-            [TestCategory("UnsafeRendering")]
-            public void InvalidVertShader()
+            public void InvalidFragShader()
             {
                 // Load the shader file from the embedded resources.
                 Shader shader = new Shader();
-                string shaderSource = TestTools.ResourceShaders.GetShader("SFGraphicsTest.Shaders.invalidVert.vert");
-                shader.LoadShader(shaderSource, ShaderType.VertexShader);
+                string shaderSource = TestTools.ResourceShaders.GetShader("SFGraphicsRenderTests.Shaders.invalidFrag.frag");
+                shader.LoadShader(shaderSource, ShaderType.FragmentShader);
 
                 Assert.IsFalse(shader.ProgramCreatedSuccessfully());
             }

@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lib", "lib", "{383D41C9-B04
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFGraphicsTest", "test\SFGraphicsTest\SFGraphicsTest.csproj", "{66831642-DBFF-4FB8-91D0-CBF634F98CB3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFGraphicsRenderTests", "test\SFGraphicsRenderTests\SFGraphicsRenderTests.csproj", "{91A71848-B6E5-450C-A629-3F41651296DE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +31,10 @@ Global
 		{66831642-DBFF-4FB8-91D0-CBF634F98CB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{66831642-DBFF-4FB8-91D0-CBF634F98CB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{66831642-DBFF-4FB8-91D0-CBF634F98CB3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91A71848-B6E5-450C-A629-3F41651296DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91A71848-B6E5-450C-A629-3F41651296DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91A71848-B6E5-450C-A629-3F41651296DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91A71848-B6E5-450C-A629-3F41651296DE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
