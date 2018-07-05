@@ -70,27 +70,21 @@ namespace SFGraphics.Tools
                                                     Vector2 uv1, Vector2 uv2, Vector2 uv3, 
                                                     out Vector3 tangent, out Vector3 bitangent)
         {
-            float x1 = v2.X - v1.X;
-            float x2 = v3.X - v1.X;
-            float y1 = v2.Y - v1.Y;
-            float y2 = v3.Y - v1.Y;
-            float z1 = v2.Z - v1.Z;
-            float z2 = v3.Z - v1.Z;
+            Vector3 posA = v2 - v1;
+            Vector3 posB = v3 - v1;
 
-            float s1 = uv2.X - uv1.X;
-            float s2 = uv3.X - uv1.X;
-            float t1 = uv2.Y - uv1.Y;
-            float t2 = uv3.Y - uv1.Y;
+            Vector2 uvA = uv2 - uv1;
+            Vector2 uvB = uv3 - uv1;
 
-            // Calculate if the vertices have the same UVs or position.
+            // Prevent black tangents/bitangents for vertices with 
+            // the same UV coordinates or position. 
             float delta = 0.00075f;
-            bool sameU = (Math.Abs(s1) < delta) && (Math.Abs(s2) < delta);
-            bool sameV = (Math.Abs(t1) < delta) && (Math.Abs(t2) < delta);
-            bool sameX = (Math.Abs(x1) < delta) && (Math.Abs(x2) < delta);
-            bool sameY = (Math.Abs(y1) < delta) && (Math.Abs(y2) < delta);
-            bool sameZ = (Math.Abs(z1) < delta) && (Math.Abs(z2) < delta);
+            bool sameU = (Math.Abs(uvA.X) < delta) && (Math.Abs(uvB.X) < delta);
+            bool sameV = (Math.Abs(uvA.Y) < delta) && (Math.Abs(uvB.Y) < delta);
+            bool sameX = (Math.Abs(posA.X) < delta) && (Math.Abs(posB.X) < delta);
+            bool sameY = (Math.Abs(posA.Y) < delta) && (Math.Abs(posB.Y) < delta);
+            bool sameZ = (Math.Abs(posA.Z) < delta) && (Math.Abs(posB.Z) < delta);
 
-            // Prevent black tangents/bitangents for vertices with the same UV coordinates or position. 
             if (sameU || sameV || sameX || sameY || sameZ)
             {
                 // HACK: Let's pick some arbitrary tangent vectors.
@@ -99,21 +93,21 @@ namespace SFGraphics.Tools
                 return;
             }
 
-            float div = (s1 * t2 - s2 * t1);
+            float div = (uvA.X * uvB.Y - uvB.X * uvA.Y);
             float r = 1.0f / div;
 
             // Fix +/- infinity from division by 0.
-            if (r == float.PositiveInfinity || r == float.NegativeInfinity)
+            if (div == 0)
                 r = 1.0f;
 
-            float sX = t2 * x1 - t1 * x2;
-            float sY = t2 * y1 - t1 * y2;
-            float sZ = t2 * z1 - t1 * z2;
+            float sX = uvB.Y * posA.X - uvA.Y * posB.X;
+            float sY = uvB.Y * posA.Y - uvA.Y * posB.Y;
+            float sZ = uvB.Y * posA.Z - uvA.Y * posB.Z;
             tangent = new Vector3(sX, sY, sZ) * r;
             
-            float tX = s1 * x2 - s2 * x1;
-            float tY = s1 * y2 - s2 * y1;
-            float tZ = s1 * z2 - s2 * z1;
+            float tX = uvA.X * posB.X - uvB.X * posA.X;
+            float tY = uvA.X * posB.Y - uvB.X * posA.Y;
+            float tZ = uvA.X * posB.Z - uvB.X * posA.Z;
             bitangent = new Vector3(tX, tY, tZ) * r;
         }
 
