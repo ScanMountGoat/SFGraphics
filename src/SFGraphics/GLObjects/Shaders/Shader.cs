@@ -424,8 +424,12 @@ namespace SFGraphics.GLObjects.Shaders
             // The shader won't be deleted until the program is deleted.
             GL.DeleteShader(shaderId);
 
-            LoadAttributes();
-            LoadUniforms();
+            // Scary things happen if we do this after a linking error.
+            if (programStatusIsOk)
+            {
+                LoadAttributes();
+                LoadUniforms();
+            }
         }
 
         private int LoadShaderBasedOnType(string shaderSource, ShaderType shaderType)
@@ -475,8 +479,12 @@ namespace SFGraphics.GLObjects.Shaders
 
             programStatusIsOk = CheckProgramStatus();
 
-            LoadAttributes();
-            LoadUniforms();
+            // Scary things happen if we do this after a linking error.
+            if (programStatusIsOk)
+            {
+                LoadAttributes();
+                LoadUniforms();
+            }
         }
 
         private void AppendShaderCompilationErrors(string shaderName, int id)
