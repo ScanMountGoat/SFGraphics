@@ -49,12 +49,12 @@ namespace SFGraphics.Tools
         }
 
         /// <summary>
-        /// Generates a tangent vector <paramref name="s"/> and a bitangent vector
-        /// <paramref name="t"/> for a triangle face. 
-        /// If the three vertices have the same UVs or position, <paramref name="s"/> is set to (1, 0, 0)
-        /// and <paramref name="t"/> is set to (0, 1, 0). This prevents black shading artifacts.
+        /// Generates a tangent vector <paramref name="tangent"/> and a bitangent vector
+        /// <paramref name="bitangent"/> for a triangle face. 
+        /// If the three vertices have the same UVs or position, <paramref name="tangent"/> is set to (1, 0, 0)
+        /// and <paramref name="bitangent"/> is set to (0, 1, 0). This prevents black shading artifacts.
         /// <para></para><para></para>
-        /// <paramref name="s"/> and <paramref name="t"/> should be added to the existing tangent
+        /// <paramref name="tangent"/> and <paramref name="bitangent"/> should be added to the existing tangent
         /// and bitangent value for each vertex in the triangle. Normalizing the final sum 
         /// averages the tangents and bitangents for smoother results.
         /// </summary>
@@ -64,11 +64,11 @@ namespace SFGraphics.Tools
         /// <param name="uv1">The UV coordinates of the first vertex</param>
         /// <param name="uv2">The UV coordinates of the second vertex</param>
         /// <param name="uv3">The UV coordinates of the third vertex</param>
-        /// <param name="s">The generated tangent vector</param>
-        /// <param name="t">The generated bitangent vector</param>
+        /// <param name="tangent">The generated tangent vector</param>
+        /// <param name="bitangent">The generated bitangent vector</param>
         public static void GenerateTangentBitangent(Vector3 v1, Vector3 v2, Vector3 v3, 
                                                     Vector2 uv1, Vector2 uv2, Vector2 uv3, 
-                                                    out Vector3 s, out Vector3 t)
+                                                    out Vector3 tangent, out Vector3 bitangent)
         {
             float x1 = v2.X - v1.X;
             float x2 = v3.X - v1.X;
@@ -82,23 +82,6 @@ namespace SFGraphics.Tools
             float t1 = uv2.Y - uv1.Y;
             float t2 = uv3.Y - uv1.Y;
 
-            float div = (s1 * t2 - s2 * t1);
-            float r = 1.0f / div;
-
-            // Fix +/- infinity from division by 0.
-            if (r == float.PositiveInfinity || r == float.NegativeInfinity)
-                r = 1.0f;
-
-            float sX = t2 * x1 - t1 * x2;
-            float sY = t2 * y1 - t1 * y2;
-            float sZ = t2 * z1 - t1 * z2;
-            s = new Vector3(sX, sY, sZ) * r;
-
-            float tX = s1 * x2 - s2 * x1;
-            float tY = s1 * y2 - s2 * y1;
-            float tZ = s1 * z2 - s2 * z1;
-            t = new Vector3(tX, tY, tZ) * r;
-
             // Calculate if the vertices have the same UVs or position.
             float delta = 0.00075f;
             bool sameU = (Math.Abs(s1) < delta) && (Math.Abs(s2) < delta);
@@ -111,9 +94,27 @@ namespace SFGraphics.Tools
             if (sameU || sameV || sameX || sameY || sameZ)
             {
                 // HACK: Let's pick some arbitrary tangent vectors.
-                s = new Vector3(1, 0, 0);
-                t = new Vector3(0, 1, 0);
+                tangent = new Vector3(1, 0, 0);
+                bitangent = new Vector3(0, 1, 0);
+                return;
             }
+
+            float div = (s1 * t2 - s2 * t1);
+            float r = 1.0f / div;
+
+            // Fix +/- infinity from division by 0.
+            if (r == float.PositiveInfinity || r == float.NegativeInfinity)
+                r = 1.0f;
+
+            float sX = t2 * x1 - t1 * x2;
+            float sY = t2 * y1 - t1 * y2;
+            float sZ = t2 * z1 - t1 * z2;
+            tangent = new Vector3(sX, sY, sZ) * r;
+            
+            float tX = s1 * x2 - s2 * x1;
+            float tY = s1 * y2 - s2 * y1;
+            float tZ = s1 * z2 - s2 * z1;
+            bitangent = new Vector3(tX, tY, tZ) * r;
         }
 
         /// <summary>
