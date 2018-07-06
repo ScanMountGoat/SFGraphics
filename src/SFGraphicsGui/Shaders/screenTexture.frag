@@ -3,11 +3,11 @@
 in vec2 texCoord;
 
 uniform sampler2D uvTexture;
-a
+
 out vec4 fragColor;
 
 void main()
 {
-    fragColor.rgb = texture(uvTexture, texCoord).rgb;
+    fragColor.rgb = texture(uvTexture, vec2(texCoord.x, 1 - texCoord.y)).rgb;
     fragColor.a = 1;
 }
