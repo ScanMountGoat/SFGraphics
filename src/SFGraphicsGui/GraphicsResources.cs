@@ -33,7 +33,18 @@ namespace SFGraphicsGui
         /// </summary>
         public GraphicsResources()
         {
+            // Texture setup from a bitmap.
             uvTestPattern = new Texture2D(Properties.Resources.UVPattern);
+
+            // Shader setup.
+            screenTextureShader = new Shader();
+            string vertShaderSource = ResourceTextFile.GetFileText("SFGraphicsGui.Shaders.screenTexture.vert");
+            screenTextureShader.LoadShader(vertShaderSource, ShaderType.VertexShader);
+
+            string fragShaderSource = ResourceTextFile.GetFileText("SFGraphicsGui.Shaders.screenTexture.frag");
+            screenTextureShader.LoadShader(fragShaderSource, ShaderType.FragmentShader);
+
+            // Create a buffer for drawing.
             CreateScreenQuadBuffer();
         }
 

@@ -31,6 +31,13 @@ namespace SFGraphicsGui
         private void glControl1_Load(object sender, EventArgs e)
         {
             graphicsResources = new GraphicsResources();
+
+            // Display compilation warnings.
+            if (!graphicsResources.screenTextureShader.ProgramCreatedSuccessfully())
+            {
+                MessageBox.Show(graphicsResources.screenTextureShader.GetErrorLog(), "Failed Shader Compilation");
+            }
+
             glControl1.Invalidate();
         }
     }
