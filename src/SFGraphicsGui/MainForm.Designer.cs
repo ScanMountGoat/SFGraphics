@@ -51,7 +51,7 @@
             this.ClientSize = new System.Drawing.Size(1081, 753);
             this.Controls.Add(this.glControl1);
             this.Name = "MainForm";
-            this.Text = "Form1";
+            this.Text = "SFGraphics Example";
             this.ResumeLayout(false);
 
         }

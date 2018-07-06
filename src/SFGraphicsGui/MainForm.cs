@@ -13,6 +13,8 @@ namespace SFGraphicsGui
 {
     public partial class MainForm : Form
     {
+        private GraphicsResources graphicsResources;
+
         public MainForm()
         {
             InitializeComponent();
@@ -28,6 +30,7 @@ namespace SFGraphicsGui
 
         private void glControl1_Load(object sender, EventArgs e)
         {
+            graphicsResources = new GraphicsResources();
             glControl1.Invalidate();
         }
     }
