@@ -15,6 +15,7 @@ namespace SFGraphicsGui
     {
         // A triangle that extends past the screen.
         // Avoids the need for a second triangle to fill a rectangular screen.
+        // The positions can also be conveniently converted to UVs.
         private static float[] screenTrianglePositions =
         {
             -1f, -1f, 0.0f,
@@ -22,7 +23,7 @@ namespace SFGraphicsGui
             -1f,  3f, 0.0f
         };
 
-        // Don't call the constructors until an OpenTK context is current.
+        // Don't call the constructors until an OpenTK context is current to prevent crashes.
         public Texture uvTestPattern;
         public Shader screenTextureShader;
         public BufferObject screenTriangleVbo;
@@ -33,29 +34,33 @@ namespace SFGraphicsGui
         /// </summary>
         public GraphicsResources()
         {
-            // Texture setup from a bitmap.
-            uvTestPattern = new Texture2D(Properties.Resources.UVPattern);
-
-            // Shader setup.
-            screenTextureShader = new Shader();
-            string vertShaderSource = ResourceTextFile.GetFileText("SFGraphicsGui.Shaders.screenTexture.vert");
-            screenTextureShader.LoadShader(vertShaderSource, ShaderType.VertexShader);
-
-            string fragShaderSource = ResourceTextFile.GetFileText("SFGraphicsGui.Shaders.screenTexture.frag");
-            screenTextureShader.LoadShader(fragShaderSource, ShaderType.FragmentShader);
-
-            // Create a buffer for drawing.
-            CreateScreenQuadBuffer();
+            uvTestPattern = new Texture2D(Properties.Resources.UVPattern); // Texture setup from a bitmap.
+            screenTextureShader = CreateShader();
+            screenTriangleVbo = CreateScreenQuadBuffer();
         }
 
-        private void CreateScreenQuadBuffer()
+        private Shader CreateShader()
+        {
+            Shader shader = new Shader();
+            string vertShaderSource = ResourceTextFile.GetFileText("SFGraphicsGui.Shaders.screenTexture.vert");
+            shader.LoadShader(vertShaderSource, ShaderType.VertexShader);
+
+            string fragShaderSource = ResourceTextFile.GetFileText("SFGraphicsGui.Shaders.screenTexture.frag");
+            shader.LoadShader(fragShaderSource, ShaderType.FragmentShader);
+
+            return shader;
+        }
+
+        private BufferObject CreateScreenQuadBuffer()
         {
             // Create buffer for vertex positions. 
             // The data won't change, so only initialize once.
-            screenTriangleVbo = new BufferObject(BufferTarget.ArrayBuffer);
-            screenTriangleVbo.Bind();
-            GL.BufferData(screenTriangleVbo.BufferTarget, (IntPtr)(sizeof(float) * screenTrianglePositions.Length),
+            BufferObject bufferObject = new BufferObject(BufferTarget.ArrayBuffer);
+            bufferObject.Bind();
+            GL.BufferData(bufferObject.BufferTarget, (IntPtr)(sizeof(float) * screenTrianglePositions.Length),
                 screenTrianglePositions, BufferUsageHint.StaticDraw);
+
+            return bufferObject;
         }
     }
 }
