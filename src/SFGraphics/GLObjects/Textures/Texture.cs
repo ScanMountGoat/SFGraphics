@@ -127,11 +127,11 @@ namespace SFGraphics.GLObjects.Textures
 
             Bind();
 
-            // The GL texture needs to be updated in addition to initializing the variables.
+            // Use properties because the GL texture needs to be updated.
             TextureWrapS = TextureWrapMode.ClampToEdge;
             TextureWrapT = TextureWrapMode.ClampToEdge;
             TextureWrapR = TextureWrapMode.ClampToEdge;
-            MinFilter = TextureMinFilter.NearestMipmapLinear;
+            MinFilter = TextureMinFilter.LinearMipmapLinear;
             MagFilter = TextureMagFilter.Linear;
 
             // Setup the format and mip maps.
