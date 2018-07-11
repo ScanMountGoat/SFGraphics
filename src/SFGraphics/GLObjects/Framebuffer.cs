@@ -79,30 +79,36 @@ namespace SFGraphics.GLObjects
         }
 
         /// <summary>
-        /// Decrement the reference count for <see cref="Id"/>. The context probably isn't current, so the data is deleted later by <see cref="GLObjectManager"/>.
-        /// </summary>
-        ~Framebuffer()
-        {
-            GLObjectManager.RemoveReference(GLObjectManager.referenceCountByFramebufferId, Id);
-        }
-
-        /// <summary>
-        /// Generates a framebuffer with a color attachment of the specified pixel format and dimensions. A render buffer of the same dimensions as the color attachment is generated for the depth component.
+        /// Generates a framebuffer with a color attachment of the specified pixel format and dimensions. 
+        /// A render buffer of the same dimensions as the color attachment is generated for the depth component.
         /// Binds the framebuffer.
         /// </summary>
         /// <param name="framebufferTarget">The target to which <see cref="Id"/> is bound</param>
         /// <param name="width">The width of attached textures or renderbuffers</param>
         /// <param name="height">The height of attached textures or renderbuffers</param>
-        /// <param name="pixelInternalFormat"></param>
-        public Framebuffer(FramebufferTarget framebufferTarget, int width, int height, PixelInternalFormat pixelInternalFormat = PixelInternalFormat.Rgba) : this(framebufferTarget)
+        /// <param name="pixelInternalFormat">The internal format for all color attachments</param>
+        /// <param name="colorAttachmentsCount">The number of color attachments to create. 
+        /// Ex: <c>1</c> would only create ColorAttachment0.</param>
+        public Framebuffer(FramebufferTarget framebufferTarget, int width, int height, 
+            PixelInternalFormat pixelInternalFormat = PixelInternalFormat.Rgba, int colorAttachmentsCount = 1) 
+            : this(framebufferTarget)
         {
             Bind();
             PixelInternalFormat = pixelInternalFormat;
             this.width = width;
             this.height = height;
 
-            colorAttachment0 = CreateColorAttachment0(width, height);
+            colorAttachment0 = CreateColorAttachment(width, height, FramebufferAttachment.ColorAttachment0);
             SetupRboDepth(width, height);
+        }
+
+        /// <summary>
+        /// Decrement the reference count for <see cref="Id"/>. The context probably isn't current, so the data is deleted later by <see cref="GLObjectManager"/>.
+        /// </summary>
+        ~Framebuffer()
+        {
+            // TODO: Does this delete all attachments?
+            GLObjectManager.RemoveReference(GLObjectManager.referenceCountByFramebufferId, Id);
         }
 
         /// <summary>
@@ -115,14 +121,14 @@ namespace SFGraphics.GLObjects
             return GL.CheckNamedFramebufferStatus(Id, FramebufferTarget).ToString();
         }
 
-        private Texture2D CreateColorAttachment0(int width, int height)
+        private Texture2D CreateColorAttachment(int width, int height, FramebufferAttachment framebufferAttachment)
         {
             // First color attachment.
             // TODO: Support different color formats.
             Texture2D texture = new Texture2D(width, height, PixelInternalFormat);
             texture.MinFilter = TextureMinFilter.Nearest;
             texture.MagFilter = TextureMagFilter.Linear;
-            GL.FramebufferTexture2D(FramebufferTarget, FramebufferAttachment.ColorAttachment0, TextureTarget.Texture2D, texture.Id, 0);
+            GL.FramebufferTexture2D(FramebufferTarget, framebufferAttachment, TextureTarget.Texture2D, texture.Id, 0);
             return texture;
         }
 
