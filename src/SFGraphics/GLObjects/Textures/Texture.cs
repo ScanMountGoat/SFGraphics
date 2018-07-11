@@ -133,10 +133,6 @@ namespace SFGraphics.GLObjects.Textures
             TextureWrapR = TextureWrapMode.ClampToEdge;
             MinFilter = TextureMinFilter.LinearMipmapLinear;
             MagFilter = TextureMagFilter.Linear;
-
-            // Setup the format and mip maps.
-            GL.TexImage2D(textureTarget, 0, PixelInternalFormat, width, height, 0, OpenTK.Graphics.OpenGL.PixelFormat.Rgba, PixelType.Float, IntPtr.Zero);
-            GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
         }
 
         /// <summary>

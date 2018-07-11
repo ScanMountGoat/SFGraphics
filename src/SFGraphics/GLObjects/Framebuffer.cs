@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using System.Runtime.InteropServices;
 using System.Drawing.Imaging;
-using System.Diagnostics;
+using SFGraphics.GLObjects.Textures;
 
 namespace SFGraphics.GLObjects
 {
@@ -59,12 +57,13 @@ namespace SFGraphics.GLObjects
         }
         private int height = 1;
 
-        private int colorAttachment0Tex;
+        private Texture2D colorAttachment0;
         /// <summary>
         /// The Id of the first color attachment.
         /// </summary>
-        public int ColorAttachment0Tex { get { return colorAttachment0Tex; } }
+        public Texture2D ColorAttachment0 { get { return colorAttachment0; } }
 
+        // TODO: Is this memory deallocated properly?
         private int rboDepth;
 
         /// <summary>
@@ -102,7 +101,7 @@ namespace SFGraphics.GLObjects
             this.width = width;
             this.height = height;
 
-            SetupColorAttachment0(width, height);
+            colorAttachment0 = CreateColorAttachment0(width, height);
             SetupRboDepth(width, height);
         }
 
@@ -116,15 +115,15 @@ namespace SFGraphics.GLObjects
             return GL.CheckNamedFramebufferStatus(Id, FramebufferTarget).ToString();
         }
 
-        private void SetupColorAttachment0(int width, int height)
+        private Texture2D CreateColorAttachment0(int width, int height)
         {
             // First color attachment.
-            colorAttachment0Tex = GL.GenTexture();
-            GL.BindTexture(TextureTarget.Texture2D, ColorAttachment0Tex);
-            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat, width, height, 0, OpenTK.Graphics.OpenGL.PixelFormat.Rgba, PixelType.Float, IntPtr.Zero);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Nearest);
-            GL.FramebufferTexture2D(FramebufferTarget, FramebufferAttachment.ColorAttachment0, TextureTarget.Texture2D, ColorAttachment0Tex, 0);
+            // TODO: Support different color formats.
+            Texture2D texture = new Texture2D(width, height, PixelInternalFormat.Rgba);
+            texture.MinFilter = TextureMinFilter.Nearest;
+            texture.MagFilter = TextureMagFilter.Linear;
+            GL.FramebufferTexture2D(FramebufferTarget, FramebufferAttachment.ColorAttachment0, TextureTarget.Texture2D, texture.Id, 0);
+            return texture;
         }
 
         private void SetupRboDepth(int width, int height)
@@ -213,9 +212,9 @@ namespace SFGraphics.GLObjects
             Bind();
 
             // First color attachment (regular texture).
-            GL.BindTexture(TextureTarget.Texture2D, ColorAttachment0Tex);
+            ColorAttachment0.Bind();
             GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, width, height, 0, OpenTK.Graphics.OpenGL.PixelFormat.Rgba, PixelType.Float, IntPtr.Zero);
-            GL.FramebufferTexture2D(FramebufferTarget, FramebufferAttachment.ColorAttachment0, TextureTarget.Texture2D, ColorAttachment0Tex, 0);
+            GL.FramebufferTexture2D(FramebufferTarget, FramebufferAttachment.ColorAttachment0, TextureTarget.Texture2D, ColorAttachment0.Id, 0);
 
             // Render buffer for the depth attachment, which is necessary for depth testing.
             GL.BindRenderbuffer(RenderbufferTarget.Renderbuffer, rboDepth);
