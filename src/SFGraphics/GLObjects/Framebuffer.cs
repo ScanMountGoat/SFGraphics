@@ -58,7 +58,8 @@ namespace SFGraphics.GLObjects
         private int height = 1;
 
         /// <summary>
-        /// 
+        /// All color attachment textures. This list may be empty if <c>0</c> is specified for the color attachment count.
+        /// Attempting to modify the textures in this list may result in unexpected behavior.
         /// </summary>
         public List<Texture2D> ColorAttachments { get; }
 
@@ -66,7 +67,8 @@ namespace SFGraphics.GLObjects
         private int rboDepth;
 
         /// <summary>
-        /// Generates an empty framebuffer bound to the specified target. Binds the framebuffer.
+        /// Generates an empty framebuffer with no attachments bound to the specified target. 
+        /// Binds the framebuffer.
         /// </summary>
         /// <param name="framebufferTarget">The target to which <see cref="Id"/> is bound</param>
         public Framebuffer(FramebufferTarget framebufferTarget)
