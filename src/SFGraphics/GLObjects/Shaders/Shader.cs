@@ -24,11 +24,6 @@ namespace SFGraphics.GLObjects.Shaders
         private bool programStatusIsOk = false;
         private bool hasCheckedProgramCreation = false;
 
-        // GL.CreateShader() will not return 0 if shader creation was successful.
-        private int vertShaderId = 0;
-        private int fragShaderId = 0;
-        private int geomShaderId = 0;
-
         private ShaderLog errorLog = new ShaderLog();
 
         // Vertex Attributes and Uniforms
@@ -409,7 +404,7 @@ namespace SFGraphics.GLObjects.Shaders
         /// Supported shader types are fragment, vertex , and geometry.
         /// </summary>
         /// <param name="shaderSource">A string containing the shader source text</param>
-        /// <param name="shaderType">Supported types are ShaderType.FragmentShader, ShaderType.VertexShader, or ShaderType.GeometryShader</param>
+        /// <param name="shaderType">The type of shader to load. Ex: ShaderType.FragmentShader</param>
         /// <param name="shaderName">The title used for the compilation errors section of the error log</param>
         public void LoadShader(string shaderSource, ShaderType shaderType, string shaderName = "Shader")
         {
@@ -435,27 +430,15 @@ namespace SFGraphics.GLObjects.Shaders
         private int LoadShaderBasedOnType(string shaderSource, ShaderType shaderType)
         {
             // Returns the shader Id that was generated.
-            switch (shaderType)
-            {
-                case ShaderType.FragmentShader:
-                    AttachAndCompileShader(shaderSource, shaderType, Id, out fragShaderId);
-                    return fragShaderId;
-                case ShaderType.VertexShader:
-                    AttachAndCompileShader(shaderSource, shaderType, Id, out vertShaderId);
-                    return vertShaderId;
-                case ShaderType.GeometryShader:
-                    AttachAndCompileShader(shaderSource, shaderType, Id, out geomShaderId);
-                    return geomShaderId;
-                default:
-                    // No compute shaders or anything fancy like that currently.
-                    throw new NotSupportedException(shaderType.ToString());
-            }
+            int id = AttachAndCompileShader(shaderSource, shaderType, Id);
+            return id;
         }
 
-        private void AttachAndCompileShader(string shaderText, ShaderType type, int program, out int id)
+        private int AttachAndCompileShader(string shaderText, ShaderType type, int program)
         {
-            id = CreateGlShader(shaderText, type);
+            int id = CreateGlShader(shaderText, type);
             GL.AttachShader(program, id);
+            return id;
         }
 
         /// <summary>
@@ -466,14 +449,6 @@ namespace SFGraphics.GLObjects.Shaders
         /// <param name="shaderType">Supported types are ShaderType.FragmentShader, ShaderType.VertexShader, or ShaderType.GeometryShader</param>
         public void AttachShader(int shaderId, ShaderType shaderType)
         {
-            // Make sure these are initialized before checking compilation.
-            if (shaderType == ShaderType.FragmentShader)
-                fragShaderId = shaderId;
-            else if (shaderType == ShaderType.VertexShader)
-                vertShaderId = shaderId;
-            else if (shaderType == ShaderType.GeometryShader)
-                geomShaderId = shaderId;
-
             GL.AttachShader(Id, shaderId);
             GL.LinkProgram(Id);
 
