@@ -57,11 +57,10 @@ namespace SFGraphics.GLObjects
         }
         private int height = 1;
 
-        private Texture2D colorAttachment0;
         /// <summary>
-        /// The Id of the first color attachment.
+        /// 
         /// </summary>
-        public Texture2D ColorAttachment0 { get { return colorAttachment0; } }
+        public List<Texture2D> ColorAttachments { get; }
 
         // TODO: Is this memory deallocated properly?
         private int rboDepth;
@@ -89,17 +88,38 @@ namespace SFGraphics.GLObjects
         /// <param name="pixelInternalFormat">The internal format for all color attachments</param>
         /// <param name="colorAttachmentsCount">The number of color attachments to create. 
         /// Ex: <c>1</c> would only create ColorAttachment0.</param>
+        /// <exception cref="ArgumentOutOfRangeException">The number of color attachments is negative.</exception>
         public Framebuffer(FramebufferTarget framebufferTarget, int width, int height, 
             PixelInternalFormat pixelInternalFormat = PixelInternalFormat.Rgba, int colorAttachmentsCount = 1) 
             : this(framebufferTarget)
         {
+            if (colorAttachmentsCount < 0)
+                throw new ArgumentOutOfRangeException("Color attachment count must be non negative.");
+
             Bind();
             PixelInternalFormat = pixelInternalFormat;
             this.width = width;
             this.height = height;
 
-            colorAttachment0 = CreateColorAttachment(width, height, FramebufferAttachment.ColorAttachment0);
+            ColorAttachments = CreateColorAttachments(width, height, colorAttachmentsCount);
+
             SetupRboDepth(width, height);
+        }
+
+        private List<Texture2D> CreateColorAttachments(int width, int height, int colorAttachmentsCount)
+        {
+            List<Texture2D> colorAttachments = new List<Texture2D>();
+            List<DrawBuffersEnum> attachmentEnums = new List<DrawBuffersEnum>();
+            for (int i = 0; i < colorAttachmentsCount; i++)
+            {
+                Texture2D colorAttachment = CreateColorAttachment(width, height, FramebufferAttachment.ColorAttachment0 + i);
+                colorAttachments.Add(colorAttachment);
+                attachmentEnums.Add(DrawBuffersEnum.ColorAttachment0 + i);
+            }
+            // Draw to all color attachments.
+            GL.DrawBuffers(colorAttachmentsCount, attachmentEnums.ToArray());
+
+            return colorAttachments;
         }
 
         /// <summary>
@@ -123,11 +143,13 @@ namespace SFGraphics.GLObjects
 
         private Texture2D CreateColorAttachment(int width, int height, FramebufferAttachment framebufferAttachment)
         {
-            // First color attachment.
-            // TODO: Support different color formats.
-            Texture2D texture = new Texture2D(width, height, PixelInternalFormat);
-            texture.MinFilter = TextureMinFilter.Nearest;
-            texture.MagFilter = TextureMagFilter.Linear;
+            // Don't use mipmaps for color attachments.
+            Texture2D texture = new Texture2D(width, height, PixelInternalFormat)
+            {
+                MinFilter = TextureMinFilter.Nearest,
+                MagFilter = TextureMagFilter.Linear
+            };
+
             GL.FramebufferTexture2D(FramebufferTarget, framebufferAttachment, TextureTarget.Texture2D, texture.Id, 0);
             return texture;
         }
@@ -216,11 +238,14 @@ namespace SFGraphics.GLObjects
         private void Resize()
         {
             Bind();
-
-            // First color attachment (regular texture).
-            ColorAttachment0.Bind();
-            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat, width, height, 0, OpenTK.Graphics.OpenGL.PixelFormat.Rgba, PixelType.Float, IntPtr.Zero);
-            GL.FramebufferTexture2D(FramebufferTarget, FramebufferAttachment.ColorAttachment0, TextureTarget.Texture2D, ColorAttachment0.Id, 0);
+            
+            // Resize all attachments.
+            for (int i = 0; i < ColorAttachments.Count; i++)
+            {
+                ColorAttachments[i].Bind();
+                GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat, width, height, 0, OpenTK.Graphics.OpenGL.PixelFormat.Rgba, PixelType.Float, IntPtr.Zero);
+                GL.FramebufferTexture2D(FramebufferTarget, FramebufferAttachment.ColorAttachment0 + i, TextureTarget.Texture2D, ColorAttachments[i].Id, 0);
+            }
 
             // Render buffer for the depth attachment, which is necessary for depth testing.
             GL.BindRenderbuffer(RenderbufferTarget.Renderbuffer, rboDepth);
