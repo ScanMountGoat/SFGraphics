@@ -3,7 +3,7 @@ using OpenTK.Graphics.OpenGL;
 using SFGraphics.GLObjects.Shaders;
 
 
-namespace SFGraphicsRenderTests.ShaderTests
+namespace SFGraphicsRenderTests.ShaderTests.SetterTests
 {
     [TestClass]
     public partial class ShaderTest

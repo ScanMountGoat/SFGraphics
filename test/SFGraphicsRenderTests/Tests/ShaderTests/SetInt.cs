@@ -2,7 +2,7 @@
 using SFGraphics.GLObjects.Shaders;
 
 
-namespace SFGraphicsRenderTests.ShaderTests
+namespace SFGraphicsRenderTests.ShaderTests.SetterTests
 {
     public partial class ShaderTest
     {

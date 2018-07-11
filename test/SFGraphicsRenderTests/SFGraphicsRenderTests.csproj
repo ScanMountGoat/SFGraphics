@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tests\ShaderTests\ProgramCreationValidInvalidFragShader.cs" />
     <Compile Include="Tests\ShaderTests\ProgramCreationJustFragShader.cs" />
     <Compile Include="Tests\ShaderTests\ProgramCreationJustVertShader.cs" />
     <Compile Include="Tests\ShaderTests\ProgramCreationLinkError.cs" />

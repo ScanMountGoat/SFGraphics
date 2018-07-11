@@ -513,22 +513,10 @@ namespace SFGraphics.GLObjects.Shaders
 
         private bool CheckProgramStatus()
         {
-            // Check for linker errors first. 
+            // Check for linker errors. 
+            // Compilation errors in individual shaders will also cause linker errors.
             bool programLinkedSuccessfully = ProgramLinked();
-            if (!programLinkedSuccessfully)
-                return false;
-
-            // Check fragment and vertex shader compilation.
-            bool vertShaderCompiled = ShaderCompiled(vertShaderId);
-            bool fragShaderCompiled = ShaderCompiled(fragShaderId);
-
-            // Only check the geometry shader if present.
-            bool geomShaderCompiled = true;
-            if (geomShaderId != 0)
-                geomShaderCompiled = ShaderCompiled(geomShaderId);
-
-            // The program was linked, but the shaders may have syntax errors.
-            return (fragShaderCompiled && vertShaderCompiled && geomShaderCompiled);
+            return programLinkedSuccessfully;
         }
 
         private bool ProgramLinked()
