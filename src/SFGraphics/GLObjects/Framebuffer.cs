@@ -119,7 +119,7 @@ namespace SFGraphics.GLObjects
         {
             // First color attachment.
             // TODO: Support different color formats.
-            Texture2D texture = new Texture2D(width, height, PixelInternalFormat.Rgba);
+            Texture2D texture = new Texture2D(width, height, PixelInternalFormat);
             texture.MinFilter = TextureMinFilter.Nearest;
             texture.MagFilter = TextureMagFilter.Linear;
             GL.FramebufferTexture2D(FramebufferTarget, FramebufferAttachment.ColorAttachment0, TextureTarget.Texture2D, texture.Id, 0);
@@ -213,7 +213,7 @@ namespace SFGraphics.GLObjects
 
             // First color attachment (regular texture).
             ColorAttachment0.Bind();
-            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, width, height, 0, OpenTK.Graphics.OpenGL.PixelFormat.Rgba, PixelType.Float, IntPtr.Zero);
+            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat, width, height, 0, OpenTK.Graphics.OpenGL.PixelFormat.Rgba, PixelType.Float, IntPtr.Zero);
             GL.FramebufferTexture2D(FramebufferTarget, FramebufferAttachment.ColorAttachment0, TextureTarget.Texture2D, ColorAttachment0.Id, 0);
 
             // Render buffer for the depth attachment, which is necessary for depth testing.
