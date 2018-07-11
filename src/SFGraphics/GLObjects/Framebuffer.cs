@@ -24,7 +24,7 @@ namespace SFGraphics.GLObjects
         public FramebufferTarget FramebufferTarget { get; }
 
         /// <summary>
-        /// 
+        /// The internal format used for all color attachments.
         /// </summary>
         public PixelInternalFormat PixelInternalFormat { get; }
 

@@ -43,5 +43,12 @@ namespace SFGraphicsRenderTests.Tests.FramebufferTests
             Framebuffer framebuffer = new Framebuffer(FramebufferTarget.Framebuffer, 1, 1, PixelInternalFormat.Rgba, 3);
             Assert.AreEqual("FramebufferCompleteExt", framebuffer.GetStatus());
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void NegativeColorAttachments()
+        {
+            Framebuffer framebuffer = new Framebuffer(FramebufferTarget.Framebuffer, 1, 1, PixelInternalFormat.Rgba, -1);
+        }
     }
 }
