@@ -1,13 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using OpenTK;
 using OpenTK.Graphics.OpenGL;
-using System.Runtime.InteropServices;
-using System.Drawing.Imaging;
-using System.Diagnostics;
 
 namespace SFGraphics.GLObjects
 {

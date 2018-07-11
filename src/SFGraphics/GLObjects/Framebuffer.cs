@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using System.Runtime.InteropServices;
 using System.Drawing.Imaging;
@@ -145,12 +144,14 @@ namespace SFGraphics.GLObjects
 
         private Texture2D CreateColorAttachment(int width, int height, FramebufferAttachment framebufferAttachment)
         {
-            // Don't use mipmaps for color attachments.
             Texture2D texture = new Texture2D(width, height, PixelInternalFormat)
             {
+                // Don't use mipmaps for color attachments.
                 MinFilter = TextureMinFilter.Nearest,
                 MagFilter = TextureMagFilter.Linear
             };
+            // Necessary for texture completion.
+            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat, width, height, 0, OpenTK.Graphics.OpenGL.PixelFormat.Rgba, PixelType.Float, IntPtr.Zero);
 
             GL.FramebufferTexture2D(FramebufferTarget, framebufferAttachment, TextureTarget.Texture2D, texture.Id, 0);
             return texture;
