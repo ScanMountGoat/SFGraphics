@@ -2,9 +2,6 @@
 
 namespace SFGraphics.GLObjects
 {
-    /// <summary>
-    /// 
-    /// </summary>
     internal interface IGLObject
     {
         /// <summary>
