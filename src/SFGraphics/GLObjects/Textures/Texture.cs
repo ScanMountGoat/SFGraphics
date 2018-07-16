@@ -25,7 +25,7 @@ namespace SFGraphics.GLObjects.Textures
         protected TextureTarget textureTarget = TextureTarget.Texture2D;
 
         /// <summary>
-        /// 
+        /// The internal format of the image data.
         /// </summary>
         public PixelInternalFormat PixelInternalFormat { get; }
 
@@ -105,13 +105,11 @@ namespace SFGraphics.GLObjects.Textures
         private TextureWrapMode textureWrapR;
 
         /// <summary>
-        /// 
+        /// Creates an empty texture of the specified target and internal format.
         /// </summary>
-        /// <param name="target"></param>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
-        /// <param name="pixelInternalFormat"></param>
-        public Texture(TextureTarget target, int width, int height, PixelInternalFormat pixelInternalFormat = PixelInternalFormat.Rgba)
+        /// <param name="target">The target to which <see cref="Id"/> is bound.</param>
+        /// <param name="pixelInternalFormat">The internal format of the image data.</param>
+        public Texture(TextureTarget target, PixelInternalFormat pixelInternalFormat = PixelInternalFormat.Rgba)
         {
             // These should only be set once at object creation.
             Id = GL.GenTexture();

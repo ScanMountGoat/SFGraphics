@@ -17,7 +17,7 @@ namespace SFGraphics.GLObjects.Textures
         /// <param name="cubeMapFaces">Faces arranged from top to bottom in the order
         /// X+, X-, Y+, Y-, Z+, Z- </param>
         /// <param name="sideLength">The length in pixels of a side of any of the faces</param>
-        public TextureCubeMap(Bitmap cubeMapFaces, int sideLength = 128) : base(TextureTarget.TextureCubeMap, sideLength, sideLength, PixelInternalFormat.Rgba)
+        public TextureCubeMap(Bitmap cubeMapFaces, int sideLength = 128) : base(TextureTarget.TextureCubeMap, PixelInternalFormat.Rgba)
         {
             Bind();
 

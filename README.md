@@ -19,8 +19,8 @@ to the source code and license for this repository.
 Please report all issues in the [bug tracker](https://github.com/ScanMountGoat/SFGraphics/issues).  
 
 # Building WIP
-Support for platforms other than Windows not planned. There may be issues with the .NET target
-framework not matching, but this can be changed before building.
+There may be issues with the .NET target framework not matching, but this can be changed before
+building. This library should work cross platform using Mono (only Mono on Windows has been tested).
 
 Each commit to the master branch is built by Appveyor, which also runs the unit tests for
 SFGraphicsTests.
