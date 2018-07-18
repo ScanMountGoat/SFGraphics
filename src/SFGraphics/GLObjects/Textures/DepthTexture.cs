@@ -4,7 +4,8 @@ using OpenTK.Graphics.OpenGL;
 namespace SFGraphics.GLObjects.Textures
 {
     /// <summary>
-    /// 
+    /// A simple texture for storing depth information. 
+    /// The texture can be attached to a <see cref="Framebuffer"/> object for shadow mapping and other effects.
     /// </summary>
     public class DepthTexture : Texture
     {
@@ -19,11 +20,13 @@ namespace SFGraphics.GLObjects.Textures
         public int Height { get; }
 
         /// <summary>
-        /// 
+        /// Creates an empty depth texture of the specified dimensions and format. 
+        /// This texture does not use mipmaps.
+        /// The border color is set to white, so attempts to sample outside the texture's border will return white.
         /// </summary>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
-        /// <param name="pixelInternalFormat"></param>
+        /// <param name="width">The width of the texture in pixels</param>
+        /// <param name="height">The height of the texture in pixels</param>
+        /// <param name="pixelInternalFormat">The internal format of the image data. This should be a valid depth format.</param>
         public DepthTexture(int width, int height, PixelInternalFormat pixelInternalFormat) : base(TextureTarget.Texture2D, pixelInternalFormat)
         {
             Width = width;
