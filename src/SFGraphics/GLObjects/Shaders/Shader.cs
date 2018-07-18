@@ -507,14 +507,6 @@ namespace SFGraphics.GLObjects.Shaders
             GL.GetProgram(Id, GetProgramParameterName.LinkStatus, out linkStatus);
             return linkStatus != 0;
         }
-
-        private bool ShaderCompiled(int shaderId)
-        {
-            // 1: shader compiled. 0: compilation errors
-            int compileStatus = 1;
-            GL.GetShader(shaderId, ShaderParameter.CompileStatus, out compileStatus);
-            return compileStatus != 0;
-        }
     }
 }
 

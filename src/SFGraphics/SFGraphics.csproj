@@ -37,18 +37,11 @@
       <HintPath>..\..\lib\OpenTK.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="OpenTK.GLControl">
-      <HintPath>..\..\lib\OpenTK.GLControl.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -59,6 +52,7 @@
     <Compile Include="GLObjects\IGLObject.cs" />
     <Compile Include="GLObjects\Shaders\Shader.cs" />
     <Compile Include="GLObjects\Shaders\ShaderLog.cs" />
+    <Compile Include="GLObjects\Textures\DepthTexture.cs" />
     <Compile Include="GLObjects\Textures\Texture.cs" />
     <Compile Include="GLObjects\Textures\Texture2D.cs" />
     <Compile Include="GLObjects\Textures\TextureCubeMap.cs" />
