@@ -56,6 +56,14 @@ namespace SFGraphics.GLObjects.Shaders
             GLObjectManager.RemoveReference(GLObjectManager.referenceCountByProgramId, Id);
         }
 
+        /// <summary>
+        /// Use this shader program's program ID for rendering.
+        /// </summary>
+        public void UseProgram()
+        {
+            GL.UseProgram(Id);
+        }
+
         private bool UniformTypeAndNameCorrect(string uniformName, ActiveUniformType inputType)
         {
             if (!CorrectUniformAttributeName(uniformName, invalidUniformNames))
