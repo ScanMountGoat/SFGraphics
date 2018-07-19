@@ -27,21 +27,21 @@ namespace SFGraphicsRenderTests.Tests.FramebufferTests
         public void JustDepthAttachments()
         {
             Framebuffer framebuffer = new Framebuffer(FramebufferTarget.Framebuffer, 1, 1, PixelInternalFormat.Rgba, 0);
-            Assert.AreEqual("FramebufferCompleteExt", framebuffer.GetStatus());
+            Assert.AreEqual("FramebufferComplete", framebuffer.GetStatus());
         }
 
         [TestMethod]
         public void OneColorAttachment()
         {
             Framebuffer framebuffer = new Framebuffer(FramebufferTarget.Framebuffer, 1, 1, PixelInternalFormat.Rgba, 1);
-            Assert.AreEqual("FramebufferCompleteExt", framebuffer.GetStatus());
+            Assert.AreEqual("FramebufferComplete", framebuffer.GetStatus());
         }
 
         [TestMethod]
         public void MultipleColorAttachments()
         {
             Framebuffer framebuffer = new Framebuffer(FramebufferTarget.Framebuffer, 1, 1, PixelInternalFormat.Rgba, 3);
-            Assert.AreEqual("FramebufferCompleteExt", framebuffer.GetStatus());
+            Assert.AreEqual("FramebufferComplete", framebuffer.GetStatus());
         }
 
         [TestMethod]
