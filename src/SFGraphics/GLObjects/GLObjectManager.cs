@@ -52,80 +52,39 @@ namespace SFGraphics.GLObjects
         /// </summary>
         public static void DeleteUnusedGLObjects()
         {
-            DeleteUnusedTextures();
-            DeleteUnusedBuffers();
-            DeleteUnusedShaderPrograms();
-            DeleteUnusedFramebuffers();
+            DeleteUnusedObjects(referenceCountByTextureId, GL.DeleteTexture);
+            DeleteUnusedObjects(referenceCountByBufferId, GL.DeleteBuffer);
+            DeleteUnusedObjects(referenceCountByProgramId, GL.DeleteProgram);
+            DeleteUnusedObjects(referenceCountByFramebufferId, GL.DeleteFramebuffer);
         }
 
-        private static void DeleteUnusedTextures()
+        private static void DeleteUnusedObjects(ConcurrentDictionary<int, int> referenceCountById, Action<int> glDeleteFunction)
         {
-            HashSet<int> idsReadyForDeletion = FindIdsWithNoReferences(referenceCountByTextureId);
+            HashSet<int> idsReadyForDeletion = FindIdsWithNoReferences(referenceCountById);
 
-            // Remove any IDs with no more references.
-            // Only delete the texture if the ID was present.
+            // Remove and delete associated data for IDs with no more references.
             foreach (int id in idsReadyForDeletion)
             {
                 int value;
-                if (referenceCountByTextureId.TryRemove(id, out value))
-                    GL.DeleteTexture(id);
-            }
-        }
-
-        private static void DeleteUnusedBuffers()
-        {
-            HashSet<int> idsReadyForDeletion = FindIdsWithNoReferences(referenceCountByBufferId);
-
-            // Remove any IDs with no more references.
-            // Only delete the texture if the ID was present.
-            foreach (int id in idsReadyForDeletion)
-            {
-                int value;
-                if (referenceCountByBufferId.TryRemove(id, out value))
-                    GL.DeleteBuffer(id);
-            }
-        }
-
-        private static void DeleteUnusedShaderPrograms()
-        {
-            HashSet<int> idsReadyForDeletion = FindIdsWithNoReferences(referenceCountByProgramId);
-
-            // Remove any IDs with no more references.
-            // Only delete the program if the ID was present.
-            foreach (int id in idsReadyForDeletion)
-            {
-                int value;
-                if (referenceCountByProgramId.TryRemove(id, out value))
-                    GL.DeleteProgram(id);
-            }
-        }
-
-        private static void DeleteUnusedFramebuffers()
-        {
-            HashSet<int> idsReadyForDeletion = FindIdsWithNoReferences(referenceCountByFramebufferId);
-
-            // Remove any IDs with no more references.
-            // Only delete the program if the ID was present.
-            foreach (int id in idsReadyForDeletion)
-            {
-                int value;
-                if (referenceCountByFramebufferId.TryRemove(id, out value))
-                    GL.DeleteFramebuffer(id);
+                if (referenceCountById.TryRemove(id, out value))
+                {
+                    glDeleteFunction(id);
+                }
             }
         }
 
         private static HashSet<int> FindIdsWithNoReferences(ConcurrentDictionary<int, int> referenceCountById)
         {
-            HashSet<int> idsReadyForDeletion = new HashSet<int>();
+            HashSet<int> idsWithoutReferences = new HashSet<int>();
             foreach (var glObject in referenceCountById)
             {
                 if (glObject.Value == 0)
                 {
-                    idsReadyForDeletion.Add(glObject.Key);
+                    idsWithoutReferences.Add(glObject.Key);
                 }
             }
 
-            return idsReadyForDeletion;
+            return idsWithoutReferences;
         }
     }
 }
