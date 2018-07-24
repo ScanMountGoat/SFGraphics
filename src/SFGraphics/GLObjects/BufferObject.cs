@@ -26,7 +26,7 @@ namespace SFGraphics.GLObjects
         public BufferObject(BufferTarget bufferTarget)
         {
             Id = GL.GenBuffer();
-            GLObjectManager.AddReference(GLObjectManager.referenceCountByBufferId, Id);
+            ReferenceCounting.AddReference(GLObjectManager.referenceCountByBufferId, Id);
             this.bufferTarget = bufferTarget;
             GL.BindBuffer(BufferTarget, Id);
         }
@@ -36,7 +36,7 @@ namespace SFGraphics.GLObjects
         /// </summary>
         ~BufferObject()
         {
-            GLObjectManager.RemoveReference(GLObjectManager.referenceCountByBufferId, Id);
+            ReferenceCounting.RemoveReference(GLObjectManager.referenceCountByBufferId, Id);
         }
 
         /// <summary>

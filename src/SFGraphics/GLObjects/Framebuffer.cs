@@ -73,7 +73,7 @@ namespace SFGraphics.GLObjects
         public Framebuffer(FramebufferTarget framebufferTarget)
         {
             Id = GL.GenFramebuffer();
-            GLObjectManager.AddReference(GLObjectManager.referenceCountByFramebufferId, Id);
+            ReferenceCounting.AddReference(GLObjectManager.referenceCountByFramebufferId, Id);
             FramebufferTarget = framebufferTarget;
             Bind();
         }
@@ -129,7 +129,7 @@ namespace SFGraphics.GLObjects
         ~Framebuffer()
         {
             // TODO: Does this delete all attachments?
-            GLObjectManager.RemoveReference(GLObjectManager.referenceCountByFramebufferId, Id);
+            ReferenceCounting.RemoveReference(GLObjectManager.referenceCountByFramebufferId, Id);
         }
 
         /// <summary>

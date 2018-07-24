@@ -43,7 +43,7 @@ namespace SFGraphics.GLObjects.Shaders
         public Shader()
         {
             Id = GL.CreateProgram();
-            GLObjectManager.AddReference(GLObjectManager.referenceCountByProgramId, Id);
+            ReferenceCounting.AddReference(GLObjectManager.referenceCountByProgramId, Id);
             errorLog.AppendHardwareAndVersionInfo();
         }
 
@@ -53,7 +53,7 @@ namespace SFGraphics.GLObjects.Shaders
         /// </summary>
         ~Shader()
         {
-            GLObjectManager.RemoveReference(GLObjectManager.referenceCountByProgramId, Id);
+            ReferenceCounting.RemoveReference(GLObjectManager.referenceCountByProgramId, Id);
         }
 
         /// <summary>
