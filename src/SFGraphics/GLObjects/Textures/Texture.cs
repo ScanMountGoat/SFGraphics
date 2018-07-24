@@ -113,7 +113,7 @@ namespace SFGraphics.GLObjects.Textures
         {
             // These should only be set once at object creation.
             Id = GL.GenTexture();
-            GLObjectManager.AddReference(GLObjectManager.referenceCountByTextureId, Id);
+            ReferenceCounting.AddReference(GLObjectManager.referenceCountByTextureId, Id);
 
             textureTarget = target;
             PixelInternalFormat = pixelInternalFormat;
@@ -133,7 +133,7 @@ namespace SFGraphics.GLObjects.Textures
         /// </summary>
         ~Texture()
         {
-            GLObjectManager.RemoveReference(GLObjectManager.referenceCountByTextureId, Id);
+            ReferenceCounting.RemoveReference(GLObjectManager.referenceCountByTextureId, Id);
         }
 
         /// <summary>

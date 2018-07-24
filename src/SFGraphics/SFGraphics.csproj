@@ -50,6 +50,7 @@
     <Compile Include="GLObjects\Framebuffer.cs" />
     <Compile Include="GLObjects\GLObjectManager.cs" />
     <Compile Include="GLObjects\IGLObject.cs" />
+    <Compile Include="GLObjects\ReferenceCounting.cs" />
     <Compile Include="GLObjects\Shaders\Shader.cs" />
     <Compile Include="GLObjects\Shaders\ShaderLog.cs" />
     <Compile Include="GLObjects\Textures\DepthTexture.cs" />

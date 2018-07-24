@@ -24,24 +24,6 @@ namespace SFGraphics.GLObjects
         internal static ConcurrentDictionary<int, int> referenceCountByProgramId = new ConcurrentDictionary<int, int>();
         internal static ConcurrentDictionary<int, int> referenceCountByFramebufferId = new ConcurrentDictionary<int, int>();
 
-        internal static void AddReference(ConcurrentDictionary<int, int> referenceCountById, int id)
-        {
-            if (referenceCountById.ContainsKey(id))
-                referenceCountById[id] += 1;
-            else
-                referenceCountById.TryAdd(id, 1);
-        }
-
-        internal static void RemoveReference(ConcurrentDictionary<int, int> referenceCountById, int id)
-        {
-            // Don't allow negative references just in case.
-            if (referenceCountById.ContainsKey(id))
-            {
-                if (referenceCountById[id] > 0)
-                    referenceCountById[id] -= 1;
-            }
-        }
-
         /// <summary>
         /// The appropriate GL.Delete() function is called for all GLObjects if the <c>ID</c> has 0 references.
         /// This means GLObjects may not be cleaned up until long after the original object becomes unreachable.
@@ -60,7 +42,7 @@ namespace SFGraphics.GLObjects
 
         private static void DeleteUnusedObjects(ConcurrentDictionary<int, int> referenceCountById, Action<int> glDeleteFunction)
         {
-            HashSet<int> idsReadyForDeletion = FindIdsWithNoReferences(referenceCountById);
+            HashSet<int> idsReadyForDeletion = ReferenceCounting.FindIdsWithNoReferences(referenceCountById);
 
             // Remove and delete associated data for IDs with no more references.
             foreach (int id in idsReadyForDeletion)
@@ -71,20 +53,6 @@ namespace SFGraphics.GLObjects
                     glDeleteFunction(id);
                 }
             }
-        }
-
-        private static HashSet<int> FindIdsWithNoReferences(ConcurrentDictionary<int, int> referenceCountById)
-        {
-            HashSet<int> idsWithoutReferences = new HashSet<int>();
-            foreach (var glObject in referenceCountById)
-            {
-                if (glObject.Value == 0)
-                {
-                    idsWithoutReferences.Add(glObject.Key);
-                }
-            }
-
-            return idsWithoutReferences;
         }
     }
 }
