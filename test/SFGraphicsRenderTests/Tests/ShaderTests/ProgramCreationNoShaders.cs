@@ -20,7 +20,7 @@ namespace SFGraphicsRenderTests.ShaderTests.ProgramCreationTests
             public void NoShaders()
             {
                 Shader shader = new Shader();
-                Assert.IsFalse(shader.ProgramCreatedSuccessfully());
+                Assert.IsFalse(shader.ProgramCreatedSuccessfully);
             }
         }
     }

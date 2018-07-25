@@ -25,7 +25,7 @@ namespace SFGraphicsRenderTests.ShaderTests.ProgramCreationTests
                 string shaderSource = TestTools.ResourceShaders.GetShader("SFGraphicsRenderTests.Shaders.validVert.vert");
                 shader.LoadShader(shaderSource, ShaderType.VertexShader);
 
-                Assert.IsTrue(shader.ProgramCreatedSuccessfully());
+                Assert.IsTrue(shader.ProgramCreatedSuccessfully);
             }
 
             [TestMethod]
@@ -36,7 +36,7 @@ namespace SFGraphicsRenderTests.ShaderTests.ProgramCreationTests
                 string shaderSource = TestTools.ResourceShaders.GetShader("SFGraphicsRenderTests.Shaders.invalidVert.vert");
                 shader.LoadShader(shaderSource, ShaderType.VertexShader);
 
-                Assert.IsFalse(shader.ProgramCreatedSuccessfully());
+                Assert.IsFalse(shader.ProgramCreatedSuccessfully);
             }
         }
     }

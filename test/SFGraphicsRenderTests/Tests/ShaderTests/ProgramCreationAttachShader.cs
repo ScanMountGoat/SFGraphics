@@ -26,7 +26,7 @@ namespace SFGraphicsRenderTests.ShaderTests.ProgramCreationTests
                 int id = Shader.CreateGlShader(shaderSource, ShaderType.FragmentShader);
                 shader.AttachShader(id, ShaderType.FragmentShader);
 
-                Assert.IsTrue(shader.ProgramCreatedSuccessfully());
+                Assert.IsTrue(shader.ProgramCreatedSuccessfully);
             }
 
             [TestMethod]
@@ -38,7 +38,7 @@ namespace SFGraphicsRenderTests.ShaderTests.ProgramCreationTests
                 int id = Shader.CreateGlShader(shaderSource, ShaderType.FragmentShader);
                 shader.AttachShader(id, ShaderType.FragmentShader);
 
-                Assert.IsFalse(shader.ProgramCreatedSuccessfully());
+                Assert.IsFalse(shader.ProgramCreatedSuccessfully);
             }
         }
     }

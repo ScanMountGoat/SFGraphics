@@ -18,9 +18,19 @@ namespace SFGraphics.GLObjects.Shaders
         /// </summary>
         public int Id { get; }
 
-        // True when all shaders compiled and linked correctly.
-        private bool programStatusIsOk = false;
-        private bool hasCheckedProgramCreation = false;
+        /// <summary>
+        /// <c>true</c> when the link status is ok and all attached shaders compiled.
+        /// If <c>false</c>, rendering with this shader will most likely cause an <see cref="AccessViolationException"/>.
+        /// <para></para><para></para>
+        /// The status is updated with each call to <see cref="LoadShader(string, ShaderType, string)"/> or
+        /// <see cref="AttachShader(int, ShaderType)"/>.
+        /// </summary>
+        public bool ProgramCreatedSuccessfully
+        {
+            get { return programCreatedSuccessfully; }
+        }
+        private bool programCreatedSuccessfully = false;
+
 
         private ShaderLog errorLog = new ShaderLog();
 
@@ -420,13 +430,13 @@ namespace SFGraphics.GLObjects.Shaders
             GL.LinkProgram(Id);
 
             // Some errors may not appear until all shaders are loaded.
-            programStatusIsOk = CheckProgramStatus();
+            programCreatedSuccessfully = CheckProgramStatus();
 
             // The shader won't be deleted until the program is deleted.
             GL.DeleteShader(shaderId);
 
             // Scary things happen if we do this after a linking error.
-            if (programStatusIsOk)
+            if (programCreatedSuccessfully)
             {
                 LoadAttributes();
                 LoadUniforms();
@@ -458,10 +468,10 @@ namespace SFGraphics.GLObjects.Shaders
             GL.AttachShader(Id, shaderId);
             GL.LinkProgram(Id);
 
-            programStatusIsOk = CheckProgramStatus();
+            programCreatedSuccessfully = CheckProgramStatus();
 
             // Scary things happen if we do this after a linking error.
-            if (programStatusIsOk)
+            if (programCreatedSuccessfully)
             {
                 LoadAttributes();
                 LoadUniforms();
@@ -471,25 +481,6 @@ namespace SFGraphics.GLObjects.Shaders
         private void AppendShaderCompilationErrors(string shaderName, int id)
         {
             errorLog.AppendShaderInfoLog(shaderName, id);
-        }
-
-        /// <summary>
-        /// Returns <c>true</c> when the link status is ok and all attached shaders compiled.
-        /// If <c>false</c>, rendering with this shader will most likely cause a crash.
-        /// <para></para><para></para>
-        /// The status is only updated the first time <see cref="ProgramCreatedSuccessfully"/> is called 
-        /// and with each call to <see cref="LoadShader(string, ShaderType, string)"/>,
-        /// so there is little cost in checking this method frequently.
-        /// </summary>
-        public bool ProgramCreatedSuccessfully()
-        {
-            // Only check once for performance reasons.
-            if (!hasCheckedProgramCreation)
-            {
-                programStatusIsOk = CheckProgramStatus();
-                hasCheckedProgramCreation = true;
-            }
-            return programStatusIsOk;
         }
 
         private bool CheckProgramStatus()

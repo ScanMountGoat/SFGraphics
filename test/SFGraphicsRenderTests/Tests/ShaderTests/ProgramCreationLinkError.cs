@@ -25,7 +25,7 @@ namespace SFGraphicsRenderTests.ShaderTests.ProgramCreationTests
                 // The shader declared but does not define a function.
                 string fragSource = TestTools.ResourceShaders.GetShader("SFGraphicsRenderTests.Shaders.linkError.frag");
                 shader.LoadShader(fragSource, ShaderType.FragmentShader);
-                Assert.IsFalse(shader.ProgramCreatedSuccessfully());
+                Assert.IsFalse(shader.ProgramCreatedSuccessfully);
             }
         }
     }

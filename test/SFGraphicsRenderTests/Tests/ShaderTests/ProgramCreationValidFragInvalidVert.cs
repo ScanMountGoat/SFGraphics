@@ -26,12 +26,12 @@ namespace SFGraphicsRenderTests.ShaderTests.ProgramCreationTests
                 string fragSource = TestTools.ResourceShaders.GetShader("SFGraphicsRenderTests.Shaders.validFrag.frag");
                 shader.LoadShader(fragSource, ShaderType.FragmentShader);
                 // Force an update of compilation/link status.
-                Assert.IsTrue(shader.ProgramCreatedSuccessfully());
+                Assert.IsTrue(shader.ProgramCreatedSuccessfully);
 
                 // Make sure the compilation/link status still updates.
                 string vertSource = TestTools.ResourceShaders.GetShader("SFGraphicsRenderTests.Shaders.invalidVert.vert");
                 shader.LoadShader(vertSource, ShaderType.VertexShader);
-                Assert.IsFalse(shader.ProgramCreatedSuccessfully());
+                Assert.IsFalse(shader.ProgramCreatedSuccessfully);
             }
         }
     }

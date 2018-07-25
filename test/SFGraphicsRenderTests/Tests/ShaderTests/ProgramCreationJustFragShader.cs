@@ -25,7 +25,7 @@ namespace SFGraphicsRenderTests.ShaderTests.ProgramCreationTests
                 string shaderSource = TestTools.ResourceShaders.GetShader("SFGraphicsRenderTests.Shaders.validFrag.frag");
                 shader.LoadShader(shaderSource, ShaderType.FragmentShader);
 
-                Assert.IsTrue(shader.ProgramCreatedSuccessfully());
+                Assert.IsTrue(shader.ProgramCreatedSuccessfully);
             }
 
             [TestMethod]
@@ -36,7 +36,7 @@ namespace SFGraphicsRenderTests.ShaderTests.ProgramCreationTests
                 string shaderSource = TestTools.ResourceShaders.GetShader("SFGraphicsRenderTests.Shaders.invalidFrag.frag");
                 shader.LoadShader(shaderSource, ShaderType.FragmentShader);
 
-                Assert.IsFalse(shader.ProgramCreatedSuccessfully());
+                Assert.IsFalse(shader.ProgramCreatedSuccessfully);
             }
         }
     }
