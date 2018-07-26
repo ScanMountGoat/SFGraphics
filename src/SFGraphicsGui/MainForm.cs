@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using OpenTK.Graphics.OpenGL;
 using SFGraphics.GLObjects.Shaders;
 using SFGraphics.GLObjects;
+using SFGraphics.Tools;
 
 namespace SFGraphicsGui
 {
