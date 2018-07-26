@@ -19,7 +19,7 @@ namespace SFGraphics.Tools
         /// There is no need to check core extensions for the current OpenGL version.
         /// </summary>
         /// <param name="extensionName">The name of the OpenGL extension. 
-        /// Names are case sensitive Ex: GL_KHR_Debug</param>
+        /// Names are case sensitive Ex: GL_KHR_debug</param>
         /// <returns></returns>
         public static bool IsAvailable(string extensionName)
         {
