@@ -56,8 +56,6 @@ namespace SFGraphics.GLObjects.Textures
 
         /// <summary>
         /// Initializes a texture of the specified format and loads all specified mipmaps.
-        /// <paramref name="imageSize"/> is usually <paramref name="mipmaps"/>[0].Length.
-        /// This doesn't always work and is being investigated.
         /// </summary>
         /// <param name="width">The width of the base mip level</param>
         /// <param name="height">The height of the base mip level</param>
@@ -74,7 +72,7 @@ namespace SFGraphics.GLObjects.Textures
             Bind();
 
             // Calculate the proper imageSize.
-            int baseImageSize = CalculateImageSize(Width, Height, internalFormat);
+            int baseImageSize = CompressedImageSize.CalculateImageSize(Width, Height, internalFormat);
 
             // Load the first level.
             GL.CompressedTexImage2D<byte>(TextureTarget.Texture2D, 0, internalFormat, width, height, 0, baseImageSize, mipmaps[0]);
@@ -90,7 +88,7 @@ namespace SFGraphics.GLObjects.Textures
                 {
                     int mipWidth = width / (int)Math.Pow(2, mipLevel);
                     int mipHeight = height / (int)Math.Pow(2, mipLevel);
-                    int mipImageSize = CalculateImageSize(mipWidth, mipHeight, internalFormat);
+                    int mipImageSize = CompressedImageSize.CalculateImageSize(mipWidth, mipHeight, internalFormat);
                     GL.CompressedTexImage2D(TextureTarget.Texture2D, mipLevel, internalFormat,
                         mipWidth, mipHeight, 0, mipImageSize, mipmaps[mipLevel]);
                 }
@@ -100,16 +98,6 @@ namespace SFGraphics.GLObjects.Textures
                 GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMaxLevel, 0);
                 GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
             }
-        }
-
-        private int CalculateImageSize(int width, int height, InternalFormat pixelInternalFormat)
-        {
-            int blockSize = 16; // DXT3/DXT5
-            if (pixelInternalFormat == InternalFormat.CompressedRgbaS3tcDxt1Ext)
-                blockSize = 8;
-
-            int imageSize = blockSize * (int)Math.Ceiling(width / 4.0) * (int)Math.Ceiling(height / 4.0);
-            return imageSize;
         }
     }
 }
