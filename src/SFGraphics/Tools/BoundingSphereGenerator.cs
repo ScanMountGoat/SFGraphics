@@ -6,12 +6,14 @@ using OpenTK;
 namespace SFGraphics.Tools
 {
     /// <summary>
-    /// Generates bounding spheres. 
+    /// Generates bounding spheres for a collection of vertices.
     /// This can be used with <see cref="SFGraphics.Cameras.Camera.FrameBoundingSphere(Vector3, float, float)"/> to make models visible in the viewport.
     /// </summary>
     public static class BoundingSphereGenerator
     {
         /// <summary>
+        /// The center is the average of the min and max values for X, Y, Z.
+        /// The radius is calculated based on the smallest sphere that will contain all of <paramref name="vertexPositions"/>.
         /// Returns Vector4(center.Xyz, radius).
         /// </summary>
         /// <param name="vertexPositions"></param>
@@ -31,6 +33,7 @@ namespace SFGraphics.Tools
             float minZ = vertexPositions[0].Z;
             float maxZ = vertexPositions[0].Z;
 
+            // TODO: Parallel foreach?
             // Finds the corners of the bounding box.
             // This will be relatively slow for denser models.
             foreach (var vertex in vertexPositions)
@@ -57,6 +60,7 @@ namespace SFGraphics.Tools
             center.Y = (maxY + minY) / 2.0f;
             center.Z = (maxZ + minZ) / 2.0f;
 
+            // TODO: This won't contain all points.
             // The radius is half the diameter.
             float radius = maxLength / 2.0f;
 
