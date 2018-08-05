@@ -10,7 +10,7 @@ namespace SFGraphics.GLObjects.Textures
     {
         /// <summary>
         /// Calculates the imageSize parameter for GL.CompressedTexImage. 
-        /// Supports the variants of InternalFormat for DXT1, DXT3, DXT5 
+        /// Supports the variants of InternalFormat for DXT1, DXT3, DXT5.
         /// The imageSize should be recalculated for each mip level when reading mipmaps from existing image data.
         /// </summary>
         /// <param name="width">The width of the mip level in pixels</param>
