@@ -349,18 +349,19 @@ namespace SFGraphics.Cameras
         /// </summary>
         /// <param name="center">The position of the center of the bounding sphere.</param>
         /// <param name="radius">The radius of the bounding sphere.</param>
-        public void FrameBoundingSphere(Vector3 center, float radius)
+        /// <param name="offset"></param>
+        public void FrameBoundingSphere(Vector3 center, float radius, float offset = 10)
         {
             // Calculate a right triangle using the bounding sphere radius as the height and the fov as the angle.
             // The distance is the base of the triangle. 
             float distance = radius / (float)Math.Tan(fovRadians / 2.0f);
 
-            float offset = 10 / fovRadians;
+            float distanceOffset = offset / fovRadians;
             rotationXRadians = 0;
             rotationYRadians = 0;
             position.X = -center.X;
             position.Y = center.Y;
-            position.Z = -1 * (distance + offset);
+            position.Z = -1 * (distance + distanceOffset);
         }
     }
 }
