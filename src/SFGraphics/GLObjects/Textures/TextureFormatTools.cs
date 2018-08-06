@@ -40,5 +40,17 @@ namespace SFGraphics.GLObjects.Textures
             // All the enum value names should follow this convention.
             return internalFormat.ToString().ToLower().Contains("compressed");
         }
+
+        /// <summary>
+        /// Determines whether a format is compressed.
+        /// Compressed formats should use GL.CompressedTexImage instead of GL.TexImage.
+        /// </summary>
+        /// <param name="pixelInternalFormat">The image format for the texture data</param>
+        /// <returns>True if the format is compressed</returns>
+        public static bool IsCompressed(PixelInternalFormat pixelInternalFormat)
+        {
+            // All the enum value names should follow this convention.
+            return pixelInternalFormat.ToString().ToLower().Contains("compressed");
+        }
     }
 }

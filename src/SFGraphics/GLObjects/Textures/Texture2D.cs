@@ -43,14 +43,18 @@ namespace SFGraphics.GLObjects.Textures
             Width = image.Width;
             Height = image.Height;
 
+            LoadBaseLevelFromBitmap(image);
+            GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
+        }
+
+        private void LoadBaseLevelFromBitmap(Bitmap image)
+        {
             // Load the image data.
             System.Drawing.Imaging.BitmapData data = image.LockBits(new Rectangle(0, 0, image.Width, image.Height),
                 System.Drawing.Imaging.ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
             GL.TexImage2D(textureTarget, 0, PixelInternalFormat.Rgba, data.Width, data.Height, 0,
                 PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
             image.UnlockBits(data);
-
-            GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
         }
 
         /// <summary>
