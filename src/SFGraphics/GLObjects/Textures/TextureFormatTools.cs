@@ -1,10 +1,12 @@
 ﻿using System;
 using OpenTK.Graphics.OpenGL;
 
+
 namespace SFGraphics.GLObjects.Textures
 {
     /// <summary>
-    /// Calculates the number of bytes of image data for loading compressed texture data with OpenTK.
+    /// Helpful tools for working with PixelInternalFormat and InternalFormat 
+    /// with OpenTK's OpenGL texture functions.
     /// </summary>
     public static class TextureFormatTools
     {

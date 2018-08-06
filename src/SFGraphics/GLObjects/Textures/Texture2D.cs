@@ -6,8 +6,11 @@ using OpenTK.Graphics.OpenGL;
 namespace SFGraphics.GLObjects.Textures
 {
     /// <summary>
-    /// A <see cref="Texture"/> class for TextureTarget.Texture2D textures. 
-    /// Provides constructors to initialize the image data from bitmaps or byte arrays in the specified PixelInternalFormat.
+    /// A <see cref="Texture"/> class for TextureTarget.Texture2D textures that
+    /// provides constructors to initialize the image data from bitmaps or byte arrays 
+    /// in the specified image format. 
+    /// <para></para><para></para>
+    /// The texture data can be compressed, uncompressed, or a <see cref="Bitmap"/> object.
     /// </summary>
     public class Texture2D : Texture
     {
@@ -66,7 +69,8 @@ namespace SFGraphics.GLObjects.Textures
         /// <param name="baseMipLevel"></param>
         /// <param name="mipCount">The number of mipmaps to generate</param>
         /// <param name="internalFormat">The image format of <paramref name="baseMipLevel"/></param>
-        public Texture2D(int width, int height, byte[] baseMipLevel, int mipCount, InternalFormat internalFormat) : base(TextureTarget.Texture2D)
+        public Texture2D(int width, int height, byte[] baseMipLevel, int mipCount, InternalFormat internalFormat) 
+            : base(TextureTarget.Texture2D)
         {
             Width = width;
             Height = height;
@@ -88,16 +92,21 @@ namespace SFGraphics.GLObjects.Textures
         /// <param name="pixelInternalFormat"></param>
         /// <param name="pixelFormat"></param>
         /// <param name="pixelType"></param>
+        /// <exception cref="ArgumentException"><paramref name="pixelInternalFormat"/> is a compressed format.</exception>
         public Texture2D(int width, int height, byte[] baseMipLevel, int mipCount,
             PixelInternalFormat pixelInternalFormat, PixelFormat pixelFormat, PixelType pixelType) 
             : base(TextureTarget.Texture2D)
         {
+            if (TextureFormatTools.IsCompressed(pixelInternalFormat))
+                throw new ArgumentException(TextureExceptionMessages.formatShouldNotBeCompressed);
+
             Width = width;
             Height = height;
 
             Bind();
 
-            LoadBaseLevelGenerateMipMaps(width, height, baseMipLevel, mipCount, pixelInternalFormat, pixelFormat, pixelType);
+            LoadBaseLevelGenerateMipMaps(width, height, baseMipLevel, mipCount, pixelInternalFormat, 
+                pixelFormat, pixelType);
         }
 
         /// <summary>
@@ -108,13 +117,18 @@ namespace SFGraphics.GLObjects.Textures
         /// <param name="height">The height of the base mip level</param>
         /// <param name="mipmaps">A list of byte arrays for each mip level</param>
         /// <param name="internalFormat">The image format of <paramref name="mipmaps"/></param>
+        /// <exception cref="ArgumentException"><paramref name="internalFormat"/> is not a compressed format.</exception>
         public Texture2D(int width, int height, List<byte[]> mipmaps, InternalFormat internalFormat) 
             : this(width, height, mipmaps[0], mipmaps.Count, internalFormat)
         {
+            if (!TextureFormatTools.IsCompressed(internalFormat))
+                throw new ArgumentException(TextureExceptionMessages.formatShouldBeCompressed);
+
             MipmapLoading.LoadCompressedMipMaps(TextureTarget.Texture2D, width, height, mipmaps, internalFormat);
         }
 
-        private void LoadBaseLevelGenerateMipMaps(int width, int height, byte[] baseMipLevel, int mipCount, InternalFormat internalFormat)
+        private void LoadBaseLevelGenerateMipMaps(int width, int height, byte[] baseMipLevel, 
+            int mipCount, InternalFormat internalFormat)
         {
             // Calculate the proper imageSize.
             int baseImageSize = TextureFormatTools.CalculateImageSize(Width, Height, internalFormat);

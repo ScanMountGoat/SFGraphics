@@ -70,11 +70,11 @@ namespace SFGraphics.GLObjects.Textures
             List<byte[]> mipsPosY, List<byte[]> mipsNegY, List<byte[]> mipsPosZ, List<byte[]> mipsNegZ) : base(TextureTarget.TextureCubeMap)
         {
             if (!TextureFormatTools.IsCompressed(internalFormat))
-                throw new ArgumentException("The InternalFormat must be a compressed image format.");
+                throw new ArgumentException(TextureExceptionMessages.formatShouldBeCompressed);
 
             bool equalMipCounts = CheckMipMapCountEquality(mipsPosX, mipsNegX, mipsPosY, mipsNegY, mipsPosZ, mipsNegZ);
             if (!equalMipCounts)
-                throw new ArgumentOutOfRangeException("Mipmap count must be equal for all faces.");
+                throw new ArgumentOutOfRangeException(TextureExceptionMessages.cubeFaceMipCountDifferent);
 
             // Necessary to access mipmaps past the base level.
             MinFilter = TextureMinFilter.LinearMipmapLinear;
