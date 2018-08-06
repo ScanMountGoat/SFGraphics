@@ -67,7 +67,12 @@ namespace SFGraphics.GLObjects.Textures
         public TextureCubeMap(int faceWidth, int faceHeight, InternalFormat internalFormat, List<byte[]> mipsPosX, List<byte[]> mipsNegX,
             List<byte[]> mipsPosY, List<byte[]> mipsNegY, List<byte[]> mipsPosZ, List<byte[]> mipsNegZ) : base(TextureTarget.TextureCubeMap)
         {
-            // TODO: Check that mip counts are equal. Check internalFormat for compressed format.
+            if (!TextureFormatTools.IsCompressed(internalFormat))
+                throw new ArgumentException("The InternalFormat must be a compressed image format.");
+
+            bool equalMipCounts = CheckMipMapCountEquality(mipsPosX, mipsNegX, mipsPosY, mipsNegY, mipsPosZ, mipsNegZ);
+            if (!equalMipCounts)
+                throw new ArgumentOutOfRangeException("Mipmap count must be equal for all faces.");
 
             // Necessary to access mipmaps past the base level.
             MinFilter = TextureMinFilter.LinearMipmapLinear;
@@ -88,6 +93,15 @@ namespace SFGraphics.GLObjects.Textures
 
             MipmapLoading.LoadCompressedMipMaps(TextureTarget.TextureCubeMapPositiveZ, faceWidth, faceHeight, mipsPosZ, internalFormat);
             MipmapLoading.LoadCompressedMipMaps(TextureTarget.TextureCubeMapNegativeZ, faceWidth, faceHeight, mipsNegZ, internalFormat);
+        }
+
+        private static bool CheckMipMapCountEquality(List<byte[]> mipsPosX, List<byte[]> mipsNegX, List<byte[]> mipsPosY, List<byte[]> mipsNegY, List<byte[]> mipsPosZ, List<byte[]> mipsNegZ)
+        {
+            bool equalMipCountX = mipsPosX.Count == mipsNegX.Count;
+            bool equalMipCountY = mipsPosY.Count == mipsNegY.Count;
+            bool equalMipCountZ = mipsPosZ.Count == mipsNegZ.Count;
+            bool equalMipCounts = equalMipCountX && equalMipCountY && equalMipCountZ;
+            return equalMipCounts;
         }
     }
 }
