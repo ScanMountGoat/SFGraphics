@@ -111,20 +111,7 @@ namespace SFGraphics.GLObjects.Textures
         public Texture2D(int width, int height, List<byte[]> mipmaps, InternalFormat internalFormat) 
             : this(width, height, mipmaps[0], mipmaps.Count, internalFormat)
         {
-            LoadMipMapsFromImageData(width, height, mipmaps, internalFormat);
-        }
-
-        private static void LoadMipMapsFromImageData(int width, int height, List<byte[]> mipmaps, InternalFormat internalFormat)
-        {
-            // Initialize the data for each level.
-            for (int mipLevel = 0; mipLevel < mipmaps.Count; mipLevel++)
-            {
-                int mipWidth = width / (int)Math.Pow(2, mipLevel);
-                int mipHeight = height / (int)Math.Pow(2, mipLevel);
-                int mipImageSize = TextureFormatTools.CalculateImageSize(mipWidth, mipHeight, internalFormat);
-                GL.CompressedTexImage2D(TextureTarget.Texture2D, mipLevel, internalFormat,
-                    mipWidth, mipHeight, 0, mipImageSize, mipmaps[mipLevel]);
-            }
+            MipmapLoading.LoadCompressedMipMaps(TextureTarget.Texture2D, width, height, mipmaps, internalFormat);
         }
 
         private void LoadBaseLevelGenerateMipMaps(int width, int height, byte[] baseMipLevel, int mipCount, InternalFormat internalFormat)

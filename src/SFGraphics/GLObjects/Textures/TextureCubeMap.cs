@@ -80,27 +80,14 @@ namespace SFGraphics.GLObjects.Textures
             GL.GenerateMipmap(GenerateMipmapTarget.TextureCubeMap);
 
             // Load mipmaps for all faces.
-            LoadMipMapsForFace(TextureTarget.TextureCubeMapPositiveX, faceWidth, faceHeight, mipsPosX, internalFormat);
-            LoadMipMapsForFace(TextureTarget.TextureCubeMapNegativeX, faceWidth, faceHeight, mipsNegX, internalFormat);
+            MipmapLoading.LoadCompressedMipMaps(TextureTarget.TextureCubeMapPositiveX, faceWidth, faceHeight, mipsPosX, internalFormat);
+            MipmapLoading.LoadCompressedMipMaps(TextureTarget.TextureCubeMapNegativeX, faceWidth, faceHeight, mipsNegX, internalFormat);
 
-            LoadMipMapsForFace(TextureTarget.TextureCubeMapPositiveY, faceWidth, faceHeight, mipsPosY, internalFormat);
-            LoadMipMapsForFace(TextureTarget.TextureCubeMapNegativeY, faceWidth, faceHeight, mipsNegY, internalFormat);
+            MipmapLoading.LoadCompressedMipMaps(TextureTarget.TextureCubeMapPositiveY, faceWidth, faceHeight, mipsPosY, internalFormat);
+            MipmapLoading.LoadCompressedMipMaps(TextureTarget.TextureCubeMapNegativeY, faceWidth, faceHeight, mipsNegY, internalFormat);
 
-            LoadMipMapsForFace(TextureTarget.TextureCubeMapPositiveZ, faceWidth, faceHeight, mipsPosZ, internalFormat);
-            LoadMipMapsForFace(TextureTarget.TextureCubeMapNegativeZ, faceWidth, faceHeight, mipsNegZ, internalFormat);
-        }
-
-        private static void LoadMipMapsForFace(TextureTarget textureTarget, int faceWidth, int faceHeight, List<byte[]> mipmaps, InternalFormat internalFormat)
-        {
-            // TODO: Share this method with Texture2D.
-            for (int mipLevel = 0; mipLevel < mipmaps.Count; mipLevel++)
-            {
-                int mipWidth = faceWidth / (int)Math.Pow(2, mipLevel);
-                int mipHeight = faceHeight / (int)Math.Pow(2, mipLevel);
-                int mipImageSize = TextureFormatTools.CalculateImageSize(mipWidth, mipHeight, internalFormat);
-                GL.CompressedTexImage2D(textureTarget, mipLevel, internalFormat,
-                    mipWidth, mipHeight, 0, mipImageSize, mipmaps[mipLevel]);
-            }
+            MipmapLoading.LoadCompressedMipMaps(TextureTarget.TextureCubeMapPositiveZ, faceWidth, faceHeight, mipsPosZ, internalFormat);
+            MipmapLoading.LoadCompressedMipMaps(TextureTarget.TextureCubeMapNegativeZ, faceWidth, faceHeight, mipsNegZ, internalFormat);
         }
     }
 }

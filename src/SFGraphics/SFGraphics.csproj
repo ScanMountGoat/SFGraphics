@@ -53,6 +53,7 @@
     <Compile Include="GLObjects\ReferenceCounting.cs" />
     <Compile Include="GLObjects\Shaders\Shader.cs" />
     <Compile Include="GLObjects\Shaders\ShaderLog.cs" />
+    <Compile Include="GLObjects\Textures\MipmapLoading.cs" />
     <Compile Include="GLObjects\Textures\TextureFormatTools.cs" />
     <Compile Include="GLObjects\Textures\DepthTexture.cs" />
     <Compile Include="GLObjects\Textures\Texture.cs" />
