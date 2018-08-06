@@ -64,6 +64,8 @@ namespace SFGraphics.GLObjects.Textures
         /// <param name="mipsNegY">Mipmaps for the negative y target</param>
         /// <param name="mipsPosZ">Mipmaps for the positive z target</param>
         /// <param name="mipsNegZ">Mipmaps for the negative z target</param>
+        /// <exception cref="ArgumentException"><paramref name="internalFormat"/> is not a compressed format.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">The mipmap counts are not equal for all faces.</exception>
         public TextureCubeMap(int faceWidth, int faceHeight, InternalFormat internalFormat, List<byte[]> mipsPosX, List<byte[]> mipsNegX,
             List<byte[]> mipsPosY, List<byte[]> mipsNegY, List<byte[]> mipsPosZ, List<byte[]> mipsNegZ) : base(TextureTarget.TextureCubeMap)
         {
