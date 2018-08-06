@@ -22,7 +22,7 @@ namespace SFGraphicsRenderTests.Tests.TextureTests
         {
             GL.GetError(); // Clear errors
 
-            int imageSize = CompressedImageSize.CalculateImageSize(width, height, internalFormat);
+            int imageSize = TextureFormatTools.CalculateImageSize(width, height, internalFormat);
             GL.CompressedTexImage2D(TextureTarget.Texture2D, 0, internalFormat, width, height, 0, imageSize, IntPtr.Zero);
 
             // Invalid image size is the only way to get InvalidValue

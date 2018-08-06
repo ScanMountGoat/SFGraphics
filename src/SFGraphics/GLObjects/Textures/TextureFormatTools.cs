@@ -6,7 +6,7 @@ namespace SFGraphics.GLObjects.Textures
     /// <summary>
     /// Calculates the number of bytes of image data for loading compressed texture data with OpenTK.
     /// </summary>
-    public static class CompressedImageSize
+    public static class TextureFormatTools
     {
         /// <summary>
         /// Calculates the imageSize parameter for GL.CompressedTexImage. 
@@ -27,6 +27,18 @@ namespace SFGraphics.GLObjects.Textures
 
             int imageSize = blockSize * (int)Math.Ceiling(width / 4.0) * (int)Math.Ceiling(height / 4.0);
             return imageSize;
+        }
+
+        /// <summary>
+        /// Determines whether a format is compressed.
+        /// Compressed formats should use GL.CompressedTexImage instead of GL.TexImage.
+        /// </summary>
+        /// <param name="internalFormat">The image format for the texture data</param>
+        /// <returns>True if the format is compressed</returns>
+        public static bool IsCompressed(InternalFormat internalFormat)
+        {
+            // All the enum value names should follow this convention.
+            return internalFormat.ToString().ToLower().Contains("compressed");
         }
     }
 }
