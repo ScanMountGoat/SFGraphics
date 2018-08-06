@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using OpenTK.Graphics.OpenGL;
@@ -21,7 +22,7 @@ namespace SFGraphics.GLObjects.Textures
         {
             Bind();
 
-            // #cubemapthings
+            // Don't use mipmaps.
             MagFilter = TextureMagFilter.Linear;
             MinFilter = TextureMinFilter.Linear;
 
@@ -47,6 +48,58 @@ namespace SFGraphics.GLObjects.Textures
                 GL.TexImage2D(TextureTarget.TextureCubeMapPositiveX + i, 0, PixelInternalFormat.Rgba, data.Width, data.Height, 0,
                     OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
                 image.UnlockBits(data);
+            }
+        }
+
+        /// <summary>
+        /// Initializes a compressed cube map with mipmaps.
+        /// Each face should have the same dimensions, image format, and number of mipmaps.
+        /// </summary>
+        /// <param name="faceWidth">The width in pixels of each face</param>
+        /// <param name="faceHeight">The height in pixels of each face</param>
+        /// <param name="internalFormat"></param>
+        /// <param name="mipsPosX">Mipmaps for the positive x target</param>
+        /// <param name="mipsNegX">Mipmaps for the negative x target</param>
+        /// <param name="mipsPosY">Mipmaps for the positive y target</param>
+        /// <param name="mipsNegY">Mipmaps for the negative y target</param>
+        /// <param name="mipsPosZ">Mipmaps for the positive z target</param>
+        /// <param name="mipsNegZ">Mipmaps for the negative z target</param>
+        public TextureCubeMap(int faceWidth, int faceHeight, InternalFormat internalFormat, List<byte[]> mipsPosX, List<byte[]> mipsNegX,
+            List<byte[]> mipsPosY, List<byte[]> mipsNegY, List<byte[]> mipsPosZ, List<byte[]> mipsNegZ) : base(TextureTarget.TextureCubeMap)
+        {
+            // TODO: Check that mip counts are equal. Check internalFormat for compressed format.
+
+            // Necessary to access mipmaps past the base level.
+            MinFilter = TextureMinFilter.LinearMipmapLinear;
+
+            Bind();
+
+            // The number of mipmaps needs to be specified first.
+            GL.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureBaseLevel, 0);
+            GL.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureMaxLevel, mipsPosX.Count);
+            GL.GenerateMipmap(GenerateMipmapTarget.TextureCubeMap);
+
+            // Load mipmaps for all faces.
+            LoadMipMapsForFace(TextureTarget.TextureCubeMapPositiveX, faceWidth, faceHeight, mipsPosX, internalFormat);
+            LoadMipMapsForFace(TextureTarget.TextureCubeMapNegativeX, faceWidth, faceHeight, mipsNegX, internalFormat);
+
+            LoadMipMapsForFace(TextureTarget.TextureCubeMapPositiveY, faceWidth, faceHeight, mipsPosY, internalFormat);
+            LoadMipMapsForFace(TextureTarget.TextureCubeMapNegativeY, faceWidth, faceHeight, mipsNegY, internalFormat);
+
+            LoadMipMapsForFace(TextureTarget.TextureCubeMapPositiveZ, faceWidth, faceHeight, mipsPosZ, internalFormat);
+            LoadMipMapsForFace(TextureTarget.TextureCubeMapNegativeZ, faceWidth, faceHeight, mipsNegZ, internalFormat);
+        }
+
+        private static void LoadMipMapsForFace(TextureTarget textureTarget, int faceWidth, int faceHeight, List<byte[]> mipmaps, InternalFormat internalFormat)
+        {
+            // TODO: Share this method with Texture2D.
+            for (int mipLevel = 0; mipLevel < mipmaps.Count; mipLevel++)
+            {
+                int mipWidth = faceWidth / (int)Math.Pow(2, mipLevel);
+                int mipHeight = faceHeight / (int)Math.Pow(2, mipLevel);
+                int mipImageSize = TextureFormatTools.CalculateImageSize(mipWidth, mipHeight, internalFormat);
+                GL.CompressedTexImage2D(textureTarget, mipLevel, internalFormat,
+                    mipWidth, mipHeight, 0, mipImageSize, mipmaps[mipLevel]);
             }
         }
     }
