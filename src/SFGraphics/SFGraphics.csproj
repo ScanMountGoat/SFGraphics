@@ -63,7 +63,7 @@
     <Compile Include="Tools\BoundingSphereGenerator.cs" />
     <Compile Include="Tools\ColorTools.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tools\OpenTKExtensionTools.cs" />
+    <Compile Include="Tools\OpenGLExtensions.cs" />
     <Compile Include="Tools\VectorTools.cs" />
   </ItemGroup>
   <ItemGroup />

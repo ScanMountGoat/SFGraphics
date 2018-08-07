@@ -74,6 +74,7 @@
     <Compile Include="Tests\TextureTests\TextureCubeMapTests.cs" />
     <Compile Include="TestTools\OpenTKWindowlessContext.cs" />
     <Compile Include="TestTools\ResourceShaders.cs" />
+    <Compile Include="Tests\GLExtensionTests\ExtensionAvailabilityTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
