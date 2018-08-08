@@ -15,8 +15,7 @@ namespace SFGraphicsRenderTests.OpenTKExtensionTests
         public void SetUpExtensions()
         {
             // Set up the context for all the tests.
-            var window = TestTools.OpenTKWindowlessContext.CreateDummyContext();
-            window.MakeCurrent();
+            TestTools.OpenTKWindowlessContext.BindDummyContext();
             OpenGLExtensions.InitializeCurrentExtensions();
         }
 

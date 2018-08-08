@@ -12,7 +12,7 @@ namespace SFGraphicsRenderTests.TextureTests
             public void Initialize()
             {
                 // Set up the context for all the tests.
-                TestTools.OpenTKWindowlessContext.CreateDummyContext();
+                TestTools.OpenTKWindowlessContext.BindDummyContext();
             }
 
             [TestMethod]

@@ -15,7 +15,7 @@ namespace SFGraphicsRenderTests.Tests.TextureTests
         public void TestSetup()
         {
             // Set up the context for all the tests.
-            TestTools.OpenTKWindowlessContext.CreateDummyContext();
+            TestTools.OpenTKWindowlessContext.BindDummyContext();
         }
 
         [TestMethod]

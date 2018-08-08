@@ -11,7 +11,7 @@ namespace SFGraphicsRenderTests.ShaderTests.SetterTests
         public static Shader SetupContextCreateValidFragShader()
         {
             // Set up the context for all the tests.
-            TestTools.OpenTKWindowlessContext.CreateDummyContext();
+            TestTools.OpenTKWindowlessContext.BindDummyContext();
 
             // Load the shader file from the embedded resources.
             // Used for testing shader setters.
