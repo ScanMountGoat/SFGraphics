@@ -30,6 +30,6 @@ test:
     - '**\test\SFGraphicsRenderTests\bin\$(configuration)\SFGraphicsRenderTests.dll'
 
 after_build:
-  - 7z a "SFGraphics.zip" "%APPVEYOR_BUILD_FOLDER%\SFGraphics\src\SFGraphics\bin\Release\SFGraphics.dll"
-  - 7z a "SFGraphics.zip" "%APPVEYOR_BUILD_FOLDER%\SFGraphics\src\SFGraphics\bin\Release\SFGraphics.xml"
+  - 7z a "SFGraphics.zip" "%APPVEYOR_BUILD_FOLDER%\src\SFGraphics\bin\Release\SFGraphics.dll"
+  - 7z a "SFGraphics.zip" "%APPVEYOR_BUILD_FOLDER%\src\SFGraphics\bin\Release\SFGraphics.xml"
   - appveyor PushArtifact "SFGraphics.zip"
