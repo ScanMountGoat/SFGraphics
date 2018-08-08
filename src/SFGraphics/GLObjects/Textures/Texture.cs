@@ -25,11 +25,6 @@ namespace SFGraphics.GLObjects.Textures
         protected TextureTarget textureTarget = TextureTarget.Texture2D;
 
         /// <summary>
-        /// The internal format of the image data.
-        /// </summary>
-        public PixelInternalFormat PixelInternalFormat { get; }
-
-        /// <summary>
         /// Binds and updates the TextureParameter when set.
         /// </summary>
         public TextureMinFilter MinFilter
@@ -108,15 +103,13 @@ namespace SFGraphics.GLObjects.Textures
         /// Creates an empty texture of the specified target and internal format.
         /// </summary>
         /// <param name="target">The target to which <see cref="Id"/> is bound.</param>
-        /// <param name="pixelInternalFormat">The internal format of the image data.</param>
-        public Texture(TextureTarget target, PixelInternalFormat pixelInternalFormat = PixelInternalFormat.Rgba)
+        public Texture(TextureTarget target)
         {
             // These should only be set once at object creation.
             Id = GL.GenTexture();
             ReferenceCounting.AddReference(GLObjectManager.referenceCountByTextureId, Id);
 
             textureTarget = target;
-            PixelInternalFormat = pixelInternalFormat;
 
             Bind();
 

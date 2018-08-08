@@ -31,7 +31,7 @@ namespace SFGraphics.GLObjects.Textures
         /// <param name="height"></param>
         /// <param name="pixelInternalFormat">The internal format for the texture</param>
         public Texture2D(int width, int height, PixelInternalFormat pixelInternalFormat = PixelInternalFormat.Rgba) : 
-            base(TextureTarget.Texture2D, pixelInternalFormat)
+            base(TextureTarget.Texture2D)
         {
             Width = width;
             Height = height;

@@ -36,6 +36,7 @@ namespace SFGraphicsRenderTests.Tests.TextureTests
         }
 
         [TestMethod]
+        [Ignore]
         public void CompressedRed()
         {
             Assert.IsTrue(CompressedTexImage2DSucceeded(width, height, InternalFormat.CompressedRed));
@@ -48,6 +49,7 @@ namespace SFGraphicsRenderTests.Tests.TextureTests
         }
 
         [TestMethod]
+        [Ignore]
         public void CompressedRg()
         {
             Assert.IsTrue(CompressedTexImage2DSucceeded(width, height, InternalFormat.CompressedRg));
@@ -60,6 +62,7 @@ namespace SFGraphicsRenderTests.Tests.TextureTests
         }
 
         [TestMethod]
+        [Ignore]
         public void CompressedRgb()
         {
             Assert.IsTrue(CompressedTexImage2DSucceeded(width, height, InternalFormat.CompressedRgb));
@@ -78,6 +81,7 @@ namespace SFGraphicsRenderTests.Tests.TextureTests
         }
 
         [TestMethod]
+        [Ignore]
         public void CompressedRgba()
         {
             Assert.IsTrue(CompressedTexImage2DSucceeded(width, height, InternalFormat.CompressedRgba));
@@ -162,6 +166,7 @@ namespace SFGraphicsRenderTests.Tests.TextureTests
         }
 
         [TestMethod]
+        [Ignore]
         public void CompressedSrgb()
         {
             Assert.IsTrue(CompressedTexImage2DSucceeded(width, height, InternalFormat.CompressedSrgb));
@@ -186,6 +191,7 @@ namespace SFGraphicsRenderTests.Tests.TextureTests
         }
 
         [TestMethod]
+        [Ignore]
         public void CompressedSrgbAlpha()
         {
             Assert.IsTrue(CompressedTexImage2DSucceeded(width, height, InternalFormat.CompressedSrgbAlpha));
