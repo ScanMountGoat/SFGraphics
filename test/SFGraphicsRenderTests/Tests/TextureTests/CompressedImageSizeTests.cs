@@ -30,39 +30,57 @@ namespace SFGraphicsRenderTests.Tests.TextureTests
         }
 
         [TestMethod]
-        public void Dxt1Rgb()
+        public void CompressedRgbS3tcDxt1Ext()
         {
             Assert.IsTrue(CompressedTexImage2DSucceeded(width, height, InternalFormat.CompressedRgbS3tcDxt1Ext));
         }
 
         [TestMethod]
-        public void Dxt1Rgba()
+        public void CompressedRgbaS3tcDxt1Ext()
         {
             Assert.IsTrue(CompressedTexImage2DSucceeded(width, height, InternalFormat.CompressedRgbaS3tcDxt1Ext));
         }
 
         [TestMethod]
-        public void Dxt1Srgb()
+        public void CompressedSrgbS3tcDxt1Ext()
         {
             Assert.IsTrue(CompressedTexImage2DSucceeded(width, height, InternalFormat.CompressedSrgbS3tcDxt1Ext));
         }
 
         [TestMethod]
-        public void Dxt1SrgbAlpha()
+        public void CompressedSrgbAlphaS3tcDxt1Ext()
         {
             Assert.IsTrue(CompressedTexImage2DSucceeded(width, height, InternalFormat.CompressedSrgbAlphaS3tcDxt1Ext));
         }
 
         [TestMethod]
-        public void Dxt3Test()
+        public void CompressedRgbaS3tcDxt3Ext()
         {
             Assert.IsTrue(CompressedTexImage2DSucceeded(width, height, InternalFormat.CompressedRgbaS3tcDxt3Ext));
         }
 
         [TestMethod]
-        public void Dxt5Test()
+        public void CompressedRgbaS3tcDxt5Ext()
         {
             Assert.IsTrue(CompressedTexImage2DSucceeded(width, height, InternalFormat.CompressedRgbaS3tcDxt5Ext));
+        }
+
+        [TestMethod]
+        public void CompressedRed()
+        {
+            Assert.IsTrue(CompressedTexImage2DSucceeded(width, height, InternalFormat.CompressedRed));
+        }
+
+        [TestMethod]
+        public void CompressedRedRgtc1()
+        {
+            Assert.IsTrue(CompressedTexImage2DSucceeded(width, height, InternalFormat.CompressedRedRgtc1));
+        }
+
+        [TestMethod]
+        public void CompressedSignedRedRgtc1()
+        {
+            Assert.IsTrue(CompressedTexImage2DSucceeded(width, height, InternalFormat.CompressedSignedRedRgtc1));
         }
     }
 }
