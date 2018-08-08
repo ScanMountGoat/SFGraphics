@@ -41,6 +41,8 @@ namespace SFGraphics.GLObjects.Textures
                 blockSizeInBytes = 16;
             else if (formatIgnoreCase.Contains("compressedred") || formatIgnoreCase.Contains("compressedsignedred"))
                 blockSizeInBytes = 8;
+            else if (formatIgnoreCase.Contains("bptc"))
+                blockSizeInBytes = 16;
 
             return blockSizeInBytes;
         }
