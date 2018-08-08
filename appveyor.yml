@@ -13,7 +13,10 @@ build:
 deploy:
   tag: unstable
   release: Latest Commit
-  description: 'This build is updated every time a commit is pushed to master. These builds are unstable! Please report bugs in the Issues page.\n\n$(APPVEYOR_REPO_COMMIT_MESSAGE)\n\n Timestamp: $(APPVEYOR_REPO_COMMIT_TIMESTAMP)'
+  description: 'This build is updated every time a commit is pushed to master. These builds are unstable!
+  Please report bugs in [Issues](https://github.com/ScanMountGoat/SFGraphics/issues).\n\n
+  Commit Message: $(APPVEYOR_REPO_COMMIT_MESSAGE)\n\n
+  Timestamp: $(APPVEYOR_REPO_COMMIT_TIMESTAMP)'
   provider: GitHub
   auth_token:
     secure: DNTK4wihn5WZAjdhZ+6VBeCglveAy4gO4q5qZ86hhYZ7O26xpQ79XpcK0RyPfPMk
