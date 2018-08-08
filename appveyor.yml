@@ -9,7 +9,27 @@ before_build:
 - ps: nuget restore
 build:
   verbosity: minimal
+
+deploy:
+  tag: unstable
+  release: Latest Commit
+  description: 'This build is updated every time a commit is pushed to master. These builds are unstable! Please report bugs in the Issues page.\n\n$(APPVEYOR_REPO_COMMIT_MESSAGE)\n\n Timestamp: $(APPVEYOR_REPO_COMMIT_TIMESTAMP)'
+  provider: GitHub
+  auth_token:
+    secure: DNTK4wihn5WZAjdhZ+6VBeCglveAy4gO4q5qZ86hhYZ7O26xpQ79XpcK0RyPfPMk
+  artifact: SFGraphics.zip
+  draft: false
+  prerelease: true
+  force_update: true
+  on:
+    branch: master
+
 test:
   assemblies:
     except:
     - '**\test\SFGraphicsRenderTests\bin\$(configuration)\SFGraphicsRenderTests.dll'
+
+after_build:
+  - 7z a "SFGraphics.zip" "%APPVEYOR_BUILD_FOLDER%\SFGraphics\src\SFGraphics\bin\Release\SFGraphics.dll"
+  - 7z a "SFGraphics.zip" "%APPVEYOR_BUILD_FOLDER%\SFGraphics\src\SFGraphics\bin\Release\SFGraphics.xml"
+  - appveyor PushArtifact "SFGraphics.zip"
