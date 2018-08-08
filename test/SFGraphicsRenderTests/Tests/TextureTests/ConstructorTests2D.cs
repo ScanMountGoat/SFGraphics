@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SFGraphics.GLObjects.Textures;
 using OpenTK.Graphics.OpenGL;
+
 
 namespace SFGraphicsRenderTests.TextureTests
 {
@@ -37,6 +39,7 @@ namespace SFGraphicsRenderTests.TextureTests
             }
 
             [TestMethod]
+            [ExpectedException(typeof(ArgumentException))]
             public void CompressedTextureIncorrectFormat()
             {
                 // Doesn't throw an exception.

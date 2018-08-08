@@ -144,7 +144,7 @@ namespace SFGraphics.GLObjects
 
         private Texture2D CreateColorAttachment(int width, int height, FramebufferAttachment framebufferAttachment)
         {
-            Texture2D texture = new Texture2D(width, height, PixelInternalFormat)
+            Texture2D texture = new Texture2D(width, height)
             {
                 // Don't use mipmaps for color attachments.
                 MinFilter = TextureMinFilter.Nearest,
