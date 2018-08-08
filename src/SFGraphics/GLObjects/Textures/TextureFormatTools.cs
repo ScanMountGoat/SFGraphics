@@ -28,22 +28,7 @@ namespace SFGraphics.GLObjects.Textures
 
         private static int CalculateBlockSize(InternalFormat internalFormat)
         {
-            // Ignore the parts of the enum we don't care about.
-            // Similar formats have similar enough names, 
-            // so we don't need a case for all of them.
-            string formatIgnoreCase = internalFormat.ToString().ToLower();
-
-            int blockSizeInBytes = 8;
-
-            if (formatIgnoreCase.Contains("dxt1"))
-                blockSizeInBytes = 8;
-            else if (formatIgnoreCase.Contains("dxt3") || formatIgnoreCase.Contains("dxt5"))
-                blockSizeInBytes = 16;
-            else if (formatIgnoreCase.Contains("compressedred") || formatIgnoreCase.Contains("compressedsignedred"))
-                blockSizeInBytes = 8;
-            else if (formatIgnoreCase.Contains("bptc"))
-                blockSizeInBytes = 16;
-
+            int blockSizeInBytes = CompressedBlockSize.blockSizeByFormat[internalFormat.ToString()];
             return blockSizeInBytes;
         }
 
