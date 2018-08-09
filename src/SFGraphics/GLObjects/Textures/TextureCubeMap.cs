@@ -70,7 +70,7 @@ namespace SFGraphics.GLObjects.Textures
             List<byte[]> mipsPosY, List<byte[]> mipsNegY, List<byte[]> mipsPosZ, List<byte[]> mipsNegZ) : base(TextureTarget.TextureCubeMap)
         {
             if (!TextureFormatTools.IsCompressed(internalFormat))
-                throw new ArgumentException(TextureExceptionMessages.formatShouldBeCompressed);
+                throw new ArgumentException(TextureExceptionMessages.expectedCompressed);
 
             bool equalMipCounts = CheckMipMapCountEquality(mipsPosX, mipsNegX, mipsPosY, mipsNegY, mipsPosZ, mipsNegZ);
             if (!equalMipCounts)

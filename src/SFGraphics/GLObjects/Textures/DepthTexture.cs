@@ -31,7 +31,7 @@ namespace SFGraphics.GLObjects.Textures
         {
             // Only certain formats are valid for a depth attachment.
             if (!TextureFormatTools.IsDepthFormat(pixelInternalFormat))
-                throw new ArgumentException(TextureExceptionMessages.notDepthTexFormat);
+                throw new ArgumentException(TextureExceptionMessages.invalidDepthTexFormat);
 
             Width = width;
             Height = height;

@@ -97,6 +97,9 @@ namespace SFGraphics.GLObjects
             if (colorAttachmentsCount < 0)
                 throw new ArgumentOutOfRangeException("Color attachment count must be non negative.");
 
+            if (TextureFormatTools.IsCompressed(pixelInternalFormat))
+                throw new ArgumentException(TextureExceptionMessages.expectedUncompressed);
+
             Bind();
             PixelInternalFormat = pixelInternalFormat;
             this.width = width;

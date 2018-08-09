@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SFGraphics.GLObjects;
 using OpenTK.Graphics.OpenGL;
 
-namespace SFGraphicsRenderTests.Tests.FramebufferTests
+namespace SFGraphicsRenderTests.FramebufferTests
 {
     [TestClass]
     public class CompletionTests
@@ -42,13 +42,6 @@ namespace SFGraphicsRenderTests.Tests.FramebufferTests
         {
             Framebuffer framebuffer = new Framebuffer(FramebufferTarget.Framebuffer, 1, 1, PixelInternalFormat.Rgba, 3);
             Assert.AreEqual("FramebufferComplete", framebuffer.GetStatus());
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void NegativeColorAttachments()
-        {
-            Framebuffer framebuffer = new Framebuffer(FramebufferTarget.Framebuffer, 1, 1, PixelInternalFormat.Rgba, -1);
         }
     }
 }

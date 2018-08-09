@@ -78,7 +78,7 @@ namespace SFGraphics.GLObjects.Textures
             PixelInternalFormat pixelInternalFormat, PixelFormat pixelFormat, PixelType pixelType) : this(width, height)
         {
             if (TextureFormatTools.IsCompressed(pixelInternalFormat))
-                throw new ArgumentException(TextureExceptionMessages.formatShouldNotBeCompressed);
+                throw new ArgumentException(TextureExceptionMessages.expectedUncompressed);
 
             Bind();
             LoadBaseLevelGenerateMipMaps(width, height, baseMipLevel, mipCount, pixelInternalFormat, pixelFormat, pixelType);
@@ -96,7 +96,7 @@ namespace SFGraphics.GLObjects.Textures
         public Texture2D(int width, int height, List<byte[]> mipmaps, InternalFormat internalFormat) : this(width, height)
         {
             if (!TextureFormatTools.IsCompressed(internalFormat))
-                throw new ArgumentException(TextureExceptionMessages.formatShouldBeCompressed);
+                throw new ArgumentException(TextureExceptionMessages.expectedCompressed);
 
             MipmapLoading.LoadCompressedMipMaps(TextureTarget.Texture2D, width, height, mipmaps, internalFormat);
         }

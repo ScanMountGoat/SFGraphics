@@ -7,14 +7,14 @@ namespace SFGraphics.GLObjects.Textures
     /// </summary>
     internal static class TextureExceptionMessages
     {
-        public static readonly string formatShouldBeCompressed = "The InternalFormat is not " +
+        public static readonly string expectedCompressed = "The InternalFormat is not " +
             "a compressed image format.";
 
-        public static readonly string formatShouldNotBeCompressed = "The PixelInternalFormat is not " +
+        public static readonly string expectedUncompressed = "The PixelInternalFormat is not " +
             "an uncompressed image format.";
 
         public static readonly string cubeFaceMipCountDifferent = "Mipmap count is not equal for all faces.";
 
-        public static readonly string notDepthTexFormat = "The PixelInternalFormat not a valid depth component format.";
+        public static readonly string invalidDepthTexFormat = "The PixelInternalFormat not a valid depth component format.";
     }
 }
