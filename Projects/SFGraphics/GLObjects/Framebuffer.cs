@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using System.Drawing.Imaging;
 using SFGraphics.GLObjects.Textures;
 
+
 namespace SFGraphics.GLObjects
 {
     /// <summary>
@@ -110,6 +111,16 @@ namespace SFGraphics.GLObjects
             SetupRboDepth(width, height);
         }
 
+        /// <summary>
+        /// Gets the named framebuffer status for this framebuffer.
+        /// </summary>
+        /// <returns></returns>
+        public String GetStatus()
+        {
+            // Check if any of the settings were incorrect when creating the fbo.
+            return GL.CheckNamedFramebufferStatus(Id, FramebufferTarget).ToString();
+        }
+
         private List<Texture2D> CreateColorAttachments(int width, int height, int colorAttachmentsCount)
         {
             List<Texture2D> colorAttachments = new List<Texture2D>();
@@ -133,16 +144,6 @@ namespace SFGraphics.GLObjects
         {
             // TODO: Does this delete all attachments?
             ReferenceCounting.RemoveReference(GLObjectManager.referenceCountByFramebufferId, Id);
-        }
-
-        /// <summary>
-        /// Gets the named framebuffer status for this framebuffer.
-        /// </summary>
-        /// <returns></returns>
-        public String GetStatus()
-        {
-            // Check if any of the settings were incorrect when creating the fbo.
-            return GL.CheckNamedFramebufferStatus(Id, FramebufferTarget).ToString();
         }
 
         private Texture2D CreateColorAttachment(int width, int height, FramebufferAttachment framebufferAttachment)
