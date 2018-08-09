@@ -25,7 +25,7 @@ namespace SFGraphicsRenderTests.TextureTests
             List<byte[]> mipmapsBig = new List<byte[]>();
             mipmapsBig.Add(new byte[16]);
 
-            TextureCubeMap textureCubeMap = new TextureCubeMap(128, 128, InternalFormat.CompressedRgbaS3tcDxt1Ext, 
+            TextureCubeMap textureCubeMap = new TextureCubeMap(128, InternalFormat.CompressedRgbaS3tcDxt1Ext, 
                 mipmaps, mipmaps, mipmaps, mipmapsBig, mipmaps, mipmaps);
         }
 
@@ -33,7 +33,7 @@ namespace SFGraphicsRenderTests.TextureTests
         [ExpectedException(typeof(ArgumentException))]
         public void NotCompressedInternalFormat()
         {
-            TextureCubeMap textureCubeMap = new TextureCubeMap(128, 128, InternalFormat.Rgba, 
+            TextureCubeMap textureCubeMap = new TextureCubeMap(128, InternalFormat.Rgba, 
                 mipmaps, mipmaps, mipmaps, mipmaps, mipmaps, mipmaps);
         }
 
@@ -41,7 +41,7 @@ namespace SFGraphicsRenderTests.TextureTests
         public void CorrectFormatSameMipmapCount()
         {
             // Will fail if exception is thrown.
-            TextureCubeMap textureCubeMap = new TextureCubeMap(128, 128, InternalFormat.CompressedRgbaS3tcDxt1Ext,
+            TextureCubeMap textureCubeMap = new TextureCubeMap(128, InternalFormat.CompressedRgbaS3tcDxt1Ext,
                 mipmaps, mipmaps, mipmaps, mipmaps, mipmaps, mipmaps);
         }
     }
