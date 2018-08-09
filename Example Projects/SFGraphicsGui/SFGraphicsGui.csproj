@@ -92,7 +92,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SFGraphics\SFGraphics.csproj">
+    <ProjectReference Include="..\..\Projects\SFGraphics\SFGraphics.csproj">
       <Project>{a62e9240-ef67-41e5-a4e1-43f0afa759f4}</Project>
       <Name>SFGraphics</Name>
     </ProjectReference>

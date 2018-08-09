@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2026
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFGraphics", "src\SFGraphics\SFGraphics.csproj", "{A62E9240-EF67-41E5-A4E1-43F0AFA759F4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFGraphics", "Projects\SFGraphics\SFGraphics.csproj", "{A62E9240-EF67-41E5-A4E1-43F0AFA759F4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFGraphicsGui", "src\SFGraphicsGui\SFGraphicsGui.csproj", "{42D19A97-D464-4DEB-BE6E-BAF0749FCE34}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFGraphicsGui", "Example Projects\SFGraphicsGui\SFGraphicsGui.csproj", "{42D19A97-D464-4DEB-BE6E-BAF0749FCE34}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lib", "lib", "{383D41C9-B04A-4621-AD2F-627CA337287E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFGraphicsTest", "test\SFGraphicsTest\SFGraphicsTest.csproj", "{66831642-DBFF-4FB8-91D0-CBF634F98CB3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFGraphicsTest", "Test Projects\SFGraphicsTest\SFGraphicsTest.csproj", "{66831642-DBFF-4FB8-91D0-CBF634F98CB3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFGraphicsRenderTests", "test\SFGraphicsRenderTests\SFGraphicsRenderTests.csproj", "{91A71848-B6E5-450C-A629-3F41651296DE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFGraphicsRenderTests", "Test Projects\SFGraphicsRenderTests\SFGraphicsRenderTests.csproj", "{91A71848-B6E5-450C-A629-3F41651296DE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
