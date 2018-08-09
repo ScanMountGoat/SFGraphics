@@ -12,10 +12,7 @@ namespace SFGraphicsRenderTests.TextureTests
         [TestClass]
         public class ConstructorTests2D
         {
-            private static readonly List<byte[]> mipmaps = new List<byte[]>
-            {
-                new byte[16]
-            };
+            private static readonly List<byte[]> mipmaps = new List<byte[]>();
 
             [TestInitialize()]
             public void Initialize()
@@ -39,11 +36,24 @@ namespace SFGraphicsRenderTests.TextureTests
             }
 
             [TestMethod]
+            public void UncompressedTextureCorrectFormat()
+            {
+                // Doesn't throw an exception.
+                Texture2D texture = new Texture2D(1, 1, new byte[0], 5, PixelInternalFormat.Rgba, PixelFormat.Rgba, PixelType.Float);
+            }
+
+            [TestMethod]
             [ExpectedException(typeof(ArgumentException))]
             public void CompressedTextureIncorrectFormat()
             {
-                // Doesn't throw an exception.
                 Texture2D texture = new Texture2D(1, 1, mipmaps, InternalFormat.Rgb);
+            }
+
+            [TestMethod]
+            [ExpectedException(typeof(ArgumentException))]
+            public void UncompressedTextureIncorrectFormat()
+            {
+                Texture2D texture = new Texture2D(1, 1, new byte[0], 5, PixelInternalFormat.CompressedRgbaS3tcDxt1Ext, PixelFormat.Rgba, PixelType.Float);
             }
         }
     }
