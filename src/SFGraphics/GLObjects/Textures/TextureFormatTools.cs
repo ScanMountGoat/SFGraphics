@@ -55,5 +55,17 @@ namespace SFGraphics.GLObjects.Textures
             // All the enum value names should follow this convention.
             return pixelInternalFormat.ToString().ToLower().Contains("compressed");
         }
+
+        /// <summary>
+        /// Determines if <paramref name="pixelInternalFormat"/> is a valid format for a 
+        /// <see cref="DepthTexture"/>.
+        /// </summary>
+        /// <param name="pixelInternalFormat">The image format for the texture data</param>
+        /// <returns>True if the format is a valid depth texture format</returns>
+        public static bool IsDepthFormat(PixelInternalFormat pixelInternalFormat)
+        {
+            string formatName = pixelInternalFormat.ToString().ToLower();
+            return formatName.Contains("depthcomponent");
+        }
     }
 }
