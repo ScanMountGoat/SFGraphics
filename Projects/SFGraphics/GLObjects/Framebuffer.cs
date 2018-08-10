@@ -64,7 +64,7 @@ namespace SFGraphics.GLObjects
         public List<Texture2D> ColorAttachments { get; }
 
         // TODO: Is this memory deallocated properly?
-        private int rboDepth;
+        private Renderbuffer rboDepth;
 
         /// <summary>
         /// Generates an empty framebuffer with no attachments bound to the specified target. 
@@ -121,22 +121,6 @@ namespace SFGraphics.GLObjects
             return GL.CheckNamedFramebufferStatus(Id, FramebufferTarget).ToString();
         }
 
-        private List<Texture2D> CreateColorAttachments(int width, int height, int colorAttachmentsCount)
-        {
-            List<Texture2D> colorAttachments = new List<Texture2D>();
-            List<DrawBuffersEnum> attachmentEnums = new List<DrawBuffersEnum>();
-            for (int i = 0; i < colorAttachmentsCount; i++)
-            {
-                Texture2D colorAttachment = CreateColorAttachment(width, height, FramebufferAttachment.ColorAttachment0 + i);
-                colorAttachments.Add(colorAttachment);
-                attachmentEnums.Add(DrawBuffersEnum.ColorAttachment0 + i);
-            }
-            // Draw to all color attachments.
-            GL.DrawBuffers(colorAttachmentsCount, attachmentEnums.ToArray());
-
-            return colorAttachments;
-        }
-
         /// <summary>
         /// Decrement the reference count for <see cref="Id"/>. The context probably isn't current, so the data is deleted later by <see cref="GLObjectManager"/>.
         /// </summary>
@@ -146,28 +130,27 @@ namespace SFGraphics.GLObjects
             ReferenceCounting.RemoveReference(GLObjectManager.referenceCountByFramebufferId, Id);
         }
 
-        private Texture2D CreateColorAttachment(int width, int height, FramebufferAttachment framebufferAttachment)
+        /// <summary>
+        /// Attaches <paramref name="texture"/> to <paramref name="framebufferAttachment"/>.
+        /// Draw and read buffers must be configured separately.
+        /// </summary>
+        /// <param name="framebufferAttachment">The attachment target for the texture</param>
+        /// <param name="texture">The texture to attach</param>
+        public void AttachTexture(FramebufferAttachment framebufferAttachment, Texture2D texture)
         {
-            Texture2D texture = new Texture2D(width, height)
-            {
-                // Don't use mipmaps for color attachments.
-                MinFilter = TextureMinFilter.Nearest,
-                MagFilter = TextureMagFilter.Linear
-            };
-            // Necessary for texture completion.
-            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat, width, height, 0, OpenTK.Graphics.OpenGL.PixelFormat.Rgba, PixelType.Float, IntPtr.Zero);
-
             GL.FramebufferTexture2D(FramebufferTarget, framebufferAttachment, TextureTarget.Texture2D, texture.Id, 0);
-            return texture;
         }
 
-        private void SetupRboDepth(int width, int height)
+        /// <summary>
+        /// Attaches <paramref name="renderbuffer"/> to <paramref name="framebufferAttachment"/>.
+        /// Draw and read buffers must be configured separately.
+        /// </summary>
+        /// <param name="framebufferAttachment">The attachment target for the renderbuffer</param>
+        /// <param name="renderbuffer">The renderbuffer to attach</param>
+        public void AttachRenderbuffer(FramebufferAttachment framebufferAttachment, Renderbuffer renderbuffer)
         {
-            // Render buffer for the depth attachment, which is necessary for depth testing.
-            GL.GenRenderbuffers(1, out rboDepth);
-            GL.BindRenderbuffer(RenderbufferTarget.Renderbuffer, rboDepth);
-            GL.RenderbufferStorage(RenderbufferTarget.Renderbuffer, RenderbufferStorage.DepthComponent, width, height);
-            GL.FramebufferRenderbuffer(FramebufferTarget, FramebufferAttachment.DepthAttachment, RenderbufferTarget.Renderbuffer, rboDepth);
+            GL.FramebufferRenderbuffer(FramebufferTarget, framebufferAttachment,
+                RenderbufferTarget.Renderbuffer, renderbuffer.Id);
         }
 
         /// <summary>
@@ -214,6 +197,14 @@ namespace SFGraphics.GLObjects
             return Color.FromArgb(rgba[3], rgba[0], rgba[1], rgba[2]);
         }
 
+        /// <summary>
+        /// Binds the framebuffer to the target specified at creation.
+        /// </summary>
+        public void Bind()
+        {
+            GL.BindFramebuffer(FramebufferTarget, Id);
+        }
+
         private static byte[] CopyImagePixels(int width, int height, bool saveAlpha, int pixelByteLength, byte[] pixels)
         {
             // Flip data because glReadPixels reads it in from bottom row to top row
@@ -234,12 +225,45 @@ namespace SFGraphics.GLObjects
             return fixedPixels;
         }
 
-        /// <summary>
-        /// Binds the framebuffer to the target specified at creation.
-        /// </summary>
-        public void Bind()
+        private Texture2D CreateColorAttachment(int width, int height, FramebufferAttachment framebufferAttachment)
         {
-            GL.BindFramebuffer(FramebufferTarget, Id);
+            Texture2D texture = new Texture2D(width, height)
+            {
+                // Don't use mipmaps for color attachments.
+                MinFilter = TextureMinFilter.Nearest,
+                MagFilter = TextureMagFilter.Linear
+            };
+            // Necessary for texture completion.
+            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat, width, height, 0, OpenTK.Graphics.OpenGL.PixelFormat.Rgba, PixelType.Float, IntPtr.Zero);
+
+            return texture;
+        }
+
+        private void SetupRboDepth(int width, int height)
+        {
+            // Render buffer for the depth attachment, which is necessary for depth testing.
+            Renderbuffer rboDepth = new Renderbuffer(width, height, RenderbufferStorage.DepthComponent);
+            AttachRenderbuffer(FramebufferAttachment.DepthAttachment, rboDepth);
+        }
+
+        private List<Texture2D> CreateColorAttachments(int width, int height, int colorAttachmentsCount)
+        {
+            List<Texture2D> colorAttachments = new List<Texture2D>();
+            List<DrawBuffersEnum> attachmentEnums = new List<DrawBuffersEnum>();
+            for (int i = 0; i < colorAttachmentsCount; i++)
+            {
+                Texture2D colorAttachment = CreateColorAttachment(width, height, FramebufferAttachment.ColorAttachment0 + i);
+
+                colorAttachments.Add(colorAttachment);
+                attachmentEnums.Add(DrawBuffersEnum.ColorAttachment0 + i);
+
+                AttachTexture(FramebufferAttachment.ColorAttachment0 + i, colorAttachment);
+            }
+
+            // Draw to all color attachments.
+            GL.DrawBuffers(colorAttachmentsCount, attachmentEnums.ToArray());
+
+            return colorAttachments;
         }
 
         private void Resize()
@@ -251,13 +275,12 @@ namespace SFGraphics.GLObjects
             {
                 ColorAttachments[i].Bind();
                 GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat, width, height, 0, OpenTK.Graphics.OpenGL.PixelFormat.Rgba, PixelType.Float, IntPtr.Zero);
-                GL.FramebufferTexture2D(FramebufferTarget, FramebufferAttachment.ColorAttachment0 + i, TextureTarget.Texture2D, ColorAttachments[i].Id, 0);
+                AttachTexture(FramebufferAttachment.ColorAttachment0 + i, ColorAttachments[i]);
             }
 
             // Render buffer for the depth attachment, which is necessary for depth testing.
-            GL.BindRenderbuffer(RenderbufferTarget.Renderbuffer, rboDepth);
-            GL.RenderbufferStorage(RenderbufferTarget.Renderbuffer, RenderbufferStorage.DepthComponent, width, height);
-            GL.FramebufferRenderbuffer(FramebufferTarget, FramebufferAttachment.DepthAttachment, RenderbufferTarget.Renderbuffer, rboDepth);
+            rboDepth = new Renderbuffer(width, height, RenderbufferStorage.DepthComponent);
+            AttachRenderbuffer(FramebufferAttachment.DepthAttachment, rboDepth);
 
             // Bind the default framebuffer again.
             GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
