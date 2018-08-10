@@ -20,11 +20,11 @@ namespace SFGraphics.GLObjects.Shaders
         public int Id { get; }
 
         /// <summary>
-        /// <c>true</c> when the link status is ok and all attached shaders compiled.
+        /// <c>true</c> when the link status is ok.
         /// If <c>false</c>, rendering with this shader will most likely cause an <see cref="AccessViolationException"/>.
         /// <para></para><para></para>
-        /// The status is updated with each call to <see cref="LoadShader(string, ShaderType, string)"/> or
-        /// <see cref="AttachShader(int, ShaderType)"/>.
+        /// The status is updated with each call to <see cref="LoadShader(string, ShaderType, string)"/>, 
+        /// <see cref="AttachShader(int, ShaderType)"/>, or <see cref="LoadProgramBinary(byte[], BinaryFormat)"/>.
         /// </summary>
         public bool ProgramCreatedSuccessfully
         {
@@ -53,7 +53,7 @@ namespace SFGraphics.GLObjects.Shaders
         private static readonly int GL_PROGRAM_BINARY_MAX_LENGTH = 0x8741;
 
         /// <summary>
-        /// Initializes the programID. Attach and compile shaders with LoadShader() before using.
+        /// Initializes the programID. Load shaders before using the shader program.
         /// </summary>
         public Shader()
         {
@@ -72,7 +72,7 @@ namespace SFGraphics.GLObjects.Shaders
         }
 
         /// <summary>
-        /// Use this shader program's program ID for rendering.
+        /// Use <see cref="Id"/> as the current program.
         /// </summary>
         public void UseProgram()
         {
@@ -192,6 +192,7 @@ namespace SFGraphics.GLObjects.Shaders
         /// Gets the compiled program binary for the program <see cref="Id"/>.
         /// This method should be called after the shaders are loaded and the program is linked.
         /// Hardware or software changes may cause compatibility issues with the program binary.
+        /// </summary>
         /// <param name="binaryFormat"></param>
         /// <returns></returns>
         public byte[] GetProgramBinary(out BinaryFormat binaryFormat)
@@ -209,6 +210,8 @@ namespace SFGraphics.GLObjects.Shaders
         /// <summary>
         /// Loads the entire program from the compiled binary and format generated 
         /// by <see cref="GetProgramBinary(out BinaryFormat)"/>.
+        /// The value returned by <see cref="ProgramCreatedSuccessfully"/> is updated.
+        /// <para></para><para></para>
         /// Hardware or software changes may cause compatibility issues with the program binary.
         /// If program creation fails with precompiled binaries, resort to compiling the shaders from source. 
         /// </summary>
