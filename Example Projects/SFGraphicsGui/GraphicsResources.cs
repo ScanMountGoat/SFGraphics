@@ -2,6 +2,7 @@
 using SFGraphics.GLObjects.Shaders;
 using SFGraphics.GLObjects.Textures;
 using SFGraphics.GLObjects;
+using SFGraphics.Tools;
 using OpenTK.Graphics.OpenGL;
 
 
@@ -43,6 +44,17 @@ namespace SFGraphicsGui
 
             string fragShaderSource = ResourceTextFile.GetFileText("SFGraphicsGui.Shaders.screenTexture.frag");
             shader.LoadShader(fragShaderSource, ShaderType.FragmentShader);
+
+            // An example of how to use precompiled shaders.
+            // The program binary can be saved to a file to avoid compiling shaders
+            // every time the application is run.
+            if (OpenGLExtensions.IsAvailable("GL_ARB_get_program_binary"))
+            {
+                BinaryFormat binaryFormat;
+                byte[] programBinary = shader.GetProgramBinary(out binaryFormat);
+
+                shader.LoadProgramBinary(programBinary, binaryFormat);
+            }
 
             return shader;
         }

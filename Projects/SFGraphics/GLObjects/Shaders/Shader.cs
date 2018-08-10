@@ -48,6 +48,10 @@ namespace SFGraphics.GLObjects.Shaders
         private HashSet<string> invalidUniformNames = new HashSet<string>();
         private Dictionary<string, ActiveUniformType> invalidUniformTypes = new Dictionary<string, ActiveUniformType>();
 
+        // This isn't in OpenTK's enums for some reason.
+        // https://www.khronos.org/registry/OpenGL/api/GL/glcorearb.h
+        private static readonly int GL_PROGRAM_BINARY_MAX_LENGTH = 0x8741;
+
         /// <summary>
         /// Initializes the programID. Attach and compile shaders with LoadShader() before using.
         /// </summary>
@@ -182,6 +186,39 @@ namespace SFGraphics.GLObjects.Shaders
                 LoadAttributes();
                 LoadUniforms();
             }
+        }
+
+        /// <summary>
+        /// Gets the compiled program binary for the program <see cref="Id"/>.
+        /// This method should be called after the shaders are loaded and the program is linked.
+        /// Hardware or software changes may cause compatibility issues with the program binary.
+        /// <param name="binaryFormat"></param>
+        /// <returns></returns>
+        public byte[] GetProgramBinary(out BinaryFormat binaryFormat)
+        {
+            // bufSize is used for the array's length instead of the length parameter.
+            int bufSize;
+            GL.GetProgram(Id, (GetProgramParameterName)GL_PROGRAM_BINARY_MAX_LENGTH, out bufSize);
+            byte[] programBinary = new byte[bufSize];
+
+            int length; 
+            GL.GetProgramBinary(Id, bufSize, out length, out binaryFormat, programBinary);
+            return programBinary;
+        }
+
+        /// <summary>
+        /// Loads the entire program from the compiled binary and format generated 
+        /// by <see cref="GetProgramBinary(out BinaryFormat)"/>.
+        /// Hardware or software changes may cause compatibility issues with the program binary.
+        /// If program creation fails with precompiled binaries, resort to compiling the shaders from source. 
+        /// </summary>
+        /// <param name="binaryFormat">The format of the compiled binary</param>
+        /// <param name="programBinary">The compiled program binary</param>
+        public void LoadProgramBinary(byte[] programBinary, BinaryFormat binaryFormat)
+        {
+            GL.ProgramBinary(Id, binaryFormat, programBinary, programBinary.Length);
+
+            programCreatedSuccessfully = CheckProgramStatus();
         }
 
         private void AddVertexAttribute(string name, ActiveAttribType activeAttribType)
