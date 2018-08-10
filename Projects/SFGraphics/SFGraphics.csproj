@@ -52,8 +52,10 @@
     <Compile Include="GLObjects\IGLObject.cs" />
     <Compile Include="GLObjects\ReferenceCounting.cs" />
     <Compile Include="GLObjects\Renderbuffer.cs" />
+    <Compile Include="GLObjects\Shaders\ShaderSetters.cs" />
     <Compile Include="GLObjects\Shaders\Shader.cs" />
     <Compile Include="GLObjects\Shaders\ShaderLog.cs" />
+    <Compile Include="GLObjects\Shaders\ShaderValidation.cs" />
     <Compile Include="GLObjects\Textures\MipmapLoading.cs" />
     <Compile Include="GLObjects\Textures\CompressedBlockSize.cs" />
     <Compile Include="GLObjects\Textures\TextureExceptionMessages.cs" />
