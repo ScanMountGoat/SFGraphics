@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using SFGraphics.Tools;
 using OpenTK;
@@ -30,7 +31,8 @@ namespace SFGraphicsTests.BoundingSphereGeneratorTests
             vertices.Add(new Vector3(-1, 1, -1));
 
             Vector4 boundingSphere = BoundingSphereGenerator.GenerateBoundingSphere(vertices);
-            Assert.AreEqual(new Vector4(0, 0, 0, 1), boundingSphere);
+            Assert.AreEqual(new Vector3(0, 0, 0), boundingSphere.Xyz);
+            Assert.AreEqual(Math.Sqrt(2), boundingSphere.W, 0.001f);
         }
     }
 }

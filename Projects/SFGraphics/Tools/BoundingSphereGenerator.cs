@@ -60,9 +60,12 @@ namespace SFGraphics.Tools
             center.Y = (maxY + minY) / 2.0f;
             center.Z = (maxZ + minZ) / 2.0f;
 
-            // TODO: This won't contain all points.
-            // The radius is half the diameter.
-            float radius = maxLength / 2.0f;
+            // The radius should be the hypotenuse of the triangle.
+            // This ensures the sphere contains all points.
+            float horizontalLeg = xLength / 2.0f;
+            float verticalLeg = yLength / 2.0f;
+
+            float radius = (float)Math.Sqrt((horizontalLeg * horizontalLeg) + (verticalLeg * verticalLeg));
 
             return new Vector4(center, radius);
         }
