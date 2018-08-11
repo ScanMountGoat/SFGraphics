@@ -222,6 +222,13 @@ namespace SFGraphics.GLObjects.Shaders
             GL.ProgramBinary(Id, binaryFormat, programBinary, programBinary.Length);
 
             programCreatedSuccessfully = CheckProgramStatus();
+
+            // Scary things happen if we do this after a linking error.
+            if (programCreatedSuccessfully)
+            {
+                LoadAttributes();
+                LoadUniforms();
+            }
         }
 
         private void AddVertexAttribute(string name, ActiveAttribType activeAttribType)
