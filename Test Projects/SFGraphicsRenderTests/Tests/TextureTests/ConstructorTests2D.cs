@@ -39,7 +39,7 @@ namespace SFGraphicsRenderTests.TextureTests
             public void UncompressedTextureCorrectFormat()
             {
                 // Doesn't throw an exception.
-                Texture2D texture = new Texture2D(1, 1, new byte[0], 5, PixelInternalFormat.Rgba, PixelFormat.Rgba, PixelType.Float);
+                Texture2D texture = new Texture2D(1, 1, new byte[0], 5, new TextureFormatUncompressed(PixelInternalFormat.Rgba, PixelFormat.Rgba, PixelType.Float));
             }
 
             [TestMethod]
@@ -53,7 +53,7 @@ namespace SFGraphicsRenderTests.TextureTests
             [ExpectedException(typeof(ArgumentException))]
             public void UncompressedTextureIncorrectFormat()
             {
-                Texture2D texture = new Texture2D(1, 1, new byte[0], 5, PixelInternalFormat.CompressedRgbaS3tcDxt1Ext, PixelFormat.Rgba, PixelType.Float);
+                Texture2D texture = new Texture2D(1, 1, new byte[0], 5, new TextureFormatUncompressed(PixelInternalFormat.CompressedRgbaS3tcDxt1Ext, PixelFormat.Rgba, PixelType.Float));
             }
         }
     }
