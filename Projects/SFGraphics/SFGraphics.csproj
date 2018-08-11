@@ -47,7 +47,8 @@
   <ItemGroup>
     <Compile Include="Cameras\Camera.cs" />
     <Compile Include="GLObjects\BufferObject.cs" />
-    <Compile Include="GLObjects\Framebuffer.cs" />
+    <Compile Include="GLObjects\Framebuffers\Framebuffer.cs" />
+    <Compile Include="GLObjects\Framebuffers\FramebufferReading.cs" />
     <Compile Include="GLObjects\GLObjectManager.cs" />
     <Compile Include="GLObjects\IGLObject.cs" />
     <Compile Include="GLObjects\ReferenceCounting.cs" />

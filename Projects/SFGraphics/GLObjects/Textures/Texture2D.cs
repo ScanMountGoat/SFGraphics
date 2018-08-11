@@ -27,8 +27,8 @@ namespace SFGraphics.GLObjects.Textures
         /// <summary>
         /// Initialize an empty Texture2D of the specified dimensions.
         /// </summary>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
+        /// <param name="width">The width of the texture in pixels</param>
+        /// <param name="height">The height of the texture in pixels</param>
         public Texture2D(int width, int height) : base(TextureTarget.Texture2D)
         {
             Width = width;
@@ -36,13 +36,12 @@ namespace SFGraphics.GLObjects.Textures
         }
 
         /// <summary>
-        /// Initialize an RGBA texture from the specified bitmap.
+        /// Initialize an RGBA texture with mipmaps generated from the specified bitmap.
         /// </summary>
         /// <param name="image"></param>
         public Texture2D(Bitmap image) : this(image.Width, image.Height)
         {
-            LoadBaseLevelFromBitmap(image);
-            GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
+            MipmapLoading.LoadBaseLevelGenerateMipmaps(textureTarget, image);
         }
 
         /// <summary>
@@ -58,7 +57,7 @@ namespace SFGraphics.GLObjects.Textures
             : this(width, height)
         {
             Bind();
-            LoadBaseLevelGenerateMipMaps(width, height, baseMipLevel, mipCount, internalFormat);
+            MipmapLoading.LoadBaseLevelGenerateMipMaps(textureTarget, width, height, baseMipLevel, mipCount, internalFormat);
         }
 
         /// <summary>
@@ -81,7 +80,7 @@ namespace SFGraphics.GLObjects.Textures
                 throw new ArgumentException(TextureExceptionMessages.expectedUncompressed);
 
             Bind();
-            LoadBaseLevelGenerateMipMaps(width, height, baseMipLevel, mipCount, pixelInternalFormat, pixelFormat, pixelType);
+            MipmapLoading.LoadBaseLevelGenerateMipMaps(textureTarget, width, height, baseMipLevel, mipCount, pixelInternalFormat, pixelFormat, pixelType);
         }
 
         /// <summary>
@@ -99,41 +98,6 @@ namespace SFGraphics.GLObjects.Textures
                 throw new ArgumentException(TextureExceptionMessages.expectedCompressed);
 
             MipmapLoading.LoadCompressedMipMaps(TextureTarget.Texture2D, width, height, mipmaps, internalFormat);
-        }
-
-        private void LoadBaseLevelFromBitmap(Bitmap image)
-        {
-            // Load the image data.
-            System.Drawing.Imaging.BitmapData data = image.LockBits(new Rectangle(0, 0, image.Width, image.Height),
-                System.Drawing.Imaging.ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-            GL.TexImage2D(textureTarget, 0, PixelInternalFormat.Rgba, data.Width, data.Height, 0,
-                PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
-            image.UnlockBits(data);
-        }
-
-        private void LoadBaseLevelGenerateMipMaps(int width, int height, byte[] baseMipLevel, int mipCount, InternalFormat internalFormat)
-        {
-            // Calculate the proper imageSize.
-            int baseImageSize = TextureFormatTools.CalculateImageSize(Width, Height, internalFormat);
-
-            // Load the first level.
-            GL.CompressedTexImage2D<byte>(TextureTarget.Texture2D, 0, internalFormat, width, height, 0, baseImageSize, baseMipLevel);
-
-            // The number of mip maps needs to be specified first.
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMaxLevel, mipCount);
-            GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
-        }
-
-        private void LoadBaseLevelGenerateMipMaps(int width, int height, byte[] baseMipLevel, int mipCount, 
-            PixelInternalFormat pixelInternalFormat, PixelFormat pixelFormat, PixelType pixelType)
-        {
-            // Load the first level.
-            GL.TexImage2D(TextureTarget.Texture2D, 0, pixelInternalFormat, width, height, 0, 
-                pixelFormat, pixelType, baseMipLevel);
-
-            // The number of mip maps needs to be specified first.
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMaxLevel, mipCount);
-            GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
         }
     }
 }
