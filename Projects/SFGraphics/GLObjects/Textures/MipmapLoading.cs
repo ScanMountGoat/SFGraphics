@@ -24,6 +24,9 @@ namespace SFGraphics.GLObjects.Textures
         public static void LoadCompressedMipMaps(TextureTarget textureTarget, int width, int height, 
             List<byte[]> mipmaps, InternalFormat internalFormat)
         {
+            // The number of mipmaps needs to be specified first.
+            GL.TexParameter(textureTarget, TextureParameterName.TextureMaxLevel, mipmaps.Count - 1);
+
             for (int mipLevel = 0; mipLevel < mipmaps.Count; mipLevel++)
             {
                 int mipWidth = width / (int)Math.Pow(2, mipLevel);
@@ -65,14 +68,14 @@ namespace SFGraphics.GLObjects.Textures
         public static void LoadBaseLevelGenerateMipMaps(TextureTarget textureTarget, int width, int height, 
             byte[] baseMipLevel, int mipCount, InternalFormat internalFormat)
         {
+            // The number of mipmaps needs to be specified first.
+            GL.TexParameter(textureTarget, TextureParameterName.TextureMaxLevel, mipCount - 1);
+
             // Calculate the proper imageSize.
             int baseImageSize = TextureFormatTools.CalculateImageSize(width, height, internalFormat);
 
             // Load the first level.
             GL.CompressedTexImage2D(textureTarget, 0, internalFormat, width, height, 0, baseImageSize, baseMipLevel);
-
-            // The number of mip maps needs to be specified first.
-            GL.TexParameter(textureTarget, TextureParameterName.TextureMaxLevel, mipCount);
             GL.GenerateMipmap((GenerateMipmapTarget)textureTarget);
         }
 
@@ -90,6 +93,9 @@ namespace SFGraphics.GLObjects.Textures
         public static void LoadBaseLevelGenerateMipMaps(TextureTarget textureTarget, int width, int height, byte[] baseMipLevel, int mipCount,
             PixelInternalFormat pixelInternalFormat, PixelFormat pixelFormat, PixelType pixelType)
         {
+            // The number of mipmaps needs to be specified first.
+            GL.TexParameter(textureTarget, TextureParameterName.TextureMaxLevel, mipCount - 1);
+
             // Load the first level.
             GL.TexImage2D(textureTarget, 0, pixelInternalFormat, width, height, 0,
                 pixelFormat, pixelType, baseMipLevel);
