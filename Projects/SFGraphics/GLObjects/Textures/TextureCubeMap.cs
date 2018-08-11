@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Imaging;
 using OpenTK.Graphics.OpenGL;
 
 
@@ -19,10 +17,8 @@ namespace SFGraphics.GLObjects.Textures
         /// <param name="cubeMapFaces">Faces arranged from top to bottom in the order
         /// X+, X-, Y+, Y-, Z+, Z- </param>
         /// <param name="faceSideLength">The length in pixels of a side of any of the faces</param>
-        public TextureCubeMap(Bitmap cubeMapFaces, int faceSideLength = 128) : base(TextureTarget.TextureCubeMap)
+        public TextureCubeMap(System.Drawing.Bitmap cubeMapFaces, int faceSideLength = 128) : base(TextureTarget.TextureCubeMap)
         {
-            Bind();
-
             // Don't use mipmaps.
             MagFilter = TextureMagFilter.Linear;
             MinFilter = TextureMinFilter.Linear;
@@ -36,22 +32,23 @@ namespace SFGraphics.GLObjects.Textures
             // Y -
             // Z +
             // Z -
-            Rectangle[] cubeMapFaceRegions = new Rectangle[cubeMapFaceCount];
+            System.Drawing.Rectangle[] cubeMapFaceRegions = new System.Drawing.Rectangle[cubeMapFaceCount];
             for (int i = 0; i < cubeMapFaceRegions.Length; i++)
             {
-                cubeMapFaceRegions[i] = new Rectangle(0, i * faceSideLength, faceSideLength, faceSideLength);
+                cubeMapFaceRegions[i] = new System.Drawing.Rectangle(0, i * faceSideLength, faceSideLength, faceSideLength);
             }
 
+            Bind();
             for (int i = 0; i < cubeMapFaceCount; i++)
             {
                 // Copy the pixels for the appropriate face.
-                Bitmap image = cubeMapFaces.Clone(cubeMapFaceRegions[i], cubeMapFaces.PixelFormat);
+                System.Drawing.Bitmap image = cubeMapFaces.Clone(cubeMapFaceRegions[i], cubeMapFaces.PixelFormat);
 
                 // Load the data to the texture.
-                BitmapData data = image.LockBits(new Rectangle(0, 0, image.Width, image.Height),
-                    ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                System.Drawing.Imaging.BitmapData data = image.LockBits(new System.Drawing.Rectangle(0, 0, image.Width, image.Height),
+                    System.Drawing.Imaging.ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
                 GL.TexImage2D(TextureTarget.TextureCubeMapPositiveX + i, 0, PixelInternalFormat.Rgba, data.Width, data.Height, 0,
-                    OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
+                    PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
                 image.UnlockBits(data);
             }
         }
@@ -84,26 +81,62 @@ namespace SFGraphics.GLObjects.Textures
             MinFilter = TextureMinFilter.LinearMipmapLinear;
 
             Bind();
-
             // The number of mipmaps needs to be specified first.
             GL.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureBaseLevel, 0);
             GL.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureMaxLevel, mipsPosX.Count);
             GL.GenerateMipmap(GenerateMipmapTarget.TextureCubeMap);
 
-            LoadMipmapsForFaces(faceSideLength, internalFormat, mipsPosX, mipsNegX, mipsPosY, mipsNegY, mipsPosZ, mipsNegZ);
+            LoadFacesMipmaps(faceSideLength, internalFormat, mipsPosX, mipsNegX, mipsPosY, mipsNegY, mipsPosZ, mipsNegZ);
         }
 
-        private static void LoadMipmapsForFaces(int faceSideLength, InternalFormat internalFormat, List<byte[]> mipsPosX, List<byte[]> mipsNegX, List<byte[]> mipsPosY, List<byte[]> mipsNegY, List<byte[]> mipsPosZ, List<byte[]> mipsNegZ)
+        /// <summary>
+        /// Initializes an uncompressed cube map without mipmaps.
+        /// Each face should have the same dimensions and image format.
+        /// </summary>
+        /// <param name="faceSideLength"></param>
+        /// <param name="textureFormat"></param>
+        /// <param name="facePosX">The base mip level for the positive x target</param>
+        /// <param name="faceNegX">The base mip level for the negative x target</param>
+        /// <param name="facePosY">The base mip level for the positive y target</param>
+        /// <param name="faceNegY">The base mip level for the negative y target</param>
+        /// <param name="facePosZ">The base mip level for the positive z target</param>
+        /// <param name="faceNegZ">The base mip level for the negative z target</param>
+        public TextureCubeMap(int faceSideLength, TextureFormatUncompressed textureFormat, 
+            byte[] facePosX, byte[] faceNegX, byte[] facePosY, byte[] faceNegY, byte[] facePosZ, byte[] faceNegZ) : base(TextureTarget.TextureCubeMap)
         {
-            MipmapLoading.LoadCompressedMipMaps(TextureTarget.TextureCubeMapPositiveX, faceSideLength, faceSideLength, mipsPosX, internalFormat);
-            MipmapLoading.LoadCompressedMipMaps(TextureTarget.TextureCubeMapNegativeX, faceSideLength, faceSideLength, mipsNegX, internalFormat);
+            // Don't use mipmaps.
+            MagFilter = TextureMagFilter.Linear;
+            MinFilter = TextureMinFilter.Linear;
 
-            MipmapLoading.LoadCompressedMipMaps(TextureTarget.TextureCubeMapPositiveY, faceSideLength, faceSideLength, mipsPosY, internalFormat);
-            MipmapLoading.LoadCompressedMipMaps(TextureTarget.TextureCubeMapNegativeY, faceSideLength, faceSideLength, mipsNegY, internalFormat);
-
-            MipmapLoading.LoadCompressedMipMaps(TextureTarget.TextureCubeMapPositiveZ, faceSideLength, faceSideLength, mipsPosZ, internalFormat);
-            MipmapLoading.LoadCompressedMipMaps(TextureTarget.TextureCubeMapNegativeZ, faceSideLength, faceSideLength, mipsNegZ, internalFormat);
+            LoadFacesBaseLevel(faceSideLength, textureFormat, facePosX, faceNegX, facePosY, faceNegY, facePosZ, faceNegZ);
         }
+
+        private static void LoadFacesBaseLevel(int faceSideLength, TextureFormatUncompressed textureFormat, 
+            byte[] facePosX, byte[] faceNegX, byte[] facePosY, byte[] faceNegY, byte[] facePosZ, byte[] faceNegZ)
+        {
+            MipmapLoading.LoadBaseLevelGenerateMipmaps(TextureTarget.TextureCubeMapPositiveX, faceSideLength, faceSideLength, facePosX, 0, textureFormat);
+            MipmapLoading.LoadBaseLevelGenerateMipmaps(TextureTarget.TextureCubeMapNegativeX, faceSideLength, faceSideLength, faceNegX, 0, textureFormat);
+
+            MipmapLoading.LoadBaseLevelGenerateMipmaps(TextureTarget.TextureCubeMapPositiveY, faceSideLength, faceSideLength, facePosY, 0, textureFormat);
+            MipmapLoading.LoadBaseLevelGenerateMipmaps(TextureTarget.TextureCubeMapNegativeY, faceSideLength, faceSideLength, faceNegY, 0, textureFormat);
+
+            MipmapLoading.LoadBaseLevelGenerateMipmaps(TextureTarget.TextureCubeMapPositiveZ, faceSideLength, faceSideLength, facePosZ, 0, textureFormat);
+            MipmapLoading.LoadBaseLevelGenerateMipmaps(TextureTarget.TextureCubeMapNegativeZ, faceSideLength, faceSideLength, faceNegZ, 0, textureFormat);
+        }
+
+        private static void LoadFacesMipmaps(int length, InternalFormat internalFormat, 
+            List<byte[]> mipsPosX, List<byte[]> mipsNegX, List<byte[]> mipsPosY, List<byte[]> mipsNegY, List<byte[]> mipsPosZ, List<byte[]> mipsNegZ)
+        {
+            MipmapLoading.LoadCompressedMipMaps(TextureTarget.TextureCubeMapPositiveX, length, length, mipsPosX, internalFormat);
+            MipmapLoading.LoadCompressedMipMaps(TextureTarget.TextureCubeMapNegativeX, length, length, mipsNegX, internalFormat);
+
+            MipmapLoading.LoadCompressedMipMaps(TextureTarget.TextureCubeMapPositiveY, length, length, mipsPosY, internalFormat);
+            MipmapLoading.LoadCompressedMipMaps(TextureTarget.TextureCubeMapNegativeY, length, length, mipsNegY, internalFormat);
+
+            MipmapLoading.LoadCompressedMipMaps(TextureTarget.TextureCubeMapPositiveZ, length, length, mipsPosZ, internalFormat);
+            MipmapLoading.LoadCompressedMipMaps(TextureTarget.TextureCubeMapNegativeZ, length, length, mipsNegZ, internalFormat);
+        }
+
 
         private static bool CheckMipMapCountEquality(List<byte[]> mipsPosX, List<byte[]> mipsNegX, List<byte[]> mipsPosY, List<byte[]> mipsNegY, List<byte[]> mipsPosZ, List<byte[]> mipsNegZ)
         {

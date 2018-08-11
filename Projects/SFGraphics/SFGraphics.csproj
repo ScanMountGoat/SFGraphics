@@ -60,6 +60,7 @@
     <Compile Include="GLObjects\Textures\MipmapLoading.cs" />
     <Compile Include="GLObjects\Textures\CompressedBlockSize.cs" />
     <Compile Include="GLObjects\Textures\TextureExceptionMessages.cs" />
+    <Compile Include="GLObjects\Textures\TextureFormat.cs" />
     <Compile Include="GLObjects\Textures\TextureFormatTools.cs" />
     <Compile Include="GLObjects\Textures\DepthTexture.cs" />
     <Compile Include="GLObjects\Textures\Texture.cs" />
