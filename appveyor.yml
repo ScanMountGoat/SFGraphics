@@ -21,7 +21,7 @@ deploy:
   provider: GitHub
   auth_token:
     secure: DNTK4wihn5WZAjdhZ+6VBeCglveAy4gO4q5qZ86hhYZ7O26xpQ79XpcK0RyPfPMk
-  artifact: SFGraphics %APPVEYOR_REPO_COMMIT%.zip
+  artifact: SFGraphics.zip
   draft: false
   prerelease: true
   force_update: true
@@ -34,6 +34,6 @@ test:
     - '**\Test Projects\SFGraphicsRenderTests\bin\$(configuration)\SFGraphicsRenderTests.dll'
 
 after_build:
-  - 7z a "SFGraphics %APPVEYOR_REPO_COMMIT%.zip" "%APPVEYOR_BUILD_FOLDER%\Projects\SFGraphics\bin\Release\SFGraphics.dll"
-  - 7z a "SFGraphics %APPVEYOR_REPO_COMMIT%.zip" "%APPVEYOR_BUILD_FOLDER%\Projects\SFGraphics\bin\Release\SFGraphics.xml"
-  - appveyor PushArtifact "SFGraphics %APPVEYOR_REPO_COMMIT%.zip"
+  - 7z a "SFGraphics.zip" "%APPVEYOR_BUILD_FOLDER%\Projects\SFGraphics\bin\Release\SFGraphics.dll"
+  - 7z a "SFGraphics.zip" "%APPVEYOR_BUILD_FOLDER%\Projects\SFGraphics\bin\Release\SFGraphics.xml"
+  - appveyor PushArtifact "SFGraphics.zip"
