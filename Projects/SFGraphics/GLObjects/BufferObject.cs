@@ -1,6 +1,7 @@
 ﻿using System;
 using OpenTK.Graphics.OpenGL;
 
+
 namespace SFGraphics.GLObjects
 {
     /// <summary>
@@ -45,6 +46,21 @@ namespace SFGraphics.GLObjects
         public void Bind()
         {
             GL.BindBuffer(BufferTarget, Id);
+        }
+
+        /// <summary>
+        /// Initializes the buffer's data with the specified array.
+        /// <paramref name="data"/> should be contiguous in memory, so only 
+        /// non nullable structs containing value types as members will work properly.
+        /// </summary>
+        /// <typeparam name="T">The type of each item. This includes arithmetic types like <see cref="int"/>.</typeparam>
+        /// <param name="data">The data used to initialize the buffer's data</param>
+        /// <param name="itemSizeInBytes">The size of <typeparamref name="T"/> in bytes</param>
+        /// <param name="bufferUsageHint">A hint on how the data will be used, which allows performance optimizations</param>
+        public void BufferData<T>(T[] data, int itemSizeInBytes, BufferUsageHint bufferUsageHint) where T : struct
+        {
+            Bind();
+            GL.BufferData(bufferTarget, itemSizeInBytes * data.Length, data, bufferUsageHint);
         }
     }
 }
