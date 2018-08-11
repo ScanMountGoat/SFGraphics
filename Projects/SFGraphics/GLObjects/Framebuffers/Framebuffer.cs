@@ -111,13 +111,14 @@ namespace SFGraphics.GLObjects
         }
 
         /// <summary>
-        /// Gets the named framebuffer status for this framebuffer.
+        /// Gets the framebuffer status for this framebuffer.
         /// </summary>
         /// <returns></returns>
         public String GetStatus()
         {
             // Check if any of the settings were incorrect when creating the fbo.
-            return GL.CheckNamedFramebufferStatus(Id, FramebufferTarget).ToString();
+            Bind();
+            return GL.CheckFramebufferStatus(FramebufferTarget).ToString();
         }
 
         /// <summary>
@@ -162,20 +163,24 @@ namespace SFGraphics.GLObjects
 
         /// <summary>
         /// Sets which buffers or attachments receive fragment shader outputs.
+        /// Binds the framebuffer.
         /// </summary>
         /// <param name="drawBuffers">The buffers used for fragment shader output</param>
         public void SetDrawBuffers(params DrawBuffersEnum[] drawBuffers)
         {
-            GL.NamedFramebufferDrawBuffers(Id, drawBuffers.Length, drawBuffers);
+            Bind();
+            GL.DrawBuffers(drawBuffers.Length, drawBuffers);
         }
 
         /// <summary>
         /// Sets the color buffer used for GL.ReadPixels and GL.CopyTexImage methods.
+        /// Binds the framebuffer.
         /// </summary>
         /// <param name="readBufferMode">The buffer used for read operations</param>
         public void SetReadBuffer(ReadBufferMode readBufferMode)
         {
-            GL.NamedFramebufferReadBuffer(Id, readBufferMode);
+            Bind();
+            GL.ReadBuffer(readBufferMode);
         }
 
         private Texture2D CreateColorAttachment(int width, int height, FramebufferAttachment framebufferAttachment)
