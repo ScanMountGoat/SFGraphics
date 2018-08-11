@@ -41,11 +41,21 @@ namespace SFGraphics.GLObjects
         }
 
         /// <summary>
-        /// Binds the buffer to the target specified at creation.
+        /// Binds <see cref="Id"/> to the buffer target specified at creation.
         /// </summary>
         public void Bind()
         {
             GL.BindBuffer(BufferTarget, Id);
+        }
+
+        /// <summary>
+        /// Binds <see cref="Id"/> to an indexed buffer target.
+        /// </summary>
+        /// <param name="target"></param>
+        /// <param name="index"></param>
+        public void BindBase(BufferRangeTarget target, int index)
+        {
+            GL.BindBufferBase(target, index, Id);
         }
 
         /// <summary>
@@ -61,6 +71,21 @@ namespace SFGraphics.GLObjects
         {
             Bind();
             GL.BufferData(bufferTarget, itemSizeInBytes * data.Length, data, bufferUsageHint);
+        }
+
+        /// <summary>
+        /// Initializes a portion of the buffer's data with the specified array.
+        /// <paramref name="data"/> should be contiguous in memory, so only 
+        /// non nullable structs containing value types as members will work properly.
+        /// </summary>
+        /// <typeparam name="T">The type of each item. This includes arithmetic types like <see cref="int"/>.</typeparam>
+        /// <param name="data">The data used to initialize the buffer's data</param>
+        /// <param name="offset">The offset in bytes where data replacement will begin</param>
+        /// <param name="itemSizeInBytes">The size of <typeparamref name="T"/> in bytes</param>
+        public void BufferSubData<T>(T[] data, int offset, int itemSizeInBytes) where T : struct
+        {
+            Bind();
+            GL.BufferSubData(bufferTarget, new IntPtr(offset), itemSizeInBytes * data.Length, data);
         }
     }
 }
