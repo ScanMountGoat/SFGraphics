@@ -160,6 +160,24 @@ namespace SFGraphics.GLObjects
             GL.BindFramebuffer(FramebufferTarget, Id);
         }
 
+        /// <summary>
+        /// Sets which buffers or attachments receive fragment shader outputs.
+        /// </summary>
+        /// <param name="drawBuffers">The buffers used for fragment shader output</param>
+        public void SetDrawBuffers(params DrawBuffersEnum[] drawBuffers)
+        {
+            GL.NamedFramebufferDrawBuffers(Id, drawBuffers.Length, drawBuffers);
+        }
+
+        /// <summary>
+        /// Sets the color buffer used for GL.ReadPixels and GL.CopyTexImage methods.
+        /// </summary>
+        /// <param name="readBufferMode">The buffer used for read operations</param>
+        public void SetReadBuffer(ReadBufferMode readBufferMode)
+        {
+            GL.NamedFramebufferReadBuffer(Id, readBufferMode);
+        }
+
         private Texture2D CreateColorAttachment(int width, int height, FramebufferAttachment framebufferAttachment)
         {
             Texture2D texture = new Texture2D(width, height)
@@ -169,7 +187,7 @@ namespace SFGraphics.GLObjects
                 MagFilter = TextureMagFilter.Linear
             };
             // Necessary for texture completion.
-            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat, width, height, 0, OpenTK.Graphics.OpenGL.PixelFormat.Rgba, PixelType.Float, IntPtr.Zero);
+            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat, width, height, 0, PixelFormat.Rgba, PixelType.Float, IntPtr.Zero);
 
             return texture;
         }
@@ -196,7 +214,7 @@ namespace SFGraphics.GLObjects
             }
 
             // Draw to all color attachments.
-            GL.DrawBuffers(colorAttachmentsCount, attachmentEnums.ToArray());
+            SetDrawBuffers(attachmentEnums.ToArray());
 
             return colorAttachments;
         }
@@ -209,16 +227,15 @@ namespace SFGraphics.GLObjects
             for (int i = 0; i < ColorAttachments.Count; i++)
             {
                 ColorAttachments[i].Bind();
-                GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat, width, height, 0, OpenTK.Graphics.OpenGL.PixelFormat.Rgba, PixelType.Float, IntPtr.Zero);
+                // TODO: Is it faster to just make a new texture?
+                GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat, width, height, 0, 
+                    PixelFormat.Rgba, PixelType.Float, IntPtr.Zero);
                 AttachTexture(FramebufferAttachment.ColorAttachment0 + i, ColorAttachments[i]);
             }
 
             // Render buffer for the depth attachment, which is necessary for depth testing.
             rboDepth = new Renderbuffer(width, height, RenderbufferStorage.DepthComponent);
             AttachRenderbuffer(FramebufferAttachment.DepthAttachment, rboDepth);
-
-            // Bind the default framebuffer again.
-            GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
         }
     }
 }
