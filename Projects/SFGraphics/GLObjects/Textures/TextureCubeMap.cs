@@ -67,8 +67,9 @@ namespace SFGraphics.GLObjects.Textures
         /// <param name="mipsNegZ">Mipmaps for the negative z target</param>
         /// <exception cref="ArgumentException"><paramref name="internalFormat"/> is not a compressed format.</exception>
         /// <exception cref="ArgumentOutOfRangeException">The mipmap counts are not equal for all faces.</exception>
-        public TextureCubeMap(int faceSideLength, InternalFormat internalFormat, List<byte[]> mipsPosX, List<byte[]> mipsNegX,
-            List<byte[]> mipsPosY, List<byte[]> mipsNegY, List<byte[]> mipsPosZ, List<byte[]> mipsNegZ) : base(TextureTarget.TextureCubeMap)
+        public TextureCubeMap(int faceSideLength, InternalFormat internalFormat, 
+            List<byte[]> mipsPosX, List<byte[]> mipsNegX, List<byte[]> mipsPosY, 
+            List<byte[]> mipsNegY, List<byte[]> mipsPosZ, List<byte[]> mipsNegZ) : base(TextureTarget.TextureCubeMap)
         {
             if (!TextureFormatTools.IsCompressed(internalFormat))
                 throw new ArgumentException(TextureExceptionMessages.expectedCompressed);
@@ -86,7 +87,8 @@ namespace SFGraphics.GLObjects.Textures
             GL.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureMaxLevel, mipsPosX.Count);
             GL.GenerateMipmap(GenerateMipmapTarget.TextureCubeMap);
 
-            LoadFacesMipmaps(faceSideLength, internalFormat, mipsPosX, mipsNegX, mipsPosY, mipsNegY, mipsPosZ, mipsNegZ);
+            MipmapLoading.LoadFacesMipmaps(faceSideLength, internalFormat, mipsPosX, mipsNegX, mipsPosY, 
+                mipsNegY, mipsPosZ, mipsNegZ);
         }
 
         /// <summary>
@@ -102,41 +104,16 @@ namespace SFGraphics.GLObjects.Textures
         /// <param name="facePosZ">The base mip level for the positive z target</param>
         /// <param name="faceNegZ">The base mip level for the negative z target</param>
         public TextureCubeMap(int faceSideLength, TextureFormatUncompressed textureFormat, 
-            byte[] facePosX, byte[] faceNegX, byte[] facePosY, byte[] faceNegY, byte[] facePosZ, byte[] faceNegZ) : base(TextureTarget.TextureCubeMap)
+            byte[] facePosX, byte[] faceNegX, byte[] facePosY, byte[] faceNegY, byte[] facePosZ, byte[] faceNegZ) 
+            : base(TextureTarget.TextureCubeMap)
         {
             // Don't use mipmaps.
             MagFilter = TextureMagFilter.Linear;
             MinFilter = TextureMinFilter.Linear;
 
-            LoadFacesBaseLevel(faceSideLength, textureFormat, facePosX, faceNegX, facePosY, faceNegY, facePosZ, faceNegZ);
+            MipmapLoading.LoadFacesBaseLevel(faceSideLength, textureFormat, facePosX, faceNegX, facePosY, 
+                faceNegY, facePosZ, faceNegZ);
         }
-
-        private static void LoadFacesBaseLevel(int faceSideLength, TextureFormatUncompressed textureFormat, 
-            byte[] facePosX, byte[] faceNegX, byte[] facePosY, byte[] faceNegY, byte[] facePosZ, byte[] faceNegZ)
-        {
-            MipmapLoading.LoadBaseLevelGenerateMipmaps(TextureTarget.TextureCubeMapPositiveX, faceSideLength, faceSideLength, facePosX, 0, textureFormat);
-            MipmapLoading.LoadBaseLevelGenerateMipmaps(TextureTarget.TextureCubeMapNegativeX, faceSideLength, faceSideLength, faceNegX, 0, textureFormat);
-
-            MipmapLoading.LoadBaseLevelGenerateMipmaps(TextureTarget.TextureCubeMapPositiveY, faceSideLength, faceSideLength, facePosY, 0, textureFormat);
-            MipmapLoading.LoadBaseLevelGenerateMipmaps(TextureTarget.TextureCubeMapNegativeY, faceSideLength, faceSideLength, faceNegY, 0, textureFormat);
-
-            MipmapLoading.LoadBaseLevelGenerateMipmaps(TextureTarget.TextureCubeMapPositiveZ, faceSideLength, faceSideLength, facePosZ, 0, textureFormat);
-            MipmapLoading.LoadBaseLevelGenerateMipmaps(TextureTarget.TextureCubeMapNegativeZ, faceSideLength, faceSideLength, faceNegZ, 0, textureFormat);
-        }
-
-        private static void LoadFacesMipmaps(int length, InternalFormat internalFormat, 
-            List<byte[]> mipsPosX, List<byte[]> mipsNegX, List<byte[]> mipsPosY, List<byte[]> mipsNegY, List<byte[]> mipsPosZ, List<byte[]> mipsNegZ)
-        {
-            MipmapLoading.LoadCompressedMipMaps(TextureTarget.TextureCubeMapPositiveX, length, length, mipsPosX, internalFormat);
-            MipmapLoading.LoadCompressedMipMaps(TextureTarget.TextureCubeMapNegativeX, length, length, mipsNegX, internalFormat);
-
-            MipmapLoading.LoadCompressedMipMaps(TextureTarget.TextureCubeMapPositiveY, length, length, mipsPosY, internalFormat);
-            MipmapLoading.LoadCompressedMipMaps(TextureTarget.TextureCubeMapNegativeY, length, length, mipsNegY, internalFormat);
-
-            MipmapLoading.LoadCompressedMipMaps(TextureTarget.TextureCubeMapPositiveZ, length, length, mipsPosZ, internalFormat);
-            MipmapLoading.LoadCompressedMipMaps(TextureTarget.TextureCubeMapNegativeZ, length, length, mipsNegZ, internalFormat);
-        }
-
 
         private static bool CheckMipMapCountEquality(List<byte[]> mipsPosX, List<byte[]> mipsNegX, List<byte[]> mipsPosY, List<byte[]> mipsNegY, List<byte[]> mipsPosZ, List<byte[]> mipsNegZ)
         {
