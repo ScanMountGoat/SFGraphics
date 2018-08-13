@@ -66,6 +66,7 @@
     <Compile Include="GLObjects\Textures\Texture.cs" />
     <Compile Include="GLObjects\Textures\Texture2D.cs" />
     <Compile Include="GLObjects\Textures\TextureCubeMap.cs" />
+    <Compile Include="GLObjects\VertexArrayObject.cs" />
     <Compile Include="Tools\BoundingSphereGenerator.cs" />
     <Compile Include="Tools\ColorTools.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
