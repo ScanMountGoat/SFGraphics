@@ -23,6 +23,9 @@ namespace SFGraphics.GLObjects
         internal static ConcurrentDictionary<int, int> referenceCountByBufferId = new ConcurrentDictionary<int, int>();
         internal static ConcurrentDictionary<int, int> referenceCountByProgramId = new ConcurrentDictionary<int, int>();
         internal static ConcurrentDictionary<int, int> referenceCountByFramebufferId = new ConcurrentDictionary<int, int>();
+        internal static ConcurrentDictionary<int, int> referenceCountByRenderbufferId = new ConcurrentDictionary<int, int>();
+        internal static ConcurrentDictionary<int, int> referenceCountByVertexArrayId = new ConcurrentDictionary<int, int>();
+
 
         /// <summary>
         /// The appropriate GL.Delete() function is called for all GLObjects if the <c>ID</c> has 0 references.
@@ -38,6 +41,8 @@ namespace SFGraphics.GLObjects
             DeleteUnusedObjects(referenceCountByBufferId, GL.DeleteBuffer);
             DeleteUnusedObjects(referenceCountByProgramId, GL.DeleteProgram);
             DeleteUnusedObjects(referenceCountByFramebufferId, GL.DeleteFramebuffer);
+            DeleteUnusedObjects(referenceCountByRenderbufferId, GL.DeleteRenderbuffer);
+            DeleteUnusedObjects(referenceCountByVertexArrayId, GL.DeleteVertexArray);
         }
 
         private static void DeleteUnusedObjects(ConcurrentDictionary<int, int> referenceCountById, Action<int> glDeleteFunction)

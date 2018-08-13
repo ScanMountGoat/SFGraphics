@@ -20,6 +20,17 @@ namespace SFGraphics.GLObjects
         public VertexArrayObject()
         {
             Id = GL.GenVertexArray();
+            ReferenceCounting.AddReference(GLObjectManager.referenceCountByRenderbufferId, Id);
+        }
+
+        /// <summary>
+        /// Decrement the reference count for <see cref="Id"/>. 
+        /// The context probably isn't current, 
+        /// so the data is deleted later by <see cref="GLObjectManager"/>.
+        /// </summary>
+        ~VertexArrayObject()
+        {
+            ReferenceCounting.RemoveReference(GLObjectManager.referenceCountByRenderbufferId, Id);
         }
 
         /// <summary>

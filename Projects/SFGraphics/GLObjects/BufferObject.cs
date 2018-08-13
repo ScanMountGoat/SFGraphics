@@ -34,7 +34,9 @@ namespace SFGraphics.GLObjects
         }
 
         /// <summary>
-        /// Decrement the reference count for <see cref="Id"/>. The context probably isn't current, so the data is deleted later by <see cref="GLObjectManager"/>.
+        /// Decrement the reference count for <see cref="Id"/>. 
+        /// The context probably isn't current, 
+        /// so the data is deleted later by <see cref="GLObjectManager"/>.
         /// </summary>
         ~BufferObject()
         {
