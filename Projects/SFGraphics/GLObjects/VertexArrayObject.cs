@@ -3,7 +3,7 @@
 namespace SFGraphics.GLObjects
 {
     /// <summary>
-    /// Encapsulates an OpenGL vertex array object.
+    /// Encapsulates an OpenGL vertex array object. Vertex array objects cannot be shared between contexts.
     /// </summary>
     public class VertexArrayObject : IGLObject
     {

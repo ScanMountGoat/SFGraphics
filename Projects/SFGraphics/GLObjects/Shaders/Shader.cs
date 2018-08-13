@@ -96,7 +96,8 @@ namespace SFGraphics.GLObjects.Shaders
         }
 
         /// <summary>
-        /// Enables the vertex attribute arrays for all active attributes.
+        /// Enables the vertex attribute arrays for all active attributes
+        /// for the currently bound vertex array object.
         /// Ensures that extra attributes aren't enabled, which causes crashes on Geforce drivers.
         /// </summary>
         public void EnableVertexAttributes()
@@ -110,7 +111,8 @@ namespace SFGraphics.GLObjects.Shaders
         }
 
         /// <summary>
-        /// Disables the vertex attribute arrays for all active attributes.
+        /// Disables the vertex attribute arrays for all active attributes 
+        /// for the currently bound vertex array object.
         /// Ensures that extra attributes aren't enabled, which causes crashes on Geforce drivers.
         /// </summary>
         public void DisableVertexAttributes()
