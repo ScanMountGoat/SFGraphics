@@ -15,21 +15,22 @@ namespace SFGraphics.GLObjects
         public int Id { get; }
 
         /// <summary>
-        /// The target to which the buffer is bound when calling Bind().
+        /// The target to which <see cref="Id"/> is bound when calling Bind().
         /// </summary>
-        public BufferTarget BufferTarget { get { return bufferTarget; } }
-        private BufferTarget bufferTarget;
+        public BufferTarget BufferTarget { get; }
+
+        private int itemCount = 0;
+        private int itemSizeInBytes = 0;
 
         /// <summary>
-        /// Creates and binds an empty buffer of the specified target.
+        /// Creates a buffer of the specified target with unitialized data.
         /// </summary>
         /// <param name="bufferTarget">The target to which <see cref="Id"/> is bound</param>
         public BufferObject(BufferTarget bufferTarget)
         {
             Id = GL.GenBuffer();
             ReferenceCounting.AddReference(GLObjectManager.referenceCountByBufferId, Id);
-            this.bufferTarget = bufferTarget;
-            GL.BindBuffer(BufferTarget, Id);
+            BufferTarget = bufferTarget;
         }
 
         /// <summary>
@@ -70,7 +71,9 @@ namespace SFGraphics.GLObjects
         public void BufferData<T>(T[] data, int itemSizeInBytes, BufferUsageHint bufferUsageHint) where T : struct
         {
             Bind();
-            GL.BufferData(bufferTarget, itemSizeInBytes * data.Length, data, bufferUsageHint);
+            itemCount = data.Length;
+            this.itemSizeInBytes = itemSizeInBytes;
+            GL.BufferData(BufferTarget, itemSizeInBytes * data.Length, data, bufferUsageHint);
         }
 
         /// <summary>
@@ -85,7 +88,27 @@ namespace SFGraphics.GLObjects
         public void BufferSubData<T>(T[] data, int offset, int itemSizeInBytes) where T : struct
         {
             Bind();
-            GL.BufferSubData(bufferTarget, new IntPtr(offset), itemSizeInBytes * data.Length, data);
+            // Attempts to initialize data outside the buffer's range will generate an error.
+            GL.BufferSubData(BufferTarget, new IntPtr(offset), itemSizeInBytes * data.Length, data);
+        }
+
+        /// <summary>
+        /// Binds the buffer and reads all of the data initialized by <see cref="BufferData{T}(T[], int, BufferUsageHint)"/>
+        /// or <see cref="BufferSubData{T}(T[], int, int)"/>. 
+        /// <para></para><para></para>
+        /// The data returned may not be valid if the buffer's data is manually modified using GL.BufferData() or 
+        /// GL.BufferSubData(). In this case, use GL.GetBufferSubData() with the appropriate arguments.
+        /// </summary>
+        /// <typeparam name="T">The type specified for each item when initializing the buffer's data.</typeparam>
+        /// <returns>The buffer's data in the specified type</returns>
+        public T[] GetBufferData<T>() where T : struct
+        { 
+            Bind();
+
+            T[] data = new T[itemCount];
+            GL.GetBufferSubData(BufferTarget, IntPtr.Zero, itemCount * itemSizeInBytes, data);
+
+            return data;
         }
     }
 }

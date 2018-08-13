@@ -34,6 +34,8 @@ namespace SFGraphicsGui
             uvTestPattern = new Texture2D(Properties.Resources.UVPattern); // Texture setup from a bitmap.
             screenTextureShader = CreateShader();
             screenTriangleVbo = CreateScreenQuadBuffer();
+
+            float[] data = screenTriangleVbo.GetBufferData<float>();
         }
 
         private Shader CreateShader()
@@ -64,9 +66,7 @@ namespace SFGraphicsGui
             // Create buffer for vertex positions. 
             // The data won't change, so only initialize once.
             BufferObject bufferObject = new BufferObject(BufferTarget.ArrayBuffer);
-            bufferObject.Bind();
-            GL.BufferData(bufferObject.BufferTarget, (IntPtr)(sizeof(float) * screenTrianglePositions.Length),
-                screenTrianglePositions, BufferUsageHint.StaticDraw);
+            bufferObject.BufferData(screenTrianglePositions, sizeof(float), BufferUsageHint.StaticDraw);
 
             return bufferObject;
         }
