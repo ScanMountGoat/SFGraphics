@@ -4,7 +4,6 @@ using OpenTK.Graphics.OpenGL;
 using System.Runtime.InteropServices;
 using System.Drawing.Imaging;
 
-
 namespace SFGraphics.GLObjects
 {
     public sealed partial class Framebuffer

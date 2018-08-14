@@ -49,9 +49,9 @@
     <Compile Include="GLObjects\BufferObject.cs" />
     <Compile Include="GLObjects\Framebuffers\Framebuffer.cs" />
     <Compile Include="GLObjects\Framebuffers\FramebufferReading.cs" />
-    <Compile Include="GLObjects\GLObjectManager.cs" />
-    <Compile Include="GLObjects\IGLObject.cs" />
-    <Compile Include="GLObjects\ReferenceCounting.cs" />
+    <Compile Include="GLObjects\GLObjectManagement\GLObjectManager.cs" />
+    <Compile Include="GLObjects\GLObject.cs" />
+    <Compile Include="GLObjects\GLObjectManagement\ReferenceCounting.cs" />
     <Compile Include="GLObjects\Renderbuffer.cs" />
     <Compile Include="GLObjects\Shaders\ShaderSetters.cs" />
     <Compile Include="GLObjects\Shaders\Shader.cs" />

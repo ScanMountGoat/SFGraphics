@@ -34,8 +34,6 @@ namespace SFGraphicsGui
             uvTestPattern = new Texture2D(Properties.Resources.UVPattern); // Texture setup from a bitmap.
             screenTextureShader = CreateShader();
             screenTriangleVbo = CreateScreenQuadBuffer();
-
-            float[] data = screenTriangleVbo.GetBufferData<float>();
         }
 
         private Shader CreateShader()
