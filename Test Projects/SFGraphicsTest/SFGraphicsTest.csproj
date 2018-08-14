@@ -69,6 +69,7 @@
     <Compile Include="Tests\ColorToolsTests\RgbToHsvFloatTest.cs" />
     <Compile Include="Tests\ColorToolsTests\RgbToHsvVec3Test.cs" />
     <Compile Include="Tests\ColorToolsTests\Vector4FromColorTest.cs" />
+    <Compile Include="Tests\ReferenceCountTests\IncrementRefTest.cs" />
     <Compile Include="Tests\VectorToolsTests\GenerateNormalsTest.cs" />
     <Compile Include="Tests\VectorToolsTests\GenerateTangentBitangentTest.cs" />
     <Compile Include="Tests\VectorToolsTests\GetDegreesTest.cs" />

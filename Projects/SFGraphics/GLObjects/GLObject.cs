@@ -7,7 +7,7 @@ namespace SFGraphics.GLObjects
     /// <see cref="GLObject"/> provides a simpler and less error prone
     /// way to deal with the state and data associated with OpenGL objects. 
     /// <para></para><para></para>
-    /// Methods and constructors should only be called when a context is current.
+    /// Assume methods and constructors require a context to be current.
     /// <see cref="Id"/> allows functionality not provided by the class. 
     /// This may break the functionality of existing methods.
     /// <para></para><para></para>
