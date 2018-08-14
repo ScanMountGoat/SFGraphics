@@ -25,9 +25,9 @@ namespace SFGraphics.GLObjects.Shaders
             return errorLog.ToString();
         }
 
-        private void AppendShaderCompilationErrors(string shaderName, int id)
+        private void AppendShaderCompilationErrors(string shaderName, ShaderType shaderType, int id)
         {
-            errorLog.AppendShaderInfoLog(shaderName, id);
+            errorLog.AppendShaderInfoLog(shaderName, shaderType, id);
         }
 
         private bool CheckProgramStatus()

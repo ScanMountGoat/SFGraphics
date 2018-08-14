@@ -22,14 +22,9 @@ namespace SFGraphics.GLObjects.Shaders
         /// If <c>false</c>, rendering with this shader will most likely cause an <see cref="AccessViolationException"/>.
         /// <para></para><para></para>
         /// The status is updated with each call to <see cref="LoadShader(string, ShaderType, string)"/>, 
-        /// <see cref="AttachShader(int, ShaderType)"/>, or <see cref="LoadProgramBinary(byte[], BinaryFormat)"/>.
+        /// <see cref="AttachShader(int, ShaderType, string)"/>, or <see cref="LoadProgramBinary(byte[], BinaryFormat)"/>.
         /// </summary>
-        public bool ProgramCreatedSuccessfully
-        {
-            get { return programCreatedSuccessfully; }
-        }
-        private bool programCreatedSuccessfully = false;
-
+        public bool ProgramCreatedSuccessfully { get; private set; }
 
         private ShaderLog errorLog = new ShaderLog();
 
@@ -51,11 +46,11 @@ namespace SFGraphics.GLObjects.Shaders
         private static readonly int GL_PROGRAM_BINARY_MAX_LENGTH = 0x8741;
 
         /// <summary>
-        /// Initializes the programID. Load shaders before using the shader program.
+        /// Creates an unitialized shader program. Load shaders before using the shader program.
         /// </summary>
         public Shader() : base(GL.CreateProgram())
         {
-            errorLog.AppendHardwareAndVersionInfo();
+
         }
 
         /// <summary>
@@ -113,39 +108,29 @@ namespace SFGraphics.GLObjects.Shaders
 
         /// <summary>
         /// Attaches <paramref name="shaderId"/> and links the program. 
-        /// The value returned by <see cref="ProgramCreatedSuccessfully"/> is updated.
+        /// The value for <see cref="ProgramCreatedSuccessfully"/> is updated.
         /// </summary>
         /// <param name="shaderId">The integer ID returned by <see cref="CreateGlShader(string, ShaderType)"/></param>
-        /// <param name="shaderType">Supported types are ShaderType.FragmentShader, ShaderType.VertexShader, or ShaderType.GeometryShader</param>
-        public void AttachShader(int shaderId, ShaderType shaderType)
+        /// <param name="shaderType">The type of shader.
+        /// Ex: ShaderType.FragmentShader</param>        
+        /// <param name="shaderName"></param>
+        public void AttachShader(int shaderId, ShaderType shaderType, string shaderName = "")
         {
             GL.AttachShader(Id, shaderId);
             GL.LinkProgram(Id);
 
-            programCreatedSuccessfully = CheckProgramStatus();
+            AppendShaderCompilationErrors(shaderName, shaderType, shaderId);
+            ProgramCreatedSuccessfully = CheckProgramStatus();
+
+            // The shader won't be deleted until the program is deleted.
+            GL.DeleteShader(shaderId);
 
             // Scary things happen if we do this after a linking error.
-            if (programCreatedSuccessfully)
+            if (ProgramCreatedSuccessfully)
             {
                 LoadAttributes();
                 LoadUniforms();
             }
-        }
-
-        /// <summary>
-        /// Returns the integer ID created by GL.CreateShader(). Compiles the shader.
-        /// This method can reduce load times by avoiding redundant shader compilations when used
-        /// in conjunction with <see cref="AttachShader(int, ShaderType)"/>
-        /// </summary>
-        /// <param name="shaderSource">A string containing the shader source text</param>
-        /// <param name="shaderType">Supported types are ShaderType.FragmentShader, ShaderType.VertexShader, or ShaderType.GeometryShader</param>
-        /// <returns></returns>
-        public static int CreateGlShader(string shaderSource, ShaderType shaderType)
-        {
-            int id = GL.CreateShader(shaderType);
-            GL.ShaderSource(id, shaderSource);
-            GL.CompileShader(id);
-            return id;
         }
 
         /// <summary>
@@ -159,22 +144,25 @@ namespace SFGraphics.GLObjects.Shaders
         public void LoadShader(string shaderSource, ShaderType shaderType, string shaderName = "Shader")
         {
             // Compile and attach before linking.
-            int shaderId = LoadShaderBasedOnType(shaderSource, shaderType);
-            AppendShaderCompilationErrors(shaderName, shaderId);
-            GL.LinkProgram(Id);
+            int shaderId = CreateGlShader(shaderSource, shaderType);
+            AttachShader(shaderId, shaderType, shaderName);
+        }
 
-            // Some errors may not appear until all shaders are loaded.
-            programCreatedSuccessfully = CheckProgramStatus();
-
-            // The shader won't be deleted until the program is deleted.
-            GL.DeleteShader(shaderId);
-
-            // Scary things happen if we do this after a linking error.
-            if (programCreatedSuccessfully)
-            {
-                LoadAttributes();
-                LoadUniforms();
-            }
+        /// <summary>
+        /// Returns the integer ID created by GL.CreateShader(). Compiles the shader.
+        /// This method can reduce load times by avoiding redundant shader compilations when used
+        /// in conjunction with <see cref="AttachShader(int, ShaderType, string)"/>
+        /// </summary>
+        /// <param name="shaderSource">A string containing the shader source text</param>
+        /// <param name="shaderType">The type of shader.
+        /// Ex: ShaderType.FragmentShader</param>
+        /// <returns>The integer ID created by GL.CreateShader()</returns>
+        public static int CreateGlShader(string shaderSource, ShaderType shaderType)
+        {
+            int id = GL.CreateShader(shaderType);
+            GL.ShaderSource(id, shaderSource);
+            GL.CompileShader(id);
+            return id;
         }
 
         /// <summary>
@@ -210,10 +198,10 @@ namespace SFGraphics.GLObjects.Shaders
         {
             GL.ProgramBinary(Id, binaryFormat, programBinary, programBinary.Length);
 
-            programCreatedSuccessfully = CheckProgramStatus();
+            ProgramCreatedSuccessfully = CheckProgramStatus();
 
             // Scary things happen if we do this after a linking error.
-            if (programCreatedSuccessfully)
+            if (ProgramCreatedSuccessfully)
             {
                 LoadAttributes();
                 LoadUniforms();

@@ -30,7 +30,7 @@ namespace SFGraphicsRenderTests.ShaderTests.SetterTests
             public void SetFloatValidName()
             {
                 shader.SetFloat("float1", 0);
-                string expected = "[Warning] Attempted to set undeclared uniform variable float1.";
+                string expected = "[Warning] Attempted to set undeclared uniform variable float1";
                 Assert.IsFalse(shader.GetErrorLog().Contains(expected));
             }
 
@@ -38,7 +38,7 @@ namespace SFGraphicsRenderTests.ShaderTests.SetterTests
             public void SetFloatInvalidType()
             {
                 shader.SetFloat("int1", 0);
-                string expected = "[Warning] No uniform variable int1 of type Float.";
+                string expected = "[Warning] No uniform variable int1 of type Float";
                 Assert.IsTrue(shader.GetErrorLog().Contains(expected));
             }
 
@@ -46,7 +46,7 @@ namespace SFGraphicsRenderTests.ShaderTests.SetterTests
             public void SetFloatValidType()
             {
                 shader.SetFloat("float1", 0);
-                string expected = "[Warning] No uniform variable float1 of type Float.";
+                string expected = "[Warning] No uniform variable float1 of type Float";
                 Assert.IsFalse(shader.GetErrorLog().Contains(expected));
             }
 
@@ -54,7 +54,7 @@ namespace SFGraphicsRenderTests.ShaderTests.SetterTests
             public void SetFloatInvalidName()
             {
                 shader.SetFloat("memes", 0);
-                string expected = "[Warning] Attempted to set undeclared uniform variable memes.";
+                string expected = "[Warning] Attempted to set undeclared uniform variable memes";
                 Assert.IsTrue(shader.GetErrorLog().Contains(expected));
             }
         }

@@ -38,10 +38,10 @@ namespace SFGraphicsGui
         {
             Shader shader = new Shader();
             string vertShaderSource = ResourceTextFile.GetFileText("SFGraphicsGui.Shaders.screenTexture.vert");
-            shader.LoadShader(vertShaderSource, ShaderType.VertexShader);
+            shader.LoadShader(vertShaderSource, ShaderType.VertexShader, "screenTexture");
 
             string fragShaderSource = ResourceTextFile.GetFileText("SFGraphicsGui.Shaders.screenTexture.frag");
-            shader.LoadShader(fragShaderSource, ShaderType.FragmentShader);
+            shader.LoadShader(fragShaderSource, ShaderType.FragmentShader, "screenTexture");
 
             // An example of how to use precompiled shaders.
             // The program binary can be saved to a file to avoid compiling shaders

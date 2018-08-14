@@ -15,6 +15,11 @@ namespace SFGraphics.GLObjects.Shaders
     {
         private StringBuilder errorLog = new StringBuilder();
 
+        public ShaderLog()
+        {
+            AppendHardwareAndVersionInfo();
+        }
+
         public void AppendProgramInfoLog(int programId)
         {
             errorLog.AppendLine("Program Errors:");
@@ -25,33 +30,34 @@ namespace SFGraphics.GLObjects.Shaders
         public void AppendUniformNameErrors(HashSet<string> invalidUniformNames)
         {
             foreach (string uniform in invalidUniformNames)
-                errorLog.AppendLine(String.Format("[Warning] Attempted to set undeclared uniform variable {0}.", uniform));
+                errorLog.AppendLine($"[Warning] Attempted to set undeclared uniform variable { uniform }");
         }
-
+        
         public void AppendUniformTypeErrors(Dictionary<string, ActiveUniformType> invalidUniformTypes)
         {
             foreach (var uniform in invalidUniformTypes)
-                errorLog.AppendLine(String.Format("[Warning] No uniform variable {0} of type {1}.", uniform.Key, uniform.Value.ToString()));
+                errorLog.AppendLine($"[Warning] No uniform variable { uniform.Key } of type { uniform.Value }");
         }
 
-        public void AppendHardwareAndVersionInfo()
+        private void AppendHardwareAndVersionInfo()
         {
-            errorLog.AppendLine("Vendor: " + GL.GetString(StringName.Vendor));
-            errorLog.AppendLine("Renderer: " + GL.GetString(StringName.Renderer));
-            errorLog.AppendLine("OpenGL Version: " + GL.GetString(StringName.Version));
-            errorLog.AppendLine("GLSL Version: " + GL.GetString(StringName.ShadingLanguageVersion));
+            errorLog.AppendLine($"Vendor: { GL.GetString(StringName.Vendor) }");
+            errorLog.AppendLine($"Renderer: { GL.GetString(StringName.Renderer) }");
+            errorLog.AppendLine($"OpenGL Version: { GL.GetString(StringName.Version) } ");
+            errorLog.AppendLine($"GLSL Version: { GL.GetString(StringName.ShadingLanguageVersion) }");
             errorLog.AppendLine();
         }
 
-        public void AppendShaderInfoLog(string shaderName, int shader)
+        public void AppendShaderInfoLog(string shaderName, ShaderType shaderType, int shader)
         {
             // Append compilation errors for the current shader. 
-            errorLog.AppendLine(shaderName + " Shader Log:");
+            errorLog.AppendLine($"{ shaderName } { shaderType} Log:");
+
             string error = GL.GetShaderInfoLog(shader);
             if (error == "")
                 errorLog.AppendLine("No Error");
             else
-                errorLog.AppendLine(GL.GetShaderInfoLog(shader));
+                errorLog.AppendLine(error);
 
             errorLog.AppendLine(); // line between shaders
         }

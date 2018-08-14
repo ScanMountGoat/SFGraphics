@@ -21,7 +21,7 @@ namespace SFGraphicsRenderTests.ShaderTests.SetterTests
             public void SetIntValidName()
             {
                 shader.SetInt("int1", 0);
-                string expected = "[Warning] Attempted to set undeclared uniform variable int1.";
+                string expected = "[Warning] Attempted to set undeclared uniform variable int1";
                 Assert.IsFalse(shader.GetErrorLog().Contains(expected));
             }
 
@@ -29,7 +29,7 @@ namespace SFGraphicsRenderTests.ShaderTests.SetterTests
             public void SetIntInvalidName()
             {
                 shader.SetInt("memes", 0);
-                string expected = "[Warning] Attempted to set undeclared uniform variable memes.";
+                string expected = "[Warning] Attempted to set undeclared uniform variable memes";
                 Assert.IsTrue(shader.GetErrorLog().Contains(expected));
             }
         }
