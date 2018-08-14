@@ -14,12 +14,14 @@ namespace SFGraphics.GLObjects
         public override GLObjectType ObjectType { get { return GLObjectType.Renderbuffer; } }
 
         /// <summary>
-        /// Creates an empty renderbuffer.
+        /// The width of the renderbuffer in pixels.
         /// </summary>
-        public Renderbuffer() : base(GL.GenRenderbuffer())
-        {
+        public int Width { get; }
 
-        }
+        /// <summary>
+        /// The height of the renderbuffer in pixels.
+        /// </summary>
+        public int Height { get; }
 
         /// <summary>
         /// Creates an allocates storage for an empty renderbuffer. 
@@ -28,11 +30,13 @@ namespace SFGraphics.GLObjects
         /// <param name="height">The height of the renderbuffer in pixels</param>
         /// <param name="internalFormat">The format of the image data</param>
         public Renderbuffer(int width, int height, RenderbufferStorage internalFormat)
-            : this()
+            : base(GL.GenRenderbuffer())
         {
-            Bind();
+            Width = width;
+            Height = height;
 
             // Allocate storage for the renderbuffer.
+            Bind();
             GL.RenderbufferStorage(RenderbufferTarget.Renderbuffer, internalFormat, width, height);
         }
 
@@ -44,11 +48,13 @@ namespace SFGraphics.GLObjects
         /// <param name="samples">The number of samples to use for multisampling</param>
         /// <param name="internalFormat">The format of the image data</param>
         public Renderbuffer(int width, int height, int samples, RenderbufferStorage internalFormat)
-            : this()
+            : base(GL.GenRenderbuffer())
         {
-            Bind();
+            Width = width;
+            Height = height;
 
             // Allocate storage for the renderbuffer.
+            Bind();
             GL.RenderbufferStorageMultisample(RenderbufferTarget.Renderbuffer, samples, 
                 internalFormat, width, height);
         }

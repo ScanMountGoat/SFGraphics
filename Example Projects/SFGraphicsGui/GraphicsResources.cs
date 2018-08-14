@@ -1,10 +1,8 @@
-﻿using System;
-using SFGraphics.GLObjects.Shaders;
+﻿using SFGraphics.GLObjects.Shaders;
 using SFGraphics.GLObjects.Textures;
 using SFGraphics.GLObjects;
 using SFGraphics.Tools;
 using OpenTK.Graphics.OpenGL;
-
 
 namespace SFGraphicsGui
 {
@@ -20,7 +18,7 @@ namespace SFGraphicsGui
             -1f,  3f, 0.0f
         };
 
-        // Don't call the constructors until an OpenTK context is current to prevent crashes.
+        // Don't call the constructors until an OpenGL context is current to prevent crashes.
         public Texture uvTestPattern;
         public Shader screenTextureShader;
         public BufferObject screenTriangleVbo;

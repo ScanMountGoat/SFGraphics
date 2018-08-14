@@ -1,42 +1,41 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.Concurrent;
 
-namespace SFGraphics.GLObjects
+namespace SFGraphics.GLObjects.GLObjectManagement
 {
     internal static class ReferenceCounting
     {
-        public static void AddReference(ConcurrentDictionary<Tuple<GLObject.GLObjectType, int>, int> referenceCountByGLObject, Tuple<GLObject.GLObjectType, int> glObject)
+        public static void IncrementReference<T>(ConcurrentDictionary<T, int> referenceCountByGLObject, T objToIncrement)
         {
-            if (referenceCountByGLObject.ContainsKey(glObject))
-                referenceCountByGLObject[glObject] += 1;
+            if (referenceCountByGLObject.ContainsKey(objToIncrement))
+                referenceCountByGLObject[objToIncrement] += 1;
             else
-                referenceCountByGLObject.TryAdd(glObject, 1);
+                referenceCountByGLObject.TryAdd(objToIncrement, 1);
         }
 
-        public static void RemoveReference(ConcurrentDictionary<Tuple<GLObject.GLObjectType, int>, int> referenceCountByGLObject, Tuple<GLObject.GLObjectType, int> glObject)
+        public static void DecrementReference<T>(ConcurrentDictionary<T, int> referenceCountByGLObject, T objToDecrement)
         {
             // Don't allow negative references just in case.
-            if (referenceCountByGLObject.ContainsKey(glObject))
+            if (referenceCountByGLObject.ContainsKey(objToDecrement))
             {
-                if (referenceCountByGLObject[glObject] > 0)
-                    referenceCountByGLObject[glObject] -= 1;
+                if (referenceCountByGLObject[objToDecrement] > 0)
+                    referenceCountByGLObject[objToDecrement] -= 1;
             }
         }
 
-        public static HashSet<Tuple<GLObject.GLObjectType, int>> FindIdsWithNoReferences(ConcurrentDictionary<Tuple<GLObject.GLObjectType, int>, int> referenceCountByGLObject)
+        public static HashSet<T> GetObjectsWithNoReferences<T>(ConcurrentDictionary<T, int> referenceCountByObject)
         {
-            HashSet<Tuple<GLObject.GLObjectType, int>> idsWithoutReferences = new HashSet<Tuple<GLObject.GLObjectType, int>>();
+            HashSet<T> objectsWithNoReferences = new HashSet<T>();
 
-            foreach (var glObject in referenceCountByGLObject)
+            foreach (var glObject in referenceCountByObject)
             {
                 if (glObject.Value == 0)
                 {
-                    idsWithoutReferences.Add(glObject.Key);
+                    objectsWithNoReferences.Add(glObject.Key);
                 }
             }
 
-            return idsWithoutReferences;
+            return objectsWithNoReferences;
         }
     }
 }
