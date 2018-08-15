@@ -53,7 +53,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tests\BufferObjectTests\BufferDataTests.cs" />
+    <Compile Include="Tests\BufferObjectTests\BufferSubDataTests.cs" />
+    <Compile Include="Tests\BufferObjectTests\GetBufferDataTests.cs" />
     <Compile Include="Tests\FramebufferTests\CompletionTests.cs" />
     <Compile Include="Tests\FramebufferTests\ConstructorExceptionTests.cs" />
     <Compile Include="Tests\ShaderTests\ProgramCreationAttachShader.cs" />

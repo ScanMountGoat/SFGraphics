@@ -21,6 +21,11 @@ namespace SFGraphics.GLObjects
         private int itemCount = 0;
         private int itemSizeInBytes = 0;
 
+        private int BufferSize
+        {
+            get { return itemCount * itemSizeInBytes; }
+        }
+
         /// <summary>
         /// Creates a buffer of the specified target with unitialized data.
         /// </summary>
@@ -76,6 +81,14 @@ namespace SFGraphics.GLObjects
         /// <param name="itemSizeInBytes">The size of <typeparamref name="T"/> in bytes</param>
         public void BufferSubData<T>(T[] data, int offset, int itemSizeInBytes) where T : struct
         {
+            // Throw exception for attempts to write data outside the current range.
+            if (offset < 0 || itemSizeInBytes < 0)
+                throw new ArgumentOutOfRangeException(BufferObjects.BufferObjectExceptionMessages.offsetAndItemSizeMustBeNonNegative);
+
+            int newBufferSize = offset + (data.Length * itemSizeInBytes);
+            if (newBufferSize > BufferSize)
+                throw new ArgumentOutOfRangeException(BufferObjects.BufferObjectExceptionMessages.subDataTooLong);
+
             Bind();
             // Attempts to initialize data outside the buffer's range will generate an error.
             GL.BufferSubData(BufferTarget, new IntPtr(offset), itemSizeInBytes * data.Length, data);
