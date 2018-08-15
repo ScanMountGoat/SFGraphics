@@ -24,7 +24,7 @@ namespace SFGraphicsRenderTests.TextureTests
             [TestMethod]
             public void GenerateId()
             {
-                Texture2D texture = new Texture2D(1, 1);
+                Texture2D texture = new Texture2D();
                 Assert.AreNotEqual(0, texture.Id);
             }
 
@@ -32,28 +32,34 @@ namespace SFGraphicsRenderTests.TextureTests
             public void CompressedTextureCorrectFormat()
             {
                 // Doesn't throw an exception.
-                Texture2D texture = new Texture2D(1, 1, mipmaps, InternalFormat.CompressedRg11Eac);
+                Texture2D texture = new Texture2D();
+                texture.LoadImageData(1, 1, mipmaps, InternalFormat.CompressedRg11Eac);
             }
 
             [TestMethod]
             public void UncompressedTextureCorrectFormat()
             {
                 // Doesn't throw an exception.
-                Texture2D texture = new Texture2D(1, 1, new byte[0], 5, new TextureFormatUncompressed(PixelInternalFormat.Rgba, PixelFormat.Rgba, PixelType.Float));
+                Texture2D texture = new Texture2D();
+                texture.LoadImageData(1, 1, new byte[0], 5, 
+                    new TextureFormatUncompressed(PixelInternalFormat.Rgba, PixelFormat.Rgba, PixelType.Float));
             }
 
             [TestMethod]
             [ExpectedException(typeof(ArgumentException))]
             public void CompressedTextureIncorrectFormat()
             {
-                Texture2D texture = new Texture2D(1, 1, mipmaps, InternalFormat.Rgb);
+                Texture2D texture = new Texture2D();
+                texture.LoadImageData(1, 1, mipmaps, InternalFormat.Rgb);
             }
 
             [TestMethod]
             [ExpectedException(typeof(ArgumentException))]
             public void UncompressedTextureIncorrectFormat()
             {
-                Texture2D texture = new Texture2D(1, 1, new byte[0], 5, new TextureFormatUncompressed(PixelInternalFormat.CompressedRgbaS3tcDxt1Ext, PixelFormat.Rgba, PixelType.Float));
+                Texture2D texture = new Texture2D();
+                texture.LoadImageData(1, 1, new byte[0], 5, 
+                    new TextureFormatUncompressed(PixelInternalFormat.CompressedRgbaS3tcDxt1Ext, PixelFormat.Rgba, PixelType.Float));
             }
         }
     }
