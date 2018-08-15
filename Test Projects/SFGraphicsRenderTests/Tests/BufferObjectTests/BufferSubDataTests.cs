@@ -48,5 +48,14 @@ namespace SFGraphicsRenderTests.Tests.BufferObjectTests
         {
             bufferObject.BufferSubData(dataToWrite, 0, -1);
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void BufferSubDataOutsideBufferRange()
+        {
+            // Try to write into an element past the end of the buffer.
+            int offset = sizeof(float) * (originalBufferData.Length + 1);
+            bufferObject.BufferSubData(dataToWrite, offset, sizeof(float));
+        }
     }
 }

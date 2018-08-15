@@ -4,7 +4,11 @@ using OpenTK.Graphics.OpenGL;
 namespace SFGraphics.GLObjects
 {
     /// <summary>
-    /// Encapsulates an OpenGL buffer object. Like other GLOBjects, memory is handled by GLObjectManager.
+    /// Encapsulates an OpenGL buffer object.
+    /// Data can be read from and written to the buffer using any value type, including user created structs.
+    /// <para></para><para></para>
+    /// This class does not permanently store its data. Once the buffer's data is initialized, the source data
+    /// used to initialize the buffer can be safely deleted. 
     /// </summary>
     public sealed class BufferObject : GLObject
     {
@@ -90,7 +94,6 @@ namespace SFGraphics.GLObjects
                 throw new ArgumentOutOfRangeException(BufferObjects.BufferObjectExceptionMessages.subDataTooLong);
 
             Bind();
-            // Attempts to initialize data outside the buffer's range will generate an error.
             GL.BufferSubData(BufferTarget, new IntPtr(offset), itemSizeInBytes * data.Length, data);
         }
 
@@ -102,13 +105,32 @@ namespace SFGraphics.GLObjects
         /// GL.BufferSubData(). In this case, use GL.GetBufferSubData() with the appropriate arguments.
         /// </summary>
         /// <typeparam name="T">The type specified for each item when initializing the buffer's data.</typeparam>
-        /// <returns>The buffer's data in the specified type</returns>
+        /// <returns>An array of all the buffer's initialized data</returns>
         public T[] GetBufferData<T>() where T : struct
         { 
             Bind();
 
             T[] data = new T[itemCount];
             GL.GetBufferSubData(BufferTarget, IntPtr.Zero, itemCount * itemSizeInBytes, data);
+
+            return data;
+        }
+
+        /// <summary>
+        /// Binds the buffer and reads <paramref name="itemCount"/> elements of type <typeparamref name="T"/> 
+        /// starting at <paramref name="offset"/>.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="offset">The offset in bytes where data replacement will begin</param>
+        /// <param name="itemCount">The number of items of type <typeparamref name="T"/> to read.</param>
+        /// <param name="itemSizeInBytes">The size of <typeparamref name="T"/> in bytes</param>
+        /// <returns>An array of size <paramref name="itemCount"/></returns>
+        public T[] GetBufferSubData<T>(int offset, int itemCount, int itemSizeInBytes) where T : struct
+        {
+            Bind();
+
+            T[] data = new T[itemCount];
+            GL.GetBufferSubData(BufferTarget, new IntPtr(offset), itemCount * itemSizeInBytes, data);
 
             return data;
         }
