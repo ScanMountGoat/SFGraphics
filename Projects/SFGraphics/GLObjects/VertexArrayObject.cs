@@ -10,7 +10,7 @@ namespace SFGraphics.GLObjects
         /// <summary>
         /// Returns the type of OpenGL object. Used for memory management.
         /// </summary>
-        public override GLObjectType ObjectType { get { return GLObjectType.VertexArray; } }
+        public override GLObjectType ObjectType { get { return GLObjectType.VertexArrayObject; } }
 
         /// <summary>
         /// Creates an empty vertex array object.

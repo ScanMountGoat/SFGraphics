@@ -15,7 +15,7 @@ namespace SFGraphics.GLObjects.Shaders
         /// <summary>
         /// Returns the type of OpenGL object. Used for memory management.
         /// </summary>
-        public override GLObjectType ObjectType { get { return GLObjectType.Program; } }
+        public override GLObjectType ObjectType { get { return GLObjectType.ShaderProgram; } }
 
         /// <summary>
         /// <c>true</c> when the link status is ok.

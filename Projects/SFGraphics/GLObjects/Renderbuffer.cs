@@ -11,7 +11,7 @@ namespace SFGraphics.GLObjects
         /// <summary>
         /// Returns the type of OpenGL object. Used for memory management.
         /// </summary>
-        public override GLObjectType ObjectType { get { return GLObjectType.Renderbuffer; } }
+        public override GLObjectType ObjectType { get { return GLObjectType.RenderbufferObject; } }
 
         /// <summary>
         /// The width of the renderbuffer in pixels.

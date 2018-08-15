@@ -51,22 +51,22 @@ namespace SFGraphics.GLObjects.GLObjectManagement
             {
                 default:
                     throw new NotImplementedException($"Memory management not implemented for type { glObject.Item1 }");
-                case GLObject.GLObjectType.Buffer:
+                case GLObject.GLObjectType.BufferObject:
                     GL.DeleteBuffer(glObject.Item2);
                     break;
-                case GLObject.GLObjectType.Program:
+                case GLObject.GLObjectType.ShaderProgram:
                     GL.DeleteProgram(glObject.Item2);
                     break;
-                case GLObject.GLObjectType.VertexArray:
+                case GLObject.GLObjectType.VertexArrayObject:
                     GL.DeleteVertexArray(glObject.Item2);
                     break;
-                case GLObject.GLObjectType.Framebuffer:
+                case GLObject.GLObjectType.FramebufferObject:
                     GL.DeleteFramebuffer(glObject.Item2);
                     break;
                 case GLObject.GLObjectType.Texture:
                     GL.DeleteTexture(glObject.Item2);
                     break;
-                case GLObject.GLObjectType.Renderbuffer:
+                case GLObject.GLObjectType.RenderbufferObject:
                     GL.DeleteRenderbuffer(glObject.Item2);
                     break;
             }

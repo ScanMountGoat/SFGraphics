@@ -15,7 +15,7 @@ namespace SFGraphics.GLObjects
         /// <summary>
         /// Returns the type of OpenGL object. Used for memory management.
         /// </summary>
-        public override GLObjectType ObjectType { get { return GLObjectType.Buffer; } }
+        public override GLObjectType ObjectType { get { return GLObjectType.BufferObject; } }
 
         /// <summary>
         /// The target to which <see cref="GLObject.Id"/> is bound when calling Bind().
