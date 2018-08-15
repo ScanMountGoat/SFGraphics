@@ -23,7 +23,7 @@ namespace SFGraphicsRenderTests.Tests.BufferObjectTests
         }
 
         [TestMethod]
-        public void BufferSubDataValidWrite()
+        public void GetBufferSubDataValidRead()
         {
             // Read at index 1.
             int index = 1;
@@ -32,6 +32,35 @@ namespace SFGraphicsRenderTests.Tests.BufferObjectTests
 
             Assert.AreEqual(1, bufferData.Length);
             Assert.AreEqual(2.5f, bufferData[0]);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void GetBufferSubDataNegativeOffset()
+        {
+            float[] bufferData = bufferObject.GetBufferSubData<float>(-1, 1, sizeof(float));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void GetBufferSubDataNegativeItemCount()
+        {
+            float[] bufferData = bufferObject.GetBufferSubData<float>(0, -1, sizeof(float));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void GetBufferSubDataNegativeItemSize()
+        {
+            float[] bufferData = bufferObject.GetBufferSubData<float>(0, 1, -1);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void GetBufferSubDataExceedsBufferSize()
+        {
+            // Try to read one element beyond the buffer's capacity.
+            float[] bufferData = bufferObject.GetBufferSubData<float>(0, originalBufferData.Length + 1, sizeof(float));
         }
     }
 }

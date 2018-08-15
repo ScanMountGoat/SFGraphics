@@ -83,6 +83,8 @@ namespace SFGraphics.GLObjects
         /// <param name="data">The data used to initialize the buffer's data</param>
         /// <param name="offset">The offset in bytes where data replacement will begin</param>
         /// <param name="itemSizeInBytes">The size of <typeparamref name="T"/> in bytes</param>
+        /// <exception cref="ArgumentOutOfRangeException">The specified range includes data 
+        /// outside the buffer's current capacity.</exception>        
         public void BufferSubData<T>(T[] data, int offset, int itemSizeInBytes) where T : struct
         {
             // Throw exception for attempts to write data outside the current range.
@@ -120,13 +122,23 @@ namespace SFGraphics.GLObjects
         /// Binds the buffer and reads <paramref name="itemCount"/> elements of type <typeparamref name="T"/> 
         /// starting at <paramref name="offset"/>.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="T">The type of each item. This includes arithmetic types like <see cref="int"/>.</typeparam>
         /// <param name="offset">The offset in bytes where data replacement will begin</param>
         /// <param name="itemCount">The number of items of type <typeparamref name="T"/> to read.</param>
         /// <param name="itemSizeInBytes">The size of <typeparamref name="T"/> in bytes</param>
         /// <returns>An array of size <paramref name="itemCount"/></returns>
+        /// <exception cref="ArgumentOutOfRangeException">The specified range includes data 
+        /// outside the buffer's current capacity.</exception>
         public T[] GetBufferSubData<T>(int offset, int itemCount, int itemSizeInBytes) where T : struct
         {
+            // Throw exception for attempts to read data outside the current range.
+            if (offset < 0 || itemCount < 0 || itemSizeInBytes < 0)
+                throw new ArgumentOutOfRangeException(BufferObjects.BufferObjectExceptionMessages.offsetAndItemSizeMustBeNonNegative);
+
+            int newBufferSize = offset + (itemCount * itemSizeInBytes);
+            if (newBufferSize > BufferSize)
+                throw new ArgumentOutOfRangeException(BufferObjects.BufferObjectExceptionMessages.subDataTooLong);
+
             Bind();
 
             T[] data = new T[itemCount];
