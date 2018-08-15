@@ -6,11 +6,10 @@ using OpenTK.Graphics.OpenGL;
 namespace SFGraphics.GLObjects.Textures
 {
     /// <summary>
-    /// A <see cref="Texture"/> class for TextureTarget.Texture2D textures that
-    /// provides constructors to initialize the image data from bitmaps or byte arrays 
-    /// in the specified image format. 
+    /// Provides methods for TextureTarget.Texture2D textures to load compressed or uncompressed 
+    /// image data from bitmaps or arrays of any value type. 
     /// <para></para><para></para>
-    /// The texture data can be compressed, uncompressed, or a <see cref="Bitmap"/> object.
+    /// Textures are incomplete until their dimensions and format are set.
     /// </summary>
     public class Texture2D : Texture
     {
@@ -37,7 +36,7 @@ namespace SFGraphics.GLObjects.Textures
         /// Initialize an RGBA texture with mipmaps generated from the specified bitmap.
         /// Binds the texture.
         /// </summary>
-        /// <param name="image"></param>
+        /// <param name="image">the bitmap used to load uncompressed image data</param>
         public void LoadImageData(Bitmap image)
         {
             Width = image.Width;
@@ -53,7 +52,7 @@ namespace SFGraphics.GLObjects.Textures
         /// </summary>
         /// <param name="width">The width of <paramref name="baseMipLevel"/> in pixels</param>
         /// <param name="height">The height of <paramref name="baseMipLevel"/> in pixels</param>
-        /// <param name="baseMipLevel"></param>
+        /// <param name="baseMipLevel">The image data to load for the first mip level. The other levels are generated.</param>
         /// <param name="mipCount">The number of mipmaps to generate</param>
         /// <param name="internalFormat">The image format of <paramref name="baseMipLevel"/></param>
         public void LoadImageData<T>(int width, int height, T[] baseMipLevel, int mipCount, InternalFormat internalFormat)
@@ -73,7 +72,7 @@ namespace SFGraphics.GLObjects.Textures
         /// </summary>
         /// <param name="width">The width of <paramref name="baseMipLevel"/> in pixels</param>
         /// <param name="height">The height of <paramref name="baseMipLevel"/> in pixels</param>
-        /// <param name="baseMipLevel"></param>
+        /// <param name="baseMipLevel">The image data to load for the first mip level. The other levels are generated.</param>
         /// <param name="mipCount">The number of mipmaps to generate</param>
         /// <param name="textureFormat">The format information for the uncompressed format</param>
         public void LoadImageData<T>(int width, int height, T[] baseMipLevel, int mipCount, TextureFormatUncompressed textureFormat)

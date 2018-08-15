@@ -10,7 +10,7 @@ namespace SFGraphicsRenderTests.TextureTests
     public partial class TextureTest
     {
         [TestClass]
-        public class ConstructorTests2D
+        public class LoadImageData2DTests
         {
             private static readonly List<byte[]> mipmaps = new List<byte[]>();
 

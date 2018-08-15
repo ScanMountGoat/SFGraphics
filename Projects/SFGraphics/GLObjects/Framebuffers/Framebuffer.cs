@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using OpenTK.Graphics.OpenGL;
 using SFGraphics.GLObjects.Textures;
 
@@ -54,10 +55,11 @@ namespace SFGraphics.GLObjects
         private int height = 1;
 
         /// <summary>
-        /// All color attachment textures. This list may be empty if <c>0</c> is specified for the color attachment count.
-        /// Attempting to modify the textures in this list may result in unexpected behavior.
+        /// All color attachment textures. 
         /// </summary>
-        public List<Texture2D> ColorAttachments { get; }
+        public ReadOnlyCollection<Texture2D> ColorAttachments { get { return colorAttachments.AsReadOnly(); } }
+
+        private List<Texture2D> colorAttachments = new List<Texture2D>();
 
         private Renderbuffer rboDepth;
 
@@ -99,7 +101,7 @@ namespace SFGraphics.GLObjects
             this.width = width;
             this.height = height;
 
-            ColorAttachments = CreateColorAttachments(width, height, colorAttachmentsCount);
+            colorAttachments = CreateColorAttachments(width, height, colorAttachmentsCount);
 
             SetupRboDepth(width, height);
         }
@@ -170,7 +172,12 @@ namespace SFGraphics.GLObjects
 
         private Texture2D CreateColorAttachment(int width, int height, FramebufferAttachment framebufferAttachment)
         {
-            // TODO: Properly set width, height, and format for texture properties.
+            Texture2D texture = CreateColorAttachmentTexture(width, height);
+            return texture;
+        }
+
+        private Texture2D CreateColorAttachmentTexture(int width, int height)
+        {
             Texture2D texture = new Texture2D()
             {
                 // Don't use mipmaps for color attachments.
@@ -179,7 +186,6 @@ namespace SFGraphics.GLObjects
             };
             // Necessary for texture completion.
             GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat, width, height, 0, PixelFormat.Rgba, PixelType.Float, IntPtr.Zero);
-
             return texture;
         }
 
@@ -215,13 +221,13 @@ namespace SFGraphics.GLObjects
             Bind();
             
             // Resize all attachments.
-            for (int i = 0; i < ColorAttachments.Count; i++)
+            for (int i = 0; i < colorAttachments.Count; i++)
             {
-                ColorAttachments[i].Bind();
+                colorAttachments[i].Bind();
                 // TODO: Is it faster to just make a new texture?
                 GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat, width, height, 0, 
                     PixelFormat.Rgba, PixelType.Float, IntPtr.Zero);
-                AttachTexture(FramebufferAttachment.ColorAttachment0 + i, ColorAttachments[i]);
+                AttachTexture(FramebufferAttachment.ColorAttachment0 + i, colorAttachments[i]);
             }
 
             // Render buffer for the depth attachment, which is necessary for depth testing.

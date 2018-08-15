@@ -74,7 +74,7 @@
     <Compile Include="Tests\ShaderTests\SetVector3.cs" />
     <Compile Include="Tests\ShaderTests\SetVector4.cs" />
     <Compile Include="Tests\ShaderTests\ShaderTest.cs" />
-    <Compile Include="Tests\TextureTests\ConstructorTests2D.cs" />
+    <Compile Include="Tests\TextureTests\LoadImageData2DTests.cs" />
     <Compile Include="Tests\TextureTests\CompressedImageSizeTests.cs" />
     <Compile Include="Tests\TextureTests\ConstructorTestsDepth.cs" />
     <Compile Include="Tests\TextureTests\TextureCubeMapTests.cs" />
