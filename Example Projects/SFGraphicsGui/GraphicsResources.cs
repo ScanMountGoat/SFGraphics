@@ -3,6 +3,7 @@ using SFGraphics.GLObjects.Textures;
 using SFGraphics.GLObjects;
 using SFGraphics.Tools;
 using OpenTK.Graphics.OpenGL;
+using OpenTK;
 
 namespace SFGraphicsGui
 {
@@ -19,7 +20,8 @@ namespace SFGraphicsGui
         };
 
         // Don't call the constructors until an OpenGL context is current to prevent crashes.
-        public Texture uvTestPattern;
+        public Texture2D uvTestPattern;
+        public Texture2D floatMagentaBlackStripes;
         public Shader screenTextureShader;
         public BufferObject screenTriangleVbo;
 
@@ -29,9 +31,36 @@ namespace SFGraphicsGui
         /// </summary>
         public GraphicsResources()
         {
-            uvTestPattern = new Texture2D(Properties.Resources.UVPattern); // Texture setup from a bitmap.
+            // Texture setup from a bitmap.
+            uvTestPattern = new Texture2D();
+            uvTestPattern.LoadImageData(Properties.Resources.UVPattern);
+
+            floatMagentaBlackStripes = CreateTextureFromFloatValues();
+
             screenTextureShader = CreateShader();
             screenTriangleVbo = CreateScreenQuadBuffer();
+        }
+
+        private static Texture2D CreateTextureFromFloatValues()
+        {
+            Texture2D floatTexture = new Texture2D();
+            floatTexture.MinFilter = TextureMinFilter.Nearest;
+            floatTexture.MagFilter = TextureMagFilter.Nearest;
+
+            int width = 32;
+            int height = 32;
+            int mipmaps = 0;
+
+            Vector3[] pixels = new Vector3[width * height];
+            for (int i = 0; i < pixels.Length; i++)
+            {
+                // Magenta and black stripes.
+                pixels[i] = new Vector3(1, 0, 1) * (i % 2);
+            }
+
+            floatTexture.LoadImageData(width, height, pixels, mipmaps,
+                new TextureFormatUncompressed(PixelInternalFormat.Rgb, PixelFormat.Rgb, PixelType.Float));
+            return floatTexture;
         }
 
         private Shader CreateShader()

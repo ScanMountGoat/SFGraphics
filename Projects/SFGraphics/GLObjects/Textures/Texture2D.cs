@@ -17,31 +17,34 @@ namespace SFGraphics.GLObjects.Textures
         /// <summary>
         /// The width of the base mip level in pixels.
         /// </summary>
-        public int Width { get; }
+        public int Width { get; private set; }
 
         /// <summary>
         /// The height of the base mip level in pixels.
         /// </summary>
-        public int Height { get; }
+        public int Height { get; private set; }
 
         /// <summary>
-        /// Initialize an empty Texture2D of the specified dimensions.
+        /// Creates an empty 2D texture. 
+        /// The texture is incomplete until the dimensions, format, and image data are set.
         /// </summary>
-        /// <param name="width">The width of the texture in pixels</param>
-        /// <param name="height">The height of the texture in pixels</param>
-        public Texture2D(int width, int height) : base(TextureTarget.Texture2D)
+        public Texture2D() : base(TextureTarget.Texture2D)
         {
-            Width = width;
-            Height = height;
+
         }
 
         /// <summary>
         /// Initialize an RGBA texture with mipmaps generated from the specified bitmap.
+        /// Binds the texture.
         /// </summary>
         /// <param name="image"></param>
-        public Texture2D(Bitmap image) : this(image.Width, image.Height)
+        public void LoadImageData(Bitmap image)
         {
-            MipmapLoading.LoadBaseLevelGenerateMipmaps(textureTarget, image);
+            Width = image.Width;
+            Height = image.Height;
+
+            Bind();
+            MipmapLoading.LoadBaseLevelGenerateMipmaps(TextureTarget, image);
         }
 
         /// <summary>
@@ -53,11 +56,14 @@ namespace SFGraphics.GLObjects.Textures
         /// <param name="baseMipLevel"></param>
         /// <param name="mipCount">The number of mipmaps to generate</param>
         /// <param name="internalFormat">The image format of <paramref name="baseMipLevel"/></param>
-        public Texture2D(int width, int height, byte[] baseMipLevel, int mipCount, InternalFormat internalFormat) 
-            : this(width, height)
+        public void LoadImageData<T>(int width, int height, T[] baseMipLevel, int mipCount, InternalFormat internalFormat)
+            where T : struct
         {
+            Width = width;
+            Height = height;
+
             Bind();
-            MipmapLoading.LoadBaseLevelGenerateMipmaps(textureTarget, width, height, baseMipLevel, mipCount, internalFormat);
+            MipmapLoading.LoadBaseLevelGenerateMipmaps(TextureTarget, width, height, baseMipLevel, mipCount, internalFormat);
         }
 
         /// <summary>
@@ -70,10 +76,14 @@ namespace SFGraphics.GLObjects.Textures
         /// <param name="baseMipLevel"></param>
         /// <param name="mipCount">The number of mipmaps to generate</param>
         /// <param name="textureFormat">The format information for the uncompressed format</param>
-        public Texture2D(int width, int height, byte[] baseMipLevel, int mipCount, TextureFormatUncompressed textureFormat) : this(width, height)
+        public void LoadImageData<T>(int width, int height, T[] baseMipLevel, int mipCount, TextureFormatUncompressed textureFormat)
+            where T : struct
         {
+            Width = width;
+            Height = height;
+
             Bind();
-            MipmapLoading.LoadBaseLevelGenerateMipmaps(textureTarget, width, height, baseMipLevel, mipCount, textureFormat);
+            MipmapLoading.LoadBaseLevelGenerateMipmaps(TextureTarget, width, height, baseMipLevel, mipCount, textureFormat);
         }
 
         /// <summary>
@@ -85,7 +95,8 @@ namespace SFGraphics.GLObjects.Textures
         /// <param name="mipmaps">A list of byte arrays for each mip level</param>
         /// <param name="internalFormat">The image format of <paramref name="mipmaps"/></param>
         /// <exception cref="ArgumentException"><paramref name="internalFormat"/> is not a compressed format.</exception>
-        public Texture2D(int width, int height, List<byte[]> mipmaps, InternalFormat internalFormat) : this(width, height)
+        public void LoadImageData<T>(int width, int height, List<T[]> mipmaps, InternalFormat internalFormat)
+            where T : struct
         {
             if (!TextureFormatTools.IsCompressed(internalFormat))
                 throw new ArgumentException(TextureExceptionMessages.expectedCompressed);

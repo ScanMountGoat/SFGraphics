@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using OpenTK.Graphics.OpenGL;
 using SFGraphics.GLObjects.Shaders;
+using SFGraphics.GLObjects.Textures;
 using SFGraphics.GLObjects.GLObjectManagement;
 
 namespace SFGraphicsGui
@@ -9,11 +10,12 @@ namespace SFGraphicsGui
     /// <summary>
     /// A short example of how to use SFGraphics and OpenTK to render a texture.
     /// This class also shows how to check for common errors to avoid the difficult to debug 
-    /// <see cref="System.AccessViolationException"/>.
+    /// <see cref="AccessViolationException"/>.
     /// </summary>
     public partial class MainForm : Form
     {
         private GraphicsResources graphicsResources;
+        private Texture2D textureToRender;
 
         public MainForm()
         {
@@ -32,15 +34,18 @@ namespace SFGraphicsGui
             GL.Viewport(glControl1.ClientRectangle);
 
             // Draw a test pattern image to the screen.
-            DrawScreenTexture();
+            DrawScreenTexture(textureToRender);
             glControl1.SwapBuffers();
 
             // Clean up any unused resources.
             GLObjectManager.DeleteUnusedGLObjects();
         }
 
-        private void DrawScreenTexture()
+        private void DrawScreenTexture(Texture2D texture)
         {
+            if (texture == null)
+                return;
+
             // Always check program creation before using shaders to prevent crashes.
             Shader shader = graphicsResources.screenTextureShader;
             if (!shader.ProgramCreatedSuccessfully)
@@ -49,7 +54,7 @@ namespace SFGraphicsGui
             // Render using the shader.
             GL.UseProgram(shader.Id);
 
-            shader.SetTexture("uvTexture", graphicsResources.uvTestPattern.Id, TextureTarget.Texture2D, 0);
+            shader.SetTexture("uvTexture", texture.Id, texture.TextureTarget, 0);
 
             shader.EnableVertexAttributes();
             graphicsResources.screenTriangleVbo.Bind();
@@ -86,6 +91,24 @@ namespace SFGraphicsGui
 
             // Trigger the render event.
             glControl1.Invalidate();
+        }
+
+        private void uVTestPatternToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (graphicsResources != null)
+            {
+                textureToRender = graphicsResources.uvTestPattern;
+                glControl1.Invalidate();
+            }
+        }
+
+        private void magentaBlackStripesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (graphicsResources != null)
+            {
+                textureToRender = graphicsResources.floatMagentaBlackStripes;
+                glControl1.Invalidate();
+            }
         }
     }
 }
