@@ -103,14 +103,14 @@ namespace SFGraphics.GLObjects
 
             colorAttachments = CreateColorAttachments(width, height, colorAttachmentsCount);
 
-            SetupRboDepth(width, height);
+            SetUpRboDepth(width, height);
         }
 
         /// <summary>
         /// Gets the framebuffer status for this framebuffer.
         /// </summary>
         /// <returns></returns>
-        public String GetStatus()
+        public string GetStatus()
         {
             // Check if any of the settings were incorrect when creating the fbo.
             Bind();
@@ -125,7 +125,19 @@ namespace SFGraphics.GLObjects
         /// <param name="texture">The texture to attach</param>
         public void AttachTexture(FramebufferAttachment framebufferAttachment, Texture2D texture)
         {
+            Bind();
             GL.FramebufferTexture2D(FramebufferTarget, framebufferAttachment, TextureTarget.Texture2D, texture.Id, 0);
+        }
+
+        /// <summary>
+        /// Attaches <paramref name="depthTexture"/> to <paramref name="framebufferAttachment"/>.
+        /// </summary>
+        /// <param name="framebufferAttachment">The attachment target for the texture. This should be a depth attachment.</param>
+        /// <param name="depthTexture">The depth texture to attach</param>
+        public void AttachDepthTexture(FramebufferAttachment framebufferAttachment, DepthTexture depthTexture)
+        {
+            Bind();
+            GL.FramebufferTexture2D(FramebufferTarget, framebufferAttachment, TextureTarget.Texture2D, depthTexture.Id, 0);
         }
 
         /// <summary>
@@ -136,6 +148,7 @@ namespace SFGraphics.GLObjects
         /// <param name="renderbuffer">The renderbuffer to attach</param>
         public void AttachRenderbuffer(FramebufferAttachment framebufferAttachment, Renderbuffer renderbuffer)
         {
+            Bind();
             GL.FramebufferRenderbuffer(FramebufferTarget, framebufferAttachment,
                 RenderbufferTarget.Renderbuffer, renderbuffer.Id);
         }
@@ -189,7 +202,7 @@ namespace SFGraphics.GLObjects
             return texture;
         }
 
-        private void SetupRboDepth(int width, int height)
+        private void SetUpRboDepth(int width, int height)
         {
             // Render buffer for the depth attachment, which is necessary for depth testing.
             Renderbuffer rboDepth = new Renderbuffer(width, height, RenderbufferStorage.DepthComponent);
