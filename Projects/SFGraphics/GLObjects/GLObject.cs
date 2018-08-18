@@ -43,7 +43,12 @@ namespace SFGraphics.GLObjects
             /// <summary>
             /// <see cref="GLObjects.VertexArrayObject"/>
             /// </summary>
-            VertexArrayObject
+            VertexArrayObject,
+
+            /// <summary>
+            /// <see cref="Samplers.SamplerObject"/>
+            /// </summary>
+            SamplerObject
         }
 
         /// <summary>

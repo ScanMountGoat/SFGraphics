@@ -69,6 +69,9 @@ namespace SFGraphics.GLObjects.GLObjectManagement
                 case GLObject.GLObjectType.RenderbufferObject:
                     GL.DeleteRenderbuffer(glObject.Item2);
                     break;
+                case GLObject.GLObjectType.SamplerObject:
+                    GL.DeleteSampler(glObject.Item2);
+                    break;
             }
         }
     }
