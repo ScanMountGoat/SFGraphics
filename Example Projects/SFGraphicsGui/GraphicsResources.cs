@@ -1,5 +1,6 @@
 ﻿using SFGraphics.GLObjects.Shaders;
 using SFGraphics.GLObjects.Textures;
+using SFGraphics.GLObjects.Textures.TextureFormats;
 using SFGraphics.GLObjects;
 using SFGraphics.Tools;
 using OpenTK.Graphics.OpenGL;

@@ -1,6 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SFGraphics.GLObjects.Textures;
+using SFGraphics.GLObjects.Textures.TextureFormats;
 using OpenTK.Graphics.OpenGL;
 
 namespace SFGraphicsRenderTests.TextureTests
