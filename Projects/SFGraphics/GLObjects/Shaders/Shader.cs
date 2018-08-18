@@ -26,6 +26,14 @@ namespace SFGraphics.GLObjects.Shaders
         /// </summary>
         public bool ProgramCreatedSuccessfully { get; private set; }
 
+        /// <summary>
+        /// <c>true</c> when only one sampler type is used for each texture unit
+        /// and the number of active samplers does not exceed the allowed maximum.
+        /// <para></para><para></para>
+        /// This should be checked at runtime and only for debugging purposes.
+        /// </summary>
+        public bool ProgramStatusIsValid {  get { return GetProgramValidationStatus(); } }
+
         private ShaderLog errorLog = new ShaderLog();
 
         // Vertex Attributes and Uniforms

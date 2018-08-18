@@ -15,7 +15,7 @@ namespace SFGraphicsRenderTests.ShaderTests.SetterTests
             [TestInitialize()]
             public void Initialize()
             {
-                shader = SetupContextCreateValidFragShader();
+                shader = ShaderSetup.SetupContextCreateValidFragShader();
             }
 
             [TestMethod]

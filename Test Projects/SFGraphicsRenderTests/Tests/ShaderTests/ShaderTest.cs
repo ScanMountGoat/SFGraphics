@@ -1,12 +1,9 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OpenTK.Graphics.OpenGL;
+﻿using OpenTK.Graphics.OpenGL;
 using SFGraphics.GLObjects.Shaders;
 
-
-namespace SFGraphicsRenderTests.ShaderTests.SetterTests
+namespace SFGraphicsRenderTests.ShaderTests
 {
-    [TestClass]
-    public partial class ShaderTest
+    public static class ShaderSetup
     {
         public static Shader SetupContextCreateValidFragShader()
         {

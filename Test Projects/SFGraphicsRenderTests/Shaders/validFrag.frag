@@ -7,6 +7,9 @@ uniform vec3 vector3a;
 uniform vec4 vector4a;
 uniform mat4 matrix4a;
 
+uniform sampler2D tex2D;
+uniform samplerCube texCube;
+
 out vec4 fragColor;
 
 void main()
@@ -16,4 +19,6 @@ void main()
 		fragColor *= 0.5;
 	fragColor.rgb *= vector3a;
 	fragColor *= vector4a * matrix4a;
+	fragColor *= texture(tex2D, vec2(1));
+	fragColor *= texture(texCube, vec3(1));
 }
