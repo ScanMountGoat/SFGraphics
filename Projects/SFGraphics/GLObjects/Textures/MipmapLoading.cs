@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Collections.Generic;
 using OpenTK.Graphics.OpenGL;
+using SFGraphics.GLObjects.Textures.TextureFormats;
 
 namespace SFGraphics.GLObjects.Textures
 {

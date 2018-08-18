@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SFGraphics.GLObjects.Textures
+namespace SFGraphics.GLObjects.Textures.TextureFormats
 {
     internal static class CompressedBlockSize
     {

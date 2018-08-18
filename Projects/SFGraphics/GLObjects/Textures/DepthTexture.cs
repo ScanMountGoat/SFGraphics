@@ -1,5 +1,6 @@
 ﻿using System;
 using OpenTK.Graphics.OpenGL;
+using SFGraphics.GLObjects.Textures.TextureFormats;
 
 namespace SFGraphics.GLObjects.Textures
 {

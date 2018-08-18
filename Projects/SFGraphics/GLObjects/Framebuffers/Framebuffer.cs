@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using OpenTK.Graphics.OpenGL;
 using SFGraphics.GLObjects.Textures;
+using SFGraphics.GLObjects.Textures.TextureFormats;
 
 namespace SFGraphics.GLObjects
 {
@@ -35,7 +36,7 @@ namespace SFGraphics.GLObjects
             set
             {
                 width = value;
-                Resize();
+                ResizeAllAttachments();
             }
         }
         private int width = 1;
@@ -49,7 +50,7 @@ namespace SFGraphics.GLObjects
             set
             {
                 height = value;
-                Resize();
+                ResizeAllAttachments();
             }
         }
         private int height = 1;
@@ -212,24 +213,24 @@ namespace SFGraphics.GLObjects
         private List<Texture2D> CreateColorAttachments(int width, int height, int colorAttachmentsCount)
         {
             List<Texture2D> colorAttachments = new List<Texture2D>();
+
             List<DrawBuffersEnum> attachmentEnums = new List<DrawBuffersEnum>();
             for (int i = 0; i < colorAttachmentsCount; i++)
             {
-                Texture2D colorAttachment = CreateColorAttachment(width, height, FramebufferAttachment.ColorAttachment0 + i);
+                DrawBuffersEnum attachmentPoint = DrawBuffersEnum.ColorAttachment0 + i;
+                attachmentEnums.Add(attachmentPoint);
 
-                colorAttachments.Add(colorAttachment);
-                attachmentEnums.Add(DrawBuffersEnum.ColorAttachment0 + i);
-
-                AttachTexture(FramebufferAttachment.ColorAttachment0 + i, colorAttachment);
+                Texture2D texture = CreateColorAttachment(width, height, (FramebufferAttachment)attachmentPoint);
+                colorAttachments.Add(texture);
+                AttachTexture((FramebufferAttachment)attachmentPoint, texture);
             }
 
-            // Draw to all color attachments.
             SetDrawBuffers(attachmentEnums.ToArray());
 
             return colorAttachments;
         }
 
-        private void Resize()
+        private void ResizeAllAttachments()
         {
             Bind();
             
@@ -243,7 +244,7 @@ namespace SFGraphics.GLObjects
                 AttachTexture(FramebufferAttachment.ColorAttachment0 + i, colorAttachments[i]);
             }
 
-            // Render buffer for the depth attachment, which is necessary for depth testing.
+            // Necessary for depth testing.
             rboDepth = new Renderbuffer(width, height, RenderbufferStorage.DepthComponent);
             AttachRenderbuffer(FramebufferAttachment.DepthAttachment, rboDepth);
         }

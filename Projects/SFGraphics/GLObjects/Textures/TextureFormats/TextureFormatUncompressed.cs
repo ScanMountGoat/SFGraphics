@@ -1,38 +1,35 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using OpenTK.Graphics.OpenGL;
 
-namespace SFGraphics.GLObjects.Textures
+namespace SFGraphics.GLObjects.Textures.TextureFormats
 {
     /// <summary>
-    /// An immutable cotainer for storing format information for uncompressed texture image data.
+    /// An immutable container for uncompressed texture format information.
     /// </summary>
     public struct TextureFormatUncompressed
     {
         /// <summary>
-        /// 
+        /// The color components of the image data
         /// </summary>
         public readonly PixelInternalFormat pixelInternalFormat;
 
         /// <summary>
-        /// 
+        /// The format of the image data
         /// </summary>
         public readonly PixelFormat pixelFormat;
 
         /// <summary>
-        /// An immutable container for storing 
+        /// The data type of the image data
         /// </summary>
         public readonly PixelType pixelType; 
 
         /// <summary>
-        /// 
+        /// Initializes the format information for an uncompressed format.
         /// </summary>
-        /// <param name="pixelInternalFormat"></param>
-        /// <param name="pixelFormat"></param>
-        /// <param name="pixelType"></param>
-        /// <exception cref="ArgumentException"><paramref name="pixelInternalFormat"/> is compressed</exception>
+        /// <param name="pixelInternalFormat">The color components of the image data</param>
+        /// <param name="pixelFormat">The format of the image data</param>
+        /// <param name="pixelType">The data type of the image data</param>
+        /// <exception cref="ArgumentException"><paramref name="pixelInternalFormat"/> is a compressed format.</exception>
         public TextureFormatUncompressed(PixelInternalFormat pixelInternalFormat, PixelFormat pixelFormat, PixelType pixelType)
         {
             if (TextureFormatTools.IsCompressed(pixelInternalFormat))

@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using OpenTK.Graphics.OpenGL;
 
-namespace SFGraphics.GLObjects.Textures
+namespace SFGraphics.GLObjects.Textures.TextureFormats
 {
     /// <summary>
     /// Helpful tools for working with PixelInternalFormat and InternalFormat 
-    /// with OpenTK's OpenGL texture functions.
+    /// with OpenGLs texture functions.
     /// </summary>
     public static class TextureFormatTools
     {
+        // These formats are implementation dependent, so we can't load them reliably.
         private static HashSet<InternalFormat> genericCompressedFormats = new HashSet<InternalFormat>()
         {
             InternalFormat.CompressedRed,
@@ -21,13 +22,13 @@ namespace SFGraphics.GLObjects.Textures
         };
 
         /// <summary>
-        /// Calculates the imageSize parameter for GL.CompressedTexImage. 
-        /// The imageSize should be recalculated for each mip level when reading mipmaps from existing image data.
+        /// Calculates the image size parameter for GL.CompressedTexImage. 
+        /// The image size should be recalculated for each mip level.
         /// </summary>
         /// <param name="width">The width of the mip level in pixels</param>
         /// <param name="height">The height of the mip level in pixels</param>
-        /// <param name="format">The <paramref name="format"/> should be a compressed format.</param>
-        /// <returns></returns>
+        /// <param name="format">The compressed image format.</param>
+        /// <returns>The image size in bytes for data of the specified dimensions and format</returns>
         public static int CalculateImageSize(int width, int height, InternalFormat format)
         {
             int blockSize = CalculateBlockSize(format);
@@ -78,10 +79,11 @@ namespace SFGraphics.GLObjects.Textures
         }
 
         /// <summary>
-        /// 
+        /// Determines if <paramref name="format"/> is a generic compressed format,
+        /// which are implementation dependent and do not work for loading texture data.
         /// </summary>
-        /// <param name="format"></param>
-        /// <returns></returns>
+        /// <param name="format">The image format of the texture data</param>
+        /// <returns>True if the format is a generic compressed format</returns>
         public static bool IsGenericCompressedFormat(InternalFormat format)
         {
             return genericCompressedFormats.Contains(format);    

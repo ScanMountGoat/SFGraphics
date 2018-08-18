@@ -1,23 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
 using OpenTK.Graphics.OpenGL;
-
+using SFGraphics.GLObjects.Textures.TextureFormats;
 
 namespace SFGraphics.GLObjects.Textures
 {
     /// <summary>
-    /// A <see cref="Texture"/> class for TextureTarget.TextureCubeMap textures. 
-    /// Provides a constructor for initializing the cube map faces from faces arranged vertically in a single bitmap.
+    /// A TextureTarget.TextureCubeMap texture that supports mipmaps.
     /// </summary>
     public class TextureCubeMap : Texture
     {
+        /// <summary>
+        /// Creates an empty cube map texture. 
+        /// The texture is incomplete until the dimensions and format are set.
+        /// </summary>
+        public TextureCubeMap() : base(TextureTarget.TextureCubeMap)
+        {
+
+        }
+
         /// <summary>
         /// Initializes an uncompressed cube map without mipmaps from vertically arranged faces in <paramref name="cubeMapFaces"/>.
         /// </summary>
         /// <param name="cubeMapFaces">Faces arranged from top to bottom in the order
         /// X+, X-, Y+, Y-, Z+, Z- </param>
         /// <param name="faceSideLength">The length in pixels of a side of any of the faces</param>
-        public TextureCubeMap(System.Drawing.Bitmap cubeMapFaces, int faceSideLength = 128) : base(TextureTarget.TextureCubeMap)
+        public void LoadImageData(System.Drawing.Bitmap cubeMapFaces, int faceSideLength = 128)
         {
             // Don't use mipmaps.
             MagFilter = TextureMagFilter.Linear;
@@ -67,9 +75,9 @@ namespace SFGraphics.GLObjects.Textures
         /// <param name="mipsNegZ">Mipmaps for the negative z target</param>
         /// <exception cref="ArgumentException"><paramref name="internalFormat"/> is not a compressed format.</exception>
         /// <exception cref="ArgumentOutOfRangeException">The mipmap counts are not equal for all faces.</exception>
-        public TextureCubeMap(int faceSideLength, InternalFormat internalFormat, 
+        public void LoadImageData(int faceSideLength, InternalFormat internalFormat, 
             List<byte[]> mipsPosX, List<byte[]> mipsNegX, List<byte[]> mipsPosY, 
-            List<byte[]> mipsNegY, List<byte[]> mipsPosZ, List<byte[]> mipsNegZ) : base(TextureTarget.TextureCubeMap)
+            List<byte[]> mipsNegY, List<byte[]> mipsPosZ, List<byte[]> mipsNegZ)
         {
             if (!TextureFormatTools.IsCompressed(internalFormat))
                 throw new ArgumentException(TextureExceptionMessages.expectedCompressed);
@@ -103,9 +111,8 @@ namespace SFGraphics.GLObjects.Textures
         /// <param name="faceNegY">The base mip level for the negative y target</param>
         /// <param name="facePosZ">The base mip level for the positive z target</param>
         /// <param name="faceNegZ">The base mip level for the negative z target</param>
-        public TextureCubeMap(int faceSideLength, TextureFormatUncompressed textureFormat, 
+        public void LoadImageData(int faceSideLength, TextureFormatUncompressed textureFormat, 
             byte[] facePosX, byte[] faceNegX, byte[] facePosY, byte[] faceNegY, byte[] facePosZ, byte[] faceNegZ) 
-            : base(TextureTarget.TextureCubeMap)
         {
             // Don't use mipmaps.
             MagFilter = TextureMagFilter.Linear;
