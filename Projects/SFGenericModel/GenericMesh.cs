@@ -11,9 +11,13 @@ using SFGenericModel.RenderState;
 namespace SFGenericModel
 {
     /// <summary>
-    /// 
+    /// A vertex container that supports drawing indexed vertex data using a user defined 
+    /// vertex struct <typeparamref name="T"/>.
+    /// <para></para><para></para>
+    /// Inherit from this class to override the default 
+    /// materials and rendering state.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">The struct used to define vertex data</typeparam>
     public abstract class GenericMesh<T> where T : struct
     {
         private readonly int vertexSizeInBytes;
@@ -23,10 +27,23 @@ namespace SFGenericModel
         private BufferObject vertexIndexBuffer = new BufferObject(BufferTarget.ElementArrayBuffer);
         private VertexArrayObject vertexArrayObject = new VertexArrayObject();
 
-        // Use default settings.
+        /// <summary>
+        /// The collection of OpenGL state set prior to drawing.
+        /// </summary>
         protected RenderSettings renderSettings = new RenderSettings();
+
+        /// <summary>
+        /// The collection of shader uniforms updated during drawing.
+        /// </summary>
         protected GenericMaterial material = new GenericMaterial();
 
+        /// <summary>
+        /// Creates a new mesh and initializes the vertex buffer data.
+        /// An index is generated for each vertex in <paramref name="vertices"/>.
+        /// Vertex data is initialized only once.
+        /// </summary>
+        /// <param name="vertices"></param>
+        /// <param name="vertexSizeInBytes"></param>
         public GenericMesh(List<T> vertices, int vertexSizeInBytes)
         {
             this.vertexSizeInBytes = vertexSizeInBytes;
@@ -38,6 +55,13 @@ namespace SFGenericModel
             InitializeBufferData(vertices, vertexIndices);
         }
 
+        /// <summary>
+        /// Creates a new mesh and initializes the vertex buffer data.
+        /// Vertex data is initialized only once.
+        /// </summary>
+        /// <param name="vertices"></param>
+        /// <param name="vertexIndices"></param>
+        /// <param name="vertexSizeInBytes">The total size in bytes of <typeparamref name="T"/></param>
         public GenericMesh(List<T> vertices, List<int> vertexIndices, int vertexSizeInBytes)
         {
             this.vertexSizeInBytes = vertexSizeInBytes;
@@ -56,6 +80,13 @@ namespace SFGenericModel
             return vertexIndices;
         }
 
+        /// <summary>
+        /// Sets the uniforms, sets render state, and draws the mesh.
+        /// </summary>
+        /// <param name="shader"></param>
+        /// <param name="camera">The camera used to set matrix uniforms if not <c>null</c></param>
+        /// <param name="count"></param>
+        /// <param name="offset"></param>
         public void Draw(Shader shader, Camera camera, int count, int offset = 0)
         {
             if (!shader.ProgramCreatedSuccessfully)
@@ -78,15 +109,19 @@ namespace SFGenericModel
             vertexArrayObject.Unbind();
         }
 
-        private void SetRenderSettings()
-        {
-            SetFaceCulling(renderSettings.faceCullingSettings);
-            SetAlphaBlending(renderSettings.alphaBlendSettings);
-            SetAlphaTesting(renderSettings.alphaTestSettings);
-        }
-
+        /// <summary>
+        /// The order of vertex attributes in the list should match 
+        /// the order of the fields in <typeparamref name="T"/>.
+        /// </summary>
+        /// <returns>Vertex attribute information</returns>
         protected abstract List<VertexAttributeInfo> GetVertexAttributes();
 
+        /// <summary>
+        /// Sets <c>uniform mat4 mvpMatrix</c> in the shader using <see cref="Camera.MvpMatrix"/>.
+        /// Override this method to provide custom matrices. 
+        /// </summary>
+        /// <param name="shader">The shader used for drawing</param>
+        /// <param name="camera">The camera used for drawing"/></param>
         protected virtual void SetCameraUniforms(Shader shader, Camera camera)
         {
             // Not all shaders will use camera uniforms.
@@ -95,6 +130,13 @@ namespace SFGenericModel
 
             Matrix4 matrix = camera.MvpMatrix;
             shader.SetMatrix4x4("mvpMatrix", ref matrix);
+        }
+
+        private void SetRenderSettings()
+        {
+            SetFaceCulling(renderSettings.faceCullingSettings);
+            SetAlphaBlending(renderSettings.alphaBlendSettings);
+            SetAlphaTesting(renderSettings.alphaTestSettings);
         }
 
         private void SetMaterialUniforms(Shader shader, GenericMaterial material)

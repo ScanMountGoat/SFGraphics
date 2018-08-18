@@ -4,8 +4,7 @@ using System.Collections.Concurrent;
 namespace SFGraphics.GLObjects.GLObjectManagement
 {
     /// <summary>
-    /// Provides helpers for maintaining object reference counts, which makes object oriented OpenGL
-    /// slightly less annoying.
+    /// Provides helpers for maintaining object reference counts.
     /// <see cref="ConcurrentDictionary{TKey, TValue}"/> allows references to be incremented and
     /// decremented from separate threads.
     /// </summary>

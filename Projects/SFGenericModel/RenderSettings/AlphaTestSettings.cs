@@ -4,6 +4,9 @@ namespace SFGenericModel.RenderState
 {
     partial class RenderSettings
     {
+        /// <summary>
+        /// The alpha testing state set before drawing a <see cref="GenericMesh{T}"/>.
+        /// </summary>
         public class AlphaTestSettings
         {
             public bool enableAlphaTesting = false;
