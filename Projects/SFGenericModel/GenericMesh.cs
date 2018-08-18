@@ -21,6 +21,7 @@ namespace SFGenericModel
     public abstract class GenericMesh<T> where T : struct
     {
         private readonly int vertexSizeInBytes;
+        private readonly int vertexCount;
 
         // The vertex data is immutable, so buffers only need to be initialized once.
         private BufferObject vertexBuffer = new BufferObject(BufferTarget.ArrayBuffer);
@@ -38,6 +39,11 @@ namespace SFGenericModel
         protected GenericMaterial material = new GenericMaterial();
 
         /// <summary>
+        /// The type of primitive used for drawing.
+        /// </summary>
+        public PrimitiveType PrimitiveType { get; set; } = PrimitiveType.Triangles;
+
+        /// <summary>
         /// Creates a new mesh and initializes the vertex buffer data.
         /// An index is generated for each vertex in <paramref name="vertices"/>.
         /// Vertex data is initialized only once.
@@ -47,6 +53,7 @@ namespace SFGenericModel
         public GenericMesh(List<T> vertices, int vertexSizeInBytes)
         {
             this.vertexSizeInBytes = vertexSizeInBytes;
+            vertexCount = vertices.Count;
 
             // Generate a unique index for each vertex.
             List<int> vertexIndices = GenerateIndices(vertices);
@@ -65,6 +72,7 @@ namespace SFGenericModel
         public GenericMesh(List<T> vertices, List<int> vertexIndices, int vertexSizeInBytes)
         {
             this.vertexSizeInBytes = vertexSizeInBytes;
+            vertexCount = vertexIndices.Count;
 
             InitializeBufferData(vertices, vertexIndices);
         }
@@ -94,8 +102,6 @@ namespace SFGenericModel
 
             shader.UseProgram();
 
-            // TODO: Avoid redundant initializations to optimize performance.            
-
             // Set shader uniforms.
             SetCameraUniforms(shader, camera);
             SetMaterialUniforms(shader, material);
@@ -105,8 +111,18 @@ namespace SFGenericModel
             SetRenderSettings();
 
             vertexArrayObject.Bind();
-            GL.DrawElements(PrimitiveType.Triangles, count, DrawElementsType.UnsignedInt, offset);
+            GL.DrawElements(PrimitiveType, count, DrawElementsType.UnsignedInt, offset);
             vertexArrayObject.Unbind();
+        }
+
+        /// <summary>
+        /// Sets the uniforms, sets render state, and draws the mesh.
+        /// </summary>
+        /// <param name="shader"></param>
+        /// <param name="camera"></param>
+        public void Draw(Shader shader, Camera camera)
+        {
+            Draw(shader, camera, vertexCount, 0);
         }
 
         /// <summary>
