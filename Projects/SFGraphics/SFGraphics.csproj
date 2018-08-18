@@ -54,6 +54,7 @@
     <Compile Include="GLObjects\GLObject.cs" />
     <Compile Include="GLObjects\GLObjectManagement\ReferenceCounting.cs" />
     <Compile Include="GLObjects\Renderbuffers\Renderbuffer.cs" />
+    <Compile Include="GLObjects\Samplers\SamplerObject.cs" />
     <Compile Include="GLObjects\Shaders\ShaderSetters.cs" />
     <Compile Include="GLObjects\Shaders\Shader.cs" />
     <Compile Include="GLObjects\Shaders\ShaderLog.cs" />
