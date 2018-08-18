@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SFGraphics.GLObjects.BufferObjects
 {
-    internal static class BufferObjectExceptionMessages
+    internal static class BufferExceptionMessages
     {
         public static readonly string subDataTooLong = "The data read to or written from a buffer " +
             "must not exceed the buffer's capacity.";

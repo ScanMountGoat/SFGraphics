@@ -1,14 +1,13 @@
 ﻿using System;
+using SFGraphics.GLObjects.BufferObjects;
 using OpenTK.Graphics.OpenGL;
 
 namespace SFGraphics.GLObjects
 {
     /// <summary>
-    /// Encapsulates an OpenGL buffer object.
-    /// Data can be read from and written to the buffer using any value type, including user created structs.
+    /// Data can be read from and written to the buffer using any value type.
     /// <para></para><para></para>
-    /// This class does not permanently store its data. Once the buffer's data is initialized, the source data
-    /// used to initialize the buffer can be safely deleted. 
+    /// This class does not permanently store the data used for initialization. 
     /// </summary>
     public sealed class BufferObject : GLObject
     {
@@ -60,7 +59,6 @@ namespace SFGraphics.GLObjects
         /// <summary>
         /// Initializes the buffer's data with the specified array.
         /// <paramref name="data"/> should be contiguous in memory, so only 
-        /// non nullable structs containing value types as members will work properly.
         /// </summary>
         /// <typeparam name="T">The type of each item. This includes arithmetic types like <see cref="int"/>.</typeparam>
         /// <param name="data">The data used to initialize the buffer's data</param>
@@ -80,23 +78,22 @@ namespace SFGraphics.GLObjects
         /// non nullable structs containing value types as members will work properly.
         /// </summary>
         /// <typeparam name="T">The type of each item. This includes arithmetic types like <see cref="int"/>.</typeparam>
-        /// <param name="data">The data used to initialize the buffer's data</param>
-        /// <param name="offset">The offset in bytes where data replacement will begin</param>
+        /// <param name="data">The data used to initialize the buffer's data.</param>
+        /// <param name="offsetInBytes">The offset where data replacement will begin</param>
         /// <param name="itemSizeInBytes">The size of <typeparamref name="T"/> in bytes</param>
         /// <exception cref="ArgumentOutOfRangeException">The specified range includes data 
         /// outside the buffer's current capacity.</exception>        
-        public void BufferSubData<T>(T[] data, int offset, int itemSizeInBytes) where T : struct
+        public void BufferSubData<T>(T[] data, int offsetInBytes, int itemSizeInBytes) where T : struct
         {
-            // Throw exception for attempts to write data outside the current range.
-            if (offset < 0 || itemSizeInBytes < 0)
-                throw new ArgumentOutOfRangeException(BufferObjects.BufferObjectExceptionMessages.offsetAndItemSizeMustBeNonNegative);
+            if (offsetInBytes < 0 || itemSizeInBytes < 0)
+                throw new ArgumentOutOfRangeException(BufferExceptionMessages.offsetAndItemSizeMustBeNonNegative);
 
-            int newBufferSize = offset + (data.Length * itemSizeInBytes);
+            int newBufferSize = CalculateRequiredSize(offsetInBytes, data.Length, itemSizeInBytes);
             if (newBufferSize > BufferSize)
-                throw new ArgumentOutOfRangeException(BufferObjects.BufferObjectExceptionMessages.subDataTooLong);
+                throw new ArgumentOutOfRangeException(BufferExceptionMessages.subDataTooLong);
 
             Bind();
-            GL.BufferSubData(BufferTarget, new IntPtr(offset), itemSizeInBytes * data.Length, data);
+            GL.BufferSubData(BufferTarget, new IntPtr(offsetInBytes), itemSizeInBytes * data.Length, data);
         }
 
         /// <summary>
@@ -120,31 +117,36 @@ namespace SFGraphics.GLObjects
 
         /// <summary>
         /// Binds the buffer and reads <paramref name="itemCount"/> elements of type <typeparamref name="T"/> 
-        /// starting at <paramref name="offset"/>.
+        /// starting at <paramref name="offsetInBytes"/>.
         /// </summary>
         /// <typeparam name="T">The type of each item. This includes arithmetic types like <see cref="int"/>.</typeparam>
-        /// <param name="offset">The offset in bytes where data replacement will begin</param>
+        /// <param name="offsetInBytes">The starting offset for reading</param>
         /// <param name="itemCount">The number of items of type <typeparamref name="T"/> to read.</param>
         /// <param name="itemSizeInBytes">The size of <typeparamref name="T"/> in bytes</param>
         /// <returns>An array of size <paramref name="itemCount"/></returns>
         /// <exception cref="ArgumentOutOfRangeException">The specified range includes data 
         /// outside the buffer's current capacity.</exception>
-        public T[] GetBufferSubData<T>(int offset, int itemCount, int itemSizeInBytes) where T : struct
+        public T[] GetBufferSubData<T>(int offsetInBytes, int itemCount, int itemSizeInBytes) where T : struct
         {
             // Throw exception for attempts to read data outside the current range.
-            if (offset < 0 || itemCount < 0 || itemSizeInBytes < 0)
-                throw new ArgumentOutOfRangeException(BufferObjects.BufferObjectExceptionMessages.offsetAndItemSizeMustBeNonNegative);
+            if (offsetInBytes < 0 || itemCount < 0 || itemSizeInBytes < 0)
+                throw new ArgumentOutOfRangeException(BufferExceptionMessages.offsetAndItemSizeMustBeNonNegative);
 
-            int newBufferSize = offset + (itemCount * itemSizeInBytes);
+            int newBufferSize = CalculateRequiredSize(offsetInBytes, itemCount, itemSizeInBytes);
             if (newBufferSize > BufferSize)
-                throw new ArgumentOutOfRangeException(BufferObjects.BufferObjectExceptionMessages.subDataTooLong);
+                throw new ArgumentOutOfRangeException(BufferExceptionMessages.subDataTooLong);
 
             Bind();
 
             T[] data = new T[itemCount];
-            GL.GetBufferSubData(BufferTarget, new IntPtr(offset), itemCount * itemSizeInBytes, data);
+            GL.GetBufferSubData(BufferTarget, new IntPtr(offsetInBytes), itemCount * itemSizeInBytes, data);
 
             return data;
+        }
+
+        private static int CalculateRequiredSize(int offset, int itemCount, int itemSizeInBytes)
+        {
+            return offset + (itemCount * itemSizeInBytes);
         }
     }
 }

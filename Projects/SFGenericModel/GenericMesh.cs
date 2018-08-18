@@ -10,6 +10,10 @@ using SFGenericModel.RenderState;
 
 namespace SFGenericModel
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public abstract class GenericMesh<T> where T : struct
     {
         private readonly int vertexSizeInBytes;

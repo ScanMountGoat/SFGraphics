@@ -4,6 +4,9 @@ namespace SFGenericModel.RenderState
 {
     partial class RenderSettings
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public class FaceCullingSettings
         {
             public bool enableFaceCulling = true;

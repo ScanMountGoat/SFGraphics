@@ -5,7 +5,10 @@ using SFGraphics.GLObjects.Shaders;
 
 namespace SFGenericModel.Materials
 {
-    public partial class GenericMaterial
+    /// <summary>
+    /// 
+    /// </summary>
+    public class GenericMaterial
     {
         // Scalar uniforms
         private Dictionary<string, float> floatUniformsByName = new Dictionary<string, float>();
@@ -22,34 +25,34 @@ namespace SFGenericModel.Materials
         // Texture uniforms
         // TODO: name, texture, texture unit
 
-        public void AddFloat(string name, float value)
+        public void AddFloat(string uniformName, float value)
         {
-            floatUniformsByName.Add(name, value);
+            floatUniformsByName.Add(uniformName, value);
         }
 
-        public void AddInt(string name, int value)
+        public void AddInt(string uniformName, int value)
         {
-            intUniformsByName.Add(name, value);
+            intUniformsByName.Add(uniformName, value);
         }
 
-        public void AddVector2(string name, Vector2 value)
+        public void AddVector2(string uniformName, Vector2 value)
         {
-            vec2UniformsByName.Add(name, value);
+            vec2UniformsByName.Add(uniformName, value);
         }
 
-        public void AddVector3(string name, Vector3 value)
+        public void AddVector3(string uniformName, Vector3 value)
         {
-            vec3UniformsByName.Add(name, value);
+            vec3UniformsByName.Add(uniformName, value);
         }
 
-        public void AddVector4(string name, Vector4 value)
+        public void AddVector4(string uniformName, Vector4 value)
         {
-            vec4UniformsByName.Add(name, value);
+            vec4UniformsByName.Add(uniformName, value);
         }
 
-        public void AddMatrix4(string name, Matrix4 value)
+        public void AddMatrix4(string uniformName, Matrix4 value)
         {
-            mat4UniformsByName.Add(name, value);
+            mat4UniformsByName.Add(uniformName, value);
         }
 
         public void SetShaderUniforms(Shader shader)

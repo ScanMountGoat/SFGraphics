@@ -6,8 +6,8 @@ using OpenTK.Graphics.OpenGL;
 namespace SFGraphics.GLObjects.Textures
 {
     /// <summary>
-    /// Provides methods for TextureTarget.Texture2D textures to load compressed or uncompressed 
-    /// image data from bitmaps or arrays of any value type. 
+    /// A TextureTarget.Texture2D texture that supports mipmaps
+    /// and loading data from arrays of structs.
     /// <para></para><para></para>
     /// Textures are incomplete until their dimensions and format are set.
     /// </summary>
