@@ -30,7 +30,11 @@ namespace SFGraphics.GLObjects.Textures
             List<T[]> mipmaps, InternalFormat internalFormat) where T : struct
         {
             // The number of mipmaps needs to be specified first.
-            GL.TexParameter(textureTarget, TextureParameterName.TextureMaxLevel, mipmaps.Count - 1);
+            if (!textureTarget.ToString().ToLower().Contains("cubemap"))
+            {
+                int maxMipLevel = Math.Max(mipmaps.Count - 1, 0);
+                GL.TexParameter(textureTarget, TextureParameterName.TextureMaxLevel, maxMipLevel);
+            }
 
             // Load mipmaps in the inclusive range [0, max level]
             for (int mipLevel = 0; mipLevel < mipmaps.Count; mipLevel++)
@@ -78,7 +82,8 @@ namespace SFGraphics.GLObjects.Textures
             T[] baseMipLevel, int mipCount, InternalFormat internalFormat) where T : struct
         {
             // The number of mipmaps needs to be specified first.
-            GL.TexParameter(textureTarget, TextureParameterName.TextureMaxLevel, mipCount - 1);
+            int maxMipLevel = Math.Max(mipCount - 1, 0);
+            GL.TexParameter(textureTarget, TextureParameterName.TextureMaxLevel, maxMipLevel);
 
             // Calculate the proper imageSize.
             int baseImageSize = TextureFormatTools.CalculateImageSize(width, height, internalFormat);

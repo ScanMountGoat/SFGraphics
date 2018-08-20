@@ -90,11 +90,6 @@ namespace SFGraphics.GLObjects.Textures
             MinFilter = TextureMinFilter.LinearMipmapLinear;
 
             Bind();
-            // The number of mipmaps needs to be specified first.
-            GL.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureBaseLevel, 0);
-            GL.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureMaxLevel, mipsPosX.Count);
-            GL.GenerateMipmap(GenerateMipmapTarget.TextureCubeMap);
-
             MipmapLoading.LoadFacesMipmaps(faceSideLength, internalFormat, mipsPosX, mipsNegX, mipsPosY, 
                 mipsNegY, mipsPosZ, mipsNegZ);
         }
