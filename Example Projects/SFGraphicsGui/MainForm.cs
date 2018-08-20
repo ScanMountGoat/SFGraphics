@@ -54,7 +54,10 @@ namespace SFGraphicsGui
             // Render using the shader.
             GL.UseProgram(shader.Id);
 
-            shader.SetTexture("uvTexture", texture.Id, texture.TextureTarget, 0);
+            // The sampler's parameters are used instead of the texture's parameters.
+            int textureUnit = 0;
+            graphicsResources.samplerObject.Bind(textureUnit);
+            shader.SetTexture("uvTexture", texture.Id, texture.TextureTarget, textureUnit);
 
             shader.EnableVertexAttributes();
             graphicsResources.screenTriangleVbo.Bind();

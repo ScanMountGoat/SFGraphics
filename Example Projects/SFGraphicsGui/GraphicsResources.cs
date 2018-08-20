@@ -2,6 +2,7 @@
 using SFGraphics.GLObjects.Textures;
 using SFGraphics.GLObjects.Textures.TextureFormats;
 using SFGraphics.GLObjects;
+using SFGraphics.GLObjects.Samplers;
 using SFGraphics.Tools;
 using OpenTK.Graphics.OpenGL;
 using OpenTK;
@@ -25,6 +26,7 @@ namespace SFGraphicsGui
         public Texture2D floatMagentaBlackStripes;
         public Shader screenTextureShader;
         public BufferObject screenTriangleVbo;
+        public SamplerObject samplerObject;
 
         /// <summary>
         /// Create the <see cref="uvTestPattern"/>, <see cref="screenTextureShader"/>, and <see cref="screenTriangleVbo"/>.
@@ -39,7 +41,17 @@ namespace SFGraphicsGui
             floatMagentaBlackStripes = CreateTextureFromFloatValues();
 
             screenTextureShader = CreateShader();
+
+            CreateSamplerObject();
+
             screenTriangleVbo = CreateScreenQuadBuffer();
+        }
+
+        private void CreateSamplerObject()
+        {
+            samplerObject = new SamplerObject();
+            samplerObject.MinFilter = TextureMinFilter.NearestMipmapLinear;
+            samplerObject.MagFilter = TextureMagFilter.Nearest;
         }
 
         private static Texture2D CreateTextureFromFloatValues()
