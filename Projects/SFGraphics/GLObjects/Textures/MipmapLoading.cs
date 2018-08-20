@@ -14,6 +14,8 @@ namespace SFGraphics.GLObjects.Textures
     /// </summary>
     public static class MipmapLoading
     {
+        private static readonly int minMipLevel = 0;
+
         /// <summary>
         /// Loads compressed 2D image data of the compressed format <paramref name="internalFormat"/> 
         /// for all the mip levels in <paramref name="mipmaps"/>.
@@ -32,7 +34,7 @@ namespace SFGraphics.GLObjects.Textures
             // The number of mipmaps needs to be specified first.
             if (!textureTarget.ToString().ToLower().Contains("cubemap"))
             {
-                int maxMipLevel = Math.Max(mipmaps.Count - 1, 0);
+                int maxMipLevel = Math.Max(mipmaps.Count - 1, minMipLevel);
                 GL.TexParameter(textureTarget, TextureParameterName.TextureMaxLevel, maxMipLevel);
             }
 
@@ -76,13 +78,13 @@ namespace SFGraphics.GLObjects.Textures
         /// <param name="width">The width of the texture or cube map face in pixels</param>
         /// <param name="height">The height of the texture or cube map face in pixels</param>
         /// <param name="baseMipLevel"></param>
-        /// <param name="mipCount">The total number of mipmaps</param>
+        /// <param name="mipCount">The total number of mipmaps. Negative values are converted to <c>0</c></param>
         /// <param name="internalFormat">The format for all mipmaps</param>
         public static void LoadBaseLevelGenerateMipmaps<T>(TextureTarget textureTarget, int width, int height, 
             T[] baseMipLevel, int mipCount, InternalFormat internalFormat) where T : struct
         {
             // The number of mipmaps needs to be specified first.
-            int maxMipLevel = Math.Max(mipCount - 1, 0);
+            int maxMipLevel = Math.Max(mipCount - 1, minMipLevel);
             GL.TexParameter(textureTarget, TextureParameterName.TextureMaxLevel, maxMipLevel);
 
             // Calculate the proper imageSize.
@@ -102,13 +104,14 @@ namespace SFGraphics.GLObjects.Textures
         /// <param name="width">The width of the texture or cube map face in pixels</param>
         /// <param name="height">The height of the texture or cube map face in pixels</param>
         /// <param name="baseMipLevel"></param>
-        /// <param name="mipCount">The total number of mipmaps</param>
+        /// <param name="mipCount">The total number of mipmaps. Negative values are converted to <c>0</c></param>
         /// <param name="textureFormat">The uncompressed format information</param>
         public static void LoadBaseLevelGenerateMipmaps<T>(TextureTarget textureTarget, int width, int height, T[] baseMipLevel, int mipCount, 
             TextureFormatUncompressed textureFormat) where T : struct
         {
             // The number of mipmaps needs to be specified first.
-            GL.TexParameter(textureTarget, TextureParameterName.TextureMaxLevel, mipCount - 1);
+            int maxMipLevel = Math.Max(mipCount - 1, minMipLevel);
+            GL.TexParameter(textureTarget, TextureParameterName.TextureMaxLevel, maxMipLevel);
 
             // Load the first level.
             GL.TexImage2D(textureTarget, 0, textureFormat.pixelInternalFormat, width, height, 0,

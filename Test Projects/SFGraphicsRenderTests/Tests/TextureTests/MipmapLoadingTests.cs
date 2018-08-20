@@ -26,12 +26,10 @@ namespace SFGraphicsRenderTests.TextureTests
             [TestMethod]
             public void LoadImageDataBitmap()
             {
-                texture.LoadImageData(new System.Drawing.Bitmap(128, 64));
-                Assert.AreEqual(128, texture.Width);
-                Assert.AreEqual(64, texture.Height);
+                // Doesn't throw exception.
+                MipmapLoading.LoadBaseLevelGenerateMipmaps(TextureTarget.Texture2D, new System.Drawing.Bitmap(128, 64));
+                MipmapLoading.LoadBaseLevelGenerateMipmaps(TextureTarget.TextureCubeMapPositiveX, new System.Drawing.Bitmap(128, 64));
             }
-
-
         }
     }
 }
