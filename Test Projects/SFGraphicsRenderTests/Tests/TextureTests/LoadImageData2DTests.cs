@@ -22,10 +22,13 @@ namespace SFGraphicsRenderTests.TextureTests
             }
 
             [TestMethod]
-            public void GenerateId()
+            public void Bitmap()
             {
                 Texture2D texture = new Texture2D();
-                Assert.AreNotEqual(0, texture.Id);
+                texture.LoadImageData(new System.Drawing.Bitmap(128, 64));
+
+                Assert.AreEqual(128, texture.Width);
+                Assert.AreEqual(64, texture.Height);
             }
 
             [TestMethod]
@@ -33,7 +36,10 @@ namespace SFGraphicsRenderTests.TextureTests
             {
                 // Doesn't throw an exception.
                 Texture2D texture = new Texture2D();
-                texture.LoadImageData(1, 1, mipmaps, InternalFormat.CompressedRg11Eac);
+                texture.LoadImageData(128, 64, mipmaps, InternalFormat.CompressedRg11Eac);
+
+                Assert.AreEqual(128, texture.Width);
+                Assert.AreEqual(64, texture.Height);
             }
 
             [TestMethod]
@@ -41,8 +47,11 @@ namespace SFGraphicsRenderTests.TextureTests
             {
                 // Doesn't throw an exception.
                 Texture2D texture = new Texture2D();
-                texture.LoadImageData(1, 1, new byte[0], 5, 
+                texture.LoadImageData(128, 64, new byte[0], 5, 
                     new TextureFormatUncompressed(PixelInternalFormat.Rgba, PixelFormat.Rgba, PixelType.Float));
+
+                Assert.AreEqual(128, texture.Width);
+                Assert.AreEqual(64, texture.Height);
             }
 
             [TestMethod]
@@ -50,7 +59,7 @@ namespace SFGraphicsRenderTests.TextureTests
             public void CompressedTextureIncorrectFormat()
             {
                 Texture2D texture = new Texture2D();
-                texture.LoadImageData(1, 1, mipmaps, InternalFormat.Rgb);
+                texture.LoadImageData(128, 64, mipmaps, InternalFormat.Rgb);
             }
 
             [TestMethod]
@@ -58,7 +67,7 @@ namespace SFGraphicsRenderTests.TextureTests
             public void UncompressedTextureIncorrectFormat()
             {
                 Texture2D texture = new Texture2D();
-                texture.LoadImageData(1, 1, new byte[0], 5, 
+                texture.LoadImageData(128, 64, new byte[0], 5, 
                     new TextureFormatUncompressed(PixelInternalFormat.CompressedRgbaS3tcDxt1Ext, PixelFormat.Rgba, PixelType.Float));
             }
         }

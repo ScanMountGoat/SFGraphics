@@ -105,6 +105,9 @@ namespace SFGraphics.GLObjects.Textures
             if (!TextureFormatTools.IsCompressed(internalFormat))
                 throw new ArgumentException(TextureExceptionMessages.expectedCompressed);
 
+            Width = width;
+            Height = height;
+
             MipmapLoading.LoadCompressedMipMaps(TextureTarget.Texture2D, width, height, mipmaps, internalFormat);
         }
     }

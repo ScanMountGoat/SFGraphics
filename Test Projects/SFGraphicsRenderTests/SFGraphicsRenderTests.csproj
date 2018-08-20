@@ -50,6 +50,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -78,6 +79,7 @@
     <Compile Include="Tests\TextureTests\LoadImageData2DTests.cs" />
     <Compile Include="Tests\TextureTests\CompressedImageSizeTests.cs" />
     <Compile Include="Tests\TextureTests\ConstructorTestsDepth.cs" />
+    <Compile Include="Tests\TextureTests\MipmapLoadingTests.cs" />
     <Compile Include="Tests\TextureTests\TextureCubeMapTests.cs" />
     <Compile Include="TestTools\OpenTKWindowlessContext.cs" />
     <Compile Include="TestTools\ResourceShaders.cs" />
