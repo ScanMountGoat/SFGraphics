@@ -50,7 +50,8 @@ namespace SFGraphics.GLObjects.Textures
         }
 
         /// <summary>
-        /// 
+        /// Loads the base mip level from <paramref name="image"/> and generates mipmaps.
+        /// Mipmaps are not generated for cube map targets.
         /// </summary>
         /// <param name="textureTarget">The target of the texture or cube face for loading mip maps. 
         /// Ex: Texture2D or TextureCubeMapPositiveX.</param>
@@ -58,15 +59,21 @@ namespace SFGraphics.GLObjects.Textures
         public static void LoadBaseLevelGenerateMipmaps(TextureTarget textureTarget, Bitmap image)
         {
             // Load the image data.
+            LoadMipLevelFromBitmap(textureTarget, 0, image);
+
+            if (!textureTarget.ToString().ToLower().Contains("cubemap"))
+                GL.GenerateMipmap((GenerateMipmapTarget)textureTarget);
+        }
+
+        private static void LoadMipLevelFromBitmap(TextureTarget textureTarget, int level, Bitmap image)
+        {
             System.Drawing.Imaging.BitmapData data = image.LockBits(new Rectangle(0, 0, image.Width, image.Height),
                 System.Drawing.Imaging.ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-            GL.TexImage2D(textureTarget, 0, PixelInternalFormat.Rgba, data.Width, data.Height, 0,
-                PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
-            image.UnlockBits(data);
 
-            // TODO: Set max level?
-            // Generate mipmaps.
-            GL.GenerateMipmap((GenerateMipmapTarget)textureTarget);
+            GL.TexImage2D(textureTarget, level, PixelInternalFormat.Rgba, data.Width, data.Height, 0,
+                PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
+
+            image.UnlockBits(data);
         }
 
         /// <summary>
