@@ -167,6 +167,36 @@ namespace SFGraphics.GLObjects.Textures
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="textureTarget"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <param name="baseMipLevel"></param>
+        /// <param name="mipCount"></param>
+        /// <param name="textureFormat"></param>
+        public static void LoadBaseLevelGenerateMipmaps(TextureTarget textureTarget, int width, int height, BufferObject baseMipLevel, int mipCount,
+            TextureFormatUncompressed textureFormat)
+        {
+            // The number of mipmaps needs to be specified first.
+            int maxMipLevel = Math.Max(mipCount - 1, minMipLevel);
+            GL.TexParameter(textureTarget, TextureParameterName.TextureMaxLevel, maxMipLevel);
+
+            // Load the first level.
+            GL.TexImage2D(textureTarget, 0, textureFormat.pixelInternalFormat, width, height, 0,
+                textureFormat.pixelFormat, textureFormat.pixelType, IntPtr.Zero);
+
+            baseMipLevel.Bind();
+            GL.TexSubImage2D(textureTarget, 0, 0, 0, width, height, 
+                textureFormat.pixelFormat, textureFormat.pixelType, IntPtr.Zero);
+            GL.BindBuffer(BufferTarget.PixelUnpackBuffer, 0); //unbind
+
+            // The number of mip maps needs to be specified first.
+            GL.TexParameter(textureTarget, TextureParameterName.TextureMaxLevel, mipCount);
+            GL.GenerateMipmap((GenerateMipmapTarget)textureTarget);
+        }
+
+        /// <summary>
         /// Loads image data for all six faces of a cubemap. No mipmaps are generated, so use a min filter
         /// that does not use mipmaps.
         /// </summary>

@@ -90,6 +90,23 @@ namespace SFGraphics.GLObjects.Textures
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <param name="baseMipLevel"></param>
+        /// <param name="mipCount"></param>
+        /// <param name="textureFormat"></param>
+        public void LoadImageData(int width, int height, BufferObject baseMipLevel, int mipCount, TextureFormatUncompressed textureFormat)
+        {
+            Width = width;
+            Height = height;
+
+            Bind();
+            MipmapLoading.LoadBaseLevelGenerateMipmaps(TextureTarget, width, height, baseMipLevel, mipCount, textureFormat);
+        }
+
+        /// <summary>
         /// Initializes a compressed texture of the specified format 
         /// and loads all mipmaps from <paramref name="mipmaps"/>.
         /// </summary>

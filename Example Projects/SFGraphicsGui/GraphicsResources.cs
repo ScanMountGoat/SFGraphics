@@ -6,7 +6,6 @@ using SFGraphics.GLObjects.Shaders;
 using SFGraphics.GLObjects.Textures;
 using SFGraphics.GLObjects.Textures.TextureFormats;
 using SFGraphics.Tools;
-using System;
 
 namespace SFGraphicsGui
 {
@@ -42,6 +41,8 @@ namespace SFGraphicsGui
             var stopwatch = System.Diagnostics.Stopwatch.StartNew();
 
             floatMagentaBlackStripes = CreateTextureFromFloatValues(true, 64, 64);
+
+            System.Diagnostics.Debug.WriteLine($"Create texture: { stopwatch.ElapsedMilliseconds } ms");
 
             screenTextureShader = CreateShader();
 
@@ -83,24 +84,10 @@ namespace SFGraphicsGui
 
         private static void LoadFloatTexImageDataPbo(Texture2D floatTexture, Vector3[] pixels, int width, int height)
         {
-            floatTexture.Bind();
-            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgb, width, height, 0, PixelFormat.Rgb, PixelType.Float, IntPtr.Zero);
-
             BufferObject pixelBuffer = new BufferObject(BufferTarget.PixelUnpackBuffer);
-            pixelBuffer.Bind();
-            //GL.BufferData(BufferTarget.PixelUnpackBuffer, Vector3.SizeInBytes * pixels.Length, IntPtr.Zero, BufferUsageHint.StreamDraw);
-            pixelBuffer.BufferData(pixels, Vector3.SizeInBytes, BufferUsageHint.StreamDraw);
-
-            // Bind texture first
-            // Load from PBO.
-            floatTexture.Bind();
-            pixelBuffer.Bind();
-            GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, width, height, PixelFormat.Rgb, PixelType.Float, IntPtr.Zero);
-
-            GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
-
-            // Unbind to avoid messing up other texture operations.
-            GL.BindBuffer(BufferTarget.PixelUnpackBuffer, 0);
+            pixelBuffer.BufferData(pixels, Vector3.SizeInBytes, BufferUsageHint.StaticDraw);
+            floatTexture.LoadImageData(width, height, pixelBuffer, 0,
+                new TextureFormatUncompressed(PixelInternalFormat.Rgb, PixelFormat.Rgb, PixelType.Float));
         }
 
         private static Vector3[] GetImagePixels(int width, int height)
