@@ -97,10 +97,10 @@ namespace SFGraphics.GLObjects.Textures
         /// <summary>
         /// Creates an empty texture of the specified target and internal format.
         /// </summary>
-        /// <param name="target">The target to which <see cref="GLObject.Id"/> is bound.</param>
-        public Texture(TextureTarget target) : base(GL.GenTexture())
+        /// <param name="textureTarget">The target to which <see cref="GLObject.Id"/> is bound.</param>
+        public Texture(TextureTarget textureTarget) : base(GL.GenTexture())
         {
-            TextureTarget = target;
+            TextureTarget = textureTarget;
 
             // Use properties because the GL texture needs to be updated.
             TextureWrapS = TextureWrapMode.ClampToEdge;

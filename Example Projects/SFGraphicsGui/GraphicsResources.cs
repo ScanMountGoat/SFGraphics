@@ -1,11 +1,12 @@
-﻿using SFGraphics.GLObjects.Shaders;
-using SFGraphics.GLObjects.Textures;
-using SFGraphics.GLObjects.Textures.TextureFormats;
+﻿using OpenTK;
+using OpenTK.Graphics.OpenGL;
 using SFGraphics.GLObjects;
 using SFGraphics.GLObjects.Samplers;
+using SFGraphics.GLObjects.Shaders;
+using SFGraphics.GLObjects.Textures;
+using SFGraphics.GLObjects.Textures.TextureFormats;
 using SFGraphics.Tools;
-using OpenTK.Graphics.OpenGL;
-using OpenTK;
+using System;
 
 namespace SFGraphicsGui
 {
@@ -38,7 +39,20 @@ namespace SFGraphicsGui
             uvTestPattern = new Texture2D();
             uvTestPattern.LoadImageData(Properties.Resources.UVPattern);
 
-            floatMagentaBlackStripes = CreateTextureFromFloatValues();
+            var stopwatch = System.Diagnostics.Stopwatch.StartNew();
+
+            for (int i = 0; i < 10; i++)
+            {
+                floatMagentaBlackStripes = CreateTextureFromFloatValues(true, 2048, 2048);
+            }
+            System.Diagnostics.Debug.WriteLine($"Texture Load PBO: { stopwatch.ElapsedMilliseconds / 10.0 } ms");
+
+            stopwatch.Restart();
+            for (int i = 0; i < 10; i++)
+            {
+                floatMagentaBlackStripes = CreateTextureFromFloatValues(false, 2048, 2048);
+            }
+            System.Diagnostics.Debug.WriteLine($"Texture Load: { stopwatch.ElapsedMilliseconds / 10.0 } ms");
 
             screenTextureShader = CreateShader();
 
@@ -54,16 +68,54 @@ namespace SFGraphicsGui
             samplerObject.MagFilter = TextureMagFilter.Nearest;
         }
 
-        private static Texture2D CreateTextureFromFloatValues()
+        private static Texture2D CreateTextureFromFloatValues(bool usePbo, int width, int height)
         {
             Texture2D floatTexture = new Texture2D();
             floatTexture.MinFilter = TextureMinFilter.Nearest;
             floatTexture.MagFilter = TextureMagFilter.Nearest;
 
-            int width = 32;
-            int height = 32;
             int mipmaps = 0;
 
+            Vector3[] pixels = GetImagePixels(width, height);
+
+            if (usePbo)
+                LoadFloatTexImageDataPbo(floatTexture, pixels, width, height);
+            else
+                LoadFloatTexImageData(floatTexture, pixels, width, height, mipmaps);
+
+            return floatTexture;
+        }
+
+        private static void LoadFloatTexImageData(Texture2D floatTexture, Vector3[] pixels, int width, int height, int mipmaps)
+        {
+            floatTexture.LoadImageData(width, height, pixels, mipmaps,
+                new TextureFormatUncompressed(PixelInternalFormat.Rgb, PixelFormat.Rgb, PixelType.Float));
+        }
+
+        private static void LoadFloatTexImageDataPbo(Texture2D floatTexture, Vector3[] pixels, int width, int height)
+        {
+            floatTexture.Bind();
+            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgb, width, height, 0, PixelFormat.Rgb, PixelType.Float, IntPtr.Zero);
+
+            BufferObject pixelBuffer = new BufferObject(BufferTarget.PixelUnpackBuffer);
+            pixelBuffer.Bind();
+            //GL.BufferData(BufferTarget.PixelUnpackBuffer, Vector3.SizeInBytes * pixels.Length, IntPtr.Zero, BufferUsageHint.StreamDraw);
+            pixelBuffer.BufferData(pixels, Vector3.SizeInBytes, BufferUsageHint.StreamDraw);
+
+            // Bind texture first
+            // Load from PBO.
+            floatTexture.Bind();
+            pixelBuffer.Bind();
+            GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, width, height, PixelFormat.Rgb, PixelType.Float, IntPtr.Zero);
+
+            GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
+
+            // Unbind to avoid messing up other texture operations.
+            GL.BindBuffer(BufferTarget.PixelUnpackBuffer, 0);
+        }
+
+        private static Vector3[] GetImagePixels(int width, int height)
+        {
             Vector3[] pixels = new Vector3[width * height];
             for (int i = 0; i < pixels.Length; i++)
             {
@@ -71,9 +123,7 @@ namespace SFGraphicsGui
                 pixels[i] = new Vector3(1, 0, 1) * (i % 2);
             }
 
-            floatTexture.LoadImageData(width, height, pixels, mipmaps,
-                new TextureFormatUncompressed(PixelInternalFormat.Rgb, PixelFormat.Rgb, PixelType.Float));
-            return floatTexture;
+            return pixels;
         }
 
         private Shader CreateShader()
