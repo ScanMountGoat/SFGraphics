@@ -41,18 +41,7 @@ namespace SFGraphicsGui
 
             var stopwatch = System.Diagnostics.Stopwatch.StartNew();
 
-            for (int i = 0; i < 10; i++)
-            {
-                floatMagentaBlackStripes = CreateTextureFromFloatValues(true, 2048, 2048);
-            }
-            System.Diagnostics.Debug.WriteLine($"Texture Load PBO: { stopwatch.ElapsedMilliseconds / 10.0 } ms");
-
-            stopwatch.Restart();
-            for (int i = 0; i < 10; i++)
-            {
-                floatMagentaBlackStripes = CreateTextureFromFloatValues(false, 2048, 2048);
-            }
-            System.Diagnostics.Debug.WriteLine($"Texture Load: { stopwatch.ElapsedMilliseconds / 10.0 } ms");
+            floatMagentaBlackStripes = CreateTextureFromFloatValues(true, 64, 64);
 
             screenTextureShader = CreateShader();
 

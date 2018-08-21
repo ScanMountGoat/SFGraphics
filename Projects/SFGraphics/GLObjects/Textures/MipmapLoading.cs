@@ -49,6 +49,43 @@ namespace SFGraphics.GLObjects.Textures
             }
         }
 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="textureTarget"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <param name="mipmaps"></param>
+        /// <param name="internalFormat"></param>
+        /// <param name="pixelFormat"></param>
+        public static void LoadCompressedMipMaps(TextureTarget textureTarget, int width, int height,
+            List<BufferObject> mipmaps, InternalFormat internalFormat, PixelFormat pixelFormat)
+        {
+            // The number of mipmaps needs to be specified first.
+            if (!textureTarget.ToString().ToLower().Contains("cubemap"))
+            {
+                int maxMipLevel = Math.Max(mipmaps.Count - 1, minMipLevel);
+                GL.TexParameter(textureTarget, TextureParameterName.TextureMaxLevel, maxMipLevel);
+            }
+
+            // Load mipmaps in the inclusive range [0, max level]
+            for (int mipLevel = 0; mipLevel < mipmaps.Count; mipLevel++)
+            {
+                int mipWidth = width / (int)Math.Pow(2, mipLevel);
+                int mipHeight = height / (int)Math.Pow(2, mipLevel);
+                int mipImageSize = TextureFormatTools.CalculateImageSize(mipWidth, mipHeight, internalFormat);
+
+                GL.CompressedTexImage2D(textureTarget, mipLevel, internalFormat,
+                    mipWidth, mipHeight, 0, mipImageSize, IntPtr.Zero);
+
+                // Load image data from buffer
+                mipmaps[mipLevel].Bind();
+                IntPtr bufferOffset = IntPtr.Zero;
+                GL.CompressedTexSubImage2D(textureTarget, mipLevel, 0, 0, mipWidth, mipHeight, pixelFormat, mipImageSize, bufferOffset);
+            }
+        }
+
         /// <summary>
         /// Loads the base mip level from <paramref name="image"/> and generates mipmaps.
         /// Mipmaps are not generated for cube map targets.

@@ -110,5 +110,24 @@ namespace SFGraphics.GLObjects.Textures
 
             MipmapLoading.LoadCompressedMipMaps(TextureTarget.Texture2D, width, height, mipmaps, internalFormat);
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <param name="mipmaps"></param>
+        /// <param name="internalFormat"></param>
+        /// <param name="pixelFormat"></param>
+        public void LoadImageData(int width, int height, List<BufferObject> mipmaps, InternalFormat internalFormat, PixelFormat pixelFormat)
+        {
+            if (!TextureFormatTools.IsCompressed(internalFormat))
+                throw new ArgumentException(TextureExceptionMessages.expectedCompressed);
+
+            Width = width;
+            Height = height;
+
+            MipmapLoading.LoadCompressedMipMaps(TextureTarget.Texture2D, width, height, mipmaps, internalFormat, pixelFormat);
+        }
     }
 }
