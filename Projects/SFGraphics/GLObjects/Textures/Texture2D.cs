@@ -77,7 +77,8 @@ namespace SFGraphics.GLObjects.Textures
         /// <param name="mipCount"></param>
         /// <param name="internalFormat"></param>
         /// <param name="pixelFormat"></param>
-        public void LoadImageData(int width, int height, BufferObject baseMipLevel, int mipCount, InternalFormat internalFormat, PixelFormat pixelFormat)
+        public void LoadImageData(int width, int height, BufferObject baseMipLevel, int mipCount, 
+            InternalFormat internalFormat, PixelFormat pixelFormat, PixelType pixelType)
         {
             if (!TextureFormatTools.IsCompressed(internalFormat))
                 throw new ArgumentException(TextureExceptionMessages.expectedCompressed);
@@ -86,7 +87,7 @@ namespace SFGraphics.GLObjects.Textures
             Height = height;
 
             Bind();
-            MipmapLoading.LoadBaseLevelGenerateMipmaps(TextureTarget, width, height, baseMipLevel, mipCount, internalFormat, pixelFormat);
+            MipmapLoading.LoadBaseLevelGenerateMipmaps(TextureTarget, width, height, baseMipLevel, mipCount, internalFormat, pixelFormat, pixelType);
         }
 
         /// <summary>
@@ -157,7 +158,8 @@ namespace SFGraphics.GLObjects.Textures
         /// <param name="mipmaps"></param>
         /// <param name="internalFormat"></param>
         /// <param name="pixelFormat"></param>
-        public void LoadImageData(int width, int height, List<BufferObject> mipmaps, InternalFormat internalFormat, PixelFormat pixelFormat)
+        public void LoadImageData(int width, int height, List<BufferObject> mipmaps, 
+            InternalFormat internalFormat, PixelFormat pixelFormat, PixelType pixelType)
         {
             if (!TextureFormatTools.IsCompressed(internalFormat))
                 throw new ArgumentException(TextureExceptionMessages.expectedCompressed);
@@ -165,7 +167,7 @@ namespace SFGraphics.GLObjects.Textures
             Width = width;
             Height = height;
 
-            MipmapLoading.LoadCompressedMipMaps(TextureTarget.Texture2D, width, height, mipmaps, internalFormat, pixelFormat);
+            MipmapLoading.LoadCompressedMipMaps(TextureTarget.Texture2D, width, height, mipmaps, internalFormat, pixelFormat, pixelType);
         }
     }
 }

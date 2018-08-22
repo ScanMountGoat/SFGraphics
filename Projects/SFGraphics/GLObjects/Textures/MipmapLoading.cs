@@ -60,7 +60,7 @@ namespace SFGraphics.GLObjects.Textures
         /// <param name="internalFormat"></param>
         /// <param name="pixelFormat"></param>
         public static void LoadCompressedMipMaps(TextureTarget textureTarget, int width, int height,
-            List<BufferObject> mipmaps, InternalFormat internalFormat, PixelFormat pixelFormat)
+            List<BufferObject> mipmaps, InternalFormat internalFormat, PixelFormat pixelFormat, PixelType pixelType)
         {
             // The number of mipmaps needs to be specified first.
             if (!textureTarget.ToString().ToLower().Contains("cubemap"))
@@ -76,8 +76,9 @@ namespace SFGraphics.GLObjects.Textures
                 int mipHeight = height / (int)Math.Pow(2, mipLevel);
                 int mipImageSize = TextureFormatTools.CalculateImageSize(mipWidth, mipHeight, internalFormat);
 
-                GL.CompressedTexImage2D(textureTarget, mipLevel, internalFormat,
-                    mipWidth, mipHeight, 0, mipImageSize, IntPtr.Zero);
+                // The compressed version won't accept a null pointer.
+                GL.TexImage2D(textureTarget, mipLevel, (PixelInternalFormat)internalFormat,
+                    mipWidth, mipHeight, 0, pixelFormat, pixelType, IntPtr.Zero);
 
                 // Load image data from buffer
                 mipmaps[mipLevel].Bind();
@@ -150,7 +151,8 @@ namespace SFGraphics.GLObjects.Textures
         /// <param name="internalFormat"></param>
         /// <param name="pixelFormat"></param>
         public static void LoadBaseLevelGenerateMipmaps(TextureTarget textureTarget, int width, int height,
-            BufferObject baseMipLevel, int mipCount, InternalFormat internalFormat, PixelFormat pixelFormat)
+            BufferObject baseMipLevel, int mipCount, 
+            InternalFormat internalFormat, PixelFormat pixelFormat, PixelType pixelType)
         {
             // The number of mipmaps needs to be specified first.
             int maxMipLevel = Math.Max(mipCount - 1, minMipLevel);
@@ -159,8 +161,9 @@ namespace SFGraphics.GLObjects.Textures
             // Calculate the proper imageSize.
             int baseImageSize = TextureFormatTools.CalculateImageSize(width, height, internalFormat);
 
-            // Specify dimensions and format.
-            GL.CompressedTexImage2D(textureTarget, 0, internalFormat, width, height, 0, baseImageSize, IntPtr.Zero);
+            // The compressed version won't accept a null pointer.
+            GL.TexImage2D(textureTarget, 0, (PixelInternalFormat)internalFormat,
+                width, height, 0, pixelFormat, pixelType, IntPtr.Zero);
 
             // Load the first level.
             baseMipLevel.Bind();
