@@ -142,6 +142,37 @@ namespace SFGraphics.GLObjects.Textures
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="textureTarget"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <param name="baseMipLevel"></param>
+        /// <param name="mipCount"></param>
+        /// <param name="internalFormat"></param>
+        /// <param name="pixelFormat"></param>
+        public static void LoadBaseLevelGenerateMipmaps(TextureTarget textureTarget, int width, int height,
+            BufferObject baseMipLevel, int mipCount, InternalFormat internalFormat, PixelFormat pixelFormat)
+        {
+            // The number of mipmaps needs to be specified first.
+            int maxMipLevel = Math.Max(mipCount - 1, minMipLevel);
+            GL.TexParameter(textureTarget, TextureParameterName.TextureMaxLevel, maxMipLevel);
+
+            // Calculate the proper imageSize.
+            int baseImageSize = TextureFormatTools.CalculateImageSize(width, height, internalFormat);
+
+            // Specify dimensions and format.
+            GL.CompressedTexImage2D(textureTarget, 0, internalFormat, width, height, 0, baseImageSize, IntPtr.Zero);
+
+            // Load the first level.
+            baseMipLevel.Bind();
+            GL.CompressedTexSubImage2D(textureTarget, 0, 0, 0, width, height, pixelFormat, baseImageSize, IntPtr.Zero);
+            GL.BindBuffer(BufferTarget.PixelUnpackBuffer, 0); //unbind
+
+            GL.GenerateMipmap((GenerateMipmapTarget)textureTarget);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <typeparam name="T">The value type used for the image data. This inclues arithmetic types.</typeparam>
         /// <param name="textureTarget">The target of the texture or cube face for loading mip maps. 
         /// Ex: Texture2D or TextureCubeMapPositiveX.</param>
