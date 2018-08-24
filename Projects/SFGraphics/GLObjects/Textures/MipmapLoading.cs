@@ -223,7 +223,7 @@ namespace SFGraphics.GLObjects.Textures
             baseMipLevel.Bind();
             GL.TexSubImage2D(textureTarget, 0, 0, 0, width, height, 
                 textureFormat.pixelFormat, textureFormat.pixelType, IntPtr.Zero);
-            GL.BindBuffer(BufferTarget.PixelUnpackBuffer, 0); //unbind
+            GL.BindBuffer(baseMipLevel.BufferTarget, 0); //unbind
 
             // The number of mip maps needs to be specified first.
             GL.TexParameter(textureTarget, TextureParameterName.TextureMaxLevel, mipCount);

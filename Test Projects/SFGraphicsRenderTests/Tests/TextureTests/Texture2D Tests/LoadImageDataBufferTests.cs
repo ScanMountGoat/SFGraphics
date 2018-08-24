@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SFGraphics.GLObjects.Textures;
 using OpenTK.Graphics.OpenGL;
-
+using SFGraphics.GLObjects;
+using SFGraphics.GLObjects.Textures;
+using SFGraphics.GLObjects.Textures.TextureFormats;
 
 namespace SFGraphicsRenderTests.TextureTests
 {
     [TestClass]
-    public class ConstructorTestsDepth
+    public class LoadImageDataBufferTests
     {
         private static readonly List<byte[]> mipmaps = new List<byte[]>();
 
@@ -17,22 +18,18 @@ namespace SFGraphicsRenderTests.TextureTests
         {
             // Set up the context for all the tests.
             TestTools.OpenTKWindowlessContext.BindDummyContext();
+
             // Binding a pixel unpack buffer affects texture loading methods.
             GL.BindBuffer(BufferTarget.PixelUnpackBuffer, 0);
         }
 
         [TestMethod]
-        public void DepthFormat()
+        public void UncompressedBaseLevel()
         {
-            // Doesn't throw an exception.
-            DepthTexture texture = new DepthTexture(1, 1, PixelInternalFormat.DepthComponent);
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
-        public void NotDepthFormat()
-        {
-            DepthTexture texture = new DepthTexture(1, 1, PixelInternalFormat.Rgba);
+            Texture2D texture = new Texture2D();
+            BufferObject pixelBuffer = new BufferObject(BufferTarget.PixelUnpackBuffer);
+            texture.LoadImageData(1, 1, pixelBuffer, 0,
+                new TextureFormatUncompressed(PixelInternalFormat.Rgb, PixelFormat.Rgb, PixelType.Float));
         }
     }
 }

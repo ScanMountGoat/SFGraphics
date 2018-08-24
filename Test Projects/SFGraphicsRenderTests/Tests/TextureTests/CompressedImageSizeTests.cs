@@ -16,6 +16,9 @@ namespace SFGraphicsRenderTests.TextureTests
         {
             // Set up the context for all the tests.
             TestTools.OpenTKWindowlessContext.BindDummyContext();
+
+            // Binding a pixel unpack buffer affects texture loading methods.
+            GL.BindBuffer(BufferTarget.PixelUnpackBuffer, 0);
         }
 
         private static bool CompressedTexImage2DSucceeded(int width, int height, InternalFormat internalFormat)
