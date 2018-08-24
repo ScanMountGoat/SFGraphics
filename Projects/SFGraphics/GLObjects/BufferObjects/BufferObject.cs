@@ -144,6 +144,30 @@ namespace SFGraphics.GLObjects
             return data;
         }
 
+        /// <summary>
+        /// Maps and gets a pointer to the buffer's data store.
+        /// Using the pointer in a manner inconsistent with <paramref name="bufferAccess"/>
+        /// will result in system errors.
+        /// </summary>
+        /// <param name="bufferAccess">Specifies read and/or write access for the mapped data</param>
+        /// <returns>An IntPtr for the buffer's data</returns>
+        public IntPtr MapBuffer(BufferAccess bufferAccess)
+        {
+            Bind();
+            return GL.MapBuffer(BufferTarget, bufferAccess);
+        }
+
+        /// <summary>
+        /// Releases the mapping of the buffer's data store.
+        /// If false, the buffer's data was corrupted while mapped
+        /// and should be reinitialized.
+        /// </summary>
+        /// <returns><c>true</c> if the data was not corrupted while mapped</returns>
+        public bool UnmapBuffer()
+        {
+            return GL.UnmapBuffer(BufferTarget);
+        }
+
         private static int CalculateRequiredSize(int offset, int itemCount, int itemSizeInBytes)
         {
             return offset + (itemCount * itemSizeInBytes);
