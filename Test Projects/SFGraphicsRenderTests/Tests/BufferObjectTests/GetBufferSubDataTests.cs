@@ -19,7 +19,7 @@ namespace SFGraphicsRenderTests.Tests.BufferObjectTests
             TestTools.OpenTKWindowlessContext.BindDummyContext();
 
             bufferObject = new BufferObject(BufferTarget.ArrayBuffer);
-            bufferObject.BufferData(originalBufferData, sizeof(float), BufferUsageHint.StaticDraw);
+            bufferObject.SetData(originalBufferData, sizeof(float), BufferUsageHint.StaticDraw);
         }
 
         [TestMethod]
@@ -28,7 +28,7 @@ namespace SFGraphicsRenderTests.Tests.BufferObjectTests
             // Read at index 1.
             int index = 1;
             int offset = sizeof(float) * index;
-            float[] bufferData = bufferObject.GetBufferSubData<float>(offset, 1, sizeof(float));
+            float[] bufferData = bufferObject.GetSubData<float>(offset, 1, sizeof(float));
 
             Assert.AreEqual(1, bufferData.Length);
             Assert.AreEqual(2.5f, bufferData[0]);
@@ -38,21 +38,21 @@ namespace SFGraphicsRenderTests.Tests.BufferObjectTests
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void GetBufferSubDataNegativeOffset()
         {
-            float[] bufferData = bufferObject.GetBufferSubData<float>(-1, 1, sizeof(float));
+            float[] bufferData = bufferObject.GetSubData<float>(-1, 1, sizeof(float));
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void GetBufferSubDataNegativeItemCount()
         {
-            float[] bufferData = bufferObject.GetBufferSubData<float>(0, -1, sizeof(float));
+            float[] bufferData = bufferObject.GetSubData<float>(0, -1, sizeof(float));
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void GetBufferSubDataNegativeItemSize()
         {
-            float[] bufferData = bufferObject.GetBufferSubData<float>(0, 1, -1);
+            float[] bufferData = bufferObject.GetSubData<float>(0, 1, -1);
         }
 
         [TestMethod]
@@ -60,7 +60,7 @@ namespace SFGraphicsRenderTests.Tests.BufferObjectTests
         public void GetBufferSubDataExceedsBufferSize()
         {
             // Try to read one element beyond the buffer's capacity.
-            float[] bufferData = bufferObject.GetBufferSubData<float>(0, originalBufferData.Length + 1, sizeof(float));
+            float[] bufferData = bufferObject.GetSubData<float>(0, originalBufferData.Length + 1, sizeof(float));
         }
     }
 }

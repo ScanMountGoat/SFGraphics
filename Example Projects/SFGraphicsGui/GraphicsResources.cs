@@ -85,7 +85,7 @@ namespace SFGraphicsGui
         private static void LoadFloatTexImageDataPbo(Texture2D floatTexture, Vector3[] pixels, int width, int height)
         {
             BufferObject pixelBuffer = new BufferObject(BufferTarget.PixelUnpackBuffer);
-            pixelBuffer.BufferData(pixels, Vector3.SizeInBytes, BufferUsageHint.StaticDraw);
+            pixelBuffer.SetData(pixels, Vector3.SizeInBytes, BufferUsageHint.StaticDraw);
             floatTexture.LoadImageData(width, height, pixelBuffer, 0,
                 new TextureFormatUncompressed(PixelInternalFormat.Rgb, PixelFormat.Rgb, PixelType.Float));
         }
@@ -130,7 +130,7 @@ namespace SFGraphicsGui
             // Create buffer for vertex positions. 
             // The data won't change, so only initialize once.
             BufferObject bufferObject = new BufferObject(BufferTarget.ArrayBuffer);
-            bufferObject.BufferData(screenTrianglePositions, sizeof(float), BufferUsageHint.StaticDraw);
+            bufferObject.SetData(screenTrianglePositions, sizeof(float), BufferUsageHint.StaticDraw);
 
             return bufferObject;
         }

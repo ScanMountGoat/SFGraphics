@@ -20,7 +20,7 @@ namespace SFGraphics.GLObjects
         /// <summary>
         /// The target which <see cref="GLObject.Id"/> is bound when calling <see cref="Bind"/>.
         /// </summary>
-        public FramebufferTarget FramebufferTarget { get; }
+        public FramebufferTarget Target { get; }
 
         /// <summary>
         /// The internal format used for all color attachments.
@@ -71,7 +71,7 @@ namespace SFGraphics.GLObjects
         /// <param name="framebufferTarget">The target to which <see cref="GLObject.Id"/> is bound</param>
         public Framebuffer(FramebufferTarget framebufferTarget) : base(GL.GenFramebuffer())
         {
-            FramebufferTarget = framebufferTarget;
+            Target = framebufferTarget;
             Bind();
         }
 
@@ -80,16 +80,16 @@ namespace SFGraphics.GLObjects
         /// A render buffer of the same dimensions as the color attachment is generated for the depth component.
         /// Binds the framebuffer.
         /// </summary>
-        /// <param name="framebufferTarget">The target to which <see cref="GLObject.Id"/> is bound</param>
+        /// <param name="target">The target to which <see cref="GLObject.Id"/> is bound</param>
         /// <param name="width">The width of attached textures or renderbuffers</param>
         /// <param name="height">The height of attached textures or renderbuffers</param>
         /// <param name="pixelInternalFormat">The internal format for all color attachments</param>
         /// <param name="colorAttachmentsCount">The number of color attachments to create. 
         /// Ex: <c>1</c> would only create ColorAttachment0.</param>
         /// <exception cref="ArgumentOutOfRangeException">The number of color attachments is negative.</exception>
-        public Framebuffer(FramebufferTarget framebufferTarget, int width, int height, 
+        public Framebuffer(FramebufferTarget target, int width, int height, 
             PixelInternalFormat pixelInternalFormat = PixelInternalFormat.Rgba, int colorAttachmentsCount = 1) 
-            : this(framebufferTarget)
+            : this(target)
         {
             if (colorAttachmentsCount < 0)
                 throw new ArgumentOutOfRangeException("Color attachment count must be non negative.");
@@ -115,42 +115,42 @@ namespace SFGraphics.GLObjects
         {
             // Check if any of the settings were incorrect when creating the fbo.
             Bind();
-            return GL.CheckFramebufferStatus(FramebufferTarget).ToString();
+            return GL.CheckFramebufferStatus(Target).ToString();
         }
 
         /// <summary>
-        /// Attaches <paramref name="texture"/> to <paramref name="framebufferAttachment"/>.
+        /// Attaches <paramref name="texture"/> to <paramref name="attachment"/>.
         /// Draw and read buffers must be configured separately.
         /// </summary>
-        /// <param name="framebufferAttachment">The attachment target for the texture</param>
+        /// <param name="attachment">The attachment target for the texture</param>
         /// <param name="texture">The texture to attach</param>
-        public void AttachTexture(FramebufferAttachment framebufferAttachment, Texture2D texture)
+        public void AttachTexture(FramebufferAttachment attachment, Texture2D texture)
         {
             Bind();
-            GL.FramebufferTexture2D(FramebufferTarget, framebufferAttachment, TextureTarget.Texture2D, texture.Id, 0);
+            GL.FramebufferTexture2D(Target, attachment, TextureTarget.Texture2D, texture.Id, 0);
         }
 
         /// <summary>
-        /// Attaches <paramref name="depthTexture"/> to <paramref name="framebufferAttachment"/>.
+        /// Attaches <paramref name="depthTexture"/> to <paramref name="attachment"/>.
         /// </summary>
-        /// <param name="framebufferAttachment">The attachment target for the texture. This should be a depth attachment.</param>
+        /// <param name="attachment">The attachment target for the texture. This should be a depth attachment.</param>
         /// <param name="depthTexture">The depth texture to attach</param>
-        public void AttachDepthTexture(FramebufferAttachment framebufferAttachment, DepthTexture depthTexture)
+        public void AttachDepthTexture(FramebufferAttachment attachment, DepthTexture depthTexture)
         {
             Bind();
-            GL.FramebufferTexture2D(FramebufferTarget, framebufferAttachment, TextureTarget.Texture2D, depthTexture.Id, 0);
+            GL.FramebufferTexture2D(Target, attachment, TextureTarget.Texture2D, depthTexture.Id, 0);
         }
 
         /// <summary>
-        /// Attaches <paramref name="renderbuffer"/> to <paramref name="framebufferAttachment"/>.
+        /// Attaches <paramref name="renderbuffer"/> to <paramref name="attachment"/>.
         /// Draw and read buffers must be configured separately.
         /// </summary>
-        /// <param name="framebufferAttachment">The attachment target for the renderbuffer</param>
+        /// <param name="attachment">The attachment target for the renderbuffer</param>
         /// <param name="renderbuffer">The renderbuffer to attach</param>
-        public void AttachRenderbuffer(FramebufferAttachment framebufferAttachment, Renderbuffer renderbuffer)
+        public void AttachRenderbuffer(FramebufferAttachment attachment, Renderbuffer renderbuffer)
         {
             Bind();
-            GL.FramebufferRenderbuffer(FramebufferTarget, framebufferAttachment,
+            GL.FramebufferRenderbuffer(Target, attachment,
                 RenderbufferTarget.Renderbuffer, renderbuffer.Id);
         }
 
@@ -159,7 +159,7 @@ namespace SFGraphics.GLObjects
         /// </summary>
         public void Bind()
         {
-            GL.BindFramebuffer(FramebufferTarget, Id);
+            GL.BindFramebuffer(Target, Id);
         }
 
         /// <summary>
@@ -184,7 +184,7 @@ namespace SFGraphics.GLObjects
             GL.ReadBuffer(readBufferMode);
         }
 
-        private Texture2D CreateColorAttachment(int width, int height, FramebufferAttachment framebufferAttachment)
+        private Texture2D CreateColorAttachment(int width, int height, FramebufferAttachment attachment)
         {
             Texture2D texture = CreateColorAttachmentTexture(width, height);
             return texture;

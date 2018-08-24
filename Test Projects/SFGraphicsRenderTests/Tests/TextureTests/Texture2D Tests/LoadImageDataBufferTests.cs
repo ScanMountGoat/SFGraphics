@@ -28,7 +28,7 @@ namespace SFGraphicsRenderTests.TextureTests
         {
             Texture2D texture = new Texture2D();
             BufferObject pixelBuffer = new BufferObject(BufferTarget.PixelUnpackBuffer);
-            pixelBuffer.BufferData(new float[] { 1, 1, 1 }, sizeof(float), BufferUsageHint.StaticDraw);
+            pixelBuffer.SetData(new float[] { 1, 1, 1 }, sizeof(float), BufferUsageHint.StaticDraw);
             texture.LoadImageData(1, 1, pixelBuffer, 0,
                 new TextureFormatUncompressed(PixelInternalFormat.Rgb, PixelFormat.Rgb, PixelType.Float));
         }

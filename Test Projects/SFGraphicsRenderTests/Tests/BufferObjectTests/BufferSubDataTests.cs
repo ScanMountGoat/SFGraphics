@@ -20,7 +20,7 @@ namespace SFGraphicsRenderTests.Tests.BufferObjectTests
             TestTools.OpenTKWindowlessContext.BindDummyContext();
 
             bufferObject = new BufferObject(BufferTarget.ArrayBuffer);
-            bufferObject.BufferData(originalBufferData, sizeof(float), BufferUsageHint.StaticDraw);
+            bufferObject.SetData(originalBufferData, sizeof(float), BufferUsageHint.StaticDraw);
         }
 
         [TestMethod]
@@ -29,24 +29,24 @@ namespace SFGraphicsRenderTests.Tests.BufferObjectTests
             // Write a -1 and index 1.
             int index = 1;
             int offset = sizeof(float) * index;
-            bufferObject.BufferSubData(dataToWrite, offset, sizeof(float));
+            bufferObject.SetSubData(dataToWrite, offset, sizeof(float));
 
             float[] newBufferData = new float[] { 1.5f, -1, 3.5f };
-            CollectionAssert.AreEqual(newBufferData, bufferObject.GetBufferData<float>());
+            CollectionAssert.AreEqual(newBufferData, bufferObject.GetData<float>());
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void BufferSubDataNegativeOffset()
         {
-            bufferObject.BufferSubData(dataToWrite, -1, sizeof(float));
+            bufferObject.SetSubData(dataToWrite, -1, sizeof(float));
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void BufferSubDataNegativeItemSize()
         {
-            bufferObject.BufferSubData(dataToWrite, 0, -1);
+            bufferObject.SetSubData(dataToWrite, 0, -1);
         }
 
         [TestMethod]
@@ -55,7 +55,7 @@ namespace SFGraphicsRenderTests.Tests.BufferObjectTests
         {
             // Try to write into an element past the end of the buffer.
             int offset = sizeof(float) * (originalBufferData.Length + 1);
-            bufferObject.BufferSubData(dataToWrite, offset, sizeof(float));
+            bufferObject.SetSubData(dataToWrite, offset, sizeof(float));
         }
     }
 }

@@ -20,9 +20,9 @@ namespace SFGraphicsRenderTests.BufferObjectTests
         {
             float[] data = new float[] { 1.5f, 2.5f, 3.5f };
             BufferObject buffer = new BufferObject(BufferTarget.ArrayBuffer);
-            buffer.BufferData(data, sizeof(float), BufferUsageHint.StaticDraw);
+            buffer.SetData(data, sizeof(float), BufferUsageHint.StaticDraw);
 
-            float[] readData = buffer.GetBufferData<float>();
+            float[] readData = buffer.GetData<float>();
             CollectionAssert.AreEqual(data, readData);
         }
     }

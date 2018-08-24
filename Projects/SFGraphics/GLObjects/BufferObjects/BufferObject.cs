@@ -19,12 +19,12 @@ namespace SFGraphics.GLObjects
         /// <summary>
         /// The target to which <see cref="GLObject.Id"/> is bound when calling Bind().
         /// </summary>
-        public BufferTarget BufferTarget { get; }
+        public BufferTarget Target { get; }
 
         private int itemCount = 0;
         private int itemSizeInBytes = 0;
 
-        private int BufferSize
+        private int TotalSizeInBytes
         {
             get { return itemCount * itemSizeInBytes; }
         }
@@ -32,10 +32,10 @@ namespace SFGraphics.GLObjects
         /// <summary>
         /// Creates a buffer of the specified target with unitialized data.
         /// </summary>
-        /// <param name="bufferTarget">The target to which <see cref="GLObject.Id"/> is bound</param>
-        public BufferObject(BufferTarget bufferTarget) : base(GL.GenBuffer())
+        /// <param name="target">The target to which <see cref="GLObject.Id"/> is bound</param>
+        public BufferObject(BufferTarget target) : base(GL.GenBuffer())
         {
-            BufferTarget = bufferTarget;
+            Target = target;
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace SFGraphics.GLObjects
         /// </summary>
         public void Bind()
         {
-            GL.BindBuffer(BufferTarget, Id);
+            GL.BindBuffer(Target, Id);
         }
 
         /// <summary>
@@ -63,13 +63,13 @@ namespace SFGraphics.GLObjects
         /// <typeparam name="T">The type of each item. This includes arithmetic types like <see cref="int"/>.</typeparam>
         /// <param name="data">The data used to initialize the buffer's data</param>
         /// <param name="itemSizeInBytes">The size of <typeparamref name="T"/> in bytes</param>
-        /// <param name="bufferUsageHint">A hint on how the data will be used, which allows performance optimizations</param>
-        public void BufferData<T>(T[] data, int itemSizeInBytes, BufferUsageHint bufferUsageHint) where T : struct
+        /// <param name="usageHint">A hint on how the data will be used, which allows performance optimizations</param>
+        public void SetData<T>(T[] data, int itemSizeInBytes, BufferUsageHint usageHint) where T : struct
         {
             Bind();
             itemCount = data.Length;
             this.itemSizeInBytes = itemSizeInBytes;
-            GL.BufferData(BufferTarget, itemSizeInBytes * data.Length, data, bufferUsageHint);
+            GL.BufferData(Target, itemSizeInBytes * data.Length, data, usageHint);
         }
 
         /// <summary>
@@ -83,34 +83,34 @@ namespace SFGraphics.GLObjects
         /// <param name="itemSizeInBytes">The size of <typeparamref name="T"/> in bytes</param>
         /// <exception cref="ArgumentOutOfRangeException">The specified range includes data 
         /// outside the buffer's current capacity.</exception>        
-        public void BufferSubData<T>(T[] data, int offsetInBytes, int itemSizeInBytes) where T : struct
+        public void SetSubData<T>(T[] data, int offsetInBytes, int itemSizeInBytes) where T : struct
         {
             if (offsetInBytes < 0 || itemSizeInBytes < 0)
                 throw new ArgumentOutOfRangeException(BufferExceptionMessages.offsetAndItemSizeMustBeNonNegative);
 
             int newBufferSize = CalculateRequiredSize(offsetInBytes, data.Length, itemSizeInBytes);
-            if (newBufferSize > BufferSize)
+            if (newBufferSize > TotalSizeInBytes)
                 throw new ArgumentOutOfRangeException(BufferExceptionMessages.subDataTooLong);
 
             Bind();
-            GL.BufferSubData(BufferTarget, new IntPtr(offsetInBytes), itemSizeInBytes * data.Length, data);
+            GL.BufferSubData(Target, new IntPtr(offsetInBytes), itemSizeInBytes * data.Length, data);
         }
 
         /// <summary>
-        /// Binds the buffer and reads all of the data initialized by <see cref="BufferData{T}(T[], int, BufferUsageHint)"/>
-        /// or <see cref="BufferSubData{T}(T[], int, int)"/>. 
+        /// Binds the buffer and reads all of the data initialized by <see cref="SetData{T}(T[], int, BufferUsageHint)"/>
+        /// or <see cref="SetSubData{T}(T[], int, int)"/>. 
         /// <para></para><para></para>
         /// The data returned may not be valid if the buffer's data is manually modified using GL.BufferData() or 
         /// GL.BufferSubData(). In this case, use GL.GetBufferSubData() with the appropriate arguments.
         /// </summary>
         /// <typeparam name="T">The type specified for each item when initializing the buffer's data.</typeparam>
         /// <returns>An array of all the buffer's initialized data</returns>
-        public T[] GetBufferData<T>() where T : struct
+        public T[] GetData<T>() where T : struct
         { 
             Bind();
 
             T[] data = new T[itemCount];
-            GL.GetBufferSubData(BufferTarget, IntPtr.Zero, itemCount * itemSizeInBytes, data);
+            GL.GetBufferSubData(Target, IntPtr.Zero, itemCount * itemSizeInBytes, data);
 
             return data;
         }
@@ -126,35 +126,35 @@ namespace SFGraphics.GLObjects
         /// <returns>An array of size <paramref name="itemCount"/></returns>
         /// <exception cref="ArgumentOutOfRangeException">The specified range includes data 
         /// outside the buffer's current capacity.</exception>
-        public T[] GetBufferSubData<T>(int offsetInBytes, int itemCount, int itemSizeInBytes) where T : struct
+        public T[] GetSubData<T>(int offsetInBytes, int itemCount, int itemSizeInBytes) where T : struct
         {
             // Throw exception for attempts to read data outside the current range.
             if (offsetInBytes < 0 || itemCount < 0 || itemSizeInBytes < 0)
                 throw new ArgumentOutOfRangeException(BufferExceptionMessages.offsetAndItemSizeMustBeNonNegative);
 
             int newBufferSize = CalculateRequiredSize(offsetInBytes, itemCount, itemSizeInBytes);
-            if (newBufferSize > BufferSize)
+            if (newBufferSize > TotalSizeInBytes)
                 throw new ArgumentOutOfRangeException(BufferExceptionMessages.subDataTooLong);
 
             Bind();
 
             T[] data = new T[itemCount];
-            GL.GetBufferSubData(BufferTarget, new IntPtr(offsetInBytes), itemCount * itemSizeInBytes, data);
+            GL.GetBufferSubData(Target, new IntPtr(offsetInBytes), itemCount * itemSizeInBytes, data);
 
             return data;
         }
 
         /// <summary>
         /// Maps and gets a pointer to the buffer's data store.
-        /// Using the pointer in a manner inconsistent with <paramref name="bufferAccess"/>
+        /// Using the pointer in a manner inconsistent with <paramref name="access"/>
         /// will result in system errors.
         /// </summary>
-        /// <param name="bufferAccess">Specifies read and/or write access for the mapped data</param>
+        /// <param name="access">Specifies read and/or write access for the mapped data</param>
         /// <returns>An IntPtr for the buffer's data</returns>
-        public IntPtr MapBuffer(BufferAccess bufferAccess)
+        public IntPtr MapBuffer(BufferAccess access)
         {
             Bind();
-            return GL.MapBuffer(BufferTarget, bufferAccess);
+            return GL.MapBuffer(Target, access);
         }
 
         /// <summary>
@@ -163,9 +163,9 @@ namespace SFGraphics.GLObjects
         /// and should be reinitialized.
         /// </summary>
         /// <returns><c>true</c> if the data was not corrupted while mapped</returns>
-        public bool UnmapBuffer()
+        public bool Unmap()
         {
-            return GL.UnmapBuffer(BufferTarget);
+            return GL.UnmapBuffer(Target);
         }
 
         private static int CalculateRequiredSize(int offset, int itemCount, int itemSizeInBytes)
