@@ -7,10 +7,7 @@ using SFGraphics.GLObjects.Textures.TextureFormats;
 namespace SFGraphics.GLObjects.Textures
 {
     /// <summary>
-    /// Provides methods for loading mipmaps for OpenGL textures from arrays of image data.
-    /// The arrays can be of any value type. As long as the correct image format information is used,
-    /// OpenGL will still interpret the data correctly.
-    /// Make sure to bind the texture before calling these methods.
+    /// Provides methods for loading mipmaps for OpenGL textures. Bind the texture first.
     /// </summary>
     public static class MipmapLoading
     {
@@ -46,15 +43,6 @@ namespace SFGraphics.GLObjects.Textures
                 LoadCompressedMipLevel(target, mipWidth, mipHeight, mipmaps[mipLevel], format, mipLevel);
             }
         }
-
-        private static void LoadCompressedMipLevel<T>(TextureTarget target, int width, int height, T[] imageData, 
-            InternalFormat format, int mipLevel) where T : struct
-        {
-            int border = 0;
-            int imageSize = TextureFormatTools.CalculateImageSize(width, height, format);
-            GL.CompressedTexImage2D(target, mipLevel, format, width, height, border, imageSize, imageData);
-        }
-
 
         /// <summary>
         /// 
@@ -108,17 +96,6 @@ namespace SFGraphics.GLObjects.Textures
 
             if (!target.ToString().ToLower().Contains("cubemap"))
                 GL.GenerateMipmap((GenerateMipmapTarget)target);
-        }
-
-        private static void LoadMipLevelFromBitmap(TextureTarget target, int level, Bitmap image)
-        {
-            System.Drawing.Imaging.BitmapData data = image.LockBits(new Rectangle(0, 0, image.Width, image.Height),
-                System.Drawing.Imaging.ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-
-            GL.TexImage2D(target, level, PixelInternalFormat.Rgba, data.Width, data.Height, 0,
-                PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
-
-            image.UnlockBits(data);
         }
 
         /// <summary>
@@ -285,6 +262,25 @@ namespace SFGraphics.GLObjects.Textures
 
             LoadCompressedMipMaps(TextureTarget.TextureCubeMapPositiveZ, length, length, mipsPosZ, format);
             LoadCompressedMipMaps(TextureTarget.TextureCubeMapNegativeZ, length, length, mipsNegZ, format);
+        }
+
+        private static void LoadMipLevelFromBitmap(TextureTarget target, int level, Bitmap image)
+        {
+            System.Drawing.Imaging.BitmapData data = image.LockBits(new Rectangle(0, 0, image.Width, image.Height),
+                System.Drawing.Imaging.ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+
+            GL.TexImage2D(target, level, PixelInternalFormat.Rgba, data.Width, data.Height, 0,
+                PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
+
+            image.UnlockBits(data);
+        }
+
+        private static void LoadCompressedMipLevel<T>(TextureTarget target, int width, int height, T[] imageData,
+            InternalFormat format, int mipLevel) where T : struct
+        {
+            int border = 0;
+            int imageSize = TextureFormatTools.CalculateImageSize(width, height, format);
+            GL.CompressedTexImage2D(target, mipLevel, format, width, height, border, imageSize, imageData);
         }
     }
 }

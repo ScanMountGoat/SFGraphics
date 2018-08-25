@@ -32,5 +32,12 @@ namespace SFGraphicsRenderTests.TextureTests
             texture.LoadImageData(1, 1, pixelBuffer, 0,
                 new TextureFormatUncompressed(PixelInternalFormat.Rgb, PixelFormat.Rgb, PixelType.Float));
         }
+
+        [TestMethod]
+        public void CompressedMipmaps()
+        {
+            // TODO: Fix this.
+            Assert.Fail();
+        }
     }
 }
