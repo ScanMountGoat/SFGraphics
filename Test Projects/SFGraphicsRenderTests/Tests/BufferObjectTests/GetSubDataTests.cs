@@ -6,7 +6,7 @@ using OpenTK.Graphics.OpenGL;
 namespace SFGraphicsRenderTests.BufferObjectTests
 {
     [TestClass]
-    public class GetBufferSubDataTests
+    public class GetSubDataTests
     {
         private float[] originalBufferData = new float[] { 1.5f, 2.5f, 3.5f };
 
@@ -19,7 +19,7 @@ namespace SFGraphicsRenderTests.BufferObjectTests
             TestTools.OpenTKWindowlessContext.BindDummyContext();
 
             bufferObject = new BufferObject(BufferTarget.ArrayBuffer);
-            bufferObject.SetData(originalBufferData, sizeof(float), BufferUsageHint.StaticDraw);
+            bufferObject.SetData(originalBufferData, BufferUsageHint.StaticDraw);
         }
 
         [TestMethod]
@@ -28,7 +28,7 @@ namespace SFGraphicsRenderTests.BufferObjectTests
             // Read at index 1.
             int index = 1;
             int offset = sizeof(float) * index;
-            float[] bufferData = bufferObject.GetSubData<float>(offset, 1, sizeof(float));
+            float[] bufferData = bufferObject.GetSubData<float>(offset, 1);
 
             Assert.AreEqual(1, bufferData.Length);
             Assert.AreEqual(2.5f, bufferData[0]);
@@ -38,21 +38,14 @@ namespace SFGraphicsRenderTests.BufferObjectTests
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void GetBufferSubDataNegativeOffset()
         {
-            float[] bufferData = bufferObject.GetSubData<float>(-1, 1, sizeof(float));
+            float[] bufferData = bufferObject.GetSubData<float>(-1, 1);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void GetBufferSubDataNegativeItemCount()
         {
-            float[] bufferData = bufferObject.GetSubData<float>(0, -1, sizeof(float));
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void GetBufferSubDataNegativeItemSize()
-        {
-            float[] bufferData = bufferObject.GetSubData<float>(0, 1, -1);
+            float[] bufferData = bufferObject.GetSubData<float>(0, -1);
         }
 
         [TestMethod]
@@ -60,7 +53,7 @@ namespace SFGraphicsRenderTests.BufferObjectTests
         public void GetBufferSubDataExceedsBufferSize()
         {
             // Try to read one element beyond the buffer's capacity.
-            float[] bufferData = bufferObject.GetSubData<float>(0, originalBufferData.Length + 1, sizeof(float));
+            float[] bufferData = bufferObject.GetSubData<float>(0, originalBufferData.Length + 1);
         }
     }
 }

@@ -21,7 +21,7 @@ namespace SFGraphicsRenderTests.BufferObjectTests
         {
             float[] inputData = new float[] { 1.5f, 2.5f, 3.5f };
             BufferObject buffer = new BufferObject(BufferTarget.ArrayBuffer);
-            buffer.SetData(inputData, sizeof(float), BufferUsageHint.StaticDraw);
+            buffer.SetData(inputData, BufferUsageHint.StaticDraw);
 
             // Copy the buffer's data to a new array using its pointer.
             IntPtr pointer = buffer.MapBuffer(BufferAccess.ReadOnly);
@@ -37,7 +37,7 @@ namespace SFGraphicsRenderTests.BufferObjectTests
         {
             float[] inputData = new float[] { 1.5f, 2.5f, 3.5f };
             BufferObject buffer = new BufferObject(BufferTarget.ArrayBuffer);
-            buffer.SetData(inputData, sizeof(float), BufferUsageHint.StaticDraw);
+            buffer.SetData(inputData, BufferUsageHint.StaticDraw);
 
             float[] dataToWrite = new float[] { -1f, -1f, -1f };
 

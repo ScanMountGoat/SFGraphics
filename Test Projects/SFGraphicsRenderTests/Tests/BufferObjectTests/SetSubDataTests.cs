@@ -6,7 +6,7 @@ using OpenTK.Graphics.OpenGL;
 namespace SFGraphicsRenderTests.BufferObjectTests
 {
     [TestClass]
-    public class BufferSubDataTests
+    public class SetSubDataTests
     {
         private float[] originalBufferData = new float[] { 1.5f, 2.5f, 3.5f };
         private float[] dataToWrite = new float[] { -1 };
@@ -20,7 +20,7 @@ namespace SFGraphicsRenderTests.BufferObjectTests
             TestTools.OpenTKWindowlessContext.BindDummyContext();
 
             bufferObject = new BufferObject(BufferTarget.ArrayBuffer);
-            bufferObject.SetData(originalBufferData, sizeof(float), BufferUsageHint.StaticDraw);
+            bufferObject.SetData(originalBufferData, BufferUsageHint.StaticDraw);
         }
 
         [TestMethod]
@@ -29,7 +29,7 @@ namespace SFGraphicsRenderTests.BufferObjectTests
             // Write a -1 and index 1.
             int index = 1;
             int offset = sizeof(float) * index;
-            bufferObject.SetSubData(dataToWrite, offset, sizeof(float));
+            bufferObject.SetSubData(dataToWrite, offset);
 
             float[] newBufferData = new float[] { 1.5f, -1, 3.5f };
             CollectionAssert.AreEqual(newBufferData, bufferObject.GetData<float>());
@@ -39,14 +39,7 @@ namespace SFGraphicsRenderTests.BufferObjectTests
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void BufferSubDataNegativeOffset()
         {
-            bufferObject.SetSubData(dataToWrite, -1, sizeof(float));
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void BufferSubDataNegativeItemSize()
-        {
-            bufferObject.SetSubData(dataToWrite, 0, -1);
+            bufferObject.SetSubData(dataToWrite, -1);
         }
 
         [TestMethod]
@@ -55,7 +48,7 @@ namespace SFGraphicsRenderTests.BufferObjectTests
         {
             // Try to write into an element past the end of the buffer.
             int offset = sizeof(float) * (originalBufferData.Length + 1);
-            bufferObject.SetSubData(dataToWrite, offset, sizeof(float));
+            bufferObject.SetSubData(dataToWrite, offset);
         }
     }
 }

@@ -11,5 +11,7 @@ namespace SFGraphics.GLObjects.BufferObjects
             "must not exceed the buffer's capacity.";
 
         public static readonly string offsetAndItemSizeMustBeNonNegative = "The offset and item size must be non negative.";
+
+        public static readonly string bufferNotDivisibleByRequestedType = "The buffer's size is not divisible by the requested type's size.";
     }
 }

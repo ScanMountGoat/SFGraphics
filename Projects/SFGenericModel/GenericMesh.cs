@@ -201,8 +201,8 @@ namespace SFGenericModel
 
         private void InitializeBufferData(List<T> vertices, List<int> vertexIndices)
         {
-            vertexBuffer.SetData(vertices.ToArray(), vertexSizeInBytes, BufferUsageHint.StaticDraw);
-            vertexIndexBuffer.SetData(vertexIndices.ToArray(), sizeof(int), BufferUsageHint.StaticDraw);
+            vertexBuffer.SetData(vertices.ToArray(), BufferUsageHint.StaticDraw);
+            vertexIndexBuffer.SetData(vertexIndices.ToArray(), BufferUsageHint.StaticDraw);
         }
 
         private void ConfigureVertexAttributes(Shader shader)

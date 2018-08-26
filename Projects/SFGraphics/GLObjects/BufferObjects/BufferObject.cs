@@ -21,12 +21,14 @@ namespace SFGraphics.GLObjects
         /// </summary>
         public BufferTarget Target { get; }
 
-        private int itemCount = 0;
-        private int itemSizeInBytes = 0;
+        // From last time setting the data.
+        private int itemCountPreviousWrite = 0;
+        private int itemSizeInBytesPreviousWrite = 0;
 
-        private int TotalSizeInBytes
+        // The actual capacity of the buffer may be bigger.
+        private int TotalSizeInBytesPreviousWrite
         {
-            get { return itemCount * itemSizeInBytes; }
+            get { return itemCountPreviousWrite * itemSizeInBytesPreviousWrite; }
         }
 
         /// <summary>
@@ -62,14 +64,14 @@ namespace SFGraphics.GLObjects
         /// </summary>
         /// <typeparam name="T">The type of each item. This includes arithmetic types like <see cref="int"/>.</typeparam>
         /// <param name="data">The data used to initialize the buffer's data</param>
-        /// <param name="itemSizeInBytes">The size of <typeparamref name="T"/> in bytes</param>
         /// <param name="usageHint">A hint on how the data will be used, which allows performance optimizations</param>
-        public void SetData<T>(T[] data, int itemSizeInBytes, BufferUsageHint usageHint) where T : struct
+        public void SetData<T>(T[] data, BufferUsageHint usageHint) where T : struct
         {
+            itemCountPreviousWrite = data.Length;
+            itemSizeInBytesPreviousWrite = System.Runtime.InteropServices.Marshal.SizeOf(typeof(T));
+
             Bind();
-            itemCount = data.Length;
-            this.itemSizeInBytes = itemSizeInBytes;
-            GL.BufferData(Target, itemSizeInBytes * data.Length, data, usageHint);
+            GL.BufferData(Target, itemSizeInBytesPreviousWrite * data.Length, data, usageHint);
         }
 
         /// <summary>
@@ -80,16 +82,18 @@ namespace SFGraphics.GLObjects
         /// <typeparam name="T">The type of each item. This includes arithmetic types like <see cref="int"/>.</typeparam>
         /// <param name="data">The data used to initialize the buffer's data.</param>
         /// <param name="offsetInBytes">The offset where data replacement will begin</param>
-        /// <param name="itemSizeInBytes">The size of <typeparamref name="T"/> in bytes</param>
+        /// 
         /// <exception cref="ArgumentOutOfRangeException">The specified range includes data 
         /// outside the buffer's current capacity.</exception>        
-        public void SetSubData<T>(T[] data, int offsetInBytes, int itemSizeInBytes) where T : struct
+        public void SetSubData<T>(T[] data, int offsetInBytes) where T : struct
         {
+            int itemSizeInBytes = System.Runtime.InteropServices.Marshal.SizeOf(typeof(T));
+
             if (offsetInBytes < 0 || itemSizeInBytes < 0)
                 throw new ArgumentOutOfRangeException(BufferExceptionMessages.offsetAndItemSizeMustBeNonNegative);
 
             int newBufferSize = CalculateRequiredSize(offsetInBytes, data.Length, itemSizeInBytes);
-            if (newBufferSize > TotalSizeInBytes)
+            if (newBufferSize > TotalSizeInBytesPreviousWrite)
                 throw new ArgumentOutOfRangeException(BufferExceptionMessages.subDataTooLong);
 
             Bind();
@@ -97,20 +101,24 @@ namespace SFGraphics.GLObjects
         }
 
         /// <summary>
-        /// Binds the buffer and reads all of the data initialized by <see cref="SetData{T}(T[], int, BufferUsageHint)"/>
-        /// or <see cref="SetSubData{T}(T[], int, int)"/>. 
+        /// Reads the buffer's data into structs of type <typeparamref name="T"/>.
         /// <para></para><para></para>
-        /// The data returned may not be valid if the buffer's data is manually modified using GL.BufferData() or 
-        /// GL.BufferSubData(). In this case, use GL.GetBufferSubData() with the appropriate arguments.
+        /// The data returned may not be valid if the buffer's data is modified using <see cref="MapBuffer(BufferAccess)"/>.
         /// </summary>
         /// <typeparam name="T">The type specified for each item when initializing the buffer's data.</typeparam>
         /// <returns>An array of all the buffer's initialized data</returns>
         public T[] GetData<T>() where T : struct
-        { 
-            Bind();
+        {
+            int itemSizeInBytes = System.Runtime.InteropServices.Marshal.SizeOf(typeof(T));
 
-            T[] data = new T[itemCount];
-            GL.GetBufferSubData(Target, IntPtr.Zero, itemCount * itemSizeInBytes, data);
+            if ((TotalSizeInBytesPreviousWrite % itemSizeInBytes) != 0)
+                throw new ArgumentOutOfRangeException(BufferExceptionMessages.bufferNotDivisibleByRequestedType);
+
+            int newItemCount = TotalSizeInBytesPreviousWrite / itemSizeInBytes;
+
+            Bind();
+            T[] data = new T[newItemCount];
+            GL.GetBufferSubData(Target, IntPtr.Zero, newItemCount * itemSizeInBytes, data);
 
             return data;
         }
@@ -122,18 +130,19 @@ namespace SFGraphics.GLObjects
         /// <typeparam name="T">The type of each item. This includes arithmetic types like <see cref="int"/>.</typeparam>
         /// <param name="offsetInBytes">The starting offset for reading</param>
         /// <param name="itemCount">The number of items of type <typeparamref name="T"/> to read.</param>
-        /// <param name="itemSizeInBytes">The size of <typeparamref name="T"/> in bytes</param>
         /// <returns>An array of size <paramref name="itemCount"/></returns>
         /// <exception cref="ArgumentOutOfRangeException">The specified range includes data 
         /// outside the buffer's current capacity.</exception>
-        public T[] GetSubData<T>(int offsetInBytes, int itemCount, int itemSizeInBytes) where T : struct
+        public T[] GetSubData<T>(int offsetInBytes, int itemCount) where T : struct
         {
+            int itemSizeInBytes = System.Runtime.InteropServices.Marshal.SizeOf(typeof(T));
+
             // Throw exception for attempts to read data outside the current range.
             if (offsetInBytes < 0 || itemCount < 0 || itemSizeInBytes < 0)
                 throw new ArgumentOutOfRangeException(BufferExceptionMessages.offsetAndItemSizeMustBeNonNegative);
 
             int newBufferSize = CalculateRequiredSize(offsetInBytes, itemCount, itemSizeInBytes);
-            if (newBufferSize > TotalSizeInBytes)
+            if (newBufferSize > TotalSizeInBytesPreviousWrite)
                 throw new ArgumentOutOfRangeException(BufferExceptionMessages.subDataTooLong);
 
             Bind();

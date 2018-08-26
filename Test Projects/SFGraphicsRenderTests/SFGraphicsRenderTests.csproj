@@ -55,9 +55,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tests\BufferObjectTests\BufferSubDataTests.cs" />
+    <Compile Include="Tests\BufferObjectTests\SetSubDataTests.cs" />
     <Compile Include="Tests\BufferObjectTests\BufferDataTests.cs" />
-    <Compile Include="Tests\BufferObjectTests\GetBufferSubDataTests.cs" />
+    <Compile Include="Tests\BufferObjectTests\GetSubDataTests.cs" />
     <Compile Include="Tests\BufferObjectTests\MapBufferTests.cs" />
     <Compile Include="Tests\FramebufferTests\CompletionTests.cs" />
     <Compile Include="Tests\FramebufferTests\ConstructorExceptionTests.cs" />
