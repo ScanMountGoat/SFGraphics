@@ -165,6 +165,7 @@ namespace SFGraphics.GLObjects
         /// <returns><c>true</c> if the data was not corrupted while mapped</returns>
         public bool Unmap()
         {
+            Bind();
             return GL.UnmapBuffer(Target);
         }
 

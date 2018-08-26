@@ -28,6 +28,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -57,6 +58,7 @@
     <Compile Include="Tests\BufferObjectTests\BufferSubDataTests.cs" />
     <Compile Include="Tests\BufferObjectTests\BufferDataTests.cs" />
     <Compile Include="Tests\BufferObjectTests\GetBufferSubDataTests.cs" />
+    <Compile Include="Tests\BufferObjectTests\MapBufferTests.cs" />
     <Compile Include="Tests\FramebufferTests\CompletionTests.cs" />
     <Compile Include="Tests\FramebufferTests\ConstructorExceptionTests.cs" />
     <Compile Include="Tests\GLObjectTests\GLObjectToStringTests.cs" />

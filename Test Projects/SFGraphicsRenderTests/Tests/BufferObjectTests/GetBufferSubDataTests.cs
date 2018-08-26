@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SFGraphics.GLObjects;
 using OpenTK.Graphics.OpenGL;
 
-namespace SFGraphicsRenderTests.Tests.BufferObjectTests
+namespace SFGraphicsRenderTests.BufferObjectTests
 {
     [TestClass]
     public class GetBufferSubDataTests
