@@ -34,8 +34,8 @@ test:
     - '**\Test Projects\SFGraphicsRenderTests\bin\$(configuration)\SFGraphicsRenderTests.dll'
 
 after_build:
-  - 7z a "SFGraphics.zip" '%APPVEYOR_BUILD_FOLDER%\Projects\SFGraphics\bin\Release\SFGraphics.dll'
-  - 7z a "SFGraphics.zip" '%APPVEYOR_BUILD_FOLDER%\Projects\SFGraphics\bin\Release\SFGraphics.xml'
-  - 7z a "SFGraphics.zip" '%APPVEYOR_BUILD_FOLDER%\Projects\SFGenericModel\bin\Release\SFGenericModel.dll'
-  - 7z a "SFGraphics.zip" '%APPVEYOR_BUILD_FOLDER%\Projects\SFGenericModel\bin\Release\SFGenericModel.xml'
+  - 7z a "SFGraphics.zip" "%APPVEYOR_BUILD_FOLDER%\Projects\SFGraphics\bin\Release\SFGraphics.dll"
+  - 7z a "SFGraphics.zip" "%APPVEYOR_BUILD_FOLDER%\Projects\SFGraphics\bin\Release\SFGraphics.xml"
+  - 7z a "SFGraphics.zip" "%APPVEYOR_BUILD_FOLDER%\Projects\SFGenericModel\bin\Release\SFGenericModel.dll"
+  - 7z a "SFGraphics.zip" "%APPVEYOR_BUILD_FOLDER%\Projects\SFGenericModel\bin\Release\SFGenericModel.xml"
   - appveyor PushArtifact "SFGraphics.zip"
