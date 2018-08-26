@@ -49,10 +49,9 @@ namespace SFGenericModel
         /// Vertex data is initialized only once.
         /// </summary>
         /// <param name="vertices"></param>
-        /// <param name="vertexSizeInBytes"></param>
-        public GenericMesh(List<T> vertices, int vertexSizeInBytes)
+        public GenericMesh(List<T> vertices)
         {
-            this.vertexSizeInBytes = vertexSizeInBytes;
+            vertexSizeInBytes = System.Runtime.InteropServices.Marshal.SizeOf(typeof(T));
             vertexCount = vertices.Count;
 
             // Generate a unique index for each vertex.
@@ -68,10 +67,10 @@ namespace SFGenericModel
         /// </summary>
         /// <param name="vertices"></param>
         /// <param name="vertexIndices"></param>
-        /// <param name="vertexSizeInBytes">The total size in bytes of <typeparamref name="T"/></param>
-        public GenericMesh(List<T> vertices, List<int> vertexIndices, int vertexSizeInBytes)
+        /// 
+        public GenericMesh(List<T> vertices, List<int> vertexIndices)
         {
-            this.vertexSizeInBytes = vertexSizeInBytes;
+            vertexSizeInBytes = System.Runtime.InteropServices.Marshal.SizeOf(typeof(T));
             vertexCount = vertexIndices.Count;
 
             InitializeBufferData(vertices, vertexIndices);
