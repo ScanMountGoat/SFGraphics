@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using OpenTK;
-using OpenTK.Graphics.OpenGL;
+﻿using OpenTK.Graphics.OpenGL;
 
 
 namespace SFGraphics.GLObjects.Shaders

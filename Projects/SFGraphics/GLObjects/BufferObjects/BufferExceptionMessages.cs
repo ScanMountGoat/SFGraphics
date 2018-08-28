@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace SFGraphics.GLObjects.BufferObjects
+﻿namespace SFGraphics.GLObjects.BufferObjects
 {
     internal static class BufferExceptionMessages
     {

@@ -1,9 +1,4 @@
-﻿using System.Text;
-using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OpenTK;
-using OpenTK.Graphics;
-using OpenTK.Graphics.OpenGL;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 
 namespace SFGraphicsTest.CameraTests
