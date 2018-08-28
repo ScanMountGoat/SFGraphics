@@ -57,17 +57,10 @@ namespace SFGraphicsGui
             // The sampler's parameters are used instead of the texture's parameters.
             int textureUnit = 0;
             graphicsResources.samplerObject.Bind(textureUnit);
+
             shader.SetTexture("uvTexture", texture.Id, texture.TextureTarget, textureUnit);
 
-            shader.EnableVertexAttributes();
-            graphicsResources.screenTriangleVbo.Bind();
-
-            GL.VertexAttribPointer(shader.GetVertexAttributeUniformLocation("position"), 3, VertexAttribPointerType.Float, false, sizeof(float) * 3, 0);
-
-            GL.DrawArrays(PrimitiveType.Triangles, 0, 3);
-
-            // Forgetting to disable vertex attributes can cause crashes on some drivers.
-            shader.DisableVertexAttributes();
+            graphicsResources.screenTriangle.Draw(shader, null);
         }
 
         private void glControl1_Load(object sender, EventArgs e)

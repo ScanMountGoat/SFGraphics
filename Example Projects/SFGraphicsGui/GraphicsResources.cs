@@ -11,25 +11,18 @@ namespace SFGraphicsGui
 {
     class GraphicsResources
     {
-        // A triangle that extends past the screen.
-        // Avoids the need for a second triangle to fill a rectangular screen.
-        // The positions can also be conveniently converted to UVs.
-        private static float[] screenTrianglePositions =
-        {
-            -1f, -1f, 0.0f,
-             3f, -1f, 0.0f,
-            -1f,  3f, 0.0f
-        };
-
         // Don't call the constructors until an OpenGL context is current to prevent crashes.
         public Texture2D uvTestPattern;
         public Texture2D floatMagentaBlackStripes;
+
         public Shader screenTextureShader;
-        public BufferObject screenTriangleVbo;
+
+        public ScreenTriangle screenTriangle;
+
         public SamplerObject samplerObject;
 
         /// <summary>
-        /// Create the <see cref="uvTestPattern"/>, <see cref="screenTextureShader"/>, and <see cref="screenTriangleVbo"/>.
+        /// Create the <see cref="uvTestPattern"/>, <see cref="screenTextureShader"/>, and <see cref="screenTriangle"/>.
         /// Requires an OpenTK context to be current.
         /// </summary>
         public GraphicsResources()
@@ -48,7 +41,7 @@ namespace SFGraphicsGui
 
             CreateSamplerObject();
 
-            screenTriangleVbo = CreateScreenQuadBuffer();
+            screenTriangle = new ScreenTriangle();
         }
 
         private void CreateSamplerObject()
@@ -122,16 +115,6 @@ namespace SFGraphicsGui
             }
 
             return shader;
-        }
-
-        private BufferObject CreateScreenQuadBuffer()
-        {
-            // Create buffer for vertex positions. 
-            // The data won't change, so only initialize once.
-            BufferObject bufferObject = new BufferObject(BufferTarget.ArrayBuffer);
-            bufferObject.SetData(screenTrianglePositions, BufferUsageHint.StaticDraw);
-
-            return bufferObject;
         }
     }
 }
