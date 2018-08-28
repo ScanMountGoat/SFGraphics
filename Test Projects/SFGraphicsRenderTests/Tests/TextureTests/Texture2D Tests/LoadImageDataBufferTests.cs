@@ -34,10 +34,27 @@ namespace SFGraphicsRenderTests.TextureTests
         }
 
         [TestMethod]
+        public void UncompressedMipmaps()
+        {
+            Assert.Fail("Not implemented");
+        }
+
+        [TestMethod]
         public void CompressedMipmaps()
         {
-            // TODO: Fix this.
-            Assert.Fail();
+            Texture2D texture = new Texture2D();
+            BufferObject pixelBuffer = new BufferObject(BufferTarget.PixelUnpackBuffer);
+            pixelBuffer.SetData(new float[] { 1, 1, 1 }, BufferUsageHint.StaticDraw);
+            texture.LoadImageData(1, 1, new List<BufferObject>() { pixelBuffer }, InternalFormat.CompressedRgbaS3tcDxt1Ext);
+        }
+
+        [TestMethod]
+        public void CompressedBaseLevel()
+        {
+            Texture2D texture = new Texture2D();
+            BufferObject pixelBuffer = new BufferObject(BufferTarget.PixelUnpackBuffer);
+            pixelBuffer.SetData(new float[] { 1, 1, 1 }, BufferUsageHint.StaticDraw);
+            texture.LoadImageData(1, 1, pixelBuffer, 0, InternalFormat.CompressedRgbaS3tcDxt1Ext);
         }
     }
 }
