@@ -29,7 +29,7 @@ namespace SFGraphics.GLObjects.Textures
             List<T[]> mipmaps, InternalFormat format) where T : struct
         {
             // The number of mipmaps needs to be specified first.
-            if (!target.ToString().ToLower().Contains("cubemap"))
+            if (!TextureFormatTools.IsCubeMapTarget(target))
             {
                 int maxMipLevel = Math.Max(mipmaps.Count - 1, minMipLevel);
                 GL.TexParameter(target, TextureParameterName.TextureMaxLevel, maxMipLevel);
@@ -56,7 +56,7 @@ namespace SFGraphics.GLObjects.Textures
             List<BufferObject> mipmaps, InternalFormat format)
         {
             // The number of mipmaps needs to be specified first.
-            if (!target.ToString().ToLower().Contains("cubemap"))
+            if (!TextureFormatTools.IsCubeMapTarget(target))
             {
                 int maxMipLevel = Math.Max(mipmaps.Count - 1, minMipLevel);
                 GL.TexParameter(target, TextureParameterName.TextureMaxLevel, maxMipLevel);
@@ -87,10 +87,9 @@ namespace SFGraphics.GLObjects.Textures
         /// <param name="image"></param>
         public static void LoadBaseLevelGenerateMipmaps(TextureTarget target, Bitmap image)
         {
-            // Load the image data.
             LoadMipLevelFromBitmap(target, 0, image);
 
-            if (!target.ToString().ToLower().Contains("cubemap"))
+            if (!TextureFormatTools.IsCubeMapTarget(target))
                 GL.GenerateMipmap((GenerateMipmapTarget)target);
         }
 
@@ -103,15 +102,10 @@ namespace SFGraphics.GLObjects.Textures
         /// <param name="width">The width of the texture or cube map face in pixels</param>
         /// <param name="height">The height of the texture or cube map face in pixels</param>
         /// <param name="baseMipLevel"></param>
-        /// <param name="mipCount">The total number of mipmaps. Negative values are converted to <c>0</c></param>
         /// <param name="format">The format for all mipmaps</param>
-        public static void LoadBaseLevelGenerateMipmaps<T>(TextureTarget target, int width, int height, 
-            T[] baseMipLevel, int mipCount, InternalFormat format) where T : struct
+        public static void LoadBaseLevelGenerateMipmaps<T>(TextureTarget target, int width, int height,
+            T[] baseMipLevel, InternalFormat format) where T : struct
         {
-            // The number of mipmaps needs to be specified first.
-            int maxMipLevel = Math.Max(mipCount - 1, minMipLevel);
-            GL.TexParameter(target, TextureParameterName.TextureMaxLevel, maxMipLevel);
-
             LoadCompressedMipLevel(target, width, height, baseMipLevel, format, 0);
 
             GL.GenerateMipmap((GenerateMipmapTarget)target);
@@ -124,16 +118,10 @@ namespace SFGraphics.GLObjects.Textures
         /// <param name="width"></param>
         /// <param name="height"></param>
         /// <param name="baseMipLevel"></param>
-        /// <param name="mipCount"></param>
         /// <param name="internalFormat"></param>
         public static void LoadBaseLevelGenerateMipmaps(TextureTarget target, int width, int height,
-            BufferObject baseMipLevel, int mipCount,
-            InternalFormat internalFormat)
+            BufferObject baseMipLevel, InternalFormat internalFormat)
         {
-            // The number of mipmaps needs to be specified first.
-            int maxMipLevel = Math.Max(mipCount - 1, minMipLevel);
-            GL.TexParameter(target, TextureParameterName.TextureMaxLevel, maxMipLevel);
-
             // Calculate the proper imageSize.
             int baseImageSize = TextureFormatTools.CalculateImageSize(width, height, internalFormat);
 
@@ -156,21 +144,14 @@ namespace SFGraphics.GLObjects.Textures
         /// <param name="width">The width of the texture or cube map face in pixels</param>
         /// <param name="height">The height of the texture or cube map face in pixels</param>
         /// <param name="baseMipLevel"></param>
-        /// <param name="mipCount">The total number of mipmaps. Negative values are converted to <c>0</c></param>
         /// <param name="format">The uncompressed format information</param>
-        public static void LoadBaseLevelGenerateMipmaps<T>(TextureTarget target, int width, int height, T[] baseMipLevel, int mipCount, 
-            TextureFormatUncompressed format) where T : struct
+        public static void LoadBaseLevelGenerateMipmaps<T>(TextureTarget target, int width, int height, 
+            T[] baseMipLevel, TextureFormatUncompressed format) where T : struct
         {
-            // The number of mipmaps needs to be specified first.
-            int maxMipLevel = Math.Max(mipCount - 1, minMipLevel);
-            GL.TexParameter(target, TextureParameterName.TextureMaxLevel, maxMipLevel);
-
             // Load the first level.
             GL.TexImage2D(target, 0, format.pixelInternalFormat, width, height, 0,
                 format.pixelFormat, format.pixelType, baseMipLevel);
 
-            // The number of mip maps needs to be specified first.
-            GL.TexParameter(target, TextureParameterName.TextureMaxLevel, mipCount);
             GL.GenerateMipmap((GenerateMipmapTarget)target);
         }
 
@@ -181,10 +162,9 @@ namespace SFGraphics.GLObjects.Textures
         /// <param name="width"></param>
         /// <param name="height"></param>
         /// <param name="baseMipLevel"></param>
-        /// <param name="mipCount"></param>
         /// <param name="format"></param>
-        public static void LoadBaseLevelGenerateMipmaps(TextureTarget target, int width, int height, BufferObject baseMipLevel, int mipCount,
-            TextureFormatUncompressed format)
+        public static void LoadBaseLevelGenerateMipmaps(TextureTarget target, int width, int height, 
+            BufferObject baseMipLevel, TextureFormatUncompressed format)
         {
             // Load the first level.
             baseMipLevel.Bind();
@@ -193,9 +173,6 @@ namespace SFGraphics.GLObjects.Textures
                 format.pixelFormat, format.pixelType, bufferOffset);
             GL.BindBuffer(baseMipLevel.Target, 0); //unbind
 
-            // The number of mipmaps needs to be specified first.
-            int maxMipLevel = Math.Max(mipCount - 1, minMipLevel);
-            GL.TexParameter(target, TextureParameterName.TextureMaxLevel, maxMipLevel);
             GL.GenerateMipmap((GenerateMipmapTarget)target);
         }
 
@@ -215,14 +192,14 @@ namespace SFGraphics.GLObjects.Textures
         public static void LoadFacesBaseLevel<T>(int length, TextureFormatUncompressed format,
             T[] posX, T[] negX, T[] posY, T[] negY, T[] posZ, T[] negZ) where T : struct
         {
-            LoadBaseLevelGenerateMipmaps(TextureTarget.TextureCubeMapPositiveX, length, length, posX, 0, format);
-            LoadBaseLevelGenerateMipmaps(TextureTarget.TextureCubeMapNegativeX, length, length, negX, 0, format);
+            LoadBaseLevelGenerateMipmaps(TextureTarget.TextureCubeMapPositiveX, length, length, posX, format);
+            LoadBaseLevelGenerateMipmaps(TextureTarget.TextureCubeMapNegativeX, length, length, negX, format);
 
-            LoadBaseLevelGenerateMipmaps(TextureTarget.TextureCubeMapPositiveY, length, length, posY, 0, format);
-            LoadBaseLevelGenerateMipmaps(TextureTarget.TextureCubeMapNegativeY, length, length, negY, 0, format);
+            LoadBaseLevelGenerateMipmaps(TextureTarget.TextureCubeMapPositiveY, length, length, posY, format);
+            LoadBaseLevelGenerateMipmaps(TextureTarget.TextureCubeMapNegativeY, length, length, negY, format);
 
-            LoadBaseLevelGenerateMipmaps(TextureTarget.TextureCubeMapPositiveZ, length, length, posZ, 0, format);
-            LoadBaseLevelGenerateMipmaps(TextureTarget.TextureCubeMapNegativeZ, length, length, negZ, 0, format);
+            LoadBaseLevelGenerateMipmaps(TextureTarget.TextureCubeMapPositiveZ, length, length, posZ, format);
+            LoadBaseLevelGenerateMipmaps(TextureTarget.TextureCubeMapNegativeZ, length, length, negZ, format);
         }
 
         /// <summary>

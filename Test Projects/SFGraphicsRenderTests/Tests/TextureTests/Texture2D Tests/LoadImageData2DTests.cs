@@ -48,8 +48,7 @@ namespace SFGraphicsRenderTests.TextureTests
         {
             // Doesn't throw an exception.
             Texture2D texture = new Texture2D();
-            texture.LoadImageData(128, 64, new byte[0], 5, 
-                new TextureFormatUncompressed(PixelInternalFormat.Rgba, PixelFormat.Rgba, PixelType.Float));
+            texture.LoadImageData(128, 64, new byte[0], new TextureFormatUncompressed(PixelInternalFormat.Rgba, PixelFormat.Rgba, PixelType.Float));
 
             Assert.AreEqual(128, texture.Width);
             Assert.AreEqual(64, texture.Height);
@@ -68,8 +67,7 @@ namespace SFGraphicsRenderTests.TextureTests
         public void UncompressedIncorrectFormat()
         {
             Texture2D texture = new Texture2D();
-            texture.LoadImageData(128, 64, new byte[0], 5, 
-                new TextureFormatUncompressed(PixelInternalFormat.CompressedRgbaS3tcDxt1Ext, PixelFormat.Rgba, PixelType.Float));
+            texture.LoadImageData(128, 64, new byte[0], new TextureFormatUncompressed(PixelInternalFormat.CompressedRgbaS3tcDxt1Ext, PixelFormat.Rgba, PixelType.Float));
         }
     }
 }

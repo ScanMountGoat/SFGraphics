@@ -78,8 +78,7 @@ namespace SFGraphicsGui
 
         private static void LoadFloatTexImageData(Texture2D floatTexture, Vector3[] pixels, int width, int height, int mipmaps)
         {
-            floatTexture.LoadImageData(width, height, pixels, mipmaps,
-                new TextureFormatUncompressed(PixelInternalFormat.Rgb, PixelFormat.Rgb, PixelType.Float));
+            floatTexture.LoadImageData(width, height, pixels, new TextureFormatUncompressed(PixelInternalFormat.Rgb, PixelFormat.Rgb, PixelType.Float));
         }
 
         private static void LoadFloatTexImageDataPbo(Texture2D floatTexture, Vector3[] pixels, int width, int height)

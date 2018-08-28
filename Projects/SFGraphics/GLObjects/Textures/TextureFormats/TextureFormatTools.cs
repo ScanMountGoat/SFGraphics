@@ -88,5 +88,15 @@ namespace SFGraphics.GLObjects.Textures.TextureFormats
         {
             return genericCompressedFormats.Contains(format);    
         }
+
+        /// <summary>
+        /// Returns true if the target is a cube map target.
+        /// </summary>
+        /// <param name="target">The texture target</param>
+        /// <returns>True if the target is a cube map target</returns>
+        public static bool IsCubeMapTarget(TextureTarget target)
+        {
+            return target.ToString().ToLower().Contains("cubemap");
+        }
     }
 }
