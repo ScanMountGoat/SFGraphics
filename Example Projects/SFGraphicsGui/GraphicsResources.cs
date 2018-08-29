@@ -78,8 +78,7 @@ namespace SFGraphicsGui
         {
             BufferObject pixelBuffer = new BufferObject(BufferTarget.PixelUnpackBuffer);
             pixelBuffer.SetData(pixels, BufferUsageHint.StaticDraw);
-            floatTexture.LoadImageData(width, height, pixelBuffer, 0,
-                new TextureFormatUncompressed(PixelInternalFormat.Rgb, PixelFormat.Rgb, PixelType.Float));
+            floatTexture.LoadImageData(width, height, pixelBuffer, new TextureFormatUncompressed(PixelInternalFormat.Rgb, PixelFormat.Rgb, PixelType.Float));
         }
 
         private static Vector3[] GetImagePixels(int width, int height)

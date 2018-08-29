@@ -74,10 +74,8 @@ namespace SFGraphics.GLObjects.Textures
         /// <param name="width"></param>
         /// <param name="height"></param>
         /// <param name="baseMipLevel"></param>
-        /// <param name="mipCount"></param>
         /// <param name="internalFormat"></param>
-        public void LoadImageData(int width, int height, BufferObject baseMipLevel, int mipCount,
-            InternalFormat internalFormat)
+        public void LoadImageData(int width, int height, BufferObject baseMipLevel, InternalFormat internalFormat)
         {
             if (!TextureFormatTools.IsCompressed(internalFormat))
                 throw new ArgumentException(TextureExceptionMessages.expectedCompressed);
@@ -114,9 +112,8 @@ namespace SFGraphics.GLObjects.Textures
         /// <param name="width"></param>
         /// <param name="height"></param>
         /// <param name="baseMipLevel"></param>
-        /// <param name="mipCount"></param>
         /// <param name="format"></param>
-        public void LoadImageData(int width, int height, BufferObject baseMipLevel, int mipCount, TextureFormatUncompressed format)
+        public void LoadImageData(int width, int height, BufferObject baseMipLevel, TextureFormatUncompressed format)
         {
             Width = width;
             Height = height;

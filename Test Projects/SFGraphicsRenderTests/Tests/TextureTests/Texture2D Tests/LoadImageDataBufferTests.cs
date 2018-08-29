@@ -28,8 +28,7 @@ namespace SFGraphicsRenderTests.TextureTests
             Texture2D texture = new Texture2D();
             BufferObject pixelBuffer = new BufferObject(BufferTarget.PixelUnpackBuffer);
             pixelBuffer.SetData(new float[] { 1, 1, 1 }, BufferUsageHint.StaticDraw);
-            texture.LoadImageData(1, 1, pixelBuffer, 0,
-                new TextureFormatUncompressed(PixelInternalFormat.Rgb, PixelFormat.Rgb, PixelType.Float));
+            texture.LoadImageData(1, 1, pixelBuffer, new TextureFormatUncompressed(PixelInternalFormat.Rgb, PixelFormat.Rgb, PixelType.Float));
         }
 
         [TestMethod]
@@ -53,7 +52,7 @@ namespace SFGraphicsRenderTests.TextureTests
             Texture2D texture = new Texture2D();
             BufferObject pixelBuffer = new BufferObject(BufferTarget.PixelUnpackBuffer);
             pixelBuffer.SetData(new float[] { 1, 1, 1 }, BufferUsageHint.StaticDraw);
-            texture.LoadImageData(1, 1, pixelBuffer, 0, InternalFormat.CompressedRgbaS3tcDxt1Ext);
+            texture.LoadImageData(1, 1, pixelBuffer, InternalFormat.CompressedRgbaS3tcDxt1Ext);
         }
     }
 }
