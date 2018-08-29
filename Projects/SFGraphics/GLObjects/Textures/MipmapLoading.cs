@@ -235,7 +235,7 @@ namespace SFGraphics.GLObjects.Textures
         private static void LoadUncompressedMipLevel(TextureTarget target, int width, int height, 
             BufferObject imageBuffer, TextureFormatUncompressed format, int mipLevel)
         {
-            GL.BindBuffer(BufferTarget.PixelUnpackBuffer, imageBuffer.Id);
+            imageBuffer.Bind(BufferTarget.PixelUnpackBuffer);
 
             IntPtr bufferOffset = IntPtr.Zero;
             int border = 0;
@@ -257,7 +257,7 @@ namespace SFGraphics.GLObjects.Textures
         private static void LoadCompressedMipLevel(TextureTarget target, int width, int height, 
             BufferObject imageBuffer, InternalFormat format, int mipLevel)
         {
-            GL.BindBuffer(BufferTarget.PixelUnpackBuffer, imageBuffer.Id);
+            imageBuffer.Bind(BufferTarget.PixelUnpackBuffer);
 
             IntPtr bufferOffset = IntPtr.Zero;
             int border = 0;

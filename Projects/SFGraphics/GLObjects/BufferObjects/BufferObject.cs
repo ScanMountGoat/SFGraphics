@@ -49,6 +49,15 @@ namespace SFGraphics.GLObjects
         }
 
         /// <summary>
+        /// Binds <see cref="GLObject.Id"/> to <paramref name="target"/>.
+        /// </summary>
+        /// <param name="target"></param>
+        public void Bind(BufferTarget target)
+        {
+            GL.BindBuffer(target, Id);
+        }
+
+        /// <summary>
         /// Binds <see cref="GLObject.Id"/> to an indexed buffer target.
         /// </summary>
         /// <param name="target"></param>
