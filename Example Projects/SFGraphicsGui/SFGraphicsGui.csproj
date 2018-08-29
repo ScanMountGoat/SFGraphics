@@ -40,9 +40,6 @@
     <Reference Include="OpenTK.GLControl">
       <HintPath>..\..\lib\OpenTK.GLControl.dll</HintPath>
     </Reference>
-    <Reference Include="SFGenericModel">
-      <HintPath>..\..\..\Smash-Forge\Smash Forge\lib\SFGenericModel.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -96,6 +93,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Projects\SFGenericModel\SFGenericModel.csproj">
+      <Project>{a94b234e-9f97-42bb-a405-8c713481a463}</Project>
+      <Name>SFGenericModel</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Projects\SFGraphics\SFGraphics.csproj">
       <Project>{a62e9240-ef67-41e5-a4e1-43f0afa759f4}</Project>
       <Name>SFGraphics</Name>
