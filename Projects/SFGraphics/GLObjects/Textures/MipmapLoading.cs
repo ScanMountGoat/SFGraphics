@@ -38,8 +38,9 @@ namespace SFGraphics.GLObjects.Textures
             // Load mipmaps in the inclusive range [0, max level]
             for (int mipLevel = 0; mipLevel < mipmaps.Count; mipLevel++)
             {
-                int mipWidth = width / (int)Math.Pow(2, mipLevel);
-                int mipHeight = height / (int)Math.Pow(2, mipLevel);
+                int mipWidth = CalculateMipDimension(width, mipLevel);
+                int mipHeight = CalculateMipDimension(height, mipLevel);
+
                 LoadCompressedMipLevel(target, mipWidth, mipHeight, mipmaps[mipLevel], format, mipLevel);
             }
         }
@@ -65,16 +66,10 @@ namespace SFGraphics.GLObjects.Textures
             // Load mipmaps in the inclusive range [0, max level]
             for (int mipLevel = 0; mipLevel < mipmaps.Count; mipLevel++)
             {
-                int mipWidth = width / (int)Math.Pow(2, mipLevel);
-                int mipHeight = height / (int)Math.Pow(2, mipLevel);
-                int mipImageSize = TextureFormatTools.CalculateImageSize(mipWidth, mipHeight, format);
+                int mipWidth = CalculateMipDimension(width, mipLevel);
+                int mipHeight = CalculateMipDimension(height, mipLevel);
 
-                // Load image data from buffer
-                mipmaps[mipLevel].Bind();
-                IntPtr bufferOffset = IntPtr.Zero;
-                GL.CompressedTexImage2D(target, mipLevel, format, mipWidth, mipHeight, 0, 
-                    mipImageSize, bufferOffset);
-                GL.BindBuffer(BufferTarget.PixelUnpackBuffer, 0);
+                LoadCompressedMipLevel(target, mipWidth, mipHeight, mipmaps[mipLevel], format, mipLevel);
             }
         }
 
@@ -87,7 +82,7 @@ namespace SFGraphics.GLObjects.Textures
         /// <param name="image"></param>
         public static void LoadBaseLevelGenerateMipmaps(TextureTarget target, Bitmap image)
         {
-            LoadMipLevelFromBitmap(target, 0, image);
+            LoadUncompressedMipLevel(target, image, 0);
 
             if (!TextureFormatTools.IsCubeMapTarget(target))
                 GL.GenerateMipmap((GenerateMipmapTarget)target);
@@ -122,15 +117,7 @@ namespace SFGraphics.GLObjects.Textures
         public static void LoadBaseLevelGenerateMipmaps(TextureTarget target, int width, int height,
             BufferObject baseMipLevel, InternalFormat internalFormat)
         {
-            // Calculate the proper imageSize.
-            int baseImageSize = TextureFormatTools.CalculateImageSize(width, height, internalFormat);
-
-            // Load the first level.
-            baseMipLevel.Bind();
-            IntPtr bufferOffset = IntPtr.Zero;
-            GL.CompressedTexImage2D(target, 0, internalFormat, width, height, 0, 
-                baseImageSize, bufferOffset);
-            GL.BindBuffer(BufferTarget.PixelUnpackBuffer, 0); //unbind
+            LoadCompressedMipLevel(target, width, height, baseMipLevel, internalFormat, 0);
 
             GL.GenerateMipmap((GenerateMipmapTarget)target);
         }
@@ -148,9 +135,7 @@ namespace SFGraphics.GLObjects.Textures
         public static void LoadBaseLevelGenerateMipmaps<T>(TextureTarget target, int width, int height, 
             T[] baseMipLevel, TextureFormatUncompressed format) where T : struct
         {
-            // Load the first level.
-            GL.TexImage2D(target, 0, format.pixelInternalFormat, width, height, 0,
-                format.pixelFormat, format.pixelType, baseMipLevel);
+            LoadUncompressedMipLevel(target, width, height, baseMipLevel, format, 0);
 
             GL.GenerateMipmap((GenerateMipmapTarget)target);
         }
@@ -166,12 +151,7 @@ namespace SFGraphics.GLObjects.Textures
         public static void LoadBaseLevelGenerateMipmaps(TextureTarget target, int width, int height, 
             BufferObject baseMipLevel, TextureFormatUncompressed format)
         {
-            // Load the first level.
-            baseMipLevel.Bind();
-            IntPtr bufferOffset = IntPtr.Zero;
-            GL.TexImage2D(target, 0, format.pixelInternalFormat, width, height, 0, 
-                format.pixelFormat, format.pixelType, bufferOffset);
-            GL.BindBuffer(baseMipLevel.Target, 0); //unbind
+            LoadUncompressedMipLevel(target, width, height, baseMipLevel, format, 0);
 
             GL.GenerateMipmap((GenerateMipmapTarget)target);
         }
@@ -228,7 +208,12 @@ namespace SFGraphics.GLObjects.Textures
             LoadCompressedMipMaps(TextureTarget.TextureCubeMapNegativeZ, length, length, mipsNegZ, format);
         }
 
-        private static void LoadMipLevelFromBitmap(TextureTarget target, int level, Bitmap image)
+        private static int CalculateMipDimension(int baseLevelDimension, int mipLevel)
+        {
+            return baseLevelDimension / (int)Math.Pow(2, mipLevel);
+        }
+
+        private static void LoadUncompressedMipLevel(TextureTarget target, Bitmap image, int level)
         {
             System.Drawing.Imaging.BitmapData data = image.LockBits(new Rectangle(0, 0, image.Width, image.Height),
                 System.Drawing.Imaging.ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
@@ -239,12 +224,49 @@ namespace SFGraphics.GLObjects.Textures
             image.UnlockBits(data);
         }
 
-        private static void LoadCompressedMipLevel<T>(TextureTarget target, int width, int height, T[] imageData,
-            InternalFormat format, int mipLevel) where T : struct
+        private static void LoadUncompressedMipLevel<T>(TextureTarget target, int width, int height,
+            T[] baseMipLevel, TextureFormatUncompressed format, int mipLevel) where T : struct
+        {
+            int border = 0;
+            GL.TexImage2D(target, mipLevel, format.pixelInternalFormat, width, height, border,
+                format.pixelFormat, format.pixelType, baseMipLevel);
+        }
+
+        private static void LoadUncompressedMipLevel(TextureTarget target, int width, int height, 
+            BufferObject imageBuffer, TextureFormatUncompressed format, int mipLevel)
+        {
+            GL.BindBuffer(BufferTarget.PixelUnpackBuffer, imageBuffer.Id);
+
+            IntPtr bufferOffset = IntPtr.Zero;
+            int border = 0;
+            GL.TexImage2D(target, mipLevel, format.pixelInternalFormat, width, height, border,
+                format.pixelFormat, format.pixelType, bufferOffset);
+
+            // Unbind to avoid affecting other texture operations.
+            GL.BindBuffer(BufferTarget.PixelUnpackBuffer, 0);
+        }
+
+        private static void LoadCompressedMipLevel<T>(TextureTarget target, int width, int height, 
+            T[] imageData, InternalFormat format, int mipLevel) where T : struct
         {
             int border = 0;
             int imageSize = TextureFormatTools.CalculateImageSize(width, height, format);
             GL.CompressedTexImage2D(target, mipLevel, format, width, height, border, imageSize, imageData);
+        }
+
+        private static void LoadCompressedMipLevel(TextureTarget target, int width, int height, 
+            BufferObject imageBuffer, InternalFormat format, int mipLevel)
+        {
+            GL.BindBuffer(BufferTarget.PixelUnpackBuffer, imageBuffer.Id);
+
+            IntPtr bufferOffset = IntPtr.Zero;
+            int border = 0;
+            int imageSize = TextureFormatTools.CalculateImageSize(width, height, format);
+
+            GL.CompressedTexImage2D(target, mipLevel, format, width, height, border, imageSize, bufferOffset);
+
+            // Unbind to avoid affecting other texture operations.
+            GL.BindBuffer(BufferTarget.PixelUnpackBuffer, 0);
         }
     }
 }
