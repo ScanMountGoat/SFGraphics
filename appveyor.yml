@@ -31,7 +31,7 @@ deploy:
 test:
   assemblies:
     except:
-    - '**\Test Projects\SFGraphicsRenderTests\bin\$(configuration)\SFGraphicsRenderTests.dll'
+    - '**\Test Projects\SFGraphics.Test.RenderTests\bin\Release\SFGraphics.Test.RenderTests.dll'
 
 after_build:
   - 7z a "SFGraphics.zip" "%APPVEYOR_BUILD_FOLDER%\Projects\SFGraphics\bin\Release\SFGraphics.dll"
