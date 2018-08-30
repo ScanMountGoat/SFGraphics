@@ -69,12 +69,14 @@
     <Compile Include="GLObjects\Textures\Texture2D.cs" />
     <Compile Include="GLObjects\Textures\TextureCubeMap.cs" />
     <Compile Include="GLObjects\VertexArrays\VertexArrayObject.cs" />
-    <Compile Include="Tools\BoundingSphereGenerator.cs" />
-    <Compile Include="Tools\ColorTools.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tools\OpenGLExtensions.cs" />
-    <Compile Include="Tools\VectorTools.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\SFGraphics.Utils\SFGraphics.Utils.csproj">
+      <Project>{d78b8153-c955-4ef6-b02f-6d824bfd949e}</Project>
+      <Name>SFGraphics.Utils</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

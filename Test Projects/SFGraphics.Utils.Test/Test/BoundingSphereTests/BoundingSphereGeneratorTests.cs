@@ -1,9 +1,8 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
-using SFGraphics.Tools;
+using SFGraphics.Utils;
 using OpenTK;
-
 
 namespace SFGraphicsTests.BoundingSphereGeneratorTests
 {

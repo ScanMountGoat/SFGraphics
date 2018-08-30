@@ -1,6 +1,6 @@
 ﻿using System;
 using OpenTK;
-using SFGraphics.Tools;
+using SFGraphics.Utils;
 
 namespace SFGraphics.Cameras
 {

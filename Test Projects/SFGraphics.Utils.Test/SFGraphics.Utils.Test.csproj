@@ -57,33 +57,37 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Tests\CameraTests\CameraTest.cs" />
-    <Compile Include="Tests\CameraTests\FovDegreesTest.cs" />
-    <Compile Include="Tests\CameraTests\FovRadiansTest.cs" />
-    <Compile Include="Tests\ColorToolsTests\ClampFloatTest.cs" />
-    <Compile Include="Tests\ColorToolsTests\ClampIntTest.cs" />
-    <Compile Include="Tests\ColorToolsTests\FloatToIntClampTest.cs" />
-    <Compile Include="Tests\ColorToolsTests\HsvToRgbFloatTest.cs" />
-    <Compile Include="Tests\ColorToolsTests\HsvToRgbVec3Test.cs" />
-    <Compile Include="Tests\ColorToolsTests\InvertColorTest.cs" />
-    <Compile Include="Tests\ColorToolsTests\RgbToHsvFloatTest.cs" />
-    <Compile Include="Tests\ColorToolsTests\RgbToHsvVec3Test.cs" />
-    <Compile Include="Tests\ColorToolsTests\Vector4FromColorTest.cs" />
-    <Compile Include="Tests\ReferenceCountTests\DecrementRefTest.cs" />
-    <Compile Include="Tests\ReferenceCountTests\GetObjectsWithNoReferencesTests.cs" />
-    <Compile Include="Tests\ReferenceCountTests\IncrementRefTest.cs" />
-    <Compile Include="Tests\VectorToolsTests\GenerateNormalsTest.cs" />
-    <Compile Include="Tests\VectorToolsTests\GenerateTangentBitangentTest.cs" />
-    <Compile Include="Tests\VectorToolsTests\GetDegreesTest.cs" />
-    <Compile Include="Tests\VectorToolsTests\GetRadiansTest.cs" />
-    <Compile Include="Tests\VectorToolsTests\OrthogonalizeTst.cs" />
+    <Compile Include="Test\CameraTests\CameraTest.cs" />
+    <Compile Include="Test\CameraTests\FovDegreesTest.cs" />
+    <Compile Include="Test\CameraTests\FovRadiansTest.cs" />
+    <Compile Include="Test\ColorToolsTests\ClampFloatTest.cs" />
+    <Compile Include="Test\ColorToolsTests\ClampIntTest.cs" />
+    <Compile Include="Test\ColorToolsTests\FloatToIntClampTest.cs" />
+    <Compile Include="Test\ColorToolsTests\HsvToRgbFloatTest.cs" />
+    <Compile Include="Test\ColorToolsTests\HsvToRgbVec3Test.cs" />
+    <Compile Include="Test\ColorToolsTests\InvertColorTest.cs" />
+    <Compile Include="Test\ColorToolsTests\RgbToHsvFloatTest.cs" />
+    <Compile Include="Test\ColorToolsTests\RgbToHsvVec3Test.cs" />
+    <Compile Include="Test\ColorToolsTests\Vector4FromColorTest.cs" />
+    <Compile Include="Test\ReferenceCountTests\DecrementRefTest.cs" />
+    <Compile Include="Test\ReferenceCountTests\GetObjectsWithNoReferencesTests.cs" />
+    <Compile Include="Test\ReferenceCountTests\IncrementRefTest.cs" />
+    <Compile Include="Test\VectorToolsTests\GenerateNormalsTest.cs" />
+    <Compile Include="Test\VectorToolsTests\GenerateTangentBitangentTest.cs" />
+    <Compile Include="Test\VectorToolsTests\GetDegreesTest.cs" />
+    <Compile Include="Test\VectorToolsTests\GetRadiansTest.cs" />
+    <Compile Include="Test\VectorToolsTests\OrthogonalizeTst.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tests\BoundingSphereTests\BoundingSphereGeneratorTests.cs" />
+    <Compile Include="Test\BoundingSphereTests\BoundingSphereGeneratorTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Projects\SFGraphics.Utils\SFGraphics.Utils.csproj">
+      <Project>{d78b8153-c955-4ef6-b02f-6d824bfd949e}</Project>
+      <Name>SFGraphics.Utils</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Projects\SFGraphics\SFGraphics.csproj">
       <Project>{a62e9240-ef67-41e5-a4e1-43f0afa759f4}</Project>
       <Name>SFGraphics</Name>

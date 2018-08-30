@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SFGraphics.Tools;
+using SFGraphics.Utils;
 
 namespace SFGraphicsTest.VectorToolsTests
 {

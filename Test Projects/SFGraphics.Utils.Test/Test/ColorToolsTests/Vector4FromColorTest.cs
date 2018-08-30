@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Drawing;
 using OpenTK;
-using SFGraphics.Tools;
+using SFGraphics.Utils;
 
 namespace SFGraphicsTest.ColorToolsTests
 {

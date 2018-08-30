@@ -1,41 +1,41 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SFGraphics.Tools;
+using SFGraphics.Utils;
 
 namespace SFGraphicsTest.ColorToolsTests
 {
     public partial class ColorToolsTest
     {
         [TestClass]
-        public class ClampFloatTest
+        public class ClampIntTest
         {
             [TestMethod]
             public void BelowDefaultMin()
             {
-                Assert.AreEqual(0, ColorTools.ClampFloat(-1));
+                Assert.AreEqual(0, ColorTools.ClampInt(-5));
             }
 
             [TestMethod]
             public void AboveDefaultMax()
             {
-                Assert.AreEqual(1, ColorTools.ClampFloat(1.1f));
+                Assert.AreEqual(255, ColorTools.ClampInt(267));
             }
 
             [TestMethod]
             public void WithinDefaultRange()
             {
-                Assert.AreEqual(0.5f, ColorTools.ClampFloat(0.5f));
+                Assert.AreEqual(127, ColorTools.ClampInt(127));
             }
 
             [TestMethod]
             public void BelowCustomMin()
             {
-                Assert.AreEqual(0.25f, ColorTools.ClampFloat(0, 0.25f));
+                Assert.AreEqual(15, ColorTools.ClampInt(0, 15));
             }
 
             [TestMethod]
             public void AboveCustomMax()
             {
-                Assert.AreEqual(0.75f, ColorTools.ClampFloat(1, 0, 0.75f));
+                Assert.AreEqual(235, ColorTools.ClampInt(255, 0, 235));
             }
         }
     }

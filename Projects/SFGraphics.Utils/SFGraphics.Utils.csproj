@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A94B234E-9F97-42BB-A405-8C713481A463}</ProjectGuid>
+    <ProjectGuid>{D78B8153-C955-4EF6-B02F-6D824BFD949E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SFGenericModel</RootNamespace>
-    <AssemblyName>SFGenericModel</AssemblyName>
+    <RootNamespace>SFGraphics.Utils</RootNamespace>
+    <AssemblyName>SFGraphics.Utils</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -21,7 +21,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\SFGenericModel.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -30,7 +29,6 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\SFGenericModel.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="OpenTK">
@@ -39,6 +37,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -46,22 +45,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="RenderSettings\AlphaBlendSettings.cs" />
-    <Compile Include="RenderSettings\AlphaTestSettings.cs" />
-    <Compile Include="RenderSettings\DepthTestSettings.cs" />
-    <Compile Include="RenderSettings\FaceCullingSettings.cs" />
-    <Compile Include="Materials\GenericMaterial.cs" />
-    <Compile Include="GenericMesh.cs" />
+    <Compile Include="BoundingSphereGenerator.cs" />
+    <Compile Include="ColorTools.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RenderSettings\RenderSettings.cs" />
-    <Compile Include="VertexAttributeInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\SFGraphics\SFGraphics.csproj">
-      <Project>{a62e9240-ef67-41e5-a4e1-43f0afa759f4}</Project>
-      <Name>SFGraphics</Name>
-      <Private>False</Private>
-    </ProjectReference>
+    <Compile Include="VectorTools.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

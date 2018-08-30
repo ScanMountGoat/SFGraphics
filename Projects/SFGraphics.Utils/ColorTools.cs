@@ -2,7 +2,7 @@
 using System.Drawing;
 using OpenTK;
 
-namespace SFGraphics.Tools
+namespace SFGraphics.Utils
 {
     /// <summary>
     /// Conversion methods for HSV, RGB, color temperature, and system Colors using floats or OpenTK vectors.

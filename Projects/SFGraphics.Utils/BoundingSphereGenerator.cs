@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using OpenTK;
 
-
-namespace SFGraphics.Tools
+namespace SFGraphics.Utils
 {
     /// <summary>
     /// Generates bounding spheres for a collection of vertices.

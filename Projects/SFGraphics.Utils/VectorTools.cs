@@ -1,7 +1,7 @@
 ﻿using System;
 using OpenTK;
 
-namespace SFGraphics.Tools
+namespace SFGraphics.Utils
 {
     /// <summary>
     /// Utility methods for normals, tangents, bitangents, and angle conversions

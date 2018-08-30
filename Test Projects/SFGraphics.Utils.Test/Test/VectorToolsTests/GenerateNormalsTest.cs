@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenTK;
-using SFGraphics.Tools;
+using SFGraphics.Utils;
 
 namespace SFGraphicsTest.VectorToolsTests
 {
