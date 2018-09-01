@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SFGraphics.GLObjects.Shaders;
+using OpenTK.Graphics.OpenGL;
 
 namespace SFGraphics.Test.RenderTests.ShaderTests.SetterTests
 {
@@ -13,14 +14,14 @@ namespace SFGraphics.Test.RenderTests.ShaderTests.SetterTests
             [TestInitialize()]
             public void Initialize()
             {
-                shader = ShaderSetup.SetupContextCreateValidFragShader();
+                shader = ShaderTestUtils.SetupContextCreateValidFragShader();
             }
 
             [TestMethod]
             public void SetFloatValidName()
             {
                 shader.SetFloat("float1", 0);
-                string expected = "[Warning] Attempted to set undeclared uniform variable float1";
+                string expected = ShaderTestUtils.GetInvalidUniformErrorMessage("float1", ActiveUniformType.Float);
                 Assert.IsFalse(shader.GetErrorLog().Contains(expected));
             }
 
@@ -28,7 +29,7 @@ namespace SFGraphics.Test.RenderTests.ShaderTests.SetterTests
             public void SetFloatInvalidType()
             {
                 shader.SetFloat("int1", 0);
-                string expected = "[Warning] No uniform variable int1 of type Float";
+                string expected = ShaderTestUtils.GetInvalidUniformErrorMessage("int1", ActiveUniformType.Float);
                 Assert.IsTrue(shader.GetErrorLog().Contains(expected));
             }
 
@@ -36,7 +37,7 @@ namespace SFGraphics.Test.RenderTests.ShaderTests.SetterTests
             public void SetFloatValidType()
             {
                 shader.SetFloat("float1", 0);
-                string expected = "[Warning] No uniform variable float1 of type Float";
+                string expected = ShaderTestUtils.GetInvalidUniformErrorMessage("float1", ActiveUniformType.Float);
                 Assert.IsFalse(shader.GetErrorLog().Contains(expected));
             }
 
@@ -44,7 +45,7 @@ namespace SFGraphics.Test.RenderTests.ShaderTests.SetterTests
             public void SetFloatInvalidName()
             {
                 shader.SetFloat("memes", 0);
-                string expected = "[Warning] Attempted to set undeclared uniform variable memes";
+                string expected = ShaderTestUtils.GetInvalidUniformErrorMessage("memes", ActiveUniformType.Float);
                 Assert.IsTrue(shader.GetErrorLog().Contains(expected));
             }
         }

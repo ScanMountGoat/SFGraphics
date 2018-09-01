@@ -40,13 +40,10 @@ namespace SFGraphics.GLObjects.Shaders
         private ShaderLog errorLog = new ShaderLog();
 
         private Dictionary<string, ActiveUniformInfo> activeUniformByName = new Dictionary<string, ActiveUniformInfo>();
-
         private Dictionary<string, ActiveAttribInfo> activeAttribByName = new Dictionary<string, ActiveAttribInfo>();
 
-
-        // Write these names to the error log later rather than throwing an exception.
-        private HashSet<string> invalidUniformNames = new HashSet<string>();
-        private Dictionary<string, ActiveUniformType> invalidUniformTypes = new Dictionary<string, ActiveUniformType>();
+        private Dictionary<string, ActiveUniformInfo> invalidUniformByName = new Dictionary<string, ActiveUniformInfo>();
+        private Dictionary<string, ActiveAttribInfo> invalidAttribSetByName = new Dictionary<string, ActiveAttribInfo>();
 
         // This isn't in OpenTK's enums for some reason.
         // https://www.khronos.org/registry/OpenGL/api/GL/glcorearb.h

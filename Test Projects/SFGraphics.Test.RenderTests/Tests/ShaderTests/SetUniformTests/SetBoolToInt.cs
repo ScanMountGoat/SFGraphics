@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SFGraphics.GLObjects.Shaders;
-
+using OpenTK.Graphics.OpenGL;
 
 namespace SFGraphics.Test.RenderTests.ShaderTests.SetterTests
 {
@@ -14,14 +14,14 @@ namespace SFGraphics.Test.RenderTests.ShaderTests.SetterTests
             [TestInitialize()]
             public void Initialize()
             {
-                shader = ShaderSetup.SetupContextCreateValidFragShader();
+                shader = ShaderTestUtils.SetupContextCreateValidFragShader();
             }
 
             [TestMethod]
             public void SetBoolValidName()
             {
                 shader.SetBoolToInt("boolInt1", true);
-                string expected = "[Warning] Attempted to set undeclared uniform variable boolInt1";
+                string expected = ShaderTestUtils.GetInvalidUniformErrorMessage("boolInt1", ActiveUniformType.Int);
                 Assert.IsFalse(shader.GetErrorLog().Contains(expected));
             }
 
@@ -29,7 +29,7 @@ namespace SFGraphics.Test.RenderTests.ShaderTests.SetterTests
             public void SetBoolInvalidName()
             {
                 shader.SetBoolToInt("memes", true);
-                string expected = "[Warning] Attempted to set undeclared uniform variable memes";
+                string expected = ShaderTestUtils.GetInvalidUniformErrorMessage("memes", ActiveUniformType.Int);
                 Assert.IsTrue(shader.GetErrorLog().Contains(expected));
             }
 
@@ -37,7 +37,7 @@ namespace SFGraphics.Test.RenderTests.ShaderTests.SetterTests
             public void SetBoolInvalidType()
             {
                 shader.SetBoolToInt("float1", true);
-                string expected = "[Warning] No uniform variable float1 of type Int";
+                string expected = ShaderTestUtils.GetInvalidUniformErrorMessage("float1", ActiveUniformType.Int);
                 Assert.IsTrue(shader.GetErrorLog().Contains(expected));
             }
 
@@ -45,7 +45,7 @@ namespace SFGraphics.Test.RenderTests.ShaderTests.SetterTests
             public void SetBoolValidType()
             {
                 shader.SetBoolToInt("int1", true);
-                string expected = "[Warning] No uniform variable int1 of type Int";
+                string expected = ShaderTestUtils.GetInvalidUniformErrorMessage("int1", ActiveUniformType.Int);
                 Assert.IsFalse(shader.GetErrorLog().Contains(expected));
             }
         }

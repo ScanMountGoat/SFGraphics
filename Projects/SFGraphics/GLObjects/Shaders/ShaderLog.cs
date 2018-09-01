@@ -23,18 +23,12 @@ namespace SFGraphics.GLObjects.Shaders
             errorLog.AppendLine(error);
         }
 
-        public void AppendUniformNameErrors(HashSet<string> invalidUniformNames)
+        public void AppendUniformErrors(Dictionary<string, ActiveUniformInfo> invalidUniforms)
         {
-            foreach (string uniform in invalidUniformNames)
-                errorLog.AppendLine($"[Warning] Attempted to set undeclared uniform variable { uniform }");
+            foreach (var uniform in invalidUniforms)
+                errorLog.AppendLine($"[Warning] Attempted to set undeclared uniform variable { uniform.Key } of type { uniform.Value.type }");
         }
         
-        public void AppendUniformTypeErrors(Dictionary<string, ActiveUniformType> invalidUniformTypes)
-        {
-            foreach (var uniform in invalidUniformTypes)
-                errorLog.AppendLine($"[Warning] No uniform variable { uniform.Key } of type { uniform.Value }");
-        }
-
         private void AppendHardwareAndVersionInfo()
         {
             errorLog.AppendLine($"Vendor: { GL.GetString(StringName.Vendor) }");

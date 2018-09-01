@@ -3,7 +3,7 @@ using SFGraphics.GLObjects.Shaders;
 
 namespace SFGraphics.Test.RenderTests.ShaderTests
 {
-    public static class ShaderSetup
+    public static class ShaderTestUtils
     {
         public static Shader SetupContextCreateValidFragShader()
         {
@@ -16,6 +16,11 @@ namespace SFGraphics.Test.RenderTests.ShaderTests
             string shaderSource = TestTools.ResourceShaders.GetShader("SFGraphics.Test.RenderTests.Shaders.validFrag.frag");
             shader.LoadShader(shaderSource, ShaderType.FragmentShader);
             return shader;
+        }
+
+        public static string GetInvalidUniformErrorMessage(string name, ActiveUniformType type)
+        {
+            return $"[Warning] Attempted to set undeclared uniform variable { name } of type { type }";
         }
     }
 }

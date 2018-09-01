@@ -13,7 +13,7 @@ namespace SFGraphics.GLObjects.Shaders
         /// <param name="value">The value to assign to the uniform</param>
         public void SetFloat(string uniformName, float value)
         {
-            if (!UniformTypeAndNameCorrect(uniformName, ActiveUniformType.Float))
+            if (!ValidUniform(uniformName, ActiveUniformType.Float))
                 return;
 
             GL.Uniform1(activeUniformByName[uniformName].location, value);
@@ -26,7 +26,7 @@ namespace SFGraphics.GLObjects.Shaders
         /// <param name="value">The value to assign to the uniform</param>
         public void SetFloats(string uniformName, float[] value)
         {
-            if (!UniformTypeAndNameCorrect(uniformName, ActiveUniformType.Float))
+            if (!ValidUniform(uniformName, ActiveUniformType.Float))
                 return;
 
             GL.Uniform1(activeUniformByName[uniformName].location, value.Length, value);
@@ -39,7 +39,7 @@ namespace SFGraphics.GLObjects.Shaders
         /// <param name="value">The value to assign to the uniform</param>
         public void SetInt(string uniformName, int value)
         {
-            if (!UniformTypeAndNameCorrect(uniformName, ActiveUniformType.Int))
+            if (!ValidUniform(uniformName, ActiveUniformType.Int))
                 return;
 
             GL.Uniform1(activeUniformByName[uniformName].location, value);
@@ -52,7 +52,7 @@ namespace SFGraphics.GLObjects.Shaders
         /// <param name="value">The value to assign to the uniform</param>
         public void SetUint(string uniformName, uint value)
         {
-            if (!UniformTypeAndNameCorrect(uniformName, ActiveUniformType.UnsignedInt))
+            if (!ValidUniform(uniformName, ActiveUniformType.UnsignedInt))
                 return;
 
             GL.Uniform1(activeUniformByName[uniformName].location, value);
@@ -65,7 +65,7 @@ namespace SFGraphics.GLObjects.Shaders
         /// <param name="value">The value to assign to the uniform. True = 1. False = 0.</param>
         public void SetBoolToInt(string uniformName, bool value)
         {
-            if (!UniformTypeAndNameCorrect(uniformName, ActiveUniformType.Int))
+            if (!ValidUniform(uniformName, ActiveUniformType.Int))
                 return;
 
             // if/else is faster than the ternary operator. 
@@ -82,7 +82,7 @@ namespace SFGraphics.GLObjects.Shaders
         /// <param name="value">The value to assign to the uniform</param>
         public void SetVector2(string uniformName, Vector2 value)
         {
-            if (!UniformTypeAndNameCorrect(uniformName, ActiveUniformType.FloatVec2))
+            if (!ValidUniform(uniformName, ActiveUniformType.FloatVec2))
                 return;
 
             GL.Uniform2(activeUniformByName[uniformName].location, value);
@@ -106,7 +106,7 @@ namespace SFGraphics.GLObjects.Shaders
         /// <param name="value">The value to assign to the uniform</param>
         public void SetVector3(string uniformName, Vector3 value)
         {
-            if (!UniformTypeAndNameCorrect(uniformName, ActiveUniformType.FloatVec3))
+            if (!ValidUniform(uniformName, ActiveUniformType.FloatVec3))
                 return;
 
             GL.Uniform3(activeUniformByName[uniformName].location, value);
@@ -131,7 +131,7 @@ namespace SFGraphics.GLObjects.Shaders
         /// <param name="value">The value to assign to the uniform</param>
         public void SetVector4(string uniformName, Vector4 value)
         {
-            if (!UniformTypeAndNameCorrect(uniformName, ActiveUniformType.FloatVec4))
+            if (!ValidUniform(uniformName, ActiveUniformType.FloatVec4))
                 return;
 
             GL.Uniform4(activeUniformByName[uniformName].location, value);
@@ -157,7 +157,7 @@ namespace SFGraphics.GLObjects.Shaders
         /// <param name="value">The value to assign to the uniform</param>
         public void SetMatrix4x4(string uniformName, ref Matrix4 value)
         {
-            if (!UniformTypeAndNameCorrect(uniformName, ActiveUniformType.FloatMat4))
+            if (!ValidUniform(uniformName, ActiveUniformType.FloatMat4))
                 return;
 
             GL.UniformMatrix4(activeUniformByName[uniformName].location, false, ref value);
@@ -181,45 +181,24 @@ namespace SFGraphics.GLObjects.Shaders
             GL.Uniform1(activeUniformByName[uniformName].location, textureUnit);
         }
 
-        private bool UniformTypeAndNameCorrect(string uniformName, ActiveUniformType inputType)
+        private bool ValidUniform(string uniformName, ActiveUniformType inputType)
         {
-            if (!CorrectUniformName(uniformName, invalidUniformNames))
+            if (!activeUniformByName.ContainsKey(uniformName))
+            {
+                if (!invalidUniformByName.ContainsKey(uniformName))
+                    invalidUniformByName.Add(uniformName, new ActiveUniformInfo(0, inputType));
                 return false;
-            else if (!CorrectUniformType(uniformName, inputType))
+            }
+            else if (activeUniformByName[uniformName].type != inputType)
+            {
+                if (!invalidUniformByName.ContainsKey(uniformName))
+                    invalidUniformByName.Add(uniformName, new ActiveUniformInfo(0, inputType));
                 return false;
+            }
             else
+            {
                 return true;
-        }
-
-        private bool CorrectUniformName(string name, HashSet<string> invalidNames)
-        {
-            // Check for spelling mistakes and names optimized out by the compiler.
-            // Avoid adding duplicates because this is checked a lot.
-            if (!activeUniformByName.ContainsKey(name))
-            {
-                if (!invalidNames.Contains(name))
-                    invalidNames.Add(name);
-                return false;
             }
-
-            return true;
-        }
-
-        private bool CorrectUniformType(string name, ActiveUniformType inputType)
-        {
-            if (!activeUniformByName.ContainsKey(name))
-                return false;
-
-            // Check for valid names with type mismatches.
-            // Avoid adding duplicates because this is checked a lot.
-            bool correctType = activeUniformByName[name].type == inputType;
-            if (!correctType && !invalidUniformTypes.ContainsKey(name))
-            {
-                invalidUniformTypes.Add(name, inputType);
-                return false;
-            }
-
-            return true;
         }
     }
 }

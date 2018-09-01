@@ -7,6 +7,7 @@ uniform int int1;
 uniform int boolInt1;
 uniform int intArray1[3];
 
+uniform vec2 vector2a;
 uniform vec3 vector3a;
 uniform vec4 vector4a;
 
@@ -22,6 +23,7 @@ void main()
     fragColor = vec4(1) * float1 * int1;
 	if (boolInt1 == 1)
 		fragColor *= 0.5;
+    fragColor.rg *= vector2a;
 	fragColor.rgb *= vector3a;
 	fragColor *= vector4a * matrix4a;
 	fragColor *= texture(tex2D, vec2(1));

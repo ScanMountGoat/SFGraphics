@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenTK;
+using OpenTK.Graphics.OpenGL;
 using SFGraphics.GLObjects.Shaders;
-
 
 namespace SFGraphics.Test.RenderTests.ShaderTests.SetterTests
 {
@@ -15,7 +15,7 @@ namespace SFGraphics.Test.RenderTests.ShaderTests.SetterTests
             [TestInitialize()]
             public void Initialize()
             {
-                shader = ShaderSetup.SetupContextCreateValidFragShader();
+                shader = ShaderTestUtils.SetupContextCreateValidFragShader();
             }
 
             [TestMethod]
@@ -23,7 +23,7 @@ namespace SFGraphics.Test.RenderTests.ShaderTests.SetterTests
             {
                 Matrix4 matrix4 = Matrix4.Identity;
                 shader.SetMatrix4x4("matrix4a", ref matrix4);
-                string expected = "[Warning] Attempted to set undeclared uniform variable vector3a";
+                string expected = ShaderTestUtils.GetInvalidUniformErrorMessage("matrix4a", ActiveUniformType.FloatMat4);
                 Assert.IsFalse(shader.GetErrorLog().Contains(expected));
             }
 
@@ -32,7 +32,7 @@ namespace SFGraphics.Test.RenderTests.ShaderTests.SetterTests
             {
                 Matrix4 matrix4 = Matrix4.Identity;
                 shader.SetMatrix4x4("memes", ref matrix4);
-                string expected = "[Warning] Attempted to set undeclared uniform variable memes";
+                string expected = ShaderTestUtils.GetInvalidUniformErrorMessage("memes", ActiveUniformType.FloatMat4);
                 Assert.IsTrue(shader.GetErrorLog().Contains(expected));
             }
 
@@ -41,7 +41,7 @@ namespace SFGraphics.Test.RenderTests.ShaderTests.SetterTests
             {
                 Matrix4 matrix4 = Matrix4.Identity;
                 shader.SetMatrix4x4("float1", ref matrix4);
-                string expected = "[Warning] No uniform variable float1 of type FloatMat4";
+                string expected = ShaderTestUtils.GetInvalidUniformErrorMessage("float1", ActiveUniformType.FloatMat4);
                 Assert.IsTrue(shader.GetErrorLog().Contains(expected));
             }
 
@@ -50,7 +50,7 @@ namespace SFGraphics.Test.RenderTests.ShaderTests.SetterTests
             {
                 Matrix4 matrix4 = Matrix4.Identity;
                 shader.SetMatrix4x4("matrix4a", ref matrix4);
-                string expected = "[Warning] No uniform variable vector4a of type FloatMat4";
+                string expected = ShaderTestUtils.GetInvalidUniformErrorMessage("matrix4a", ActiveUniformType.FloatMat4);
                 Assert.IsFalse(shader.GetErrorLog().Contains(expected));
             }
         }
