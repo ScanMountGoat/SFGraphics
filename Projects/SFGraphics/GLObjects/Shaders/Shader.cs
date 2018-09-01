@@ -223,11 +223,20 @@ namespace SFGraphics.GLObjects.Shaders
 
         private void AddUniform(string name, ActiveUniformType type)
         {
-            int location = GL.GetUniformLocation(Id, name);
+            string nameNoArrayIndex = name;
+            if (name.Contains("["))
+                nameNoArrayIndex = name.Substring(0, name.IndexOf('['));
+
+            string nameArrayIndex0 = nameNoArrayIndex + "[0]";
+
+            // Uniform arrays can be "array[0]" or "array"
+            int location = GL.GetUniformLocation(Id, nameNoArrayIndex);
+            if (location == -1)
+                location = GL.GetUniformLocation(Id, nameArrayIndex0);
 
             // Overwrite existing uniforms.
-            if (!activeUniformByName.ContainsKey(name))
-                activeUniformByName.Add(name, new ActiveUniformInfo(location, type));
+            if (!activeUniformByName.ContainsKey(nameNoArrayIndex))
+                activeUniformByName.Add(nameNoArrayIndex, new ActiveUniformInfo(location, type));
         }
 
         private void LoadUniforms()
