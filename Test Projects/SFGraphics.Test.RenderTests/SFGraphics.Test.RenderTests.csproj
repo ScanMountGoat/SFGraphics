@@ -72,9 +72,12 @@
     <Compile Include="Tests\ShaderTests\ProgramValidateStatusTests.cs" />
     <Compile Include="Tests\ShaderTests\SetUniformTests\SetBoolToInt.cs" />
     <Compile Include="Tests\ShaderTests\SetUniformTests\SetFloat.cs" />
-    <Compile Include="Tests\ShaderTests\SetUniformTests\SetFloats.cs" />
+    <Compile Include="Tests\ShaderTests\SetUniformTests\SetFloatArray.cs" />
     <Compile Include="Tests\ShaderTests\SetUniformTests\SetInt.cs" />
+    <Compile Include="Tests\ShaderTests\SetUniformTests\SetIntArray.cs" />
     <Compile Include="Tests\ShaderTests\SetUniformTests\SetMatrix4x4.cs" />
+    <Compile Include="Tests\ShaderTests\SetUniformTests\SetUint.cs" />
+    <Compile Include="Tests\ShaderTests\SetUniformTests\SetUintArray.cs" />
     <Compile Include="Tests\ShaderTests\SetUniformTests\SetVector2.cs" />
     <Compile Include="Tests\ShaderTests\SetUniformTests\SetVector3.cs" />
     <Compile Include="Tests\ShaderTests\SetUniformTests\SetVector4.cs" />

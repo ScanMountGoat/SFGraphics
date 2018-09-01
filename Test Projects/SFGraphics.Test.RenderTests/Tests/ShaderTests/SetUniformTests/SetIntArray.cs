@@ -7,9 +7,10 @@ namespace SFGraphics.Test.RenderTests.ShaderTests.SetterTests
     public partial class ShaderTest
     {
         [TestClass]
-        public class SetInt
+        public class SetIntArray
         {
             Shader shader;
+            private int[] values = new int[] { -1, 0, 1 };
 
             [TestInitialize()]
             public void Initialize()
@@ -20,15 +21,15 @@ namespace SFGraphics.Test.RenderTests.ShaderTests.SetterTests
             [TestMethod]
             public void SetIntValidNameValidType()
             {
-                shader.SetInt("int1", 0);
-                string expected = ShaderTestUtils.GetInvalidUniformErrorMessage("int1", ActiveUniformType.Int);
+                shader.SetInt("intArray1", values);
+                string expected = ShaderTestUtils.GetInvalidUniformErrorMessage("intArray1", ActiveUniformType.Int);
                 Assert.IsFalse(shader.GetErrorLog().Contains(expected));
             }
 
             [TestMethod]
             public void SetIntInvalidName()
             {
-                shader.SetInt("memes", 0);
+                shader.SetInt("memes", values);
                 string expected = ShaderTestUtils.GetInvalidUniformErrorMessage("memes", ActiveUniformType.Int);
                 Assert.IsTrue(shader.GetErrorLog().Contains(expected));
             }
@@ -36,7 +37,7 @@ namespace SFGraphics.Test.RenderTests.ShaderTests.SetterTests
             [TestMethod]
             public void SetIntInvalidType()
             {
-                shader.SetInt("float1", 0);
+                shader.SetInt("float1", values);
                 string expected = ShaderTestUtils.GetInvalidUniformErrorMessage("float1", ActiveUniformType.Int);
                 Assert.IsTrue(shader.GetErrorLog().Contains(expected));
             }

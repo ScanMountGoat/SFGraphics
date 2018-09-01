@@ -7,9 +7,10 @@ namespace SFGraphics.Test.RenderTests.ShaderTests.SetterTests
     public partial class ShaderTest
     {
         [TestClass]
-        public class SetInt
+        public class SetUintArray
         {
             Shader shader;
+            uint[] values = new uint[] { 1, 2, 3 };
 
             [TestInitialize()]
             public void Initialize()
@@ -18,26 +19,26 @@ namespace SFGraphics.Test.RenderTests.ShaderTests.SetterTests
             }
 
             [TestMethod]
-            public void SetIntValidNameValidType()
+            public void SetUintValidNameValidType()
             {
-                shader.SetInt("int1", 0);
-                string expected = ShaderTestUtils.GetInvalidUniformErrorMessage("int1", ActiveUniformType.Int);
+                shader.SetUint("uintArray1", values);
+                string expected = ShaderTestUtils.GetInvalidUniformErrorMessage("uintArray1", ActiveUniformType.UnsignedInt);
                 Assert.IsFalse(shader.GetErrorLog().Contains(expected));
             }
 
             [TestMethod]
-            public void SetIntInvalidName()
+            public void SetUintInvalidName()
             {
-                shader.SetInt("memes", 0);
-                string expected = ShaderTestUtils.GetInvalidUniformErrorMessage("memes", ActiveUniformType.Int);
+                shader.SetUint("memes", values);
+                string expected = ShaderTestUtils.GetInvalidUniformErrorMessage("memes", ActiveUniformType.UnsignedInt);
                 Assert.IsTrue(shader.GetErrorLog().Contains(expected));
             }
 
             [TestMethod]
-            public void SetIntInvalidType()
+            public void SetUintInvalidType()
             {
-                shader.SetInt("float1", 0);
-                string expected = ShaderTestUtils.GetInvalidUniformErrorMessage("float1", ActiveUniformType.Int);
+                shader.SetUint("float1", values);
+                string expected = ShaderTestUtils.GetInvalidUniformErrorMessage("float1", ActiveUniformType.UnsignedInt);
                 Assert.IsTrue(shader.GetErrorLog().Contains(expected));
             }
         }

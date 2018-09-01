@@ -7,7 +7,7 @@ namespace SFGraphics.Test.RenderTests.ShaderTests.SetterTests
     public partial class ShaderTest
     {
         [TestClass]
-        public class SetInt
+        public class SetUint
         {
             Shader shader;
 
@@ -18,26 +18,26 @@ namespace SFGraphics.Test.RenderTests.ShaderTests.SetterTests
             }
 
             [TestMethod]
-            public void SetIntValidNameValidType()
+            public void SetUintValidNameValidType()
             {
-                shader.SetInt("int1", 0);
-                string expected = ShaderTestUtils.GetInvalidUniformErrorMessage("int1", ActiveUniformType.Int);
+                shader.SetUint("uint1", 1);
+                string expected = ShaderTestUtils.GetInvalidUniformErrorMessage("uint1", ActiveUniformType.UnsignedInt);
                 Assert.IsFalse(shader.GetErrorLog().Contains(expected));
             }
 
             [TestMethod]
-            public void SetIntInvalidName()
+            public void SetUintInvalidName()
             {
-                shader.SetInt("memes", 0);
-                string expected = ShaderTestUtils.GetInvalidUniformErrorMessage("memes", ActiveUniformType.Int);
+                shader.SetUint("memes", 0);
+                string expected = ShaderTestUtils.GetInvalidUniformErrorMessage("memes", ActiveUniformType.UnsignedInt);
                 Assert.IsTrue(shader.GetErrorLog().Contains(expected));
             }
 
             [TestMethod]
-            public void SetIntInvalidType()
+            public void SetUintInvalidType()
             {
-                shader.SetInt("float1", 0);
-                string expected = ShaderTestUtils.GetInvalidUniformErrorMessage("float1", ActiveUniformType.Int);
+                shader.SetUint("float1", 0);
+                string expected = ShaderTestUtils.GetInvalidUniformErrorMessage("float1", ActiveUniformType.UnsignedInt);
                 Assert.IsTrue(shader.GetErrorLog().Contains(expected));
             }
         }

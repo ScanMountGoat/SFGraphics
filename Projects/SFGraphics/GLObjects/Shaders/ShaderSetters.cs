@@ -24,7 +24,7 @@ namespace SFGraphics.GLObjects.Shaders
         /// </summary>
         /// <param name="uniformName">The uniform variable name</param>
         /// <param name="value">The value to assign to the uniform</param>
-        public void SetFloats(string uniformName, float[] value)
+        public void SetFloat(string uniformName, float[] value)
         {
             if (!ValidUniform(uniformName, ActiveUniformType.Float))
                 return;
@@ -50,12 +50,38 @@ namespace SFGraphics.GLObjects.Shaders
         /// </summary>
         /// <param name="uniformName">The uniform variable name</param>
         /// <param name="value">The value to assign to the uniform</param>
+        public void SetInt(string uniformName, int[] value)
+        {
+            if (!ValidUniform(uniformName, ActiveUniformType.Int))
+                return;
+
+            GL.Uniform1(activeUniformByName[uniformName].location, value.Length, value);
+        }
+
+        /// <summary>
+        /// Names not present in the shader are ignored and saved to the error log.
+        /// </summary>
+        /// <param name="uniformName">The uniform variable name</param>
+        /// <param name="value">The value to assign to the uniform</param>
         public void SetUint(string uniformName, uint value)
         {
             if (!ValidUniform(uniformName, ActiveUniformType.UnsignedInt))
                 return;
 
             GL.Uniform1(activeUniformByName[uniformName].location, value);
+        }
+
+        /// <summary>
+        /// Names not present in the shader are ignored and saved to the error log.
+        /// </summary>
+        /// <param name="uniformName">The uniform variable name</param>
+        /// <param name="value">The value to assign to the uniform</param>
+        public void SetUint(string uniformName, uint[] value)
+        {
+            if (!ValidUniform(uniformName, ActiveUniformType.UnsignedInt))
+                return;
+
+            GL.Uniform1(activeUniformByName[uniformName].location, value.Length, value);
         }
 
         /// <summary>

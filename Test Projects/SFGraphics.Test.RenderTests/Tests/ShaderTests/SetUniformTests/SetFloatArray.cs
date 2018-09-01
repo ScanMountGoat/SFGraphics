@@ -7,7 +7,7 @@ namespace SFGraphics.Test.RenderTests.ShaderTests.SetterTests
     public partial class ShaderTest
     {
         [TestClass]
-        public class SetFloats
+        public class SetFloatArray
         {
             Shader shader;
             private float[] values = new float[] { 1.5f, 2.5f, 3.5f };
@@ -21,7 +21,7 @@ namespace SFGraphics.Test.RenderTests.ShaderTests.SetterTests
             [TestMethod]
             public void SetFloatsValidName()
             {
-                shader.SetFloats("floatArray1", values);
+                shader.SetFloat("floatArray1", values);
                 string expected = ShaderTestUtils.GetInvalidUniformErrorMessage("floatArray1", ActiveUniformType.Float);
                 Assert.IsFalse(shader.GetErrorLog().Contains(expected));
             }
@@ -29,7 +29,7 @@ namespace SFGraphics.Test.RenderTests.ShaderTests.SetterTests
             [TestMethod]
             public void SetFloatsInvalidType()
             {
-                shader.SetFloats("intArray1", values);
+                shader.SetFloat("intArray1", values);
                 string expected = ShaderTestUtils.GetInvalidUniformErrorMessage("intArray1", ActiveUniformType.Float);
                 Assert.IsTrue(shader.GetErrorLog().Contains(expected));
             }
@@ -37,7 +37,7 @@ namespace SFGraphics.Test.RenderTests.ShaderTests.SetterTests
             [TestMethod]
             public void SetFloatsValidType()
             {
-                shader.SetFloats("floatArray1", values);
+                shader.SetFloat("floatArray1", values);
                 string expected = ShaderTestUtils.GetInvalidUniformErrorMessage("floatArray1", ActiveUniformType.Float);
                 Assert.IsFalse(shader.GetErrorLog().Contains(expected));
             }
@@ -45,7 +45,7 @@ namespace SFGraphics.Test.RenderTests.ShaderTests.SetterTests
             [TestMethod]
             public void SetFloatsInvalidName()
             {
-                shader.SetFloats("memesArray", values);
+                shader.SetFloat("memesArray", values);
                 string expected = ShaderTestUtils.GetInvalidUniformErrorMessage("memesArray", ActiveUniformType.Float);
                 Assert.IsTrue(shader.GetErrorLog().Contains(expected));
             }

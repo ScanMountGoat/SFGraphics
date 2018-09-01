@@ -3,6 +3,8 @@
 uniform float float1;
 uniform float floatArray1[3];
 
+uniform uint uint1;
+uniform uint uintArray1[3];
 uniform int int1;
 uniform int boolInt1;
 uniform int intArray1[3];
@@ -20,6 +22,7 @@ out vec4 fragColor;
 
 void main()
 {
+    // Use all the uniforms, so they aren't optimized out.
     fragColor = vec4(1) * float1 * int1;
 	if (boolInt1 == 1)
 		fragColor *= 0.5;
@@ -38,4 +41,11 @@ void main()
 	{
 		fragColor *= intArray1[i];
 	}
+
+	for (int i = 0; i < uintArray1.length(); i++)
+	{
+		fragColor *= uintArray1[i];
+	}
+
+    fragColor.rgb *= uint1;
 }
