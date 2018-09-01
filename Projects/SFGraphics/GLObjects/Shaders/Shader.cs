@@ -34,16 +34,15 @@ namespace SFGraphics.GLObjects.Shaders
         /// </summary>
         public bool ProgramStatusIsValid {  get { return GetProgramValidationStatus(); } }
 
+        private int activeUniformCount;
+        private int activeAttributeCount;
+
         private ShaderLog errorLog = new ShaderLog();
 
-        // Vertex Attributes and Uniforms
-        int activeUniformCount = 0;
-        int activeAttributeCount = 0;
-        private Dictionary<string, int> vertexAttributeAndUniformLocations = new Dictionary<string, int>();
+        private Dictionary<string, ActiveUniformInfo> activeUniformByName = new Dictionary<string, ActiveUniformInfo>();
 
-        // Used to check for type mismatches when setting attributes and uniforms.
-        private Dictionary<string, ActiveUniformType> activeUniformTypesByName = new Dictionary<string, ActiveUniformType>();
-        private Dictionary<string, ActiveAttribType> activeAttribTypesByName = new Dictionary<string, ActiveAttribType>();
+        private Dictionary<string, ActiveAttribInfo> activeAttribByName = new Dictionary<string, ActiveAttribInfo>();
+
 
         // Write these names to the error log later rather than throwing an exception.
         private HashSet<string> invalidUniformNames = new HashSet<string>();
@@ -76,11 +75,11 @@ namespace SFGraphics.GLObjects.Shaders
         /// <returns>The index of the attribute/uniform or -1 if not found </returns>
         public int GetVertexAttributeUniformLocation(string name)
         {
-            int value;
-            if (vertexAttributeAndUniformLocations.TryGetValue(name, out value))
-            {
-                return value;
-            }
+            // TODO: Remove this method and add separate methods.
+            if (activeAttribByName.ContainsKey(name))
+                return activeAttribByName[name].location;
+            else if (activeUniformByName.ContainsKey(name))
+                return activeUniformByName[name].location;
             else
                 return -1;
         }
@@ -216,30 +215,22 @@ namespace SFGraphics.GLObjects.Shaders
             }
         }
 
-        private void AddVertexAttribute(string name, ActiveAttribType activeAttribType)
+        private void AddVertexAttribute(string name, ActiveAttribType type)
         {
+            int location = GL.GetAttribLocation(Id, name);
+            
             // Overwrite existing vertex attributes.
-            if (vertexAttributeAndUniformLocations.ContainsKey(name))
-                vertexAttributeAndUniformLocations.Remove(name);
-            int position = GL.GetAttribLocation(Id, name);
-            vertexAttributeAndUniformLocations.Add(name, position);
-
-            if (activeAttribTypesByName.ContainsKey(name))
-                activeAttribTypesByName.Remove(name);
-            activeAttribTypesByName.Add(name, activeAttribType);
+            if (!activeAttribByName.ContainsKey(name))
+                activeAttribByName.Add(name, new ActiveAttribInfo(location, type));
         }
 
-        private void AddUniform(string name, ActiveUniformType activeUniformType)
+        private void AddUniform(string name, ActiveUniformType type)
         {
-            // Overwrite existing uniforms.
-            if (vertexAttributeAndUniformLocations.ContainsKey(name))
-                vertexAttributeAndUniformLocations.Remove(name);
-            int position = GL.GetUniformLocation(Id, name);
-            vertexAttributeAndUniformLocations.Add(name, position);
+            int location = GL.GetUniformLocation(Id, name);
 
-            if (activeUniformTypesByName.ContainsKey(name))
-                activeUniformTypesByName.Remove(name);
-            activeUniformTypesByName.Add(name, activeUniformType);
+            // Overwrite existing uniforms.
+            if (!activeUniformByName.ContainsKey(name))
+                activeUniformByName.Add(name, new ActiveUniformInfo(location, type));
         }
 
         private void LoadUniforms()

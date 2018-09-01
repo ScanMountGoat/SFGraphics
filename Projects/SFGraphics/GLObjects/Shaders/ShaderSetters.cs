@@ -2,7 +2,6 @@
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
-
 namespace SFGraphics.GLObjects.Shaders
 {
     public sealed partial class Shader
@@ -17,7 +16,20 @@ namespace SFGraphics.GLObjects.Shaders
             if (!UniformTypeAndNameCorrect(uniformName, ActiveUniformType.Float))
                 return;
 
-            GL.Uniform1(GetVertexAttributeUniformLocation(uniformName), value);
+            GL.Uniform1(activeUniformByName[uniformName].location, value);
+        }
+
+        /// <summary>
+        /// Names not present in the shader are ignored and saved to the error log.
+        /// </summary>
+        /// <param name="uniformName">The uniform variable name</param>
+        /// <param name="value">The value to assign to the uniform</param>
+        public void SetFloats(string uniformName, float[] value)
+        {
+            if (!UniformTypeAndNameCorrect(uniformName, ActiveUniformType.Float))
+                return;
+
+            GL.Uniform1(activeUniformByName[uniformName].location, value.Length, value);
         }
 
         /// <summary>
@@ -30,7 +42,7 @@ namespace SFGraphics.GLObjects.Shaders
             if (!UniformTypeAndNameCorrect(uniformName, ActiveUniformType.Int))
                 return;
 
-            GL.Uniform1(GetVertexAttributeUniformLocation(uniformName), value);
+            GL.Uniform1(activeUniformByName[uniformName].location, value);
         }
 
         /// <summary>
@@ -43,7 +55,7 @@ namespace SFGraphics.GLObjects.Shaders
             if (!UniformTypeAndNameCorrect(uniformName, ActiveUniformType.UnsignedInt))
                 return;
 
-            GL.Uniform1(GetVertexAttributeUniformLocation(uniformName), value);
+            GL.Uniform1(activeUniformByName[uniformName].location, value);
         }
 
         /// <summary>
@@ -58,9 +70,9 @@ namespace SFGraphics.GLObjects.Shaders
 
             // if/else is faster than the ternary operator. 
             if (value)
-                GL.Uniform1(GetVertexAttributeUniformLocation(uniformName), 1);
+                GL.Uniform1(activeUniformByName[uniformName].location, 1);
             else
-                GL.Uniform1(GetVertexAttributeUniformLocation(uniformName), 0);
+                GL.Uniform1(activeUniformByName[uniformName].location, 0);
         }
 
         /// <summary>
@@ -73,7 +85,7 @@ namespace SFGraphics.GLObjects.Shaders
             if (!UniformTypeAndNameCorrect(uniformName, ActiveUniformType.FloatVec2))
                 return;
 
-            GL.Uniform2(GetVertexAttributeUniformLocation(uniformName), value);
+            GL.Uniform2(activeUniformByName[uniformName].location, value);
         }
 
         /// <summary>
@@ -97,7 +109,7 @@ namespace SFGraphics.GLObjects.Shaders
             if (!UniformTypeAndNameCorrect(uniformName, ActiveUniformType.FloatVec3))
                 return;
 
-            GL.Uniform3(GetVertexAttributeUniformLocation(uniformName), value);
+            GL.Uniform3(activeUniformByName[uniformName].location, value);
         }
 
         /// <summary>
@@ -122,7 +134,7 @@ namespace SFGraphics.GLObjects.Shaders
             if (!UniformTypeAndNameCorrect(uniformName, ActiveUniformType.FloatVec4))
                 return;
 
-            GL.Uniform4(GetVertexAttributeUniformLocation(uniformName), value);
+            GL.Uniform4(activeUniformByName[uniformName].location, value);
         }
 
         /// <summary>
@@ -148,7 +160,7 @@ namespace SFGraphics.GLObjects.Shaders
             if (!UniformTypeAndNameCorrect(uniformName, ActiveUniformType.FloatMat4))
                 return;
 
-            GL.UniformMatrix4(GetVertexAttributeUniformLocation(uniformName), false, ref value);
+            GL.UniformMatrix4(activeUniformByName[uniformName].location, false, ref value);
         }
 
         /// <summary>
@@ -161,34 +173,32 @@ namespace SFGraphics.GLObjects.Shaders
         /// <param name="textureUnit">The texture unit to which <paramref name="textureId"/> is bound</param>
         public void SetTexture(string uniformName, int textureId, TextureTarget textureTarget, int textureUnit)
         {
-            if (!vertexAttributeAndUniformLocations.ContainsKey(uniformName) && !invalidUniformNames.Contains(uniformName))
-            {
-                invalidUniformNames.Add(uniformName);
+            if (!activeUniformByName.ContainsKey(uniformName))
                 return;
-            }
 
             GL.ActiveTexture(TextureUnit.Texture0 + textureUnit);
             GL.BindTexture(textureTarget, textureId);
-            GL.Uniform1(GetVertexAttributeUniformLocation(uniformName), textureUnit);
+            GL.Uniform1(activeUniformByName[uniformName].location, textureUnit);
         }
 
         private bool UniformTypeAndNameCorrect(string uniformName, ActiveUniformType inputType)
         {
-            if (!CorrectUniformAttributeName(uniformName, invalidUniformNames))
+            if (!CorrectUniformName(uniformName, invalidUniformNames))
                 return false;
             else if (!CorrectUniformType(uniformName, inputType))
                 return false;
-
-            return true;
+            else
+                return true;
         }
 
-        private bool CorrectUniformAttributeName(string name, HashSet<string> invalidNames)
+        private bool CorrectUniformName(string name, HashSet<string> invalidNames)
         {
             // Check for spelling mistakes and names optimized out by the compiler.
             // Avoid adding duplicates because this is checked a lot.
-            if (!vertexAttributeAndUniformLocations.ContainsKey(name) && !invalidNames.Contains(name))
+            if (!activeUniformByName.ContainsKey(name))
             {
-                invalidNames.Add(name);
+                if (!invalidNames.Contains(name))
+                    invalidNames.Add(name);
                 return false;
             }
 
@@ -197,17 +207,18 @@ namespace SFGraphics.GLObjects.Shaders
 
         private bool CorrectUniformType(string name, ActiveUniformType inputType)
         {
+            if (!activeUniformByName.ContainsKey(name))
+                return false;
+
             // Check for valid names with type mismatches.
             // Avoid adding duplicates because this is checked a lot.
-            if (activeUniformTypesByName.ContainsKey(name))
+            bool correctType = activeUniformByName[name].type == inputType;
+            if (!correctType && !invalidUniformTypes.ContainsKey(name))
             {
-                bool correctType = activeUniformTypesByName[name] == inputType;
-                if (!correctType && !invalidUniformTypes.ContainsKey(name))
-                {
-                    invalidUniformTypes.Add(name, inputType);
-                    return false;
-                }
+                invalidUniformTypes.Add(name, inputType);
+                return false;
             }
+
             return true;
         }
     }

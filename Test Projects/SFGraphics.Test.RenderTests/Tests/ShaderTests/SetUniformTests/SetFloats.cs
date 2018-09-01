@@ -6,9 +6,10 @@ namespace SFGraphics.Test.RenderTests.ShaderTests.SetterTests
     public partial class ShaderTest
     {
         [TestClass]
-        public class SetFloat
+        public class SetFloats
         {
             Shader shader;
+            private float[] values = new float[] { 1.5f, 2.5f, 3.5f };
 
             [TestInitialize()]
             public void Initialize()
@@ -17,34 +18,34 @@ namespace SFGraphics.Test.RenderTests.ShaderTests.SetterTests
             }
 
             [TestMethod]
-            public void SetFloatValidName()
+            public void SetFloatsValidName()
             {
-                shader.SetFloat("float1", 0);
-                string expected = "[Warning] Attempted to set undeclared uniform variable float1";
+                shader.SetFloats("floatArray1", values);
+                string expected = "[Warning] Attempted to set undeclared uniform variable floatArray1";
                 Assert.IsFalse(shader.GetErrorLog().Contains(expected));
             }
 
             [TestMethod]
-            public void SetFloatInvalidType()
+            public void SetFloatsInvalidType()
             {
-                shader.SetFloat("int1", 0);
-                string expected = "[Warning] No uniform variable int1 of type Float";
+                shader.SetFloats("intArray1", values);
+                string expected = "[Warning] No uniform variable intArray1 of type Float";
                 Assert.IsTrue(shader.GetErrorLog().Contains(expected));
             }
 
             [TestMethod]
-            public void SetFloatValidType()
+            public void SetFloatsValidType()
             {
-                shader.SetFloat("float1", 0);
-                string expected = "[Warning] No uniform variable float1 of type Float";
+                shader.SetFloats("floatArray1", values);
+                string expected = "[Warning] No uniform variable floatArray1 of type Float";
                 Assert.IsFalse(shader.GetErrorLog().Contains(expected));
             }
 
             [TestMethod]
-            public void SetFloatInvalidName()
+            public void SetFloatsInvalidName()
             {
-                shader.SetFloat("memes", 0);
-                string expected = "[Warning] Attempted to set undeclared uniform variable memes";
+                shader.SetFloats("memesArray", values);
+                string expected = "[Warning] Attempted to set undeclared uniform variable memesArray";
                 Assert.IsTrue(shader.GetErrorLog().Contains(expected));
             }
         }
