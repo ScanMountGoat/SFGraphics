@@ -8,10 +8,13 @@ namespace SFGraphics.GLObjects.Shaders
 
         public readonly ActiveUniformType type;
 
-        public ActiveUniformInfo(int location, ActiveUniformType type)
+        public readonly int size;
+
+        public ActiveUniformInfo(int location, ActiveUniformType type, int size = 1)
         {
             this.location = location;
             this.type = type;
+            this.size = size;
         }
     }
 }

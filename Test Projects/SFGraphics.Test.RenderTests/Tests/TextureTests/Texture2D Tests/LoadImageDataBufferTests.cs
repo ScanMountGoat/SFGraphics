@@ -32,8 +32,10 @@ namespace SFGraphics.Test.RenderTests.TextureTests
         }
 
         [TestMethod]
+        [Ignore]
         public void UncompressedMipmaps()
         {
+            
             Assert.Fail("Not implemented");
         }
 

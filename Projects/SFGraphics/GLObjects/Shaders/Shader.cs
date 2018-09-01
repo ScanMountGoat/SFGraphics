@@ -221,7 +221,7 @@ namespace SFGraphics.GLObjects.Shaders
                 activeAttribByName.Add(name, new ActiveAttribInfo(location, type));
         }
 
-        private void AddUniform(string name, ActiveUniformType type)
+        private void AddUniform(string name, ActiveUniformType type, int size)
         {
             string nameNoArrayIndex = name;
             if (name.Contains("["))
@@ -236,7 +236,7 @@ namespace SFGraphics.GLObjects.Shaders
 
             // Overwrite existing uniforms.
             if (!activeUniformByName.ContainsKey(nameNoArrayIndex))
-                activeUniformByName.Add(nameNoArrayIndex, new ActiveUniformInfo(location, type));
+                activeUniformByName.Add(nameNoArrayIndex, new ActiveUniformInfo(location, type, size));
         }
 
         private void LoadUniforms()
@@ -251,7 +251,7 @@ namespace SFGraphics.GLObjects.Shaders
                 string uniform = GL.GetActiveUniform(Id, i, out uniformSize, out uniformType);
                 if (uniformType != 0)
                 {
-                    AddUniform(uniform, uniformType);
+                    AddUniform(uniform, uniformType, uniformSize);
                 }
             }
         }

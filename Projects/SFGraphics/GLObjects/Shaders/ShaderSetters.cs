@@ -26,7 +26,7 @@ namespace SFGraphics.GLObjects.Shaders
         /// <param name="value">The value to assign to the uniform</param>
         public void SetFloat(string uniformName, float[] value)
         {
-            if (!ValidUniform(uniformName, ActiveUniformType.Float))
+            if (!ValidUniform(uniformName, ActiveUniformType.Float, value.Length))
                 return;
 
             GL.Uniform1(activeUniformByName[uniformName].location, value.Length, value);
@@ -52,7 +52,7 @@ namespace SFGraphics.GLObjects.Shaders
         /// <param name="value">The value to assign to the uniform</param>
         public void SetInt(string uniformName, int[] value)
         {
-            if (!ValidUniform(uniformName, ActiveUniformType.Int))
+            if (!ValidUniform(uniformName, ActiveUniformType.Int, value.Length))
                 return;
 
             GL.Uniform1(activeUniformByName[uniformName].location, value.Length, value);
@@ -78,7 +78,7 @@ namespace SFGraphics.GLObjects.Shaders
         /// <param name="value">The value to assign to the uniform</param>
         public void SetUint(string uniformName, uint[] value)
         {
-            if (!ValidUniform(uniformName, ActiveUniformType.UnsignedInt))
+            if (!ValidUniform(uniformName, ActiveUniformType.UnsignedInt, value.Length))
                 return;
 
             GL.Uniform1(activeUniformByName[uniformName].location, value.Length, value);
@@ -207,18 +207,24 @@ namespace SFGraphics.GLObjects.Shaders
             GL.Uniform1(activeUniformByName[uniformName].location, textureUnit);
         }
 
-        private bool ValidUniform(string uniformName, ActiveUniformType inputType)
+        private bool ValidUniform(string uniformName, ActiveUniformType inputType, int size = 1)
         {
             if (!activeUniformByName.ContainsKey(uniformName))
             {
                 if (!invalidUniformByName.ContainsKey(uniformName))
-                    invalidUniformByName.Add(uniformName, new ActiveUniformInfo(0, inputType));
+                    invalidUniformByName.Add(uniformName, new ActiveUniformInfo(0, inputType, size));
                 return false;
             }
             else if (activeUniformByName[uniformName].type != inputType)
             {
                 if (!invalidUniformByName.ContainsKey(uniformName))
-                    invalidUniformByName.Add(uniformName, new ActiveUniformInfo(0, inputType));
+                    invalidUniformByName.Add(uniformName, new ActiveUniformInfo(0, inputType, size));
+                return false;
+            }
+            else if (activeUniformByName[uniformName].size != size)
+            {
+                if (!invalidUniformByName.ContainsKey(uniformName))
+                    invalidUniformByName.Add(uniformName, new ActiveUniformInfo(0, inputType, size));
                 return false;
             }
             else
