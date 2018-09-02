@@ -150,6 +150,22 @@ namespace SFGraphics.GLObjects.Textures
         /// <param name="width"></param>
         /// <param name="height"></param>
         /// <param name="mipmaps"></param>
+        /// <param name="format"></param>
+        public void LoadImageData(int width, int height, List<BufferObject> mipmaps,
+            TextureFormatUncompressed format)
+        {
+            Width = width;
+            Height = height;
+
+            MipmapLoading.LoadUncompressedMipmaps(TextureTarget.Texture2D, width, height, mipmaps, format);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <param name="mipmaps"></param>
         /// <param name="internalFormat"></param>
         public void LoadImageData(int width, int height, List<BufferObject> mipmaps,
             InternalFormat internalFormat)
@@ -160,7 +176,7 @@ namespace SFGraphics.GLObjects.Textures
             Width = width;
             Height = height;
 
-            MipmapLoading.LoadCompressedMipMaps(TextureTarget.Texture2D, width, height, mipmaps, internalFormat);
+            MipmapLoading.LoadCompressedMipmaps(TextureTarget.Texture2D, width, height, mipmaps, internalFormat);
         }
     }
 }

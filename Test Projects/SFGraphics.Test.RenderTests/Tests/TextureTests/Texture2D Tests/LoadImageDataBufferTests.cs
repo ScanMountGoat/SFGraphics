@@ -32,11 +32,13 @@ namespace SFGraphics.Test.RenderTests.TextureTests
         }
 
         [TestMethod]
-        [Ignore]
         public void UncompressedMipmaps()
         {
-            
-            Assert.Fail("Not implemented");
+            Texture2D texture = new Texture2D();
+            BufferObject pixelBuffer = new BufferObject(BufferTarget.PixelUnpackBuffer);
+            pixelBuffer.SetData(new float[] { 1, 1, 1 }, BufferUsageHint.StaticDraw);
+            texture.LoadImageData(1, 1, new List<BufferObject>() { pixelBuffer }, 
+                new TextureFormatUncompressed(PixelInternalFormat.Rgb, PixelFormat.Rgb, PixelType.Float));
         }
 
         [TestMethod]

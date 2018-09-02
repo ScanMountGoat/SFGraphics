@@ -53,7 +53,7 @@ namespace SFGraphics.GLObjects.Textures
         /// <param name="height"></param>
         /// <param name="mipmaps"></param>
         /// <param name="format"></param>
-        public static void LoadCompressedMipMaps(TextureTarget target, int width, int height,
+        public static void LoadCompressedMipmaps(TextureTarget target, int width, int height,
             List<BufferObject> mipmaps, InternalFormat format)
         {
             // The number of mipmaps needs to be specified first.
@@ -70,6 +70,34 @@ namespace SFGraphics.GLObjects.Textures
                 int mipHeight = CalculateMipDimension(height, mipLevel);
 
                 LoadCompressedMipLevel(target, mipWidth, mipHeight, mipmaps[mipLevel], format, mipLevel);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="target"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <param name="mipmaps"></param>
+        /// <param name="format"></param>
+        public static void LoadUncompressedMipmaps(TextureTarget target, int width, int height,
+            List<BufferObject> mipmaps, TextureFormatUncompressed format)
+        {
+            // The number of mipmaps needs to be specified first.
+            if (!TextureFormatTools.IsCubeMapTarget(target))
+            {
+                int maxMipLevel = Math.Max(mipmaps.Count - 1, minMipLevel);
+                GL.TexParameter(target, TextureParameterName.TextureMaxLevel, maxMipLevel);
+            }
+
+            // Load mipmaps in the inclusive range [0, max level]
+            for (int mipLevel = 0; mipLevel < mipmaps.Count; mipLevel++)
+            {
+                int mipWidth = CalculateMipDimension(width, mipLevel);
+                int mipHeight = CalculateMipDimension(height, mipLevel);
+
+                LoadUncompressedMipLevel(target, mipWidth, mipHeight, mipmaps[mipLevel], format, mipLevel);
             }
         }
 
