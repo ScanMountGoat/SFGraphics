@@ -83,11 +83,6 @@ namespace SFGraphics.GLObjects.Samplers
         }
         private TextureWrapMode textureWrapR;
 
-        private void SetSamplerParameter(SamplerParameterName parameter, int value)
-        {
-            GL.SamplerParameter(Id, parameter, value);
-        }
-
         /// <summary>
         /// Creates an unitialized sampler object. 
         /// </summary>
@@ -104,6 +99,11 @@ namespace SFGraphics.GLObjects.Samplers
         public void Bind(int textureUnit)
         {
             GL.BindSampler(textureUnit, Id);
+        }
+
+        private void SetSamplerParameter(SamplerParameterName parameter, int value)
+        {
+            GL.SamplerParameter(Id, parameter, value);
         }
     }
 }

@@ -4,7 +4,7 @@ using OpenTK.Graphics.OpenGL;
 namespace SFGraphics.GLObjects.Textures.TextureFormats
 {
     /// <summary>
-    /// An immutable container for uncompressed texture format information.
+    /// Stores uncompressed texture format information.
     /// </summary>
     public struct TextureFormatUncompressed
     {

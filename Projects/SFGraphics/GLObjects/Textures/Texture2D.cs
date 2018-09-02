@@ -71,9 +71,9 @@ namespace SFGraphics.GLObjects.Textures
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
-        /// <param name="baseMipLevel"></param>
+        /// <param name="width">The width of <paramref name="baseMipLevel"/> in pixels</param>
+        /// <param name="height">The height of <paramref name="baseMipLevel"/> in pixels</param>
+        /// <param name="baseMipLevel">The image data of the first mip level</param>
         /// <param name="internalFormat"></param>
         public void LoadImageData(int width, int height, BufferObject baseMipLevel, InternalFormat internalFormat)
         {
@@ -94,8 +94,8 @@ namespace SFGraphics.GLObjects.Textures
         /// <typeparam name="T"></typeparam>
         /// <param name="width">The width of <paramref name="baseMipLevel"/> in pixels</param>
         /// <param name="height">The height of <paramref name="baseMipLevel"/> in pixels</param>
-        /// <param name="baseMipLevel">The image data to load for the first mip level. The other levels are generated.</param>
-        /// <param name="textureFormat">The format information for the uncompressed format</param>
+        /// <param name="baseMipLevel">The image data of the first mip level</param>
+        /// <param name="textureFormat">The image format for all mipmaps</param>
         public void LoadImageData<T>(int width, int height, T[] baseMipLevel, TextureFormatUncompressed textureFormat)
             where T : struct
         {
@@ -109,10 +109,10 @@ namespace SFGraphics.GLObjects.Textures
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
-        /// <param name="baseMipLevel"></param>
-        /// <param name="format"></param>
+        /// <param name="width">The width of the base mip level in pixels</param>
+        /// <param name="height">The height of the base mip level in pixels</param>
+        /// <param name="baseMipLevel">The image data of the first mip level</param>
+        /// <param name="format">The image format for all mipmaps</param>
         public void LoadImageData(int width, int height, BufferObject baseMipLevel, TextureFormatUncompressed format)
         {
             Width = width;
@@ -127,9 +127,9 @@ namespace SFGraphics.GLObjects.Textures
         /// for each array in <paramref name="mipmaps"/>.
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="width">The width of the base mip level</param>
-        /// <param name="height">The height of the base mip level</param>
-        /// <param name="mipmaps">A list of byte arrays for each mip level</param>
+        /// <param name="width">The width of the base mip level in pixels</param>
+        /// <param name="height">The height of the base mip level in pixels</param>
+        /// <param name="mipmaps">The image data for each mip level</param>
         /// <param name="internalFormat">The image format of <paramref name="mipmaps"/></param>
         /// <exception cref="ArgumentException"><paramref name="internalFormat"/> is not a compressed format.</exception>
         public void LoadImageData<T>(int width, int height, List<T[]> mipmaps, InternalFormat internalFormat)
@@ -147,10 +147,10 @@ namespace SFGraphics.GLObjects.Textures
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
-        /// <param name="mipmaps"></param>
-        /// <param name="format"></param>
+        /// <param name="width">The width of the base mip level in pixels</param>
+        /// <param name="height">The height of the base mip level in pixels</param>
+        /// <param name="mipmaps">The image data for each mip level</param>
+        /// <param name="format">The image format of <paramref name="mipmaps"/></param>
         public void LoadImageData(int width, int height, List<BufferObject> mipmaps,
             TextureFormatUncompressed format)
         {
@@ -163,10 +163,10 @@ namespace SFGraphics.GLObjects.Textures
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
-        /// <param name="mipmaps"></param>
-        /// <param name="internalFormat"></param>
+        /// <param name="width">The width of the base mip level in pixels</param>
+        /// <param name="height">The height of the base mip level in pixels</param>
+        /// <param name="mipmaps">The image data for each mip level</param>
+        /// <param name="internalFormat">The image format of <paramref name="mipmaps"/></param>
         public void LoadImageData(int width, int height, List<BufferObject> mipmaps,
             InternalFormat internalFormat)
         {

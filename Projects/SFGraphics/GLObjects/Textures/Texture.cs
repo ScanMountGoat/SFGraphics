@@ -27,9 +27,8 @@ namespace SFGraphics.GLObjects.Textures
             get { return minFilter; }
             set
             {
-                Bind();
                 minFilter = value;
-                GL.TexParameter(TextureTarget, TextureParameterName.TextureMinFilter, (int)value);
+                SetTexParameter(TextureParameterName.TextureMinFilter, (int)value);
             }
         }
         private TextureMinFilter minFilter;
@@ -42,9 +41,8 @@ namespace SFGraphics.GLObjects.Textures
             get { return magFilter; }
             set
             {
-                Bind();
                 magFilter = value;
-                GL.TexParameter(TextureTarget, TextureParameterName.TextureMagFilter, (int)value);
+                SetTexParameter(TextureParameterName.TextureMagFilter, (int)value);
             }
         }
         private TextureMagFilter magFilter;
@@ -57,9 +55,8 @@ namespace SFGraphics.GLObjects.Textures
             get { return textureWrapS; }
             set
             {
-                Bind();
                 textureWrapS = value;
-                GL.TexParameter(TextureTarget, TextureParameterName.TextureWrapS, (int)value);
+                SetTexParameter(TextureParameterName.TextureWrapS, (int)value);
             }
         }
         private TextureWrapMode textureWrapS;
@@ -72,9 +69,8 @@ namespace SFGraphics.GLObjects.Textures
             get { return textureWrapT; }
             set
             {
-                Bind();
                 textureWrapT = value;
-                GL.TexParameter(TextureTarget, TextureParameterName.TextureWrapT, (int)value);
+                SetTexParameter(TextureParameterName.TextureWrapT, (int)value);
             }
         }
         private TextureWrapMode textureWrapT;
@@ -87,9 +83,8 @@ namespace SFGraphics.GLObjects.Textures
             get { return textureWrapR; }
             set
             {
-                Bind();
                 textureWrapR = value;
-                GL.TexParameter(TextureTarget, TextureParameterName.TextureWrapR, (int)value);
+                SetTexParameter(TextureParameterName.TextureWrapR, (int)value);
             }
         }
         private TextureWrapMode textureWrapR;
@@ -102,7 +97,6 @@ namespace SFGraphics.GLObjects.Textures
         {
             TextureTarget = textureTarget;
 
-            // Use properties because the GL texture needs to be updated.
             TextureWrapS = TextureWrapMode.ClampToEdge;
             TextureWrapT = TextureWrapMode.ClampToEdge;
             TextureWrapR = TextureWrapMode.ClampToEdge;
@@ -116,6 +110,12 @@ namespace SFGraphics.GLObjects.Textures
         public void Bind()
         {
             GL.BindTexture(TextureTarget, Id);
+        }
+
+        private void SetTexParameter(TextureParameterName param, int value)
+        {
+            Bind();
+            GL.TexParameter(TextureTarget, param, value);
         }
     }
 }

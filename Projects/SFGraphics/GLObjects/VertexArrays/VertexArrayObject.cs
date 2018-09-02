@@ -3,7 +3,8 @@
 namespace SFGraphics.GLObjects
 {
     /// <summary>
-    /// Encapsulates an OpenGL vertex array object. Vertex array objects cannot be shared between contexts.
+    /// Encapsulates an OpenGL vertex array object. 
+    /// Vertex array objects cannot be shared between contexts.
     /// </summary>
     public sealed class VertexArrayObject : GLObject
     {
@@ -30,7 +31,7 @@ namespace SFGraphics.GLObjects
         }
 
         /// <summary>
-        /// Binds the default vertex array value of 0.
+        /// Binds the default vertex array value of <c>0</c>.
         /// </summary>
         public void Unbind()
         {

@@ -31,8 +31,8 @@ namespace SFGenericModel.Materials
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="uniformName"></param>
-        /// <param name="value"></param>
+        /// <param name="uniformName">The name of the uniform variable</param>
+        /// <param name="value">The value to set for the uniform</param>
         public void AddFloat(string uniformName, float value)
         {
             floatUniformsByName.Add(uniformName, value);
@@ -41,8 +41,8 @@ namespace SFGenericModel.Materials
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="uniformName"></param>
-        /// <param name="value"></param>
+        /// <param name="uniformName">The name of the uniform variable</param>
+        /// <param name="value">The value to set for the uniform</param>
         public void AddInt(string uniformName, int value)
         {
             intUniformsByName.Add(uniformName, value);
@@ -51,8 +51,8 @@ namespace SFGenericModel.Materials
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="uniformName"></param>
-        /// <param name="value"></param>
+        /// <param name="uniformName">The name of the uniform variable</param>
+        /// <param name="value">The value to set for the uniform</param>
         public void AddVector2(string uniformName, Vector2 value)
         {
             vec2UniformsByName.Add(uniformName, value);
@@ -61,8 +61,8 @@ namespace SFGenericModel.Materials
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="uniformName"></param>
-        /// <param name="value"></param>
+        /// <param name="uniformName">The name of the uniform variable</param>
+        /// <param name="value">The value to set for the uniform</param>
         public void AddVector3(string uniformName, Vector3 value)
         {
             vec3UniformsByName.Add(uniformName, value);
@@ -71,8 +71,8 @@ namespace SFGenericModel.Materials
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="uniformName"></param>
-        /// <param name="value"></param>
+        /// <param name="uniformName">The name of the uniform variable</param>
+        /// <param name="value">The value to set for the uniform</param>
         public void AddVector4(string uniformName, Vector4 value)
         {
             vec4UniformsByName.Add(uniformName, value);
@@ -81,8 +81,8 @@ namespace SFGenericModel.Materials
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="uniformName"></param>
-        /// <param name="value"></param>
+        /// <param name="uniformName">The name of the uniform variable</param>
+        /// <param name="value">The value to set for the uniform</param>
         public void AddMatrix4(string uniformName, Matrix4 value)
         {
             mat4UniformsByName.Add(uniformName, value);

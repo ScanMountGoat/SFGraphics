@@ -7,7 +7,7 @@ using SFGraphics.GLObjects.Textures.TextureFormats;
 namespace SFGraphics.GLObjects.Textures
 {
     /// <summary>
-    /// Provides methods for loading mipmaps for OpenGL textures. Bind the texture first.
+    /// Provides methods for loading mipmaps for OpenGL textures. 
     /// </summary>
     public static class MipmapLoading
     {
@@ -16,15 +16,14 @@ namespace SFGraphics.GLObjects.Textures
         /// <summary>
         /// Loads compressed 2D image data of the compressed format <paramref name="format"/> 
         /// for all the mip levels in <paramref name="mipmaps"/>.
-        /// The texture must first be bound to the proper target before calling this method.
+        /// The texture must first be bound to the proper target.
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="target">The target of the texture or cube face for loading mip maps. 
-        /// Ex: Texture2D or TextureCubeMapPositiveX.</param>
+        /// <param name="target">The target of the texture or cube face for loading mip maps</param>
         /// <param name="width">The width of the texture or cube map face in pixels</param>
         /// <param name="height">The height of the texture or cube map face in pixels</param>
         /// <param name="mipmaps">The list of mipmaps to load for <paramref name="target"/></param>
-        /// <param name="format">The format for all mipmaps</param>
+        /// <param name="format">The input format and internal format information</param>
         public static void LoadCompressedMipMaps<T>(TextureTarget target, int width, int height, 
             List<T[]> mipmaps, InternalFormat format) where T : struct
         {
@@ -48,11 +47,11 @@ namespace SFGraphics.GLObjects.Textures
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="target"></param>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
+        /// <param name="target">The target of the texture or cube face for loading mip maps</param>
+        /// <param name="width">The width of the texture or cube map face in pixels</param>
+        /// <param name="height">The height of the texture or cube map face in pixels</param>
         /// <param name="mipmaps"></param>
-        /// <param name="format"></param>
+        /// <param name="format">The input format and internal format information</param>
         public static void LoadCompressedMipmaps(TextureTarget target, int width, int height,
             List<BufferObject> mipmaps, InternalFormat format)
         {
@@ -76,11 +75,11 @@ namespace SFGraphics.GLObjects.Textures
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="target"></param>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
+        /// <param name="target">The target of the texture or cube face for loading mip maps</param>
+        /// <param name="width">The width of the texture or cube map face in pixels</param>
+        /// <param name="height">The height of the texture or cube map face in pixels</param>
         /// <param name="mipmaps"></param>
-        /// <param name="format"></param>
+        /// <param name="format">The input format and internal format information</param>
         public static void LoadUncompressedMipmaps(TextureTarget target, int width, int height,
             List<BufferObject> mipmaps, TextureFormatUncompressed format)
         {
@@ -120,12 +119,11 @@ namespace SFGraphics.GLObjects.Textures
         /// 
         /// </summary>
         /// <typeparam name="T">The value type used for the image data. This inclues arithmetic types.</typeparam>
-        /// <param name="target">The target of the texture or cube face for loading mip maps. 
-        /// Ex: Texture2D or TextureCubeMapPositiveX.</param>
+        /// <param name="target">The target of the texture or cube face for loading mip maps</param>
         /// <param name="width">The width of the texture or cube map face in pixels</param>
         /// <param name="height">The height of the texture or cube map face in pixels</param>
         /// <param name="baseMipLevel"></param>
-        /// <param name="format">The format for all mipmaps</param>
+        /// <param name="format">The input format and internal format information</param>
         public static void LoadBaseLevelGenerateMipmaps<T>(TextureTarget target, int width, int height,
             T[] baseMipLevel, InternalFormat format) where T : struct
         {
@@ -137,9 +135,9 @@ namespace SFGraphics.GLObjects.Textures
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="target"></param>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
+        /// <param name="target">The target of the texture or cube face for loading mip maps</param>
+        /// <param name="width">The width of the texture or cube map face in pixels</param>
+        /// <param name="height">The height of the texture or cube map face in pixels</param>
         /// <param name="baseMipLevel"></param>
         /// <param name="internalFormat"></param>
         public static void LoadBaseLevelGenerateMipmaps(TextureTarget target, int width, int height,
@@ -154,12 +152,11 @@ namespace SFGraphics.GLObjects.Textures
         /// 
         /// </summary>
         /// <typeparam name="T">The value type used for the image data. This inclues arithmetic types.</typeparam>
-        /// <param name="target">The target of the texture or cube face for loading mip maps. 
-        /// Ex: Texture2D or TextureCubeMapPositiveX.</param>
+        /// <param name="target">The target of the texture or cube face for loading mip maps</param>
         /// <param name="width">The width of the texture or cube map face in pixels</param>
         /// <param name="height">The height of the texture or cube map face in pixels</param>
         /// <param name="baseMipLevel"></param>
-        /// <param name="format">The uncompressed format information</param>
+        /// <param name="format">The input format and internal format information</param>
         public static void LoadBaseLevelGenerateMipmaps<T>(TextureTarget target, int width, int height, 
             T[] baseMipLevel, TextureFormatUncompressed format) where T : struct
         {
@@ -171,11 +168,11 @@ namespace SFGraphics.GLObjects.Textures
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="target"></param>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
+        /// <param name="target">The target of the texture or cube face for loading mip maps</param>
+        /// <param name="width">The width of the texture or cube map face in pixels</param>
+        /// <param name="height">The height of the texture or cube map face in pixels</param>
         /// <param name="baseMipLevel"></param>
-        /// <param name="format"></param>
+        /// <param name="format">The input format and internal format information</param>
         public static void LoadBaseLevelGenerateMipmaps(TextureTarget target, int width, int height, 
             BufferObject baseMipLevel, TextureFormatUncompressed format)
         {
