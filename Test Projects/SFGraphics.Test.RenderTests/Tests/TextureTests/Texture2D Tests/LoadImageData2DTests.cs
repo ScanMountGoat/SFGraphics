@@ -66,6 +66,14 @@ namespace SFGraphics.Test.RenderTests.TextureTests
         }
 
         [TestMethod]
+        [ExpectedException(typeof(NotSupportedException))]
+        public void CompressedGenericFormat()
+        {
+            Texture2D texture = new Texture2D();
+            texture.LoadImageData(128, 64, mipmaps, InternalFormat.CompressedRed);
+        }
+
+        [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
         public void UncompressedIncorrectFormat()
         {

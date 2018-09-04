@@ -53,13 +53,15 @@ namespace SFGraphics.GLObjects.Textures
         /// <param name="height">The height of <paramref name="baseMipLevel"/> in pixels</param>
         /// <param name="baseMipLevel">The image data to load for the first mip level. The other levels are generated.</param>
         /// <param name="internalFormat">The image format of <paramref name="baseMipLevel"/></param>
-        /// 
         /// <exception cref="ArgumentException"><paramref name="internalFormat"/> is not a compressed format.</exception>
         public void LoadImageData<T>(int width, int height, T[] baseMipLevel, InternalFormat internalFormat)
             where T : struct
         {
             if (!TextureFormatTools.IsCompressed(internalFormat))
                 throw new ArgumentException(TextureExceptionMessages.expectedCompressed);
+
+            if (TextureFormatTools.IsGenericCompressed(internalFormat))
+                throw new NotSupportedException(TextureExceptionMessages.genericCompressedFormat);
 
             Width = width;
             Height = height;
@@ -74,11 +76,14 @@ namespace SFGraphics.GLObjects.Textures
         /// <param name="width">The width of <paramref name="baseMipLevel"/> in pixels</param>
         /// <param name="height">The height of <paramref name="baseMipLevel"/> in pixels</param>
         /// <param name="baseMipLevel">The image data of the first mip level</param>
-        /// <param name="internalFormat"></param>
+        /// <param name="internalFormat">The image format for all mipmaps</param>
         public void LoadImageData(int width, int height, BufferObject baseMipLevel, InternalFormat internalFormat)
         {
             if (!TextureFormatTools.IsCompressed(internalFormat))
                 throw new ArgumentException(TextureExceptionMessages.expectedCompressed);
+
+            if (TextureFormatTools.IsGenericCompressed(internalFormat))
+                throw new NotSupportedException(TextureExceptionMessages.genericCompressedFormat);
 
             Width = width;
             Height = height;
@@ -95,15 +100,15 @@ namespace SFGraphics.GLObjects.Textures
         /// <param name="width">The width of <paramref name="baseMipLevel"/> in pixels</param>
         /// <param name="height">The height of <paramref name="baseMipLevel"/> in pixels</param>
         /// <param name="baseMipLevel">The image data of the first mip level</param>
-        /// <param name="textureFormat">The image format for all mipmaps</param>
-        public void LoadImageData<T>(int width, int height, T[] baseMipLevel, TextureFormatUncompressed textureFormat)
+        /// <param name="format">The image format for all mipmaps</param>
+        public void LoadImageData<T>(int width, int height, T[] baseMipLevel, TextureFormatUncompressed format)
             where T : struct
         {
             Width = width;
             Height = height;
 
             Bind();
-            MipmapLoading.LoadBaseLevelGenerateMipmaps(TextureTarget, width, height, baseMipLevel, textureFormat);
+            MipmapLoading.LoadBaseLevelGenerateMipmaps(TextureTarget, width, height, baseMipLevel, format);
         }
 
         /// <summary>
@@ -137,6 +142,9 @@ namespace SFGraphics.GLObjects.Textures
         {
             if (!TextureFormatTools.IsCompressed(internalFormat))
                 throw new ArgumentException(TextureExceptionMessages.expectedCompressed);
+
+            if (TextureFormatTools.IsGenericCompressed(internalFormat))
+                throw new NotSupportedException(TextureExceptionMessages.genericCompressedFormat);
 
             Width = width;
             Height = height;
@@ -172,6 +180,9 @@ namespace SFGraphics.GLObjects.Textures
         {
             if (!TextureFormatTools.IsCompressed(internalFormat))
                 throw new ArgumentException(TextureExceptionMessages.expectedCompressed);
+
+            if (TextureFormatTools.IsGenericCompressed(internalFormat))
+                throw new NotSupportedException(TextureExceptionMessages.genericCompressedFormat);
 
             Width = width;
             Height = height;

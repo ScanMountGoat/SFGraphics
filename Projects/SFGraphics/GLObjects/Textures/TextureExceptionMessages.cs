@@ -16,5 +16,7 @@ namespace SFGraphics.GLObjects.Textures
         public static readonly string cubeFaceMipCountDifferent = "Mipmap count is not equal for all faces.";
 
         public static readonly string invalidDepthTexFormat = "The PixelInternalFormat not a valid depth component format.";
+
+        public static readonly string genericCompressedFormat = "Generic compressed formats are not supported.";
     }
 }

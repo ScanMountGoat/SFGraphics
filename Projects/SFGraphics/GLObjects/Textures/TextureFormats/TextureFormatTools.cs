@@ -58,12 +58,44 @@ namespace SFGraphics.GLObjects.Textures.TextureFormats
         /// Determines whether a format is compressed.
         /// Compressed formats should use GL.CompressedTexImage instead of GL.TexImage.
         /// </summary>
-        /// <param name="format">The image format for the texture data</param>
+        /// <param name="format">The image format for the Image data</param>
         /// <returns>True if the format is compressed</returns>
         public static bool IsCompressed(PixelInternalFormat format)
         {
             // All the enum value names should follow this convention.
             return format.ToString().ToLower().Contains("compressed");
+        }
+
+        /// <summary>
+        /// Determines whether a format is a generic compressed format.
+        /// Image data can not be uploaded in these formats.
+        /// </summary>
+        /// <param name="format">The image format for the image data</param>
+        /// <returns><c>true</c> if the format is a generic compressed format</returns>
+        public static bool IsGenericCompressed(PixelInternalFormat format)
+        {
+            return format == PixelInternalFormat.CompressedRed ||
+                format == PixelInternalFormat.CompressedRg ||
+                format == PixelInternalFormat.CompressedRgb ||
+                format == PixelInternalFormat.CompressedRgba ||
+                format == PixelInternalFormat.CompressedSrgb ||
+                format == PixelInternalFormat.CompressedSrgbAlpha;
+        }
+
+        /// <summary>
+        /// Determines whether a format is a generic compressed format.
+        /// Image data can not be uploaded in these formats.
+        /// </summary>
+        /// <param name="format">The image format for the image data</param>
+        /// <returns><c>true</c> if the format is a generic compressed format</returns>
+        public static bool IsGenericCompressed(InternalFormat format)
+        {
+            return format == InternalFormat.CompressedRed ||
+                format == InternalFormat.CompressedRg ||
+                format == InternalFormat.CompressedRgb ||
+                format == InternalFormat.CompressedRgba ||
+                format == InternalFormat.CompressedSrgb ||
+                format == InternalFormat.CompressedSrgbAlpha;
         }
 
         /// <summary>
