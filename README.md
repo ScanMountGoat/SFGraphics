@@ -15,6 +15,7 @@ SFGraphics provides vector and color utility functions.
 |OpenGL / GLSL | 3.30 |
 
 # Features
+## SFGraphics
 ### OpenGL Object Wrappers
 * Shader programs and shaders
 * Buffer objects
@@ -61,6 +62,18 @@ for (int i = 0; i < pixels.Length; i++)
 TextureFormatUncompressed format = new TextureFormatUncompressed(PixelInternalFormat.Rgb, PixelFormat.Rgb, PixelType.Float);
 texture.LoadImageData<Vector3>(32, 32, pixels, 0, format);
 ```
+
+## SFGraphics.Utils
+### Vector Calculation
+Calculates normals, tangents, and bitangents
+### Color Tools
+Converts System.Drawing.Color to OpenTK vector types. Provides methods to perform clamp, invert, and other color operations.
+## SFGenericModel
+### Generic Types for Vertex Structs
+Data can be initialized using any value type. As long as the correct vertex attribute information is specified, OpenGL will read the data correctly. The easiest way to create a class for rendering vertex data is to create a custom class as follows: `class MyMeshClass : GenericMesh<MyVertexStruct`.
+
+### Mesh Specific Render State
+Each mesh object stores the rendering state used for drawing. The state is set prior to drawing the vertices. This prevents difficult to debug issues with the appearance of a mesh depending on what was drawn previously. *Note: avoid drawing lots of mesh objects with identical render settings for performance reasons. This feature may be optional in later versions.*
 
 # Issues
 Please report all bugs or feature requests in the [bug tracker](https://github.com/ScanMountGoat/SFGraphics/issues).
