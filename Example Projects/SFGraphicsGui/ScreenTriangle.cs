@@ -1,8 +1,6 @@
 ﻿using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using SFGenericModel;
-using SFGraphics.Cameras;
-using SFGraphics.GLObjects.Shaders;
 using System.Collections.Generic;
 
 namespace SFGraphicsGui
@@ -26,8 +24,7 @@ namespace SFGraphicsGui
         {
             return new List<VertexAttributeInfo>()
             {
-                new VertexAttributeInfo("position", 3, VertexAttribPointerType.Float, 
-                    Vector3.SizeInBytes)
+                new VertexAttributeInfo("position", ValueCount.Three, VertexAttribPointerType.Float)
             };
         }
     }
