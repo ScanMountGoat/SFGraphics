@@ -212,6 +212,34 @@ namespace SFGraphics.GLObjects.Shaders
             }
         }
 
+        /// <summary>
+        /// Gets the location of a uniform variable.
+        /// </summary>
+        /// <param name="uniformName">The name of the uniform variable</param>
+        /// <returns></returns>
+        public int GetUniformLocation(string uniformName)
+        {
+            string nameNoBrackets = GetNameNoArrayBrackets(uniformName);
+
+            if (!activeUniformByName.ContainsKey(nameNoBrackets))
+                return -1;
+            else
+                return activeUniformByName[nameNoBrackets].location;
+        }
+
+        /// <summary>
+        /// Gets the location of an attribute variable.
+        /// </summary>
+        /// <param name="attributeName">The name of the vertex attribute variable</param>
+        /// <returns></returns>
+        public int GetAttribLocation(string attributeName)
+        {
+            if (!activeAttribByName.ContainsKey(attributeName))
+                return -1;
+            else
+                return activeAttribByName[attributeName].location;
+        }
+
         private void AddVertexAttribute(string name, ActiveAttribType type)
         {
             int location = GL.GetAttribLocation(Id, name);
@@ -223,9 +251,7 @@ namespace SFGraphics.GLObjects.Shaders
 
         private void AddUniform(string name, ActiveUniformType type, int size)
         {
-            string nameNoArrayIndex = name;
-            if (name.Contains("["))
-                nameNoArrayIndex = name.Substring(0, name.IndexOf('['));
+            string nameNoArrayIndex = GetNameNoArrayBrackets(name);
 
             string nameArrayIndex0 = nameNoArrayIndex + "[0]";
 
@@ -237,6 +263,14 @@ namespace SFGraphics.GLObjects.Shaders
             // Overwrite existing uniforms.
             if (!activeUniformByName.ContainsKey(nameNoArrayIndex))
                 activeUniformByName.Add(nameNoArrayIndex, new ActiveUniformInfo(location, type, size));
+        }
+
+        private static string GetNameNoArrayBrackets(string name)
+        {
+            string nameNoArrayIndex = name;
+            if (name.Contains("["))
+                nameNoArrayIndex = name.Substring(0, name.IndexOf('['));
+            return nameNoArrayIndex;
         }
 
         private void LoadUniforms()

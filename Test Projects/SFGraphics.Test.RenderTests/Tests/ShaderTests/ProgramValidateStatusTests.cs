@@ -12,7 +12,7 @@ namespace SFGraphics.Test.RenderTests.ShaderTests
         [TestInitialize()]
         public void Initialize()
         {
-            shader = ShaderTestUtils.SetupContextCreateValidFragShader();
+            shader = ShaderTestUtils.SetupContextCreateValidShader();
             // Allow for setting uniforms.
             shader.UseProgram();
         }
