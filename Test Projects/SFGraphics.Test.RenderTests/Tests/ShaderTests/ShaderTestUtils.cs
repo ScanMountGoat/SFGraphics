@@ -5,7 +5,7 @@ namespace SFGraphics.Test.RenderTests.ShaderTests
 {
     public static class ShaderTestUtils
     {
-        public static Shader SetupContextCreateValidShader()
+        public static Shader SetUpContextCreateValidShader()
         {
             // Set up the context for all the tests.
             TestTools.OpenTKWindowlessContext.BindDummyContext();
@@ -17,6 +17,8 @@ namespace SFGraphics.Test.RenderTests.ShaderTests
 
             string vertSource = TestTools.ResourceShaders.GetShader("SFGraphics.Test.RenderTests.Shaders.validVert.vert");
             shader.LoadShader(vertSource, ShaderType.VertexShader);
+
+            shader.UseProgram();
 
             return shader;
         }

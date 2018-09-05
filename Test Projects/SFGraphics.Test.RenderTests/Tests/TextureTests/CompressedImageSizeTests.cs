@@ -8,8 +8,8 @@ namespace SFGraphics.Test.RenderTests.TextureTests
     [TestClass]
     public class CompressedImageSizeTests
     {
-        private static readonly int width = 256;
-        private static readonly int height = 128;
+        private static readonly int width = 8;
+        private static readonly int height = 2;
 
         [TestInitialize]
         public void TestSetup()
@@ -39,10 +39,10 @@ namespace SFGraphics.Test.RenderTests.TextureTests
         }
 
         [TestMethod]
-        [Ignore]
+        [ExpectedException(typeof(NotSupportedException))]
         public void CompressedRed()
         {
-            Assert.IsTrue(CompressedTexImage2DSucceeded(width, height, InternalFormat.CompressedRed));
+            CompressedTexImage2DSucceeded(width, height, InternalFormat.CompressedRed);
         }
 
         [TestMethod]
@@ -52,10 +52,10 @@ namespace SFGraphics.Test.RenderTests.TextureTests
         }
 
         [TestMethod]
-        [Ignore]
+        [ExpectedException(typeof(NotSupportedException))]
         public void CompressedRg()
         {
-            Assert.IsTrue(CompressedTexImage2DSucceeded(width, height, InternalFormat.CompressedRg));
+            CompressedTexImage2DSucceeded(width, height, InternalFormat.CompressedRg);
         }
 
         [TestMethod]
@@ -65,10 +65,10 @@ namespace SFGraphics.Test.RenderTests.TextureTests
         }
 
         [TestMethod]
-        [Ignore]
+        [ExpectedException(typeof(NotSupportedException))]
         public void CompressedRgb()
         {
-            Assert.IsTrue(CompressedTexImage2DSucceeded(width, height, InternalFormat.CompressedRgb));
+            CompressedTexImage2DSucceeded(width, height, InternalFormat.CompressedRgb);
         }
 
         [TestMethod]
@@ -84,10 +84,10 @@ namespace SFGraphics.Test.RenderTests.TextureTests
         }
 
         [TestMethod]
-        [Ignore]
+        [ExpectedException(typeof(NotSupportedException))]
         public void CompressedRgba()
         {
-            Assert.IsTrue(CompressedTexImage2DSucceeded(width, height, InternalFormat.CompressedRgba));
+            CompressedTexImage2DSucceeded(width, height, InternalFormat.CompressedRgba);
         }
 
         [TestMethod]
@@ -169,10 +169,10 @@ namespace SFGraphics.Test.RenderTests.TextureTests
         }
 
         [TestMethod]
-        [Ignore]
+        [ExpectedException(typeof(NotSupportedException))]
         public void CompressedSrgb()
         {
-            Assert.IsTrue(CompressedTexImage2DSucceeded(width, height, InternalFormat.CompressedSrgb));
+            CompressedTexImage2DSucceeded(width, height, InternalFormat.CompressedSrgb);
         }
 
         [TestMethod]
@@ -194,10 +194,10 @@ namespace SFGraphics.Test.RenderTests.TextureTests
         }
 
         [TestMethod]
-        [Ignore]
+        [ExpectedException(typeof(NotSupportedException))]
         public void CompressedSrgbAlpha()
         {
-            Assert.IsTrue(CompressedTexImage2DSucceeded(width, height, InternalFormat.CompressedSrgbAlpha));
+            CompressedTexImage2DSucceeded(width, height, InternalFormat.CompressedSrgbAlpha);
         }
 
         [TestMethod]

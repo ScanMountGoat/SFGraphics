@@ -31,6 +31,9 @@ namespace SFGraphics.GLObjects.Textures.TextureFormats
         /// <returns>The image size in bytes for data of the specified dimensions and format</returns>
         public static int CalculateImageSize(int width, int height, InternalFormat format)
         {
+            if (IsGenericCompressed(format))
+                throw new NotSupportedException(TextureExceptionMessages.genericCompressedFormat);
+
             int blockSize = CalculateBlockSize(format);
 
             int imageSize = blockSize * (int)Math.Ceiling(width / 4.0) * (int)Math.Ceiling(height / 4.0);

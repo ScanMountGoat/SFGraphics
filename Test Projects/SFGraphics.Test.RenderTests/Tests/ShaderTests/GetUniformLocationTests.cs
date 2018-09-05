@@ -14,9 +14,8 @@ namespace SFGraphics.Test.RenderTests.ShaderTests
         {
             if (shader == null)
             { 
-                shader = ShaderTestUtils.SetupContextCreateValidShader();
-                // Allow for setting uniforms.
-                shader.UseProgram();
+                if (shader == null)
+                    shader = ShaderTestUtils.SetUpContextCreateValidShader();
             }
         }
 

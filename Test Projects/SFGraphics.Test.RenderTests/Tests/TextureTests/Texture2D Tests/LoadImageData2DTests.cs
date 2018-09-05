@@ -10,7 +10,8 @@ namespace SFGraphics.Test.RenderTests.TextureTests
     [TestClass]
     public class LoadImageData2DTests
     {
-        private static readonly List<byte[]> mipmaps = new List<byte[]>();
+        private readonly List<byte[]> mipmaps = new List<byte[]>();
+        private Texture2D texture;
 
         [TestInitialize()]
         public void Initialize()
@@ -20,18 +21,20 @@ namespace SFGraphics.Test.RenderTests.TextureTests
 
             // Binding a pixel unpack buffer affects texture loading methods.
             GL.BindBuffer(BufferTarget.PixelUnpackBuffer, 0);
+
+            if (texture == null)
+                texture = new Texture2D();
         }
 
         [TestMethod]
         public void Bitmap()
         {
-            using (var bmp = new System.Drawing.Bitmap(32, 16))
+            using (var bmp = new System.Drawing.Bitmap(4, 2))
             {
-                Texture2D texture = new Texture2D();
                 texture.LoadImageData(bmp);
 
-                Assert.AreEqual(32, texture.Width);
-                Assert.AreEqual(16, texture.Height);
+                Assert.AreEqual(4, texture.Width);
+                Assert.AreEqual(2, texture.Height);
             }
         }
 
@@ -39,7 +42,6 @@ namespace SFGraphics.Test.RenderTests.TextureTests
         public void CompressedCorrectFormat()
         {
             // Doesn't throw an exception.
-            Texture2D texture = new Texture2D();
             texture.LoadImageData(128, 64, mipmaps, InternalFormat.CompressedRg11Eac);
 
             Assert.AreEqual(128, texture.Width);
@@ -50,7 +52,6 @@ namespace SFGraphics.Test.RenderTests.TextureTests
         public void UncompressedCorrectFormat()
         {
             // Doesn't throw an exception.
-            Texture2D texture = new Texture2D();
             texture.LoadImageData(128, 64, new byte[0], new TextureFormatUncompressed(PixelInternalFormat.Rgba, PixelFormat.Rgba, PixelType.Float));
 
             Assert.AreEqual(128, texture.Width);
@@ -61,7 +62,6 @@ namespace SFGraphics.Test.RenderTests.TextureTests
         [ExpectedException(typeof(ArgumentException))]
         public void CompressedIncorrectFormat()
         {
-            Texture2D texture = new Texture2D();
             texture.LoadImageData(128, 64, mipmaps, InternalFormat.Rgb);
         }
 
@@ -69,7 +69,6 @@ namespace SFGraphics.Test.RenderTests.TextureTests
         [ExpectedException(typeof(NotSupportedException))]
         public void CompressedGenericFormat()
         {
-            Texture2D texture = new Texture2D();
             texture.LoadImageData(128, 64, mipmaps, InternalFormat.CompressedRed);
         }
 
@@ -77,7 +76,6 @@ namespace SFGraphics.Test.RenderTests.TextureTests
         [ExpectedException(typeof(ArgumentException))]
         public void UncompressedIncorrectFormat()
         {
-            Texture2D texture = new Texture2D();
             texture.LoadImageData(128, 64, new byte[0], new TextureFormatUncompressed(PixelInternalFormat.CompressedRgbaS3tcDxt1Ext, PixelFormat.Rgba, PixelType.Float));
         }
     }

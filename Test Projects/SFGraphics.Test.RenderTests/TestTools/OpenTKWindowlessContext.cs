@@ -15,8 +15,7 @@ namespace SFGraphics.Test.RenderTests.TestTools
         {
             if (GraphicsContext.CurrentContext == null)
             {
-                GraphicsMode mode = new GraphicsMode(new ColorFormat(8, 8, 8, 8), 24, 0, 0, ColorFormat.Empty, 1);
-                GameWindow window = new GameWindow(640, 480, mode, "", GameWindowFlags.Default,
+                GameWindow window = new GameWindow(640, 480, GraphicsMode.Default, "", GameWindowFlags.Default,
                     DisplayDevice.Default, major, minor, GraphicsContextFlags.Default);
                 window.Visible = false;
                 window.MakeCurrent();

@@ -12,9 +12,8 @@ namespace SFGraphics.Test.RenderTests.ShaderTests
         [TestInitialize()]
         public void Initialize()
         {
-            shader = ShaderTestUtils.SetupContextCreateValidShader();
-            // Allow for setting uniforms.
-            shader.UseProgram();
+            // We can't share shaders between tests.
+            shader = ShaderTestUtils.SetUpContextCreateValidShader();
         }
 
         [TestMethod]
