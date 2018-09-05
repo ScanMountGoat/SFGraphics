@@ -12,9 +12,12 @@ namespace SFGraphics.Test.RenderTests.ShaderTests
         [TestInitialize()]
         public void Initialize()
         {
-            shader = ShaderTestUtils.SetupContextCreateValidShader();
-            // Allow for setting uniforms.
-            shader.UseProgram();
+            if (shader == null)
+            {
+                shader = ShaderTestUtils.SetupContextCreateValidShader();
+                // Allow for setting uniforms.
+                shader.UseProgram();
+            }
         }
 
         [TestMethod]

@@ -25,13 +25,13 @@ namespace SFGraphics.Test.RenderTests.TextureTests
         [TestMethod]
         public void Bitmap()
         {
-            using (var bmp = new System.Drawing.Bitmap(128, 64))
+            using (var bmp = new System.Drawing.Bitmap(32, 16))
             {
                 Texture2D texture = new Texture2D();
                 texture.LoadImageData(bmp);
 
-                Assert.AreEqual(128, texture.Width);
-                Assert.AreEqual(64, texture.Height);
+                Assert.AreEqual(32, texture.Width);
+                Assert.AreEqual(16, texture.Height);
             }
         }
 
