@@ -66,22 +66,6 @@ namespace SFGraphics.GLObjects.Shaders
         }
 
         /// <summary>
-        /// Gets the index of the vertex attribute or uniform variable. Returns -1 if not found.
-        /// </summary>
-        /// <param name="name">The name of the vertex attribute or uniform</param>
-        /// <returns>The index of the attribute/uniform or -1 if not found </returns>
-        public int GetVertexAttributeUniformLocation(string name)
-        {
-            // TODO: Remove this method and add separate methods.
-            if (activeAttribByName.ContainsKey(name))
-                return activeAttribByName[name].location;
-            else if (activeUniformByName.ContainsKey(name))
-                return activeUniformByName[name].location;
-            else
-                return -1;
-        }
-
-        /// <summary>
         /// Enables the vertex attribute arrays for all active attributes
         /// for the currently bound vertex array object.
         /// Ensures that extra attributes aren't enabled, which causes crashes on Geforce drivers.
@@ -216,7 +200,7 @@ namespace SFGraphics.GLObjects.Shaders
         /// Gets the location of a uniform variable.
         /// </summary>
         /// <param name="uniformName">The name of the uniform variable</param>
-        /// <returns></returns>
+        /// <returns>The location of <paramref name="uniformName"/></returns>
         public int GetUniformLocation(string uniformName)
         {
             string nameNoBrackets = GetNameNoArrayBrackets(uniformName);
@@ -231,7 +215,7 @@ namespace SFGraphics.GLObjects.Shaders
         /// Gets the location of an attribute variable.
         /// </summary>
         /// <param name="attributeName">The name of the vertex attribute variable</param>
-        /// <returns></returns>
+        /// <returns>The location of <paramref name="attributeName"/></returns>
         public int GetAttribLocation(string attributeName)
         {
             if (!activeAttribByName.ContainsKey(attributeName))

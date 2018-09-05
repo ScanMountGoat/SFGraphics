@@ -228,7 +228,7 @@ namespace SFGenericModel
             foreach (VertexAttributeInfo attribute in vertexAttributes)
             {
                 // -1 means not found, which is usually a result of the attribute being unused.
-                int index = shader.GetVertexAttributeUniformLocation(attribute.name);
+                int index = shader.GetAttribLocation(attribute.name);
                 if (index != -1)
                     GL.VertexAttribPointer(index, (int)attribute.valueCount, attribute.vertexAttribPointerType, false, vertexSizeInBytes, offset);
                 // Move offset to next attribute.
