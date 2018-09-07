@@ -25,14 +25,22 @@ namespace SFGenericModel.Utils
             
             foreach (var container in containers)
             {
-                if (vertDataByType.ContainsKey(container.primitiveType))
+                PrimitiveType primitiveType = container.primitiveType;
+
+                if (vertDataByType.ContainsKey(primitiveType))
                 {
                     // TODO: Create a new container from both containers.
+                    List<T> newVertices = new List<T>();
+                    newVertices.AddRange(vertDataByType[primitiveType].vertices);
+                    newVertices.AddRange(container.vertices);
 
+                    List<int> newIndices = new List<int>();
+
+                    vertDataByType[primitiveType] = new VertexContainer<T>(newVertices, newIndices, primitiveType);
                 }
                 else
                 {
-                    vertDataByType.Add(container.primitiveType, container);
+                    vertDataByType.Add(primitiveType, container);
                 }
             }
 

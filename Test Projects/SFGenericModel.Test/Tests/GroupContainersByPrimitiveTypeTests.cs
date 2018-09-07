@@ -26,6 +26,10 @@ namespace SFGenericModel.Test.Tests
             // Check that vertex data is combined.
             List<float> expectedVertices = verticesA.Concat(verticesB).ToList();
             CollectionAssert.AreEqual(expectedVertices, optimizedContainers[0].vertices);
+
+            // Check that indices are offset.
+            List<int> expectedIndices = new List<int>() { 0, 1, 2, 3, 4, 5 };
+            CollectionAssert.AreEqual(expectedIndices, optimizedContainers[0].vertexIndices);
         }
 
         [TestMethod]
@@ -39,6 +43,10 @@ namespace SFGenericModel.Test.Tests
             // Check that vertex data is combined.
             List<float> expectedVertices = verticesA.Concat(verticesC).ToList();
             CollectionAssert.AreEqual(expectedVertices, optimizedContainers[0].vertices);
+
+            // Check that indices are offset.
+            List<int> expectedIndices = new List<int>() { 0, 1, 2, 3, 4, 5 };
+            CollectionAssert.AreEqual(expectedIndices, optimizedContainers[0].vertexIndices);
         }
 
         [TestMethod]
