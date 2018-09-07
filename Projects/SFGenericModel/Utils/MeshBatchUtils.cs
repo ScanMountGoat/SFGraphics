@@ -29,14 +29,7 @@ namespace SFGenericModel.Utils
 
                 if (vertDataByType.ContainsKey(primitiveType))
                 {
-                    // TODO: Create a new container from both containers.
-                    List<T> newVertices = new List<T>();
-                    newVertices.AddRange(vertDataByType[primitiveType].vertices);
-                    newVertices.AddRange(container.vertices);
-
-                    List<int> newIndices = new List<int>();
-
-                    vertDataByType[primitiveType] = new VertexContainer<T>(newVertices, newIndices, primitiveType);
+                    CreateCombinedContainer(vertDataByType, container, primitiveType);
                 }
                 else
                 {
@@ -46,6 +39,38 @@ namespace SFGenericModel.Utils
 
             List<VertexContainer<T>> optimizedContainers = vertDataByType.Values.ToList();
             return optimizedContainers;
+        }
+
+        private static void CreateCombinedContainer<T>(Dictionary<PrimitiveType, VertexContainer<T>> vertDataByType, VertexContainer<T> container, PrimitiveType primitiveType) where T : struct
+        {
+            List<T> newVertices = CombineVertices(vertDataByType, container, primitiveType);
+
+            List<int> newIndices = CombineIndices(vertDataByType, container, primitiveType);
+
+            vertDataByType[primitiveType] = new VertexContainer<T>(newVertices, newIndices, primitiveType);
+        }
+
+        private static List<int> CombineIndices<T>(Dictionary<PrimitiveType, VertexContainer<T>> vertDataByType, VertexContainer<T> container, PrimitiveType primitiveType) where T : struct
+        {
+            List<int> newIndices = new List<int>();
+            newIndices.AddRange(vertDataByType[primitiveType].vertexIndices);
+
+            // HACK: Assume no shared vertices between containers.
+            int offset = vertDataByType[primitiveType].vertices.Count;
+            foreach (int index in container.vertexIndices)
+            {
+                newIndices.Add(index + offset);
+            }
+
+            return newIndices;
+        }
+
+        private static List<T> CombineVertices<T>(Dictionary<PrimitiveType, VertexContainer<T>> vertDataByType, VertexContainer<T> container, PrimitiveType primitiveType) where T : struct
+        {
+            List<T> newVertices = new List<T>();
+            newVertices.AddRange(vertDataByType[primitiveType].vertices);
+            newVertices.AddRange(container.vertices);
+            return newVertices;
         }
     }
 }
