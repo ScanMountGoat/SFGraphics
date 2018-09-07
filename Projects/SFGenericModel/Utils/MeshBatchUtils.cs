@@ -28,6 +28,7 @@ namespace SFGenericModel.Utils
                 if (vertDataByType.ContainsKey(container.primitiveType))
                 {
                     // TODO: Create a new container from both containers.
+
                 }
                 else
                 {

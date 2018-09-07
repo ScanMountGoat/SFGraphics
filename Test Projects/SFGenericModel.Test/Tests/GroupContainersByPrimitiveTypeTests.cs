@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using SFGenericModel.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenTK.Graphics.OpenGL;
@@ -8,6 +9,12 @@ namespace SFGenericModel.Test.Tests
     [TestClass]
     public class GroupContainersByPrimitiveTypeTests
     {
+        private readonly List<int> indices = new List<int>() { 0, 1, 2 };
+
+        private readonly List<float> verticesA = new List<float>() { 1, 2, 3 };
+        private readonly List<float> verticesB = new List<float>() { 4, 5, 6 };
+        private readonly List<float> verticesC = new List<float>() { 7, 8, 9 };
+
         [TestMethod]
         public void AllTriangles()
         {
@@ -15,6 +22,10 @@ namespace SFGenericModel.Test.Tests
             List<VertexContainer<float>> optimizedContainers = MeshBatchUtils.GroupContainersByPrimitiveType(vertexContainers);
 
             Assert.AreEqual(1, optimizedContainers.Count);
+
+            // Check that vertex data is combined.
+            List<float> expectedVertices = verticesA.Concat(verticesB).ToList();
+            CollectionAssert.AreEqual(expectedVertices, optimizedContainers[0].vertices);
         }
 
         [TestMethod]
@@ -24,6 +35,10 @@ namespace SFGenericModel.Test.Tests
             List<VertexContainer<float>> optimizedContainers = MeshBatchUtils.GroupContainersByPrimitiveType(vertexContainers);
 
             Assert.AreEqual(2, optimizedContainers.Count);
+
+            // Check that vertex data is combined.
+            List<float> expectedVertices = verticesA.Concat(verticesC).ToList();
+            CollectionAssert.AreEqual(expectedVertices, optimizedContainers[0].vertices);
         }
 
         [TestMethod]
@@ -35,26 +50,24 @@ namespace SFGenericModel.Test.Tests
             Assert.AreEqual(0, optimizedContainers.Count);
         }
 
-        private static List<VertexContainer<float>> CreateContainersAllTriangles()
+        private List<VertexContainer<float>> CreateContainersAllTriangles()
         {
             List<VertexContainer<float>> vertexContainers = new List<VertexContainer<float>>()
             {
-                new VertexContainer<float>(new List<float>(), new List<int>(), PrimitiveType.Triangles),
-                new VertexContainer<float>(new List<float>(), new List<int>(), PrimitiveType.Triangles),
-                new VertexContainer<float>(new List<float>(), new List<int>(), PrimitiveType.Triangles)
+                new VertexContainer<float>(verticesA, indices, PrimitiveType.Triangles),
+                new VertexContainer<float>(verticesB, indices, PrimitiveType.Triangles),
             };
 
             return vertexContainers;
         }
 
-        private static List<VertexContainer<float>> CreateContainersTriangleTriangleStrip()
+        private List<VertexContainer<float>> CreateContainersTriangleTriangleStrip()
         {
             List<VertexContainer<float>> vertexContainers = new List<VertexContainer<float>>()
             {
-                new VertexContainer<float>(new List<float>(), new List<int>(), PrimitiveType.Triangles),
-                new VertexContainer<float>(new List<float>(), new List<int>(), PrimitiveType.TriangleStrip),
-                new VertexContainer<float>(new List<float>(), new List<int>(), PrimitiveType.Triangles),
-                new VertexContainer<float>(new List<float>(), new List<int>(), PrimitiveType.TriangleStrip)
+                new VertexContainer<float>(verticesA, indices, PrimitiveType.Triangles),
+                new VertexContainer<float>(verticesB, indices, PrimitiveType.TriangleStrip),
+                new VertexContainer<float>(verticesC, indices, PrimitiveType.Triangles)
             };
 
             return vertexContainers;
