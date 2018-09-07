@@ -55,6 +55,8 @@
     <Compile Include="GenericMesh.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RenderSettings\RenderSettings.cs" />
+    <Compile Include="Utils\MeshBatchUtils.cs" />
+    <Compile Include="Utils\VertexContainer.cs" />
     <Compile Include="VertexAttributeInfo.cs" />
   </ItemGroup>
   <ItemGroup>
