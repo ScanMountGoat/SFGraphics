@@ -25,5 +25,20 @@ namespace SFGenericModel.RenderState
         /// 
         /// </summary>
         public FaceCullingSettings faceCullingSettings = new FaceCullingSettings();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public override bool Equals(object obj)
+        {
+            var settings = obj as RenderSettings;
+            return settings != null &&
+                settings.alphaBlendSettings.Equals(alphaBlendSettings) &&
+                settings.alphaTestSettings.Equals(alphaTestSettings) &&
+                settings.depthTestSettings.Equals(depthTestSettings) &&
+                settings.faceCullingSettings.Equals(faceCullingSettings);
+        }
     }
 }
