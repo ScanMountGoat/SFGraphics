@@ -73,10 +73,9 @@ namespace SFGraphics.GLObjects.Shaders
         public void EnableVertexAttributes()
         {
             // Only enable the necessary vertex attributes.
-            // Enabling extra vertex attributes crashes on Nvidia.
-            for (int location = 0; location < activeAttributeCount; location++)
+            foreach (var attribute in activeAttribByName)
             {
-                GL.EnableVertexAttribArray(location);
+                GL.EnableVertexAttribArray(attribute.Value.location);
             }
         }
 
@@ -87,10 +86,10 @@ namespace SFGraphics.GLObjects.Shaders
         /// </summary>
         public void DisableVertexAttributes()
         {
-            // Disable all the vertex attributes. This could be used with a VAO in the future.
-            for (int location = 0; location < activeAttributeCount; location++)
+            // Enabling extra vertex attributes can cause crashes on some drivers.
+            foreach (var attribute in activeAttribByName)
             {
-                GL.DisableVertexAttribArray(location);
+                GL.DisableVertexAttribArray(attribute.Value.location);
             }
         }
 
