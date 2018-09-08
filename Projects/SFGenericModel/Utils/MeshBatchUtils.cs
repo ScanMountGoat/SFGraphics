@@ -13,7 +13,9 @@ namespace SFGenericModel.Utils
     {
         /// <summary>
         /// Creates a single <see cref="VertexContainer{T}"/> for each PrimitiveType to 
-        /// reduce draw calls and improve performance.
+        /// reduce draw calls and improve performance. 
+        /// <para></para><para></para>
+        /// Unsupported primite types will remain ungrouped.
         /// </summary>
         /// <typeparam name="T">The struct used to store a single vertex</typeparam>
         /// <param name="containers">The unoptimized vertex containers</param>
@@ -22,23 +24,33 @@ namespace SFGenericModel.Utils
             where T : struct
         {
             Dictionary<PrimitiveType, VertexContainer<T>> vertDataByType = new Dictionary<PrimitiveType, VertexContainer<T>>();
-            
+
+            List<VertexContainer<T>> optimizedContainers = new List<VertexContainer<T>>();
+
             foreach (var container in containers)
             {
                 PrimitiveType primitiveType = container.primitiveType;
 
+                // Combining indices isn't supported for all types currently.
+                if (!IsSupportedPrimitiveType(primitiveType))
+                {
+                    optimizedContainers.Add(container);
+                    continue;
+                }
+
                 if (vertDataByType.ContainsKey(primitiveType))
-                {
                     CreateCombinedContainer(vertDataByType, container, primitiveType);
-                }
                 else
-                {
                     vertDataByType.Add(primitiveType, container);
-                }
             }
 
-            List<VertexContainer<T>> optimizedContainers = vertDataByType.Values.ToList();
+            optimizedContainers.AddRange(vertDataByType.Values);
             return optimizedContainers;
+        }
+
+        private static bool IsSupportedPrimitiveType(PrimitiveType type)
+        {
+            return type == PrimitiveType.Lines || type == PrimitiveType.Triangles || type == PrimitiveType.Quads;
         }
 
         private static void CreateCombinedContainer<T>(Dictionary<PrimitiveType, VertexContainer<T>> vertDataByType, VertexContainer<T> container, PrimitiveType primitiveType) where T : struct
