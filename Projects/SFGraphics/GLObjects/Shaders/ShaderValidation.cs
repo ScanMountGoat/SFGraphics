@@ -1,6 +1,5 @@
 ﻿using OpenTK.Graphics.OpenGL;
 
-
 namespace SFGraphics.GLObjects.Shaders
 {
     public sealed partial class Shader

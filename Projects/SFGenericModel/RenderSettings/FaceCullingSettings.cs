@@ -10,12 +10,12 @@ namespace SFGenericModel.RenderState
         public class FaceCullingSettings
         {
             /// <summary>
-            /// 
+            /// Enables or disables face culling.
             /// </summary>
-            public bool enableFaceCulling = true;
+            public bool enabled = true;
 
             /// <summary>
-            /// 
+            /// Determines whether back and/or front faces will be culled.
             /// </summary>
             public CullFaceMode cullFaceMode = CullFaceMode.Back;
 
@@ -28,7 +28,7 @@ namespace SFGenericModel.RenderState
             {
                 var settings = obj as FaceCullingSettings;
                 return settings != null &&
-                       enableFaceCulling == settings.enableFaceCulling &&
+                       enabled == settings.enabled &&
                        cullFaceMode == settings.cullFaceMode;
             }
 
@@ -39,7 +39,7 @@ namespace SFGenericModel.RenderState
             public override int GetHashCode()
             {
                 var hashCode = 438860308;
-                hashCode = hashCode * -1521134295 + enableFaceCulling.GetHashCode();
+                hashCode = hashCode * -1521134295 + enabled.GetHashCode();
                 hashCode = hashCode * -1521134295 + cullFaceMode.GetHashCode();
                 return hashCode;
             }

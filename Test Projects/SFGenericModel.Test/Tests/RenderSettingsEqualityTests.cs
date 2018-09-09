@@ -27,7 +27,7 @@ namespace SFGenericModel.Test
         {
             RenderSettings settings = new RenderSettings();
             RenderSettings settings2 = new RenderSettings();
-            settings2.alphaTestSettings.enableAlphaTesting = !settings.alphaTestSettings.enableAlphaTesting;
+            settings2.alphaTestSettings.enabled = !settings.alphaTestSettings.enabled;
             Assert.IsFalse(settings.Equals(settings2));
         }
 
@@ -36,7 +36,7 @@ namespace SFGenericModel.Test
         {
             RenderSettings settings = new RenderSettings();
             RenderSettings settings2 = new RenderSettings();
-            settings2.faceCullingSettings.enableFaceCulling = !settings.faceCullingSettings.enableFaceCulling;
+            settings2.faceCullingSettings.enabled = !settings.faceCullingSettings.enabled;
 
             Assert.IsFalse(settings.Equals(settings2));
         }
@@ -46,7 +46,7 @@ namespace SFGenericModel.Test
         {
             RenderSettings settings = new RenderSettings();
             RenderSettings settings2 = new RenderSettings();
-            settings2.alphaBlendSettings.enableAlphaBlending = !settings.alphaBlendSettings.enableAlphaBlending;
+            settings2.alphaBlendSettings.enabled = !settings.alphaBlendSettings.enabled;
 
             Assert.IsFalse(settings.Equals(settings2));
         }
@@ -56,7 +56,7 @@ namespace SFGenericModel.Test
         {
             RenderSettings settings = new RenderSettings();
             RenderSettings settings2 = new RenderSettings();
-            settings2.depthTestSettings.enableDepthTest = !settings.depthTestSettings.enableDepthTest;
+            settings2.depthTestSettings.enabled = !settings.depthTestSettings.enabled;
 
             Assert.IsFalse(settings.Equals(settings2));
         }

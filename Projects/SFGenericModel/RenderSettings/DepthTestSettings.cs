@@ -10,17 +10,17 @@ namespace SFGenericModel.RenderState
         public class DepthTestSettings
         {
             /// <summary>
-            /// 
+            /// Enables or disables depth testing.
             /// </summary>
-            public bool enableDepthTest = true;
+            public bool enabled = true;
 
             /// <summary>
-            /// 
+            /// Enables writes to the depth buffer when true.
             /// </summary>
             public bool depthMask = true;
 
             /// <summary>
-            /// 
+            /// The function used to determine if a fragment passes the depth test.
             /// </summary>
             public DepthFunction depthFunction = DepthFunction.Lequal;
 
@@ -33,7 +33,7 @@ namespace SFGenericModel.RenderState
             {
                 var settings = obj as DepthTestSettings;
                 return settings != null &&
-                       enableDepthTest == settings.enableDepthTest &&
+                       enabled == settings.enabled &&
                        depthMask == settings.depthMask &&
                        depthFunction == settings.depthFunction;
             }
@@ -45,7 +45,7 @@ namespace SFGenericModel.RenderState
             public override int GetHashCode()
             {
                 var hashCode = -79323741;
-                hashCode = hashCode * -1521134295 + enableDepthTest.GetHashCode();
+                hashCode = hashCode * -1521134295 + enabled.GetHashCode();
                 hashCode = hashCode * -1521134295 + depthMask.GetHashCode();
                 hashCode = hashCode * -1521134295 + depthFunction.GetHashCode();
                 return hashCode;

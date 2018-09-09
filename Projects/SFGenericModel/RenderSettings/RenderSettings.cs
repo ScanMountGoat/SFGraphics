@@ -7,22 +7,22 @@ namespace SFGenericModel.RenderState
     public partial class RenderSettings
     {
         /// <summary>
-        /// 
+        /// Controls blending effects and alpha transparency.
         /// </summary>
         public AlphaBlendSettings alphaBlendSettings = new AlphaBlendSettings();
 
         /// <summary>
-        /// 
+        /// Controls discarding of fragments based on alpha.
         /// </summary>
         public AlphaTestSettings alphaTestSettings = new AlphaTestSettings();
 
         /// <summary>
-        /// 
+        /// Controls discarding of fragments based on depth.
         /// </summary>
         public DepthTestSettings depthTestSettings = new DepthTestSettings();
 
         /// <summary>
-        /// 
+        /// Controls which faces are culled.
         /// </summary>
         public FaceCullingSettings faceCullingSettings = new FaceCullingSettings();
 

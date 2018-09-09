@@ -168,14 +168,14 @@ namespace SFGenericModel
 
         private void SetFaceCulling(RenderSettings.FaceCullingSettings settings)
         {
-            SetGLEnableCap(EnableCap.CullFace, settings.enableFaceCulling);
+            SetGLEnableCap(EnableCap.CullFace, settings.enabled);
 
             GL.CullFace(settings.cullFaceMode);
         }
 
         private void SetDepthTesting(RenderSettings.DepthTestSettings settings)
         {
-            SetGLEnableCap(EnableCap.DepthTest, settings.enableDepthTest);
+            SetGLEnableCap(EnableCap.DepthTest, settings.enabled);
 
             GL.DepthFunc(settings.depthFunction);
             GL.DepthMask(settings.depthMask);
@@ -183,7 +183,7 @@ namespace SFGenericModel
 
         private void SetAlphaBlending(RenderSettings.AlphaBlendSettings settings)
         {
-            SetGLEnableCap(EnableCap.Blend, settings.enableAlphaBlending);
+            SetGLEnableCap(EnableCap.Blend, settings.enabled);
 
             GL.BlendFunc(settings.sourceFactor, settings.destinationFactor);
             GL.BlendEquationSeparate(settings.blendingEquationRgb, settings.blendingEquationAlpha);
@@ -191,7 +191,7 @@ namespace SFGenericModel
 
         private void SetAlphaTesting(RenderSettings.AlphaTestSettings settings)
         {
-            SetGLEnableCap(EnableCap.AlphaTest, settings.enableAlphaTesting);
+            SetGLEnableCap(EnableCap.AlphaTest, settings.enabled);
 
             // TODO: Should this be a float or an int?
             GL.AlphaFunc(settings.alphaFunction, settings.referenceAlpha / 255.0f);

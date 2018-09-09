@@ -10,19 +10,20 @@ namespace SFGenericModel.RenderState
         public class AlphaTestSettings
         {
             /// <summary>
-            /// 
+            /// Enables or disables alpha testing.
             /// </summary>
-            public bool enableAlphaTesting = false;
+            public bool enabled = false;
 
             /// <summary>
-            /// 
+            /// The function used to determine if a fragment passes the alpha test.
             /// </summary>
             public AlphaFunction alphaFunction = AlphaFunction.Gequal;
 
             /// <summary>
-            /// 
+            /// The comparision value used for <see cref="alphaFunction"/>.
+            /// <c>1.0</c> is opaque. <c>0.0</c> is transparent.
             /// </summary>
-            public int referenceAlpha = 128;
+            public float referenceAlpha = 0.5f;
 
             /// <summary>
             /// 
@@ -33,7 +34,7 @@ namespace SFGenericModel.RenderState
             {
                 var settings = obj as AlphaTestSettings;
                 return settings != null &&
-                       enableAlphaTesting == settings.enableAlphaTesting &&
+                       enabled == settings.enabled &&
                        alphaFunction == settings.alphaFunction &&
                        referenceAlpha == settings.referenceAlpha;
             }
@@ -45,7 +46,7 @@ namespace SFGenericModel.RenderState
             public override int GetHashCode()
             {
                 var hashCode = 907559639;
-                hashCode = hashCode * -1521134295 + enableAlphaTesting.GetHashCode();
+                hashCode = hashCode * -1521134295 + enabled.GetHashCode();
                 hashCode = hashCode * -1521134295 + alphaFunction.GetHashCode();
                 hashCode = hashCode * -1521134295 + referenceAlpha.GetHashCode();
                 return hashCode;
