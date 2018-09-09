@@ -7,7 +7,7 @@ namespace SFGraphics.GLObjects.Shaders
     public sealed partial class Shader
     {
         /// <summary>
-        /// Names not present in the shader are ignored and saved to the error log.
+        /// Sets a float uniform variable. Logs invalid names.
         /// </summary>
         /// <param name="uniformName">The uniform variable name</param>
         /// <param name="value">The value to assign to the uniform</param>
@@ -20,7 +20,7 @@ namespace SFGraphics.GLObjects.Shaders
         }
 
         /// <summary>
-        /// Names not present in the shader are ignored and saved to the error log.
+        /// Sets all values for a float[] uniform variable. Logs invalid names.
         /// </summary>
         /// <param name="uniformName">The uniform variable name</param>
         /// <param name="value">The value to assign to the uniform</param>
@@ -33,7 +33,7 @@ namespace SFGraphics.GLObjects.Shaders
         }
 
         /// <summary>
-        /// Names not present in the shader are ignored and saved to the error log.
+        /// Sets an int uniform variable. Logs invalid names.
         /// </summary>
         /// <param name="uniformName">The uniform variable name</param>
         /// <param name="value">The value to assign to the uniform</param>
@@ -46,7 +46,7 @@ namespace SFGraphics.GLObjects.Shaders
         }
 
         /// <summary>
-        /// Names not present in the shader are ignored and saved to the error log.
+        /// Sets all values for an int[] uniform variable. Logs invalid names.
         /// </summary>
         /// <param name="uniformName">The uniform variable name</param>
         /// <param name="value">The value to assign to the uniform</param>
@@ -59,7 +59,7 @@ namespace SFGraphics.GLObjects.Shaders
         }
 
         /// <summary>
-        /// Names not present in the shader are ignored and saved to the error log.
+        /// Sets a uint uniform variable. Logs invalid names.
         /// </summary>
         /// <param name="uniformName">The uniform variable name</param>
         /// <param name="value">The value to assign to the uniform</param>
@@ -72,7 +72,7 @@ namespace SFGraphics.GLObjects.Shaders
         }
 
         /// <summary>
-        /// Names not present in the shader are ignored and saved to the error log.
+        /// Sets all values for a uint[] uniform variable. Logs invalid names.
         /// </summary>
         /// <param name="uniformName">The uniform variable name</param>
         /// <param name="value">The value to assign to the uniform</param>
@@ -85,10 +85,11 @@ namespace SFGraphics.GLObjects.Shaders
         }
 
         /// <summary>
-        /// Names not present in the shader are ignored and saved to the error log.
+        /// Converts <paramref name="value"/> to an int and sets an int uniform. 
+        /// <c>true</c> = 1. <c>false</c> = 0. uniform variable. Logs invalid names.
         /// </summary>
         /// <param name="uniformName">The uniform variable name</param>
-        /// <param name="value">The value to assign to the uniform. True = 1. False = 0.</param>
+        /// <param name="value">The value to assign to the uniform</param>
         public void SetBoolToInt(string uniformName, bool value)
         {
             if (!ValidUniform(uniformName, ActiveUniformType.Int))
@@ -102,7 +103,7 @@ namespace SFGraphics.GLObjects.Shaders
         }
 
         /// <summary>
-        /// Names not present in the shader are ignored and saved to the error log.
+        /// Sets vec2 uniform variable. Logs invalid names.
         /// </summary>
         /// <param name="uniformName">The uniform variable name</param>
         /// <param name="value">The value to assign to the uniform</param>
@@ -115,7 +116,7 @@ namespace SFGraphics.GLObjects.Shaders
         }
 
         /// <summary>
-        /// Names not present in the shader are ignored and saved to the error log.
+        /// Sets vec2 uniform variable. Logs invalid names.
         /// </summary>
         /// <param name="uniformName">The uniform variable name</param>
         /// <param name="x"></param>        
@@ -126,7 +127,7 @@ namespace SFGraphics.GLObjects.Shaders
         }
 
         /// <summary>
-        /// Names not present in the shader are ignored and saved to the error log.
+        /// Sets vec3 uniform variable. Logs invalid names.
         /// </summary>
         /// <param name="uniformName">The uniform variable name</param>
         /// <param name="value">The value to assign to the uniform</param>
@@ -139,7 +140,7 @@ namespace SFGraphics.GLObjects.Shaders
         }
 
         /// <summary>
-        /// Names not present in the shader are ignored and saved to the error log.
+        /// Sets vec3 uniform variable. Logs invalid names.
         /// </summary>
         /// <param name="uniformName">The uniform variable name</param>
         /// <param name="x"></param>        
@@ -151,7 +152,7 @@ namespace SFGraphics.GLObjects.Shaders
         }
 
         /// <summary>
-        /// Names not present in the shader are ignored and saved to the error log.
+        /// Sets vec4 uniform variable. Logs invalid names.
         /// </summary>
         /// <param name="uniformName">The uniform variable name</param>
         /// <param name="value">The value to assign to the uniform</param>
@@ -164,20 +165,20 @@ namespace SFGraphics.GLObjects.Shaders
         }
 
         /// <summary>
-        /// Names not present in the shader are ignored and saved to the error log.
+        /// Sets vec4 uniform variable. Logs invalid names.
         /// </summary>
         /// <param name="uniformName">The uniform variable name</param>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <param name="z"></param>
-        /// <param name="w"></param>
+        /// <param name="x">The value for uniformName.x</param>
+        /// <param name="y">The value for uniformName.y</param>
+        /// <param name="z">The value for uniformName.z</param>
+        /// <param name="w">The value for uniformName.w</param>
         public void SetVector4(string uniformName, float x, float y, float z, float w)
         {
             SetVector4(uniformName, new Vector4(x, y, z, w));
         }
 
         /// <summary>
-        /// Names not present in the shader are ignored and saved to the error log.
+        /// Sets a mat4 uniform variable. Logs invalid names.
         /// </summary>
         /// <param name="uniformName">The uniform variable name</param>
         /// <param name="value">The value to assign to the uniform</param>

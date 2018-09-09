@@ -196,7 +196,8 @@ namespace SFGraphics.GLObjects.Shaders
         }
 
         /// <summary>
-        /// Gets the location of a uniform variable.
+        /// Gets the uniform's location. 
+        /// Potentially faster than GL.GetUniform due to prestored locations.
         /// </summary>
         /// <param name="uniformName">The name of the uniform variable</param>
         /// <returns>The location of <paramref name="uniformName"/></returns>
@@ -211,7 +212,8 @@ namespace SFGraphics.GLObjects.Shaders
         }
 
         /// <summary>
-        /// Gets the location of an attribute variable.
+        /// Gets the attribute's location. 
+        /// Potentially faster than GL.GetAttribLocation due to prestored locations.
         /// </summary>
         /// <param name="attributeName">The name of the vertex attribute variable</param>
         /// <returns>The location of <paramref name="attributeName"/></returns>
