@@ -38,18 +38,20 @@ namespace SFGenericModel
         protected GenericMaterial material = new GenericMaterial();
 
         /// <summary>
-        /// The type of primitive used for drawing.
+        /// Determines how primitives will be constructed from the vertex data.
         /// </summary>
-        public PrimitiveType PrimitiveType { get; set; } = PrimitiveType.Triangles;
+        public PrimitiveType PrimitiveType { get; }
 
         /// <summary>
         /// Creates a new mesh and initializes the vertex buffer data.
         /// An index is generated for each vertex in <paramref name="vertices"/>.
-        /// Vertex data is initialized only once.
         /// </summary>
         /// <param name="vertices"></param>
-        public GenericMesh(List<T> vertices)
+        /// <param name="primitiveType"></param>
+        public GenericMesh(List<T> vertices, PrimitiveType primitiveType)
         {
+            PrimitiveType = primitiveType;
+
             vertexSizeInBytes = System.Runtime.InteropServices.Marshal.SizeOf(typeof(T));
             vertexCount = vertices.Count;
 
@@ -62,28 +64,18 @@ namespace SFGenericModel
 
         /// <summary>
         /// Creates a new mesh and initializes the vertex buffer data.
-        /// Vertex data is initialized only once.
         /// </summary>
         /// <param name="vertices"></param>
         /// <param name="vertexIndices"></param>
-        /// 
-        public GenericMesh(List<T> vertices, List<int> vertexIndices)
+        /// <param name="primitiveType">Determines how primitives will be constructed from the vertex data</param>
+        public GenericMesh(List<T> vertices, List<int> vertexIndices, PrimitiveType primitiveType)
         {
+            PrimitiveType = primitiveType;
+
             vertexSizeInBytes = System.Runtime.InteropServices.Marshal.SizeOf(typeof(T));
             vertexCount = vertexIndices.Count;
 
             InitializeBufferData(vertices, vertexIndices);
-        }
-
-        private static List<int> GenerateIndices(List<T> vertices)
-        {
-            List<int> vertexIndices = new List<int>();
-            for (int i = 0; i < vertices.Count; i++)
-            {
-                vertexIndices.Add(i);
-            }
-
-            return vertexIndices;
         }
 
         /// <summary>
@@ -144,6 +136,18 @@ namespace SFGenericModel
 
             Matrix4 matrix = camera.MvpMatrix;
             shader.SetMatrix4x4("mvpMatrix", ref matrix);
+        }
+
+        private static List<int> GenerateIndices(List<T> vertices)
+        {
+            // TODO: Generate more optimized indices by looking for duplicate vertices.
+            List<int> vertexIndices = new List<int>();
+            for (int i = 0; i < vertices.Count; i++)
+            {
+                vertexIndices.Add(i);
+            }
+
+            return vertexIndices;
         }
 
         private void SetRenderSettings()

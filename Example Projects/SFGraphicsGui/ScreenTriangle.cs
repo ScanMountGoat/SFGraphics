@@ -15,7 +15,7 @@ namespace SFGraphicsGui
             new Vector3(-1f,  3f, 0.0f)
         };
 
-        public ScreenTriangle() : base(screenTrianglePositions)
+        public ScreenTriangle() : base(screenTrianglePositions, PrimitiveType.Triangles)
         {
 
         }
