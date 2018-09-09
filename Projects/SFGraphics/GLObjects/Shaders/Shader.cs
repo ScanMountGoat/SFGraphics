@@ -258,8 +258,10 @@ namespace SFGraphics.GLObjects.Shaders
 
         private void LoadUniforms()
         {
-            GL.GetProgram(Id, GetProgramParameterName.ActiveUniforms, out activeUniformCount);
+            // Uniform locations may change when linking the shader again.
+            activeUniformByName.Clear();
 
+            GL.GetProgram(Id, GetProgramParameterName.ActiveUniforms, out activeUniformCount);
             for (int i = 0; i < activeUniformCount; i++)
             {
                 // Ignore invalid uniforms. 0 is "None" for type.
