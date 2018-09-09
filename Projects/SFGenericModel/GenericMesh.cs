@@ -95,7 +95,7 @@ namespace SFGenericModel
         /// <param name="offset"></param>
         public void Draw(Shader shader, Camera camera, int count, int offset = 0)
         {
-            if (!shader.ProgramCreatedSuccessfully)
+            if (!shader.LinkStatusIsOk)
                 return;
 
             shader.UseProgram();

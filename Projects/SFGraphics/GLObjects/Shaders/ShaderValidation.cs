@@ -42,7 +42,7 @@ namespace SFGraphics.GLObjects.Shaders
             return linkStatus != 0;
         }
 
-        private bool GetProgramValidationStatus()
+        private bool GetProgramValidateStatus()
         {
             // 1: valid. 0: not valid
             int validateStatus = 1;

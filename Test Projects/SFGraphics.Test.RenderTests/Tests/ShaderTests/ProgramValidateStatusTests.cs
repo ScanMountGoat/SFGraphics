@@ -22,7 +22,7 @@ namespace SFGraphics.Test.RenderTests.ShaderTests
             shader.SetTexture("tex2D", 0, TextureTarget.Texture2D, 0);
             shader.SetTexture("texCube", 0, TextureTarget.TextureCubeMap, 1);
 
-            Assert.IsTrue(shader.ProgramStatusIsValid);
+            Assert.IsTrue(shader.ValidateStatusIsOk);
         }
 
         [TestMethod]
@@ -32,7 +32,7 @@ namespace SFGraphics.Test.RenderTests.ShaderTests
             shader.SetTexture("tex2D", 0, TextureTarget.TextureCubeMap, 0);
 
             // There can only be a single texture type for each active texture.
-            Assert.IsFalse(shader.ProgramStatusIsValid);
+            Assert.IsFalse(shader.ValidateStatusIsOk);
         }
     }
 }

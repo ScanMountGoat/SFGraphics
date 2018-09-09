@@ -8,7 +8,7 @@ namespace SFGraphics.GLObjects.Shaders
     /// Encapsulates a shader program and attached shaders. 
     /// Errors are stored to an internal log, which can be exported with <see cref="GetErrorLog"/>.
     /// <para></para> <para></para>
-    /// Ensure that <see cref="ProgramCreatedSuccessfully"/> returns <c>true</c> before rendering to avoid crashes.
+    /// Ensure that <see cref="LinkStatusIsOk"/> returns <c>true</c> before rendering to avoid crashes.
     /// </summary>
     public sealed partial class Shader : GLObject
     {
@@ -18,13 +18,12 @@ namespace SFGraphics.GLObjects.Shaders
         public override GLObjectType ObjectType { get { return GLObjectType.ShaderProgram; } }
 
         /// <summary>
-        /// <c>true</c> when the link status is ok.
-        /// If <c>false</c>, rendering with this shader will most likely cause an <see cref="AccessViolationException"/>.
+        /// If <c>false</c>, rendering with this shader will most likely throw an <see cref="AccessViolationException"/>.
         /// <para></para><para></para>
-        /// The status is updated with each call to <see cref="LoadShader(string, ShaderType, string)"/>, 
+        /// Updated with each call to <see cref="LoadShader(string, ShaderType, string)"/>, 
         /// <see cref="AttachShader(int, ShaderType, string)"/>, or <see cref="LoadProgramBinary(byte[], BinaryFormat)"/>.
         /// </summary>
-        public bool ProgramCreatedSuccessfully { get; private set; }
+        public bool LinkStatusIsOk { get; private set; }
 
         /// <summary>
         /// <c>true</c> when only one sampler type is used for each texture unit
@@ -32,7 +31,7 @@ namespace SFGraphics.GLObjects.Shaders
         /// <para></para><para></para>
         /// This should be checked at runtime and only for debugging purposes.
         /// </summary>
-        public bool ProgramStatusIsValid {  get { return GetProgramValidationStatus(); } }
+        public bool ValidateStatusIsOk {  get { return GetProgramValidateStatus(); } }
 
         private int activeUniformCount;
         private int activeAttributeCount;
@@ -95,7 +94,7 @@ namespace SFGraphics.GLObjects.Shaders
 
         /// <summary>
         /// Attaches <paramref name="shaderId"/> and links the program. 
-        /// The value for <see cref="ProgramCreatedSuccessfully"/> is updated.
+        /// The value for <see cref="LinkStatusIsOk"/> is updated.
         /// </summary>
         /// <param name="shaderId">The integer ID returned by <see cref="CreateGlShader(string, ShaderType)"/></param>
         /// <param name="shaderType">The type of shader.
@@ -107,13 +106,13 @@ namespace SFGraphics.GLObjects.Shaders
             GL.LinkProgram(Id);
 
             AppendShaderCompilationErrors(shaderName, shaderType, shaderId);
-            ProgramCreatedSuccessfully = CheckProgramStatus();
+            LinkStatusIsOk = CheckProgramStatus();
 
             // The shader won't be deleted until the program is deleted.
             GL.DeleteShader(shaderId);
 
             // Scary things happen if we do this after a linking error.
-            if (ProgramCreatedSuccessfully)
+            if (LinkStatusIsOk)
             {
                 LoadAttributes();
                 LoadUniforms();
@@ -122,7 +121,7 @@ namespace SFGraphics.GLObjects.Shaders
 
         /// <summary>
         /// Attempts to compile and attach the shader. 
-        /// The value returned by <see cref="ProgramCreatedSuccessfully"/> is updated.
+        /// The value returned by <see cref="LinkStatusIsOk"/> is updated.
         /// Supported shader types are fragment, vertex , and geometry.
         /// </summary>
         /// <param name="shaderSource">A string containing the shader source text</param>
@@ -174,7 +173,7 @@ namespace SFGraphics.GLObjects.Shaders
         /// <summary>
         /// Loads the entire program from the compiled binary and format generated 
         /// by <see cref="GetProgramBinary(out BinaryFormat)"/>.
-        /// The value returned by <see cref="ProgramCreatedSuccessfully"/> is updated.
+        /// The value returned by <see cref="LinkStatusIsOk"/> is updated.
         /// <para></para><para></para>
         /// Hardware or software changes may cause compatibility issues with the program binary.
         /// If program creation fails with precompiled binaries, resort to compiling the shaders from source. 
@@ -185,10 +184,10 @@ namespace SFGraphics.GLObjects.Shaders
         {
             GL.ProgramBinary(Id, binaryFormat, programBinary, programBinary.Length);
 
-            ProgramCreatedSuccessfully = CheckProgramStatus();
+            LinkStatusIsOk = CheckProgramStatus();
 
             // Scary things happen if we do this after a linking error.
-            if (ProgramCreatedSuccessfully)
+            if (LinkStatusIsOk)
             {
                 LoadAttributes();
                 LoadUniforms();

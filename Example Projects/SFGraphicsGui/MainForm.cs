@@ -48,7 +48,7 @@ namespace SFGraphicsGui
 
             // Always check program creation before using shaders to prevent crashes.
             Shader shader = graphicsResources.screenTextureShader;
-            if (!shader.ProgramCreatedSuccessfully)
+            if (!shader.LinkStatusIsOk)
                 return;
 
             // Render using the shader.
@@ -80,7 +80,7 @@ namespace SFGraphicsGui
             graphicsResources = new GraphicsResources();
 
             // Display compilation warnings.
-            if (!graphicsResources.screenTextureShader.ProgramCreatedSuccessfully)
+            if (!graphicsResources.screenTextureShader.LinkStatusIsOk)
             {
                 MessageBox.Show(graphicsResources.screenTextureShader.GetErrorLog(), "Failed Shader Compilation");
             }
