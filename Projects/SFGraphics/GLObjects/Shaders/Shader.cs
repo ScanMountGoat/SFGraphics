@@ -36,9 +36,8 @@ namespace SFGraphics.GLObjects.Shaders
         /// <summary>
         /// </summary>
         /// <param name="sender">The shader that generated the error</param>
-        /// <param name="value">The value of the invalid uniform set</param>
-        /// <param name="message">The details of the error</param>
-        public delegate void InvalidUniformMessageCallBack(Shader sender, object value, string message);
+        /// <param name="e"></param>
+        public delegate void InvalidUniformMessageCallBack(Shader sender, UniformSetEventArgs e);
 
         /// <summary>
         /// Occurs when the arguments to a uniform set call are not consistent with the shader.
@@ -65,7 +64,13 @@ namespace SFGraphics.GLObjects.Shaders
         /// </summary>
         public Shader() : base(GL.CreateProgram())
         {
+            OnInvalidUniformSet += Shader_OnInvalidUniformSet;
+        }
 
+        private void Shader_OnInvalidUniformSet(Shader sender, UniformSetEventArgs e)
+        {
+            if (!invalidUniformByName.ContainsKey(e.Name))
+                invalidUniformByName.Add(e.Name, new ActiveUniformInfo(-1, e.Type, e.Size));
         }
 
         /// <summary>

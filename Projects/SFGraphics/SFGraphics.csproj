@@ -61,6 +61,7 @@
     <Compile Include="GLObjects\Shaders\Shader.cs" />
     <Compile Include="GLObjects\Shaders\ShaderLog.cs" />
     <Compile Include="GLObjects\Shaders\ShaderValidation.cs" />
+    <Compile Include="GLObjects\Shaders\UniformSetEventArgs.cs" />
     <Compile Include="GLObjects\Textures\MipmapLoading.cs" />
     <Compile Include="GLObjects\Textures\TextureFormats\CompressedBlockSize.cs" />
     <Compile Include="GLObjects\Textures\TextureExceptionMessages.cs" />
