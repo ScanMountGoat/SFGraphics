@@ -67,7 +67,7 @@ namespace SFGraphics.GLObjects.Shaders
 
         }
 
-        private void Shader_OnInvalidUniformSet(Shader sender, UniformSetEventArgs e)
+        private void LogInvalidUniformSet(UniformSetEventArgs e)
         {
             if (!invalidUniformByName.ContainsKey(e.Name))
                 invalidUniformByName.Add(e.Name, new ActiveUniformInfo(-1, e.Type, e.Size));

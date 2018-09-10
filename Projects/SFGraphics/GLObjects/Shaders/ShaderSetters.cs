@@ -15,7 +15,7 @@ namespace SFGraphics.GLObjects.Shaders
         {
             if (!ValidUniform(uniformName, ActiveUniformType.Float))
             {
-                OnInvalidUniformSet?.Invoke(this, new UniformSetEventArgs(uniformName, ActiveUniformType.Float, value, 1));
+                LogInvalidUniformSetRaiseEvent(uniformName, value, ActiveUniformType.Float);
                 return;
             }
 
@@ -31,7 +31,7 @@ namespace SFGraphics.GLObjects.Shaders
         {
             if (!ValidUniform(uniformName, ActiveUniformType.Float, value.Length))
             {
-                OnInvalidUniformSet?.Invoke(this, new UniformSetEventArgs(uniformName, ActiveUniformType.Float, value, value.Length));
+                LogInvalidUniformSetRaiseEvent(uniformName, value, ActiveUniformType.Float, value.Length);
                 return;
             }
 
@@ -47,7 +47,7 @@ namespace SFGraphics.GLObjects.Shaders
         {
             if (!ValidUniform(uniformName, ActiveUniformType.Int))
             {
-                OnInvalidUniformSet?.Invoke(this, new UniformSetEventArgs(uniformName, ActiveUniformType.Int, value, 1));
+                LogInvalidUniformSetRaiseEvent(uniformName, value, ActiveUniformType.Int);
                 return;
             }
 
@@ -63,7 +63,7 @@ namespace SFGraphics.GLObjects.Shaders
         {
             if (!ValidUniform(uniformName, ActiveUniformType.Int, value.Length))
             {
-                OnInvalidUniformSet?.Invoke(this, new UniformSetEventArgs(uniformName, ActiveUniformType.Int, value, value.Length));
+                LogInvalidUniformSetRaiseEvent(uniformName, value, ActiveUniformType.Int, value.Length);
                 return;
             }
 
@@ -79,7 +79,7 @@ namespace SFGraphics.GLObjects.Shaders
         {
             if (!ValidUniform(uniformName, ActiveUniformType.UnsignedInt))
             {
-                OnInvalidUniformSet?.Invoke(this, new UniformSetEventArgs(uniformName, ActiveUniformType.UnsignedInt, value, 1));
+                LogInvalidUniformSetRaiseEvent(uniformName, value, ActiveUniformType.UnsignedInt);
                 return;
             }
 
@@ -95,7 +95,7 @@ namespace SFGraphics.GLObjects.Shaders
         {
             if (!ValidUniform(uniformName, ActiveUniformType.UnsignedInt, value.Length))
             {
-                OnInvalidUniformSet?.Invoke(this, new UniformSetEventArgs(uniformName, ActiveUniformType.UnsignedInt, value, value.Length));
+                LogInvalidUniformSetRaiseEvent(uniformName, value, ActiveUniformType.UnsignedInt, value.Length);
                 return;
             }
 
@@ -113,7 +113,7 @@ namespace SFGraphics.GLObjects.Shaders
             if (!ValidUniform(uniformName, ActiveUniformType.Int))
             {
                 int intValue = value ? 1 : 0;
-                OnInvalidUniformSet?.Invoke(this, new UniformSetEventArgs(uniformName, ActiveUniformType.Int, intValue, 1));
+                LogInvalidUniformSetRaiseEvent(uniformName, value, ActiveUniformType.Int);
                 return;
             }
 
@@ -133,7 +133,7 @@ namespace SFGraphics.GLObjects.Shaders
         {
             if (!ValidUniform(uniformName, ActiveUniformType.FloatVec2))
             {
-                OnInvalidUniformSet?.Invoke(this, new UniformSetEventArgs(uniformName, ActiveUniformType.FloatVec2, value, 1));
+                LogInvalidUniformSetRaiseEvent(uniformName, value, ActiveUniformType.FloatVec2);
                 return;
             }
 
@@ -160,7 +160,7 @@ namespace SFGraphics.GLObjects.Shaders
         {
             if (!ValidUniform(uniformName, ActiveUniformType.FloatVec3))
             {
-                OnInvalidUniformSet?.Invoke(this, new UniformSetEventArgs(uniformName, ActiveUniformType.FloatVec3, value, 1));
+                LogInvalidUniformSetRaiseEvent(uniformName, value, ActiveUniformType.FloatVec3);
                 return;
             }
 
@@ -188,7 +188,7 @@ namespace SFGraphics.GLObjects.Shaders
         {
             if (!ValidUniform(uniformName, ActiveUniformType.FloatVec4))
             {
-                OnInvalidUniformSet?.Invoke(this, new UniformSetEventArgs(uniformName, ActiveUniformType.FloatVec4, value, 1));
+                LogInvalidUniformSetRaiseEvent(uniformName, value, ActiveUniformType.FloatVec4);
                 return;
             }
 
@@ -217,7 +217,7 @@ namespace SFGraphics.GLObjects.Shaders
         {
             if (!ValidUniform(uniformName, ActiveUniformType.FloatMat4))
             {
-                OnInvalidUniformSet?.Invoke(this, new UniformSetEventArgs(uniformName, ActiveUniformType.FloatMat4, value, 1));
+                LogInvalidUniformSetRaiseEvent(uniformName, value, ActiveUniformType.FloatMat4);
                 return;
             }
 
@@ -243,6 +243,14 @@ namespace SFGraphics.GLObjects.Shaders
             GL.ActiveTexture(TextureUnit.Texture0 + textureUnit);
             GL.BindTexture(textureTarget, textureId);
             GL.Uniform1(activeUniformByName[uniformName].location, textureUnit);
+        }
+
+        private void LogInvalidUniformSetRaiseEvent(string uniformName, object value, ActiveUniformType type, int length = 1)
+        {
+            // TODO: This does multiple things and isn't very clear.
+            UniformSetEventArgs e = new UniformSetEventArgs(uniformName, type, value, length);
+            LogInvalidUniformSet(e);
+            OnInvalidUniformSet?.Invoke(this, e);
         }
 
         private bool ValidUniform(string uniformName, ActiveUniformType inputType, int size = 1)
