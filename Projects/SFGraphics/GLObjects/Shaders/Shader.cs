@@ -64,7 +64,7 @@ namespace SFGraphics.GLObjects.Shaders
         /// </summary>
         public Shader() : base(GL.CreateProgram())
         {
-            OnInvalidUniformSet += Shader_OnInvalidUniformSet;
+
         }
 
         private void Shader_OnInvalidUniformSet(Shader sender, UniformSetEventArgs e)
