@@ -144,8 +144,8 @@ namespace SFGraphics.GLObjects.Shaders
         /// Sets vec2 uniform variable. Logs invalid names.
         /// </summary>
         /// <param name="uniformName">The uniform variable name</param>
-        /// <param name="x"></param>        
-        /// <param name="y"></param>
+        /// <param name="x">The value for uniformName.x</param>
+        /// <param name="y">The value for uniformName.y</param>
         public void SetVector2(string uniformName, float x, float y)
         {
             SetVector2(uniformName, new Vector2(x, y));
@@ -171,9 +171,9 @@ namespace SFGraphics.GLObjects.Shaders
         /// Sets vec3 uniform variable. Logs invalid names.
         /// </summary>
         /// <param name="uniformName">The uniform variable name</param>
-        /// <param name="x"></param>        
-        /// <param name="y"></param>
-        /// <param name="z"></param>
+        /// <param name="x">The value for uniformName.x</param>
+        /// <param name="y">The value for uniformName.y</param>
+        /// <param name="z">The value for uniformName.z</param>
         public void SetVector3(string uniformName, float x, float y, float z)
         {
             SetVector3(uniformName, new Vector3(x, y, z));
@@ -256,23 +256,10 @@ namespace SFGraphics.GLObjects.Shaders
         private bool ValidUniform(string uniformName, ActiveUniformType inputType, int size = 1)
         {
             bool validName = activeUniformByName.ContainsKey(uniformName);
-
-            bool validType = false;
-            if (validName && activeUniformByName[uniformName].type == inputType)
-                validType = true;
-
-            bool validSize = false;
-            if (validName && activeUniformByName[uniformName].size == size)
-                validSize = true;
-
-            if (!validName || !validType || !validSize)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
+            bool validType = validName && activeUniformByName[uniformName].type == inputType;
+            bool validSize = validName && activeUniformByName[uniformName].size == size;
+            
+            return validName && validType && validSize;
         }
     }
 }
