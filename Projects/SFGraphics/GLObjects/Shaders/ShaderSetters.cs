@@ -234,9 +234,10 @@ namespace SFGraphics.GLObjects.Shaders
         /// <param name="textureUnit">The texture unit to which <paramref name="textureId"/> is bound</param>
         public void SetTexture(string uniformName, int textureId, TextureTarget textureTarget, int textureUnit)
         {
-            if (!activeUniformByName.ContainsKey(uniformName))
+            ActiveUniformType uniformType = ShaderTypeConversions.GetUniformType(textureTarget);
+            if (!ValidUniform(uniformName, uniformType))
             {
-                // TODO: Event doesn't support textures yet.
+                LogInvalidUniformSetRaiseEvent(uniformName, textureId, uniformType);
                 return;
             }
 

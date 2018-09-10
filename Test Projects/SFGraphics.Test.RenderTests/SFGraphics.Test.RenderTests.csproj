@@ -78,6 +78,7 @@
     <Compile Include="Tests\ShaderTests\SetUniformTests\SetInt.cs" />
     <Compile Include="Tests\ShaderTests\SetUniformTests\SetIntArray.cs" />
     <Compile Include="Tests\ShaderTests\SetUniformTests\SetMatrix4x4.cs" />
+    <Compile Include="Tests\ShaderTests\SetUniformTests\SetTexture.cs" />
     <Compile Include="Tests\ShaderTests\SetUniformTests\SetUint.cs" />
     <Compile Include="Tests\ShaderTests\SetUniformTests\SetUintArray.cs" />
     <Compile Include="Tests\ShaderTests\SetUniformTests\SetVector2.cs" />
