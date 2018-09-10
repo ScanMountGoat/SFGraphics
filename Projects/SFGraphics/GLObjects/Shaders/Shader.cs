@@ -33,6 +33,18 @@ namespace SFGraphics.GLObjects.Shaders
         /// </summary>
         public bool ValidateStatusIsOk {  get { return GetProgramValidateStatus(); } }
 
+        /// <summary>
+        /// </summary>
+        /// <param name="sender">The shader that generated the error</param>
+        /// <param name="value">The value of the invalid uniform set</param>
+        /// <param name="message">The details of the error</param>
+        public delegate void InvalidUniformMessageCallBack(Shader sender, object value, string message);
+
+        /// <summary>
+        /// Occurs when the arguments to a uniform set call are not consistent with the shader.
+        /// </summary>
+        public event InvalidUniformMessageCallBack OnInvalidUniformSet;
+
         private int activeUniformCount;
         private int activeAttributeCount;
 

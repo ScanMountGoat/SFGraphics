@@ -14,7 +14,10 @@ namespace SFGraphics.GLObjects.Shaders
         public void SetFloat(string uniformName, float value)
         {
             if (!ValidUniform(uniformName, ActiveUniformType.Float))
+            {
+                OnInvalidUniformSet(this, null, "");
                 return;
+            }
 
             GL.Uniform1(activeUniformByName[uniformName].location, value);
         }
@@ -27,7 +30,10 @@ namespace SFGraphics.GLObjects.Shaders
         public void SetFloat(string uniformName, float[] value)
         {
             if (!ValidUniform(uniformName, ActiveUniformType.Float, value.Length))
+            {
+                OnInvalidUniformSet(this, null, "");
                 return;
+            }
 
             GL.Uniform1(activeUniformByName[uniformName].location, value.Length, value);
         }
@@ -40,7 +46,10 @@ namespace SFGraphics.GLObjects.Shaders
         public void SetInt(string uniformName, int value)
         {
             if (!ValidUniform(uniformName, ActiveUniformType.Int))
+            {
+                OnInvalidUniformSet(this, null, "");
                 return;
+            }
 
             GL.Uniform1(activeUniformByName[uniformName].location, value);
         }
@@ -53,7 +62,10 @@ namespace SFGraphics.GLObjects.Shaders
         public void SetInt(string uniformName, int[] value)
         {
             if (!ValidUniform(uniformName, ActiveUniformType.Int, value.Length))
+            {
+                OnInvalidUniformSet(this, null, "");
                 return;
+            }
 
             GL.Uniform1(activeUniformByName[uniformName].location, value.Length, value);
         }
@@ -66,7 +78,10 @@ namespace SFGraphics.GLObjects.Shaders
         public void SetUint(string uniformName, uint value)
         {
             if (!ValidUniform(uniformName, ActiveUniformType.UnsignedInt))
+            {
+                OnInvalidUniformSet(this, null, "");
                 return;
+            }
 
             GL.Uniform1(activeUniformByName[uniformName].location, value);
         }
@@ -79,7 +94,10 @@ namespace SFGraphics.GLObjects.Shaders
         public void SetUint(string uniformName, uint[] value)
         {
             if (!ValidUniform(uniformName, ActiveUniformType.UnsignedInt, value.Length))
+            {
+                OnInvalidUniformSet(this, null, "");
                 return;
+            }
 
             GL.Uniform1(activeUniformByName[uniformName].location, value.Length, value);
         }
@@ -93,7 +111,10 @@ namespace SFGraphics.GLObjects.Shaders
         public void SetBoolToInt(string uniformName, bool value)
         {
             if (!ValidUniform(uniformName, ActiveUniformType.Int))
+            {
+                OnInvalidUniformSet(this, null, "");
                 return;
+            }
 
             // if/else is faster than the ternary operator. 
             if (value)
@@ -110,7 +131,10 @@ namespace SFGraphics.GLObjects.Shaders
         public void SetVector2(string uniformName, Vector2 value)
         {
             if (!ValidUniform(uniformName, ActiveUniformType.FloatVec2))
+            {
+                OnInvalidUniformSet(this, null, "");
                 return;
+            }
 
             GL.Uniform2(activeUniformByName[uniformName].location, value);
         }
@@ -134,7 +158,10 @@ namespace SFGraphics.GLObjects.Shaders
         public void SetVector3(string uniformName, Vector3 value)
         {
             if (!ValidUniform(uniformName, ActiveUniformType.FloatVec3))
+            {
+                OnInvalidUniformSet(this, null, "");
                 return;
+            }
 
             GL.Uniform3(activeUniformByName[uniformName].location, value);
         }
@@ -159,7 +186,10 @@ namespace SFGraphics.GLObjects.Shaders
         public void SetVector4(string uniformName, Vector4 value)
         {
             if (!ValidUniform(uniformName, ActiveUniformType.FloatVec4))
+            {
+                OnInvalidUniformSet(this, null, "");
                 return;
+            }
 
             GL.Uniform4(activeUniformByName[uniformName].location, value);
         }
@@ -185,7 +215,10 @@ namespace SFGraphics.GLObjects.Shaders
         public void SetMatrix4x4(string uniformName, ref Matrix4 value)
         {
             if (!ValidUniform(uniformName, ActiveUniformType.FloatMat4))
+            {
+                OnInvalidUniformSet(this, null, "");
                 return;
+            }
 
             GL.UniformMatrix4(activeUniformByName[uniformName].location, false, ref value);
         }
@@ -201,7 +234,10 @@ namespace SFGraphics.GLObjects.Shaders
         public void SetTexture(string uniformName, int textureId, TextureTarget textureTarget, int textureUnit)
         {
             if (!activeUniformByName.ContainsKey(uniformName))
+            {
+                OnInvalidUniformSet(this, null, "");
                 return;
+            }
 
             GL.ActiveTexture(TextureUnit.Texture0 + textureUnit);
             GL.BindTexture(textureTarget, textureId);
