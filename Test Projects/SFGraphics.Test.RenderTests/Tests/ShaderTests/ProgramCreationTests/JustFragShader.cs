@@ -2,42 +2,38 @@
 using OpenTK.Graphics.OpenGL;
 using SFGraphics.GLObjects.Shaders;
 
-
 namespace SFGraphics.Test.RenderTests.ShaderTests.ProgramCreationTests
 {
-    public partial class ShaderTest
+    [TestClass]
+    public class JustFragShader
     {
-        [TestClass]
-        public class JustFragShader
+        [TestInitialize()]
+        public void Initialize()
         {
-            [TestInitialize()]
-            public void Initialize()
-            {
-                // Set up the context for all the tests.
-                TestTools.OpenTKWindowlessContext.BindDummyContext();
-            }
+            // Set up the context for all the tests.
+            TestTools.OpenTKWindowlessContext.BindDummyContext();
+        }
 
-            [TestMethod]
-            public void ValidFragShader()
-            {
-                // Load the shader file from the embedded resources.
-                Shader shader = new Shader();
-                string shaderSource = TestTools.ResourceShaders.GetShader("SFGraphics.Test.RenderTests.Shaders.validFrag.frag");
-                shader.LoadShader(shaderSource, ShaderType.FragmentShader);
+        [TestMethod]
+        public void ValidFragShader()
+        {
+            // Load the shader file from the embedded resources.
+            Shader shader = new Shader();
+            string shaderSource = TestTools.ResourceShaders.GetShader("SFGraphics.Test.RenderTests.Shaders.validFrag.frag");
+            shader.LoadShader(shaderSource, ShaderType.FragmentShader);
 
-                Assert.IsTrue(shader.LinkStatusIsOk);
-            }
+            Assert.IsTrue(shader.LinkStatusIsOk);
+        }
 
-            [TestMethod]
-            public void InvalidFragShader()
-            {
-                // Load the shader file from the embedded resources.
-                Shader shader = new Shader();
-                string shaderSource = TestTools.ResourceShaders.GetShader("SFGraphics.Test.RenderTests.Shaders.invalidFrag.frag");
-                shader.LoadShader(shaderSource, ShaderType.FragmentShader);
+        [TestMethod]
+        public void InvalidFragShader()
+        {
+            // Load the shader file from the embedded resources.
+            Shader shader = new Shader();
+            string shaderSource = TestTools.ResourceShaders.GetShader("SFGraphics.Test.RenderTests.Shaders.invalidFrag.frag");
+            shader.LoadShader(shaderSource, ShaderType.FragmentShader);
 
-                Assert.IsFalse(shader.LinkStatusIsOk);
-            }
+            Assert.IsFalse(shader.LinkStatusIsOk);
         }
     }
 }
