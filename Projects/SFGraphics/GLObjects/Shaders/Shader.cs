@@ -22,10 +22,19 @@ namespace SFGraphics.GLObjects.Shaders
         /// <summary>
         /// If <c>false</c>, rendering with this shader will most likely throw an <see cref="AccessViolationException"/>.
         /// <para></para><para></para>
-        /// Updated with each call to <see cref="LoadShader(string, ShaderType, string)"/>, 
-        /// <see cref="AttachShader(int, ShaderType, string)"/>, or <see cref="LoadProgramBinary(byte[], BinaryFormat)"/>.
+        /// Does not reflect changes made using <see cref="GLObject.Id"/> directly.
         /// </summary>
-        public bool LinkStatusIsOk { get; private set; }
+        public bool LinkStatusIsOk
+        {
+            get { return linkStatusIsOk; }
+            private set
+            {
+                if (linkStatusIsOk != value)
+                    OnLinkStatusChanged?.Invoke(this, value);
+                linkStatusIsOk = value;
+            }
+        }
+        private bool linkStatusIsOk = false;
 
         /// <summary>
         /// <c>true</c> when only one sampler type is used for each texture unit
@@ -38,15 +47,26 @@ namespace SFGraphics.GLObjects.Shaders
         /// <summary>
         /// </summary>
         /// <param name="sender">The shader that generated the error</param>
-        /// <param name="e"></param>
-        public delegate void InvalidUniformMessageCallBack(Shader sender, UniformSetEventArgs e);
-
-        public delegate void ShaderLinkStatusHandler(Shader sender, bool linkStatusIsOk);
+        /// <param name="e">The arguments used to set the uniform</param>
+        public delegate void InvalidUniformSetEventHandler(Shader sender, UniformSetEventArgs e);
 
         /// <summary>
-        /// Occurs when the arguments to a uniform set call are not consistent with the shader.
+        /// 
         /// </summary>
-        public event InvalidUniformMessageCallBack OnInvalidUniformSet;
+        /// <param name="sender">The shader that generated the event</param>
+        /// <param name="linkStatusIsOk">The new link status. 
+        /// <c>true</c> when linking was successful</param>
+        public delegate void LinkStatusChangedEventHandler(Shader sender, bool linkStatusIsOk);
+
+        /// <summary>
+        /// Occurs when arguments for setting a uniform don't match the shader.
+        /// </summary>
+        public event InvalidUniformSetEventHandler OnInvalidUniformSet;
+
+        /// <summary>
+        /// Occurs when the value of <see cref="LinkStatusIsOk"/> changes.
+        /// </summary>
+        public event LinkStatusChangedEventHandler OnLinkStatusChanged;
 
         private int activeUniformCount;
         private int activeAttributeCount;
@@ -141,28 +161,25 @@ namespace SFGraphics.GLObjects.Shaders
         }
 
         /// <summary>
-        /// Attempts to compile and attach the shader. 
-        /// The value returned by <see cref="LinkStatusIsOk"/> is updated.
-        /// Supported shader types are fragment, vertex , and geometry.
+        /// Compiles and attaches a shader from <paramref name="shaderSource"/>.
+        /// <see cref="linkStatusIsOk"/> is updated.
         /// </summary>
-        /// <param name="shaderSource">A string containing the shader source text</param>
-        /// <param name="shaderType">The type of shader to load. Ex: ShaderType.FragmentShader</param>
+        /// <param name="shaderSource">The shader code source</param>
+        /// <param name="shaderType">The type of shader to load</param>
         /// <param name="shaderName">The title used for the compilation errors section of the error log</param>
         public void LoadShader(string shaderSource, ShaderType shaderType, string shaderName = "Shader")
         {
-            // Compile and attach before linking.
             int shaderId = CreateGlShader(shaderSource, shaderType);
             AttachShader(shaderId, shaderType, shaderName);
         }
 
         /// <summary>
-        /// Returns the integer ID created by GL.CreateShader(). Compiles the shader.
-        /// This method can reduce load times by avoiding redundant shader compilations when used
-        /// in conjunction with <see cref="AttachShader(int, ShaderType, string)"/>
+        /// Creates and compiles a new shader from <paramref name="shaderSource"/>.
+        /// Returns the ID created by GL.CreateShader(). 
+        /// Shaders can be attached with <see cref="AttachShader(int, ShaderType, string)"/>
         /// </summary>
         /// <param name="shaderSource">A string containing the shader source text</param>
-        /// <param name="shaderType">The type of shader.
-        /// Ex: ShaderType.FragmentShader</param>
+        /// <param name="shaderType">The type of shader to create</param>
         /// <returns>The integer ID created by GL.CreateShader()</returns>
         public static int CreateGlShader(string shaderSource, ShaderType shaderType)
         {

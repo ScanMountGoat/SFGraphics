@@ -65,6 +65,7 @@
     <Compile Include="Tests\ShaderTests\GetAttribLocation.cs" />
     <Compile Include="Tests\ShaderTests\GetUniformLocation.cs" />
     <Compile Include="Tests\ShaderTests\ProgramCreationTests\AttachShader.cs" />
+    <Compile Include="Tests\ShaderTests\ProgramCreationTests\OnLinkStatusChanged.cs" />
     <Compile Include="Tests\ShaderTests\ProgramCreationTests\ValidInvalidFragShader.cs" />
     <Compile Include="Tests\ShaderTests\ProgramCreationTests\JustFragShader.cs" />
     <Compile Include="Tests\ShaderTests\ProgramCreationTests\JustVertShader.cs" />
