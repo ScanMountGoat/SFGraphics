@@ -8,7 +8,7 @@ namespace SFGraphics.Test.RenderTests.ShaderTests.ProgramCreationTests
     public partial class ShaderTest
     {
         [TestClass]
-        public class ProgramCreationValidFragInvalidVert
+        public class ValidFragInvalidVert
         {
             [TestInitialize()]
             public void Initialize()
@@ -18,7 +18,7 @@ namespace SFGraphics.Test.RenderTests.ShaderTests.ProgramCreationTests
             }
 
             [TestMethod]
-            public void ValidFragInvalidVert()
+            public void ValidFragInvalidVertShader()
             {
                 Shader shader = new Shader();
 

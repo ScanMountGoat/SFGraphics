@@ -8,7 +8,7 @@ using SFGraphics.GLObjects.Textures.TextureFormats;
 namespace SFGraphics.Test.RenderTests.TextureTests
 {
     [TestClass]
-    public class LoadImageDataBufferTests
+    public class LoadImageDataBuffer
     {
         private static readonly List<BufferObject> mipmaps = new List<BufferObject>();
 

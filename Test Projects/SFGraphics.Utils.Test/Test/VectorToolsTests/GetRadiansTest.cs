@@ -13,19 +13,19 @@ namespace SFGraphicsTest.VectorToolsTests
             [TestMethod]
             public void ZeroDegreesToRadians()
             {
-                Assert.AreEqual(0, VectorTools.GetRadians(0), delta);
+                Assert.AreEqual(0, VectorUtils.GetRadians(0), delta);
             }
 
             [TestMethod]
             public void SmallDegreesToRadians()
             {
-                Assert.AreEqual(0.6108652382, VectorTools.GetRadians(35), delta);
+                Assert.AreEqual(0.6108652382, VectorUtils.GetRadians(35), delta);
             }
 
             [TestMethod]
             public void LargeDegreesToRadians()
             {
-                Assert.AreEqual(12.566370614, VectorTools.GetRadians(720), delta);
+                Assert.AreEqual(12.566370614, VectorUtils.GetRadians(720), delta);
             }
         }
     }

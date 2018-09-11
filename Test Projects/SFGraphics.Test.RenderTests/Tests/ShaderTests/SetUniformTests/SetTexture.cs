@@ -19,7 +19,7 @@ namespace SFGraphics.Test.RenderTests.ShaderTests.SetterTests
             }
 
             [TestMethod]
-            public void SetTextureValidName()
+            public void ValidName()
             {
                 shader.SetTexture("tex2D", 0, TextureTarget.Texture2D, 0);
                 string expected = ShaderTestUtils.GetInvalidUniformErrorMessage("tex2D", ActiveUniformType.Sampler2D);
@@ -27,7 +27,7 @@ namespace SFGraphics.Test.RenderTests.ShaderTests.SetterTests
             }
 
             [TestMethod]
-            public void SetTextureInvalidName()
+            public void InvalidName()
             {
                 shader.SetTexture("memes", 0, TextureTarget.Texture2D, 0);
                 string expected = ShaderTestUtils.GetInvalidUniformErrorMessage("memes", ActiveUniformType.Sampler2D);
@@ -35,7 +35,7 @@ namespace SFGraphics.Test.RenderTests.ShaderTests.SetterTests
             }
 
             [TestMethod]
-            public void SetTextureInvalidType()
+            public void InvalidType()
             {
                 shader.SetTexture("float1", 0, TextureTarget.Texture2D, 0);
                 string expected = ShaderTestUtils.GetInvalidUniformErrorMessage("float1", ActiveUniformType.Sampler2D);
@@ -43,7 +43,7 @@ namespace SFGraphics.Test.RenderTests.ShaderTests.SetterTests
             }
 
             [TestMethod]
-            public void SetTextureInvalidTarget()
+            public void InvalidTarget()
             {
                 shader.SetTexture("texCube", 0, TextureTarget.Texture2D, 0);
                 string expected = ShaderTestUtils.GetInvalidUniformErrorMessage("texCube", ActiveUniformType.Sampler2D);

@@ -5,7 +5,7 @@ using SFGraphics.GLObjects.Shaders;
 namespace SFGraphics.Test.RenderTests.ShaderTests
 {
     [TestClass]
-    public class GetAttribLocationTests
+    public class GetAttribLocation
     {
         public static Shader shader;
 
@@ -17,13 +17,13 @@ namespace SFGraphics.Test.RenderTests.ShaderTests
         }
 
         [TestMethod]
-        public void GetAttribLocationValidName()
+        public void ValidName()
         {
             Assert.AreEqual(GL.GetAttribLocation(shader.Id, "position"), shader.GetAttribLocation("position"));
         }
 
         [TestMethod]
-        public void GetAttribLocationInvalidName()
+        public void InvalidName()
         {
             Assert.AreEqual(GL.GetAttribLocation(shader.Id, "memes"), shader.GetAttribLocation("memes"));
         }

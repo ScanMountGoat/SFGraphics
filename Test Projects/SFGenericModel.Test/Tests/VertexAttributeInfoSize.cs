@@ -4,7 +4,7 @@ using OpenTK.Graphics.OpenGL;
 namespace SFGenericModel.Test
 {
     [TestClass]
-    public class VertexAttributeInfoSizeTests
+    public class VertexAttributeInfoSize
     {
         [TestMethod]
         public void Byte()

@@ -6,7 +6,7 @@ using OpenTK.Graphics.OpenGL;
 namespace SFGraphics.Test.RenderTests.BufferObjectTests
 {
     [TestClass]
-    public class GetSubDataTests
+    public class GetSubData
     {
         private float[] originalBufferData = new float[] { 1.5f, 2.5f, 3.5f };
 

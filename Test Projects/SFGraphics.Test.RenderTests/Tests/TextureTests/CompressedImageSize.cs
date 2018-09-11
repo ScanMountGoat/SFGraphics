@@ -6,7 +6,7 @@ using OpenTK.Graphics.OpenGL;
 namespace SFGraphics.Test.RenderTests.TextureTests
 {
     [TestClass]
-    public class CompressedImageSizeTests
+    public class CompressedImageSize
     {
         private static readonly int width = 8;
         private static readonly int height = 2;

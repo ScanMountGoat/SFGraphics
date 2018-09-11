@@ -21,7 +21,7 @@ namespace SFGraphicsTest.VectorToolsTests
 
                 // a and b should now be orthogonal.
                 // dot(a, b) == 0 if a and b are orthogonal.
-                Vector3 aOrthoToB = VectorTools.Orthogonalize(a, b);
+                Vector3 aOrthoToB = VectorUtils.Orthogonalize(a, b);
                 Assert.AreEqual(0, Vector3.Dot(aOrthoToB, b), delta);
             }
 
@@ -34,7 +34,7 @@ namespace SFGraphicsTest.VectorToolsTests
                 Assert.AreEqual(0, Vector3.Dot(a, b), delta);
 
                 // a should remain the same
-                Vector3 aOrthoToB = VectorTools.Orthogonalize(a, b);
+                Vector3 aOrthoToB = VectorUtils.Orthogonalize(a, b);
                 Assert.AreEqual(a, aOrthoToB);
             }
         }

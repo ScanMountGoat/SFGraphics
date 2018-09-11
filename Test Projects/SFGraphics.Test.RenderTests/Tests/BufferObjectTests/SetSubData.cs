@@ -6,7 +6,7 @@ using OpenTK.Graphics.OpenGL;
 namespace SFGraphics.Test.RenderTests.BufferObjectTests
 {
     [TestClass]
-    public class SetSubDataTests
+    public class SetSubData
     {
         private float[] originalBufferData = new float[] { 1.5f, 2.5f, 3.5f };
         private float[] dataToWrite = new float[] { -1 };
@@ -24,7 +24,7 @@ namespace SFGraphics.Test.RenderTests.BufferObjectTests
         }
 
         [TestMethod]
-        public void BufferSubDataValidWrite()
+        public void ValidWrite()
         {
             // Write a -1 and index 1.
             int index = 1;
@@ -37,14 +37,14 @@ namespace SFGraphics.Test.RenderTests.BufferObjectTests
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void BufferSubDataNegativeOffset()
+        public void NegativeOffset()
         {
             bufferObject.SetSubData(dataToWrite, -1);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void BufferSubDataExceedsBufferSize()
+        public void ExceedsBufferSize()
         {
             // Try to write into an element past the end of the buffer.
             int offset = sizeof(float) * (originalBufferData.Length + 1);

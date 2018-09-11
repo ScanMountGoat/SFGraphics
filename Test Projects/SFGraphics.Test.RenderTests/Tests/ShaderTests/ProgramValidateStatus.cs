@@ -5,7 +5,7 @@ using SFGraphics.GLObjects.Shaders;
 namespace SFGraphics.Test.RenderTests.ShaderTests
 {
     [TestClass]
-    public class ProgramValidateStatusTests
+    public class ProgramValidateStatus
     {
         public static Shader shader;
 

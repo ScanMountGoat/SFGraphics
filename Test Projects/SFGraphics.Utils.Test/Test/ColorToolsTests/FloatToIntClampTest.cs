@@ -11,31 +11,31 @@ namespace SFGraphicsTest.ColorToolsTests
             [TestMethod]
             public void BelowDefaultMin()
             {
-                Assert.AreEqual(0, ColorTools.FloatToIntClamp(-1));
+                Assert.AreEqual(0, ColorUtils.FloatToIntClamp(-1));
             }
 
             [TestMethod]
             public void AboveDefaultMax()
             {
-                Assert.AreEqual(255, ColorTools.FloatToIntClamp(1.1f));
+                Assert.AreEqual(255, ColorUtils.FloatToIntClamp(1.1f));
             }
 
             [TestMethod]
             public void WithinDefaultRange()
             {
-                Assert.AreEqual(127, ColorTools.FloatToIntClamp(0.5f));
+                Assert.AreEqual(127, ColorUtils.FloatToIntClamp(0.5f));
             }
 
             [TestMethod]
             public void BelowCustomMin()
             {
-                Assert.AreEqual(15, ColorTools.FloatToIntClamp(0, 15));
+                Assert.AreEqual(15, ColorUtils.FloatToIntClamp(0, 15));
             }
 
             [TestMethod]
             public void AboveCustomMax()
             {
-                Assert.AreEqual(235, ColorTools.FloatToIntClamp(1, 0, 235));
+                Assert.AreEqual(235, ColorUtils.FloatToIntClamp(1, 0, 235));
             }
         }
     }

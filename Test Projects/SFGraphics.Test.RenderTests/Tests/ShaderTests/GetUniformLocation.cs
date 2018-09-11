@@ -5,7 +5,7 @@ using SFGraphics.GLObjects.Shaders;
 namespace SFGraphics.Test.RenderTests.ShaderTests
 {
     [TestClass]
-    public class GetUniformLocationTests
+    public class GetUniformLocation
     {
         public static Shader shader;
 
@@ -20,25 +20,25 @@ namespace SFGraphics.Test.RenderTests.ShaderTests
         }
 
         [TestMethod]
-        public void GetUniformLocationValidName()
+        public void ValidName()
         {
             Assert.AreEqual(GL.GetUniformLocation(shader.Id, "float1"), shader.GetUniformLocation("float1"));
         }
 
         [TestMethod]
-        public void GetUniformLocationInvalidName()
+        public void InvalidName()
         {
             Assert.AreEqual(GL.GetUniformLocation(shader.Id, "memes"), shader.GetUniformLocation("memes"));
         }
 
         [TestMethod]
-        public void GetUniformLocationValidArrayName()
+        public void ValidArrayName()
         {
             Assert.AreEqual(GL.GetUniformLocation(shader.Id, "floatArray1"), shader.GetUniformLocation("floatArray1"));
         }
 
         [TestMethod]
-        public void GetUniformLocationValidArrayNameBrackets()
+        public void ValidArrayNameBrackets()
         {
             Assert.AreEqual(GL.GetUniformLocation(shader.Id, "floatArray1[0]"), shader.GetUniformLocation("floatArray1[0]"));
         }

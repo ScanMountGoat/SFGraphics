@@ -20,7 +20,7 @@ namespace SFGraphics.Test.RenderTests.ShaderTests.SetterTests
             }
 
             [TestMethod]
-            public void SetVector4ValidName()
+            public void ValidName()
             {
                 shader.SetVector4("vector4a", new Vector4(1));
                 string expected = ShaderTestUtils.GetInvalidUniformErrorMessage("vector4a", ActiveUniformType.FloatVec4);
@@ -28,7 +28,7 @@ namespace SFGraphics.Test.RenderTests.ShaderTests.SetterTests
             }
 
             [TestMethod]
-            public void SetVector4InvalidName()
+            public void InvalidName()
             {
                 shader.SetVector4("memes", new Vector4(1));
                 string expected = ShaderTestUtils.GetInvalidUniformErrorMessage("memes", ActiveUniformType.FloatVec4);
@@ -36,7 +36,7 @@ namespace SFGraphics.Test.RenderTests.ShaderTests.SetterTests
             }
 
             [TestMethod]
-            public void SetVector4FloatsValidName()
+            public void FloatsValidName()
             {
                 shader.SetVector4("vector4a", 1, 1, 1, 1);
                 string expected = ShaderTestUtils.GetInvalidUniformErrorMessage("vector4a", ActiveUniformType.FloatVec4);
@@ -44,7 +44,7 @@ namespace SFGraphics.Test.RenderTests.ShaderTests.SetterTests
             }
 
             [TestMethod]
-            public void SetVector4FloatsInvalidName()
+            public void FloatsInvalidName()
             {
                 shader.SetVector4("memes2", 1, 1, 1, 1);
                 string expected = ShaderTestUtils.GetInvalidUniformErrorMessage("memes2", ActiveUniformType.FloatVec4);
@@ -52,7 +52,7 @@ namespace SFGraphics.Test.RenderTests.ShaderTests.SetterTests
             }
 
             [TestMethod]
-            public void SetVector4InvalidType()
+            public void InvalidType()
             {
                 shader.SetVector4("float1", 1, 1, 1, 1);
                 string expected = ShaderTestUtils.GetInvalidUniformErrorMessage("float1", ActiveUniformType.FloatVec4);
@@ -60,7 +60,7 @@ namespace SFGraphics.Test.RenderTests.ShaderTests.SetterTests
             }
 
             [TestMethod]
-            public void SetVector4ValidType()
+            public void ValidType()
             {
                 shader.SetVector4("vector4a", 1, 1, 1, 1);
                 string expected = ShaderTestUtils.GetInvalidUniformErrorMessage("vector4a", ActiveUniformType.FloatVec4);

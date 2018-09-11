@@ -4,7 +4,7 @@ using SFGenericModel.RenderState;
 namespace SFGenericModel.Test
 {
     [TestClass]
-    public class RenderSettingsEqualityTests
+    public class RenderSettingsEquality
     {
         [TestMethod]
         public void SameObject()

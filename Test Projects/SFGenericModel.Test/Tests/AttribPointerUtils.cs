@@ -4,7 +4,7 @@ using OpenTK.Graphics.OpenGL;
 namespace SFGenericModel.Test
 {
     [TestClass]
-    public class AttribPointerUtilsTests
+    public class AttribPointerUtils
     {
         [TestMethod]
         public void Byte()
@@ -56,7 +56,7 @@ namespace SFGenericModel.Test
 
         private static void CheckAttribPointerSize(int expected, VertexAttribPointerType type)
         {
-            Assert.AreEqual(expected, AttribPointerUtils.sizeInBytesByType[type]);
+            Assert.AreEqual(expected, SFGenericModel.AttribPointerUtils.sizeInBytesByType[type]);
         }
     }
 }

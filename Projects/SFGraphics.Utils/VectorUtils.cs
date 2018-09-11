@@ -6,7 +6,7 @@ namespace SFGraphics.Utils
     /// <summary>
     /// Utility methods for normals, tangents, bitangents, and angle conversions
     /// </summary>
-    public static class VectorTools
+    public static class VectorUtils
     {
         /// <summary>
         /// Converts <paramref name="radians"/> to degrees.

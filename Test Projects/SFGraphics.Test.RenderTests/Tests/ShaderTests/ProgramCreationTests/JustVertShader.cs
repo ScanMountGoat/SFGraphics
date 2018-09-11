@@ -8,7 +8,7 @@ namespace SFGraphics.Test.RenderTests.ShaderTests.ProgramCreationTests
     public partial class ShaderTest
     {
         [TestClass]
-        public class ProgramCreationJustVertShader
+        public class JustVertShader
         {
             [TestInitialize()]
             public void Initialize()

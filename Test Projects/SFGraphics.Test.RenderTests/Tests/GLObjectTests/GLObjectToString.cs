@@ -9,38 +9,38 @@ using SFGraphics.GLObjects.Framebuffers;
 namespace SFGraphics.Test.RenderTests.GLObjectTests
 {
     [TestClass()]
-    public class GLObjectToStringTests
+    public class GLObjectToString
     {
         [TestInitialize]
-        public void SetUpExtensions()
+        public void Initialize()
         {
             // Set up the context for all the tests.
             TestTools.OpenTKWindowlessContext.BindDummyContext();
         }
 
         [TestMethod]
-        public void ShaderToString()
+        public void Shader()
         {
             Shader glObject = new Shader();
             Assert.AreEqual($"ShaderProgram ID: { glObject.Id }", glObject.ToString());
         }
 
         [TestMethod]
-        public void VertexArrayObjectToString()
+        public void VertexArrayObject()
         {
             VertexArrayObject glObject = new VertexArrayObject();
             Assert.AreEqual($"VertexArrayObject ID: { glObject.Id }", glObject.ToString());
         }
 
         [TestMethod]
-        public void BufferObjectToString()
+        public void BufferObject()
         {
             BufferObject glObject = new BufferObject(OpenTK.Graphics.OpenGL.BufferTarget.ArrayBuffer);
             Assert.AreEqual($"BufferObject ID: { glObject.Id }", glObject.ToString());
         }
 
         [TestMethod]
-        public void TextureToString()
+        public void Texture()
         {
             // We only need to test one subclass.
             Texture glObject = new Texture2D();
@@ -48,14 +48,14 @@ namespace SFGraphics.Test.RenderTests.GLObjectTests
         }
 
         [TestMethod]
-        public void RenderbufferObjectToString()
+        public void RenderbufferObject()
         {
             Renderbuffer glObject = new Renderbuffer(1, 1, OpenTK.Graphics.OpenGL.RenderbufferStorage.Rgba16);
             Assert.AreEqual($"RenderbufferObject ID: { glObject.Id }", glObject.ToString());
         }
 
         [TestMethod]
-        public void FramebufferObjectToString()
+        public void FramebufferObject()
         {
             Framebuffer glObject = new Framebuffer(OpenTK.Graphics.OpenGL.FramebufferTarget.Framebuffer);
             Assert.AreEqual($"FramebufferObject ID: { glObject.Id }", glObject.ToString());

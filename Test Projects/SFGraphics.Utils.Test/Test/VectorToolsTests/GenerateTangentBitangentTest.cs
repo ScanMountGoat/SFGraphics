@@ -21,7 +21,7 @@ namespace SFGraphicsTest.VectorToolsTests
                 Vector2 uv3 = new Vector2(1, 1);
                 Vector3 s;
                 Vector3 t;
-                VectorTools.GenerateTangentBitangent(v1, v2, v3, uv1, uv2, uv3, out s, out t);
+                VectorUtils.GenerateTangentBitangent(v1, v2, v3, uv1, uv2, uv3, out s, out t);
 
                 // Make sure tangents and bitangents aren't all zero.
                 Assert.IsTrue((Math.Abs(s.X) > 0) || (Math.Abs(s.Y) > 0) || (Math.Abs(s.Z) > 0));
@@ -42,7 +42,7 @@ namespace SFGraphicsTest.VectorToolsTests
                 Vector2 uv3 = new Vector2(1, 1);
                 Vector3 s;
                 Vector3 t;
-                VectorTools.GenerateTangentBitangent(v1, v2, v3, uv1, uv2, uv3, out s, out t);
+                VectorUtils.GenerateTangentBitangent(v1, v2, v3, uv1, uv2, uv3, out s, out t);
 
                 // Make sure tangents and bitangents aren't all zero.
                 Assert.IsTrue((Math.Abs(s.X) > 0) || (Math.Abs(s.Y) > 0) || (Math.Abs(s.Z) > 0));
@@ -60,7 +60,7 @@ namespace SFGraphicsTest.VectorToolsTests
                 Vector2 uv3 = new Vector2(1, 1);
                 Vector3 s;
                 Vector3 t;
-                VectorTools.GenerateTangentBitangent(v1, v2, v3, uv1, uv2, uv3, out s, out t);
+                VectorUtils.GenerateTangentBitangent(v1, v2, v3, uv1, uv2, uv3, out s, out t);
 
                 // Make sure tangents and bitangents aren't all zero.
                 Assert.IsTrue((Math.Abs(s.X) > 0) || (Math.Abs(s.Y) > 0) || (Math.Abs(s.Z) > 0));
@@ -78,7 +78,7 @@ namespace SFGraphicsTest.VectorToolsTests
                 Vector2 uv3 = new Vector2(1, 1);
                 Vector3 s;
                 Vector3 t;
-                VectorTools.GenerateTangentBitangent(v1, v2, v3, uv1, uv2, uv3, out s, out t);
+                VectorUtils.GenerateTangentBitangent(v1, v2, v3, uv1, uv2, uv3, out s, out t);
 
                 // Make sure tangents and bitangents aren't all zero.
                 Assert.IsTrue((Math.Abs(s.X) > 0) || (Math.Abs(s.Y) > 0) || (Math.Abs(s.Z) > 0));
@@ -99,7 +99,7 @@ namespace SFGraphicsTest.VectorToolsTests
 
                 Vector3 s;
                 Vector3 t;
-                VectorTools.GenerateTangentBitangent(v1, v2, v3, uv1, uv2, uv3, out s, out t);
+                VectorUtils.GenerateTangentBitangent(v1, v2, v3, uv1, uv2, uv3, out s, out t);
 
                 // Check for division by 0.
                 Assert.IsFalse(float.IsInfinity(s.X) || float.IsNaN(s.X));

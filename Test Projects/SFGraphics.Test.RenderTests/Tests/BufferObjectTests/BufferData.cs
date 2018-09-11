@@ -6,7 +6,7 @@ using SFGraphics.GLObjects.BufferObjects;
 namespace SFGraphics.Test.RenderTests.BufferObjectTests
 {
     [TestClass]
-    public class BufferDataTests
+    public class BufferData
     {
         private BufferObject buffer;
         private readonly float[] originalData = new float[] { 1.5f, 2.5f, 3.5f };
@@ -22,7 +22,7 @@ namespace SFGraphics.Test.RenderTests.BufferObjectTests
         }
 
         [TestMethod]
-        public void GetFloatBufferData()
+        public void GetFloats()
         {
             float[] readData = buffer.GetData<float>();
             CollectionAssert.AreEqual(originalData, readData);

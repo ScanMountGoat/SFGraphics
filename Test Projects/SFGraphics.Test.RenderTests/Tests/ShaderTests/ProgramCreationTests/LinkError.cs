@@ -8,7 +8,7 @@ namespace SFGraphics.Test.RenderTests.ShaderTests.ProgramCreationTests
     public partial class ShaderTest
     {
         [TestClass]
-        public class ProgramCreationValidInvalidFragShader
+        public class LinkError
         {
             [TestInitialize()]
             public void Initialize()
@@ -18,16 +18,13 @@ namespace SFGraphics.Test.RenderTests.ShaderTests.ProgramCreationTests
             }
 
             [TestMethod]
-            public void ValidInvalidFragShader()
+            public void FunctionNotDefined()
             {
-                // Load the shader file from the embedded resources.
                 Shader shader = new Shader();
-                string shaderSource = TestTools.ResourceShaders.GetShader("SFGraphics.Test.RenderTests.Shaders.validFrag.frag");
-                shader.LoadShader(shaderSource, ShaderType.FragmentShader);
 
-                string shaderSource2 = TestTools.ResourceShaders.GetShader("SFGraphics.Test.RenderTests.Shaders.invalidFrag.frag");
-                shader.LoadShader(shaderSource2, ShaderType.FragmentShader);
-
+                // The shader declared but does not define a function.
+                string fragSource = TestTools.ResourceShaders.GetShader("SFGraphics.Test.RenderTests.Shaders.linkError.frag");
+                shader.LoadShader(fragSource, ShaderType.FragmentShader);
                 Assert.IsFalse(shader.LinkStatusIsOk);
             }
         }

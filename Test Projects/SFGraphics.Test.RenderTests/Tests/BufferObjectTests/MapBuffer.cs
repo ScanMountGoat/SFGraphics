@@ -7,7 +7,7 @@ using OpenTK.Graphics.OpenGL;
 namespace SFGraphics.Test.RenderTests.BufferObjectTests
 {
     [TestClass]
-    public class MapBufferTests
+    public class MapBuffer
     {
         [TestInitialize()]
         public void Initialize()
@@ -17,7 +17,7 @@ namespace SFGraphics.Test.RenderTests.BufferObjectTests
         }
 
         [TestMethod]
-        public void MapBufferRead()
+        public void ReadFromPtr()
         {
             float[] inputData = new float[] { 1.5f, 2.5f, 3.5f };
             BufferObject buffer = new BufferObject(BufferTarget.ArrayBuffer);
@@ -33,7 +33,7 @@ namespace SFGraphics.Test.RenderTests.BufferObjectTests
         }
 
         [TestMethod]
-        public void MapBufferWrite()
+        public void WriteToPtr()
         {
             float[] inputData = new float[] { 1.5f, 2.5f, 3.5f };
             BufferObject buffer = new BufferObject(BufferTarget.ArrayBuffer);

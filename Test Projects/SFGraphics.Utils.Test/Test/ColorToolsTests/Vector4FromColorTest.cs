@@ -14,7 +14,7 @@ namespace SFGraphicsTest.ColorToolsTests
             public void Vector4FromBlack()
             {
                 Color color = Color.FromArgb(128, 0, 0, 0);
-                Vector4 actual = ColorTools.Vector4FromColor(color);
+                Vector4 actual = ColorUtils.Vector4FromColor(color);
 
                 float delta = 0.01f; 
                 Vector4 expected = new Vector4(0, 0, 0, 0.5f);
@@ -28,7 +28,7 @@ namespace SFGraphicsTest.ColorToolsTests
             public void Vector4FromAllChannels()
             {
                 Color color = Color.FromArgb(128, 64, 32, 16);
-                Vector4 actual = ColorTools.Vector4FromColor(color);
+                Vector4 actual = ColorUtils.Vector4FromColor(color);
 
                 float delta = 0.01f;
                 Vector4 expected = new Vector4(0.25f, 0.13f, 0.06f, 0.5f);

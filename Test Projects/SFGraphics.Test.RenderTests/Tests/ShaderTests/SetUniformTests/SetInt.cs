@@ -19,7 +19,7 @@ namespace SFGraphics.Test.RenderTests.ShaderTests.SetterTests
             }
 
             [TestMethod]
-            public void SetIntValidNameValidType()
+            public void ValidNameValidType()
             {
                 shader.SetInt("int1", 0);
                 string expected = ShaderTestUtils.GetInvalidUniformErrorMessage("int1", ActiveUniformType.Int);
@@ -27,7 +27,7 @@ namespace SFGraphics.Test.RenderTests.ShaderTests.SetterTests
             }
 
             [TestMethod]
-            public void SetIntInvalidName()
+            public void InvalidName()
             {
                 shader.SetInt("memes", 0);
                 string expected = ShaderTestUtils.GetInvalidUniformErrorMessage("memes", ActiveUniformType.Int);
@@ -35,7 +35,7 @@ namespace SFGraphics.Test.RenderTests.ShaderTests.SetterTests
             }
 
             [TestMethod]
-            public void SetIntInvalidType()
+            public void InvalidType()
             {
                 shader.SetInt("float1", 0);
                 string expected = ShaderTestUtils.GetInvalidUniformErrorMessage("float1", ActiveUniformType.Int);

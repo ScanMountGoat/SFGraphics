@@ -5,7 +5,7 @@ using OpenTK.Graphics.OpenGL;
 namespace SFGraphics.Test.RenderTests.FramebufferTests
 {
     [TestClass]
-    public class CompletionTests
+    public class Completion
     {
         [TestInitialize()]
         public void Initialize()

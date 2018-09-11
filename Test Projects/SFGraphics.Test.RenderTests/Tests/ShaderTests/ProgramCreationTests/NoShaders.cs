@@ -1,5 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OpenTK.Graphics.OpenGL;
 using SFGraphics.GLObjects.Shaders;
 
 
@@ -8,7 +7,7 @@ namespace SFGraphics.Test.RenderTests.ShaderTests.ProgramCreationTests
     public partial class ShaderTest
     {
         [TestClass]
-        public class ProgramCreationLinkError
+        public class NoShaders
         {
             [TestInitialize()]
             public void Initialize()
@@ -18,13 +17,9 @@ namespace SFGraphics.Test.RenderTests.ShaderTests.ProgramCreationTests
             }
 
             [TestMethod]
-            public void LinkError()
+            public void NoAttachedShaders()
             {
                 Shader shader = new Shader();
-
-                // The shader declared but does not define a function.
-                string fragSource = TestTools.ResourceShaders.GetShader("SFGraphics.Test.RenderTests.Shaders.linkError.frag");
-                shader.LoadShader(fragSource, ShaderType.FragmentShader);
                 Assert.IsFalse(shader.LinkStatusIsOk);
             }
         }

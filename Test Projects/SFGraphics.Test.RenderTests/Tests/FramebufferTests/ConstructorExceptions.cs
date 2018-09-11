@@ -6,7 +6,7 @@ using OpenTK.Graphics.OpenGL;
 namespace SFGraphics.Test.RenderTests.FramebufferTests
 {
     [TestClass]
-    public class ConstructorExceptionTests
+    public class ConstructorExceptions
     {
         [TestInitialize()]
         public void Initialize()

@@ -7,7 +7,7 @@ using SFGraphics.GLObjects.Textures.Utils;
 namespace SFGraphics.Test.RenderTests.TextureTests
 {
     [TestClass]
-    public class MipmapLoadingTests
+    public class MipmapLoading
     {
         private readonly List<byte[]> mipmaps = new List<byte[]>();
         private Texture2D texture;
@@ -28,7 +28,7 @@ namespace SFGraphics.Test.RenderTests.TextureTests
         public void LoadImageData2DBitmap()
         {
             // Doesn't throw exception.
-            MipmapLoading.LoadBaseLevelGenerateMipmaps(TextureTarget.Texture2D, new System.Drawing.Bitmap(128, 64));
+            GLObjects.Textures.Utils.MipmapLoading.LoadBaseLevelGenerateMipmaps(TextureTarget.Texture2D, new System.Drawing.Bitmap(128, 64));
             //MipmapLoading.LoadBaseLevelGenerateMipmaps(TextureTarget.TextureCubeMapPositiveX, new System.Drawing.Bitmap(128, 64));
         }
 
@@ -37,7 +37,7 @@ namespace SFGraphics.Test.RenderTests.TextureTests
         {
             // Doesn't throw exception.
             // Width and height must be equal for cube maps.
-            MipmapLoading.LoadBaseLevelGenerateMipmaps(TextureTarget.TextureCubeMapPositiveX, new System.Drawing.Bitmap(128, 128));
+            GLObjects.Textures.Utils.MipmapLoading.LoadBaseLevelGenerateMipmaps(TextureTarget.TextureCubeMapPositiveX, new System.Drawing.Bitmap(128, 128));
         }
     }
 }

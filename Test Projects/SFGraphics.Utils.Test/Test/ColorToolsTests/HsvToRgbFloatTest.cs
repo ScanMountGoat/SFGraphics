@@ -14,7 +14,7 @@ namespace SFGraphicsTest.ColorToolsTests
                 float r;
                 float g;
                 float b;
-                ColorTools.HsvToRgb(0, 0, 0, out r, out g, out b);
+                ColorUtils.HsvToRgb(0, 0, 0, out r, out g, out b);
 
                 Assert.AreEqual(0, r);
                 Assert.AreEqual(0, g);
@@ -27,7 +27,7 @@ namespace SFGraphicsTest.ColorToolsTests
                 float r;
                 float g;
                 float b;
-                ColorTools.HsvToRgb(0, 0, 1, out r, out g, out b);
+                ColorUtils.HsvToRgb(0, 0, 1, out r, out g, out b);
 
                 Assert.AreEqual(1, r);
                 Assert.AreEqual(1, g);
@@ -40,7 +40,7 @@ namespace SFGraphicsTest.ColorToolsTests
                 float r;
                 float g;
                 float b;
-                ColorTools.HsvToRgb(0, 1, 1, out r, out g, out b);
+                ColorUtils.HsvToRgb(0, 1, 1, out r, out g, out b);
 
                 Assert.AreEqual(1, r);
                 Assert.AreEqual(0, g);

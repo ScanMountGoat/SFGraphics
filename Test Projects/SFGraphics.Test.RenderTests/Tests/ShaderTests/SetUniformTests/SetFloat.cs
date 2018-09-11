@@ -19,7 +19,7 @@ namespace SFGraphics.Test.RenderTests.ShaderTests.SetterTests
             }
 
             [TestMethod]
-            public void SetFloatValidName()
+            public void ValidName()
             {
                 shader.SetFloat("float1", 0);
                 string expected = ShaderTestUtils.GetInvalidUniformErrorMessage("float1", ActiveUniformType.Float);
@@ -27,7 +27,7 @@ namespace SFGraphics.Test.RenderTests.ShaderTests.SetterTests
             }
 
             [TestMethod]
-            public void SetFloatInvalidType()
+            public void InvalidType()
             {
                 shader.SetFloat("int1", 0);
                 string expected = ShaderTestUtils.GetInvalidUniformErrorMessage("int1", ActiveUniformType.Float);
@@ -35,7 +35,7 @@ namespace SFGraphics.Test.RenderTests.ShaderTests.SetterTests
             }
 
             [TestMethod]
-            public void SetFloatValidType()
+            public void ValidType()
             {
                 shader.SetFloat("float1", 0);
                 string expected = ShaderTestUtils.GetInvalidUniformErrorMessage("float1", ActiveUniformType.Float);
@@ -43,7 +43,7 @@ namespace SFGraphics.Test.RenderTests.ShaderTests.SetterTests
             }
 
             [TestMethod]
-            public void SetFloatInvalidName()
+            public void InvalidName()
             {
                 shader.SetFloat("memes", 0);
                 string expected = ShaderTestUtils.GetInvalidUniformErrorMessage("memes", ActiveUniformType.Float);

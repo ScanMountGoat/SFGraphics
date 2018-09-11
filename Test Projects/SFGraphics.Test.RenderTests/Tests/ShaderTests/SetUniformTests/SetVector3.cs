@@ -20,7 +20,7 @@ namespace SFGraphics.Test.RenderTests.ShaderTests.SetterTests
             }
 
             [TestMethod]
-            public void SetVector3ValidName()
+            public void ValidName()
             {
                 shader.SetVector3("vector3a", new Vector3(1));
                 string expected = ShaderTestUtils.GetInvalidUniformErrorMessage("vector3a", ActiveUniformType.FloatVec3);
@@ -28,7 +28,7 @@ namespace SFGraphics.Test.RenderTests.ShaderTests.SetterTests
             }
 
             [TestMethod]
-            public void SetVector3InvalidName()
+            public void InvalidName()
             {
                 shader.SetVector3("memes", new Vector3(1));
                 string expected = ShaderTestUtils.GetInvalidUniformErrorMessage("memes", ActiveUniformType.FloatVec3);
@@ -36,7 +36,7 @@ namespace SFGraphics.Test.RenderTests.ShaderTests.SetterTests
             }
 
             [TestMethod]
-            public void SetVector3InvalidType()
+            public void InvalidType()
             {
                 shader.SetVector3("float1", 1, 1, 1);
                 string expected = ShaderTestUtils.GetInvalidUniformErrorMessage("float1", ActiveUniformType.FloatVec3);
@@ -44,7 +44,7 @@ namespace SFGraphics.Test.RenderTests.ShaderTests.SetterTests
             }
 
             [TestMethod]
-            public void SetVector3ValidType()
+            public void ValidType()
             {
                 shader.SetVector3("vector3a", 1, 1, 1);
                 string expected = ShaderTestUtils.GetInvalidUniformErrorMessage("vector3a", ActiveUniformType.FloatVec3);
@@ -52,7 +52,7 @@ namespace SFGraphics.Test.RenderTests.ShaderTests.SetterTests
             }
 
             [TestMethod]
-            public void SetVector3FloatsValidName()
+            public void FloatsValidName()
             {
                 shader.SetVector3("vector3a", 1, 1, 1);
                 string expected = ShaderTestUtils.GetInvalidUniformErrorMessage("vector3a", ActiveUniformType.FloatVec3);
@@ -60,7 +60,7 @@ namespace SFGraphics.Test.RenderTests.ShaderTests.SetterTests
             }
 
             [TestMethod]
-            public void SetVector3FloatsInvalidName()
+            public void FloatsInvalidName()
             {
                 shader.SetVector3("memes2", 1, 1, 1);
                 string expected = ShaderTestUtils.GetInvalidUniformErrorMessage("memes2", ActiveUniformType.FloatVec3);

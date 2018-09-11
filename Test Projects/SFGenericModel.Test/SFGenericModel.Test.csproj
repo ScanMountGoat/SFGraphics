@@ -53,11 +53,11 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Tests\AttribPointerUtilsTests.cs" />
+    <Compile Include="Tests\AttribPointerUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tests\GroupContainersByPrimitiveTypeTests.cs" />
-    <Compile Include="Tests\RenderSettingsEqualityTests.cs" />
-    <Compile Include="Tests\VertexAttributeInfoSizeTests.cs" />
+    <Compile Include="Tests\RenderSettingsEquality.cs" />
+    <Compile Include="Tests\VertexAttributeInfoSize.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

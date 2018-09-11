@@ -20,7 +20,7 @@ namespace SFGraphics.Test.RenderTests.ShaderTests.SetterTests
             }
 
             [TestMethod]
-            public void SetMatrix4x4ValidName()
+            public void ValidName()
             {
                 Matrix4 matrix4 = Matrix4.Identity;
                 shader.SetMatrix4x4("matrix4a", ref matrix4);
@@ -29,7 +29,7 @@ namespace SFGraphics.Test.RenderTests.ShaderTests.SetterTests
             }
 
             [TestMethod]
-            public void SetMatrix4x4InvalidName()
+            public void InvalidName()
             {
                 Matrix4 matrix4 = Matrix4.Identity;
                 shader.SetMatrix4x4("memes", ref matrix4);
@@ -38,7 +38,7 @@ namespace SFGraphics.Test.RenderTests.ShaderTests.SetterTests
             }
 
             [TestMethod]
-            public void SetMatrix4x4InvalidType()
+            public void InvalidType()
             {
                 Matrix4 matrix4 = Matrix4.Identity;
                 shader.SetMatrix4x4("float1", ref matrix4);
@@ -47,7 +47,7 @@ namespace SFGraphics.Test.RenderTests.ShaderTests.SetterTests
             }
 
             [TestMethod]
-            public void SetMatrix4x4ValidType()
+            public void ValidType()
             {
                 Matrix4 matrix4 = Matrix4.Identity;
                 shader.SetMatrix4x4("matrix4a", ref matrix4);

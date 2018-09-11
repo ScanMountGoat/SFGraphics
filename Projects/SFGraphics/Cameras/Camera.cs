@@ -53,12 +53,12 @@ namespace SFGraphics.Cameras
         public float FovDegrees
         {
             // Only store radians internally.
-            get { return (float)VectorTools.GetDegrees(fovRadians); }
+            get { return (float)VectorUtils.GetDegrees(fovRadians); }
             set
             {
                 if (value > 0 && value < 180)
                 {
-                    fovRadians = (float)VectorTools.GetRadians(value);
+                    fovRadians = (float)VectorUtils.GetRadians(value);
                     UpdateMatrices();
                 }
             }
@@ -85,11 +85,11 @@ namespace SFGraphics.Cameras
         /// </summary>
         public float RotationXDegrees
         {
-            get { return (float)VectorTools.GetDegrees(rotationXRadians); }
+            get { return (float)VectorUtils.GetDegrees(rotationXRadians); }
             set
             {
                 // Only store radians internally.
-                rotationXRadians = (float)VectorTools.GetRadians(value);
+                rotationXRadians = (float)VectorUtils.GetRadians(value);
                 UpdateMatrices();
             }
         }
@@ -115,11 +115,11 @@ namespace SFGraphics.Cameras
         /// </summary>
         public float RotationYDegrees
         {
-            get { return (float)VectorTools.GetDegrees(rotationYRadians); }
+            get { return (float)VectorUtils.GetDegrees(rotationYRadians); }
             set
             {
                 // Only store radians internally.
-                rotationYRadians = (float)VectorTools.GetRadians(value);
+                rotationYRadians = (float)VectorUtils.GetRadians(value);
                 UpdateMatrices();
             }
         }
