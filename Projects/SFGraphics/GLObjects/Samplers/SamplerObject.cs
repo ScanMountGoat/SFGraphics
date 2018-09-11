@@ -8,10 +8,7 @@ namespace SFGraphics.GLObjects.Samplers
     /// </summary>
     public sealed class SamplerObject : GLObject
     {
-        /// <summary>
-        /// Returns the type of OpenGL object. Used for memory management.
-        /// </summary>
-        public override GLObjectType ObjectType { get { return GLObjectType.SamplerObject; } }
+        internal override GLObjectType ObjectType { get { return GLObjectType.SamplerObject; } }
 
         /// <summary>
         /// Updates the SamplerParameter when set.

@@ -14,10 +14,7 @@ namespace SFGraphics.GLObjects.Framebuffers
     /// </summary>
     public sealed partial class Framebuffer : GLObject
     {
-        /// <summary>
-        /// Returns the type of OpenGL object. Used for memory management.
-        /// </summary>
-        public override GLObjectType ObjectType { get { return GLObjectType.FramebufferObject; } }
+        internal override GLObjectType ObjectType { get { return GLObjectType.FramebufferObject; } }
 
         /// <summary>
         /// The target which <see cref="GLObject.Id"/> is bound when calling <see cref="Bind"/>.

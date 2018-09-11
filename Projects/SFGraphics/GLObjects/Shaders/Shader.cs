@@ -14,10 +14,7 @@ namespace SFGraphics.GLObjects.Shaders
     /// </summary>
     public sealed partial class Shader : GLObject
     {
-        /// <summary>
-        /// Returns the type of OpenGL object. Used for memory management.
-        /// </summary>
-        public override GLObjectType ObjectType { get { return GLObjectType.ShaderProgram; } }
+        internal override GLObjectType ObjectType { get { return GLObjectType.ShaderProgram; } }
 
         /// <summary>
         /// If <c>false</c>, rendering with this shader will most likely throw an <see cref="AccessViolationException"/>.

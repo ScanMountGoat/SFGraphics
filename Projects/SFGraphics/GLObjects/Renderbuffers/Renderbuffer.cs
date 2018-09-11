@@ -8,11 +8,8 @@ namespace SFGraphics.GLObjects.RenderBuffers
     /// for <see cref="Framebuffer"/> objects. Renderbuffers support multisampling.
     /// </summary>
     public class Renderbuffer : GLObject
-    {
-        /// <summary>
-        /// Returns the type of OpenGL object. Used for memory management.
-        /// </summary>
-        public override GLObjectType ObjectType { get { return GLObjectType.RenderbufferObject; } }
+    { 
+        internal override GLObjectType ObjectType { get { return GLObjectType.RenderbufferObject; } }
 
         /// <summary>
         /// The width of the renderbuffer in pixels.

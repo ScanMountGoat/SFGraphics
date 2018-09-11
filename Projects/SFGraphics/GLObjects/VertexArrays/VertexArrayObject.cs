@@ -8,10 +8,7 @@ namespace SFGraphics.GLObjects.VertexArrays
     /// </summary>
     public sealed class VertexArrayObject : GLObject
     {
-        /// <summary>
-        /// Returns the type of OpenGL object. Used for memory management.
-        /// </summary>
-        public override GLObjectType ObjectType { get { return GLObjectType.VertexArrayObject; } }
+        internal override GLObjectType ObjectType { get { return GLObjectType.VertexArrayObject; } }
 
         /// <summary>
         /// Creates an empty vertex array object.

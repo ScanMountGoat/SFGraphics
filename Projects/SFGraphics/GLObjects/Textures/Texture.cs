@@ -9,10 +9,7 @@ namespace SFGraphics.GLObjects.Textures
     /// </summary>
     public abstract class Texture : GLObject
     {
-        /// <summary>
-        /// Returns the type of OpenGL object. Used for memory management.
-        /// </summary>
-        public override GLObjectType ObjectType { get { return GLObjectType.Texture; } }
+        internal override GLObjectType ObjectType { get { return GLObjectType.Texture; } }
 
         /// <summary>
         /// The <see cref="OpenTK.Graphics.OpenGL.TextureTarget"/> for this texture.
