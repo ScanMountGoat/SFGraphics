@@ -72,6 +72,7 @@
     <Compile Include="Tests\ShaderTests\ProgramCreationTests\NoShaders.cs" />
     <Compile Include="Tests\ShaderTests\ProgramCreationTests\ValidFragInvalidVert.cs" />
     <Compile Include="Tests\ShaderTests\ProgramValidateStatus.cs" />
+    <Compile Include="Tests\ShaderTests\SetUniformTests\SetBase.cs" />
     <Compile Include="Tests\ShaderTests\SetUniformTests\SetBoolToInt.cs" />
     <Compile Include="Tests\ShaderTests\SetUniformTests\SetFloat.cs" />
     <Compile Include="Tests\ShaderTests\SetUniformTests\SetFloatArray.cs" />

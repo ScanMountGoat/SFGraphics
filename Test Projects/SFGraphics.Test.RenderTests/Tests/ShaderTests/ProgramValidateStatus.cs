@@ -1,5 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OpenTK.Graphics.OpenGL;
 using SFGraphics.GLObjects.Shaders;
 using SFGraphics.GLObjects.Textures;
 
