@@ -1,6 +1,6 @@
 ﻿using OpenTK.Graphics.OpenGL;
 
-namespace SFGraphics.GLObjects
+namespace SFGraphics.GLObjects.VertexArrays
 {
     /// <summary>
     /// Encapsulates an OpenGL vertex array object. 

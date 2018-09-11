@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using OpenTK.Graphics.OpenGL;
+using SFGraphics.GLObjects.Shaders.Utils;
+using SFGraphics.GLObjects.Shaders.ShaderEventArgs;
 
 namespace SFGraphics.GLObjects.Shaders
 {
@@ -38,6 +40,8 @@ namespace SFGraphics.GLObjects.Shaders
         /// <param name="sender">The shader that generated the error</param>
         /// <param name="e"></param>
         public delegate void InvalidUniformMessageCallBack(Shader sender, UniformSetEventArgs e);
+
+        public delegate void ShaderLinkStatusHandler(Shader sender, bool linkStatusIsOk);
 
         /// <summary>
         /// Occurs when the arguments to a uniform set call are not consistent with the shader.

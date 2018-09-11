@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
-using SFGraphics.GLObjects;
+using SFGraphics.GLObjects.BufferObjects;
 
 namespace SFGraphics.Test.RenderTests.BufferObjectTests
 {

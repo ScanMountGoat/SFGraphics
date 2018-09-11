@@ -1,10 +1,8 @@
-﻿using System;
+﻿using OpenTK.Graphics.OpenGL;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using OpenTK.Graphics.OpenGL;
 
-namespace SFGraphics.GLObjects.Shaders
+namespace SFGraphics.GLObjects.Shaders.Utils
 {
     internal static class ShaderTypeConversions
     {

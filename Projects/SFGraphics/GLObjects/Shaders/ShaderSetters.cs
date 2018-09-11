@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
-using OpenTK;
+﻿using OpenTK;
 using OpenTK.Graphics.OpenGL;
+using SFGraphics.GLObjects.Shaders.Utils;
+using SFGraphics.GLObjects.Shaders.ShaderEventArgs;
 
 namespace SFGraphics.GLObjects.Shaders
 {

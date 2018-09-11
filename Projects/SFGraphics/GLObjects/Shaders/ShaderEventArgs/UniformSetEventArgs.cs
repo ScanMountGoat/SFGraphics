@@ -1,7 +1,7 @@
 ﻿using OpenTK.Graphics.OpenGL;
 using System;
 
-namespace SFGraphics.GLObjects.Shaders
+namespace SFGraphics.GLObjects.Shaders.ShaderEventArgs
 {
     /// <summary>
     /// Contains the data used to set a shader uniform variable.

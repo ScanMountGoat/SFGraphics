@@ -1,8 +1,7 @@
-﻿using System;
-using SFGraphics.GLObjects.BufferObjects;
-using OpenTK.Graphics.OpenGL;
+﻿using OpenTK.Graphics.OpenGL;
+using System;
 
-namespace SFGraphics.GLObjects
+namespace SFGraphics.GLObjects.BufferObjects
 {
     /// <summary>
     /// Data can be read from and written to the buffer using any value type.

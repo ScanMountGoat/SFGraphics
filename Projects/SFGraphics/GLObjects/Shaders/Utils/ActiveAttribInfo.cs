@@ -1,6 +1,6 @@
 ﻿using OpenTK.Graphics.OpenGL;
 
-namespace SFGraphics.GLObjects.Shaders
+namespace SFGraphics.GLObjects.Shaders.Utils
 {
     internal struct ActiveAttribInfo
     {

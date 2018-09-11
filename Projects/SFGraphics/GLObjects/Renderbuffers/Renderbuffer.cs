@@ -1,6 +1,7 @@
 ﻿using OpenTK.Graphics.OpenGL;
+using SFGraphics.GLObjects.Framebuffers;
 
-namespace SFGraphics.GLObjects
+namespace SFGraphics.GLObjects.RenderBuffers
 {
     /// <summary>
     /// Encapsulates a renderbuffer object, which are used exclusively as attachments 

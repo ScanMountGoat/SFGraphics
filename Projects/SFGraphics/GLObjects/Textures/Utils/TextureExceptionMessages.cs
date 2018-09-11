@@ -1,6 +1,5 @@
 ﻿
-
-namespace SFGraphics.GLObjects.Textures
+namespace SFGraphics.GLObjects.Textures.Utils
 {
     /// <summary>
     /// Error messages thrown by constructors for classes inheriting from <see cref="Texture"/>.

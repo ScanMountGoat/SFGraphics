@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenTK.Graphics.OpenGL;
 using SFGraphics.GLObjects.Textures;
+using SFGraphics.GLObjects.Textures.Utils;
 
 namespace SFGraphics.Test.RenderTests.TextureTests
 {

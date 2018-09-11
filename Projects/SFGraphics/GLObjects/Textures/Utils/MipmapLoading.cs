@@ -1,10 +1,11 @@
-﻿using System;
-using System.Drawing;
-using System.Collections.Generic;
-using OpenTK.Graphics.OpenGL;
+﻿using OpenTK.Graphics.OpenGL;
+using SFGraphics.GLObjects.BufferObjects;
 using SFGraphics.GLObjects.Textures.TextureFormats;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
 
-namespace SFGraphics.GLObjects.Textures
+namespace SFGraphics.GLObjects.Textures.Utils
 {
     /// <summary>
     /// Provides methods for loading mipmaps for OpenGL textures. 

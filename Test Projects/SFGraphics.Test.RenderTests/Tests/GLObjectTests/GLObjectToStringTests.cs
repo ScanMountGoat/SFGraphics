@@ -1,7 +1,10 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SFGraphics.GLObjects;
+using SFGraphics.GLObjects.BufferObjects;
 using SFGraphics.GLObjects.Shaders;
 using SFGraphics.GLObjects.Textures;
+using SFGraphics.GLObjects.VertexArrays;
+using SFGraphics.GLObjects.RenderBuffers;
+using SFGraphics.GLObjects.Framebuffers;
 
 namespace SFGraphics.Test.RenderTests.GLObjectTests
 {

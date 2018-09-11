@@ -1,11 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using OpenTK.Graphics.OpenGL;
+﻿using OpenTK.Graphics.OpenGL;
+using SFGraphics.GLObjects.RenderBuffers;
 using SFGraphics.GLObjects.Textures;
 using SFGraphics.GLObjects.Textures.TextureFormats;
+using SFGraphics.GLObjects.Textures.Utils;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
-namespace SFGraphics.GLObjects
+namespace SFGraphics.GLObjects.Framebuffers
 {
     /// <summary>
     /// Encapsulates an OpenGL framebuffer, including any attached color or depth attachments.

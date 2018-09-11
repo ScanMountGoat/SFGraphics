@@ -2,7 +2,7 @@
 using OpenTK.Graphics.OpenGL;
 using System.Text;
 
-namespace SFGraphics.GLObjects.Shaders
+namespace SFGraphics.GLObjects.Shaders.Utils
 {
     /// <summary>
     /// Stores hardware info, OpenGL/GLSL version, invalid uniform/attribute names, shader compilation errors, and linker errors.

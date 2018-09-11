@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
-using OpenTK;
+﻿using OpenTK;
 using OpenTK.Graphics.OpenGL;
-using SFGraphics.GLObjects.Shaders;
-using SFGraphics.GLObjects;
-using SFGraphics.Cameras;
 using SFGenericModel.Materials;
 using SFGenericModel.RenderState;
+using SFGraphics.Cameras;
+using SFGraphics.GLObjects.VertexArrays;
+using SFGraphics.GLObjects.BufferObjects;
+using SFGraphics.GLObjects.Shaders;
+using System.Collections.Generic;
 
 namespace SFGenericModel
 {

@@ -1,10 +1,10 @@
-﻿using System;
+﻿using OpenTK.Graphics.OpenGL;
+using System;
 using System.Drawing;
-using System.Runtime.InteropServices;
 using System.Drawing.Imaging;
-using OpenTK.Graphics.OpenGL;
+using System.Runtime.InteropServices;
 
-namespace SFGraphics.GLObjects
+namespace SFGraphics.GLObjects.Framebuffers
 {
     public sealed partial class Framebuffer
     {

@@ -1,8 +1,10 @@
-﻿using System;
+﻿using OpenTK.Graphics.OpenGL;
+using SFGraphics.GLObjects.BufferObjects;
+using SFGraphics.GLObjects.Textures.TextureFormats;
+using SFGraphics.GLObjects.Textures.Utils;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
-using OpenTK.Graphics.OpenGL;
-using SFGraphics.GLObjects.Textures.TextureFormats;
 
 namespace SFGraphics.GLObjects.Textures
 {
