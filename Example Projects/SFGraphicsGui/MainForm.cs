@@ -58,7 +58,7 @@ namespace SFGraphicsGui
             int textureUnit = 0;
             graphicsResources.samplerObject.Bind(textureUnit);
 
-            shader.SetTexture("uvTexture", texture.Id, texture.TextureTarget, textureUnit);
+            shader.SetTexture("uvTexture", texture, textureUnit);
 
             graphicsResources.screenTriangle.Draw(shader, null);
         }
