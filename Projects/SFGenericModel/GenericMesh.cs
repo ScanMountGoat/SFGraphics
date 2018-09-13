@@ -7,6 +7,7 @@ using SFGraphics.GLObjects.VertexArrays;
 using SFGraphics.GLObjects.BufferObjects;
 using SFGraphics.GLObjects.Shaders;
 using System.Collections.Generic;
+using SFGenericModel.Utils;
 
 namespace SFGenericModel
 {
@@ -77,6 +78,16 @@ namespace SFGenericModel
             vertexCount = vertexIndices.Count;
 
             InitializeBufferData(vertices, vertexIndices);
+        }
+
+        /// <summary>
+        /// Creates a new mesh and initializes the vertex buffer data.
+        /// </summary>
+        /// <param name="vertexData">The vertex indices, data, and primitive type</param>
+        public GenericMesh(VertexContainer<T> vertexData) 
+            : this(vertexData.vertices, vertexData.vertexIndices, vertexData.primitiveType)
+        {
+
         }
 
         /// <summary>
