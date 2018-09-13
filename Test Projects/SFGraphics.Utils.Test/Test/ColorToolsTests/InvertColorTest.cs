@@ -2,7 +2,7 @@
 using System.Drawing;
 using SFGraphics.Utils;
 
-namespace SFGraphicsTest.ColorToolsTests
+namespace ColorToolsTests
 {
     public partial class ColorToolsTest
     {

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using SFGraphics.Utils;
 using OpenTK;
 
-namespace SFGraphicsTests.BoundingSphereGeneratorTests
+namespace BoundingSphereGeneratorTests
 {
     [TestClass()]
     public class BoundingSphereGeneratorTests

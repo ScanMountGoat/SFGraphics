@@ -2,7 +2,7 @@
 using OpenTK.Graphics.OpenGL;
 using SFGraphics.GLObjects.Shaders;
 
-namespace SFGraphics.Test.RenderTests.ShaderTests
+namespace ShaderTests
 {
     [TestClass]
     public class GetAttribLocation

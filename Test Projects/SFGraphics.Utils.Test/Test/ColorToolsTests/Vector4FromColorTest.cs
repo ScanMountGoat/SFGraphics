@@ -3,7 +3,7 @@ using System.Drawing;
 using OpenTK;
 using SFGraphics.Utils;
 
-namespace SFGraphicsTest.ColorToolsTests
+namespace ColorToolsTests
 {
     public partial class ColorToolsTest
     {

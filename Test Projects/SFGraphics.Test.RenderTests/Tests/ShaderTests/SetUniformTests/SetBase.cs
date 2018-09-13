@@ -3,7 +3,7 @@ using SFGraphics.GLObjects.Shaders;
 using System.Collections.Generic;
 using SFGraphics.GLObjects.Shaders.ShaderEventArgs;
 
-namespace SFGraphics.Test.RenderTests.ShaderTests.SetterTests
+namespace ShaderTests.SetterTests
 {
     [TestClass]
     public class SetBase

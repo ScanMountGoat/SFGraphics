@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Reflection;
 
-namespace SFGraphics.Test.RenderTests.TestTools
+namespace TestTools
 {
     class ResourceShaders
     {

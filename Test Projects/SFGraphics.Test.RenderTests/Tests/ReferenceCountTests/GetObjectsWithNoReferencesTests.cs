@@ -3,7 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using SFGraphics.GLObjects.GLObjectManagement;
 
-namespace SFGraphicsTest.Tests.ReferenceCountTests
+namespace ReferenceCountTests
 {
     [TestClass]
     public class GetObjectsWithNoReferencesTests

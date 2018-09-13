@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SFGraphics.Tools;
 
-namespace SFGraphics.Test.RenderTests.GLExtensionTests
+namespace GLExtensionTests
 {
     [TestClass()]
     public class ExtensionAvailabilityTests

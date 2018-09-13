@@ -3,7 +3,7 @@ using OpenTK.Graphics.OpenGL;
 using SFGraphics.GLObjects.Shaders;
 using System.Collections.Generic;
 
-namespace SFGraphics.Test.RenderTests.ShaderTests.ProgramCreationTests
+namespace ShaderTests.ProgramCreationTests
 {
     [TestClass]
     public class OnLinkStatusChanged

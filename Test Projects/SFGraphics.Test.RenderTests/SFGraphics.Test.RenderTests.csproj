@@ -59,9 +59,14 @@
     <Compile Include="Tests\BufferObjectTests\BufferData.cs" />
     <Compile Include="Tests\BufferObjectTests\GetSubData.cs" />
     <Compile Include="Tests\BufferObjectTests\MapBuffer.cs" />
+    <Compile Include="Tests\CameraTests\FovDegreesTest.cs" />
+    <Compile Include="Tests\CameraTests\FovRadiansTest.cs" />
     <Compile Include="Tests\FramebufferTests\Completion.cs" />
     <Compile Include="Tests\FramebufferTests\ConstructorExceptions.cs" />
     <Compile Include="Tests\GLObjectTests\GLObjectToString.cs" />
+    <Compile Include="Tests\ReferenceCountTests\DecrementRefTest.cs" />
+    <Compile Include="Tests\ReferenceCountTests\GetObjectsWithNoReferencesTests.cs" />
+    <Compile Include="Tests\ReferenceCountTests\IncrementRefTest.cs" />
     <Compile Include="Tests\ShaderTests\GetAttribLocation.cs" />
     <Compile Include="Tests\ShaderTests\GetUniformLocation.cs" />
     <Compile Include="Tests\ShaderTests\ProgramCreationTests\AttachShader.cs" />
@@ -90,9 +95,9 @@
     <Compile Include="Tests\TextureTests\Texture2D Tests\LoadImageData.cs" />
     <Compile Include="Tests\TextureTests\CompressedImageSize.cs" />
     <Compile Include="Tests\TextureTests\DepthTexture.cs" />
-    <Compile Include="Tests\TextureTests\MipmapLoading.cs" />
+    <Compile Include="Tests\TextureTests\MipmapLoadingExceptions.cs" />
     <Compile Include="Tests\TextureTests\Texture2D Tests\LoadImageDataBuffer.cs" />
-    <Compile Include="Tests\TextureTests\TextureCubeMap.cs" />
+    <Compile Include="Tests\TextureTests\TextureCubeMapLoadImageData.cs" />
     <Compile Include="TestTools\OpenTKWindowlessContext.cs" />
     <Compile Include="TestTools\ResourceShaders.cs" />
     <Compile Include="Tests\GLExtensionTests\ExtensionAvailabilityTests.cs" />

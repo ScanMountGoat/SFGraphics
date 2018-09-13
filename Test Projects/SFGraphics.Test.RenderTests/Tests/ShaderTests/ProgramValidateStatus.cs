@@ -2,7 +2,7 @@
 using SFGraphics.GLObjects.Shaders;
 using SFGraphics.GLObjects.Textures;
 
-namespace SFGraphics.Test.RenderTests.ShaderTests
+namespace ShaderTests
 {
     [TestClass]
     public class ProgramValidateStatus

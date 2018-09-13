@@ -2,7 +2,7 @@
 using OpenTK.Graphics.OpenGL;
 using OpenTK;
 
-namespace SFGraphics.Test.RenderTests.ShaderTests.SetterTests
+namespace ShaderTests.SetterTests
 {
     [TestClass]
     public class SetMatrix4x4 : SetBase

@@ -1,7 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenTK.Graphics.OpenGL;
+using SFGenericModel;
 
-namespace SFGenericModel.Test
+namespace VertexAttributeInfoTests
 {
     [TestClass]
     public class VertexAttributeInfoSize

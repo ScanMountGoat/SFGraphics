@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenTK.Graphics.OpenGL;
 
-namespace SFGraphics.Test.RenderTests.TextureTests
+namespace TextureTests
 {
     [TestClass]
-    public class TextureCubeMap
+    public class TextureCubeMapLoadImageData
     {
         private static readonly List<byte[]> mipmaps = new List<byte[]>();
 
@@ -27,7 +27,7 @@ namespace SFGraphics.Test.RenderTests.TextureTests
             List<byte[]> mipmapsBig = new List<byte[]>();
             mipmapsBig.Add(new byte[16]);
 
-            GLObjects.Textures.TextureCubeMap textureCubeMap = new GLObjects.Textures.TextureCubeMap();
+            var textureCubeMap = new SFGraphics.GLObjects.Textures.TextureCubeMap();
             textureCubeMap.LoadImageData(128, InternalFormat.CompressedRgbaS3tcDxt1Ext,
                 mipmaps, mipmaps, mipmaps, mipmapsBig, mipmaps, mipmaps);
         }
@@ -36,7 +36,7 @@ namespace SFGraphics.Test.RenderTests.TextureTests
         [ExpectedException(typeof(ArgumentException))]
         public void NotCompressedInternalFormat()
         {
-            GLObjects.Textures.TextureCubeMap textureCubeMap = new GLObjects.Textures.TextureCubeMap();
+            var textureCubeMap = new SFGraphics.GLObjects.Textures.TextureCubeMap();
             textureCubeMap.LoadImageData(128, InternalFormat.Rgba,
                 mipmaps, mipmaps, mipmaps, mipmaps, mipmaps, mipmaps);
         }
@@ -45,7 +45,7 @@ namespace SFGraphics.Test.RenderTests.TextureTests
         public void CorrectFormatSameMipmapCount()
         {
             // Will fail if exception is thrown.
-            GLObjects.Textures.TextureCubeMap textureCubeMap = new GLObjects.Textures.TextureCubeMap();
+            var textureCubeMap = new SFGraphics.GLObjects.Textures.TextureCubeMap();
             textureCubeMap.LoadImageData(128, InternalFormat.CompressedRgbaS3tcDxt1Ext,
                 mipmaps, mipmaps, mipmaps, mipmaps, mipmaps, mipmaps);
         }

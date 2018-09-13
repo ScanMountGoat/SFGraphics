@@ -2,7 +2,7 @@
 using SFGraphics.GLObjects.Framebuffers;
 using OpenTK.Graphics.OpenGL;
 
-namespace SFGraphics.Test.RenderTests.FramebufferTests
+namespace FramebufferTests
 {
     [TestClass]
     public class Completion

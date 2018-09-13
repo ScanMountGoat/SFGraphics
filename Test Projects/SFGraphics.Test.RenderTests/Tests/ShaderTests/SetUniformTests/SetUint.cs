@@ -4,7 +4,7 @@ using OpenTK.Graphics.OpenGL;
 using SFGraphics.GLObjects.Shaders.ShaderEventArgs;
 using System.Collections.Generic;
 
-namespace SFGraphics.Test.RenderTests.ShaderTests.SetterTests
+namespace ShaderTests.SetterTests
 {
     [TestClass]
     public class SetUint

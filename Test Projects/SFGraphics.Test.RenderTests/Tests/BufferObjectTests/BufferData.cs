@@ -3,7 +3,7 @@ using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using SFGraphics.GLObjects.BufferObjects;
 
-namespace SFGraphics.Test.RenderTests.BufferObjectTests
+namespace BufferObjectTests
 {
     [TestClass]
     public class BufferData

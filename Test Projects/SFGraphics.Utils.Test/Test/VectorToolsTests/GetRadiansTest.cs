@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SFGraphics.Utils;
 
-namespace SFGraphicsTest.VectorToolsTests
+namespace VectorToolsTests
 {
     public partial class VectorToolsTest
     {

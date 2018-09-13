@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SFGraphics.GLObjects.Textures.TextureFormats;
 using OpenTK.Graphics.OpenGL;
 
-namespace SFGraphics.Test.RenderTests.TextureTests
+namespace TextureTests
 {
     [TestClass]
     public class CompressedImageSize

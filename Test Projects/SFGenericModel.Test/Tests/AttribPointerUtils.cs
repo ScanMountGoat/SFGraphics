@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenTK.Graphics.OpenGL;
 
-namespace SFGenericModel.Test
+namespace AttribPointerUtilsTest
 {
     [TestClass]
     public class AttribPointerUtils

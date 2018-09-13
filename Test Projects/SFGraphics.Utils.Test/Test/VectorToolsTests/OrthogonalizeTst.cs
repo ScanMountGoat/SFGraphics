@@ -2,7 +2,7 @@
 using OpenTK;
 using SFGraphics.Utils;
 
-namespace SFGraphicsTest.VectorToolsTests
+namespace VectorToolsTests
 {
     public partial class VectorToolsTest
     {

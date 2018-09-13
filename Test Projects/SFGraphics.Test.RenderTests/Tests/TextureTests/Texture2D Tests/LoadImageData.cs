@@ -5,7 +5,7 @@ using OpenTK.Graphics.OpenGL;
 using SFGraphics.GLObjects.Textures;
 using SFGraphics.GLObjects.Textures.TextureFormats;
 
-namespace SFGraphics.Test.RenderTests.TextureTests
+namespace TextureTests
 {
     [TestClass]
     public class LoadImageData

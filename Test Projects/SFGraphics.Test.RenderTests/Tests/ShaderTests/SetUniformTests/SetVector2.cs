@@ -2,7 +2,7 @@
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
-namespace SFGraphics.Test.RenderTests.ShaderTests.SetterTests
+namespace ShaderTests.SetterTests
 {
     [TestClass]
     public class SetVector2 : SetBase

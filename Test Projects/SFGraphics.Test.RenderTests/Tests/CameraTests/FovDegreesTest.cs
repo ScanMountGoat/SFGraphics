@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SFGraphics.Cameras;
 
-namespace SFGraphicsTest.CameraTests
+namespace CameraTests
 {
     [TestClass]
     public class FovDegreesTest

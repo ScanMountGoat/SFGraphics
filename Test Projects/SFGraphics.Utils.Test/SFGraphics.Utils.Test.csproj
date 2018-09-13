@@ -57,8 +57,6 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Test\CameraTests\FovDegreesTest.cs" />
-    <Compile Include="Test\CameraTests\FovRadiansTest.cs" />
     <Compile Include="Test\ColorToolsTests\ClampFloatTest.cs" />
     <Compile Include="Test\ColorToolsTests\ClampIntTest.cs" />
     <Compile Include="Test\ColorToolsTests\FloatToIntClampTest.cs" />
@@ -68,9 +66,6 @@
     <Compile Include="Test\ColorToolsTests\RgbToHsvFloatTest.cs" />
     <Compile Include="Test\ColorToolsTests\RgbToHsvVec3Test.cs" />
     <Compile Include="Test\ColorToolsTests\Vector4FromColorTest.cs" />
-    <Compile Include="Test\ReferenceCountTests\DecrementRefTest.cs" />
-    <Compile Include="Test\ReferenceCountTests\GetObjectsWithNoReferencesTests.cs" />
-    <Compile Include="Test\ReferenceCountTests\IncrementRefTest.cs" />
     <Compile Include="Test\VectorToolsTests\GenerateNormalsTest.cs" />
     <Compile Include="Test\VectorToolsTests\GenerateTangentBitangentTest.cs" />
     <Compile Include="Test\VectorToolsTests\GetDegreesTest.cs" />

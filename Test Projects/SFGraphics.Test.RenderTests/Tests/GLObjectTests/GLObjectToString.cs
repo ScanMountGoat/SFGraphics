@@ -6,7 +6,7 @@ using SFGraphics.GLObjects.VertexArrays;
 using SFGraphics.GLObjects.RenderBuffers;
 using SFGraphics.GLObjects.Framebuffers;
 
-namespace SFGraphics.Test.RenderTests.GLObjectTests
+namespace GLObjectTests
 {
     [TestClass()]
     public class GLObjectToString

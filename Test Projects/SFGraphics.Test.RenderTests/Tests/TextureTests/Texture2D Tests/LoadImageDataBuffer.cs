@@ -5,7 +5,7 @@ using SFGraphics.GLObjects.BufferObjects;
 using SFGraphics.GLObjects.Textures;
 using SFGraphics.GLObjects.Textures.TextureFormats;
 
-namespace SFGraphics.Test.RenderTests.TextureTests
+namespace TextureTests
 {
     [TestClass]
     public class LoadImageDataBuffer

@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SFGraphics.GLObjects.BufferObjects;
 using OpenTK.Graphics.OpenGL;
 
-namespace SFGraphics.Test.RenderTests.BufferObjectTests
+namespace BufferObjectTests
 {
     [TestClass]
     public class MapBuffer
