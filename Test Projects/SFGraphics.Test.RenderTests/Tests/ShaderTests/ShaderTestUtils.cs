@@ -25,7 +25,7 @@ namespace ShaderTests
 
         public static string GetInvalidUniformErrorMessage(string name, ActiveUniformType type)
         {
-            return $"[Warning] Attempted to set undeclared uniform variable { name } of type { type }";
+            return $"[Warning] Attempted to set undeclared uniform variable {name} of type {type}";
         }
     }
 }
