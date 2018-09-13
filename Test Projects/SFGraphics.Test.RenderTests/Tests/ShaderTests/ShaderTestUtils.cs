@@ -12,10 +12,10 @@ namespace ShaderTests
 
             Shader shader = new Shader();
 
-            string fragSource = TestTools.ResourceShaders.GetShader("SFGraphics.Test.RenderTests.Shaders.validFrag.frag");
+            string fragSource = TestTools.ResourceShaders.GetShader("validFrag.frag");
             shader.LoadShader(fragSource, ShaderType.FragmentShader);
 
-            string vertSource = TestTools.ResourceShaders.GetShader("SFGraphics.Test.RenderTests.Shaders.validVert.vert");
+            string vertSource = TestTools.ResourceShaders.GetShader("validVert.vert");
             shader.LoadShader(vertSource, ShaderType.VertexShader);
 
             shader.UseProgram();

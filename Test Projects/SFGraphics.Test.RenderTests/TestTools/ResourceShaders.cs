@@ -7,14 +7,23 @@ namespace TestTools
     {
         public static string GetShader(string resourceName)
         {
+            string fullName = $"SFGraphics.Test.RenderTests.Shaders.{resourceName}";
+            return GetResourceText(fullName);
+        }
+
+        private static string GetResourceText(string resourceName)
+        {
             Assembly assembly = Assembly.GetExecutingAssembly();
+
             string result;
-            string[] resources = assembly.GetManifestResourceNames();
             using (Stream stream = assembly.GetManifestResourceStream(resourceName))
-            using (StreamReader reader = new StreamReader(stream))
             {
-                result = reader.ReadToEnd();
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    result = reader.ReadToEnd();
+                }
             }
+
             return result;
         }
     }
