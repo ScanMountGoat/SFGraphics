@@ -5,7 +5,7 @@ using OpenTK.Graphics.OpenGL;
 namespace ShaderTests.SetterTests
 {
     [TestClass]
-    public class SetVector3 : SetBase
+    public class SetVector3 : ShaderTest
     {
         [TestMethod]
         public void ValidName()

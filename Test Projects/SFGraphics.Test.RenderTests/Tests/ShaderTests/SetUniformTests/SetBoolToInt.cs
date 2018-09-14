@@ -4,7 +4,7 @@ using OpenTK.Graphics.OpenGL;
 namespace ShaderTests.SetterTests
 {
     [TestClass]
-    public class SetBoolToInt : SetBase
+    public class SetBoolToInt : ShaderTest
     {
         [TestMethod]
         public void ValidName()

@@ -6,18 +6,16 @@ using OpenTK.Graphics.OpenGL;
 namespace BufferObjectTests
 {
     [TestClass]
-    public class GetSubData
+    public class GetSubData : Tests.ContextTest
     {
         private float[] originalBufferData = new float[] { 1.5f, 2.5f, 3.5f };
 
         private BufferObject bufferObject;
 
         [TestInitialize()]
-        public void Initialize()
+        public override void Initialize()
         {
-            // Set up the context for all the tests.
-            RenderTestUtils.OpenTKWindowlessContext.BindDummyContext();
-
+            base.Initialize();
             bufferObject = new BufferObject(BufferTarget.ArrayBuffer);
             bufferObject.SetData(originalBufferData, BufferUsageHint.StaticDraw);
         }

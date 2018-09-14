@@ -1,21 +1,11 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenTK.Graphics.OpenGL;
-using SFGraphics.GLObjects.Shaders;
 
 namespace ShaderTests
 {
     [TestClass]
-    public class GetAttribLocation
+    public class GetAttribLocation : ShaderTest
     {
-        public static Shader shader;
-
-        [TestInitialize()]
-        public void Initialize()
-        {
-            if (shader == null)
-                shader = RenderTestUtils.ShaderTestUtils.SetUpContextCreateValidShader();
-        }
-
         [TestMethod]
         public void ValidName()
         {

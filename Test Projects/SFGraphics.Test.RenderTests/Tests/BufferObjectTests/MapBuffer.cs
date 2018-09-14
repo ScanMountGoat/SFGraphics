@@ -7,15 +7,8 @@ using OpenTK.Graphics.OpenGL;
 namespace BufferObjectTests
 {
     [TestClass]
-    public class MapBuffer
+    public class MapBuffer : Tests.ContextTest
     {
-        [TestInitialize()]
-        public void Initialize()
-        {
-            // Set up the context for all the tests.
-            RenderTestUtils.OpenTKWindowlessContext.BindDummyContext();
-        }
-
         [TestMethod]
         public void ReadFromPtr()
         {

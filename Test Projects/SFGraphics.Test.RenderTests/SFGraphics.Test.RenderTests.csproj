@@ -61,6 +61,7 @@
     <Compile Include="Tests\BufferObjectTests\MapBuffer.cs" />
     <Compile Include="Tests\CameraTests\FovDegreesTest.cs" />
     <Compile Include="Tests\CameraTests\FovRadiansTest.cs" />
+    <Compile Include="Tests\ContextTest.cs" />
     <Compile Include="Tests\FramebufferTests\Completion.cs" />
     <Compile Include="Tests\FramebufferTests\ConstructorExceptions.cs" />
     <Compile Include="Tests\GLObjectTests\GLObjectToString.cs" />
@@ -78,7 +79,7 @@
     <Compile Include="Tests\ShaderTests\ProgramCreationTests\NoShaders.cs" />
     <Compile Include="Tests\ShaderTests\ProgramCreationTests\ValidFragInvalidVert.cs" />
     <Compile Include="Tests\ShaderTests\ProgramValidateStatus.cs" />
-    <Compile Include="Tests\ShaderTests\SetUniformTests\SetBase.cs" />
+    <Compile Include="Tests\ShaderTests\ShaderTest.cs" />
     <Compile Include="Tests\ShaderTests\SetUniformTests\SetBoolToInt.cs" />
     <Compile Include="Tests\ShaderTests\SetUniformTests\SetFloat.cs" />
     <Compile Include="Tests\ShaderTests\SetUniformTests\SetFloatArray.cs" />
@@ -91,6 +92,7 @@
     <Compile Include="Tests\ShaderTests\SetUniformTests\SetVector2.cs" />
     <Compile Include="Tests\ShaderTests\SetUniformTests\SetVector3.cs" />
     <Compile Include="Tests\ShaderTests\SetUniformTests\SetVector4.cs" />
+    <Compile Include="Tests\ShaderTests\ShaderTestValidShader.cs" />
     <Compile Include="Tests\TextureTests\Texture2D Tests\LoadImageData.cs" />
     <Compile Include="Tests\TextureTests\CompressedImageSize.cs" />
     <Compile Include="Tests\TextureTests\DepthTexture.cs" />

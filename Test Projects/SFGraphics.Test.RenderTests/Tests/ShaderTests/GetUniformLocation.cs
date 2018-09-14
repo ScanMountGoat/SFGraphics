@@ -5,20 +5,8 @@ using SFGraphics.GLObjects.Shaders;
 namespace ShaderTests
 {
     [TestClass]
-    public class GetUniformLocation
+    public class GetUniformLocation : ShaderTest
     {
-        public static Shader shader;
-
-        [TestInitialize()]
-        public void Initialize()
-        {
-            if (shader == null)
-            { 
-                if (shader == null)
-                    shader = RenderTestUtils.ShaderTestUtils.SetUpContextCreateValidShader();
-            }
-        }
-
         [TestMethod]
         public void ValidName()
         {

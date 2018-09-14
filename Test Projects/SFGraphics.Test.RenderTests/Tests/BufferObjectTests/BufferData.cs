@@ -6,17 +6,15 @@ using SFGraphics.GLObjects.BufferObjects;
 namespace BufferObjectTests
 {
     [TestClass]
-    public class BufferData
+    public class BufferData : Tests.ContextTest
     {
         private BufferObject buffer;
         private readonly float[] originalData = new float[] { 1.5f, 2.5f, 3.5f };
 
         [TestInitialize()]
-        public void Initialize()
+        public override void Initialize()
         {
-            // Set up the context for all the tests.
-            RenderTestUtils.OpenTKWindowlessContext.BindDummyContext();
-
+            base.Initialize();
             buffer = new BufferObject(BufferTarget.ArrayBuffer);
             buffer.SetData(originalData, BufferUsageHint.StaticDraw);
         }

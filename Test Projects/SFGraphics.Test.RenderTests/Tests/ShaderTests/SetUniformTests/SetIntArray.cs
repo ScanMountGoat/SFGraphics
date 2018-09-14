@@ -4,7 +4,7 @@ using OpenTK.Graphics.OpenGL;
 namespace ShaderTests.SetterTests
 {
     [TestClass]
-    public class SetIntArray : SetBase
+    public class SetIntArray : ShaderTest
     {
         private int[] values = new int[] { -1, 0, 1 };
 

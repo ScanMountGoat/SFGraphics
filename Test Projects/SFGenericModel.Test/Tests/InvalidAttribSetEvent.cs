@@ -31,9 +31,11 @@ namespace GenericMeshTests
         [TestInitialize]
         public void Initialize()
         {
+            RenderTestUtils.OpenTKWindowlessContext.BindDummyContext();
+
             if (shader == null)
             {
-                shader = RenderTestUtils.ShaderTestUtils.SetUpContextCreateValidShader();
+                shader = RenderTestUtils.ShaderTestUtils.CreateValidShader();
             }
             mesh = new TestMesh();
             mesh.OnInvalidAttribSet += Mesh_OnInvalidAttribSet;

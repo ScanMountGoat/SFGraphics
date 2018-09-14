@@ -5,7 +5,7 @@ using OpenTK;
 namespace ShaderTests.SetterTests
 {
     [TestClass]
-    public class SetMatrix4x4 : SetBase
+    public class SetMatrix4x4 : ShaderTest
     {
         [TestMethod]
         public void ValidNameValidType()

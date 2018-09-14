@@ -17,7 +17,7 @@ namespace ShaderTests.SetterTests
         {
             if (shader == null)
             {
-                shader = RenderTestUtils.ShaderTestUtils.SetUpContextCreateValidShader();
+                shader = RenderTestUtils.ShaderTestUtils.CreateValidShader();
                 shader.OnInvalidUniformSet += Shader_OnInvalidUniformSet;
             }
 

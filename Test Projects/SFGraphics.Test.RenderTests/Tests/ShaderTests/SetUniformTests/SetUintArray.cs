@@ -4,7 +4,7 @@ using OpenTK.Graphics.OpenGL;
 namespace ShaderTests.SetterTests
 {
     [TestClass]
-    public class SetUintArray : SetBase
+    public class SetUintArray : ShaderTest
     {
         uint[] values = new uint[] { 1, 2, 3 };
 

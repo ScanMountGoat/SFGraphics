@@ -5,7 +5,7 @@ using SFGraphics.GLObjects.Textures;
 namespace ShaderTests.SetterTests
 {
     [TestClass]
-    public class SetTexture : SetBase
+    public class SetTexture : ShaderTest
     {
         [TestMethod]
         public void ValidNamealidTarget()

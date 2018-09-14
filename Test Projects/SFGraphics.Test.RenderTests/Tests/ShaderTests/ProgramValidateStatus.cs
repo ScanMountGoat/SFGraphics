@@ -5,17 +5,8 @@ using SFGraphics.GLObjects.Textures;
 namespace ShaderTests
 {
     [TestClass]
-    public class ProgramValidateStatus
+    public class ProgramValidateStatus : ShaderTest
     {
-        public static Shader shader;
-
-        [TestInitialize()]
-        public void Initialize()
-        {
-            // We can't share shaders between tests.
-            shader = RenderTestUtils.ShaderTestUtils.SetUpContextCreateValidShader();
-        }
-
         [TestMethod]
         public void ValidStatus()
         {

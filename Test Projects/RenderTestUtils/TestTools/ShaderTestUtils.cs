@@ -5,11 +5,8 @@ namespace RenderTestUtils
 {
     public static class ShaderTestUtils
     {
-        public static Shader SetUpContextCreateValidShader()
+        public static Shader CreateValidShader()
         {
-            // Set up the context for all the tests.
-            OpenTKWindowlessContext.BindDummyContext();
-
             Shader shader = new Shader();
 
             string fragSource = ResourceShaders.GetShaderSource("validFrag.frag");
