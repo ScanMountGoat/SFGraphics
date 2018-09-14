@@ -8,19 +8,9 @@ using SFGraphics.GLObjects.Textures.TextureFormats;
 namespace TextureTests
 {
     [TestClass]
-    public class LoadImageDataBuffer
+    public class LoadImageDataBuffer : Tests.ContextTest
     {
         private static readonly List<BufferObject> mipmaps = new List<BufferObject>();
-
-        [TestInitialize()]
-        public void Initialize()
-        {
-            // Set up the context for all the tests.
-            RenderTestUtils.OpenTKWindowlessContext.BindDummyContext();
-
-            // Binding a pixel unpack buffer affects texture loading methods.
-            GL.BindBuffer(BufferTarget.PixelUnpackBuffer, 0);
-        }
 
         [TestMethod]
         public void UncompressedBaseLevel()

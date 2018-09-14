@@ -6,19 +6,9 @@ using OpenTK.Graphics.OpenGL;
 namespace TextureTests
 {
     [TestClass]
-    public class TextureCubeMapLoadImageData
+    public class TextureCubeMapLoadImageData : Tests.ContextTest
     {
         private static readonly List<byte[]> mipmaps = new List<byte[]>();
-
-        [TestInitialize]
-        public void TestSetup()
-        {
-            // Set up the context for all the tests.
-            RenderTestUtils.OpenTKWindowlessContext.BindDummyContext();
-
-            // Binding a pixel unpack buffer affects texture loading methods.
-            GL.BindBuffer(BufferTarget.PixelUnpackBuffer, 0);
-        }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]

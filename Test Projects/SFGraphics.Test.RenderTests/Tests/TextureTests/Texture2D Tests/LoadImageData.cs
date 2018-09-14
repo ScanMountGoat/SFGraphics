@@ -8,19 +8,15 @@ using SFGraphics.GLObjects.Textures.TextureFormats;
 namespace TextureTests
 {
     [TestClass]
-    public class LoadImageData
+    public class LoadImageData : Tests.ContextTest
     {
         private readonly List<byte[]> mipmaps = new List<byte[]>();
         private Texture2D texture;
 
         [TestInitialize()]
-        public void Initialize()
+        public override void Initialize()
         {
-            // Set up the context for all the tests.
-            RenderTestUtils.OpenTKWindowlessContext.BindDummyContext();
-
-            // Binding a pixel unpack buffer affects texture loading methods.
-            GL.BindBuffer(BufferTarget.PixelUnpackBuffer, 0);
+            base.Initialize();
 
             if (texture == null)
                 texture = new Texture2D();

@@ -1,24 +1,11 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenTK;
-using OpenTK.Graphics.OpenGL;
-using SFGraphics.GLObjects.BufferObjects;
 
 namespace BufferObjectTests
 {
     [TestClass]
-    public class BufferData : Tests.ContextTest
+    public class BufferData : BufferTest
     {
-        private BufferObject buffer;
-        private readonly float[] originalData = new float[] { 1.5f, 2.5f, 3.5f };
-
-        [TestInitialize()]
-        public override void Initialize()
-        {
-            base.Initialize();
-            buffer = new BufferObject(BufferTarget.ArrayBuffer);
-            buffer.SetData(originalData, BufferUsageHint.StaticDraw);
-        }
-
         [TestMethod]
         public void GetFloats()
         {
