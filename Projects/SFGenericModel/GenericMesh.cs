@@ -8,6 +8,7 @@ using SFGraphics.GLObjects.BufferObjects;
 using SFGraphics.GLObjects.Shaders;
 using System.Collections.Generic;
 using SFGenericModel.Utils;
+using SFGenericModel.MeshEventArgs;
 
 namespace SFGenericModel
 {
@@ -43,6 +44,15 @@ namespace SFGenericModel
         /// Determines how primitives will be constructed from the vertex data.
         /// </summary>
         public PrimitiveType PrimitiveType { get; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public delegate void InvalidAttribSetEventHandler(GenericMesh<T> sender, AttribSetEventArgs e);
+
+        public event InvalidAttribSetEventHandler OnInvalidAttribSet;
 
         /// <summary>
         /// Creates a new mesh and initializes the vertex buffer data.
@@ -243,13 +253,19 @@ namespace SFGenericModel
             int offset = 0;
             foreach (VertexAttributeInfo attribute in vertexAttributes)
             {
-                // -1 means not found, which is usually a result of the attribute being unused.
-                int index = shader.GetAttribLocation(attribute.name);
-                if (index != -1)
-                    GL.VertexAttribPointer(index, (int)attribute.valueCount, attribute.vertexAttribPointerType, false, vertexSizeInBytes, offset);
-                // Move offset to next attribute.
+                SetVertexAttribute(shader, offset, attribute);
                 offset += attribute.sizeInBytes;
             }
+        }
+
+        private void SetVertexAttribute(Shader shader, int offset, VertexAttributeInfo attribute)
+        {
+            // Ignore invalid attributes to prevent OpenGL from generating errors.
+            int index = shader.GetAttribLocation(attribute.name);
+            if (index != -1)
+                GL.VertexAttribPointer(index, (int)attribute.valueCount, attribute.type, false, vertexSizeInBytes, offset);
+            else
+                OnInvalidAttribSet?.Invoke(this, new AttribSetEventArgs(attribute.name, attribute.type, attribute.valueCount));
         }
     }
 }

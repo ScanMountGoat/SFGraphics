@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AttribPointerUtils.cs" />
+    <Compile Include="MeshEventArgs\AttribSetEventArgs.cs" />
     <Compile Include="RenderSettings\AlphaBlendSettings.cs" />
     <Compile Include="RenderSettings\AlphaTestSettings.cs" />
     <Compile Include="RenderSettings\DepthTestSettings.cs" />

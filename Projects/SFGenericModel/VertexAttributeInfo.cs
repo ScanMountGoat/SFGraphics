@@ -47,7 +47,7 @@ namespace SFGenericModel
         /// <summary>
         /// The data type of the attribute value.
         /// </summary>
-        public readonly VertexAttribPointerType vertexAttribPointerType;
+        public readonly VertexAttribPointerType type;
 
         /// <summary>
         /// The total size of the attribute's data in bytes.
@@ -66,7 +66,7 @@ namespace SFGenericModel
         {
             this.name = name;
             this.valueCount = valueCount;
-            this.vertexAttribPointerType = vertexAttribPointerType;
+            this.type = vertexAttribPointerType;
 
             if (!AttribPointerUtils.sizeInBytesByType.ContainsKey(vertexAttribPointerType))
                 throw new System.NotSupportedException($"{ vertexAttribPointerType.ToString() } is not a supported type.");
