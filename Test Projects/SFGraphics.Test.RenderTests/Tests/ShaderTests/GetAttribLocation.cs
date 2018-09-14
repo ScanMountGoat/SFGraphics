@@ -13,7 +13,7 @@ namespace ShaderTests
         public void Initialize()
         {
             if (shader == null)
-                shader = ShaderTestUtils.SetUpContextCreateValidShader();
+                shader = RenderTestUtils.ShaderTestUtils.SetUpContextCreateValidShader();
         }
 
         [TestMethod]

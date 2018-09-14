@@ -1,21 +1,21 @@
 ﻿using OpenTK.Graphics.OpenGL;
 using SFGraphics.GLObjects.Shaders;
 
-namespace ShaderTests
+namespace RenderTestUtils
 {
     public static class ShaderTestUtils
     {
         public static Shader SetUpContextCreateValidShader()
         {
             // Set up the context for all the tests.
-            TestTools.OpenTKWindowlessContext.BindDummyContext();
+            OpenTKWindowlessContext.BindDummyContext();
 
             Shader shader = new Shader();
 
-            string fragSource = TestTools.ResourceShaders.GetShader("validFrag.frag");
+            string fragSource = ResourceShaders.GetShaderSource("validFrag.frag");
             shader.LoadShader(fragSource, ShaderType.FragmentShader);
 
-            string vertSource = TestTools.ResourceShaders.GetShader("validVert.vert");
+            string vertSource = ResourceShaders.GetShaderSource("validVert.vert");
             shader.LoadShader(vertSource, ShaderType.VertexShader);
 
             shader.UseProgram();

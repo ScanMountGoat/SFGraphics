@@ -11,7 +11,7 @@ namespace ShaderTests.ProgramCreationTests
         public void Initialize()
         {
             // Set up the context for all the tests.
-            TestTools.OpenTKWindowlessContext.BindDummyContext();
+            RenderTestUtils.OpenTKWindowlessContext.BindDummyContext();
         }
 
         [TestMethod]
@@ -20,13 +20,13 @@ namespace ShaderTests.ProgramCreationTests
             Shader shader = new Shader();
 
             // Load the shader files from the embedded resources.
-            string fragSource = TestTools.ResourceShaders.GetShader("validFrag.frag");
+            string fragSource = RenderTestUtils.ResourceShaders.GetShaderSource("validFrag.frag");
             shader.LoadShader(fragSource, ShaderType.FragmentShader);
             // Force an update of compilation/link status.
             Assert.IsTrue(shader.LinkStatusIsOk);
 
             // Make sure the compilation/link status still updates.
-            string vertSource = TestTools.ResourceShaders.GetShader("invalidVert.vert");
+            string vertSource = RenderTestUtils.ResourceShaders.GetShaderSource("invalidVert.vert");
             shader.LoadShader(vertSource, ShaderType.VertexShader);
             Assert.IsFalse(shader.LinkStatusIsOk);
         }

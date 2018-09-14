@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFGraphics", "Projects\SFGr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFGraphicsGui", "Example Projects\SFGraphicsGui\SFGraphicsGui.csproj", "{42D19A97-D464-4DEB-BE6E-BAF0749FCE34}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lib", "lib", "{383D41C9-B04A-4621-AD2F-627CA337287E}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFGraphics.Utils.Test", "Test Projects\SFGraphics.Utils.Test\SFGraphics.Utils.Test.csproj", "{66831642-DBFF-4FB8-91D0-CBF634F98CB3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFGraphics.Test.RenderTests", "Test Projects\SFGraphics.Test.RenderTests\SFGraphics.Test.RenderTests.csproj", "{91A71848-B6E5-450C-A629-3F41651296DE}"
@@ -24,6 +22,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFGraphics.Utils", "Projects\SFGraphics.Utils\SFGraphics.Utils.csproj", "{D78B8153-C955-4EF6-B02F-6D824BFD949E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFGenericModel.Test", "Test Projects\SFGenericModel.Test\SFGenericModel.Test.csproj", "{7BE87B94-CA49-4F44-905A-298DED4884F9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RenderTestUtils", "Test Projects\RenderTestUtils\RenderTestUtils.csproj", "{53CBDEA3-F60C-4B16-B57F-21B6CE665040}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,6 +59,10 @@ Global
 		{7BE87B94-CA49-4F44-905A-298DED4884F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7BE87B94-CA49-4F44-905A-298DED4884F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7BE87B94-CA49-4F44-905A-298DED4884F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53CBDEA3-F60C-4B16-B57F-21B6CE665040}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53CBDEA3-F60C-4B16-B57F-21B6CE665040}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53CBDEA3-F60C-4B16-B57F-21B6CE665040}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53CBDEA3-F60C-4B16-B57F-21B6CE665040}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -71,6 +75,7 @@ Global
 		{A94B234E-9F97-42BB-A405-8C713481A463} = {EF1FFAC2-D7BD-4A7B-8802-D0F8A17AB9DA}
 		{D78B8153-C955-4EF6-B02F-6D824BFD949E} = {EF1FFAC2-D7BD-4A7B-8802-D0F8A17AB9DA}
 		{7BE87B94-CA49-4F44-905A-298DED4884F9} = {AE6192C9-298F-470D-AE6F-DF2B29554CE4}
+		{53CBDEA3-F60C-4B16-B57F-21B6CE665040} = {AE6192C9-298F-470D-AE6F-DF2B29554CE4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A5FFF81B-43BA-4824-9A6D-EC21147BDC9C}

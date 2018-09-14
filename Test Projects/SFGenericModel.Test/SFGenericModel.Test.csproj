@@ -59,17 +59,9 @@
     <Compile Include="Tests\GroupContainersByPrimitiveTypeTests.cs" />
     <Compile Include="Tests\RenderSettingsEquality.cs" />
     <Compile Include="Tests\VertexAttributeInfoSize.cs" />
-    <Compile Include="TestTools\OpenTKWindowlessContext.cs" />
-    <Compile Include="TestTools\ResourceShaders.cs" />
-    <Compile Include="TestTools\ShaderTestUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <EmbeddedResource Include="Shaders\invalidFrag.frag" />
-    <EmbeddedResource Include="Shaders\invalidVert.vert" />
-    <EmbeddedResource Include="Shaders\linkError.frag" />
-    <EmbeddedResource Include="Shaders\validFrag.frag" />
-    <EmbeddedResource Include="Shaders\validVert.vert" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Projects\SFGenericModel\SFGenericModel.csproj">
@@ -80,6 +72,10 @@
     <ProjectReference Include="..\..\Projects\SFGraphics\SFGraphics.csproj">
       <Project>{a62e9240-ef67-41e5-a4e1-43f0afa759f4}</Project>
       <Name>SFGraphics</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RenderTestUtils\RenderTestUtils.csproj">
+      <Project>{53cbdea3-f60c-4b16-b57f-21b6ce665040}</Project>
+      <Name>RenderTestUtils</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

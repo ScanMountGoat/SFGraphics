@@ -1,9 +1,9 @@
 ﻿using OpenTK;
 using OpenTK.Graphics;
 
-namespace TestTools
+namespace RenderTestUtils
 {
-    class OpenTKWindowlessContext
+    public static class OpenTKWindowlessContext
     {
         /// <summary>
         /// Creates and binds a dummy context, so OpenGL functions will work.

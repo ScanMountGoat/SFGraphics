@@ -15,7 +15,7 @@ namespace ShaderTests.ProgramCreationTests
         public void Initialize()
         {
             // Set up the context for all the tests.
-            TestTools.OpenTKWindowlessContext.BindDummyContext();
+            RenderTestUtils.OpenTKWindowlessContext.BindDummyContext();
             shader = new Shader();
             shader.OnLinkStatusChanged += Shader_OnLinkStatusChanged;
         }
@@ -28,7 +28,7 @@ namespace ShaderTests.ProgramCreationTests
         [TestMethod]
         public void ValidFragShader()
         {
-            string shaderSource = TestTools.ResourceShaders.GetShader("validFrag.frag");
+            string shaderSource = RenderTestUtils.ResourceShaders.GetShaderSource("validFrag.frag");
             shader.LoadShader(shaderSource, ShaderType.FragmentShader);
 
             CollectionAssert.AreEqual(new List<bool>() { true }, linkChangedEvents);
@@ -37,10 +37,10 @@ namespace ShaderTests.ProgramCreationTests
         [TestMethod]
         public void ValidInvalidFragShader()
         {
-            string shaderSource = TestTools.ResourceShaders.GetShader("validFrag.frag");
+            string shaderSource = RenderTestUtils.ResourceShaders.GetShaderSource("validFrag.frag");
             shader.LoadShader(shaderSource, ShaderType.FragmentShader);
 
-            string shaderSourceInvalid = TestTools.ResourceShaders.GetShader("invalidFrag.frag");
+            string shaderSourceInvalid = RenderTestUtils.ResourceShaders.GetShaderSource("invalidFrag.frag");
             shader.LoadShader(shaderSourceInvalid, ShaderType.FragmentShader);
 
             CollectionAssert.AreEqual(new List<bool>() { true, false }, linkChangedEvents);

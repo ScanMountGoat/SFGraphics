@@ -10,7 +10,7 @@ namespace GLExtensionTests
         public void SetUpExtensions()
         {
             // Set up the context for all the tests.
-            TestTools.OpenTKWindowlessContext.BindDummyContext();
+            RenderTestUtils.OpenTKWindowlessContext.BindDummyContext();
             OpenGLExtensions.InitializeCurrentExtensions();
         }
 

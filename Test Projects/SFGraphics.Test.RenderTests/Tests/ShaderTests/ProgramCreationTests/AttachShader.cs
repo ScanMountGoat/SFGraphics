@@ -11,7 +11,7 @@ namespace ShaderTests.ProgramCreationTests
         public void Initialize()
         {
             // Set up the context for all the tests.
-            TestTools.OpenTKWindowlessContext.BindDummyContext();
+            RenderTestUtils.OpenTKWindowlessContext.BindDummyContext();
         }
 
         [TestMethod]
@@ -19,7 +19,7 @@ namespace ShaderTests.ProgramCreationTests
         {
             // Load the shader file from the embedded resources.
             Shader shader = new Shader();
-            string shaderSource = TestTools.ResourceShaders.GetShader("validFrag.frag");
+            string shaderSource = RenderTestUtils.ResourceShaders.GetShaderSource("validFrag.frag");
             int id = Shader.CreateGlShader(shaderSource, ShaderType.FragmentShader);
             shader.AttachShader(id, ShaderType.FragmentShader);
 
@@ -31,7 +31,7 @@ namespace ShaderTests.ProgramCreationTests
         {
             // Load the shader file from the embedded resources.
             Shader shader = new Shader();
-            string shaderSource = TestTools.ResourceShaders.GetShader("invalidFrag.frag");
+            string shaderSource = RenderTestUtils.ResourceShaders.GetShaderSource("invalidFrag.frag");
             int id = Shader.CreateGlShader(shaderSource, ShaderType.FragmentShader);
             shader.AttachShader(id, ShaderType.FragmentShader);
 

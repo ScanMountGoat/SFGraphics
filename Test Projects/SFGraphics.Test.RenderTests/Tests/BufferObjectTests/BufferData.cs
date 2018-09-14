@@ -15,7 +15,7 @@ namespace BufferObjectTests
         public void Initialize()
         {
             // Set up the context for all the tests.
-            TestTools.OpenTKWindowlessContext.BindDummyContext();
+            RenderTestUtils.OpenTKWindowlessContext.BindDummyContext();
 
             buffer = new BufferObject(BufferTarget.ArrayBuffer);
             buffer.SetData(originalData, BufferUsageHint.StaticDraw);

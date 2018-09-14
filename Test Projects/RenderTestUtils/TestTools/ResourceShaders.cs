@@ -1,13 +1,13 @@
 ﻿using System.IO;
 using System.Reflection;
 
-namespace TestTools
+namespace RenderTestUtils
 {
-    class ResourceShaders
+    public static class ResourceShaders
     {
-        public static string GetShader(string resourceName)
+        public static string GetShaderSource(string shaderName)
         {
-            string fullName = $"SFGenericModel.Test.Shaders.{resourceName}";
+            string fullName = $"RenderTestUtils.Shaders.{shaderName}";
             return GetResourceText(fullName);
         }
 
@@ -15,7 +15,7 @@ namespace TestTools
         {
             Assembly assembly = Assembly.GetExecutingAssembly();
 
-            string result;
+            string result = "";
             using (Stream stream = assembly.GetManifestResourceStream(resourceName))
             {
                 using (StreamReader reader = new StreamReader(stream))

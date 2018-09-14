@@ -15,7 +15,7 @@ namespace ShaderTests
             if (shader == null)
             { 
                 if (shader == null)
-                    shader = ShaderTestUtils.SetUpContextCreateValidShader();
+                    shader = RenderTestUtils.ShaderTestUtils.SetUpContextCreateValidShader();
             }
         }
 

@@ -10,7 +10,7 @@ namespace ShaderTests.SetterTests
         public void ValidNameValidType()
         {
             shader.SetInt("int1", 0);
-            string expected = ShaderTestUtils.GetInvalidUniformErrorMessage("int1", ActiveUniformType.Int);
+            string expected = RenderTestUtils.ShaderTestUtils.GetInvalidUniformErrorMessage("int1", ActiveUniformType.Int);
             Assert.IsFalse(shader.GetErrorLog().Contains(expected));
             Assert.AreEqual(0, eventArgs.Count);
         }
@@ -19,7 +19,7 @@ namespace ShaderTests.SetterTests
         public void InvalidName()
         {
             shader.SetInt("memes", 0);
-            string expected = ShaderTestUtils.GetInvalidUniformErrorMessage("memes", ActiveUniformType.Int);
+            string expected = RenderTestUtils.ShaderTestUtils.GetInvalidUniformErrorMessage("memes", ActiveUniformType.Int);
             Assert.IsTrue(shader.GetErrorLog().Contains(expected));
             Assert.AreEqual(1, eventArgs.Count);
         }
@@ -28,7 +28,7 @@ namespace ShaderTests.SetterTests
         public void InvalidType()
         {
             shader.SetInt("float1", 0);
-            string expected = ShaderTestUtils.GetInvalidUniformErrorMessage("float1", ActiveUniformType.Int);
+            string expected = RenderTestUtils.ShaderTestUtils.GetInvalidUniformErrorMessage("float1", ActiveUniformType.Int);
             Assert.IsTrue(shader.GetErrorLog().Contains(expected));
             Assert.AreEqual(1, eventArgs.Count);
         }

@@ -33,7 +33,7 @@ namespace GenericMeshTests
         {
             if (shader == null)
             {
-                shader = TestTools.ShaderTestUtils.SetUpContextCreateValidShader();
+                shader = RenderTestUtils.ShaderTestUtils.SetUpContextCreateValidShader();
             }
             mesh = new TestMesh();
             mesh.OnInvalidAttribSet += Mesh_OnInvalidAttribSet;

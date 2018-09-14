@@ -13,7 +13,7 @@ namespace ShaderTests
         public void Initialize()
         {
             // We can't share shaders between tests.
-            shader = ShaderTestUtils.SetUpContextCreateValidShader();
+            shader = RenderTestUtils.ShaderTestUtils.SetUpContextCreateValidShader();
         }
 
         [TestMethod]

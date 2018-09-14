@@ -91,29 +91,25 @@
     <Compile Include="Tests\ShaderTests\SetUniformTests\SetVector2.cs" />
     <Compile Include="Tests\ShaderTests\SetUniformTests\SetVector3.cs" />
     <Compile Include="Tests\ShaderTests\SetUniformTests\SetVector4.cs" />
-    <Compile Include="Tests\ShaderTests\ShaderTestUtils.cs" />
     <Compile Include="Tests\TextureTests\Texture2D Tests\LoadImageData.cs" />
     <Compile Include="Tests\TextureTests\CompressedImageSize.cs" />
     <Compile Include="Tests\TextureTests\DepthTexture.cs" />
     <Compile Include="Tests\TextureTests\MipmapLoadingExceptions.cs" />
     <Compile Include="Tests\TextureTests\Texture2D Tests\LoadImageDataBuffer.cs" />
     <Compile Include="Tests\TextureTests\TextureCubeMapLoadImageData.cs" />
-    <Compile Include="TestTools\OpenTKWindowlessContext.cs" />
-    <Compile Include="TestTools\ResourceShaders.cs" />
     <Compile Include="Tests\GLExtensionTests\ExtensionAvailabilityTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <EmbeddedResource Include="Shaders\invalidFrag.frag" />
-    <EmbeddedResource Include="Shaders\invalidVert.vert" />
-    <EmbeddedResource Include="Shaders\linkError.frag" />
-    <EmbeddedResource Include="Shaders\validFrag.frag" />
-    <EmbeddedResource Include="Shaders\validVert.vert" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Projects\SFGraphics\SFGraphics.csproj">
       <Project>{a62e9240-ef67-41e5-a4e1-43f0afa759f4}</Project>
       <Name>SFGraphics</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RenderTestUtils\RenderTestUtils.csproj">
+      <Project>{53cbdea3-f60c-4b16-b57f-21b6ce665040}</Project>
+      <Name>RenderTestUtils</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

@@ -11,7 +11,7 @@ namespace ShaderTests.ProgramCreationTests
         public void Initialize()
         {
             // Set up the context for all the tests.
-            TestTools.OpenTKWindowlessContext.BindDummyContext();
+            RenderTestUtils.OpenTKWindowlessContext.BindDummyContext();
         }
 
         [TestMethod]
@@ -20,7 +20,7 @@ namespace ShaderTests.ProgramCreationTests
             Shader shader = new Shader();
 
             // The shader declared but does not define a function.
-            string fragSource = TestTools.ResourceShaders.GetShader("linkError.frag");
+            string fragSource = RenderTestUtils.ResourceShaders.GetShaderSource("linkError.frag");
             shader.LoadShader(fragSource, ShaderType.FragmentShader);
             Assert.IsFalse(shader.LinkStatusIsOk);
         }

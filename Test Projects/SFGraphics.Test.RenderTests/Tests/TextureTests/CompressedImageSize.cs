@@ -15,7 +15,7 @@ namespace TextureTests
         public void TestSetup()
         {
             // Set up the context for all the tests.
-            TestTools.OpenTKWindowlessContext.BindDummyContext();
+            RenderTestUtils.OpenTKWindowlessContext.BindDummyContext();
 
             // Binding a pixel unpack buffer affects texture loading methods.
             GL.BindBuffer(BufferTarget.PixelUnpackBuffer, 0);
