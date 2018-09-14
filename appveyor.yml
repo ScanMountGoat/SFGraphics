@@ -32,6 +32,7 @@ test:
   assemblies:
     except:
     - '**\Test Projects\SFGraphics.Test.RenderTests\bin\Release\SFGraphics.Test.RenderTests.dll'
+    - '**\Test Projects\SFGenericModel.Test\bin\Release\SFGenericModel.Test.dll'
 
 after_build:
   - 7z a "SFGraphics.zip" "%APPVEYOR_BUILD_FOLDER%\Projects\SFGraphics\bin\Release\SFGraphics.dll"
