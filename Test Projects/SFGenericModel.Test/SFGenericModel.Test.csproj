@@ -55,18 +55,31 @@
   <ItemGroup>
     <Compile Include="Tests\AttribPointerUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tests\InvalidAttribSetEvent.cs" />
     <Compile Include="Tests\GroupContainersByPrimitiveTypeTests.cs" />
     <Compile Include="Tests\RenderSettingsEquality.cs" />
     <Compile Include="Tests\VertexAttributeInfoSize.cs" />
+    <Compile Include="TestTools\OpenTKWindowlessContext.cs" />
+    <Compile Include="TestTools\ResourceShaders.cs" />
+    <Compile Include="TestTools\ShaderTestUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <EmbeddedResource Include="Shaders\invalidFrag.frag" />
+    <EmbeddedResource Include="Shaders\invalidVert.vert" />
+    <EmbeddedResource Include="Shaders\linkError.frag" />
+    <EmbeddedResource Include="Shaders\validFrag.frag" />
+    <EmbeddedResource Include="Shaders\validVert.vert" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Projects\SFGenericModel\SFGenericModel.csproj">
       <Project>{a94b234e-9f97-42bb-a405-8c713481a463}</Project>
       <Name>SFGenericModel</Name>
       <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Projects\SFGraphics\SFGraphics.csproj">
+      <Project>{a62e9240-ef67-41e5-a4e1-43f0afa759f4}</Project>
+      <Name>SFGraphics</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

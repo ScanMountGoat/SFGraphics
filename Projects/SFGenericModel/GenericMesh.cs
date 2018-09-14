@@ -229,7 +229,11 @@ namespace SFGenericModel
             vertexIndexBuffer.SetData(vertexIndices.ToArray(), BufferUsageHint.StaticDraw);
         }
 
-        private void ConfigureVertexAttributes(Shader shader)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="shader"></param>
+        public void ConfigureVertexAttributes(Shader shader)
         {
             vertexArrayObject.Bind();
 
