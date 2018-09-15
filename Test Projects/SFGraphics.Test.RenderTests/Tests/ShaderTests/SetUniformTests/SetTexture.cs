@@ -28,6 +28,17 @@ namespace ShaderTests.SetterTests
         }
 
         [TestMethod]
+        public void MoreThanOneTypePerTextureUnitAndInvalidSet()
+        {
+            shader.SetTexture("tex2D", new Texture2D(), 0);
+            shader.SetTexture("tex2D", new TextureCubeMap(), 0);
+
+            // Ensure both events can be invoked to aid with debugging.
+            Assert.AreEqual(1, invalidUniformSets.Count);
+            Assert.AreEqual(1, invalidTextureSets.Count);
+        }
+
+        [TestMethod]
         public void InvalidName()
         {
             shader.SetTexture("memes", new Texture2D(), 0);

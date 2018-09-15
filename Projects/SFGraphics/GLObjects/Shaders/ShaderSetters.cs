@@ -237,22 +237,22 @@ namespace SFGraphics.GLObjects.Shaders
         public void SetTexture(string uniformName, Texture texture, int textureUnit)
         {
             ActiveUniformType uniformType = ShaderTypeConversions.GetUniformType(texture.TextureTarget);
-            if (!IsValidUniform(uniformName, uniformType))
-            {
+            bool validUniform = IsValidUniform(uniformName, uniformType);
+            if (!validUniform)
                 LogInvalidUniformSetRaiseEvent(uniformName, texture, uniformType);
-                return;
+
+            bool validSamplerType = IsValidSamplerType(textureUnit, uniformType);
+            if (!validSamplerType)
+            {
+                OnTextureUnitTypeMismatch?.Invoke(this,
+                    new UniformSetEventArgs(uniformName, uniformType, texture, 1));
             }
 
-            if (IsValidSamplerType(textureUnit, uniformType))
+            if (validUniform && validSamplerType)
             {
                 GL.ActiveTexture(TextureUnit.Texture0 + textureUnit);
                 texture.Bind();
                 GL.Uniform1(activeUniformByName[uniformName].location, textureUnit);
-            }
-            else
-            {
-                OnTextureUnitTypeMismatch?.Invoke(this, 
-                    new UniformSetEventArgs(uniformName, uniformType, texture, 1));
             }
         }
 
