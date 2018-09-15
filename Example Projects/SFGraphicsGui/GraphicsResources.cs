@@ -31,17 +31,32 @@ namespace SFGraphicsGui
             uvTestPattern = new Texture2D();
             uvTestPattern.LoadImageData(Properties.Resources.UVPattern);
 
-            var stopwatch = System.Diagnostics.Stopwatch.StartNew();
-
             floatMagentaBlackStripes = CreateTextureFromFloatValues(true, 64, 64);
 
-            System.Diagnostics.Debug.WriteLine($"Create texture: { stopwatch.ElapsedMilliseconds } ms");
 
             screenTextureShader = CreateShader();
+
+            //Benchmark();
 
             CreateSamplerObject();
 
             screenTriangle = new ScreenTriangle();
+        }
+
+        private void Benchmark()
+        {
+            screenTextureShader.UseProgram();
+            int length = 10000;
+            var stopwatch = System.Diagnostics.Stopwatch.StartNew();
+            for (int i = 0; i < length; i++)
+            {
+                screenTextureShader.SetTexture("uvTexture", uvTestPattern, 0);
+                
+                //GL.ActiveTexture(TextureUnit.Texture1);
+                //uvTestPattern.Bind();
+                //GL.Uniform1(0, 1);
+            }
+            System.Diagnostics.Debug.WriteLine($"Shader Set: { (double)stopwatch.ElapsedMilliseconds / length } ms");
         }
 
         private void CreateSamplerObject()

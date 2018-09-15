@@ -236,6 +236,19 @@ namespace SFGraphics.GLObjects.Shaders
         /// <param name="textureUnit">The texture unit to which <paramref name="texture"/> will be bound</param>
         public void SetTexture(string uniformName, Texture texture, int textureUnit)
         {
+            if (CheckIfTextureSetIsValid(uniformName, texture, textureUnit))
+                BindTextureSetUniform(uniformName, texture, textureUnit);
+        }
+
+        private void BindTextureSetUniform(string uniformName, Texture texture, int textureUnit)
+        {
+            GL.ActiveTexture(TextureUnit.Texture0 + textureUnit);
+            texture.Bind();
+            GL.Uniform1(activeUniformByName[uniformName].location, textureUnit);
+        }
+
+        private bool CheckIfTextureSetIsValid(string uniformName, Texture texture, int textureUnit)
+        {
             ActiveUniformType uniformType = ShaderTypeConversions.GetUniformType(texture.TextureTarget);
             bool validUniform = IsValidUniform(uniformName, uniformType);
             if (!validUniform)
@@ -248,12 +261,8 @@ namespace SFGraphics.GLObjects.Shaders
                     new UniformSetEventArgs(uniformName, uniformType, texture, 1));
             }
 
-            if (validUniform && validSamplerType)
-            {
-                GL.ActiveTexture(TextureUnit.Texture0 + textureUnit);
-                texture.Bind();
-                GL.Uniform1(activeUniformByName[uniformName].location, textureUnit);
-            }
+            bool validSet = validUniform && validSamplerType;
+            return validSet;
         }
 
         private bool IsValidSamplerType(int textureUnit, ActiveUniformType samplerType)
