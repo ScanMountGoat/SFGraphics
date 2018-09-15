@@ -9,7 +9,9 @@ namespace ShaderTests
     public abstract class ShaderTest : Tests.ContextTest
     {
         protected Shader shader;
-        protected List<UniformSetEventArgs> eventArgs = new List<UniformSetEventArgs>();
+
+        protected List<UniformSetEventArgs> invalidUniformSets = new List<UniformSetEventArgs>();
+        protected List<UniformSetEventArgs> invalidTextureSets = new List<UniformSetEventArgs>();
 
         [TestInitialize()]
         public override void Initialize()
@@ -20,14 +22,21 @@ namespace ShaderTests
             {
                 shader = RenderTestUtils.ShaderTestUtils.CreateValidShader();
                 shader.OnInvalidUniformSet += Shader_OnInvalidUniformSet;
+                shader.OnTextureUnitTypeMismatch += Shader_OnTextureUnitTypeMismatch;
             }
 
-            eventArgs.Clear();
+            invalidUniformSets.Clear();
+            invalidTextureSets.Clear();
+        }
+
+        private void Shader_OnTextureUnitTypeMismatch(Shader sender, UniformSetEventArgs e)
+        {
+            invalidTextureSets.Add(e);
         }
 
         private void Shader_OnInvalidUniformSet(Shader sender, UniformSetEventArgs e)
         {
-            eventArgs.Add(e);
+            invalidUniformSets.Add(e);
         }
     }
 }

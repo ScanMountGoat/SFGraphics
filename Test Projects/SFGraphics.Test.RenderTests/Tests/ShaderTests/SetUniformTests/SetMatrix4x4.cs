@@ -14,7 +14,7 @@ namespace ShaderTests.SetterTests
             shader.SetMatrix4x4("matrix4a", ref matrix4);
             string expected = RenderTestUtils.ShaderTestUtils.GetInvalidUniformErrorMessage("matrix4a", ActiveUniformType.FloatMat4);
             Assert.IsFalse(shader.GetErrorLog().Contains(expected));
-            Assert.AreEqual(0, eventArgs.Count);
+            Assert.AreEqual(0, invalidUniformSets.Count);
         }
 
         [TestMethod]
@@ -24,7 +24,7 @@ namespace ShaderTests.SetterTests
             shader.SetMatrix4x4("memes", ref matrix4);
             string expected = RenderTestUtils.ShaderTestUtils.GetInvalidUniformErrorMessage("memes", ActiveUniformType.FloatMat4);
             Assert.IsTrue(shader.GetErrorLog().Contains(expected));
-            Assert.AreEqual(1, eventArgs.Count);
+            Assert.AreEqual(1, invalidUniformSets.Count);
         }
 
         [TestMethod]
@@ -34,7 +34,7 @@ namespace ShaderTests.SetterTests
             shader.SetMatrix4x4("float1", ref matrix4);
             string expected = RenderTestUtils.ShaderTestUtils.GetInvalidUniformErrorMessage("float1", ActiveUniformType.FloatMat4);
             Assert.IsTrue(shader.GetErrorLog().Contains(expected));
-            Assert.AreEqual(1, eventArgs.Count);
+            Assert.AreEqual(1, invalidUniformSets.Count);
         }
     }
 }

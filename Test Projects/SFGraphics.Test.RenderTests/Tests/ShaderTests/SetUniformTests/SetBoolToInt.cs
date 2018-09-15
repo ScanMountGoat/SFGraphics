@@ -12,7 +12,7 @@ namespace ShaderTests.SetterTests
             shader.SetBoolToInt("boolInt1", true);
             string expected = RenderTestUtils.ShaderTestUtils.GetInvalidUniformErrorMessage("boolInt1", ActiveUniformType.Int);
             Assert.IsFalse(shader.GetErrorLog().Contains(expected));
-            Assert.AreEqual(0, eventArgs.Count);
+            Assert.AreEqual(0, invalidUniformSets.Count);
         }
 
         [TestMethod]
@@ -21,7 +21,7 @@ namespace ShaderTests.SetterTests
             shader.SetBoolToInt("memes", true);
             string expected = RenderTestUtils.ShaderTestUtils.GetInvalidUniformErrorMessage("memes", ActiveUniformType.Int);
             Assert.IsTrue(shader.GetErrorLog().Contains(expected));
-            Assert.AreEqual(1, eventArgs.Count);
+            Assert.AreEqual(1, invalidUniformSets.Count);
         }
 
         [TestMethod]
@@ -30,7 +30,7 @@ namespace ShaderTests.SetterTests
             shader.SetBoolToInt("float1", true);
             string expected = RenderTestUtils.ShaderTestUtils.GetInvalidUniformErrorMessage("float1", ActiveUniformType.Int);
             Assert.IsTrue(shader.GetErrorLog().Contains(expected));
-            Assert.AreEqual(1, eventArgs.Count);
+            Assert.AreEqual(1, invalidUniformSets.Count);
         }
 
         [TestMethod]
@@ -39,7 +39,7 @@ namespace ShaderTests.SetterTests
             shader.SetBoolToInt("int1", true);
             string expected = RenderTestUtils.ShaderTestUtils.GetInvalidUniformErrorMessage("int1", ActiveUniformType.Int);
             Assert.IsFalse(shader.GetErrorLog().Contains(expected));
-            Assert.AreEqual(0, eventArgs.Count);
+            Assert.AreEqual(0, invalidUniformSets.Count);
         }
     }
 }

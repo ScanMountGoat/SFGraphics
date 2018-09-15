@@ -61,6 +61,12 @@ namespace SFGraphics.GLObjects.Shaders
         public event InvalidUniformSetEventHandler OnInvalidUniformSet;
 
         /// <summary>
+        /// Occurs when a call to <see cref="SetTexture(string, Textures.Texture, int)"/>
+        /// is made to a previously used texture unit but with a different sampler type.
+        /// </summary>
+        public event InvalidUniformSetEventHandler OnTextureUnitTypeMismatch;
+
+        /// <summary>
         /// Occurs when the value of <see cref="LinkStatusIsOk"/> changes.
         /// </summary>
         public event LinkStatusChangedEventHandler OnLinkStatusChanged;
@@ -75,6 +81,8 @@ namespace SFGraphics.GLObjects.Shaders
 
         private Dictionary<string, ActiveUniformInfo> invalidUniformByName = new Dictionary<string, ActiveUniformInfo>();
         private Dictionary<string, ActiveAttribInfo> invalidAttribSetByName = new Dictionary<string, ActiveAttribInfo>();
+
+        private Dictionary<int, ActiveUniformType> samplerTypeByTextureUnit = new Dictionary<int, ActiveUniformType>();
 
         // This isn't in OpenTK's enums for some reason.
         // https://www.khronos.org/registry/OpenGL/api/GL/glcorearb.h

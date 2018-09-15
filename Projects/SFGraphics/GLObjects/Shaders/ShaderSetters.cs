@@ -15,7 +15,7 @@ namespace SFGraphics.GLObjects.Shaders
         /// <param name="value">The value to assign to the uniform</param>
         public void SetFloat(string uniformName, float value)
         {
-            if (!ValidUniform(uniformName, ActiveUniformType.Float))
+            if (!IsValidUniform(uniformName, ActiveUniformType.Float))
             {
                 LogInvalidUniformSetRaiseEvent(uniformName, value, ActiveUniformType.Float);
                 return;
@@ -31,7 +31,7 @@ namespace SFGraphics.GLObjects.Shaders
         /// <param name="value">The value to assign to the uniform</param>
         public void SetFloat(string uniformName, float[] value)
         {
-            if (!ValidUniform(uniformName, ActiveUniformType.Float, value.Length))
+            if (!IsValidUniform(uniformName, ActiveUniformType.Float, value.Length))
             {
                 LogInvalidUniformSetRaiseEvent(uniformName, value, ActiveUniformType.Float, value.Length);
                 return;
@@ -47,7 +47,7 @@ namespace SFGraphics.GLObjects.Shaders
         /// <param name="value">The value to assign to the uniform</param>
         public void SetInt(string uniformName, int value)
         {
-            if (!ValidUniform(uniformName, ActiveUniformType.Int))
+            if (!IsValidUniform(uniformName, ActiveUniformType.Int))
             {
                 LogInvalidUniformSetRaiseEvent(uniformName, value, ActiveUniformType.Int);
                 return;
@@ -63,7 +63,7 @@ namespace SFGraphics.GLObjects.Shaders
         /// <param name="value">The value to assign to the uniform</param>
         public void SetInt(string uniformName, int[] value)
         {
-            if (!ValidUniform(uniformName, ActiveUniformType.Int, value.Length))
+            if (!IsValidUniform(uniformName, ActiveUniformType.Int, value.Length))
             {
                 LogInvalidUniformSetRaiseEvent(uniformName, value, ActiveUniformType.Int, value.Length);
                 return;
@@ -79,7 +79,7 @@ namespace SFGraphics.GLObjects.Shaders
         /// <param name="value">The value to assign to the uniform</param>
         public void SetUint(string uniformName, uint value)
         {
-            if (!ValidUniform(uniformName, ActiveUniformType.UnsignedInt))
+            if (!IsValidUniform(uniformName, ActiveUniformType.UnsignedInt))
             {
                 LogInvalidUniformSetRaiseEvent(uniformName, value, ActiveUniformType.UnsignedInt);
                 return;
@@ -95,7 +95,7 @@ namespace SFGraphics.GLObjects.Shaders
         /// <param name="value">The value to assign to the uniform</param>
         public void SetUint(string uniformName, uint[] value)
         {
-            if (!ValidUniform(uniformName, ActiveUniformType.UnsignedInt, value.Length))
+            if (!IsValidUniform(uniformName, ActiveUniformType.UnsignedInt, value.Length))
             {
                 LogInvalidUniformSetRaiseEvent(uniformName, value, ActiveUniformType.UnsignedInt, value.Length);
                 return;
@@ -112,7 +112,7 @@ namespace SFGraphics.GLObjects.Shaders
         /// <param name="value">The value to assign to the uniform</param>
         public void SetBoolToInt(string uniformName, bool value)
         {
-            if (!ValidUniform(uniformName, ActiveUniformType.Int))
+            if (!IsValidUniform(uniformName, ActiveUniformType.Int))
             {
                 int intValue = value ? 1 : 0;
                 LogInvalidUniformSetRaiseEvent(uniformName, value, ActiveUniformType.Int);
@@ -133,7 +133,7 @@ namespace SFGraphics.GLObjects.Shaders
         /// <param name="value">The value to assign to the uniform</param>
         public void SetVector2(string uniformName, Vector2 value)
         {
-            if (!ValidUniform(uniformName, ActiveUniformType.FloatVec2))
+            if (!IsValidUniform(uniformName, ActiveUniformType.FloatVec2))
             {
                 LogInvalidUniformSetRaiseEvent(uniformName, value, ActiveUniformType.FloatVec2);
                 return;
@@ -160,7 +160,7 @@ namespace SFGraphics.GLObjects.Shaders
         /// <param name="value">The value to assign to the uniform</param>
         public void SetVector3(string uniformName, Vector3 value)
         {
-            if (!ValidUniform(uniformName, ActiveUniformType.FloatVec3))
+            if (!IsValidUniform(uniformName, ActiveUniformType.FloatVec3))
             {
                 LogInvalidUniformSetRaiseEvent(uniformName, value, ActiveUniformType.FloatVec3);
                 return;
@@ -188,7 +188,7 @@ namespace SFGraphics.GLObjects.Shaders
         /// <param name="value">The value to assign to the uniform</param>
         public void SetVector4(string uniformName, Vector4 value)
         {
-            if (!ValidUniform(uniformName, ActiveUniformType.FloatVec4))
+            if (!IsValidUniform(uniformName, ActiveUniformType.FloatVec4))
             {
                 LogInvalidUniformSetRaiseEvent(uniformName, value, ActiveUniformType.FloatVec4);
                 return;
@@ -217,7 +217,7 @@ namespace SFGraphics.GLObjects.Shaders
         /// <param name="value">The value to assign to the uniform</param>
         public void SetMatrix4x4(string uniformName, ref Matrix4 value)
         {
-            if (!ValidUniform(uniformName, ActiveUniformType.FloatMat4))
+            if (!IsValidUniform(uniformName, ActiveUniformType.FloatMat4))
             {
                 LogInvalidUniformSetRaiseEvent(uniformName, value, ActiveUniformType.FloatMat4);
                 return;
@@ -237,15 +237,38 @@ namespace SFGraphics.GLObjects.Shaders
         public void SetTexture(string uniformName, Texture texture, int textureUnit)
         {
             ActiveUniformType uniformType = ShaderTypeConversions.GetUniformType(texture.TextureTarget);
-            if (!ValidUniform(uniformName, uniformType))
+            if (!IsValidUniform(uniformName, uniformType))
             {
                 LogInvalidUniformSetRaiseEvent(uniformName, texture, uniformType);
                 return;
             }
 
-            GL.ActiveTexture(TextureUnit.Texture0 + textureUnit);
-            texture.Bind();
-            GL.Uniform1(activeUniformByName[uniformName].location, textureUnit);
+            if (IsValidSamplerType(textureUnit, uniformType))
+            {
+                GL.ActiveTexture(TextureUnit.Texture0 + textureUnit);
+                texture.Bind();
+                GL.Uniform1(activeUniformByName[uniformName].location, textureUnit);
+            }
+            else
+            {
+                OnTextureUnitTypeMismatch?.Invoke(this, 
+                    new UniformSetEventArgs(uniformName, uniformType, texture, 1));
+            }
+        }
+
+        private bool IsValidSamplerType(int textureUnit, ActiveUniformType samplerType)
+        {
+            // Binding two different texture types to the same texture unit
+            // will generate an error.
+            if (!samplerTypeByTextureUnit.ContainsKey(textureUnit))
+            {
+                samplerTypeByTextureUnit.Add(textureUnit, samplerType);
+                return true;
+            }
+            else
+            {
+                return samplerTypeByTextureUnit[textureUnit] == samplerType;
+            }
         }
 
         private void LogInvalidUniformSetRaiseEvent(string uniformName, object value, ActiveUniformType type, int length = 1)
@@ -256,7 +279,7 @@ namespace SFGraphics.GLObjects.Shaders
             OnInvalidUniformSet?.Invoke(this, e);
         }
 
-        private bool ValidUniform(string uniformName, ActiveUniformType inputType, int size = 1)
+        private bool IsValidUniform(string uniformName, ActiveUniformType inputType, int size = 1)
         {
             bool validName = activeUniformByName.ContainsKey(uniformName);
             bool validType = validName && activeUniformByName[uniformName].type == inputType;

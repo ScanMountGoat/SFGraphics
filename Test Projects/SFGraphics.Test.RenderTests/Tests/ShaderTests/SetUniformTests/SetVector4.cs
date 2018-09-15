@@ -13,7 +13,7 @@ namespace ShaderTests.SetterTests
             shader.SetVector4("vector4a", new Vector4(1));
             string expected = RenderTestUtils.ShaderTestUtils.GetInvalidUniformErrorMessage("vector4a", ActiveUniformType.FloatVec4);
             Assert.IsFalse(shader.GetErrorLog().Contains(expected));
-            Assert.AreEqual(0, eventArgs.Count);
+            Assert.AreEqual(0, invalidUniformSets.Count);
         }
 
         [TestMethod]
@@ -22,7 +22,7 @@ namespace ShaderTests.SetterTests
             shader.SetVector4("memes", new Vector4(1));
             string expected = RenderTestUtils.ShaderTestUtils.GetInvalidUniformErrorMessage("memes", ActiveUniformType.FloatVec4);
             Assert.IsTrue(shader.GetErrorLog().Contains(expected));
-            Assert.AreEqual(1, eventArgs.Count);
+            Assert.AreEqual(1, invalidUniformSets.Count);
         }
 
         [TestMethod]
@@ -31,7 +31,7 @@ namespace ShaderTests.SetterTests
             shader.SetVector4("vector4a", 1, 1, 1, 1);
             string expected = RenderTestUtils.ShaderTestUtils.GetInvalidUniformErrorMessage("vector4a", ActiveUniformType.FloatVec4);
             Assert.IsFalse(shader.GetErrorLog().Contains(expected));
-            Assert.AreEqual(0, eventArgs.Count);
+            Assert.AreEqual(0, invalidUniformSets.Count);
         }
 
         [TestMethod]
@@ -40,7 +40,7 @@ namespace ShaderTests.SetterTests
             shader.SetVector4("memes2", 1, 1, 1, 1);
             string expected = RenderTestUtils.ShaderTestUtils.GetInvalidUniformErrorMessage("memes2", ActiveUniformType.FloatVec4);
             Assert.IsTrue(shader.GetErrorLog().Contains(expected));
-            Assert.AreEqual(1, eventArgs.Count);
+            Assert.AreEqual(1, invalidUniformSets.Count);
         }
 
         [TestMethod]
@@ -49,7 +49,7 @@ namespace ShaderTests.SetterTests
             shader.SetVector4("float1", 1, 1, 1, 1);
             string expected = RenderTestUtils.ShaderTestUtils.GetInvalidUniformErrorMessage("float1", ActiveUniformType.FloatVec4);
             Assert.IsTrue(shader.GetErrorLog().Contains(expected));
-            Assert.AreEqual(1, eventArgs.Count);
+            Assert.AreEqual(1, invalidUniformSets.Count);
         }
     }
 }
