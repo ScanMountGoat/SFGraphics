@@ -15,7 +15,7 @@ namespace SFGraphics.GLObjects.Shaders.Utils
         public static ActiveUniformType GetUniformType(TextureTarget target)
         {
             if (!uniformTypeByTextureTarget.ContainsKey(target))
-                throw new NotImplementedException($"{ target.ToString() } is not supported");
+                throw new NotImplementedException($"{target.ToString()} is not supported");
             else
                 return uniformTypeByTextureTarget[target];
         }

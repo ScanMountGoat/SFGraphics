@@ -50,7 +50,7 @@ namespace SFGraphics.GLObjects.GLObjectManagement
             switch (glObject.Item1)
             {
                 default:
-                    throw new NotImplementedException($"Memory management not implemented for type { glObject.Item1 }");
+                    throw new NotImplementedException($"Memory management not implemented for type {glObject.Item1}");
                 case GLObject.GLObjectType.BufferObject:
                     GL.DeleteBuffer(glObject.Item2);
                     break;

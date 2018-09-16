@@ -204,12 +204,10 @@ namespace SFGraphics.GLObjects.Shaders
         public byte[] GetProgramBinary(out BinaryFormat binaryFormat)
         {
             // bufSize is used for the array's length instead of the length parameter.
-            int bufSize;
-            GL.GetProgram(Id, (GetProgramParameterName)GL_PROGRAM_BINARY_MAX_LENGTH, out bufSize);
+            GL.GetProgram(Id, (GetProgramParameterName)GL_PROGRAM_BINARY_MAX_LENGTH, out int bufSize);
             byte[] programBinary = new byte[bufSize];
 
-            int length; 
-            GL.GetProgramBinary(Id, bufSize, out length, out binaryFormat, programBinary);
+            GL.GetProgramBinary(Id, bufSize, out int length, out binaryFormat, programBinary);
             return programBinary;
         }
 
@@ -309,9 +307,7 @@ namespace SFGraphics.GLObjects.Shaders
             for (int i = 0; i < activeUniformCount; i++)
             {
                 // Ignore invalid uniforms. 0 is "None" for type.
-                ActiveUniformType uniformType;
-                int uniformSize;
-                string uniform = GL.GetActiveUniform(Id, i, out uniformSize, out uniformType);
+                string uniform = GL.GetActiveUniform(Id, i, out int uniformSize, out ActiveUniformType uniformType);
                 if (uniformType != 0)
                 {
                     AddUniform(uniform, uniformType, uniformSize);
@@ -326,8 +322,7 @@ namespace SFGraphics.GLObjects.Shaders
             for (int i = 0; i < activeAttributeCount; i++)
             {
                 ActiveAttribType type;
-                int size;
-                string name = GL.GetActiveAttrib(Id, i, out size, out type);
+                string name = GL.GetActiveAttrib(Id, i, out int size, out type);
                 // Ignore invalid attributes.
                 if (type != ActiveAttribType.None)
                 {

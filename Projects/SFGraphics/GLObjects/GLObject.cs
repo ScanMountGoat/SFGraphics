@@ -89,7 +89,7 @@ namespace SFGraphics.GLObjects
         /// <returns>The object's type and ID</returns>
         public override string ToString()
         {
-            return $"{ ObjectType } ID: { Id }";
+            return $"{ObjectType} ID: {Id}";
         }
     }
 }

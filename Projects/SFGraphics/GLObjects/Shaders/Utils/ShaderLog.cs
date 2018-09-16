@@ -26,22 +26,22 @@ namespace SFGraphics.GLObjects.Shaders.Utils
         public void AppendUniformErrors(Dictionary<string, ActiveUniformInfo> invalidUniforms)
         {
             foreach (var uniform in invalidUniforms)
-                errorLog.AppendLine($"[Warning] Attempted to set undeclared uniform variable { uniform.Key } of type { uniform.Value.type }");
+                errorLog.AppendLine($"[Warning] Attempted to set undeclared uniform variable {uniform.Key} of type { uniform.Value.type }");
         }
         
         private void AppendHardwareAndVersionInfo()
         {
-            errorLog.AppendLine($"Vendor: { GL.GetString(StringName.Vendor) }");
-            errorLog.AppendLine($"Renderer: { GL.GetString(StringName.Renderer) }");
-            errorLog.AppendLine($"OpenGL Version: { GL.GetString(StringName.Version) } ");
-            errorLog.AppendLine($"GLSL Version: { GL.GetString(StringName.ShadingLanguageVersion) }");
+            errorLog.AppendLine($"Vendor: {GL.GetString(StringName.Vendor)}");
+            errorLog.AppendLine($"Renderer: {GL.GetString(StringName.Renderer)}");
+            errorLog.AppendLine($"OpenGL Version: {GL.GetString(StringName.Version)} ");
+            errorLog.AppendLine($"GLSL Version: {GL.GetString(StringName.ShadingLanguageVersion)}");
             errorLog.AppendLine();
         }
 
         public void AppendShaderInfoLog(string shaderName, ShaderType shaderType, int shader)
         {
             // Append compilation errors for the current shader. 
-            errorLog.AppendLine($"{ shaderName } { shaderType} Log:");
+            errorLog.AppendLine($"{shaderName} {shaderType} Log:");
 
             string error = GL.GetShaderInfoLog(shader);
             if (error == "")
