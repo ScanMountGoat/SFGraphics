@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFGraphicsGui", "Example Pr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFGraphics.Utils.Test", "Test Projects\SFGraphics.Utils.Test\SFGraphics.Utils.Test.csproj", "{66831642-DBFF-4FB8-91D0-CBF634F98CB3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFGraphics.Test.RenderTests", "Test Projects\SFGraphics.Test.RenderTests\SFGraphics.Test.RenderTests.csproj", "{91A71848-B6E5-450C-A629-3F41651296DE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFGraphics.Test", "Test Projects\SFGraphics.Test\SFGraphics.Test.csproj", "{91A71848-B6E5-450C-A629-3F41651296DE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Projects", "Projects", "{EF1FFAC2-D7BD-4A7B-8802-D0F8A17AB9DA}"
 EndProject
