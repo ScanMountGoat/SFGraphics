@@ -66,11 +66,11 @@
     <Compile Include="Test\ColorToolsTests\RgbToHsvFloatTest.cs" />
     <Compile Include="Test\ColorToolsTests\RgbToHsvVec3Test.cs" />
     <Compile Include="Test\ColorToolsTests\Vector4FromColorTest.cs" />
-    <Compile Include="Test\VectorToolsTests\GenerateNormalsTest.cs" />
-    <Compile Include="Test\VectorToolsTests\GenerateTangentBitangentTest.cs" />
-    <Compile Include="Test\VectorToolsTests\GetDegreesTest.cs" />
-    <Compile Include="Test\VectorToolsTests\GetRadiansTest.cs" />
-    <Compile Include="Test\VectorToolsTests\OrthogonalizeTst.cs" />
+    <Compile Include="Test\VectorToolsTests\CalculateNormals.cs" />
+    <Compile Include="Test\VectorToolsTests\CalculateTangentBitangent.cs" />
+    <Compile Include="Test\VectorToolsTests\GetDegrees.cs" />
+    <Compile Include="Test\VectorToolsTests\GetRadians.cs" />
+    <Compile Include="Test\VectorToolsTests\Orthogonalize.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Test\BoundingSphereTests\BoundingSphereGeneratorTests.cs" />
   </ItemGroup>
