@@ -48,10 +48,14 @@ namespace SFGenericModel
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="sender"></param>
+        /// <param name="sender">The <see cref="GenericMesh{T}"/> 
+        /// instance that generated the error</param>
         /// <param name="e"></param>
         public delegate void InvalidAttribSetEventHandler(GenericMesh<T> sender, AttribSetEventArgs e);
 
+        /// <summary>
+        /// Occurs when specified vertex attribute information does not match the shader.
+        /// </summary>
         public event InvalidAttribSetEventHandler OnInvalidAttribSet;
 
         /// <summary>
@@ -68,9 +72,8 @@ namespace SFGenericModel
             vertexCount = vertices.Count;
 
             // Generate a unique index for each vertex.
+            // TODO: Generate more optimized indices
             List<int> vertexIndices = GenerateIndices(vertices);
-
-            // Generate basic indices.
             InitializeBufferData(vertices, vertexIndices);
         }
 
@@ -142,7 +145,7 @@ namespace SFGenericModel
         /// the order of the fields in <typeparamref name="T"/>.
         /// </summary>
         /// <returns>Vertex attribute information</returns>
-        protected abstract List<VertexAttributeInfo> GetVertexAttributes();
+        public abstract List<VertexAttributeInfo> GetVertexAttributes();
 
         /// <summary>
         /// Sets <c>uniform mat4 mvpMatrix</c> in the shader using <see cref="Camera.MvpMatrix"/>.

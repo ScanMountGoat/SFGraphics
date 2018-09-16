@@ -55,6 +55,8 @@
     <Compile Include="Utils\MeshBatchUtils.cs" />
     <Compile Include="Utils\VertexContainer.cs" />
     <Compile Include="VertexAttributeInfo.cs" />
+    <Compile Include="VertexAttributeShader\VertexAttributeRenderInfo.cs" />
+    <Compile Include="VertexAttributeShader\VertexAttributeShaderGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SFGraphics\SFGraphics.csproj">

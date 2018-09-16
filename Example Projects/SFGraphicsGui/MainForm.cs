@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using OpenTK.Graphics.OpenGL;
 using SFGraphics.GLObjects.Shaders;
 using SFGraphics.GLObjects.Textures;
 using SFGraphics.GLObjects.GLObjectManagement;
+using SFGenericModel.VertexAttributeShader;
 
 namespace SFGraphicsGui
 {
@@ -54,13 +56,27 @@ namespace SFGraphicsGui
             // Render using the shader.
             GL.UseProgram(shader.Id);
 
+
+            List<VertexAttributeRenderInfo> vertAttributesRenderInfo = new List<VertexAttributeRenderInfo>();
+            foreach (var attribute in graphicsResources.screenTriangle.GetVertexAttributes())
+            {
+                VertexAttributeRenderInfo vertexAttributeRenderInfo = new VertexAttributeRenderInfo(false, false, attribute);
+                vertAttributesRenderInfo.Add(vertexAttributeRenderInfo);
+            }
+
             // The sampler's parameters are used instead of the texture's parameters.
             int textureUnit = 0;
             graphicsResources.samplerObject.Bind(textureUnit);
 
+            // Generated debug shader.
+            //shader = VertexAttributeShaderGenerator.CreateShader(vertAttributesRenderInfo);
+            //shader.SetInt("attributeIndex", 1);
+
             shader.SetTexture("uvTexture", texture, textureUnit);
 
             graphicsResources.screenTriangle.Draw(shader, null);
+
+            System.Diagnostics.Debug.WriteLine(shader.GetErrorLog());
         }
 
         private void glControl1_Load(object sender, EventArgs e)
