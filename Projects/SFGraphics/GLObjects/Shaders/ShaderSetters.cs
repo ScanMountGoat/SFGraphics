@@ -288,12 +288,22 @@ namespace SFGraphics.GLObjects.Shaders
             OnInvalidUniformSet?.Invoke(this, e);
         }
 
-        private bool IsValidUniform(string uniformName, ActiveUniformType inputType, int size = 1)
+        private bool IsValidUniform(string name, ActiveUniformType type, int size = 1)
         {
-            bool validName = activeUniformByName.ContainsKey(uniformName);
-            bool validType = validName && activeUniformByName[uniformName].type == inputType;
-            bool validSize = validName && activeUniformByName[uniformName].size == size;
+            bool validName = activeUniformByName.ContainsKey(name);
+            bool validType = validName && activeUniformByName[name].type == type;
+            bool validSize = validName && activeUniformByName[name].size == size;
             
+            return validName && validType && validSize;
+        }
+
+        // TODO: This code can be shared with above.
+        private bool IsValidAttribute(string name, ActiveAttribType type, int size)
+        {
+            bool validName = activeAttribByName.ContainsKey(name);
+            bool validType = validName && activeAttribByName[name].type == type;
+            bool validSize = validName && activeAttribByName[name].size == size;
+
             return validName && validType && validSize;
         }
     }

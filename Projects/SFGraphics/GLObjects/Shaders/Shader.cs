@@ -267,13 +267,13 @@ namespace SFGraphics.GLObjects.Shaders
                 return activeAttribByName[attributeName].location;
         }
 
-        private void AddVertexAttribute(string name, ActiveAttribType type)
+        private void AddVertexAttribute(string name, ActiveAttribType type, int size)
         {
             int location = GL.GetAttribLocation(Id, name);
             
             // Overwrite existing vertex attributes.
             if (!activeAttribByName.ContainsKey(name))
-                activeAttribByName.Add(name, new ActiveAttribInfo(location, type));
+                activeAttribByName.Add(name, new ActiveAttribInfo(location, type, size));
         }
 
         private void AddUniform(string name, ActiveUniformType type, int size)
@@ -325,13 +325,13 @@ namespace SFGraphics.GLObjects.Shaders
 
             for (int i = 0; i < activeAttributeCount; i++)
             {
+                ActiveAttribType type;
+                int size;
+                string name = GL.GetActiveAttrib(Id, i, out size, out type);
                 // Ignore invalid attributes.
-                ActiveAttribType attributeType;
-                int attributeSize;
-                string attribute = GL.GetActiveAttrib(Id, i, out attributeSize, out attributeType);
-                if (attributeType != ActiveAttribType.None)
+                if (type != ActiveAttribType.None)
                 {
-                    AddVertexAttribute(attribute, attributeType);
+                    AddVertexAttribute(name, type, size);
                 }
             }
         }

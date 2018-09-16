@@ -8,10 +8,13 @@ namespace SFGraphics.GLObjects.Shaders.Utils
 
         public readonly ActiveAttribType type;
 
-        public ActiveAttribInfo(int location, ActiveAttribType type)
+        public readonly int size;
+
+        public ActiveAttribInfo(int location, ActiveAttribType type, int size)
         {
             this.location = location;
             this.type = type;
+            this.size = size;
         }
     }
 }
