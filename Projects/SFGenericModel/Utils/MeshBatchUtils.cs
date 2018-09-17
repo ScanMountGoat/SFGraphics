@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using OpenTK.Graphics.OpenGL;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Collections.Concurrent;
 
 namespace SFGenericModel.Utils
 {
@@ -37,45 +39,42 @@ namespace SFGenericModel.Utils
                     continue;
                 }
 
-                if (vertDataByType.ContainsKey(primitiveType))
-                    CreateCombinedContainer(vertDataByType, container, primitiveType);
-                else
-                    vertDataByType.Add(primitiveType, container);
+                MergeCurrentContainer(vertDataByType, container, primitiveType);
             }
 
             optimizedContainers.AddRange(vertDataByType.Values);
             return optimizedContainers;
         }
 
-        private static bool IsSupportedPrimitiveType(PrimitiveType type)
+        private static void MergeCurrentContainer<T>(Dictionary<PrimitiveType, VertexContainer<T>> vertDataByType, 
+            VertexContainer<T> containerToMerge, PrimitiveType type) where T : struct
         {
-            return type == PrimitiveType.Lines 
-                || type == PrimitiveType.Points
-                || type == PrimitiveType.Triangles 
-                || type == PrimitiveType.TriangleStrip
-                || type == PrimitiveType.Quads;
+            if (vertDataByType.ContainsKey(type))
+                vertDataByType[type] = CreateCombinedContainer(vertDataByType[type], containerToMerge, type);
+            else
+                vertDataByType[type] = containerToMerge;
         }
 
-        private static void CreateCombinedContainer<T>(Dictionary<PrimitiveType, VertexContainer<T>> vertDataByType, VertexContainer<T> container, PrimitiveType primitiveType) where T : struct
+        private static VertexContainer<T> CreateCombinedContainer<T>(VertexContainer<T> containerA, VertexContainer<T> containerB, 
+            PrimitiveType type) where T : struct
         {
-            List<T> newVertices = CombineVertices(vertDataByType[primitiveType], container, primitiveType);
+            List<T> newVertices = CombineVertices(containerA, containerB, type);
+            List<int> newIndices = CombineIndices(containerA, containerB, type);
 
-            List<int> newIndices = CombineIndices(vertDataByType[primitiveType], container, primitiveType);
-
-            vertDataByType[primitiveType] = new VertexContainer<T>(newVertices, newIndices, primitiveType);
+            return new VertexContainer<T>(newVertices, newIndices, type);
         }
 
-        private static List<int> CombineIndices<T>(VertexContainer<T> containerA, VertexContainer<T> containerB, PrimitiveType primitiveType) where T : struct
+        private static List<int> CombineIndices<T>(VertexContainer<T> containerA, VertexContainer<T> containerB, PrimitiveType primitiveType) 
+            where T : struct
         {
             List<int> newIndices = new List<int>();
             newIndices.AddRange(containerA.vertexIndices);
 
-
             int firstContainerOffset = containerA.vertices.Count;
 
-            // Create a degenerate triangle to combine the two lists.
             if (primitiveType == PrimitiveType.TriangleStrip)
             {
+                // Create a degenerate triangle to combine the two lists.
                 newIndices.Add(containerA.vertexIndices.Last());
                 newIndices.Add(containerB.vertexIndices.First() + firstContainerOffset);
             }
@@ -89,12 +88,22 @@ namespace SFGenericModel.Utils
             return newIndices;
         }
 
-        private static List<T> CombineVertices<T>(VertexContainer<T> containerA, VertexContainer<T> containerB, PrimitiveType primitiveType) where T : struct
+        private static List<T> CombineVertices<T>(VertexContainer<T> containerA, VertexContainer<T> containerB, PrimitiveType type)
+            where T : struct
         {
             List<T> newVertices = new List<T>();
             newVertices.AddRange(containerA.vertices);
             newVertices.AddRange(containerB.vertices);
             return newVertices;
+        }
+
+        private static bool IsSupportedPrimitiveType(PrimitiveType type)
+        {
+            return type == PrimitiveType.Lines
+                || type == PrimitiveType.Points
+                || type == PrimitiveType.Triangles
+                || type == PrimitiveType.TriangleStrip
+                || type == PrimitiveType.Quads;
         }
     }
 }

@@ -98,8 +98,7 @@ namespace SFGraphics.GLObjects.Shaders
 
         private void LogInvalidUniformSet(UniformSetEventArgs e)
         {
-            if (!invalidUniformByName.ContainsKey(e.Name))
-                invalidUniformByName.Add(e.Name, new ActiveUniformInfo(-1, e.Type, e.Size));
+            invalidUniformByName[e.Name] = new ActiveUniformInfo(-1, e.Type, e.Size);
         }
 
         /// <summary>
@@ -275,11 +274,9 @@ namespace SFGraphics.GLObjects.Shaders
 
         private void AddVertexAttribute(string name, ActiveAttribType type, int size)
         {
-            int location = GL.GetAttribLocation(Id, name);
-            
             // Overwrite existing vertex attributes.
-            if (!activeAttribByName.ContainsKey(name))
-                activeAttribByName.Add(name, new ActiveAttribInfo(location, type, size));
+            int location = GL.GetAttribLocation(Id, name);        
+            activeAttribByName[name] = new ActiveAttribInfo(location, type, size);
         }
 
         private void AddUniform(string name, ActiveUniformType type, int size)
@@ -294,8 +291,7 @@ namespace SFGraphics.GLObjects.Shaders
                 location = GL.GetUniformLocation(Id, nameArrayIndex0);
 
             // Overwrite existing uniforms.
-            if (!activeUniformByName.ContainsKey(nameNoArrayIndex))
-                activeUniformByName.Add(nameNoArrayIndex, new ActiveUniformInfo(location, type, size));
+            activeUniformByName[nameNoArrayIndex] = new ActiveUniformInfo(location, type, size);
         }
 
         private static string GetNameNoArrayBrackets(string name)
