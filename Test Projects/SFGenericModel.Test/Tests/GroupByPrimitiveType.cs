@@ -15,6 +15,9 @@ namespace MeshBatchUtilsTests
         private static readonly List<float> verticesB = new List<float>() { 4, 5, 6 };
         private static readonly List<float> verticesC = new List<float>() { 7, 8, 9 };
 
+        private static readonly List<float> verticesAb = verticesA.Concat(verticesB).ToList();
+        private static readonly List<float> verticesAc = verticesA.Concat(verticesC).ToList();
+
         private List<VertexContainer<float>> trianglesTriangles = new List<VertexContainer<float>>()
         {
             new VertexContainer<float>(verticesA, indices, PrimitiveType.Triangles),
@@ -43,14 +46,11 @@ namespace MeshBatchUtilsTests
         [TestMethod]
         public void CombineTriangles()
         {
-            List<VertexContainer<float>> vertexContainers = trianglesTriangles;
-            List<VertexContainer<float>> optimizedContainers = MeshBatchUtils.GroupContainersByPrimitiveType(vertexContainers);
-
-            Assert.AreEqual(1, optimizedContainers.Count);
+            List<VertexContainer<float>> optimizedContainers = MeshBatchUtils.GroupContainersByPrimitiveType(trianglesTriangles);
 
             // Check that vertex data is combined.
-            List<float> expectedVertices = verticesA.Concat(verticesB).ToList();
-            CollectionAssert.AreEqual(expectedVertices, optimizedContainers[0].vertices);
+            Assert.AreEqual(1, optimizedContainers.Count);
+            CollectionAssert.AreEqual(verticesAb, optimizedContainers[0].vertices);
 
             // Check that indices are offset.
             List<int> expectedIndices = new List<int>() { 0, 1, 2, 3, 4, 5 };
@@ -60,14 +60,11 @@ namespace MeshBatchUtilsTests
         [TestMethod]
         public void CombinePoints()
         {
-            List<VertexContainer<float>> vertexContainers = pointsPoints;
-            List<VertexContainer<float>> optimizedContainers = MeshBatchUtils.GroupContainersByPrimitiveType(vertexContainers);
-
-            Assert.AreEqual(1, optimizedContainers.Count);
+            List<VertexContainer<float>> optimizedContainers = MeshBatchUtils.GroupContainersByPrimitiveType(pointsPoints);
 
             // Check that vertex data is combined.
-            List<float> expectedVertices = verticesA.Concat(verticesB).ToList();
-            CollectionAssert.AreEqual(expectedVertices, optimizedContainers[0].vertices);
+            Assert.AreEqual(1, optimizedContainers.Count);
+            CollectionAssert.AreEqual(verticesAb, optimizedContainers[0].vertices);
 
             // Check that indices are offset.
             List<int> expectedIndices = new List<int>() { 0, 1, 2, 3, 4, 5 };
@@ -77,14 +74,12 @@ namespace MeshBatchUtilsTests
         [TestMethod]
         public void CombineTriangleStrips()
         {
-            List<VertexContainer<float>> vertexContainers = triangleStripTriangleStrip;
-            List<VertexContainer<float>> optimizedContainers = MeshBatchUtils.GroupContainersByPrimitiveType(vertexContainers);
+            List<VertexContainer<float>> optimizedContainers = MeshBatchUtils.GroupContainersByPrimitiveType(triangleStripTriangleStrip);
 
             Assert.AreEqual(1, optimizedContainers.Count);
 
             // Check that vertex data is combined.
-            List<float> expectedVertices = verticesA.Concat(verticesB).ToList();
-            CollectionAssert.AreEqual(expectedVertices, optimizedContainers[0].vertices);
+            CollectionAssert.AreEqual(verticesAb, optimizedContainers[0].vertices);
 
             // Check that indices are offset.
             List<int> expectedIndices = new List<int>() { 0, 1, 2, 2, 3, 3, 4, 5 };
@@ -94,14 +89,11 @@ namespace MeshBatchUtilsTests
         [TestMethod]
         public void AlternatingTrianglesTriangleStrip()
         {
-            List<VertexContainer<float>> vertexContainers = trianglesTriangleStripTriangles;
-            List<VertexContainer<float>> optimizedContainers = MeshBatchUtils.GroupContainersByPrimitiveType(vertexContainers);
-
-            Assert.AreEqual(2, optimizedContainers.Count);
+            List<VertexContainer<float>> optimizedContainers = MeshBatchUtils.GroupContainersByPrimitiveType(trianglesTriangleStripTriangles);
 
             // Check that vertex data is combined.
-            List<float> expectedVertices = verticesA.Concat(verticesC).ToList();
-            CollectionAssert.AreEqual(expectedVertices, optimizedContainers[0].vertices);
+            Assert.AreEqual(2, optimizedContainers.Count);
+            CollectionAssert.AreEqual(verticesAc, optimizedContainers[0].vertices);
 
             // Check that indices are offset.
             List<int> expectedIndices = new List<int>() { 0, 1, 2, 3, 4, 5 };
@@ -115,6 +107,22 @@ namespace MeshBatchUtilsTests
             List<VertexContainer<float>> optimizedContainers = MeshBatchUtils.GroupContainersByPrimitiveType(vertexContainers);
 
             Assert.AreEqual(0, optimizedContainers.Count);
+        }
+
+        [TestMethod]
+        public void EmptyContainers()
+        {
+            List<VertexContainer<float>> vertexContainers = new List<VertexContainer<float>>()
+            {
+                new VertexContainer<float>(new List<float>(), new List<int>(), PrimitiveType.Triangles),
+                new VertexContainer<float>(new List<float>(), new List<int>(), PrimitiveType.Triangles)
+            };
+
+            List<VertexContainer<float>> optimizedContainers = MeshBatchUtils.GroupContainersByPrimitiveType(vertexContainers);
+
+            Assert.AreEqual(1, optimizedContainers.Count);
+            Assert.AreEqual(0, optimizedContainers[0].vertices.Count);
+            Assert.AreEqual(0, optimizedContainers[0].vertexIndices.Count);
         }
     }
 }
