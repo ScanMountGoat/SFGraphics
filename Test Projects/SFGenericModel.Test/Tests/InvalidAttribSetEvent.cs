@@ -4,6 +4,7 @@ using SFGenericModel;
 using System.Collections.Generic;
 using OpenTK.Graphics.OpenGL;
 using SFGenericModel.MeshEventArgs;
+using SFGenericModel.VertexAttributes;
 
 namespace GenericMeshTests
 {

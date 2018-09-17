@@ -42,7 +42,7 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AttribPointerUtils.cs" />
+    <Compile Include="VertexAttributes\AttribPointerUtils.cs" />
     <Compile Include="MeshEventArgs\AttribSetEventArgs.cs" />
     <Compile Include="RenderSettings\AlphaBlendSettings.cs" />
     <Compile Include="RenderSettings\AlphaTestSettings.cs" />
@@ -52,9 +52,11 @@
     <Compile Include="GenericMesh.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RenderSettings\RenderSettings.cs" />
+    <Compile Include="Utils\GLRenderSettings.cs" />
     <Compile Include="Utils\MeshBatchUtils.cs" />
+    <Compile Include="VertexAttributes\VertexAttributeUtils.cs" />
     <Compile Include="Utils\VertexContainer.cs" />
-    <Compile Include="VertexAttributeInfo.cs" />
+    <Compile Include="VertexAttributes\VertexAttributeInfo.cs" />
     <Compile Include="VertexAttributeShader\VertexAttributeRenderInfo.cs" />
     <Compile Include="VertexAttributeShader\VertexAttributeShaderGenerator.cs" />
   </ItemGroup>

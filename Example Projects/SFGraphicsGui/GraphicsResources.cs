@@ -36,7 +36,7 @@ namespace SFGraphicsGui
 
             screenTextureShader = CreateShader();
 
-            //Benchmark();
+            Benchmark();
 
             CreateSamplerObject();
 
@@ -50,13 +50,9 @@ namespace SFGraphicsGui
             var stopwatch = System.Diagnostics.Stopwatch.StartNew();
             for (int i = 0; i < length; i++)
             {
-                screenTextureShader.SetTexture("uvTexture", uvTestPattern, 0);
-                
-                //GL.ActiveTexture(TextureUnit.Texture1);
-                //uvTestPattern.Bind();
-                //GL.Uniform1(0, 1);
+                GL.GetUniformBlockIndex(screenTextureShader.Id, "test");
             }
-            System.Diagnostics.Debug.WriteLine($"Shader Set: { (double)stopwatch.ElapsedMilliseconds / length } ms");
+            System.Diagnostics.Debug.WriteLine($"Operation: { (double)stopwatch.ElapsedMilliseconds / length } ms");
         }
 
         private void CreateSamplerObject()

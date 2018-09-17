@@ -1,7 +1,7 @@
 ﻿using OpenTK.Graphics.OpenGL;
 using System.Collections.Generic;
 
-namespace SFGenericModel
+namespace SFGenericModel.VertexAttributes
 {
     /// <summary>
     /// Type information for converting from OpenGL vertex attributes to C#.

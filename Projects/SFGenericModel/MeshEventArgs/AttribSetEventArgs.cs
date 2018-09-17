@@ -1,4 +1,5 @@
 ﻿using OpenTK.Graphics.OpenGL;
+using SFGenericModel.VertexAttributes;
 using System;
 
 namespace SFGenericModel.MeshEventArgs

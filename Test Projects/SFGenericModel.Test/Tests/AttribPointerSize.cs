@@ -1,10 +1,11 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenTK.Graphics.OpenGL;
+using SFGenericModel.VertexAttributes;
 
 namespace AttribPointerUtilsTest
 {
     [TestClass]
-    public class AttribPointerUtils
+    public class AttribPointerSize
     {
         [TestMethod]
         public void Byte()
@@ -56,7 +57,7 @@ namespace AttribPointerUtilsTest
 
         private static void CheckAttribPointerSize(int expected, VertexAttribPointerType type)
         {
-            Assert.AreEqual(expected, SFGenericModel.AttribPointerUtils.sizeInBytesByType[type]);
+            Assert.AreEqual(expected, AttribPointerUtils.sizeInBytesByType[type]);
         }
     }
 }

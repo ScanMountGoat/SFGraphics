@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenTK.Graphics.OpenGL;
-using SFGenericModel;
+using SFGenericModel.VertexAttributes;
 
 namespace VertexAttributeInfoTests
 {

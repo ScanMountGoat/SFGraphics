@@ -1,6 +1,6 @@
 ﻿using OpenTK.Graphics.OpenGL;
 
-namespace SFGenericModel
+namespace SFGenericModel.VertexAttributes
 {           
     /// <summary>
     /// The number of components for a vertex attribute.

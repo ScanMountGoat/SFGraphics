@@ -1,14 +1,15 @@
 ﻿using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using SFGenericModel.Materials;
+using SFGenericModel.MeshEventArgs;
 using SFGenericModel.RenderState;
+using SFGenericModel.Utils;
+using SFGenericModel.VertexAttributes;
 using SFGraphics.Cameras;
-using SFGraphics.GLObjects.VertexArrays;
 using SFGraphics.GLObjects.BufferObjects;
 using SFGraphics.GLObjects.Shaders;
+using SFGraphics.GLObjects.VertexArrays;
 using System.Collections.Generic;
-using SFGenericModel.Utils;
-using SFGenericModel.MeshEventArgs;
 
 namespace SFGenericModel
 {
@@ -48,11 +49,11 @@ namespace SFGenericModel
         public PrimitiveType PrimitiveType { get; }
 
         /// <summary>
-        /// 
+        /// Contains information about the arguments used to set a vertex attribute.
         /// </summary>
         /// <param name="sender">The <see cref="GenericMesh{T}"/> 
         /// instance that generated the error</param>
-        /// <param name="e"></param>
+        /// <param name="e">The vertex attribute information</param>
         public delegate void InvalidAttribSetEventHandler(GenericMesh<T> sender, AttribSetEventArgs e);
 
         /// <summary>
@@ -130,7 +131,7 @@ namespace SFGenericModel
             SetCameraUniforms(shader, camera);
             SetMaterialUniforms(shader, material);
 
-            SetRenderSettings();
+            GLRenderSettings.SetRenderSettings(renderSettings);
 
             vertexArrayObject.Bind();
             GL.DrawElements(PrimitiveType, count, DrawElementsType.UnsignedInt, offset);
@@ -182,55 +183,11 @@ namespace SFGenericModel
             return vertexIndices;
         }
 
-        private void SetRenderSettings()
-        {
-            SetFaceCulling(renderSettings.faceCullingSettings);
-            SetAlphaBlending(renderSettings.alphaBlendSettings);
-            SetAlphaTesting(renderSettings.alphaTestSettings);
-        }
-
         private void SetMaterialUniforms(Shader shader, GenericMaterial material)
         {
             material.SetShaderUniforms(shader);
         }
-
-        private static void SetGLEnableCap(EnableCap enableCap, bool enabled)
-        {
-            if (enabled)
-                GL.Enable(enableCap);
-            else
-                GL.Disable(enableCap);
-        }
-
-        private void SetFaceCulling(RenderSettings.FaceCullingSettings settings)
-        {
-            SetGLEnableCap(EnableCap.CullFace, settings.enabled);
-
-            GL.CullFace(settings.cullFaceMode);
-        }
-
-        private void SetDepthTesting(RenderSettings.DepthTestSettings settings)
-        {
-            SetGLEnableCap(EnableCap.DepthTest, settings.enabled);
-
-            GL.DepthFunc(settings.depthFunction);
-            GL.DepthMask(settings.depthMask);
-        }
-
-        private void SetAlphaBlending(RenderSettings.AlphaBlendSettings settings)
-        {
-            SetGLEnableCap(EnableCap.Blend, settings.enabled);
-
-            GL.BlendFunc(settings.sourceFactor, settings.destinationFactor);
-            GL.BlendEquationSeparate(settings.blendingEquationRgb, settings.blendingEquationAlpha);
-        }
-
-        private void SetAlphaTesting(RenderSettings.AlphaTestSettings settings)
-        {
-            SetGLEnableCap(EnableCap.AlphaTest, settings.enabled);
-            GL.AlphaFunc(settings.alphaFunction, settings.referenceAlpha);
-        }
-
+    
         private void InitializeBufferData(List<T> vertices, List<int> vertexIndices)
         {
             vertexBuffer.SetData(vertices.ToArray(), BufferUsageHint.StaticDraw);
@@ -249,7 +206,8 @@ namespace SFGenericModel
             vertexIndexBuffer.Bind();
 
             shader.EnableVertexAttributes();
-            SetVertexAttributes(shader);
+            List<VertexAttributeInfo> vertexAttributes = GetVertexAttributes();
+            SetVertexAttributes(shader, vertexAttributes, vertexSizeInBytes);
 
             // Unbind all the buffers.
             // This step may not be necessary.
@@ -258,26 +216,16 @@ namespace SFGenericModel
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, 0);
         }
 
-        private void SetVertexAttributes(Shader shader)
+        private void SetVertexAttributes(Shader shader, List<VertexAttributeInfo> attributes, int strideInBytes)
         {
             // Setting vertex attributes is handled automatically. 
-            List<VertexAttributeInfo> vertexAttributes = GetVertexAttributes();
             int offset = 0;
-            foreach (VertexAttributeInfo attribute in vertexAttributes)
+            foreach (VertexAttributeInfo attribute in attributes)
             {
-                SetVertexAttribute(shader, offset, attribute);
+                if(!VertexAttributeUtils.SetVertexAttribute(shader, attribute, offset, strideInBytes))
+                    OnInvalidAttribSet?.Invoke(this, new AttribSetEventArgs(attribute.name, attribute.type, attribute.valueCount));
                 offset += attribute.sizeInBytes;
             }
-        }
-
-        private void SetVertexAttribute(Shader shader, int offset, VertexAttributeInfo attribute)
-        {
-            // Ignore invalid attributes to prevent OpenGL from generating errors.
-            int index = shader.GetAttribLocation(attribute.name);
-            if (index != -1)
-                GL.VertexAttribPointer(index, (int)attribute.valueCount, attribute.type, false, vertexSizeInBytes, offset);
-            else
-                OnInvalidAttribSet?.Invoke(this, new AttribSetEventArgs(attribute.name, attribute.type, attribute.valueCount));
         }
     }
 }
