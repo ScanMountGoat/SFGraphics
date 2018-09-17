@@ -17,7 +17,6 @@ namespace SFGenericModel.VertexAttributeShader
         private static readonly string version = "330";
         private static readonly string vertexOutputPrefix = "vert_";
 
-
         /// <summary>
         /// Generates a debug shader for rendering each of 
         /// the vertex attributes individually for a <see cref="GenericMesh{T}"/>.        /// </summary>
