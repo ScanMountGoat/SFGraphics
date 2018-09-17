@@ -15,7 +15,14 @@ namespace ShaderTests
         [TestMethod]
         public void InvalidName()
         {
-            Assert.AreEqual(GL.GetAttribLocation(shader.Id, "memes"), shader.GetAttribLocation("memes"));
+            Assert.AreEqual(-1, shader.GetAttribLocation("memes"));
+        }
+
+        [TestMethod]
+        public void ShaderNotLinked()
+        {
+            var shader = new SFGraphics.GLObjects.Shaders.Shader();
+            Assert.AreEqual(-1, shader.GetAttribLocation("memes"));
         }
     }
 }

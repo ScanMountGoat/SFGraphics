@@ -1,6 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenTK.Graphics.OpenGL;
-using SFGraphics.GLObjects.Shaders;
 
 namespace ShaderTests
 {
@@ -16,7 +15,7 @@ namespace ShaderTests
         [TestMethod]
         public void InvalidName()
         {
-            Assert.AreEqual(GL.GetUniformLocation(shader.Id, "memes"), shader.GetUniformLocation("memes"));
+            Assert.AreEqual(-1, shader.GetUniformLocation("memes"));
         }
 
         [TestMethod]
@@ -29,6 +28,13 @@ namespace ShaderTests
         public void ValidArrayNameBrackets()
         {
             Assert.AreEqual(GL.GetUniformLocation(shader.Id, "floatArray1[0]"), shader.GetUniformLocation("floatArray1[0]"));
+        }
+
+        [TestMethod]
+        public void ShaderNotLinked()
+        {
+            var shader = new SFGraphics.GLObjects.Shaders.Shader();
+            Assert.AreEqual(-1, shader.GetUniformLocation("memes"));
         }
     }
 }
