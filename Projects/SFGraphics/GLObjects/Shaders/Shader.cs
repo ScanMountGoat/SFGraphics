@@ -159,10 +159,7 @@ namespace SFGraphics.GLObjects.Shaders
 
             // Scary things happen if we do this after a linking error.
             if (LinkStatusIsOk)
-            {
-                LoadAttributes();
-                LoadUniforms();
-            }
+                LoadShaderVariables();
         }
 
         /// <summary>
@@ -229,21 +226,17 @@ namespace SFGraphics.GLObjects.Shaders
 
             // Scary things happen if we do this after a linking error.
             if (LinkStatusIsOk)
-            {
-                LoadAttributes();
-                LoadUniforms();
-            }
+                LoadShaderVariables();
         }
 
         /// <summary>
-        /// Gets the uniform's location. 
-        /// Potentially faster than GL.GetUniform due to prestored locations.
+        /// Gets the uniform's location from locations stored after linking.
         /// </summary>
-        /// <param name="uniformName">The name of the uniform variable</param>
-        /// <returns>The location of <paramref name="uniformName"/></returns>
-        public int GetUniformLocation(string uniformName)
+        /// <param name="name">The name of the uniform variable</param>
+        /// <returns>The location of <paramref name="name"/></returns>
+        public int GetUniformLocation(string name)
         {
-            string nameNoBrackets = GetNameNoArrayBrackets(uniformName);
+            string nameNoBrackets = GetNameNoArrayBrackets(name);
 
             if (!activeUniformByName.ContainsKey(nameNoBrackets))
                 return -1;
@@ -252,17 +245,32 @@ namespace SFGraphics.GLObjects.Shaders
         }
 
         /// <summary>
-        /// Gets the attribute's location. 
-        /// Potentially faster than GL.GetAttribLocation due to prestored locations.
+        /// Gets the attribute's location from locations stored after linking.
         /// </summary>
-        /// <param name="attributeName">The name of the vertex attribute variable</param>
-        /// <returns>The location of <paramref name="attributeName"/></returns>
-        public int GetAttribLocation(string attributeName)
+        /// <param name="name">The name of the vertex attribute variable</param>
+        /// <returns>The location of <paramref name="name"/></returns>
+        public int GetAttribLocation(string name)
         {
-            if (!activeAttribByName.ContainsKey(attributeName))
+            if (!activeAttribByName.ContainsKey(name))
                 return -1;
             else
-                return activeAttribByName[attributeName].location;
+                return activeAttribByName[name].location;
+        }
+
+        /// <summary>
+        /// Gets the block index of a uniform block.
+        /// </summary>
+        /// <param name="name">The name of the uniform block</param>
+        /// <returns>The index of <paramref name="name"/></returns>
+        public int GetUniformBlockIndex(string name)
+        {
+            return GL.GetUniformBlockIndex(Id, name);
+        }
+
+        private void LoadShaderVariables()
+        {
+            LoadAttributes();
+            LoadUniforms();
         }
 
         private void AddVertexAttribute(string name, ActiveAttribType type, int size)

@@ -70,6 +70,7 @@
     <Compile Include="Tests\ReferenceCountTests\GetObjectsWithNoReferencesTests.cs" />
     <Compile Include="Tests\ReferenceCountTests\IncrementRefTest.cs" />
     <Compile Include="Tests\ShaderTests\GetAttribLocation.cs" />
+    <Compile Include="Tests\ShaderTests\GetUniformBlockIndex.cs" />
     <Compile Include="Tests\ShaderTests\GetUniformLocation.cs" />
     <Compile Include="Tests\ShaderTests\ProgramCreationTests\AttachShader.cs" />
     <Compile Include="Tests\ShaderTests\ProgramCreationTests\OnLinkStatusChanged.cs" />

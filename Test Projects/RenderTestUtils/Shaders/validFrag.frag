@@ -18,6 +18,11 @@ uniform mat4 matrix4a;
 uniform sampler2D tex2D;
 uniform samplerCube texCube;
 
+uniform UniformBlock
+{
+	float values[10];
+} uniformBlock;
+
 out vec4 fragColor;
 
 void main()
@@ -48,4 +53,5 @@ void main()
 	}
 
     fragColor.rgb *= uint1;
+	fragColor.rgb *= uniformBlock.values[0];
 }
