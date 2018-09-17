@@ -18,7 +18,7 @@ namespace GenericMeshTests
 
             }
 
-            protected override List<VertexAttributeInfo> GetVertexAttributes()
+            public override List<VertexAttributeInfo> GetVertexAttributes()
             {
                 return vertexAttributes;
             }
