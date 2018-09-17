@@ -107,7 +107,17 @@ namespace SFGenericModel.VertexAttributeShader
         {
             foreach (var attribute in attributes)
             {
-                shaderSource.AppendLine($"\t{vertexOutputPrefix}{attribute.attributeInfo.name} = {attribute.attributeInfo.name};");
+                string output = $"{vertexOutputPrefix}{attribute.attributeInfo.name}";
+                string input = $"{ attribute.attributeInfo.name}";
+                string function = "";
+                if (attribute.normalize)
+                    function = "normalize";
+
+                string remapOperation = "";
+                if (attribute.remapToVisibleRange)
+                    remapOperation = "* 0.5 + 0.5;";
+
+                shaderSource.AppendLine($"\t{output} = {function}({input}) {remapOperation};");
             }
         }
 

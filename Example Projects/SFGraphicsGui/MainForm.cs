@@ -53,24 +53,24 @@ namespace SFGraphicsGui
             if (!shader.LinkStatusIsOk)
                 return;
 
-            // Render using the shader.
-            GL.UseProgram(shader.Id);
-
-
+            // Generated debug shader.
             List<VertexAttributeRenderInfo> vertAttributesRenderInfo = new List<VertexAttributeRenderInfo>();
             foreach (var attribute in graphicsResources.screenTriangle.GetVertexAttributes())
             {
-                VertexAttributeRenderInfo vertexAttributeRenderInfo = new VertexAttributeRenderInfo(false, false, attribute);
+                VertexAttributeRenderInfo vertexAttributeRenderInfo = new VertexAttributeRenderInfo(true, true, attribute);
                 vertAttributesRenderInfo.Add(vertexAttributeRenderInfo);
             }
+
+            //shader = VertexAttributeShaderGenerator.CreateShader(vertAttributesRenderInfo);
+
+            // Render using the shader.
+            shader.UseProgram();
 
             // The sampler's parameters are used instead of the texture's parameters.
             int textureUnit = 0;
             graphicsResources.samplerObject.Bind(textureUnit);
 
-            // Generated debug shader.
-            //shader = VertexAttributeShaderGenerator.CreateShader(vertAttributesRenderInfo);
-            //shader.SetInt("attributeIndex", 1);
+            shader.SetInt("attributeIndex", 1);
 
             shader.SetTexture("uvTexture", texture, textureUnit);
 
