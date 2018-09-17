@@ -221,9 +221,7 @@ namespace SFGenericModel
         private void SetAlphaTesting(RenderSettings.AlphaTestSettings settings)
         {
             SetGLEnableCap(EnableCap.AlphaTest, settings.enabled);
-
-            // TODO: Should this be a float or an int?
-            GL.AlphaFunc(settings.alphaFunction, settings.referenceAlpha / 255.0f);
+            GL.AlphaFunc(settings.alphaFunction, settings.referenceAlpha);
         }
 
         private void InitializeBufferData(List<T> vertices, List<int> vertexIndices)

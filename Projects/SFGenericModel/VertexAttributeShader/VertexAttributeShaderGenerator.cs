@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using OpenTK.Graphics.OpenGL;
 using SFGraphics.GLObjects.Shaders;
-using OpenTK.Graphics.OpenGL;
+using System.Collections.Generic;
+using System.Text;
 
 namespace SFGenericModel.VertexAttributeShader
 {
     /// <summary>
-    /// 
+    /// Contains methods for automatically generating a debug shader for
+    /// viewing vertex attributes. 
     /// </summary>
     public static class VertexAttributeShaderGenerator
     {
@@ -20,9 +19,9 @@ namespace SFGenericModel.VertexAttributeShader
 
 
         /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
+        /// Generates a debug shader for rendering each of 
+        /// the vertex attributes individually for a <see cref="GenericMesh{T}"/>.        /// </summary>
+        /// <returns>A new shader that can be used for rendering</returns>
         public static Shader CreateShader(List<VertexAttributeRenderInfo> attributes)
         {
             Shader shader = new Shader();
