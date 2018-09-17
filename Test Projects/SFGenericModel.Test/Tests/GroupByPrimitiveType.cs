@@ -7,7 +7,7 @@ using OpenTK.Graphics.OpenGL;
 namespace MeshBatchUtilsTests
 {
     [TestClass]
-    public class GroupContainersByPrimitiveTypeTests
+    public class GroupByPrimitiveType
     {
         private static readonly List<int> indices = new List<int>() { 0, 1, 2 };
 
@@ -19,6 +19,12 @@ namespace MeshBatchUtilsTests
         {
             new VertexContainer<float>(verticesA, indices, PrimitiveType.Triangles),
             new VertexContainer<float>(verticesB, indices, PrimitiveType.Triangles),
+        };
+
+        private List<VertexContainer<float>> pointsPoints = new List<VertexContainer<float>>()
+        {
+            new VertexContainer<float>(verticesA, indices, PrimitiveType.Points),
+            new VertexContainer<float>(verticesB, indices, PrimitiveType.Points),
         };
 
         private List<VertexContainer<float>> triangleStripTriangleStrip = new List<VertexContainer<float>>()
@@ -38,6 +44,23 @@ namespace MeshBatchUtilsTests
         public void CombineTriangles()
         {
             List<VertexContainer<float>> vertexContainers = trianglesTriangles;
+            List<VertexContainer<float>> optimizedContainers = MeshBatchUtils.GroupContainersByPrimitiveType(vertexContainers);
+
+            Assert.AreEqual(1, optimizedContainers.Count);
+
+            // Check that vertex data is combined.
+            List<float> expectedVertices = verticesA.Concat(verticesB).ToList();
+            CollectionAssert.AreEqual(expectedVertices, optimizedContainers[0].vertices);
+
+            // Check that indices are offset.
+            List<int> expectedIndices = new List<int>() { 0, 1, 2, 3, 4, 5 };
+            CollectionAssert.AreEqual(expectedIndices, optimizedContainers[0].vertexIndices);
+        }
+
+        [TestMethod]
+        public void CombinePoints()
+        {
+            List<VertexContainer<float>> vertexContainers = pointsPoints;
             List<VertexContainer<float>> optimizedContainers = MeshBatchUtils.GroupContainersByPrimitiveType(vertexContainers);
 
             Assert.AreEqual(1, optimizedContainers.Count);

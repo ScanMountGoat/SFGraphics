@@ -50,6 +50,7 @@ namespace SFGenericModel.Utils
         private static bool IsSupportedPrimitiveType(PrimitiveType type)
         {
             return type == PrimitiveType.Lines 
+                || type == PrimitiveType.Points
                 || type == PrimitiveType.Triangles 
                 || type == PrimitiveType.TriangleStrip
                 || type == PrimitiveType.Quads;
