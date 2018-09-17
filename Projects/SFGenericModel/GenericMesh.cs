@@ -22,13 +22,15 @@ namespace SFGenericModel
     /// <typeparam name="T">The struct used to define vertex data</typeparam>
     public abstract class GenericMesh<T> where T : struct
     {
-        private readonly int vertexSizeInBytes;
-        private readonly int vertexCount;
+        private readonly int vertexSizeInBytes = 0;
+        private readonly int vertexCount = 0;
 
         // The vertex data is immutable, so buffers only need to be initialized once.
         private BufferObject vertexBuffer = new BufferObject(BufferTarget.ArrayBuffer);
         private BufferObject vertexIndexBuffer = new BufferObject(BufferTarget.ElementArrayBuffer);
         private VertexArrayObject vertexArrayObject = new VertexArrayObject();
+
+        private int previousShaderId = -1;
 
         /// <summary>
         /// The collection of OpenGL state set prior to drawing.
@@ -106,10 +108,10 @@ namespace SFGenericModel
         /// <summary>
         /// Sets the uniforms, sets render state, and draws the mesh.
         /// </summary>
-        /// <param name="shader"></param>
+        /// <param name="shader">The shader used for drawing</param>
         /// <param name="camera">The camera used to set matrix uniforms if not <c>null</c></param>
-        /// <param name="count"></param>
-        /// <param name="offset"></param>
+        /// <param name="count">The number of vertices to draw</param>
+        /// <param name="offset">The offset into the index buffer</param>
         public void Draw(Shader shader, Camera camera, int count, int offset = 0)
         {
             if (!shader.LinkStatusIsOk)
@@ -117,11 +119,16 @@ namespace SFGenericModel
 
             shader.UseProgram();
 
+            // Only update when the shader changes.
+            if (shader.Id != previousShaderId)
+            {
+                ConfigureVertexAttributes(shader);
+                previousShaderId = shader.Id;
+            }
+
             // Set shader uniforms.
             SetCameraUniforms(shader, camera);
             SetMaterialUniforms(shader, material);
-
-            ConfigureVertexAttributes(shader);
 
             SetRenderSettings();
 
