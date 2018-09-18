@@ -1,5 +1,7 @@
 ﻿using OpenTK.Graphics.OpenGL;
 using SFGraphics.GLObjects.Shaders;
+using System.Collections.Generic;
+using System;
 
 namespace RenderTestUtils
 {
@@ -10,10 +12,14 @@ namespace RenderTestUtils
             Shader shader = new Shader();
 
             string fragSource = ResourceShaders.GetShaderSource("validFrag.frag");
-            shader.LoadShader(fragSource, ShaderType.FragmentShader);
-
             string vertSource = ResourceShaders.GetShaderSource("validVert.vert");
-            shader.LoadShader(vertSource, ShaderType.VertexShader);
+
+            var shaders = new List<Tuple<string, ShaderType, string>>()
+            {
+                new Tuple<string, ShaderType, string>(fragSource, ShaderType.FragmentShader, ""),
+                new Tuple<string, ShaderType, string>(vertSource, ShaderType.VertexShader, ""),
+            };
+            shader.LoadShaders(shaders);
 
             shader.UseProgram();
 

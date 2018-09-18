@@ -28,10 +28,14 @@ namespace SFGenericModel.ShaderGenerators
             Shader shader = new Shader();
 
             string vertexSource = CreateVertexSource(attributes);
-            shader.LoadShader(vertexSource, ShaderType.VertexShader);
-
             string fragSource = CreateFragmentSource(attributes);
-            shader.LoadShader(fragSource, ShaderType.FragmentShader);
+
+            var shaders = new List<Tuple<string, ShaderType, string>>()
+            {
+                new Tuple<string, ShaderType, string>(vertexSource, ShaderType.VertexShader, ""),
+                new Tuple<string, ShaderType, string>(fragSource, ShaderType.FragmentShader, "")
+            };
+            shader.LoadShaders(shaders);
 
             //System.Diagnostics.Debug.WriteLine(shader.GetErrorLog());
             return shader;

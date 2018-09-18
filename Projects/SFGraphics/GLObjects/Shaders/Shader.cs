@@ -147,23 +147,13 @@ namespace SFGraphics.GLObjects.Shaders
         /// <param name="shaderName"></param>
         public void AttachShader(int shaderId, ShaderType shaderType, string shaderName = "")
         {
-            GL.AttachShader(Id, shaderId);
-            GL.LinkProgram(Id);
-
-            AppendShaderCompilationErrors(shaderName, shaderType, shaderId);
-            LinkStatusIsOk = CheckProgramStatus();
-
-            // The shader won't be deleted until the program is deleted.
-            GL.DeleteShader(shaderId);
-
-            // Scary things happen if we do this after a linking error.
-            if (LinkStatusIsOk)
-                LoadShaderVariables();
+            AttachShaderNoLink(shaderId, shaderType, shaderName);
+            LinkProgramSetUpVariables();
         }
 
         /// <summary>
-        /// Compiles and attaches a shader from <paramref name="shaderSource"/>.
-        /// <see cref="linkStatusIsOk"/> is updated.
+        /// Compiles and attaches a single shader from <paramref name="shaderSource"/>.
+        /// Performs linking and shader setup.
         /// </summary>
         /// <param name="shaderSource">The shader code source</param>
         /// <param name="shaderType">The type of shader to load</param>
@@ -172,6 +162,21 @@ namespace SFGraphics.GLObjects.Shaders
         {
             int shaderId = CreateGlShader(shaderSource, shaderType);
             AttachShader(shaderId, shaderType, shaderName);
+        }
+
+        /// <summary>
+        /// Compiles and attaches multiple shaders. Linking and setup is performed only once.
+        /// </summary>
+        /// <param name="shaders">(shader source, shader type, shader name)</param>
+        public void LoadShaders(List<Tuple<string, ShaderType, string>> shaders)
+        {
+            foreach (var shader in shaders)
+            {
+                int shaderId = CreateGlShader(shader.Item1, shader.Item2);
+                AttachShaderNoLink(shaderId, shader.Item2, shader.Item3);
+            }
+
+            LinkProgramSetUpVariables();
         }
 
         /// <summary>
@@ -264,6 +269,25 @@ namespace SFGraphics.GLObjects.Shaders
         public int GetUniformBlockIndex(string name)
         {
             return GL.GetUniformBlockIndex(Id, name);
+        }
+
+        private void AttachShaderNoLink(int shaderId, ShaderType shaderType, string shaderName = "")
+        {
+            GL.AttachShader(Id, shaderId);
+            AppendShaderCompilationErrors(shaderName, shaderType, shaderId);
+
+            // The shader won't be deleted until the program is deleted.
+            GL.DeleteShader(shaderId);
+        }
+
+        private void LinkProgramSetUpVariables()
+        {
+            GL.LinkProgram(Id);
+            LinkStatusIsOk = CheckProgramStatus();
+
+            // Scary things happen if we do this after a linking error.
+            if (LinkStatusIsOk)
+                LoadShaderVariables();
         }
 
         private void LoadShaderVariables()

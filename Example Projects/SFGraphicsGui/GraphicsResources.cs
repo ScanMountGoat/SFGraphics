@@ -38,25 +38,25 @@ namespace SFGraphicsGui
             CreateSamplerObject();
             screenTriangle = new ScreenTriangle();
 
-            //Benchmark();
+            Benchmark();
         }
 
         private void Benchmark()
         {
             screenTextureShader.UseProgram();
-            int length = 1000;
+            int length = 100;
 
-            List<VertexAttributeRenderInfo> vertAttributesRenderInfo = new List<VertexAttributeRenderInfo>();
+            var attributes = new List<VertexAttributeRenderInfo>();
             foreach (var attribute in screenTriangle.GetVertexAttributes())
             {
                 VertexAttributeRenderInfo vertexAttributeRenderInfo = new VertexAttributeRenderInfo(true, true, attribute);
-                vertAttributesRenderInfo.Add(vertexAttributeRenderInfo);
+                attributes.Add(vertexAttributeRenderInfo);
             }
 
             var stopwatch = System.Diagnostics.Stopwatch.StartNew();
             for (int i = 0; i < length; i++)
             {
-                GL.LinkProgram(screenTextureShader.Id);
+                VertexAttributeShaderGenerator.CreateShader(attributes);
             }
             System.Diagnostics.Debug.WriteLine($"Operation: { (double)stopwatch.ElapsedMilliseconds / length } ms");
         }
