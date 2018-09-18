@@ -21,7 +21,7 @@ namespace SFGenericModel
     /// materials and rendering state.
     /// </summary>
     /// <typeparam name="T">The struct used to define vertex data</typeparam>
-    public abstract class GenericMesh<T> where T : struct
+    public abstract class GenericMesh<T> : IDrawableMesh where T : struct
     {
         private readonly int vertexSizeInBytes = 0;
         private readonly int vertexCount = 0;

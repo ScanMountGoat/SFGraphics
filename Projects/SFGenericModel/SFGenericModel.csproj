@@ -42,6 +42,8 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GenericModel.cs" />
+    <Compile Include="IDrawableMesh.cs" />
     <Compile Include="ShaderGenerators\GlslUtils.cs" />
     <Compile Include="VertexAttributes\AttribPointerUtils.cs" />
     <Compile Include="MeshEventArgs\AttribSetEventArgs.cs" />
