@@ -1,7 +1,7 @@
 ﻿using OpenTK.Graphics.OpenGL;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace SFGenericModel.Utils
 {
@@ -29,78 +29,79 @@ namespace SFGenericModel.Utils
         public static List<VertexContainer<T>> GroupContainersByPrimitiveType<T>(List<VertexContainer<T>> containers)
             where T : struct
         {
-            // Use a single container for each primitive.
-            var vertexContainersByType = new ConcurrentDictionary<PrimitiveType, List<VertexContainer<T>>>();
+            // Get all the containers for each type into a collection.
+            var vertexContainersByType = OrganizeContainersByType(containers);
+
+            // Merge each container list.
+            var result = new List<VertexContainer<T>>();
+            foreach (var unmergedcontainers in vertexContainersByType.Values)
+                result.AddRange(GetMergedContainers(unmergedcontainers));
+
+            return result;
+        }
+
+        private static Dictionary<PrimitiveType, List<VertexContainer<T>>> OrganizeContainersByType<T>(List<VertexContainer<T>> containers) where T : struct
+        {
+            var vertexContainersByType = new Dictionary<PrimitiveType, List<VertexContainer<T>>>();
 
             foreach (var container in containers)
             {
-                MergeCurrentContainer(vertexContainersByType, container);
+                if (!vertexContainersByType.ContainsKey(container.primitiveType))
+                    vertexContainersByType[container.primitiveType] = new List<VertexContainer<T>>();
+
+                vertexContainersByType[container.primitiveType].Add(container);
             }
 
-            return GetResultingContainers(vertexContainersByType);
+            return vertexContainersByType;
         }
 
-        private static List<VertexContainer<T>> GetResultingContainers<T>(ConcurrentDictionary<PrimitiveType, List<VertexContainer<T>>> vertDataByType) where T : struct
+        private static List<VertexContainer<T>> GetMergedContainers<T>(List<VertexContainer<T>> containersToMerge) where T : struct
         {
-            List<VertexContainer<T>> optimizedContainers = new List<VertexContainer<T>>();
-            foreach (var container in vertDataByType.Values)
-                optimizedContainers.AddRange(container);
-            return optimizedContainers;
-        }
+            // Combining indices isn't supported for all types currently.
+            PrimitiveType type = containersToMerge.First().primitiveType;
+            if (!supportedTypes.Contains(type))
+                return containersToMerge;
 
-        private static void MergeCurrentContainer<T>(ConcurrentDictionary<PrimitiveType, List<VertexContainer<T>>> vertDataByType,
-            VertexContainer<T> containerToMerge) where T : struct
-        {
-            PrimitiveType type = containerToMerge.primitiveType;
+            // Estimate the correct size to avoid costly array resize/copy operations.
+            int indexCount = containersToMerge.First().vertexIndices.Count * containersToMerge.Count;
+            int vertexCount = containersToMerge.First().vertices.Count * containersToMerge.Count;
 
-            if (vertDataByType.ContainsKey(type))
+            List<int> indices = new List<int>(indexCount);
+            List<T> vertices = new List<T>(vertexCount);
+            foreach (var container in containersToMerge)
             {
-                // Combining indices isn't supported for all types currently.
-                if (supportedTypes.Contains(type))
-                    vertDataByType[type][0] = GetCombinedContainer(vertDataByType[type][0], containerToMerge, type);
-                else
-                    vertDataByType[type].Add(containerToMerge);
+                AddIndices(vertices.Count, container.vertexIndices, type, indices);
+                vertices.AddRange(container.vertices);
             }
-            else
+
+            VertexContainer<T> mergedContainer = new VertexContainer<T>(vertices, indices, type);
+            return new List<VertexContainer<T>>() { mergedContainer };
+        }
+
+        private static void AddIndices(int offset, List<int> indicesToAdd, 
+            PrimitiveType primitiveType, List<int> target) 
+        {
+            if (target.Count == 0)
             {
-                vertDataByType.TryAdd(type, new List<VertexContainer<T>>() { containerToMerge });
+                target.AddRange(indicesToAdd);
+                return;
             }
-        }
-
-        private static VertexContainer<T> GetCombinedContainer<T>(VertexContainer<T> containerA, VertexContainer<T> containerB, 
-            PrimitiveType type) where T : struct
-        {
-            List<T> newVertices = GetCombinedVertices(containerA, containerB);
-            List<int> newIndices = GetCombinedIndices(containerA, containerB, type);
-
-            return new VertexContainer<T>(newVertices, newIndices, type);
-        }
-
-        private static List<int> GetCombinedIndices<T>(VertexContainer<T> containerA, VertexContainer<T> containerB, PrimitiveType primitiveType) 
-            where T : struct
-        {
-            List<int> newIndices = new List<int>();
-            newIndices.AddRange(containerA.vertexIndices);
-
-            int firstContainerOffset = containerA.vertices.Count;
 
             if (primitiveType == PrimitiveType.TriangleStrip)
             {
                 // Create a degenerate triangle to combine the two lists.
-                newIndices.Add(containerA.vertexIndices.Last());
-                newIndices.Add(containerB.vertexIndices.First() + firstContainerOffset);
+                target.Add(target.Last());
+                target.Add(indicesToAdd.First() + offset);
             }
 
             // HACK: Assume no shared vertices between containers.
-            foreach (int index in containerB.vertexIndices)
+            foreach (int index in indicesToAdd)
             {
-                newIndices.Add(index + firstContainerOffset);
+                target.Add(index + offset);
             }
-
-            return newIndices;
         }
 
-        private static List<T> GetCombinedVertices<T>(VertexContainer<T> containerA, VertexContainer<T> containerB)
+        private static List<T> AddVertices<T>(VertexContainer<T> containerA, VertexContainer<T> containerB)
             where T : struct
         {
             return containerA.vertices.Concat(containerB.vertices).ToList();

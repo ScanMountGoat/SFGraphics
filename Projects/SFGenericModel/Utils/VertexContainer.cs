@@ -36,5 +36,16 @@ namespace SFGenericModel.Utils
             this.vertexIndices = vertexIndices;
             this.primitiveType = primitiveType;
         }
+
+        /// <summary>
+        /// Creates an empty vertex container.
+        /// </summary>
+        /// <param name="primitiveType"></param>
+        public VertexContainer(PrimitiveType primitiveType)
+        {
+            vertices = new List<T>();
+            vertexIndices = new List<int>();
+            this.primitiveType = primitiveType;
+        }
     }
 }
