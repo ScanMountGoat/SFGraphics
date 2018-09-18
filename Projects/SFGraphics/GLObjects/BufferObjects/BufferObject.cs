@@ -56,11 +56,12 @@ namespace SFGraphics.GLObjects.BufferObjects
         /// <summary>
         /// Binds <see cref="GLObject.Id"/> to an indexed buffer target.
         /// </summary>
-        /// <param name="target"></param>
-        /// <param name="index"></param>
+        /// <param name="target">The target for the bind</param>
+        /// <param name="index">The index of the binding point</param>
         public void BindBase(BufferRangeTarget target, int index)
         {
-            GL.BindBufferBase(target, index, Id);
+            if (index != -1)
+                GL.BindBufferBase(target, index, Id);
         }
 
         /// <summary>
