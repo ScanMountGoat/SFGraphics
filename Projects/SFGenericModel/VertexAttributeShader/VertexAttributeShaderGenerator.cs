@@ -2,6 +2,8 @@
 using SFGraphics.GLObjects.Shaders;
 using System.Collections.Generic;
 using System.Text;
+using System;
+using SFGenericModel.VertexAttributes;
 
 namespace SFGenericModel.VertexAttributeShader
 {
@@ -17,6 +19,8 @@ namespace SFGenericModel.VertexAttributeShader
         private static readonly string outputName = "fragColor";
         private static readonly string version = "330";
         private static readonly string vertexOutputPrefix = "vert_";
+
+        private static readonly string[] vectorComponents = new string[] { "x", "y", "z", "w" };
 
         /// <summary>
         /// Generates a shader for rendering each of 
@@ -34,6 +38,8 @@ namespace SFGenericModel.VertexAttributeShader
 
             string fragSource = CreateFragmentSource(attributes);
             shader.LoadShader(fragSource, ShaderType.FragmentShader);
+
+            System.Diagnostics.Debug.WriteLine(shader.GetErrorLog());
 
             return shader;
         }
@@ -63,7 +69,10 @@ namespace SFGenericModel.VertexAttributeShader
         private static void AppendPositionAssignment(StringBuilder shaderSource, List<VertexAttributeRenderInfo> attributes)
         {
             // Assume the first attribute is position.
-            shaderSource.AppendLine($"\tgl_Position = {matrixName} * vec4({attributes[0].attributeInfo.name}.xyz, 1);");
+            if (attributes.Count == 0)
+                return;
+
+            shaderSource.AppendLine($"\tgl_Position = {matrixName} * {ConstructVector(ValueCount.Four, attributes[0].attributeInfo.valueCount, attributes[0].attributeInfo.name)};");
         }
 
         private static string CreateFragmentSource(List<VertexAttributeRenderInfo> attributes)
@@ -147,17 +156,11 @@ namespace SFGenericModel.VertexAttributeShader
             int index = 0;
             foreach (var attribute in attributes)
             {
-                string components = GetComponents(attribute);
-                string prefix = "";
-                string suffix = "";
-                if ((int)attribute.attributeInfo.valueCount < 3)
-                {
-                    prefix = "vec3";
-                    suffix = ", 1";
-                }
-
                 shaderSource.AppendLine($"\t\tcase {index}:");
-                shaderSource.AppendLine($"\t\t\t{resultName}.rgb = {prefix}({vertexOutputPrefix}{attribute.attributeInfo.name}{components}{suffix});");
+
+                string constructedVector = ConstructVector(ValueCount.Three, attribute.attributeInfo.valueCount, vertexOutputPrefix + attribute.attributeInfo.name);
+                shaderSource.AppendLine($"\t\t\t{resultName}.rgb = {constructedVector};");
+
                 shaderSource.AppendLine($"\t\t\tbreak;");
 
                 index++;
@@ -166,29 +169,32 @@ namespace SFGenericModel.VertexAttributeShader
             shaderSource.AppendLine("\t}");
         }
 
-        private static string GetComponents(VertexAttributeRenderInfo attribute)
+        private static string ConstructVector(ValueCount targetCount, ValueCount sourceCount, string sourceName)
         {
-            string components = "";
-            switch (attribute.attributeInfo.valueCount)
+            string components = GetMaxSharedComponents(sourceCount, targetCount);
+
+            // Add 1's for the remaining parts of the constructor.
+            string paddingValues = "";
+            for (int i = components.Length; i < (int)targetCount; i++)
             {
-                case VertexAttributes.ValueCount.One:
-                    components = "";
-                    break;
-                case VertexAttributes.ValueCount.Two:
-                    components = ".xy";
-                    break;
-                case VertexAttributes.ValueCount.Three:
-                    components = ".xyz";
-                    break;
-                case VertexAttributes.ValueCount.Four:
-                    components = ".xyz";
-                    break;
-                default:
-                    components = "";
-                    break;
+                paddingValues += ", 1";
             }
 
-            return components;
+            string result = $"vec{(int)targetCount}({sourceName}.{components}{paddingValues})";
+            return result;
+        }
+
+        private static string GetMaxSharedComponents(ValueCount sourceCount, ValueCount targetCount)
+        {
+            string resultingComponents = "";
+
+            int count = Math.Min((int)sourceCount, (int)targetCount);
+            for (int i = 0; i < count; i++)
+            {
+                resultingComponents += vectorComponents[i];
+            }
+
+            return resultingComponents;
         }
     }
 }
