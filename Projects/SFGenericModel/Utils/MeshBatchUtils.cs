@@ -1,13 +1,12 @@
-﻿using System.Collections.Generic;
-using OpenTK.Graphics.OpenGL;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using OpenTK.Graphics.OpenGL;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SFGenericModel.Utils
 {
     /// <summary>
-    /// 
+    /// Contains methods for grouping vertex data to reduce draw calls and improve performance.
     /// </summary>
     public static class MeshBatchUtils
     {
@@ -24,35 +23,38 @@ namespace SFGenericModel.Utils
             where T : struct
         {
             // Use a single container for each primitive.
-            Dictionary<PrimitiveType, VertexContainer<T>> vertDataByType = new Dictionary<PrimitiveType, VertexContainer<T>>();
-
-            List<VertexContainer<T>> optimizedContainers = new List<VertexContainer<T>>();
+            var vertDataByType = new ConcurrentDictionary<PrimitiveType, List<VertexContainer<T>>>();
 
             foreach (var container in containers)
             {
                 PrimitiveType primitiveType = container.primitiveType;
-
-                // Combining indices isn't supported for all types currently.
-                if (!IsSupportedPrimitiveType(primitiveType))
-                {
-                    optimizedContainers.Add(container);
-                    continue;
-                }
-
                 MergeCurrentContainer(vertDataByType, container, primitiveType);
             }
 
-            optimizedContainers.AddRange(vertDataByType.Values);
+            List<VertexContainer<T>> optimizedContainers = new List<VertexContainer<T>>();
+            foreach (var container in vertDataByType.Values)
+                optimizedContainers.AddRange(container);
             return optimizedContainers;
         }
 
-        private static void MergeCurrentContainer<T>(Dictionary<PrimitiveType, VertexContainer<T>> vertDataByType, 
+        private static void MergeCurrentContainer<T>(ConcurrentDictionary<PrimitiveType, List<VertexContainer<T>>> vertDataByType, 
             VertexContainer<T> containerToMerge, PrimitiveType type) where T : struct
         {
-            if (vertDataByType.ContainsKey(type))
-                vertDataByType[type] = CreateCombinedContainer(vertDataByType[type], containerToMerge, type);
+            // Combining indices isn't supported for all types currently.
+            if (IsSupportedPrimitiveType(type))
+            {
+                if (vertDataByType.ContainsKey(type))
+                    vertDataByType[type][0] = CreateCombinedContainer(vertDataByType[type][0], containerToMerge, type);
+                else
+                    vertDataByType.TryAdd(type, new List<VertexContainer<T>>() { containerToMerge });
+            }
             else
-                vertDataByType[type] = containerToMerge;
+            {
+                if (vertDataByType.ContainsKey(type))
+                    vertDataByType[type].Add(containerToMerge);
+                else
+                    vertDataByType.TryAdd(type, new List<VertexContainer<T>>() { containerToMerge });
+            }
         }
 
         private static VertexContainer<T> CreateCombinedContainer<T>(VertexContainer<T> containerA, VertexContainer<T> containerB, 
