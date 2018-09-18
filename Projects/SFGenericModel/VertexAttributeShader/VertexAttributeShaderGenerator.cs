@@ -12,14 +12,18 @@ namespace SFGenericModel.VertexAttributeShader
     public static class VertexAttributeShaderGenerator
     {
         private static readonly string resultName = "result";
+        private static readonly string matrixName = "mvpMatrix";
         private static readonly string attribIndexName = "attributeIndex";
         private static readonly string outputName = "fragColor";
         private static readonly string version = "330";
         private static readonly string vertexOutputPrefix = "vert_";
 
         /// <summary>
-        /// Generates a debug shader for rendering each of 
-        /// the vertex attributes individually for a <see cref="GenericMesh{T}"/>.        /// </summary>
+        /// Generates a shader for rendering each of 
+        /// the vertex attributes individually.      
+        /// </summary>
+        /// <param name="attributes">Attributes used to generate render modes. 
+        /// The first attribute is also used as the position.</param>
         /// <returns>A new shader that can be used for rendering</returns>
         public static Shader CreateShader(List<VertexAttributeRenderInfo> attributes)
         {
@@ -41,19 +45,25 @@ namespace SFGenericModel.VertexAttributeShader
 
             AppendVertexInputs(attributes, shaderSource);
             AppendVertexOutputs(attributes, shaderSource);
+            shaderSource.AppendLine($"uniform mat4 {matrixName};");
 
             shaderSource.AppendLine("void main()");
             shaderSource.AppendLine("{");
 
             AppendVertexOutputAssignments(attributes, shaderSource);
-            // TODO: What to do about this line?
-            shaderSource.AppendLine("\tgl_Position = vec4(position, 1);");
+            AppendPositionAssignment(shaderSource, attributes);
 
             shaderSource.AppendLine("}");
 
             System.Diagnostics.Debug.WriteLine(shaderSource.ToString());
 
             return shaderSource.ToString();
+        }
+
+        private static void AppendPositionAssignment(StringBuilder shaderSource, List<VertexAttributeRenderInfo> attributes)
+        {
+            // Assume the first attribute is position.
+            shaderSource.AppendLine($"\tgl_Position = {matrixName} * vec4({attributes[0].attributeInfo.name}.xyz, 1);");
         }
 
         private static string CreateFragmentSource(List<VertexAttributeRenderInfo> attributes)

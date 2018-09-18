@@ -50,8 +50,6 @@ namespace SFGraphicsGui
 
             // Always check program creation before using shaders to prevent crashes.
             Shader shader = graphicsResources.screenTextureShader;
-            if (!shader.LinkStatusIsOk)
-                return;
 
             // Generated debug shader.
             List<VertexAttributeRenderInfo> vertAttributesRenderInfo = new List<VertexAttributeRenderInfo>();
@@ -62,6 +60,9 @@ namespace SFGraphicsGui
             }
 
             //shader = VertexAttributeShaderGenerator.CreateShader(vertAttributesRenderInfo);
+            System.Diagnostics.Debug.WriteLine(shader.GetErrorLog());
+            if (!shader.LinkStatusIsOk)
+                return;
 
             // Render using the shader.
             shader.UseProgram();
@@ -71,12 +72,12 @@ namespace SFGraphicsGui
             graphicsResources.samplerObject.Bind(textureUnit);
 
             shader.SetInt("attributeIndex", 1);
-
+            OpenTK.Matrix4 matrix4 = OpenTK.Matrix4.Identity;
+            shader.SetMatrix4x4("mvpMatrix", ref matrix4);
+                
             shader.SetTexture("uvTexture", texture, textureUnit);
 
             graphicsResources.screenTriangle.Draw(shader, null);
-
-            System.Diagnostics.Debug.WriteLine(shader.GetErrorLog());
         }
 
         private void glControl1_Load(object sender, EventArgs e)
