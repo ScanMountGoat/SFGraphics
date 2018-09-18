@@ -10,63 +10,73 @@ namespace SFGenericModel.Utils
     /// </summary>
     public static class MeshBatchUtils
     {
+        private static readonly HashSet<PrimitiveType> supportedTypes = new HashSet<PrimitiveType>()
+        {
+            PrimitiveType.Lines,
+            PrimitiveType.Points,
+            PrimitiveType.Triangles,
+            PrimitiveType.TriangleStrip,
+            PrimitiveType.Quads
+        };
+
         /// <summary>
-        /// Creates a single <see cref="VertexContainer{T}"/> for each PrimitiveType to 
-        /// reduce draw calls and improve performance. 
-        /// <para></para><para></para>
-        /// Unsupported primite types will remain ungrouped.
+        /// Creates a new collection of <see cref="VertexContainer{T}"/> objects with 
+        /// only a single container for types that support merging.
         /// </summary>
-        /// <typeparam name="T">The struct used to store a single vertex</typeparam>
+        /// <typeparam name="T">The vertex data struct</typeparam>
         /// <param name="containers">The unoptimized vertex containers</param>
         /// <returns></returns>
         public static List<VertexContainer<T>> GroupContainersByPrimitiveType<T>(List<VertexContainer<T>> containers)
             where T : struct
         {
             // Use a single container for each primitive.
-            var vertDataByType = new ConcurrentDictionary<PrimitiveType, List<VertexContainer<T>>>();
+            var vertexContainersByType = new ConcurrentDictionary<PrimitiveType, List<VertexContainer<T>>>();
 
             foreach (var container in containers)
             {
-                PrimitiveType primitiveType = container.primitiveType;
-                MergeCurrentContainer(vertDataByType, container, primitiveType);
+                MergeCurrentContainer(vertexContainersByType, container);
             }
 
+            return GetResultingContainers(vertexContainersByType);
+        }
+
+        private static List<VertexContainer<T>> GetResultingContainers<T>(ConcurrentDictionary<PrimitiveType, List<VertexContainer<T>>> vertDataByType) where T : struct
+        {
             List<VertexContainer<T>> optimizedContainers = new List<VertexContainer<T>>();
             foreach (var container in vertDataByType.Values)
                 optimizedContainers.AddRange(container);
             return optimizedContainers;
         }
 
-        private static void MergeCurrentContainer<T>(ConcurrentDictionary<PrimitiveType, List<VertexContainer<T>>> vertDataByType, 
-            VertexContainer<T> containerToMerge, PrimitiveType type) where T : struct
+        private static void MergeCurrentContainer<T>(ConcurrentDictionary<PrimitiveType, List<VertexContainer<T>>> vertDataByType,
+            VertexContainer<T> containerToMerge) where T : struct
         {
-            // Combining indices isn't supported for all types currently.
-            if (IsSupportedPrimitiveType(type))
+            PrimitiveType type = containerToMerge.primitiveType;
+
+            if (vertDataByType.ContainsKey(type))
             {
-                if (vertDataByType.ContainsKey(type))
-                    vertDataByType[type][0] = CreateCombinedContainer(vertDataByType[type][0], containerToMerge, type);
+                // Combining indices isn't supported for all types currently.
+                if (supportedTypes.Contains(type))
+                    vertDataByType[type][0] = GetCombinedContainer(vertDataByType[type][0], containerToMerge, type);
                 else
-                    vertDataByType.TryAdd(type, new List<VertexContainer<T>>() { containerToMerge });
+                    vertDataByType[type].Add(containerToMerge);
             }
             else
             {
-                if (vertDataByType.ContainsKey(type))
-                    vertDataByType[type].Add(containerToMerge);
-                else
-                    vertDataByType.TryAdd(type, new List<VertexContainer<T>>() { containerToMerge });
+                vertDataByType.TryAdd(type, new List<VertexContainer<T>>() { containerToMerge });
             }
         }
 
-        private static VertexContainer<T> CreateCombinedContainer<T>(VertexContainer<T> containerA, VertexContainer<T> containerB, 
+        private static VertexContainer<T> GetCombinedContainer<T>(VertexContainer<T> containerA, VertexContainer<T> containerB, 
             PrimitiveType type) where T : struct
         {
-            List<T> newVertices = CombineVertices(containerA, containerB, type);
-            List<int> newIndices = CombineIndices(containerA, containerB, type);
+            List<T> newVertices = GetCombinedVertices(containerA, containerB);
+            List<int> newIndices = GetCombinedIndices(containerA, containerB, type);
 
             return new VertexContainer<T>(newVertices, newIndices, type);
         }
 
-        private static List<int> CombineIndices<T>(VertexContainer<T> containerA, VertexContainer<T> containerB, PrimitiveType primitiveType) 
+        private static List<int> GetCombinedIndices<T>(VertexContainer<T> containerA, VertexContainer<T> containerB, PrimitiveType primitiveType) 
             where T : struct
         {
             List<int> newIndices = new List<int>();
@@ -90,22 +100,10 @@ namespace SFGenericModel.Utils
             return newIndices;
         }
 
-        private static List<T> CombineVertices<T>(VertexContainer<T> containerA, VertexContainer<T> containerB, PrimitiveType type)
+        private static List<T> GetCombinedVertices<T>(VertexContainer<T> containerA, VertexContainer<T> containerB)
             where T : struct
         {
-            List<T> newVertices = new List<T>();
-            newVertices.AddRange(containerA.vertices);
-            newVertices.AddRange(containerB.vertices);
-            return newVertices;
-        }
-
-        private static bool IsSupportedPrimitiveType(PrimitiveType type)
-        {
-            return type == PrimitiveType.Lines
-                || type == PrimitiveType.Points
-                || type == PrimitiveType.Triangles
-                || type == PrimitiveType.TriangleStrip
-                || type == PrimitiveType.Quads;
+            return containerA.vertices.Concat(containerB.vertices).ToList();
         }
     }
 }

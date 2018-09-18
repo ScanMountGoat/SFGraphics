@@ -4,9 +4,9 @@ using OpenTK.Graphics.OpenGL;
 namespace SFGenericModel.Utils
 {
     /// <summary>
-    /// 
+    /// Stores indexed vertex data and the primitive to be used for rendering.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">The struct used for each vertex</typeparam>
     public class VertexContainer<T> where T : struct
     {
         /// <summary>
