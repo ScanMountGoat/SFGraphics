@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using SFGraphics.Cameras;
 using SFGraphics.GLObjects.Shaders;
-using SFGraphics.Cameras;
 
 namespace SFGenericModel
 {

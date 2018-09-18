@@ -1,6 +1,7 @@
 ﻿using SFGraphics.Cameras;
 using SFGraphics.GLObjects.Shaders;
 using System.Collections.Generic;
+using SFGenericModel.ShaderGenerators;
 
 namespace SFGenericModel
 {
@@ -13,19 +14,6 @@ namespace SFGenericModel
 
         private Shader vertAttributeShader;
         private Shader textureShader;
-
-        /// <summary>
-        /// Draws all meshes.
-        /// </summary>
-        /// <param name="shader">The shader used for drawing</param>
-        /// <param name="camera">The camera used for drawing all objects in <see cref="meshes"/></param>
-        public void Draw(Shader shader, Camera camera)
-        {
-            foreach (var mesh in meshes)
-            {
-                mesh.Draw(shader, camera);
-            }
-        }
 
         /// <summary>
         /// Creates a model with no meshes.
@@ -42,6 +30,25 @@ namespace SFGenericModel
         public GenericModel(List<IDrawableMesh> meshes)
         {
             this.meshes = meshes;
+        }
+
+        /// <summary>
+        /// Draws all meshes.
+        /// </summary>
+        /// <param name="shader">The shader used for drawing</param>
+        /// <param name="camera">The camera used for drawing all objects in <see cref="meshes"/></param>
+        public void Draw(Shader shader, Camera camera)
+        {
+            foreach (var mesh in meshes)
+            {
+                mesh.Draw(shader, camera);
+            }
+        }
+
+        private bool GenerateVertDebugShader(List<VertexAttributeRenderInfo> attributes)
+        {
+            vertAttributeShader = VertexAttributeShaderGenerator.CreateShader(attributes);
+            return vertAttributeShader.LinkStatusIsOk;
         }
     }
 }

@@ -6,10 +6,9 @@ using SFGenericModel.RenderState;
 using SFGenericModel.Utils;
 using SFGenericModel.VertexAttributes;
 using SFGraphics.Cameras;
-using SFGraphics.GLObjects.BufferObjects;
 using SFGraphics.GLObjects.Shaders;
-using SFGraphics.GLObjects.VertexArrays;
 using System.Collections.Generic;
+using SFGraphics.GLObjects.VertexArrays;
 
 namespace SFGenericModel
 {
@@ -21,17 +20,11 @@ namespace SFGenericModel
     /// materials and rendering state.
     /// </summary>
     /// <typeparam name="T">The struct used to define vertex data</typeparam>
-    public abstract class GenericMesh<T> : IDrawableMesh where T : struct
+    public abstract class GenericMesh<T> : IndexedVertexData<T>, IDrawableMesh where T : struct
     {
-        private readonly int vertexSizeInBytes = 0;
-        private readonly int vertexCount = 0;
-
-        // The vertex data is immutable, so buffers only need to be initialized once.
-        private BufferObject vertexBuffer = new BufferObject(BufferTarget.ArrayBuffer);
-        private BufferObject vertexIndexBuffer = new BufferObject(BufferTarget.ElementArrayBuffer);
-        private VertexArrayObject vertexArrayObject = new VertexArrayObject();
-
         private int previousShaderId = -1;
+
+        private VertexArrayObject vertexArrayObject = new VertexArrayObject();
 
         /// <summary>
         /// The collection of OpenGL state set prior to drawing.
@@ -42,11 +35,6 @@ namespace SFGenericModel
         /// The collection of shader uniforms updated during drawing.
         /// </summary>
         protected GenericMaterial material = new GenericMaterial();
-
-        /// <summary>
-        /// Determines how primitives will be constructed from the vertex data.
-        /// </summary>
-        public PrimitiveType PrimitiveType { get; }
 
         /// <summary>
         /// Contains information about the arguments used to set a vertex attribute.
@@ -67,17 +55,9 @@ namespace SFGenericModel
         /// </summary>
         /// <param name="vertices"></param>
         /// <param name="primitiveType"></param>
-        public GenericMesh(List<T> vertices, PrimitiveType primitiveType)
+        public GenericMesh(List<T> vertices, PrimitiveType primitiveType) : base(vertices, primitiveType)
         {
-            PrimitiveType = primitiveType;
 
-            vertexSizeInBytes = System.Runtime.InteropServices.Marshal.SizeOf(typeof(T));
-            vertexCount = vertices.Count;
-
-            // Generate a unique index for each vertex.
-            // TODO: Generate more optimized indices
-            List<int> vertexIndices = GenerateIndices(vertices);
-            InitializeBufferData(vertices, vertexIndices);
         }
 
         /// <summary>
@@ -86,14 +66,10 @@ namespace SFGenericModel
         /// <param name="vertices"></param>
         /// <param name="vertexIndices"></param>
         /// <param name="primitiveType">Determines how primitives will be constructed from the vertex data</param>
-        public GenericMesh(List<T> vertices, List<int> vertexIndices, PrimitiveType primitiveType)
+        public GenericMesh(List<T> vertices, List<int> vertexIndices, PrimitiveType primitiveType) 
+            : base(vertices, vertexIndices, primitiveType)
         {
-            PrimitiveType = primitiveType;
 
-            vertexSizeInBytes = System.Runtime.InteropServices.Marshal.SizeOf(typeof(T));
-            vertexCount = vertexIndices.Count;
-
-            InitializeBufferData(vertices, vertexIndices);
         }
 
         /// <summary>
@@ -145,7 +121,7 @@ namespace SFGenericModel
         /// <param name="camera"></param>
         public void Draw(Shader shader, Camera camera)
         {
-            Draw(shader, camera, vertexCount, 0);
+            Draw(shader, camera, VertexCount, 0);
         }
 
         /// <summary>
@@ -171,28 +147,11 @@ namespace SFGenericModel
             shader.SetMatrix4x4("mvpMatrix", ref matrix);
         }
 
-        private static List<int> GenerateIndices(List<T> vertices)
-        {
-            // TODO: Generate more optimized indices by looking for duplicate vertices.
-            List<int> vertexIndices = new List<int>();
-            for (int i = 0; i < vertices.Count; i++)
-            {
-                vertexIndices.Add(i);
-            }
-
-            return vertexIndices;
-        }
-
         private void SetMaterialUniforms(Shader shader, GenericMaterial material)
         {
             material.SetShaderUniforms(shader);
         }
     
-        private void InitializeBufferData(List<T> vertices, List<int> vertexIndices)
-        {
-            vertexBuffer.SetData(vertices.ToArray(), BufferUsageHint.StaticDraw);
-            vertexIndexBuffer.SetData(vertexIndices.ToArray(), BufferUsageHint.StaticDraw);
-        }
 
         /// <summary>
         /// 
@@ -202,12 +161,12 @@ namespace SFGenericModel
         {
             vertexArrayObject.Bind();
 
-            vertexBuffer.Bind();
-            vertexIndexBuffer.Bind();
+            VertexBuffer.Bind();
+            VertexIndexBuffer.Bind();
 
             shader.EnableVertexAttributes();
             List<VertexAttributeInfo> vertexAttributes = GetVertexAttributes();
-            SetVertexAttributes(shader, vertexAttributes, vertexSizeInBytes);
+            SetVertexAttributes(shader, vertexAttributes, VertexSizeInBytes);
 
             // Unbind all the buffers.
             // This step may not be necessary.
