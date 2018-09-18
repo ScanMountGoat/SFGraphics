@@ -5,7 +5,7 @@ using OpenTK.Graphics.OpenGL;
 using SFGraphics.GLObjects.Shaders;
 using SFGraphics.GLObjects.Textures;
 using SFGraphics.GLObjects.GLObjectManagement;
-using SFGenericModel.VertexAttributeShader;
+using SFGenericModel.ShaderGenerators;
 
 namespace SFGraphicsGui
 {

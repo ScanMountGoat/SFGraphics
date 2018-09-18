@@ -42,6 +42,7 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ShaderGenerators\GlslUtils.cs" />
     <Compile Include="VertexAttributes\AttribPointerUtils.cs" />
     <Compile Include="MeshEventArgs\AttribSetEventArgs.cs" />
     <Compile Include="RenderSettings\AlphaBlendSettings.cs" />
@@ -57,8 +58,8 @@
     <Compile Include="VertexAttributes\VertexAttributeUtils.cs" />
     <Compile Include="Utils\VertexContainer.cs" />
     <Compile Include="VertexAttributes\VertexAttributeInfo.cs" />
-    <Compile Include="VertexAttributeShader\VertexAttributeRenderInfo.cs" />
-    <Compile Include="VertexAttributeShader\VertexAttributeShaderGenerator.cs" />
+    <Compile Include="ShaderGenerators\VertexAttributeRenderInfo.cs" />
+    <Compile Include="ShaderGenerators\VertexAttributeShaderGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SFGraphics\SFGraphics.csproj">

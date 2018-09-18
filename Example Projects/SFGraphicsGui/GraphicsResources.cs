@@ -6,6 +6,8 @@ using SFGraphics.GLObjects.Shaders;
 using SFGraphics.GLObjects.Textures;
 using SFGraphics.GLObjects.Textures.TextureFormats;
 using SFGraphics.Tools;
+using System.Collections.Generic;
+using SFGenericModel.ShaderGenerators;
 
 namespace SFGraphicsGui
 {
@@ -32,25 +34,29 @@ namespace SFGraphicsGui
             uvTestPattern.LoadImageData(Properties.Resources.UVPattern);
 
             floatMagentaBlackStripes = CreateTextureFromFloatValues(true, 64, 64);
-
-
             screenTextureShader = CreateShader();
-
-            Benchmark();
-
             CreateSamplerObject();
-
             screenTriangle = new ScreenTriangle();
+
+            //Benchmark();
         }
 
         private void Benchmark()
         {
             screenTextureShader.UseProgram();
-            int length = 10000;
+            int length = 1000;
+
+            List<VertexAttributeRenderInfo> vertAttributesRenderInfo = new List<VertexAttributeRenderInfo>();
+            foreach (var attribute in screenTriangle.GetVertexAttributes())
+            {
+                VertexAttributeRenderInfo vertexAttributeRenderInfo = new VertexAttributeRenderInfo(true, true, attribute);
+                vertAttributesRenderInfo.Add(vertexAttributeRenderInfo);
+            }
+
             var stopwatch = System.Diagnostics.Stopwatch.StartNew();
             for (int i = 0; i < length; i++)
             {
-                GL.GetUniformBlockIndex(screenTextureShader.Id, "test");
+                GL.LinkProgram(screenTextureShader.Id);
             }
             System.Diagnostics.Debug.WriteLine($"Operation: { (double)stopwatch.ElapsedMilliseconds / length } ms");
         }

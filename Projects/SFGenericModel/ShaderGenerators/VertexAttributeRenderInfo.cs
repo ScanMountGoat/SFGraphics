@@ -1,6 +1,6 @@
 ﻿using SFGenericModel.VertexAttributes;
 
-namespace SFGenericModel.VertexAttributeShader
+namespace SFGenericModel.ShaderGenerators
 {
     /// <summary>
     /// Stores information on how a vertex attribute will be displayed.
