@@ -147,14 +147,48 @@ namespace SFGenericModel.VertexAttributeShader
             int index = 0;
             foreach (var attribute in attributes)
             {
+                string components = GetComponents(attribute);
+                string prefix = "";
+                string suffix = "";
+                if ((int)attribute.attributeInfo.valueCount < 3)
+                {
+                    prefix = "vec3";
+                    suffix = ", 1";
+                }
+
                 shaderSource.AppendLine($"\t\tcase {index}:");
-                shaderSource.AppendLine($"\t\t\t{resultName}.rgb = {vertexOutputPrefix}{attribute.attributeInfo.name}.xyz;");
+                shaderSource.AppendLine($"\t\t\t{resultName}.rgb = {prefix}({vertexOutputPrefix}{attribute.attributeInfo.name}{components}{suffix});");
                 shaderSource.AppendLine($"\t\t\tbreak;");
 
                 index++;
             }
 
             shaderSource.AppendLine("\t}");
+        }
+
+        private static string GetComponents(VertexAttributeRenderInfo attribute)
+        {
+            string components = "";
+            switch (attribute.attributeInfo.valueCount)
+            {
+                case VertexAttributes.ValueCount.One:
+                    components = "";
+                    break;
+                case VertexAttributes.ValueCount.Two:
+                    components = ".xy";
+                    break;
+                case VertexAttributes.ValueCount.Three:
+                    components = ".xyz";
+                    break;
+                case VertexAttributes.ValueCount.Four:
+                    components = ".xyz";
+                    break;
+                default:
+                    components = "";
+                    break;
+            }
+
+            return components;
         }
     }
 }
