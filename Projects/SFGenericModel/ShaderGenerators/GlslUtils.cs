@@ -26,8 +26,7 @@ namespace SFGenericModel.ShaderGenerators
         {
             foreach (var attribute in attributes)
             {
-                // TODO: Account for floats and ints.
-                string type = $"vec{(int)attribute.attributeInfo.valueCount}";
+                string type = GetTypeDeclaration(attribute);
                 shaderSource.AppendLine($"in {type} {attribute.attributeInfo.name};");
             }
         }
@@ -36,9 +35,11 @@ namespace SFGenericModel.ShaderGenerators
         {
             foreach (var attribute in attributes)
             {
-                // TODO: Account for floats and ints.
-                string type = $"vec{(int)attribute.attributeInfo.valueCount}";
-                shaderSource.AppendLine($"out {type} {vertexOutputPrefix}{attribute.attributeInfo.name};");
+                string type = GetTypeDeclaration(attribute);
+                string prefix = "";
+                if (type == "uint" || type == "int")
+                    prefix = $"flat ";
+                shaderSource.AppendLine($"{prefix}out {type} {vertexOutputPrefix}{attribute.attributeInfo.name};");
             }
         }
 
@@ -64,9 +65,28 @@ namespace SFGenericModel.ShaderGenerators
         {
             foreach (var attribute in attributes)
             {
-                // TODO: Account for floats and ints.
-                string type = $"vec{(int)attribute.attributeInfo.valueCount}";
-                shaderSource.AppendLine($"in {type} {vertexOutputPrefix}{attribute.attributeInfo.name};");
+                string type = GetTypeDeclaration(attribute);
+                string prefix = "";
+                if (type == "uint" || type == "int")
+                    prefix = $"flat ";
+                shaderSource.AppendLine($"{prefix}in {type} {vertexOutputPrefix}{attribute.attributeInfo.name};");
+            }
+        }
+
+        private static string GetTypeDeclaration(VertexAttributeRenderInfo attribute)
+        {
+            if (attribute.attributeInfo.valueCount == ValueCount.One)
+            {
+                if (attribute.attributeInfo.type == VertexAttribPointerType.Float)
+                    return "float";
+                else if (attribute.attributeInfo.type == VertexAttribPointerType.Int)
+                    return "int";
+                else
+                    return "uint";
+            }
+            else
+            {
+                return $"vec{(int)attribute.attributeInfo.valueCount}";
             }
         }
 
@@ -91,6 +111,9 @@ namespace SFGenericModel.ShaderGenerators
 
         public static string ConstructVector(ValueCount targetCount, ValueCount sourceCount, string sourceName)
         {
+            if (sourceCount == ValueCount.One)
+                return $"vec{(int)targetCount}({sourceName})";
+
             string components = GetMaxSharedComponents(sourceCount, targetCount);
 
             // Add 1's for the remaining parts of the constructor.

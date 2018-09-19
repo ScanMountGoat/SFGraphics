@@ -57,6 +57,39 @@ namespace GenericMeshTests
         }
 
         [TestMethod]
+        public void SingleFloatAttribute()
+        {
+            var attributes = new List<VertexAttributeRenderInfo>()
+            {
+                new VertexAttributeRenderInfo(false, false, new VertexAttributeInfo("test", ValueCount.One, VertexAttribPointerType.Float))
+            };
+            Shader shader = VertexAttributeShaderGenerator.CreateShader(attributes);
+            Assert.IsTrue(shader.LinkStatusIsOk);
+        }
+
+        [TestMethod]
+        public void SingleIntAttribute()
+        {
+            var attributes = new List<VertexAttributeRenderInfo>()
+            {
+                new VertexAttributeRenderInfo(false, false, new VertexAttributeInfo("test", ValueCount.One, VertexAttribPointerType.Int))
+            };
+            Shader shader = VertexAttributeShaderGenerator.CreateShader(attributes);
+            Assert.IsTrue(shader.LinkStatusIsOk);
+        }
+
+        [TestMethod]
+        public void SingleUnsignedIntAttribute()
+        {
+            var attributes = new List<VertexAttributeRenderInfo>()
+            {
+                new VertexAttributeRenderInfo(false, false, new VertexAttributeInfo("test", ValueCount.One, VertexAttribPointerType.UnsignedInt))
+            };
+            Shader shader = VertexAttributeShaderGenerator.CreateShader(attributes);
+            Assert.IsTrue(shader.LinkStatusIsOk);
+        }
+
+        [TestMethod]
         public void MixedVectorAttributes()
         {
             var attributes = new List<VertexAttributeRenderInfo>()
