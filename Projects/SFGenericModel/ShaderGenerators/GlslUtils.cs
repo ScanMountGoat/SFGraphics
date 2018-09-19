@@ -1,9 +1,8 @@
 ﻿using OpenTK.Graphics.OpenGL;
-using SFGraphics.GLObjects.Shaders;
+using SFGenericModel.VertexAttributes;
+using System;
 using System.Collections.Generic;
 using System.Text;
-using System;
-using SFGenericModel.VertexAttributes;
 
 namespace SFGenericModel.ShaderGenerators
 {
@@ -36,11 +35,17 @@ namespace SFGenericModel.ShaderGenerators
             foreach (var attribute in attributes)
             {
                 string type = GetTypeDeclaration(attribute);
-                string prefix = "";
-                if (type == "uint" || type == "int")
-                    prefix = $"flat ";
-                shaderSource.AppendLine($"{prefix}out {type} {vertexOutputPrefix}{attribute.attributeInfo.name};");
+                string interpolation = GetInterpolationQualifier(attribute.attributeInfo.type);
+                shaderSource.AppendLine($"{interpolation}out {type} {vertexOutputPrefix}{attribute.attributeInfo.name};");
             }
+        }
+
+        private static string GetInterpolationQualifier(VertexAttribPointerType type)
+        {
+            if (type == VertexAttribPointerType.Int || type == VertexAttribPointerType.UnsignedInt)
+                return "flat ";
+            else
+                return "";
         }
 
         public static void AppendVertexOutputAssignments(List<VertexAttributeRenderInfo> attributes, StringBuilder shaderSource)
@@ -65,11 +70,11 @@ namespace SFGenericModel.ShaderGenerators
         {
             foreach (var attribute in attributes)
             {
+                string interpolation = GetInterpolationQualifier(attribute.attributeInfo.type);
                 string type = GetTypeDeclaration(attribute);
-                string prefix = "";
-                if (type == "uint" || type == "int")
-                    prefix = $"flat ";
-                shaderSource.AppendLine($"{prefix}in {type} {vertexOutputPrefix}{attribute.attributeInfo.name};");
+                string variableName = vertexOutputPrefix + attribute.attributeInfo.name;
+
+                shaderSource.AppendLine($"{interpolation}in {type} {variableName};");
             }
         }
 
@@ -96,7 +101,8 @@ namespace SFGenericModel.ShaderGenerators
             if (attributes.Count == 0)
                 return;
 
-            shaderSource.AppendLine($"\tgl_Position = {matrixName} * {ConstructVector(ValueCount.Four, attributes[0].attributeInfo.valueCount, attributes[0].attributeInfo.name)};");
+            string positionVariable = ConstructVector(ValueCount.Four, attributes[0].attributeInfo.valueCount, attributes[0].attributeInfo.name);
+            shaderSource.AppendLine($"\tgl_Position = {matrixName} * {positionVariable};");
         }
 
         public static void AppendMatrixUniform(StringBuilder shaderSource)
