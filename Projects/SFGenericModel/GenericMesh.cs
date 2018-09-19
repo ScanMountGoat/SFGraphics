@@ -7,8 +7,8 @@ using SFGenericModel.Utils;
 using SFGenericModel.VertexAttributes;
 using SFGraphics.Cameras;
 using SFGraphics.GLObjects.Shaders;
-using System.Collections.Generic;
 using SFGraphics.GLObjects.VertexArrays;
+using System.Collections.Generic;
 
 namespace SFGenericModel
 {

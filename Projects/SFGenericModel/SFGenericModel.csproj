@@ -42,7 +42,8 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GenericModel.cs" />
+    <Compile Include="GenericModels\GenericModel.cs" />
+    <Compile Include="GenericModels\HideableMesh.cs" />
     <Compile Include="IDrawableMesh.cs" />
     <Compile Include="IndexedVertexData.cs" />
     <Compile Include="ShaderGenerators\GlslUtils.cs" />

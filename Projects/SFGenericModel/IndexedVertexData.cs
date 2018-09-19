@@ -21,7 +21,6 @@ namespace SFGenericModel
         /// </summary>
         public int VertexCount { get; }
 
-        // The vertex data is immutable, so buffers only need to be initialized once.
         /// <summary>
         /// An interleaved buffer of vertex attributes.
         /// </summary>
