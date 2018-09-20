@@ -96,11 +96,6 @@ namespace SFGraphics.GLObjects.Shaders
 
         }
 
-        private void LogInvalidUniformSet(UniformSetEventArgs e)
-        {
-            invalidUniformByName[e.Name] = new ActiveUniformInfo(-1, e.Type, e.Size);
-        }
-
         /// <summary>
         /// Use <see cref="GLObject.Id"/> as the current program.
         /// </summary>
@@ -231,6 +226,35 @@ namespace SFGraphics.GLObjects.Shaders
             // Scary things happen if we do this after a linking error.
             if (LinkStatusIsOk)
                 LoadShaderVariables();
+        }
+
+        /// <summary>
+        /// Gets the shader source for all attached shaders.
+        /// </summary>
+        /// <returns>An array of shader sources for all attached shaders</returns>
+        public string[] GetShaderSources()
+        {
+            int[] shaders = GetAttachedShaders();
+            List<string> shaderSources = new List<string>();
+            foreach (var shader in shaders)
+            {
+                GL.GetShader(shader, ShaderParameter.ShaderSourceLength, out int length);
+                string source = "";
+                if (length != 0)
+                    GL.GetShaderSource(shader, length, out int actualLength, out source);
+                shaderSources.Add(source);
+            }
+
+            return shaderSources.ToArray();
+        }
+
+        private int[] GetAttachedShaders()
+        {
+            GL.GetProgram(Id, GetProgramParameterName.AttachedShaders, out int shaderCount);
+            int[] shaderIds = new int[shaderCount];
+
+            GL.GetAttachedShaders(Id, shaderCount, out int actualCount, shaderIds);
+            return shaderIds;
         }
 
         /// <summary>
@@ -371,6 +395,11 @@ namespace SFGraphics.GLObjects.Shaders
             int id = CreateGlShader(shaderText, type);
             GL.AttachShader(program, id);
             return id;
+        }
+
+        private void LogInvalidUniformSet(UniformSetEventArgs e)
+        {
+            invalidUniformByName[e.Name] = new ActiveUniformInfo(-1, e.Type, e.Size);
         }
     }
 }
