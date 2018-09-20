@@ -59,7 +59,7 @@ namespace SFGraphicsGui
                 vertAttributesRenderInfo.Add(vertexAttributeRenderInfo);
             }
 
-            shader = VertexAttributeShaderGenerator.CreateShader(vertAttributesRenderInfo);
+            //shader = VertexAttributeShaderGenerator.CreateShader(vertAttributesRenderInfo);
             System.Diagnostics.Debug.WriteLine(shader.GetErrorLog());
             if (!shader.LinkStatusIsOk)
                 return;

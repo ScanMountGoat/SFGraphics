@@ -35,9 +35,23 @@ namespace TextureTests
         public void CorrectFormatSameMipmapCount()
         {
             // Will fail if exception is thrown.
-            var textureCubeMap = new SFGraphics.GLObjects.Textures.TextureCubeMap();
-            textureCubeMap.LoadImageData(128, InternalFormat.CompressedRgbaS3tcDxt1Ext,
+            var texture = new SFGraphics.GLObjects.Textures.TextureCubeMap();
+            texture.LoadImageData(128, InternalFormat.CompressedRgbaS3tcDxt1Ext,
                 mipmaps, mipmaps, mipmaps, mipmaps, mipmaps, mipmaps);
+
+            Assert.AreEqual(128, texture.Width);
+            Assert.AreEqual(128, texture.Height);
+        }
+
+        [TestMethod]
+        public void BitmapFaces()
+        {
+            // Will fail if exception is thrown.
+            var texture = new SFGraphics.GLObjects.Textures.TextureCubeMap();
+            texture.LoadImageData(new System.Drawing.Bitmap(8, 8 * 8 * 6), 8);
+
+            Assert.AreEqual(8, texture.Width);
+            Assert.AreEqual(8, texture.Height);
         }
     }
 }

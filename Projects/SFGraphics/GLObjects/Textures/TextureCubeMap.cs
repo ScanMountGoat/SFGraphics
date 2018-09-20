@@ -28,6 +28,9 @@ namespace SFGraphics.GLObjects.Textures
         /// <param name="faceSideLength">The length in pixels of a side of any of the faces</param>
         public void LoadImageData(System.Drawing.Bitmap cubeMapFaces, int faceSideLength = 128)
         {
+            Width = faceSideLength;
+            Height = faceSideLength;
+
             // Don't use mipmaps.
             MagFilter = TextureMagFilter.Linear;
             MinFilter = TextureMinFilter.Linear;
@@ -80,6 +83,9 @@ namespace SFGraphics.GLObjects.Textures
             List<byte[]> mipsPosX, List<byte[]> mipsNegX, List<byte[]> mipsPosY, 
             List<byte[]> mipsNegY, List<byte[]> mipsPosZ, List<byte[]> mipsNegZ)
         {
+            Width = faceSideLength;
+            Height = faceSideLength;
+
             if (!TextureFormatTools.IsCompressed(internalFormat))
                 throw new ArgumentException(TextureExceptionMessages.expectedCompressed);
 
@@ -110,6 +116,9 @@ namespace SFGraphics.GLObjects.Textures
         public void LoadImageData(int faceSideLength, TextureFormatUncompressed textureFormat, 
             byte[] facePosX, byte[] faceNegX, byte[] facePosY, byte[] faceNegY, byte[] facePosZ, byte[] faceNegZ) 
         {
+            Width = faceSideLength;
+            Height = faceSideLength;
+
             // Don't use mipmaps.
             MagFilter = TextureMagFilter.Linear;
             MinFilter = TextureMinFilter.Linear;

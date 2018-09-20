@@ -14,16 +14,6 @@ namespace SFGraphics.GLObjects.Textures
     public class Texture2D : Texture
     {
         /// <summary>
-        /// The width of the base mip level in pixels.
-        /// </summary>
-        public int Width { get; private set; }
-
-        /// <summary>
-        /// The height of the base mip level in pixels.
-        /// </summary>
-        public int Height { get; private set; }
-
-        /// <summary>
         /// Creates an empty 2D texture. 
         /// The texture is incomplete until the dimensions and format are set.
         /// </summary>

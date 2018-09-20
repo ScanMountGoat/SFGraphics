@@ -3,13 +3,21 @@
 namespace SFGraphics.GLObjects.Textures
 {
     /// <summary>
-    /// Encapsulates the state for an OpenGL texture object. To support texture types other than 
-    /// <see cref="Texture2D"/> and <see cref="TextureCubeMap"/>, inherit from this class
-    /// and add the necessary additional methods. 
+    /// Encapsulates an OpenGL texture object. 
     /// </summary>
     public abstract class Texture : GLObject
     {
         internal override GLObjectType ObjectType { get { return GLObjectType.Texture; } }
+
+        /// <summary>
+        /// The width of the base mip level in pixels.
+        /// </summary>
+        public int Width { get; protected set; }
+
+        /// <summary>
+        /// The height of the base mip level in pixels.
+        /// </summary>
+        public int Height { get; protected set; }
 
         /// <summary>
         /// The <see cref="OpenTK.Graphics.OpenGL.TextureTarget"/> for this texture.
@@ -17,7 +25,8 @@ namespace SFGraphics.GLObjects.Textures
         public TextureTarget TextureTarget { get; }
 
         /// <summary>
-        /// Binds and updates the TextureParameter when set.
+        /// The algorithm used when scaling the texture below its actual size.
+        /// Defaults to LinearMipMapLinear.
         /// </summary>
         public TextureMinFilter MinFilter
         {
@@ -31,7 +40,8 @@ namespace SFGraphics.GLObjects.Textures
         private TextureMinFilter minFilter;
 
         /// <summary>
-        /// Binds and updates the TextureParameter when set.
+        /// The algorithm used when scaling the texture above its actual size.
+        /// Defaults to linear.
         /// </summary>
         public TextureMagFilter MagFilter
         {
@@ -45,7 +55,8 @@ namespace SFGraphics.GLObjects.Textures
         private TextureMagFilter magFilter;
 
         /// <summary>
-        /// Binds and updates the TextureParameter when set.
+        /// The wrap mode for the first component of texture coordinates.
+        /// Defaults to ClampToEdge.
         /// </summary>
         public TextureWrapMode TextureWrapS
         {
@@ -59,7 +70,8 @@ namespace SFGraphics.GLObjects.Textures
         private TextureWrapMode textureWrapS;
 
         /// <summary>
-        /// Binds and updates the TextureParameter when set.
+        /// The wrap mode for the second component of texture coordinates.
+        /// Defaults to ClampToEdge.
         /// </summary>
         public TextureWrapMode TextureWrapT
         {
@@ -73,7 +85,8 @@ namespace SFGraphics.GLObjects.Textures
         private TextureWrapMode textureWrapT;
 
         /// <summary>
-        /// Binds and updates the TextureParameter when set.
+        /// The wrap mode for the third component of texture coordinates.
+        /// Defaults to ClampToEdge.
         /// </summary>
         public TextureWrapMode TextureWrapR
         {
@@ -87,7 +100,7 @@ namespace SFGraphics.GLObjects.Textures
         private TextureWrapMode textureWrapR;
 
         /// <summary>
-        /// Creates an empty texture of the specified target and internal format.
+        /// Creates an empty texture of the specified target.
         /// </summary>
         /// <param name="textureTarget">The target to which <see cref="GLObject.Id"/> is bound.</param>
         public Texture(TextureTarget textureTarget) : base(GL.GenTexture())
