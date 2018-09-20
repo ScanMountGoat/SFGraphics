@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using OpenTK;
 using SFGraphics.GLObjects.Shaders;
+using SFGraphics.GLObjects.Textures;
 
 namespace SFGenericModel.Materials
 {
@@ -13,23 +14,39 @@ namespace SFGenericModel.Materials
     /// </summary>
     public sealed class GenericMaterial
     {
-        // Scalar uniforms
+        /// <summary>
+        /// Each texture uniform will be assigned to a unique index, starting with this value.
+        /// Defaults to <c>0</c>.
+        /// </summary>
+        public int InitialTextureUnit { get; }
+
         private Dictionary<string, float> floatUniformsByName = new Dictionary<string, float>();
         private Dictionary<string, int> intUniformsByName = new Dictionary<string, int>();
-
-        // Vector uniforms
         private Dictionary<string, Vector2> vec2UniformsByName = new Dictionary<string, Vector2>();
         private Dictionary<string, Vector3> vec3UniformsByName = new Dictionary<string, Vector3>();
         private Dictionary<string, Vector4> vec4UniformsByName = new Dictionary<string, Vector4>();
-
-        // Matrix uniforms.
         private Dictionary<string, Matrix4> mat4UniformsByName = new Dictionary<string, Matrix4>();
-
-        // Texture uniforms
-        // TODO: name, texture, texture unit
+        private Dictionary<string, Texture> textureUniformsByName = new Dictionary<string, Texture>();
 
         /// <summary>
-        /// 
+        /// Creates an empty generic material.
+        /// </summary>
+        public GenericMaterial()
+        {
+
+        }
+
+        /// <summary>
+        /// Creates an empty generic material.
+        /// </summary>
+        /// <param name="initialTextureUnit">The starting texture unit for texture uniforms</param>
+        public GenericMaterial(int initialTextureUnit)
+        {
+            InitialTextureUnit = initialTextureUnit;
+        }
+
+        /// <summary>
+        /// Adds a float uniform to the material.
         /// </summary>
         /// <param name="uniformName">The name of the uniform variable</param>
         /// <param name="value">The value to set for the uniform</param>
@@ -49,7 +66,7 @@ namespace SFGenericModel.Materials
         }
 
         /// <summary>
-        /// 
+        /// Adds a vec2 uniform to the material.
         /// </summary>
         /// <param name="uniformName">The name of the uniform variable</param>
         /// <param name="value">The value to set for the uniform</param>
@@ -59,7 +76,7 @@ namespace SFGenericModel.Materials
         }
 
         /// <summary>
-        /// 
+        /// Adds a vec3 uniform to the material.
         /// </summary>
         /// <param name="uniformName">The name of the uniform variable</param>
         /// <param name="value">The value to set for the uniform</param>
@@ -69,7 +86,7 @@ namespace SFGenericModel.Materials
         }
 
         /// <summary>
-        /// 
+        /// Adds a vec4 uniform to the material.
         /// </summary>
         /// <param name="uniformName">The name of the uniform variable</param>
         /// <param name="value">The value to set for the uniform</param>
@@ -79,13 +96,23 @@ namespace SFGenericModel.Materials
         }
 
         /// <summary>
-        /// 
+        /// Adds a mat4 uniform to the material.
         /// </summary>
         /// <param name="uniformName">The name of the uniform variable</param>
         /// <param name="value">The value to set for the uniform</param>
         public void AddMatrix4(string uniformName, Matrix4 value)
         {
             mat4UniformsByName.Add(uniformName, value);
+        }
+
+        /// <summary>
+        /// Adds a sampler uniform to the material.
+        /// </summary>
+        /// <param name="uniformName">The name of the uniform variable</param>
+        /// <param name="value">The value to set for the uniform</param>
+        public void AddTexture(string uniformName, Texture value)
+        {
+            textureUniformsByName.Add(uniformName, value);
         }
 
         /// <summary>
