@@ -7,20 +7,10 @@ namespace SFGraphics.GLObjects.Textures
 {
     /// <summary>
     /// A simple texture for storing depth information. 
-    /// The texture can be attached to a <see cref="Framebuffer"/> object for shadow mapping and other effects.
+    /// The texture can be attached to a <see cref="Framebuffers.Framebuffer"/> object for shadow mapping and other effects.
     /// </summary>
     public class DepthTexture : Texture
     {
-        /// <summary>
-        /// The width of the texture in pixels.
-        /// </summary>
-        public int Width { get; }
-
-        /// <summary>
-        /// The height of the texture in pixels.
-        /// </summary>
-        public int Height { get; }
-
         /// <summary>
         /// Creates an empty depth texture of the specified dimensions and format. 
         /// This texture does not use mipmaps.
