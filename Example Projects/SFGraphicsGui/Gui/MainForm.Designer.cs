@@ -33,6 +33,8 @@
             this.loadTextureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.uVTestPatternToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.magentaBlackStripesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.renderShapeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.drawCubeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -53,7 +55,8 @@
             // 
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.loadTextureToolStripMenuItem});
+            this.loadTextureToolStripMenuItem,
+            this.renderShapeToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1081, 42);
@@ -66,8 +69,8 @@
             this.uVTestPatternToolStripMenuItem,
             this.magentaBlackStripesToolStripMenuItem});
             this.loadTextureToolStripMenuItem.Name = "loadTextureToolStripMenuItem";
-            this.loadTextureToolStripMenuItem.Size = new System.Drawing.Size(163, 38);
-            this.loadTextureToolStripMenuItem.Text = "Load Texture";
+            this.loadTextureToolStripMenuItem.Size = new System.Drawing.Size(187, 38);
+            this.loadTextureToolStripMenuItem.Text = "Render Texture";
             // 
             // uVTestPatternToolStripMenuItem
             // 
@@ -82,6 +85,21 @@
             this.magentaBlackStripesToolStripMenuItem.Size = new System.Drawing.Size(351, 38);
             this.magentaBlackStripesToolStripMenuItem.Text = "Magenta/Black Stripes";
             this.magentaBlackStripesToolStripMenuItem.Click += new System.EventHandler(this.magentaBlackStripesToolStripMenuItem_Click);
+            // 
+            // renderShapeToolStripMenuItem
+            // 
+            this.renderShapeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.drawCubeToolStripMenuItem});
+            this.renderShapeToolStripMenuItem.Name = "renderShapeToolStripMenuItem";
+            this.renderShapeToolStripMenuItem.Size = new System.Drawing.Size(175, 38);
+            this.renderShapeToolStripMenuItem.Text = "Render Shape";
+            // 
+            // drawCubeToolStripMenuItem
+            // 
+            this.drawCubeToolStripMenuItem.Name = "drawCubeToolStripMenuItem";
+            this.drawCubeToolStripMenuItem.Size = new System.Drawing.Size(324, 38);
+            this.drawCubeToolStripMenuItem.Text = "Draw Cube";
+            this.drawCubeToolStripMenuItem.Click += new System.EventHandler(this.drawCubeToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -107,6 +125,8 @@
         private System.Windows.Forms.ToolStripMenuItem loadTextureToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem uVTestPatternToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem magentaBlackStripesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem renderShapeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem drawCubeToolStripMenuItem;
     }
 }
 

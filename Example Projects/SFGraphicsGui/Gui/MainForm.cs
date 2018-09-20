@@ -6,6 +6,7 @@ using SFGraphics.GLObjects.Shaders;
 using SFGraphics.GLObjects.Textures;
 using SFGraphics.GLObjects.GLObjectManagement;
 using SFGenericModel.ShaderGenerators;
+using OpenTK;
 
 namespace SFGraphicsGui
 {
@@ -72,7 +73,7 @@ namespace SFGraphicsGui
             graphicsResources.samplerObject.Bind(textureUnit);
 
             shader.SetInt("attributeIndex", 1);
-            OpenTK.Matrix4 matrix4 = OpenTK.Matrix4.Identity;
+            Matrix4 matrix4 = Matrix4.Identity;
             shader.SetMatrix4x4("mvpMatrix", ref matrix4);
                 
             shader.SetTexture("uvTexture", texture, textureUnit);
@@ -122,6 +123,26 @@ namespace SFGraphicsGui
                 textureToRender = graphicsResources.floatMagentaBlackStripes;
                 glControl1.Invalidate();
             }
+        }
+
+        private void drawCubeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            List<Vector3> squareVertices = new List<Vector3>();
+            squareVertices.Add(new Vector3(0, 0, 0));
+            squareVertices.Add(new Vector3(1, 0, 0));
+            squareVertices.Add(new Vector3(1, 1, 0));
+
+            Mesh3D triangle = new Mesh3D(squareVertices, PrimitiveType.Triangles);
+            Shader shader = VertexAttributeShaderGenerator.CreateShader(triangle.GetRenderAttributes());
+            shader.UseProgram();
+            Matrix4 matrix4 = Matrix4.Identity;
+            shader.SetMatrix4x4("mvpMatrix", ref matrix4);
+
+            glControl1.MakeCurrent();
+            GL.ClearColor(1, 1, 1, 1);
+            GL.Clear(ClearBufferMask.ColorBufferBit);
+            triangle.Draw(shader, null);
+            glControl1.SwapBuffers();
         }
     }
 }
