@@ -9,7 +9,7 @@ namespace SFShapes
 {
     public class Mesh3D : GenericMesh<Vector3>
     {
-        public Mesh3D(List<Vector3> vertices, PrimitiveType type) : base(vertices, type)
+        public Mesh3D(List<Vector3> vertices) : base(vertices, PrimitiveType.Triangles)
         {
 
         }

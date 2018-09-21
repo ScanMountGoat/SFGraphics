@@ -129,7 +129,7 @@ namespace SFGraphicsGui
         {
             List<Vector3> cubeVertices = SFShapes.ShapeGenerator.GetCubePositions(1);
 
-            var triangle = new SFShapes.Mesh3D(cubeVertices, PrimitiveType.Triangles);
+            var triangle = new SFShapes.Mesh3D(cubeVertices);
             Shader shader = VertexAttributeShaderGenerator.CreateShader(triangle.GetRenderAttributes());
             shader.UseProgram();
             Matrix4 matrix4 = Matrix4.CreateOrthographicOffCenter(-2, 2, -2, 2, -2, 2);
