@@ -5,9 +5,9 @@ using SFGenericModel.VertexAttributes;
 using System.Collections.Generic;
 using SFGenericModel.ShaderGenerators;
 
-namespace SFGraphicsGui
+namespace SFShapes
 {
-    class Mesh3D : GenericMesh<Vector3>
+    public class Mesh3D : GenericMesh<Vector3>
     {
         public Mesh3D(List<Vector3> vertices, PrimitiveType type) : base(vertices, type)
         {

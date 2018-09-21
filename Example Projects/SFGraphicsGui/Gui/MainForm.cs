@@ -127,9 +127,9 @@ namespace SFGraphicsGui
 
         private void drawCubeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            List<Vector3> cubeVertices = GetCubePositions();
+            List<Vector3> cubeVertices = SFShapes.ShapeGenerator.GetCubePositions(1);
 
-            Mesh3D triangle = new Mesh3D(cubeVertices, PrimitiveType.Triangles);
+            var triangle = new SFShapes.Mesh3D(cubeVertices, PrimitiveType.Triangles);
             Shader shader = VertexAttributeShaderGenerator.CreateShader(triangle.GetRenderAttributes());
             shader.UseProgram();
             Matrix4 matrix4 = Matrix4.CreateOrthographicOffCenter(-2, 2, -2, 2, -2, 2);
@@ -140,53 +140,6 @@ namespace SFGraphicsGui
             GL.Clear(ClearBufferMask.ColorBufferBit);
             triangle.Draw(shader, null);
             glControl1.SwapBuffers();
-        }
-
-        private static List<Vector3> GetCubePositions()
-        {
-            float scaleX = 1.0f;
-            float scaleY = 1.0f;
-            float scaleZ = 1.0f;
-            List<Vector3> cubeVertices = new List<Vector3>()
-            {
-                new Vector3(-scaleX, -scaleY, -scaleZ),
-                new Vector3(-scaleX, -scaleY,  scaleZ),
-                new Vector3(-scaleX,  scaleY,  scaleZ),
-                new Vector3( scaleX,  scaleY, -scaleZ),
-                new Vector3(-scaleX, -scaleY, -scaleZ),
-                new Vector3(-scaleX,  scaleY, -scaleZ),
-                new Vector3( scaleX, -scaleY,  scaleZ),
-                new Vector3(-scaleX, -scaleY, -scaleZ),
-                new Vector3( scaleX, -scaleY, -scaleZ),
-                new Vector3( scaleX,  scaleY, -scaleZ),
-                new Vector3( scaleX, -scaleY, -scaleZ),
-                new Vector3(-scaleX, -scaleY, -scaleZ),
-                new Vector3(-scaleX, -scaleY, -scaleZ),
-                new Vector3(-scaleX,  scaleY,  scaleZ),
-                new Vector3(-scaleX,  scaleY, -scaleZ),
-                new Vector3 (scaleX, -scaleY,  scaleZ),
-                new Vector3(-scaleX, -scaleY,  scaleZ),
-                new Vector3(-scaleX, -scaleY, -scaleZ),
-                new Vector3(-scaleX,  scaleY,  scaleZ),
-                new Vector3(-scaleX, -scaleY,  scaleZ),
-                new Vector3( scaleX, -scaleY,  scaleZ),
-                new Vector3( scaleX,  scaleY,  scaleZ),
-                new Vector3( scaleX, -scaleY, -scaleZ),
-                new Vector3( scaleX,  scaleY, -scaleZ),
-                new Vector3( scaleX, -scaleY, -scaleZ),
-                new Vector3( scaleX,  scaleY,  scaleZ),
-                new Vector3( scaleX, -scaleY,  scaleZ),
-                new Vector3( scaleX,  scaleY,  scaleZ),
-                new Vector3( scaleX,  scaleY, -scaleZ),
-                new Vector3(-scaleX,  scaleY, -scaleZ),
-                new Vector3( scaleX,  scaleY,  scaleZ),
-                new Vector3(-scaleX,  scaleY, -scaleZ),
-                new Vector3(-scaleX,  scaleY,  scaleZ),
-                new Vector3( scaleX,  scaleY,  scaleZ),
-                new Vector3(-scaleX,  scaleY,  scaleZ),
-                new Vector3( scaleX, -scaleY,  scaleZ)
-            };
-            return cubeVertices;
         }
     }
 }
