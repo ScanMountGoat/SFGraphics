@@ -39,5 +39,27 @@ namespace SFGenericModel.RenderState
             this.depthMask = depthMask;
             this.depthFunction = depthFunction;
         }
+
+        public override bool Equals(object obj)
+        {
+            if (!(obj is DepthTestSettings))
+            {
+                return false;
+            }
+
+            var settings = (DepthTestSettings)obj;
+            return enabled == settings.enabled &&
+                   depthMask == settings.depthMask &&
+                   depthFunction == settings.depthFunction;
+        }
+
+        public override int GetHashCode()
+        {
+            var hashCode = 1286869374;
+            hashCode = hashCode * -1521134295 + enabled.GetHashCode();
+            hashCode = hashCode * -1521134295 + depthMask.GetHashCode();
+            hashCode = hashCode * -1521134295 + depthFunction.GetHashCode();
+            return hashCode;
+        }
     }
 }

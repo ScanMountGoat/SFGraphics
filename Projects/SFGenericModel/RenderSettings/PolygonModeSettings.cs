@@ -32,5 +32,25 @@ namespace SFGenericModel.RenderState
             this.materialFace = materialFace;
             this.polygonMode = polygonMode;
         }
+
+        public override bool Equals(object obj)
+        {
+            if (!(obj is PolygonModeSettings))
+            {
+                return false;
+            }
+
+            var settings = (PolygonModeSettings)obj;
+            return materialFace == settings.materialFace &&
+                   polygonMode == settings.polygonMode;
+        }
+
+        public override int GetHashCode()
+        {
+            var hashCode = -2139604081;
+            hashCode = hashCode * -1521134295 + materialFace.GetHashCode();
+            hashCode = hashCode * -1521134295 + polygonMode.GetHashCode();
+            return hashCode;
+        }
     }
 }

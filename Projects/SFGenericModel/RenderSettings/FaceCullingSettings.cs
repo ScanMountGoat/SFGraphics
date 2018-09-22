@@ -32,5 +32,25 @@ namespace SFGenericModel.RenderState
             this.enabled = enabled;
             this.cullFaceMode = cullFaceMode;
         }
+
+        public override bool Equals(object obj)
+        {
+            if (!(obj is FaceCullingSettings))
+            {
+                return false;
+            }
+
+            var settings = (FaceCullingSettings)obj;
+            return enabled == settings.enabled &&
+                   cullFaceMode == settings.cullFaceMode;
+        }
+
+        public override int GetHashCode()
+        {
+            var hashCode = 96933389;
+            hashCode = hashCode * -1521134295 + enabled.GetHashCode();
+            hashCode = hashCode * -1521134295 + cullFaceMode.GetHashCode();
+            return hashCode;
+        }
     }
 }

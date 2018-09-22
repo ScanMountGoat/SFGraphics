@@ -14,9 +14,15 @@ namespace SFGenericModel.Utils
         /// <param name="renderSettings">The settings used to perform the update</param>
         public static void SetRenderSettings(RenderSettings renderSettings)
         {
+            SetPolygonModeSettings(renderSettings.polygonModeSettings);
             SetFaceCulling(renderSettings.faceCullingSettings);
             SetAlphaBlending(renderSettings.alphaBlendSettings);
             SetAlphaTesting(renderSettings.alphaTestSettings);
+        }
+
+        private static void SetPolygonModeSettings(PolygonModeSettings settings)
+        {
+            GL.PolygonMode(settings.materialFace, settings.polygonMode);
         }
 
         private static void SetFaceCulling(FaceCullingSettings settings)

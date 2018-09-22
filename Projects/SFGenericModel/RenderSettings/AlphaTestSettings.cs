@@ -40,5 +40,27 @@ namespace SFGenericModel.RenderState
             this.alphaFunction = alphaFunction;
             this.referenceAlpha = referenceAlpha;
         }
+
+        public override bool Equals(object obj)
+        {
+            if (!(obj is AlphaTestSettings))
+            {
+                return false;
+            }
+
+            var settings = (AlphaTestSettings)obj;
+            return enabled == settings.enabled &&
+                   alphaFunction == settings.alphaFunction &&
+                   referenceAlpha == settings.referenceAlpha;
+        }
+
+        public override int GetHashCode()
+        {
+            var hashCode = 1022993667;
+            hashCode = hashCode * -1521134295 + enabled.GetHashCode();
+            hashCode = hashCode * -1521134295 + alphaFunction.GetHashCode();
+            hashCode = hashCode * -1521134295 + referenceAlpha.GetHashCode();
+            return hashCode;
+        }
     }
 }

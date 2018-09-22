@@ -55,5 +55,31 @@ namespace SFGenericModel.RenderState
             this.blendingEquationRgb = blendingEquationRgb;
             this.blendingEquationAlpha = blendingEquationAlpha;
         }
+
+        public override bool Equals(object obj)
+        {
+            if (!(obj is AlphaBlendSettings))
+            {
+                return false;
+            }
+
+            var settings = (AlphaBlendSettings)obj;
+            return enabled == settings.enabled &&
+                   sourceFactor == settings.sourceFactor &&
+                   destinationFactor == settings.destinationFactor &&
+                   blendingEquationRgb == settings.blendingEquationRgb &&
+                   blendingEquationAlpha == settings.blendingEquationAlpha;
+        }
+
+        public override int GetHashCode()
+        {
+            var hashCode = 996220672;
+            hashCode = hashCode * -1521134295 + enabled.GetHashCode();
+            hashCode = hashCode * -1521134295 + sourceFactor.GetHashCode();
+            hashCode = hashCode * -1521134295 + destinationFactor.GetHashCode();
+            hashCode = hashCode * -1521134295 + blendingEquationRgb.GetHashCode();
+            hashCode = hashCode * -1521134295 + blendingEquationAlpha.GetHashCode();
+            return hashCode;
+        }
     }
 }

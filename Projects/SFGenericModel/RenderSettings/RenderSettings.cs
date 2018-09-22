@@ -1,4 +1,6 @@
 ﻿
+using System.Collections.Generic;
+
 namespace SFGenericModel.RenderState
 {
     /// <summary>
@@ -7,35 +9,29 @@ namespace SFGenericModel.RenderState
     public class RenderSettings
     {
         /// <summary>
+        /// Controls the appearance of primitives.
+        /// </summary>
+        public PolygonModeSettings polygonModeSettings = PolygonModeSettings.Default;
+
+        /// <summary>
         /// Controls blending effects and alpha transparency.
         /// </summary>
-        public AlphaBlendSettings alphaBlendSettings = new AlphaBlendSettings();
+        public AlphaBlendSettings alphaBlendSettings = AlphaBlendSettings.Default;
 
         /// <summary>
         /// Controls discarding of fragments based on alpha.
         /// </summary>
-        public AlphaTestSettings alphaTestSettings = new AlphaTestSettings();
+        public AlphaTestSettings alphaTestSettings = AlphaTestSettings.Default;
 
         /// <summary>
         /// Controls discarding of fragments based on depth.
         /// </summary>
-        public DepthTestSettings depthTestSettings = new DepthTestSettings();
+        public DepthTestSettings depthTestSettings = DepthTestSettings.Default;
 
         /// <summary>
         /// Controls which faces are culled.
         /// </summary>
-        public FaceCullingSettings faceCullingSettings = new FaceCullingSettings();
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public RenderSettings()
-        {
-            alphaBlendSettings = AlphaBlendSettings.Default;
-            alphaTestSettings = AlphaTestSettings.Default;
-            depthTestSettings = DepthTestSettings.Default;
-            faceCullingSettings = FaceCullingSettings.Default;
-        }
+        public FaceCullingSettings faceCullingSettings = FaceCullingSettings.Default;
 
         /// <summary>
         /// 
@@ -50,6 +46,21 @@ namespace SFGenericModel.RenderState
                 settings.alphaTestSettings.Equals(alphaTestSettings) &&
                 settings.depthTestSettings.Equals(depthTestSettings) &&
                 settings.faceCullingSettings.Equals(faceCullingSettings);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public override int GetHashCode()
+        {
+            var hashCode = 2089746424;
+            hashCode = hashCode * -1521134295 + EqualityComparer<PolygonModeSettings>.Default.GetHashCode(polygonModeSettings);
+            hashCode = hashCode * -1521134295 + EqualityComparer<AlphaBlendSettings>.Default.GetHashCode(alphaBlendSettings);
+            hashCode = hashCode * -1521134295 + EqualityComparer<AlphaTestSettings>.Default.GetHashCode(alphaTestSettings);
+            hashCode = hashCode * -1521134295 + EqualityComparer<DepthTestSettings>.Default.GetHashCode(depthTestSettings);
+            hashCode = hashCode * -1521134295 + EqualityComparer<FaceCullingSettings>.Default.GetHashCode(faceCullingSettings);
+            return hashCode;
         }
     }
 }
