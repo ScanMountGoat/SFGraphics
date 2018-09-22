@@ -1,7 +1,6 @@
 ﻿using OpenTK.Graphics.OpenGL;
-using SFGenericModel.RenderState;
 
-namespace SFGenericModel.Utils
+namespace SFGenericModel.RenderState
 {
     /// <summary>
     /// Contains methods for updating OpenGL rendering state.

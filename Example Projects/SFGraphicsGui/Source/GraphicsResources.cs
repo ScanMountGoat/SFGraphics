@@ -43,20 +43,12 @@ namespace SFGraphicsGui
 
         private void Benchmark()
         {
-            screenTextureShader.UseProgram();
-            int length = 100;
-
-            var attributes = new List<VertexAttributeRenderInfo>();
-            foreach (var attribute in screenTriangle.GetVertexAttributes())
-            {
-                VertexAttributeRenderInfo vertexAttributeRenderInfo = new VertexAttributeRenderInfo(true, true, attribute);
-                attributes.Add(vertexAttributeRenderInfo);
-            }
+            int length = 10000;
 
             var stopwatch = System.Diagnostics.Stopwatch.StartNew();
             for (int i = 0; i < length; i++)
             {
-                VertexAttributeShaderGenerator.CreateShader(attributes);
+                SFGenericModel.RenderState.GLRenderSettings.SetRenderSettings(new SFGenericModel.RenderState.RenderSettings());
             }
             System.Diagnostics.Debug.WriteLine($"Operation: { (double)stopwatch.ElapsedMilliseconds / length } ms");
         }
