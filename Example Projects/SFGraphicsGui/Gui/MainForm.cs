@@ -152,7 +152,7 @@ namespace SFGraphicsGui
 
         private void drawCubeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            List<Vector3> cubeVertices = SFShapes.ShapeGenerator.GetCubePositions(1);
+            List<Vector3> cubeVertices = SFShapes.ShapeGenerator.GetCubePositions(Vector3.Zero, 1);
 
             var cube = new SFShapes.Mesh3D(cubeVertices);
             DrawShape(cubeVertices, cube);
