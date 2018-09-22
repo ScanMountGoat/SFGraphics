@@ -28,7 +28,11 @@ namespace SFShapes
         /// <returns></returns>
         public static List<Vector3> GetRectangularPrismPositions(float scaleX, float scaleY, float scaleZ)
         {
-            List<Vector3> cubeVertices = new List<Vector3>()
+            scaleX = scaleX * 0.5f;
+            scaleY = scaleY * 0.5f;
+            scaleZ = scaleZ * 0.5f;
+
+            return new List<Vector3>()
             {
                 new Vector3(-scaleX, -scaleY, -scaleZ),
                 new Vector3(-scaleX, -scaleY,  scaleZ),
@@ -67,8 +71,6 @@ namespace SFShapes
                 new Vector3(-scaleX,  scaleY,  scaleZ),
                 new Vector3( scaleX, -scaleY,  scaleZ)
             };
-            return cubeVertices;
         }
-
     }
 }

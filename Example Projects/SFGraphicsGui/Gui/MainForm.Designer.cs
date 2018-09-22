@@ -35,6 +35,7 @@
             this.magentaBlackStripesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.renderShapeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.drawCubeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.drawTriangleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -89,7 +90,8 @@
             // renderShapeToolStripMenuItem
             // 
             this.renderShapeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.drawCubeToolStripMenuItem});
+            this.drawCubeToolStripMenuItem,
+            this.drawTriangleToolStripMenuItem});
             this.renderShapeToolStripMenuItem.Name = "renderShapeToolStripMenuItem";
             this.renderShapeToolStripMenuItem.Size = new System.Drawing.Size(175, 38);
             this.renderShapeToolStripMenuItem.Text = "Render Shape";
@@ -100,6 +102,13 @@
             this.drawCubeToolStripMenuItem.Size = new System.Drawing.Size(324, 38);
             this.drawCubeToolStripMenuItem.Text = "Draw Cube";
             this.drawCubeToolStripMenuItem.Click += new System.EventHandler(this.drawCubeToolStripMenuItem_Click);
+            // 
+            // drawTriangleToolStripMenuItem
+            // 
+            this.drawTriangleToolStripMenuItem.Name = "drawTriangleToolStripMenuItem";
+            this.drawTriangleToolStripMenuItem.Size = new System.Drawing.Size(324, 38);
+            this.drawTriangleToolStripMenuItem.Text = "Draw Triangle";
+            this.drawTriangleToolStripMenuItem.Click += new System.EventHandler(this.drawTriangleToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -127,6 +136,7 @@
         private System.Windows.Forms.ToolStripMenuItem magentaBlackStripesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem renderShapeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem drawCubeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem drawTriangleToolStripMenuItem;
     }
 }
 

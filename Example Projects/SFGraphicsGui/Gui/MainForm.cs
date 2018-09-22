@@ -126,16 +126,15 @@ namespace SFGraphicsGui
             }
         }
 
-        private void drawCubeToolStripMenuItem_Click(object sender, EventArgs e)
+        private void DrawShape(List<Vector3> shapeVertices, SFShapes.Mesh3D shape)
         {
-            List<Vector3> cubeVertices = SFShapes.ShapeGenerator.GetCubePositions(1);
-
-            var triangle = new SFShapes.Mesh3D(cubeVertices);
-            Shader shader = VertexAttributeShaderGenerator.CreateShader(triangle.GetRenderAttributes());
+            Shader shader = VertexAttributeShaderGenerator.CreateShader(shape.GetRenderAttributes());
             shader.UseProgram();
 
             Camera camera = new Camera();
-            Vector4 boundingSphere = SFGraphics.Utils.BoundingSphereGenerator.GenerateBoundingSphere(cubeVertices);
+            camera.renderWidth = glControl1.Width;
+            camera.renderHeight = glControl1.Height;
+            Vector4 boundingSphere = SFGraphics.Utils.BoundingSphereGenerator.GenerateBoundingSphere(shapeVertices);
             camera.FrameBoundingSphere(boundingSphere.Xyz, boundingSphere.W, 0);
 
             camera.Zoom(-1);
@@ -147,8 +146,21 @@ namespace SFGraphicsGui
             glControl1.MakeCurrent();
             GL.ClearColor(1, 1, 1, 1);
             GL.Clear(ClearBufferMask.ColorBufferBit);
-            triangle.Draw(shader, camera);
+            shape.Draw(shader, camera);
             glControl1.SwapBuffers();
+        }
+
+        private void drawCubeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            List<Vector3> cubeVertices = SFShapes.ShapeGenerator.GetCubePositions(1);
+
+            var cube = new SFShapes.Mesh3D(cubeVertices);
+            DrawShape(cubeVertices, cube);
+        }
+
+        private void drawTriangleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

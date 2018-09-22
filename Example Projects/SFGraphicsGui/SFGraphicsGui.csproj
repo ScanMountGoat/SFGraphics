@@ -62,8 +62,8 @@
     <Compile Include="Source\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Source\ResourceTextFile.cs" />
-    <Compile Include="Source\ScreenTriangle.cs" />
-    <Compile Include="Source\ScreenTriangleVertex.cs" />
+    <Compile Include="Source\ScreenDrawing\ScreenTriangle.cs" />
+    <Compile Include="Source\ScreenDrawing\ScreenTriangleVertex.cs" />
     <EmbeddedResource Include="Gui\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
