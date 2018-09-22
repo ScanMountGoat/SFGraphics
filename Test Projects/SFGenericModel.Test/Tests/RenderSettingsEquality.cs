@@ -27,7 +27,7 @@ namespace RenderSettingsTests
         {
             RenderSettings settings = new RenderSettings();
             RenderSettings settings2 = new RenderSettings();
-            settings2.alphaTestSettings.enabled = !settings.alphaTestSettings.enabled;
+            settings2.alphaTestSettings = new AlphaTestSettings(true, OpenTK.Graphics.OpenGL.AlphaFunction.Gequal, 0.5f);
             Assert.IsFalse(settings.Equals(settings2));
         }
 
@@ -36,7 +36,7 @@ namespace RenderSettingsTests
         {
             RenderSettings settings = new RenderSettings();
             RenderSettings settings2 = new RenderSettings();
-            settings2.faceCullingSettings.enabled = !settings.faceCullingSettings.enabled;
+            settings2.faceCullingSettings = new FaceCullingSettings(false, OpenTK.Graphics.OpenGL.CullFaceMode.Back);
 
             Assert.IsFalse(settings.Equals(settings2));
         }
@@ -56,7 +56,7 @@ namespace RenderSettingsTests
         {
             RenderSettings settings = new RenderSettings();
             RenderSettings settings2 = new RenderSettings();
-            settings2.depthTestSettings.enabled = !settings.depthTestSettings.enabled;
+            settings2.depthTestSettings = new DepthTestSettings(false, true, OpenTK.Graphics.OpenGL.DepthFunction.Lequal);
 
             Assert.IsFalse(settings.Equals(settings2));
         }

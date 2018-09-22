@@ -4,7 +4,7 @@ namespace SFGenericModel.RenderState
     /// <summary>
     /// Stores the rendering state set before <see cref="GenericMesh{T}"/> is drawn.
     /// </summary>
-    public partial class RenderSettings
+    public class RenderSettings
     {
         /// <summary>
         /// Controls blending effects and alpha transparency.
@@ -25,6 +25,17 @@ namespace SFGenericModel.RenderState
         /// Controls which faces are culled.
         /// </summary>
         public FaceCullingSettings faceCullingSettings = new FaceCullingSettings();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public RenderSettings()
+        {
+            alphaBlendSettings = AlphaBlendSettings.Default;
+            alphaTestSettings = AlphaTestSettings.Default;
+            depthTestSettings = DepthTestSettings.Default;
+            faceCullingSettings = FaceCullingSettings.Default;
+        }
 
         /// <summary>
         /// 

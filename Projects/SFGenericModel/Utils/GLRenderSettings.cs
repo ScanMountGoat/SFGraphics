@@ -19,14 +19,14 @@ namespace SFGenericModel.Utils
             SetAlphaTesting(renderSettings.alphaTestSettings);
         }
 
-        private static void SetFaceCulling(RenderSettings.FaceCullingSettings settings)
+        private static void SetFaceCulling(FaceCullingSettings settings)
         {
             SetGLEnableCap(EnableCap.CullFace, settings.enabled);
 
             GL.CullFace(settings.cullFaceMode);
         }
 
-        private static void SetDepthTesting(RenderSettings.DepthTestSettings settings)
+        private static void SetDepthTesting(DepthTestSettings settings)
         {
             SetGLEnableCap(EnableCap.DepthTest, settings.enabled);
 
@@ -34,7 +34,7 @@ namespace SFGenericModel.Utils
             GL.DepthMask(settings.depthMask);
         }
 
-        private static void SetAlphaBlending(RenderSettings.AlphaBlendSettings settings)
+        private static void SetAlphaBlending(AlphaBlendSettings settings)
         {
             SetGLEnableCap(EnableCap.Blend, settings.enabled);
 
@@ -42,7 +42,7 @@ namespace SFGenericModel.Utils
             GL.BlendEquationSeparate(settings.blendingEquationRgb, settings.blendingEquationAlpha);
         }
 
-        private static void SetAlphaTesting(RenderSettings.AlphaTestSettings settings)
+        private static void SetAlphaTesting(AlphaTestSettings settings)
         {
             SetGLEnableCap(EnableCap.AlphaTest, settings.enabled);
             GL.AlphaFunc(settings.alphaFunction, settings.referenceAlpha);

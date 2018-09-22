@@ -46,6 +46,7 @@
     <Compile Include="GenericModels\HideableMesh.cs" />
     <Compile Include="IDrawableMesh.cs" />
     <Compile Include="IndexedVertexData.cs" />
+    <Compile Include="RenderSettings\PolygonModeSettings.cs" />
     <Compile Include="ShaderGenerators\GlslUtils.cs" />
     <Compile Include="VertexAttributes\AttribPointerUtils.cs" />
     <Compile Include="MeshEventArgs\AttribSetEventArgs.cs" />
