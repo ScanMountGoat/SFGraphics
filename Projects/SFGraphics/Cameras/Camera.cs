@@ -5,12 +5,15 @@ using SFGraphics.Utils;
 namespace SFGraphics.Cameras
 {
     /// <summary>
-    /// A container for 4x4 camera matrices. The matrices can not be set directly.
-    /// To edit the translation matrix, the camera position should be changed, for example.
-    /// <para>Keyboard/mouse controls can be added by inheriting from this class and using the Pan(), Rotate(), Zoom() methods.</para>
+    /// A container for 4x4 matrices. The matrices can not be set directly.
     /// </summary>
     public class Camera
     {
+        /// <summary>
+        /// The camera's initial position or position after <see cref="ResetToDefaultPosition"/>.
+        /// </summary>
+        public Vector3 DefaultPosition { get; private set; }
+
         /// <summary>
         /// The position of the camera in scene units. 
         /// Updates all matrices when set.
@@ -170,6 +173,7 @@ namespace SFGraphics.Cameras
         /// See <see cref="ModelViewMatrix"/>
         /// </summary>
         protected Matrix4 modelViewMatrix = Matrix4.Identity;
+
         /// <summary>
         /// The result of <see cref="RotationMatrix"/> * <see cref="TranslationMatrix"/>
         /// </summary>
@@ -179,6 +183,7 @@ namespace SFGraphics.Cameras
         /// See <see cref="MvpMatrix"/>
         /// </summary>
         protected Matrix4 mvpMatrix = Matrix4.Identity;
+
         /// <summary>
         /// The result of <see cref="ModelViewMatrix"/> * <see cref="PerspectiveMatrix"/>
         /// </summary>
@@ -188,6 +193,7 @@ namespace SFGraphics.Cameras
         /// See <see cref="RotationMatrix"/>
         /// </summary>
         protected Matrix4 rotationMatrix = Matrix4.Identity;
+
         /// <summary>
         /// The result of <see cref="Matrix4.CreateRotationY(float)"/> * <see cref="Matrix4.CreateRotationX(float)"/>
         /// </summary>
@@ -197,6 +203,7 @@ namespace SFGraphics.Cameras
         /// See <see cref="TranslationMatrix"/>
         /// </summary>
         protected Matrix4 translationMatrix = Matrix4.Identity;
+
         /// <summary>
         /// The result of <see cref="Matrix4.CreateTranslation(float, float, float)"/> for X, -Y, Z of <see cref="Position"/>
         /// </summary>
@@ -206,6 +213,7 @@ namespace SFGraphics.Cameras
         /// See <see cref="PerspectiveMatrix"/>
         /// </summary>
         protected Matrix4 perspectiveMatrix = Matrix4.Identity;
+
         /// <summary>
         /// The result of <see cref="Matrix4.CreatePerspectiveFieldOfView(float, float, float, float)"/> for 
         /// <see cref="FovRadians"/>, <see cref="renderWidth"/> / <see cref="renderHeight"/>, <see cref="NearClipPlane"/>,
@@ -214,11 +222,11 @@ namespace SFGraphics.Cameras
         public Matrix4 PerspectiveMatrix { get { return perspectiveMatrix; } }
 
         /// <summary>
-        /// 
+        /// Creates a new <see cref="Camera"/> located at <see cref="DefaultPosition"/>.
         /// </summary>
         public Camera()
         {
-
+            DefaultPosition = new Vector3(new Vector3(0, 10, -80));
         }
 
         /// <summary>
@@ -229,24 +237,13 @@ namespace SFGraphics.Cameras
         /// <param name="rotY">The rotation around the y-axis in radians</param>
         /// <param name="renderWidth">The width of the viewport in pixels</param>
         /// <param name="renderHeight">The height of the viewport in pixels</param>
-        public Camera(Vector3 position, float rotX, float rotY, int renderWidth = 1, int renderHeight = 1)
+        public Camera(Vector3 position, float rotX, float rotY, int renderWidth = 1, int renderHeight = 1) : this()
         {
             Position = position;
             this.renderHeight = renderHeight;
             this.renderWidth = renderWidth;
             RotationXRadians = rotX;
             RotationYRadians = rotY;
-        }
-
-        /// <summary>
-        /// Rotates the camera around the x and y axes by the specified amounts.
-        /// </summary>
-        /// <param name="xAmount">Amount to rotate around the x-axis in radians</param>
-        /// <param name="yAmount">Amount to rotate around the y-axis in radians</param>
-        public void Rotate(float xAmount, float yAmount)
-        {
-            rotationXRadians += xAmount;
-            rotationYRadians += yAmount;
         }
 
         /// <summary>
@@ -309,27 +306,42 @@ namespace SFGraphics.Cameras
             UpdateMvpMatrix();
         }
 
-        private void UpdateTranslationMatrix()
+        /// <summary>
+        /// 
+        /// </summary>
+        protected virtual void UpdateTranslationMatrix()
         {
             translationMatrix = Matrix4.CreateTranslation(position.X, -position.Y, position.Z);
         }
 
-        private void UpdateRotationMatrix()
+        /// <summary>
+        /// 
+        /// </summary>
+        protected virtual void UpdateRotationMatrix()
         {
             rotationMatrix = Matrix4.CreateRotationY(rotationYRadians) * Matrix4.CreateRotationX(rotationXRadians);
         }
 
-        private void UpdatePerspectiveMatrix()
+        /// <summary>
+        /// 
+        /// </summary>
+        protected virtual void UpdatePerspectiveMatrix()
         {
             perspectiveMatrix = Matrix4.CreatePerspectiveFieldOfView(fovRadians, renderWidth / (float)renderHeight, nearClipPlane, farClipPlane);
         }
 
-        private void UpdateModelViewMatrix()
+        /// <summary>
+        /// 
+        /// </summary>
+        protected virtual void UpdateModelViewMatrix()
         {
             modelViewMatrix = rotationMatrix * translationMatrix;
         }
 
-        private void UpdateMvpMatrix()
+        /// <summary>
+        /// 
+        /// </summary>
+        protected virtual void UpdateMvpMatrix()
         {
             mvpMatrix = modelViewMatrix * perspectiveMatrix;
         }
