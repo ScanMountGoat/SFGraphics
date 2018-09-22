@@ -7,6 +7,7 @@ using SFGraphics.GLObjects.Textures;
 using SFGraphics.GLObjects.GLObjectManagement;
 using SFGenericModel.ShaderGenerators;
 using OpenTK;
+using SFGraphics.Cameras;
 
 namespace SFGraphicsGui
 {
@@ -132,13 +133,21 @@ namespace SFGraphicsGui
             var triangle = new SFShapes.Mesh3D(cubeVertices);
             Shader shader = VertexAttributeShaderGenerator.CreateShader(triangle.GetRenderAttributes());
             shader.UseProgram();
-            Matrix4 matrix4 = Matrix4.CreateOrthographicOffCenter(-2, 2, -2, 2, -2, 2);
-            shader.SetMatrix4x4("mvpMatrix", ref matrix4);
+
+            Camera camera = new Camera();
+            Vector4 boundingSphere = SFGraphics.Utils.BoundingSphereGenerator.GenerateBoundingSphere(cubeVertices);
+            camera.FrameBoundingSphere(boundingSphere.Xyz, boundingSphere.W, 0);
+
+            camera.Zoom(-1);
+            camera.RotationYDegrees = -45;
+            camera.RotationXDegrees = 30;
+
+            camera.UpdateMatrices();
 
             glControl1.MakeCurrent();
             GL.ClearColor(1, 1, 1, 1);
             GL.Clear(ClearBufferMask.ColorBufferBit);
-            triangle.Draw(shader, null);
+            triangle.Draw(shader, camera);
             glControl1.SwapBuffers();
         }
     }

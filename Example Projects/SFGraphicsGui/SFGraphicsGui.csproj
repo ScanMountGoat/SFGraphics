@@ -97,6 +97,10 @@
       <Project>{a94b234e-9f97-42bb-a405-8c713481a463}</Project>
       <Name>SFGenericModel</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Projects\SFGraphics.Utils\SFGraphics.Utils.csproj">
+      <Project>{d78b8153-c955-4ef6-b02f-6d824bfd949e}</Project>
+      <Name>SFGraphics.Utils</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Projects\SFGraphics\SFGraphics.csproj">
       <Project>{a62e9240-ef67-41e5-a4e1-43f0afa759f4}</Project>
       <Name>SFGraphics</Name>
