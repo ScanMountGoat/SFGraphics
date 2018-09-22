@@ -137,9 +137,11 @@ namespace SFGraphicsGui
             Vector4 boundingSphere = SFGraphics.Utils.BoundingSphereGenerator.GenerateBoundingSphere(shapeVertices);
             camera.FrameBoundingSphere(boundingSphere.Xyz, boundingSphere.W, 0);
 
-            camera.Zoom(-1);
-            camera.RotationYDegrees = -45;
-            camera.RotationXDegrees = 30;
+            camera.NearClipPlane = 0.01f;
+            camera.FarClipPlane = 100;
+            camera.Zoom(-0.5f);
+            camera.RotationXDegrees = -5;
+            camera.RotationYDegrees = -180;
 
             camera.UpdateMatrices();
 
@@ -152,15 +154,16 @@ namespace SFGraphicsGui
 
         private void drawCubeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            List<Vector3> cubeVertices = SFShapes.ShapeGenerator.GetCubePositions(Vector3.Zero, 1);
-
+            var cubeVertices = SFShapes.ShapeGenerator.GetCubePositions(Vector3.Zero, 1);
             var cube = new SFShapes.Mesh3D(cubeVertices);
-            DrawShape(cubeVertices, cube);
+            DrawShape(cubeVertices.Item1, cube);
         }
 
-        private void drawTriangleToolStripMenuItem_Click(object sender, EventArgs e)
+        private void drawSphereToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            var sphereVertices = SFShapes.ShapeGenerator.GetSpherePositions(Vector3.Zero, 1, 32);
+            var sphere = new SFShapes.Mesh3D(sphereVertices);
+            DrawShape(sphereVertices.Item1, sphere);
         }
     }
 }

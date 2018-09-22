@@ -28,14 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.glControl1 = new OpenTK.GLControl();
+            this.glControl1 = new OpenTK.GLControl(new OpenTK.Graphics.GraphicsMode(new OpenTK.Graphics.ColorFormat(8, 8, 8, 8), 24, 8, 16));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.loadTextureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.uVTestPatternToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.magentaBlackStripesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.renderShapeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.drawCubeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.drawTriangleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.drawSphereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -91,7 +91,7 @@
             // 
             this.renderShapeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.drawCubeToolStripMenuItem,
-            this.drawTriangleToolStripMenuItem});
+            this.drawSphereToolStripMenuItem});
             this.renderShapeToolStripMenuItem.Name = "renderShapeToolStripMenuItem";
             this.renderShapeToolStripMenuItem.Size = new System.Drawing.Size(175, 38);
             this.renderShapeToolStripMenuItem.Text = "Render Shape";
@@ -103,12 +103,12 @@
             this.drawCubeToolStripMenuItem.Text = "Draw Cube";
             this.drawCubeToolStripMenuItem.Click += new System.EventHandler(this.drawCubeToolStripMenuItem_Click);
             // 
-            // drawTriangleToolStripMenuItem
+            // drawSphereToolStripMenuItem
             // 
-            this.drawTriangleToolStripMenuItem.Name = "drawTriangleToolStripMenuItem";
-            this.drawTriangleToolStripMenuItem.Size = new System.Drawing.Size(324, 38);
-            this.drawTriangleToolStripMenuItem.Text = "Draw Triangle";
-            this.drawTriangleToolStripMenuItem.Click += new System.EventHandler(this.drawTriangleToolStripMenuItem_Click);
+            this.drawSphereToolStripMenuItem.Name = "drawSphereToolStripMenuItem";
+            this.drawSphereToolStripMenuItem.Size = new System.Drawing.Size(324, 38);
+            this.drawSphereToolStripMenuItem.Text = "Draw Sphere";
+            this.drawSphereToolStripMenuItem.Click += new System.EventHandler(this.drawSphereToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -136,7 +136,7 @@
         private System.Windows.Forms.ToolStripMenuItem magentaBlackStripesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem renderShapeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem drawCubeToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem drawTriangleToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem drawSphereToolStripMenuItem;
     }
 }
 
