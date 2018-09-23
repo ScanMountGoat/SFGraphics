@@ -151,6 +151,13 @@ namespace SFGenericModel.Materials
                 Matrix4 value = uniform.Value;
                 shader.SetMatrix4x4(uniform.Key, ref value);
             }
+
+            int textureIndex = InitialTextureUnit;
+            foreach (var uniform in textureUniformsByName)
+            {
+                shader.SetTexture(uniform.Key, uniform.Value, textureIndex);
+                textureIndex++;
+            }
         }
     }
 }
