@@ -29,6 +29,20 @@ namespace SFGraphics.Cameras
         private Vector3 position = new Vector3(0, 10, -80);
 
         /// <summary>
+        /// The scale for all objects. Defaults to 1.
+        /// </summary>
+        public float Scale
+        {
+            get { return scale; }
+            set
+            {
+                scale = value;
+                UpdateMatrices();
+            }
+        }
+        private float scale = 1;
+
+        /// <summary>
         /// The vertical field of view in radians. 
         /// Updates <see cref="FovDegrees"/> and all matrices when set.
         /// <para>Values less than or equal to 0 or greater than or equal to PI are ignored.</para>
@@ -313,7 +327,7 @@ namespace SFGraphics.Cameras
         /// </summary>
         protected virtual void UpdateModelViewMatrix()
         {
-            modelViewMatrix = rotationMatrix * translationMatrix;
+            modelViewMatrix = rotationMatrix * translationMatrix * Matrix4.CreateScale(scale);
         }
 
         /// <summary>
