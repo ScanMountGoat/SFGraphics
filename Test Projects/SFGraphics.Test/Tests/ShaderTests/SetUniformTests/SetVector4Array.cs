@@ -11,27 +11,21 @@ namespace ShaderTests.SetterTests
         public void ValidName()
         {
             shader.SetVector4("vector4Arr", new Vector4[8]);
-            string expected = RenderTestUtils.ShaderTestUtils.GetInvalidUniformErrorMessage("vector4Arr", ActiveUniformType.FloatVec4);
-            Assert.IsFalse(shader.GetErrorLog().Contains(expected));
-            Assert.AreEqual(0, invalidUniformSets.Count);
+            Assert.IsTrue(IsValidSet("vector4Arr", ActiveUniformType.FloatVec4));
         }
 
         [TestMethod]
         public void InvalidName()
         {
             shader.SetVector4("memes", new Vector4[8]);
-            string expected = RenderTestUtils.ShaderTestUtils.GetInvalidUniformErrorMessage("memes", ActiveUniformType.FloatVec4);
-            Assert.IsTrue(shader.GetErrorLog().Contains(expected));
-            Assert.AreEqual(1, invalidUniformSets.Count);
+            Assert.IsFalse(IsValidSet("memes", ActiveUniformType.FloatVec4));
         }
 
         [TestMethod]
         public void InvalidType()
         {
-            shader.SetVector4("vec2Arr", new Vector4[8]);
-            string expected = RenderTestUtils.ShaderTestUtils.GetInvalidUniformErrorMessage("vec2Arr", ActiveUniformType.FloatVec4);
-            Assert.IsTrue(shader.GetErrorLog().Contains(expected));
-            Assert.AreEqual(1, invalidUniformSets.Count);
+            shader.SetVector4("vector2Arr", new Vector4[8]);
+            Assert.IsFalse(IsValidSet("vector2Arr", ActiveUniformType.FloatVec4));
         }
     }
 }

@@ -12,27 +12,21 @@ namespace ShaderTests.SetterTests
         public void ValidNameValidType()
         {
             shader.SetUint("uintArray1", values);
-            string expected = RenderTestUtils.ShaderTestUtils.GetInvalidUniformErrorMessage("uintArray1", ActiveUniformType.UnsignedInt);
-            Assert.IsFalse(shader.GetErrorLog().Contains(expected));
-            Assert.AreEqual(0, invalidUniformSets.Count);
+            Assert.IsTrue(IsValidSet("uintArray1", ActiveUniformType.UnsignedInt));
         }
 
         [TestMethod]
         public void InvalidName()
         {
             shader.SetUint("memes", values);
-            string expected = RenderTestUtils.ShaderTestUtils.GetInvalidUniformErrorMessage("memes", ActiveUniformType.UnsignedInt);
-            Assert.IsTrue(shader.GetErrorLog().Contains(expected));
-            Assert.AreEqual(1, invalidUniformSets.Count);
+            Assert.IsFalse(IsValidSet("memes", ActiveUniformType.UnsignedInt));
         }
 
         [TestMethod]
         public void InvalidType()
         {
-            shader.SetUint("float1", values);
-            string expected = RenderTestUtils.ShaderTestUtils.GetInvalidUniformErrorMessage("float1", ActiveUniformType.UnsignedInt);
-            Assert.IsTrue(shader.GetErrorLog().Contains(expected));
-            Assert.AreEqual(1, invalidUniformSets.Count);
+            shader.SetUint("floatArray1", values);
+            Assert.IsFalse(IsValidSet("floatArray1", ActiveUniformType.UnsignedInt));
         }
     }
 }

@@ -7,39 +7,24 @@ namespace ShaderTests.SetterTests
     public class SetBoolToInt : ShaderTest
     {
         [TestMethod]
-        public void ValidName()
+        public void ValidNameValidType()
         {
             shader.SetBoolToInt("boolInt1", true);
-            string expected = RenderTestUtils.ShaderTestUtils.GetInvalidUniformErrorMessage("boolInt1", ActiveUniformType.Int);
-            Assert.IsFalse(shader.GetErrorLog().Contains(expected));
-            Assert.AreEqual(0, invalidUniformSets.Count);
+            Assert.IsTrue(IsValidSet("boolInt1", ActiveUniformType.Int));
         }
 
         [TestMethod]
         public void InvalidName()
         {
             shader.SetBoolToInt("memes", true);
-            string expected = RenderTestUtils.ShaderTestUtils.GetInvalidUniformErrorMessage("memes", ActiveUniformType.Int);
-            Assert.IsTrue(shader.GetErrorLog().Contains(expected));
-            Assert.AreEqual(1, invalidUniformSets.Count);
+            Assert.IsFalse(IsValidSet("memes", ActiveUniformType.Int));
         }
 
         [TestMethod]
         public void InvalidType()
         {
             shader.SetBoolToInt("float1", true);
-            string expected = RenderTestUtils.ShaderTestUtils.GetInvalidUniformErrorMessage("float1", ActiveUniformType.Int);
-            Assert.IsTrue(shader.GetErrorLog().Contains(expected));
-            Assert.AreEqual(1, invalidUniformSets.Count);
-        }
-
-        [TestMethod]
-        public void ValidType()
-        {
-            shader.SetBoolToInt("int1", true);
-            string expected = RenderTestUtils.ShaderTestUtils.GetInvalidUniformErrorMessage("int1", ActiveUniformType.Int);
-            Assert.IsFalse(shader.GetErrorLog().Contains(expected));
-            Assert.AreEqual(0, invalidUniformSets.Count);
+            Assert.IsFalse(IsValidSet("float1", ActiveUniformType.Int));
         }
     }
 }

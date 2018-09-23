@@ -2,6 +2,7 @@
 using SFGraphics.GLObjects.Shaders;
 using System.Collections.Generic;
 using SFGraphics.GLObjects.Shaders.ShaderEventArgs;
+using OpenTK.Graphics.OpenGL;
 
 namespace ShaderTests
 {
@@ -37,6 +38,12 @@ namespace ShaderTests
         private void Shader_OnInvalidUniformSet(Shader sender, UniformSetEventArgs e)
         {
             invalidUniformSets.Add(e);
+        }
+
+        public bool IsValidSet(string name, ActiveUniformType type)
+        {
+            string expected = RenderTestUtils.ShaderTestUtils.GetInvalidUniformErrorMessage(name, type);
+            return !shader.GetErrorLog().Contains(expected) && invalidUniformSets.Count == 0;
         }
     }
 }
