@@ -327,7 +327,7 @@ namespace SFGraphics.Cameras
         /// </summary>
         protected virtual void UpdateModelViewMatrix()
         {
-            modelViewMatrix = rotationMatrix * translationMatrix * Matrix4.CreateScale(scale);
+            modelViewMatrix = Matrix4.CreateScale(scale)* rotationMatrix * translationMatrix;
         }
 
         /// <summary>
