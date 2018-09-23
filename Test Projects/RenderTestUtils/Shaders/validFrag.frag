@@ -10,10 +10,13 @@ uniform int boolInt1;
 uniform int intArray1[3];
 
 uniform vec2 vector2a;
+uniform vec2[8] vector2Arr;
+
 uniform vec3 vector3a;
 uniform vec4 vector4a;
 
 uniform mat4 matrix4a;
+uniform mat4[8] matrix4Arr;
 
 uniform sampler2D tex2D;
 uniform samplerCube texCube;
@@ -54,4 +57,6 @@ void main()
 
     fragColor.rgb *= uint1;
 	fragColor.rgb *= uniformBlock.values[0];
+	fragColor *= matrix4Arr[0];
+	fragColor.rg *= vector2Arr[0];
 }

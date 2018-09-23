@@ -143,6 +143,26 @@ namespace SFGraphics.GLObjects.Shaders
         }
 
         /// <summary>
+        /// Sets all values for a vec2[] uniform variable. Logs invalid names.
+        /// </summary>
+        /// <param name="uniformName">The uniform variable name</param>
+        /// <param name="value">The value to assign to the uniform</param>
+        public void SetVector2(string uniformName, Vector2[] value)
+        {
+            if (!IsValidUniform(uniformName, ActiveUniformType.FloatVec2, value.Length))
+            {
+                LogInvalidUniformSetRaiseEvent(uniformName, value, ActiveUniformType.FloatVec2, value.Length);
+                return;
+            }
+
+            string name = GetNameNoArrayBrackets(uniformName);
+            for (int i = 0; i < value.Length; i++)
+            {
+                GL.Uniform2(GetUniformLocation($"{name}[{i}]"), value[i]); 
+            }
+        }
+
+        /// <summary>
         /// Sets vec2 uniform variable. Logs invalid names.
         /// </summary>
         /// <param name="uniformName">The uniform variable name</param>
@@ -224,6 +244,26 @@ namespace SFGraphics.GLObjects.Shaders
             }
 
             GL.UniformMatrix4(activeUniformByName[uniformName].location, false, ref value);
+        }
+
+        /// <summary>
+        /// Sets all values for a mat4[] uniform variable. Logs invalid names.
+        /// </summary>
+        /// <param name="uniformName">The uniform variable name</param>
+        /// <param name="value">The value to assign to the uniform</param>
+        public void SetMatrix4x4(string uniformName, Matrix4[] value)
+        {
+            if (!IsValidUniform(uniformName, ActiveUniformType.FloatMat4, value.Length))
+            {
+                LogInvalidUniformSetRaiseEvent(uniformName, value, ActiveUniformType.FloatMat4);
+                return;
+            }
+
+            string name = GetNameNoArrayBrackets(uniformName);
+            for (int i = 0; i < value.Length; i++)
+            {
+                GL.UniformMatrix4(GetUniformLocation($"{name}[{i}]"), false, ref value[i]);
+            }
         }
 
         /// <summary>
