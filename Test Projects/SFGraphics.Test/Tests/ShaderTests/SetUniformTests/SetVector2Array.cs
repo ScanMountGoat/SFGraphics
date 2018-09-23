@@ -11,7 +11,7 @@ namespace ShaderTests.SetterTests
         public void ValidName()
         {
             shader.SetVector2("vector2Arr", new Vector2[8]);
-            string expected = RenderTestUtils.ShaderTestUtils.GetInvalidUniformErrorMessage("vector2a", ActiveUniformType.FloatVec2);
+            string expected = RenderTestUtils.ShaderTestUtils.GetInvalidUniformErrorMessage("vector2Arr", ActiveUniformType.FloatVec2);
             Assert.IsFalse(shader.GetErrorLog().Contains(expected));
             Assert.AreEqual(0, invalidUniformSets.Count);
         }
@@ -25,28 +25,10 @@ namespace ShaderTests.SetterTests
         }
 
         [TestMethod]
-        public void FloatsValidName()
-        {
-            shader.SetVector2("vector2Arr", new Vector2[8]);
-            string expected = RenderTestUtils.ShaderTestUtils.GetInvalidUniformErrorMessage("vector2a", ActiveUniformType.FloatVec2);
-            Assert.IsFalse(shader.GetErrorLog().Contains(expected));
-            Assert.AreEqual(0, invalidUniformSets.Count);
-        }
-
-        [TestMethod]
-        public void FloatsInvalidName()
-        {
-            shader.SetVector2("memes2", new Vector2[8]);
-            string expected = RenderTestUtils.ShaderTestUtils.GetInvalidUniformErrorMessage("memes2", ActiveUniformType.FloatVec2);
-            Assert.IsTrue(shader.GetErrorLog().Contains(expected));
-            Assert.AreEqual(1, invalidUniformSets.Count);
-        }
-
-        [TestMethod]
         public void InvalidType()
         {
-            shader.SetVector2("float1", new Vector2[8]);
-            string expected = RenderTestUtils.ShaderTestUtils.GetInvalidUniformErrorMessage("float1", ActiveUniformType.FloatVec2);
+            shader.SetVector2("vector4Arr", new Vector2[8]);
+            string expected = RenderTestUtils.ShaderTestUtils.GetInvalidUniformErrorMessage("vector4Arr", ActiveUniformType.FloatVec2);
             Assert.IsTrue(shader.GetErrorLog().Contains(expected));
             Assert.AreEqual(1, invalidUniformSets.Count);
         }

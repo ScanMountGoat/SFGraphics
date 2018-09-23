@@ -13,7 +13,9 @@ uniform vec2 vector2a;
 uniform vec2[8] vector2Arr;
 
 uniform vec3 vector3a;
+
 uniform vec4 vector4a;
+uniform vec4[8] vector4Arr;
 
 uniform mat4 matrix4a;
 uniform mat4[8] matrix4Arr;
@@ -59,4 +61,5 @@ void main()
 	fragColor.rgb *= uniformBlock.values[0];
 	fragColor *= matrix4Arr[0];
 	fragColor.rg *= vector2Arr[0];
+	fragColor *= vector4Arr[0];
 }

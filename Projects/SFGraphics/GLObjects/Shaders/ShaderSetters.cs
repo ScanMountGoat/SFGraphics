@@ -231,6 +231,26 @@ namespace SFGraphics.GLObjects.Shaders
         }
 
         /// <summary>
+        /// Sets all values for a vec4 uniform variable. Logs invalid names.
+        /// </summary>
+        /// <param name="uniformName">The uniform variable name</param>
+        /// <param name="value">The value to assign to the uniform</param>
+        public void SetVector4(string uniformName, Vector4[] value)
+        {
+            if (!IsValidUniform(uniformName, ActiveUniformType.FloatVec4, value.Length))
+            {
+                LogInvalidUniformSetRaiseEvent(uniformName, value, ActiveUniformType.FloatVec4, value.Length);
+                return;
+            }
+
+            string name = GetNameNoArrayBrackets(uniformName);
+            for (int i = 0; i < value.Length; i++)
+            {
+                GL.Uniform4(GetUniformLocation($"{name}[{i}]"), value[i]);
+            }
+        }
+
+        /// <summary>
         /// Sets a mat4 uniform variable. Logs invalid names.
         /// </summary>
         /// <param name="uniformName">The uniform variable name</param>

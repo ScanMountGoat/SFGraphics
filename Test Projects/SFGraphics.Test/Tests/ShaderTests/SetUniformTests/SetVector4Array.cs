@@ -1,17 +1,17 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OpenTK.Graphics.OpenGL;
 using OpenTK;
+using OpenTK.Graphics.OpenGL;
 
 namespace ShaderTests.SetterTests
 {
     [TestClass]
-    public class SetMatrix4x4Arrays : ShaderTest
+    public class SetVector4Array : ShaderTest
     {
         [TestMethod]
-        public void ValidNameValidType()
+        public void ValidName()
         {
-            shader.SetMatrix4x4("matrix4Arr", new Matrix4[8]);
-            string expected = RenderTestUtils.ShaderTestUtils.GetInvalidUniformErrorMessage("matrix4Arr", ActiveUniformType.FloatMat4);
+            shader.SetVector4("vector4Arr", new Vector4[8]);
+            string expected = RenderTestUtils.ShaderTestUtils.GetInvalidUniformErrorMessage("vector4Arr", ActiveUniformType.FloatVec4);
             Assert.IsFalse(shader.GetErrorLog().Contains(expected));
             Assert.AreEqual(0, invalidUniformSets.Count);
         }
@@ -19,8 +19,8 @@ namespace ShaderTests.SetterTests
         [TestMethod]
         public void InvalidName()
         {
-            shader.SetMatrix4x4("memes", new Matrix4[8]);
-            string expected = RenderTestUtils.ShaderTestUtils.GetInvalidUniformErrorMessage("memes", ActiveUniformType.FloatMat4);
+            shader.SetVector4("memes", new Vector4[8]);
+            string expected = RenderTestUtils.ShaderTestUtils.GetInvalidUniformErrorMessage("memes", ActiveUniformType.FloatVec4);
             Assert.IsTrue(shader.GetErrorLog().Contains(expected));
             Assert.AreEqual(1, invalidUniformSets.Count);
         }
@@ -28,8 +28,8 @@ namespace ShaderTests.SetterTests
         [TestMethod]
         public void InvalidType()
         {
-            shader.SetMatrix4x4("vector2Arr", new Matrix4[8]);
-            string expected = RenderTestUtils.ShaderTestUtils.GetInvalidUniformErrorMessage("vector2Arr", ActiveUniformType.FloatMat4);
+            shader.SetVector4("vec2Arr", new Vector4[8]);
+            string expected = RenderTestUtils.ShaderTestUtils.GetInvalidUniformErrorMessage("vec2Arr", ActiveUniformType.FloatVec4);
             Assert.IsTrue(shader.GetErrorLog().Contains(expected));
             Assert.AreEqual(1, invalidUniformSets.Count);
         }
