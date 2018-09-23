@@ -16,7 +16,6 @@ namespace SFGraphics.Cameras
 
         /// <summary>
         /// The position of the camera in scene units. 
-        /// Updates all matrices when set.
         /// </summary>
         public Vector3 Position
         {
@@ -55,7 +54,6 @@ namespace SFGraphics.Cameras
         /// </summary>
         public float FovDegrees
         {
-            // Only store radians internally.
             get { return (float)VectorUtils.GetDegrees(fovRadians); }
             set
             {
@@ -69,7 +67,6 @@ namespace SFGraphics.Cameras
 
         /// <summary>
         /// The rotation around the x-axis in radians.
-        /// Updates <see cref="RotationXDegrees"/> and all matrices when set.
         /// </summary>
         public float RotationXRadians
         {
@@ -84,7 +81,6 @@ namespace SFGraphics.Cameras
 
         /// <summary>
         /// The rotation around the x-axis in degrees.
-        /// Updates <see cref="rotationXRadians"/> and all matrices when set.
         /// </summary>
         public float RotationXDegrees
         {
@@ -99,7 +95,6 @@ namespace SFGraphics.Cameras
 
         /// <summary>
         /// The rotation around the y-axis in radians.
-        /// Updates all matrices when set.
         /// </summary>
         public float RotationYRadians
         {
@@ -114,14 +109,12 @@ namespace SFGraphics.Cameras
 
         /// <summary>
         /// The rotation around the y-axis in degrees.
-        /// Updates all matrices when set.
         /// </summary>
         public float RotationYDegrees
         {
             get { return (float)VectorUtils.GetDegrees(rotationYRadians); }
             set
             {
-                // Only store radians internally.
                 rotationYRadians = (float)VectorUtils.GetRadians(value);
                 UpdateMatrices();
             }
@@ -129,7 +122,6 @@ namespace SFGraphics.Cameras
 
         /// <summary>
         /// The far clip plane of the perspective matrix.
-        /// Updates all matrices when set.
         /// </summary>
         public float FarClipPlane
         {
@@ -144,7 +136,6 @@ namespace SFGraphics.Cameras
 
         /// <summary>
         /// The near clip plane of the perspective matrix.
-        /// Updates all matrices when set.
         /// </summary>
         public float NearClipPlane
         {
@@ -227,23 +218,7 @@ namespace SFGraphics.Cameras
         public Camera()
         {
             DefaultPosition = new Vector3(new Vector3(0, 10, -80));
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="position">The initial position of the camera.</param>
-        /// <param name="rotX">The rotation around the x-axis in radians</param>
-        /// <param name="rotY">The rotation around the y-axis in radians</param>
-        /// <param name="renderWidth">The width of the viewport in pixels</param>
-        /// <param name="renderHeight">The height of the viewport in pixels</param>
-        public Camera(Vector3 position, float rotX, float rotY, int renderWidth = 1, int renderHeight = 1) : this()
-        {
-            Position = position;
-            this.renderHeight = renderHeight;
-            this.renderWidth = renderWidth;
-            RotationXRadians = rotX;
-            RotationYRadians = rotY;
+            ResetToDefaultPosition();
         }
 
         /// <summary>
@@ -273,6 +248,8 @@ namespace SFGraphics.Cameras
                 position.Y += deltaY;
                 position.X += deltaX;
             }
+
+            UpdateMatrices();
         }
 
         /// <summary>
@@ -289,20 +266,21 @@ namespace SFGraphics.Cameras
                 zoomScale *= Math.Abs(position.Z);
 
             position.Z += amount * zoomScale;
+
+            UpdateMatrices();
         }
 
         /// <summary>
-        /// Updates the <see cref="TranslationMatrix"/>, <see cref="RotationMatrix"/>, 
-        /// <see cref="PerspectiveMatrix"/>, <see cref="ModelViewMatrix"/>, 
-        /// and <see cref="MvpMatrix"/>.
+        /// Updates all matrix properties using the respective update methods.
         /// </summary>
-        public void UpdateMatrices()
+        protected void UpdateMatrices()
         {
             UpdateTranslationMatrix();
             UpdateRotationMatrix();
             UpdatePerspectiveMatrix();
 
             UpdateModelViewMatrix();
+
             UpdateMvpMatrix();
         }
 
@@ -354,6 +332,7 @@ namespace SFGraphics.Cameras
             position = new Vector3(0, 10, -80);
             rotationXRadians = 0;
             rotationYRadians = 0;
+            UpdateMatrices();
         }
 
         /// <summary>
@@ -374,6 +353,8 @@ namespace SFGraphics.Cameras
             position.X = -center.X;
             position.Y = center.Y;
             position.Z = -1 * (distance + distanceOffset);
+
+            UpdateMatrices();
         }
     }
 }

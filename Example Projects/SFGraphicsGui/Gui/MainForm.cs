@@ -140,10 +140,8 @@ namespace SFGraphicsGui
             camera.NearClipPlane = 0.01f;
             camera.FarClipPlane = 100;
             camera.Zoom(-0.5f);
-            camera.RotationXDegrees = -5;
+            camera.RotationXDegrees = -50;
             camera.RotationYDegrees = -180;
-
-            camera.UpdateMatrices();
 
             glControl1.MakeCurrent();
             GL.ClearColor(1, 1, 1, 1);
