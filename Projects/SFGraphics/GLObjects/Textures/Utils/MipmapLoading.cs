@@ -152,8 +152,8 @@ namespace SFGraphics.GLObjects.Textures.Utils
         /// <summary>
         /// 
         /// </summary>
-        /// <typeparam name="T">The value type used for the image data. This inclues arithmetic types.</typeparam>
-        /// <param name="target">The target of the texture or cube face for loading mip maps</param>
+        /// <typeparam name="T">The value type used for the image data. This includes arithmetic types.</typeparam>
+        /// <param name="target">The target of the texture or cube face for loading mipmaps</param>
         /// <param name="width">The width of the texture or cube map face in pixels</param>
         /// <param name="height">The height of the texture or cube map face in pixels</param>
         /// <param name="baseMipLevel"></param>
@@ -186,8 +186,8 @@ namespace SFGraphics.GLObjects.Textures.Utils
         /// Loads image data for all six faces of a cubemap. No mipmaps are generated, so use a min filter
         /// that does not use mipmaps.
         /// </summary>
-        /// <typeparam name="T">The value type used for the image data. This inclues arithmetic types.</typeparam>
-        /// <param name="length">The width and heigh of each cube map face in pixels</param>
+        /// <typeparam name="T">The value type used for the image data. This includes arithmetic types.</typeparam>
+        /// <param name="length">The width and height of each cube map face in pixels</param>
         /// <param name="format"></param>
         /// <param name="posX"></param>
         /// <param name="negX"></param>
@@ -211,8 +211,8 @@ namespace SFGraphics.GLObjects.Textures.Utils
         /// <summary>
         /// Loads image data and mipmaps for all six faces of a cube map.
         /// </summary>
-        /// <typeparam name="T">The value type used for the image data. This inclues arithmetic types.</typeparam>
-        /// <param name="length">The width and heigh of each cube map face in pixels</param>
+        /// <typeparam name="T">The value type used for the image data. This includes arithmetic types.</typeparam>
+        /// <param name="length">The width and height of each cube map face in pixels</param>
         /// <param name="format"></param>
         /// <param name="mipsPosX"></param>
         /// <param name="mipsNegX"></param>

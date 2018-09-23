@@ -23,7 +23,7 @@ namespace SFGenericModel.RenderState
         public readonly AlphaFunction alphaFunction;
 
         /// <summary>
-        /// The comparision value used for <see cref="alphaFunction"/>.
+        /// The comparison value used for <see cref="alphaFunction"/>.
         /// <c>1.0</c> is opaque. <c>0.0</c> is transparent.
         /// </summary>
         public readonly float referenceAlpha;

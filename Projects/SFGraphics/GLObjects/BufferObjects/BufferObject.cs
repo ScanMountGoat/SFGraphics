@@ -28,7 +28,7 @@ namespace SFGraphics.GLObjects.BufferObjects
         }
 
         /// <summary>
-        /// Creates a buffer of the specified target with unitialized data.
+        /// Creates a buffer of the specified target with uninitialized data.
         /// </summary>
         /// <param name="target">The target to which <see cref="GLObject.Id"/> is bound</param>
         public BufferObject(BufferTarget target) : base(GL.GenBuffer())

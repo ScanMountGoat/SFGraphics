@@ -4,8 +4,8 @@ using SFGraphics.GLObjects.Framebuffers;
 namespace SFGraphics.GLObjects.RenderBuffers
 {
     /// <summary>
-    /// Encapsulates a renderbuffer object, which are used exclusively as attachments 
-    /// for <see cref="Framebuffer"/> objects. Renderbuffers support multisampling.
+    /// Encapsulates a renderbuffer object, 
+    /// a framebuffer attachment that supports multisampling.
     /// </summary>
     public class Renderbuffer : GLObject
     { 
@@ -22,11 +22,11 @@ namespace SFGraphics.GLObjects.RenderBuffers
         public int Height { get; }
 
         /// <summary>
-        /// Creates an allocates storage for an empty renderbuffer. 
+        /// Creates and allocates storage for an empty renderbuffer. 
         /// </summary>
         /// <param name="width">The width of the renderbuffer in pixels</param>
         /// <param name="height">The height of the renderbuffer in pixels</param>
-        /// <param name="internalFormat">The format of the image data</param>
+        /// <param name="internalFormat">The format for storing the image data</param>
         public Renderbuffer(int width, int height, RenderbufferStorage internalFormat)
             : base(GL.GenRenderbuffer())
         {
@@ -44,7 +44,7 @@ namespace SFGraphics.GLObjects.RenderBuffers
         /// <param name="width">The width of the renderbuffer in pixels</param>
         /// <param name="height">The height of the renderbuffer in pixels</param>
         /// <param name="samples">The number of samples to use for multisampling</param>
-        /// <param name="internalFormat">The format of the image data</param>
+        /// <param name="internalFormat">The format for storing the image data</param>
         public Renderbuffer(int width, int height, int samples, RenderbufferStorage internalFormat)
             : base(GL.GenRenderbuffer())
         {

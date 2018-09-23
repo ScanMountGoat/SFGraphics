@@ -89,7 +89,7 @@ namespace SFGraphics.GLObjects.Shaders
         private static readonly int GL_PROGRAM_BINARY_MAX_LENGTH = 0x8741;
 
         /// <summary>
-        /// Creates an unitialized shader program. Load shaders before using the shader program.
+        /// Creates an uninitialized shader program. Load shaders before using the shader program.
         /// </summary>
         public Shader() : base(GL.CreateProgram())
         {
