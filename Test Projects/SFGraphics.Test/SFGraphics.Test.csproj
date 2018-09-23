@@ -85,6 +85,7 @@
     <Compile Include="Tests\ShaderTests\ProgramValidateStatus.cs" />
     <Compile Include="Tests\ShaderTests\SetUniformTests\SetMatrix4x4Array.cs" />
     <Compile Include="Tests\ShaderTests\SetUniformTests\SetVector2Array.cs" />
+    <Compile Include="Tests\ShaderTests\SetUniformTests\SetVector3Array.cs" />
     <Compile Include="Tests\ShaderTests\SetUniformTests\SetVector4Array.cs" />
     <Compile Include="Tests\ShaderTests\ShaderTest.cs" />
     <Compile Include="Tests\ShaderTests\SetUniformTests\SetBoolToInt.cs" />

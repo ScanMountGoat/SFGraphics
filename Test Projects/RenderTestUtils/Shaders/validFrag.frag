@@ -13,6 +13,7 @@ uniform vec2 vector2a;
 uniform vec2[8] vector2Arr;
 
 uniform vec3 vector3a;
+uniform vec3[8] vector3Arr;
 
 uniform vec4 vector4a;
 uniform vec4[8] vector4Arr;
@@ -41,25 +42,13 @@ void main()
 	fragColor *= vector4a * matrix4a;
 	fragColor *= texture(tex2D, vec2(1));
 	fragColor *= texture(texCube, vec3(1));
-
-	for (int i = 0; i < floatArray1.length(); i++)
-	{
-		fragColor *= floatArray1[i];
-	}
-
-	for (int i = 0; i < intArray1.length(); i++)
-	{
-		fragColor *= intArray1[i];
-	}
-
-	for (int i = 0; i < uintArray1.length(); i++)
-	{
-		fragColor *= uintArray1[i];
-	}
-
+	fragColor *= floatArray1[0];
+	fragColor *= intArray1[0];
+	fragColor *= uintArray1[0];
     fragColor.rgb *= uint1;
 	fragColor.rgb *= uniformBlock.values[0];
 	fragColor *= matrix4Arr[0];
 	fragColor.rg *= vector2Arr[0];
 	fragColor *= vector4Arr[0];
+	fragColor.rgb *= vector3Arr[0];
 }

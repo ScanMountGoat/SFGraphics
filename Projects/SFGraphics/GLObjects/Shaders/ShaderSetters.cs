@@ -190,6 +190,26 @@ namespace SFGraphics.GLObjects.Shaders
         }
 
         /// <summary>
+        /// Sets all values for a vec3 uniform variable. Logs invalid names.
+        /// </summary>
+        /// <param name="uniformName">The uniform variable name</param>
+        /// <param name="value">The value to assign to the uniform</param>
+        public void SetVector3(string uniformName, Vector3[] value)
+        {
+            if (!IsValidUniform(uniformName, ActiveUniformType.FloatVec3, value.Length))
+            {
+                LogInvalidUniformSetRaiseEvent(uniformName, value, ActiveUniformType.FloatVec3, value.Length);
+                return;
+            }
+
+            string name = GetNameNoArrayBrackets(uniformName);
+            for (int i = 0; i < value.Length; i++)
+            {
+                GL.Uniform3(GetUniformLocation($"{name}[{i}]"), value[i]);
+            }
+        }
+
+        /// <summary>
         /// Sets vec3 uniform variable. Logs invalid names.
         /// </summary>
         /// <param name="uniformName">The uniform variable name</param>
