@@ -56,13 +56,27 @@ namespace SFGenericModel.Materials
         }
 
         /// <summary>
-        /// 
+        /// Adds an int uniform to the material.
         /// </summary>
         /// <param name="uniformName">The name of the uniform variable</param>
         /// <param name="value">The value to set for the uniform</param>
         public void AddInt(string uniformName, int value)
         {
             intUniformsByName.Add(uniformName, value);
+        }
+
+        /// <summary>
+        /// Converts <paramref name="value"/> to an int. <c>1</c> is true. <c>0</c> is <c>false</c>.
+        /// Adds the resulting int uniform to the material.
+        /// </summary>
+        /// <param name="uniformName">The name of the uniform variable</param>
+        /// <param name="value">The value to set for the uniform</param>
+        public void AddBoolToInt(string uniformName, bool value)
+        {
+            if (value)
+                intUniformsByName.Add(uniformName, 1);
+            else
+                intUniformsByName.Add(uniformName, 0);
         }
 
         /// <summary>
