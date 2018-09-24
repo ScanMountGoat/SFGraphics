@@ -152,7 +152,6 @@ namespace SFGenericModel
             material.SetShaderUniforms(shader);
         }
     
-
         /// <summary>
         /// 
         /// </summary>

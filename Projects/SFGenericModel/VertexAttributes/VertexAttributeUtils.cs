@@ -24,7 +24,7 @@ namespace SFGenericModel.VertexAttributes
             if (index == -1)
                 return false;
 
-            GL.VertexAttribPointer(index, (int)attribute.valueCount, attribute.type, false, strideInBytes, offsetInBytes);
+            attribute.SetVertexAttribute(index, strideInBytes, offsetInBytes);
             return true;
         }
     }

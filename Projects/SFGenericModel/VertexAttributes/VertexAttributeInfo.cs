@@ -31,7 +31,7 @@ namespace SFGenericModel.VertexAttributes
     /// <summary>
     /// Stores the information used to configure vertex attributes for <see cref="GenericMesh{T}"/>.
     /// </summary>
-    public struct VertexAttributeInfo
+    public struct VertexAttributeInfo : ISettableVertexAttribute
     {
         /// <summary>
         /// The name of the attribute in the shader.
@@ -59,19 +59,30 @@ namespace SFGenericModel.VertexAttributes
         /// </summary>
         /// <param name="name">The name of the attribute in the shader</param>
         /// <param name="valueCount">The number of components for the value</param>
-        /// <param name="vertexAttribPointerType">The data type of the value</param>
-        /// <exception cref="System.NotSupportedException"><paramref name="vertexAttribPointerType"/> is not 
+        /// <param name="type">The data type of the value</param>
+        /// <exception cref="System.NotSupportedException"><paramref name="type"/> is not 
         /// a supported attribute type.</exception>
-        public VertexAttributeInfo(string name, ValueCount valueCount, VertexAttribPointerType vertexAttribPointerType)
+        public VertexAttributeInfo(string name, ValueCount valueCount, VertexAttribPointerType type)
         {
             this.name = name;
             this.valueCount = valueCount;
-            this.type = vertexAttribPointerType;
+            this.type = type;
 
-            if (!AttribPointerUtils.sizeInBytesByType.ContainsKey(vertexAttribPointerType))
-                throw new System.NotSupportedException($"{ vertexAttribPointerType.ToString() } is not a supported type.");
+            if (!AttribPointerUtils.sizeInBytesByType.ContainsKey(type))
+                throw new System.NotSupportedException($"{type.ToString()} is not a supported type.");
 
-            sizeInBytes = (int)valueCount * AttribPointerUtils.sizeInBytesByType[vertexAttribPointerType];
+            sizeInBytes = (int)valueCount * AttribPointerUtils.sizeInBytesByType[type];
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="index">The index of the attribute variable in the shader</param>
+        /// <param name="strideInBytes">The vertex size in bytes</param>
+        /// <param name="offsetInBytes">The offset of the attribute in the vertex</param>
+        public void SetVertexAttribute(int index, int strideInBytes, int offsetInBytes)
+        {
+            GL.VertexAttribPointer(index, (int)valueCount, type, false, strideInBytes, offsetInBytes);
         }
     }
 }

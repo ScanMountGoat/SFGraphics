@@ -60,6 +60,7 @@
     <Compile Include="RenderState\RenderSettings.cs" />
     <Compile Include="RenderState\GLRenderSettings.cs" />
     <Compile Include="Utils\MeshBatchUtils.cs" />
+    <Compile Include="VertexAttributes\ISettableVertexAttribute.cs" />
     <Compile Include="VertexAttributes\VertexAttributeUtils.cs" />
     <Compile Include="Utils\VertexContainer.cs" />
     <Compile Include="VertexAttributes\VertexAttributeInfo.cs" />
