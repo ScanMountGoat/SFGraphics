@@ -57,7 +57,7 @@ namespace AttribPointerUtilsTest
 
         private static void CheckAttribPointerSize(int expected, VertexAttribPointerType type)
         {
-            Assert.AreEqual(expected, AttribPointerUtils.sizeInBytesByType[type]);
+            Assert.AreEqual(expected, AttribPointerUtils.GetSizeInBytes(type));
         }
     }
 }

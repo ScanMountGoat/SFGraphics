@@ -26,7 +26,7 @@ namespace SFGenericModel.ShaderGenerators
             foreach (var attribute in attributes)
             {
                 string type = GetTypeDeclaration(attribute);
-                shaderSource.AppendLine($"in {type} {attribute.attributeInfo.name};");
+                shaderSource.AppendLine($"in {type} {attribute.attributeInfo.Name};");
             }
         }
 
@@ -36,7 +36,7 @@ namespace SFGenericModel.ShaderGenerators
             {
                 string type = GetTypeDeclaration(attribute);
                 string interpolation = GetInterpolationQualifier(attribute.attributeInfo.type);
-                shaderSource.AppendLine($"{interpolation}out {type} {vertexOutputPrefix}{attribute.attributeInfo.name};");
+                shaderSource.AppendLine($"{interpolation}out {type} {vertexOutputPrefix}{attribute.attributeInfo.Name};");
             }
         }
 
@@ -52,8 +52,8 @@ namespace SFGenericModel.ShaderGenerators
         {
             foreach (var attribute in attributes)
             {
-                string output = $"{vertexOutputPrefix}{attribute.attributeInfo.name}";
-                string input = $"{ attribute.attributeInfo.name}";
+                string output = $"{vertexOutputPrefix}{attribute.attributeInfo.Name}";
+                string input = $"{ attribute.attributeInfo.Name}";
                 string function = "";
                 if (attribute.normalize)
                     function = "normalize";
@@ -72,7 +72,7 @@ namespace SFGenericModel.ShaderGenerators
             {
                 string interpolation = GetInterpolationQualifier(attribute.attributeInfo.type);
                 string type = GetTypeDeclaration(attribute);
-                string variableName = vertexOutputPrefix + attribute.attributeInfo.name;
+                string variableName = vertexOutputPrefix + attribute.attributeInfo.Name;
 
                 shaderSource.AppendLine($"{interpolation}in {type} {variableName};");
             }
@@ -80,7 +80,7 @@ namespace SFGenericModel.ShaderGenerators
 
         private static string GetTypeDeclaration(VertexAttributeRenderInfo attribute)
         {
-            if (attribute.attributeInfo.valueCount == ValueCount.One)
+            if (attribute.attributeInfo.ValueCount == ValueCount.One)
             {
                 if (attribute.attributeInfo.type == VertexAttribPointerType.Float)
                     return "float";
@@ -91,7 +91,7 @@ namespace SFGenericModel.ShaderGenerators
             }
             else
             {
-                return $"vec{(int)attribute.attributeInfo.valueCount}";
+                return $"vec{(int)attribute.attributeInfo.ValueCount}";
             }
         }
 
@@ -101,7 +101,7 @@ namespace SFGenericModel.ShaderGenerators
             if (attributes.Count == 0)
                 return;
 
-            string positionVariable = ConstructVector(ValueCount.Four, attributes[0].attributeInfo.valueCount, attributes[0].attributeInfo.name);
+            string positionVariable = ConstructVector(ValueCount.Four, attributes[0].attributeInfo.ValueCount, attributes[0].attributeInfo.Name);
             shaderSource.AppendLine($"\tgl_Position = {matrixName} * {positionVariable};");
         }
 

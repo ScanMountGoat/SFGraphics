@@ -180,9 +180,9 @@ namespace SFGenericModel
             int offset = 0;
             foreach (VertexAttributeInfo attribute in attributes)
             {
-                if(!VertexAttributeUtils.SetVertexAttribute(shader, attribute.name, attribute, offset, strideInBytes))
-                    OnInvalidAttribSet?.Invoke(this, new AttribSetEventArgs(attribute.name, attribute.type, attribute.valueCount));
-                offset += attribute.sizeInBytes;
+                if(!VertexAttributeUtils.SetVertexAttribute(shader, attribute.Name, attribute, offset, strideInBytes))
+                    OnInvalidAttribSet?.Invoke(this, new AttribSetEventArgs(attribute.Name, attribute.type, attribute.ValueCount));
+                offset += attribute.SizeInBytes;
             }
         }
     }

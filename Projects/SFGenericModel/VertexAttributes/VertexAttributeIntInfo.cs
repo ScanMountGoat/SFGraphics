@@ -1,16 +1,16 @@
 ﻿using OpenTK.Graphics.OpenGL;
 
 namespace SFGenericModel.VertexAttributes
-{           
+{
     /// <summary>
     /// Stores the information used to configure vertex attributes for <see cref="GenericMesh{T}"/>.
     /// </summary>
-    public class VertexAttributeInfo : VertexAttribute
+    public class VertexAttributeIntInfo : VertexAttribute
     {
         /// <summary>
         /// The data type of the attribute value.
         /// </summary>
-        public readonly VertexAttribPointerType type;
+        public readonly VertexAttribIntegerType type;
 
         /// <summary>
         /// Creates a new vertex attribute.
@@ -20,7 +20,7 @@ namespace SFGenericModel.VertexAttributes
         /// <param name="type">The data type of the value</param>
         /// <exception cref="System.NotSupportedException"><paramref name="type"/> is not 
         /// a supported attribute type.</exception>
-        public VertexAttributeInfo(string name, ValueCount valueCount, VertexAttribPointerType type) : base(name, valueCount)
+        public VertexAttributeIntInfo(string name, ValueCount valueCount, VertexAttribIntegerType type) : base(name, valueCount)
         {
             this.type = type;
             SizeInBytes = (int)valueCount * AttribPointerUtils.GetSizeInBytes(type);
@@ -34,7 +34,7 @@ namespace SFGenericModel.VertexAttributes
         /// <param name="offsetInBytes">The offset of the attribute in the vertex</param>
         public override void SetVertexAttribute(int index, int strideInBytes, int offsetInBytes)
         {
-            GL.VertexAttribPointer(index, (int)ValueCount, type, false, strideInBytes, offsetInBytes);
+            GL.VertexAttribIPointer(index, (int)ValueCount, type, strideInBytes, new System.IntPtr(offsetInBytes));
         }
     }
 }

@@ -58,7 +58,7 @@ namespace VertexAttributeInfoTests
         private static void CheckAttribPointerSizeTwoComponents(int expected, VertexAttribPointerType type)
         {
             VertexAttributeInfo attribInfo = new VertexAttributeInfo("", ValueCount.Two, type);
-            Assert.AreEqual(expected, attribInfo.sizeInBytes);
+            Assert.AreEqual(expected, attribInfo.SizeInBytes);
         }
     }
 }

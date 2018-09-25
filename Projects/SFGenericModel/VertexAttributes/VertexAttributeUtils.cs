@@ -17,7 +17,7 @@ namespace SFGenericModel.VertexAttributes
         /// <param name="offsetInBytes">The offset into the vertex data</param>
         /// <param name="strideInBytes">The size in bytes of each vertex</param>
         /// <returns><c>true</c> if the set was successful</returns>
-        public static bool SetVertexAttribute(Shader shader, string name, ISettableVertexAttribute attribute, int offsetInBytes, int strideInBytes)
+        public static bool SetVertexAttribute(Shader shader, string name, VertexAttribute attribute, int offsetInBytes, int strideInBytes)
         {
             // Ignore invalid attributes to prevent OpenGL from generating errors.
             int index = shader.GetAttribLocation(name);

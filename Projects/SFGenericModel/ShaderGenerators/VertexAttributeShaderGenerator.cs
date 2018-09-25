@@ -111,8 +111,8 @@ namespace SFGenericModel.ShaderGenerators
 
         private static void AppendResultAssignment(StringBuilder shaderSource, VertexAttributeRenderInfo attribute)
         {
-            string constructedVector = GlslUtils.ConstructVector(ValueCount.Three, attribute.attributeInfo.valueCount,
-                GlslUtils.vertexOutputPrefix + attribute.attributeInfo.name);
+            string constructedVector = GlslUtils.ConstructVector(ValueCount.Three, attribute.attributeInfo.ValueCount,
+                GlslUtils.vertexOutputPrefix + attribute.attributeInfo.Name);
             shaderSource.AppendLine($"\t\t\t{resultName}.rgb = {constructedVector};");
         }
     }
