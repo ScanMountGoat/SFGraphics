@@ -35,7 +35,7 @@ namespace SFGenericModel.ShaderGenerators
             foreach (var attribute in attributes)
             {
                 string type = GetTypeDeclaration(attribute);
-                string interpolation = GetInterpolationQualifier(attribute.attributeInfo.type);
+                string interpolation = GetInterpolationQualifier(attribute.attributeInfo.Type);
                 shaderSource.AppendLine($"{interpolation}out {type} {vertexOutputPrefix}{attribute.attributeInfo.Name};");
             }
         }
@@ -70,7 +70,7 @@ namespace SFGenericModel.ShaderGenerators
         {
             foreach (var attribute in attributes)
             {
-                string interpolation = GetInterpolationQualifier(attribute.attributeInfo.type);
+                string interpolation = GetInterpolationQualifier(attribute.attributeInfo.Type);
                 string type = GetTypeDeclaration(attribute);
                 string variableName = vertexOutputPrefix + attribute.attributeInfo.Name;
 
@@ -82,9 +82,9 @@ namespace SFGenericModel.ShaderGenerators
         {
             if (attribute.attributeInfo.ValueCount == ValueCount.One)
             {
-                if (attribute.attributeInfo.type == VertexAttribPointerType.Float)
+                if (attribute.attributeInfo.Type == VertexAttribPointerType.Float)
                     return "float";
-                else if (attribute.attributeInfo.type == VertexAttribPointerType.Int)
+                else if (attribute.attributeInfo.Type == VertexAttribPointerType.Int)
                     return "int";
                 else
                     return "uint";

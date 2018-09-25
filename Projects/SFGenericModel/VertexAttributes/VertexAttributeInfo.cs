@@ -8,11 +8,6 @@ namespace SFGenericModel.VertexAttributes
     public class VertexAttributeInfo : VertexAttribute
     {
         /// <summary>
-        /// The data type of the attribute value.
-        /// </summary>
-        public readonly VertexAttribPointerType type;
-
-        /// <summary>
         /// Creates a new vertex attribute.
         /// </summary>
         /// <param name="name">The name of the attribute in the shader</param>
@@ -20,9 +15,9 @@ namespace SFGenericModel.VertexAttributes
         /// <param name="type">The data type of the value</param>
         /// <exception cref="System.NotSupportedException"><paramref name="type"/> is not 
         /// a supported attribute type.</exception>
-        public VertexAttributeInfo(string name, ValueCount valueCount, VertexAttribPointerType type) : base(name, valueCount)
+        public VertexAttributeInfo(string name, ValueCount valueCount, VertexAttribPointerType type) 
+            : base(name, valueCount, type)
         {
-            this.type = type;
             SizeInBytes = (int)valueCount * AttribPointerUtils.GetSizeInBytes(type);
         }
 
@@ -34,7 +29,7 @@ namespace SFGenericModel.VertexAttributes
         /// <param name="offsetInBytes">The offset of the attribute in the vertex</param>
         public override void SetVertexAttribute(int index, int strideInBytes, int offsetInBytes)
         {
-            GL.VertexAttribPointer(index, (int)ValueCount, type, false, strideInBytes, offsetInBytes);
+            GL.VertexAttribPointer(index, (int)ValueCount, Type, false, strideInBytes, offsetInBytes);
         }
     }
 }

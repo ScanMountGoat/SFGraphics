@@ -1,4 +1,6 @@
-﻿namespace SFGenericModel.VertexAttributes
+﻿using OpenTK.Graphics.OpenGL;
+
+namespace SFGenericModel.VertexAttributes
 {
     /// <summary>
     /// The number of components for a vertex attribute.
@@ -48,6 +50,11 @@
         public int SizeInBytes { get; protected set; }
 
         /// <summary>
+        /// The data type of the attribute value.
+        /// </summary>
+        public VertexAttribPointerType Type { get; }
+
+        /// <summary>
         /// 
         /// </summary>
         /// <param name="index">The index of the attribute variable in the shader</param>
@@ -55,10 +62,17 @@
         /// <param name="offsetInBytes">The offset of the attribute in the vertex</param>
         public abstract void SetVertexAttribute(int index, int strideInBytes, int offsetInBytes);
 
-        protected VertexAttribute(string name, ValueCount valueCount)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="valueCount"></param>
+        /// <param name="type"></param>
+        protected VertexAttribute(string name, ValueCount valueCount, VertexAttribPointerType type)
         {
             Name = name;
             ValueCount = valueCount;
+            Type = type;
         }
     }
 }

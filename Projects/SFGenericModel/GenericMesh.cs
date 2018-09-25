@@ -129,7 +129,7 @@ namespace SFGenericModel
         /// the order of the fields in <typeparamref name="T"/>.
         /// </summary>
         /// <returns>Vertex attribute information</returns>
-        public abstract List<VertexAttributeInfo> GetVertexAttributes();
+        public abstract List<VertexAttribute> GetVertexAttributes();
 
         /// <summary>
         /// Sets <c>uniform mat4 mvpMatrix</c> in the shader using <see cref="Camera.MvpMatrix"/>.
@@ -164,7 +164,7 @@ namespace SFGenericModel
             VertexIndexBuffer.Bind();
 
             shader.EnableVertexAttributes();
-            List<VertexAttributeInfo> vertexAttributes = GetVertexAttributes();
+            List<VertexAttribute> vertexAttributes = GetVertexAttributes();
             SetVertexAttributes(shader, vertexAttributes, VertexSizeInBytes);
 
             // Unbind all the buffers.
@@ -174,14 +174,14 @@ namespace SFGenericModel
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, 0);
         }
 
-        private void SetVertexAttributes(Shader shader, List<VertexAttributeInfo> attributes, int strideInBytes)
+        private void SetVertexAttributes(Shader shader, List<VertexAttribute> attributes, int strideInBytes)
         {
             // Setting vertex attributes is handled automatically. 
             int offset = 0;
-            foreach (VertexAttributeInfo attribute in attributes)
+            foreach (var attribute in attributes)
             {
                 if(!VertexAttributeUtils.SetVertexAttribute(shader, attribute.Name, attribute, offset, strideInBytes))
-                    OnInvalidAttribSet?.Invoke(this, new AttribSetEventArgs(attribute.Name, attribute.type, attribute.ValueCount));
+                    OnInvalidAttribSet?.Invoke(this, new AttribSetEventArgs(attribute.Name, attribute.Type, attribute.ValueCount));
                 offset += attribute.SizeInBytes;
             }
         }

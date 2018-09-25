@@ -13,13 +13,13 @@ namespace GenericMeshTests
     {
         private class TestMesh : GenericMesh<float>
         {
-            public List<VertexAttributeInfo> vertexAttributes = new List<VertexAttributeInfo>();
+            public List<VertexAttribute> vertexAttributes = new List<VertexAttribute>();
             public TestMesh() : base(new List<float>(), PrimitiveType.Lines)
             {
 
             }
 
-            public override List<VertexAttributeInfo> GetVertexAttributes()
+            public override List<VertexAttribute> GetVertexAttributes()
             {
                 return vertexAttributes;
             }

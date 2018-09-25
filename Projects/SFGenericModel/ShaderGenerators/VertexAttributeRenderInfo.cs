@@ -20,7 +20,7 @@ namespace SFGenericModel.ShaderGenerators
         /// <summary>
         /// Information about the attribute name and type
         /// </summary>
-        public readonly VertexAttributeInfo attributeInfo;
+        public readonly VertexAttribute attributeInfo;
 
         /// <summary>
         /// 
@@ -28,7 +28,7 @@ namespace SFGenericModel.ShaderGenerators
         /// <param name="normalize"></param>
         /// <param name="remapToVisibleRange"></param>
         /// <param name="attributeInfo"></param>
-        public VertexAttributeRenderInfo(bool normalize, bool remapToVisibleRange, VertexAttributeInfo attributeInfo)
+        public VertexAttributeRenderInfo(bool normalize, bool remapToVisibleRange, VertexAttribute attributeInfo)
         {
             this.normalize = normalize;
             this.remapToVisibleRange = remapToVisibleRange;
