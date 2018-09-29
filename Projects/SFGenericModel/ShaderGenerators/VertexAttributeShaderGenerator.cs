@@ -27,6 +27,9 @@ namespace SFGenericModel.ShaderGenerators
             string vertexSource = CreateVertexSource(attributes);
             string fragSource = CreateFragmentSource(attributes);
 
+            System.Diagnostics.Debug.WriteLine(vertexSource);
+            System.Diagnostics.Debug.WriteLine(fragSource);
+
             return GlslUtils.CreateShader(vertexSource, fragSource);
         }
 
@@ -97,16 +100,15 @@ namespace SFGenericModel.ShaderGenerators
          
         private static void AppendFragmentAttributeSwitch(List<VertexAttributeRenderInfo> attributes, StringBuilder shaderSource)
         {
-            SwitchUtils.AppendBeginSwitch(shaderSource, attribIndexName);
-
+            List<CaseStatement> cases = new List<CaseStatement>();
             for (int i = 0; i < attributes.Count; i++)
             {
                 string caseAssignment = GetResultAssignment(ValueCount.Three, 
                     attributes[i].attributeInfo.Name, attributes[i].attributeInfo.ValueCount);
-                SwitchUtils.AppendSwitchCaseStatement(shaderSource, i, caseAssignment);
+                cases.Add(new CaseStatement(i.ToString(), caseAssignment));
             }
 
-            SwitchUtils.AppendEndSwitch(shaderSource);
+            SwitchUtils.AppendSwitchStatement(shaderSource, attribIndexName, cases);
         }
 
         private static string GetResultAssignment(ValueCount resultCount, string sourceName, ValueCount sourceCount)
