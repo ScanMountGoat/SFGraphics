@@ -47,7 +47,9 @@
     <Compile Include="IDrawableMesh.cs" />
     <Compile Include="IndexedVertexData.cs" />
     <Compile Include="RenderState\PolygonModeSettings.cs" />
-    <Compile Include="ShaderGenerators\GlslUtils.cs" />
+    <Compile Include="ShaderGenerators\GlslShaderUtils\GlslSwitchUtils.cs" />
+    <Compile Include="ShaderGenerators\GlslShaderUtils\GlslUtils.cs" />
+    <Compile Include="ShaderGenerators\GlslShaderUtils\GlslVectorUtils.cs" />
     <Compile Include="VertexAttributes\AttribPointerUtils.cs" />
     <Compile Include="MeshEventArgs\AttribSetEventArgs.cs" />
     <Compile Include="RenderState\AlphaBlendSettings.cs" />
@@ -75,5 +77,6 @@
       <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
