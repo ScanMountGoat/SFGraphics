@@ -119,7 +119,7 @@ namespace SFGraphicsGui
         {
             Shader shader = VertexAttributeShaderGenerator.CreateShader(shape.GetRenderAttributes());
 
-            var textures = new List<TextureRenderInfo>() { new TextureRenderInfo("uvTestPattern", null) };
+            var textures = new List<TextureRenderInfo>() { new TextureRenderInfo("uvTestPattern", UvCoord.TexCoord0) };
             var pos = new SFGenericModel.VertexAttributes.VertexAttributeInfo("position", SFGenericModel.VertexAttributes.ValueCount.Three, VertexAttribPointerType.Float);
             var uv0 = new SFGenericModel.VertexAttributes.VertexAttributeInfo("uv0", SFGenericModel.VertexAttributes.ValueCount.Two, VertexAttribPointerType.Float);
             shader = TextureShaderGenerator.CreateShader(textures, pos, uv0);

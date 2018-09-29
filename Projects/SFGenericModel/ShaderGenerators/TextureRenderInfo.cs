@@ -41,22 +41,22 @@ namespace SFGenericModel.ShaderGenerators
         /// <summary>
         /// The name of the uniform variable.
         /// </summary>
-        public readonly string name;
+        public string Name { get; }
 
         /// <summary>
-        /// The value of the uniform variable.
+        /// Determines what UV coordinates will be used
         /// </summary>
-        public readonly Texture value;
+        public UvCoord UvCoord { get; }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="name"></param>
-        /// <param name="value"></param>
-        public TextureRenderInfo(string name, Texture value)
+        /// <param name="uvCoord"></param>
+        public TextureRenderInfo(string name, UvCoord uvCoord) : this()
         {
-            this.name = name;
-            this.value = value;
+            Name = name;
+            UvCoord = uvCoord;
         }
     }
 }

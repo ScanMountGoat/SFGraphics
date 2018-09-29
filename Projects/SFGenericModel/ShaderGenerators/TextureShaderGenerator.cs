@@ -98,7 +98,7 @@ namespace SFGenericModel.ShaderGenerators
             foreach (var texture in textures)
             {
                 // TODO: Don't assume sampler type.
-                shaderSource.AppendLine($"uniform sampler2D {texture.name};");
+                shaderSource.AppendLine($"uniform sampler2D {texture.Name};");
             }
         }
 
@@ -132,7 +132,7 @@ namespace SFGenericModel.ShaderGenerators
 
         private static string GetResultAssignment(ValueCount resultCount, TextureRenderInfo texture, string uv0Name)
         {
-            return $"{resultName}.rgb = texture({texture.name}, {GlslUtils.vertexOutputPrefix}{uv0Name}).rgb;";
+            return $"{resultName}.rgb = texture({texture.Name}, {GlslUtils.vertexOutputPrefix}{uv0Name}).rgb;";
         }
     }
 }
