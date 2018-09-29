@@ -52,17 +52,6 @@ namespace SFGraphicsGui
 
             // Always check program creation before using shaders to prevent crashes.
             Shader shader = graphicsResources.screenTextureShader;
-
-            // Generated debug shader.
-            List<VertexAttributeRenderInfo> vertAttributesRenderInfo = new List<VertexAttributeRenderInfo>();
-            foreach (var attribute in graphicsResources.screenTriangle.GetVertexAttributes())
-            {
-                VertexAttributeRenderInfo vertexAttributeRenderInfo = new VertexAttributeRenderInfo(true, true, attribute);
-                vertAttributesRenderInfo.Add(vertexAttributeRenderInfo);
-            }
-
-            //shader = VertexAttributeShaderGenerator.CreateShader(vertAttributesRenderInfo);
-            System.Diagnostics.Debug.WriteLine(shader.GetErrorLog());
             if (!shader.LinkStatusIsOk)
                 return;
 
