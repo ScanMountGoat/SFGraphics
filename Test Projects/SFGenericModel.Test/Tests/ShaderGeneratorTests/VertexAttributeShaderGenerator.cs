@@ -5,10 +5,10 @@ using SFGenericModel.VertexAttributes;
 using SFGenericModel.ShaderGenerators;
 using OpenTK.Graphics.OpenGL;
 
-namespace GenericMeshTests
+namespace ShaderGeneratorTests
 {
     [TestClass]
-    public class ShaderGenerator
+    public class VertexAttributeShaderGenerator
     {
         [TestInitialize]
         public void Initialize()
@@ -19,7 +19,7 @@ namespace GenericMeshTests
         [TestMethod]
         public void NoAttributes()
         {
-            Shader shader = VertexAttributeShaderGenerator.CreateShader(new List<VertexAttributeRenderInfo>());
+            Shader shader = SFGenericModel.ShaderGenerators.VertexAttributeShaderGenerator.CreateShader(new List<VertexAttributeRenderInfo>());
             Assert.IsTrue(shader.LinkStatusIsOk);
         }
 
@@ -30,7 +30,7 @@ namespace GenericMeshTests
             {
                 new VertexAttributeRenderInfo(false, false, new VertexAttributeInfo("test", ValueCount.Three, VertexAttribPointerType.Float))
             };
-            Shader shader = VertexAttributeShaderGenerator.CreateShader(attributes);
+            Shader shader = SFGenericModel.ShaderGenerators.VertexAttributeShaderGenerator.CreateShader(attributes);
             Assert.IsTrue(shader.LinkStatusIsOk);
         }
 
@@ -41,7 +41,7 @@ namespace GenericMeshTests
             {
                 new VertexAttributeRenderInfo(false, false, new VertexAttributeInfo("test", ValueCount.Two, VertexAttribPointerType.Float))
             };
-            Shader shader = VertexAttributeShaderGenerator.CreateShader(attributes);
+            Shader shader = SFGenericModel.ShaderGenerators.VertexAttributeShaderGenerator.CreateShader(attributes);
             Assert.IsTrue(shader.LinkStatusIsOk);
         }
 
@@ -52,7 +52,7 @@ namespace GenericMeshTests
             {
                 new VertexAttributeRenderInfo(false, false, new VertexAttributeInfo("test", ValueCount.Four, VertexAttribPointerType.Float))
             };
-            Shader shader = VertexAttributeShaderGenerator.CreateShader(attributes);
+            Shader shader = SFGenericModel.ShaderGenerators.VertexAttributeShaderGenerator.CreateShader(attributes);
             Assert.IsTrue(shader.LinkStatusIsOk);
         }
 
@@ -63,7 +63,7 @@ namespace GenericMeshTests
             {
                 new VertexAttributeRenderInfo(false, false, new VertexAttributeInfo("test", ValueCount.One, VertexAttribPointerType.Float))
             };
-            Shader shader = VertexAttributeShaderGenerator.CreateShader(attributes);
+            Shader shader = SFGenericModel.ShaderGenerators.VertexAttributeShaderGenerator.CreateShader(attributes);
             Assert.IsTrue(shader.LinkStatusIsOk);
         }
 
@@ -74,7 +74,7 @@ namespace GenericMeshTests
             {
                 new VertexAttributeRenderInfo(false, false, new VertexAttributeInfo("test", ValueCount.One, VertexAttribPointerType.Int))
             };
-            Shader shader = VertexAttributeShaderGenerator.CreateShader(attributes);
+            Shader shader = SFGenericModel.ShaderGenerators.VertexAttributeShaderGenerator.CreateShader(attributes);
             Assert.IsTrue(shader.LinkStatusIsOk);
         }
 
@@ -85,7 +85,7 @@ namespace GenericMeshTests
             {
                 new VertexAttributeRenderInfo(false, false, new VertexAttributeInfo("test", ValueCount.One, VertexAttribPointerType.UnsignedInt))
             };
-            Shader shader = VertexAttributeShaderGenerator.CreateShader(attributes);
+            Shader shader = SFGenericModel.ShaderGenerators.VertexAttributeShaderGenerator.CreateShader(attributes);
             Assert.IsTrue(shader.LinkStatusIsOk);
         }
 
@@ -99,7 +99,7 @@ namespace GenericMeshTests
                 new VertexAttributeRenderInfo(false, false, new VertexAttributeInfo("test4", ValueCount.Four, VertexAttribPointerType.Float))
             };
 
-            Shader shader = VertexAttributeShaderGenerator.CreateShader(attributes);
+            Shader shader = SFGenericModel.ShaderGenerators.VertexAttributeShaderGenerator.CreateShader(attributes);
             Assert.IsTrue(shader.LinkStatusIsOk);
         }
     }
