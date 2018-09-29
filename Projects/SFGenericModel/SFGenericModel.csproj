@@ -51,6 +51,7 @@
     <Compile Include="ShaderGenerators\GlslShaderUtils\SwitchUtils.cs" />
     <Compile Include="ShaderGenerators\GlslShaderUtils\GlslUtils.cs" />
     <Compile Include="ShaderGenerators\GlslShaderUtils\GlslVectorUtils.cs" />
+    <Compile Include="ShaderGenerators\TextureRenderInfo.cs" />
     <Compile Include="VertexAttributes\AttribPointerUtils.cs" />
     <Compile Include="MeshEventArgs\AttribSetEventArgs.cs" />
     <Compile Include="RenderState\AlphaBlendSettings.cs" />
