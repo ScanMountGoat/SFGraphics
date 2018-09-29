@@ -38,13 +38,6 @@ namespace SFGraphicsGui
             CreateSamplerObject();
             screenTriangle = new ScreenTriangle();
 
-
-            var textures = new List<TextureRenderInfo>() { new TextureRenderInfo("tex1", null) };
-            var pos = new SFGenericModel.VertexAttributes.VertexAttributeInfo("pos", SFGenericModel.VertexAttributes.ValueCount.Three, VertexAttribPointerType.Float);
-            var uv0 = new SFGenericModel.VertexAttributes.VertexAttributeInfo("uv0", SFGenericModel.VertexAttributes.ValueCount.Two, VertexAttribPointerType.Float);
-            var shader = TextureShaderGenerator.CreateShader(textures, pos, uv0);
-            System.Diagnostics.Debug.WriteLine(shader.GetErrorLog());
-
             Benchmark();
         }
 

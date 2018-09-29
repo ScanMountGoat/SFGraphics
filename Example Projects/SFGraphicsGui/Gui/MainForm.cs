@@ -118,7 +118,16 @@ namespace SFGraphicsGui
         private void DrawShape(List<Vector3> shapeVertices, SFShapes.Mesh3D shape)
         {
             Shader shader = VertexAttributeShaderGenerator.CreateShader(shape.GetRenderAttributes());
+
+            var textures = new List<TextureRenderInfo>() { new TextureRenderInfo("uvTestPattern", null) };
+            var pos = new SFGenericModel.VertexAttributes.VertexAttributeInfo("position", SFGenericModel.VertexAttributes.ValueCount.Three, VertexAttribPointerType.Float);
+            var uv0 = new SFGenericModel.VertexAttributes.VertexAttributeInfo("uv0", SFGenericModel.VertexAttributes.ValueCount.Two, VertexAttribPointerType.Float);
+            shader = TextureShaderGenerator.CreateShader(textures, pos, uv0);
+            System.Diagnostics.Debug.WriteLine(shader.GetErrorLog());
+
             shader.UseProgram();
+
+            shader.SetTexture("uvTestPattern", graphicsResources.uvTestPattern, 0);
 
             Camera camera = new Camera();
             camera.renderWidth = glControl1.Width;

@@ -12,7 +12,7 @@ namespace SFGenericModel.ShaderGenerators
     public static class TextureShaderGenerator
     {
         private static readonly string resultName = "result";
-        private static readonly string attribIndexName = "attributeIndex";
+        private static readonly string attribIndexName = "textureIndex";
 
         /// <summary>
         /// Generates a shader for rendering each of 
@@ -32,7 +32,7 @@ namespace SFGenericModel.ShaderGenerators
             };
 
             string vertexSource = CreateVertexSource(attributes);
-            string fragSource = CreateFragmentSource(textures, attributes);
+            string fragSource = CreateFragmentSource(textures, attributes, uv0.Name);
 
             System.Diagnostics.Debug.WriteLine(vertexSource);
             System.Diagnostics.Debug.WriteLine(fragSource);
@@ -69,15 +69,17 @@ namespace SFGenericModel.ShaderGenerators
             GlslUtils.AppendEndMain(shaderSource);
         }
 
-        private static string CreateFragmentSource(List<TextureRenderInfo> textures, List<VertexAttributeRenderInfo> attributes)
+        private static string CreateFragmentSource(List<TextureRenderInfo> textures, 
+            List<VertexAttributeRenderInfo> attributes, string uv0)
         {
             StringBuilder shaderSource = new StringBuilder();
-            AppendFragmentShader(textures, attributes, shaderSource);
+            AppendFragmentShader(textures, attributes, shaderSource, uv0);
 
             return shaderSource.ToString();
         }
 
-        private static void AppendFragmentShader(List<TextureRenderInfo> textures, List<VertexAttributeRenderInfo> attributes, StringBuilder shaderSource)
+        private static void AppendFragmentShader(List<TextureRenderInfo> textures, 
+            List<VertexAttributeRenderInfo> attributes, StringBuilder shaderSource, string uv0)
         {
             GlslUtils.AppendShadingLanguageVersion(shaderSource);
 
@@ -88,7 +90,7 @@ namespace SFGenericModel.ShaderGenerators
 
             shaderSource.AppendLine($"uniform int {attribIndexName};");
 
-            AppendFragmentMainFunction(textures, shaderSource);
+            AppendFragmentMainFunction(textures, shaderSource, uv0);
         }
 
         private static void AppendTextureUniforms(List<TextureRenderInfo> textures, StringBuilder shaderSource)
@@ -100,29 +102,28 @@ namespace SFGenericModel.ShaderGenerators
             }
         }
 
-        private static void AppendFragmentMainFunction(List<TextureRenderInfo> textures, StringBuilder shaderSource)
+        private static void AppendFragmentMainFunction(List<TextureRenderInfo> textures, StringBuilder shaderSource, string uv0)
         {
             GlslUtils.AppendBeginMain(shaderSource);
-            AppendMainFunctionBody(textures, shaderSource);
+            AppendMainFunctionBody(textures, shaderSource, uv0);
             GlslUtils.AppendEndMain(shaderSource);
         }
 
-        private static void AppendMainFunctionBody(List<TextureRenderInfo> attributes, StringBuilder shaderSource)
+        private static void AppendMainFunctionBody(List<TextureRenderInfo> attributes, StringBuilder shaderSource, string uv0)
         {
             shaderSource.AppendLine($"\tvec3 {resultName} = vec3(0);");
 
-            AppendFragmentAttributeSwitch(attributes, shaderSource);
+            AppendFragmentAttributeSwitch(attributes, shaderSource, uv0);
 
             shaderSource.AppendLine($"\t{GlslUtils.outputName} = vec4({resultName}, 1);");
         }
 
-        private static void AppendFragmentAttributeSwitch(List<TextureRenderInfo> attributes, StringBuilder shaderSource)
+        private static void AppendFragmentAttributeSwitch(List<TextureRenderInfo> attributes, StringBuilder shaderSource, string uv0)
         {
             List<CaseStatement> cases = new List<CaseStatement>();
             for (int i = 0; i < attributes.Count; i++)
             {
-                // TODO: Don't hard code UV names.
-                string caseAssignment = GetResultAssignment(ValueCount.Three, attributes[i], "uv0");
+                string caseAssignment = GetResultAssignment(ValueCount.Three, attributes[i], uv0);
                 cases.Add(new CaseStatement(i.ToString(), caseAssignment));
             }
 
