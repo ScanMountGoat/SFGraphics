@@ -1,8 +1,6 @@
-﻿using OpenTK.Graphics.OpenGL;
-using SFGenericModel.ShaderGenerators.GlslShaderUtils;
+﻿using SFGenericModel.ShaderGenerators.GlslShaderUtils;
 using SFGenericModel.VertexAttributes;
 using SFGraphics.GLObjects.Shaders;
-using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -29,44 +27,48 @@ namespace SFGenericModel.ShaderGenerators
             string vertexSource = CreateVertexSource(attributes);
             string fragSource = CreateFragmentSource(attributes);
 
-            return CreateShader(vertexSource, fragSource);
-        }
-
-        private static Shader CreateShader(string vertexSource, string fragSource)
-        {
-            Shader shader = new Shader();
-            var shaders = new List<Tuple<string, ShaderType, string>>()
-            {
-                new Tuple<string, ShaderType, string>(vertexSource, ShaderType.VertexShader, ""),
-                new Tuple<string, ShaderType, string>(fragSource, ShaderType.FragmentShader, "")
-            };
-            shader.LoadShaders(shaders);
-            return shader;
+            return GlslUtils.CreateShader(vertexSource, fragSource);
         }
 
         private static string CreateVertexSource(List<VertexAttributeRenderInfo> attributes)
         {
             StringBuilder shaderSource = new StringBuilder();
+            AppendVertexShader(attributes, shaderSource);
+
+            return shaderSource.ToString();
+        }
+
+        private static void AppendVertexShader(List<VertexAttributeRenderInfo> attributes, StringBuilder shaderSource)
+        {
             GlslUtils.AppendShadingLanguageVersion(shaderSource);
 
             GlslUtils.AppendVertexInputs(attributes, shaderSource);
             GlslUtils.AppendVertexOutputs(attributes, shaderSource);
             GlslUtils.AppendMatrixUniform(shaderSource);
 
-            shaderSource.AppendLine("void main()");
-            shaderSource.AppendLine("{");
+            AppendVertexMainFunction(attributes, shaderSource);
+        }
+
+        private static void AppendVertexMainFunction(List<VertexAttributeRenderInfo> attributes, StringBuilder shaderSource)
+        {
+            GlslUtils.AppendBeginMain(shaderSource);
 
             GlslUtils.AppendVertexOutputAssignments(attributes, shaderSource);
             GlslUtils.AppendPositionAssignment(shaderSource, attributes);
 
-            shaderSource.AppendLine("}");
-
-            return shaderSource.ToString();
+            GlslUtils.AppendEndMain(shaderSource);
         }
 
         private static string CreateFragmentSource(List<VertexAttributeRenderInfo> attributes)
         {
             StringBuilder shaderSource = new StringBuilder();
+            AppendFragmentShader(attributes, shaderSource);
+
+            return shaderSource.ToString();
+        }
+
+        private static void AppendFragmentShader(List<VertexAttributeRenderInfo> attributes, StringBuilder shaderSource)
+        {
             GlslUtils.AppendShadingLanguageVersion(shaderSource);
 
             GlslUtils.AppendFragmentInputs(attributes, shaderSource);
@@ -74,14 +76,14 @@ namespace SFGenericModel.ShaderGenerators
 
             shaderSource.AppendLine($"uniform int {attribIndexName};");
 
-            shaderSource.AppendLine("void main()");
-            shaderSource.AppendLine("{");
+            AppendFragmentMainFunction(attributes, shaderSource);
+        }
 
+        private static void AppendFragmentMainFunction(List<VertexAttributeRenderInfo> attributes, StringBuilder shaderSource)
+        {
+            GlslUtils.AppendBeginMain(shaderSource);
             AppendMainFunctionBody(attributes, shaderSource);
-
-            shaderSource.AppendLine("}");
-
-            return shaderSource.ToString();
+            GlslUtils.AppendEndMain(shaderSource);
         }
 
         private static void AppendMainFunctionBody(List<VertexAttributeRenderInfo> attributes, StringBuilder shaderSource)
@@ -95,22 +97,22 @@ namespace SFGenericModel.ShaderGenerators
          
         private static void AppendFragmentAttributeSwitch(List<VertexAttributeRenderInfo> attributes, StringBuilder shaderSource)
         {
-            shaderSource.AppendLine($"\tswitch ({attribIndexName})");
-            shaderSource.AppendLine("\t{");
+            SwitchUtils.AppendBeginSwitch(shaderSource, attribIndexName);
 
             for (int i = 0; i < attributes.Count; i++)
             {
-                string caseAssignment = GetResultAssignment(attributes[i]);
-                GlslSwitchUtils.AppendSwitchCaseStatement(shaderSource, i, caseAssignment);
+                string caseAssignment = GetResultAssignment(ValueCount.Three, 
+                    attributes[i].attributeInfo.Name, attributes[i].attributeInfo.ValueCount);
+                SwitchUtils.AppendSwitchCaseStatement(shaderSource, i, caseAssignment);
             }
 
-            shaderSource.AppendLine("\t}");
+            SwitchUtils.AppendEndSwitch(shaderSource);
         }
 
-        private static string GetResultAssignment(VertexAttributeRenderInfo attribute)
+        private static string GetResultAssignment(ValueCount resultCount, string sourceName, ValueCount sourceCount)
         {
-            string constructedVector = GlslVectorUtils.ConstructVector(ValueCount.Three, attribute.attributeInfo.ValueCount,
-                GlslUtils.vertexOutputPrefix + attribute.attributeInfo.Name);
+            string constructedVector = GlslVectorUtils.ConstructVector(resultCount, sourceCount,
+                GlslUtils.vertexOutputPrefix + sourceName);
             return $"{resultName}.rgb = {constructedVector};";
         }
     }

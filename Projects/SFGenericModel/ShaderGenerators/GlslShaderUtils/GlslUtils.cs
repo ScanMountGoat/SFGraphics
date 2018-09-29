@@ -1,5 +1,7 @@
 ﻿using OpenTK.Graphics.OpenGL;
 using SFGenericModel.VertexAttributes;
+using SFGraphics.GLObjects.Shaders;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -17,6 +19,29 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
         private static readonly string versionInfo = $"#version {version}";
 
         public static readonly string vertexOutputPrefix = "vert_";
+
+        public static Shader CreateShader(string vertexSource, string fragSource)
+        {
+            Shader shader = new Shader();
+            var shaders = new List<Tuple<string, ShaderType, string>>()
+            {
+                new Tuple<string, ShaderType, string>(vertexSource, ShaderType.VertexShader, ""),
+                new Tuple<string, ShaderType, string>(fragSource, ShaderType.FragmentShader, "")
+            };
+            shader.LoadShaders(shaders);
+            return shader;
+        }
+
+        public static void AppendEndMain(StringBuilder shaderSource)
+        {
+            shaderSource.AppendLine("}");
+        }
+
+        public static void AppendBeginMain(StringBuilder shaderSource)
+        {
+            shaderSource.AppendLine("void main()");
+            shaderSource.AppendLine("{");
+        }
 
         public static void AppendVertexInputs(List<VertexAttributeRenderInfo> attributes, StringBuilder shaderSource)
         {
