@@ -267,8 +267,10 @@ namespace SFGraphics.GLObjects.Shaders
         /// <returns>The location of <paramref name="name"/></returns>
         public int GetUniformLocation(string name)
         {
-            string nameNoBrackets = GetNameNoArrayBrackets(name);
+            if (string.IsNullOrEmpty(name))
+                return -1;
 
+            string nameNoBrackets = GetNameNoArrayBrackets(name);
             if (!activeUniformByName.ContainsKey(nameNoBrackets))
                 return -1;
             else
@@ -282,7 +284,7 @@ namespace SFGraphics.GLObjects.Shaders
         /// <returns>The location of <paramref name="name"/></returns>
         public int GetAttribLocation(string name)
         {
-            if (!activeAttribByName.ContainsKey(name))
+            if (string.IsNullOrEmpty(name) || !activeAttribByName.ContainsKey(name))
                 return -1;
             else
                 return activeAttribByName[name].location;

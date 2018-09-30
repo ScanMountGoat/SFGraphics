@@ -35,5 +35,25 @@ namespace ShaderTests.ProgramCreationTests
 
             Assert.IsFalse(shader.LinkStatusIsOk);
         }
+
+        [TestMethod]
+        public void EmptyFragShader()
+        {
+            // Load the shader file from the embedded resources.
+            Shader shader = new Shader();
+            shader.LoadShader("", ShaderType.FragmentShader);
+
+            Assert.IsFalse(shader.LinkStatusIsOk);
+        }
+
+        [TestMethod]
+        public void NullFragShader()
+        {
+            // Load the shader file from the embedded resources.
+            Shader shader = new Shader();
+            shader.LoadShader(null, ShaderType.FragmentShader);
+
+            Assert.IsFalse(shader.LinkStatusIsOk);
+        }
     }
 }

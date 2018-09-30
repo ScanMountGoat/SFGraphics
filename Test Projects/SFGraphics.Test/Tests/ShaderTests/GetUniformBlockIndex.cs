@@ -18,6 +18,19 @@ namespace ShaderTests
             Assert.AreEqual(-1, shader.GetUniformBlockIndex("memes"));
         }
 
+
+        [TestMethod]
+        public void EmptyName()
+        {
+            Assert.AreEqual(-1, shader.GetUniformBlockIndex(""));
+        }
+
+        [TestMethod]
+        public void NullName()
+        {
+            Assert.AreEqual(-1, shader.GetUniformBlockIndex(null));
+        }
+
         [TestMethod]
         public void ShaderNotLinked()
         {

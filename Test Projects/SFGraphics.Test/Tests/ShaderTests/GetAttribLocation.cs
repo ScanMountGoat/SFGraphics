@@ -19,6 +19,18 @@ namespace ShaderTests
         }
 
         [TestMethod]
+        public void EmptyName()
+        {
+            Assert.AreEqual(-1, shader.GetAttribLocation(""));
+        }
+
+        [TestMethod]
+        public void NullName()
+        {
+            Assert.AreEqual(-1, shader.GetAttribLocation(null));
+        }
+
+        [TestMethod]
         public void ShaderNotLinked()
         {
             var shader = new SFGraphics.GLObjects.Shaders.Shader();

@@ -19,6 +19,18 @@ namespace ShaderTests
         }
 
         [TestMethod]
+        public void EmptyName()
+        {
+            Assert.AreEqual(-1, shader.GetUniformLocation(""));
+        }
+
+        [TestMethod]
+        public void NullName()
+        {
+            Assert.AreEqual(-1, shader.GetUniformLocation(null));
+        }
+
+        [TestMethod]
         public void ValidArrayName()
         {
             Assert.AreEqual(GL.GetUniformLocation(shader.Id, "floatArray1"), shader.GetUniformLocation("floatArray1"));
