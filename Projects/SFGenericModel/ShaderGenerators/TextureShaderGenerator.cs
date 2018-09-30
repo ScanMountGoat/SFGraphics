@@ -95,10 +95,16 @@ namespace SFGenericModel.ShaderGenerators
 
         private static void AppendTextureUniforms(List<TextureRenderInfo> textures, StringBuilder shaderSource)
         {
+            HashSet<string> previousNames = new HashSet<string>();
             foreach (var texture in textures)
             {
-                // TODO: Don't assume sampler type.
-                shaderSource.AppendLine($"uniform sampler2D {texture.Name};");
+                if (!previousNames.Contains(texture.Name))
+                {
+                    // TODO: Don't assume sampler type.
+                    shaderSource.AppendLine($"uniform sampler2D {texture.Name};");
+
+                    previousNames.Add(texture.Name);
+                }
             }
         }
 
@@ -133,7 +139,7 @@ namespace SFGenericModel.ShaderGenerators
         private static string GetResultAssignment(ValueCount resultCount, TextureRenderInfo texture, string uv0Name)
         {
             string swizzle = GetSwizzle(texture.TextureSwizzle);
-            return $"{resultName}.rgb = texture({texture.Name}, {GlslUtils.vertexOutputPrefix}{uv0Name}).{swizzle};";
+            return $"{resultName}.rgb = texture({texture.Name}, {GlslUtils.vertexOutputPrefix}{uv0Name}.xy).{swizzle};";
         }
 
         private static string GetSwizzle(TextureSwizzle swizzle)

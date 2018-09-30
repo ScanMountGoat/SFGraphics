@@ -45,20 +45,34 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
 
         public static void AppendVertexInputs(List<VertexAttributeRenderInfo> attributes, StringBuilder shaderSource)
         {
+            // Ignore duplicates to prevent shader compile errors.
+            HashSet<string> previousNames = new HashSet<string>();
             foreach (var attribute in attributes)
             {
-                string type = GetTypeDeclaration(attribute);
-                shaderSource.AppendLine($"in {type} {attribute.attributeInfo.Name};");
+                if (!previousNames.Contains(attribute.attributeInfo.Name))
+                {
+                    string type = GetTypeDeclaration(attribute);
+                    shaderSource.AppendLine($"in {type} {attribute.attributeInfo.Name};");
+
+                    previousNames.Add(attribute.attributeInfo.Name);
+                }
             }
         }
 
         public static void AppendVertexOutputs(List<VertexAttributeRenderInfo> attributes, StringBuilder shaderSource)
         {
+            // Ignore duplicates to prevent shader compile errors.
+            HashSet<string> previousNames = new HashSet<string>();
             foreach (var attribute in attributes)
             {
-                string type = GetTypeDeclaration(attribute);
-                string interpolation = GetInterpolationQualifier(attribute.attributeInfo.Type);
-                shaderSource.AppendLine($"{interpolation}out {type} {vertexOutputPrefix}{attribute.attributeInfo.Name};");
+                if (!previousNames.Contains(attribute.attributeInfo.Name))
+                {
+                    string type = GetTypeDeclaration(attribute);
+                    string interpolation = GetInterpolationQualifier(attribute.attributeInfo.Type);
+                    shaderSource.AppendLine($"{interpolation}out {type} {vertexOutputPrefix}{attribute.attributeInfo.Name};");
+                }
+
+                previousNames.Add(attribute.attributeInfo.Name);
             }
         }
 
@@ -72,31 +86,59 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
 
         public static void AppendVertexOutputAssignments(List<VertexAttributeRenderInfo> attributes, StringBuilder shaderSource)
         {
+            // Ignore duplicates to prevent shader compile errors.
+            HashSet<string> previousNames = new HashSet<string>();
+
             foreach (var attribute in attributes)
             {
+                if (previousNames.Contains(attribute.attributeInfo.Name))
+                    continue;
+
                 string output = $"{vertexOutputPrefix}{attribute.attributeInfo.Name}";
                 string input = $"{ attribute.attributeInfo.Name}";
-                string function = "";
-                if (attribute.normalize)
-                    function = "normalize";
 
-                string remapOperation = "";
-                if (attribute.remapToVisibleRange)
-                    remapOperation = "* 0.5 + 0.5;";
+                string function = GetAttributeFunction(attribute);
+                string remapOperation = GetAttributeRemapOperation(attribute);
 
                 shaderSource.AppendLine($"\t{output} = {function}({input}) {remapOperation};");
+
+                previousNames.Add(attribute.attributeInfo.Name);
             }
+        }
+
+        private static string GetAttributeRemapOperation(VertexAttributeRenderInfo attribute)
+        {
+            string remapOperation = "";
+            if (attribute.remapToVisibleRange)
+                remapOperation = "* 0.5 + 0.5;";
+            return remapOperation;
+        }
+
+        private static string GetAttributeFunction(VertexAttributeRenderInfo attribute)
+        {
+            string function = "";
+            if (attribute.normalize)
+                function = "normalize";
+            return function;
         }
 
         public static void AppendFragmentInputs(List<VertexAttributeRenderInfo> attributes, StringBuilder shaderSource)
         {
+            // Ignore duplicates to prevent shader compile errors.
+            HashSet<string> previousNames = new HashSet<string>();
+
             foreach (var attribute in attributes)
             {
+                if (previousNames.Contains(attribute.attributeInfo.Name))
+                    continue;
+
                 string interpolation = GetInterpolationQualifier(attribute.attributeInfo.Type);
                 string type = GetTypeDeclaration(attribute);
                 string variableName = vertexOutputPrefix + attribute.attributeInfo.Name;
 
                 shaderSource.AppendLine($"{interpolation}in {type} {variableName};");
+
+                previousNames.Add(attribute.attributeInfo.Name);
             }
         }
 
