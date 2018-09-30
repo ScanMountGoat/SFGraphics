@@ -8,19 +8,24 @@ namespace SFGenericModel.ShaderGenerators
     public struct VertexAttributeRenderInfo
     {
         /// <summary>
+        /// The name value of <see cref="AttributeInfo"/>
+        /// </summary>
+        public string Name { get { return AttributeInfo.Name; } }
+
+        /// <summary>
         /// Normalize the vector before rendering.
         /// </summary>
-        public readonly bool normalize;
+        public bool Normalize { get; }
 
         /// <summary>
         /// Remap values in range [-1, 1] to range [0, 1]
         /// </summary>
-        public readonly bool remapToVisibleRange;
+        public bool RemapToVisibleRange { get; }
 
         /// <summary>
         /// Information about the attribute name and type
         /// </summary>
-        public readonly VertexAttribute attributeInfo;
+        public VertexAttribute AttributeInfo { get; }
 
         /// <summary>
         /// 
@@ -30,9 +35,9 @@ namespace SFGenericModel.ShaderGenerators
         /// <param name="attributeInfo"></param>
         public VertexAttributeRenderInfo(bool normalize, bool remapToVisibleRange, VertexAttribute attributeInfo)
         {
-            this.normalize = normalize;
-            this.remapToVisibleRange = remapToVisibleRange;
-            this.attributeInfo = attributeInfo;
+            Normalize = normalize;
+            RemapToVisibleRange = remapToVisibleRange;
+            AttributeInfo = attributeInfo;
         }
     }
 }

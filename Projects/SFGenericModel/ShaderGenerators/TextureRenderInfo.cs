@@ -70,7 +70,7 @@ namespace SFGenericModel.ShaderGenerators
     public struct TextureRenderInfo
     {
         /// <summary>
-        /// The name of the uniform variable.
+        /// The name of the texture uniform variable.
         /// </summary>
         public string Name { get; }
 

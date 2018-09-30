@@ -36,5 +36,33 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
 
             return resultingComponents;
         }
+
+        public static string GetSwizzle(TextureSwizzle swizzle)
+        {
+            string result = "rgb";
+            switch (swizzle)
+            {
+                case TextureSwizzle.Rgb:
+                    result = "rgb";
+                    break;
+                case TextureSwizzle.R:
+                    result = "rrr";
+                    break;
+                case TextureSwizzle.G:
+                    result = "ggg";
+                    break;
+                case TextureSwizzle.B:
+                    result = "bbb";
+                    break;
+                case TextureSwizzle.A:
+                    result = "aaa";
+                    break;
+                default:
+                    result = "rgb";
+                    break;
+            }
+
+            return result;
+        }
     }
 }

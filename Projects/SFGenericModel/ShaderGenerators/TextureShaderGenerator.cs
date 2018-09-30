@@ -33,7 +33,6 @@ namespace SFGenericModel.ShaderGenerators
 
             string vertexSource = CreateVertexSource(attributes);
             string fragSource = CreateFragmentSource(textures, attributes, uv0.Name);
-
             System.Diagnostics.Debug.WriteLine(vertexSource);
             System.Diagnostics.Debug.WriteLine(fragSource);
 
@@ -138,36 +137,8 @@ namespace SFGenericModel.ShaderGenerators
 
         private static string GetResultAssignment(ValueCount resultCount, TextureRenderInfo texture, string uv0Name)
         {
-            string swizzle = GetSwizzle(texture.TextureSwizzle);
+            string swizzle = GlslVectorUtils.GetSwizzle(texture.TextureSwizzle);
             return $"{resultName}.rgb = texture({texture.Name}, {GlslUtils.vertexOutputPrefix}{uv0Name}.xy).{swizzle};";
-        }
-
-        private static string GetSwizzle(TextureSwizzle swizzle)
-        {
-            string result = "rgb";
-            switch (swizzle)
-            {
-                case TextureSwizzle.Rgb:
-                    result = "rgb";
-                    break;
-                case TextureSwizzle.R:
-                    result = "rrr";
-                    break;
-                case TextureSwizzle.G:
-                    result = "ggg";
-                    break;
-                case TextureSwizzle.B:
-                    result = "bbb";
-                    break;
-                case TextureSwizzle.A:
-                    result = "aaa";
-                    break;
-                default:
-                    result = "rgb";
-                    break;
-            }
-
-            return result;
         }
     }
 }

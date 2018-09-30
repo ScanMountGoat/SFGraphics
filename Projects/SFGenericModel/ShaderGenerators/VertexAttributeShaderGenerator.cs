@@ -104,7 +104,7 @@ namespace SFGenericModel.ShaderGenerators
             for (int i = 0; i < attributes.Count; i++)
             {
                 string caseAssignment = GetResultAssignment(ValueCount.Three, 
-                    attributes[i].attributeInfo.Name, attributes[i].attributeInfo.ValueCount);
+                    attributes[i].AttributeInfo.Name, attributes[i].AttributeInfo.ValueCount);
                 cases.Add(new CaseStatement(i.ToString(), caseAssignment));
             }
 

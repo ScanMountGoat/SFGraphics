@@ -49,12 +49,12 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
             HashSet<string> previousNames = new HashSet<string>();
             foreach (var attribute in attributes)
             {
-                if (!previousNames.Contains(attribute.attributeInfo.Name))
+                if (!previousNames.Contains(attribute.Name))
                 {
                     string type = GetTypeDeclaration(attribute);
-                    shaderSource.AppendLine($"in {type} {attribute.attributeInfo.Name};");
+                    shaderSource.AppendLine($"in {type} {attribute.Name};");
 
-                    previousNames.Add(attribute.attributeInfo.Name);
+                    previousNames.Add(attribute.Name);
                 }
             }
         }
@@ -65,14 +65,14 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
             HashSet<string> previousNames = new HashSet<string>();
             foreach (var attribute in attributes)
             {
-                if (!previousNames.Contains(attribute.attributeInfo.Name))
+                if (!previousNames.Contains(attribute.Name))
                 {
                     string type = GetTypeDeclaration(attribute);
-                    string interpolation = GetInterpolationQualifier(attribute.attributeInfo.Type);
-                    shaderSource.AppendLine($"{interpolation}out {type} {vertexOutputPrefix}{attribute.attributeInfo.Name};");
+                    string interpolation = GetInterpolationQualifier(attribute.AttributeInfo.Type);
+                    shaderSource.AppendLine($"{interpolation}out {type} {vertexOutputPrefix}{attribute.Name};");
                 }
 
-                previousNames.Add(attribute.attributeInfo.Name);
+                previousNames.Add(attribute.Name);
             }
         }
 
@@ -91,25 +91,25 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
 
             foreach (var attribute in attributes)
             {
-                if (previousNames.Contains(attribute.attributeInfo.Name))
+                if (previousNames.Contains(attribute.Name))
                     continue;
 
-                string output = $"{vertexOutputPrefix}{attribute.attributeInfo.Name}";
-                string input = $"{ attribute.attributeInfo.Name}";
+                string output = $"{vertexOutputPrefix}{attribute.Name}";
+                string input = $"{ attribute.Name}";
 
                 string function = GetAttributeFunction(attribute);
                 string remapOperation = GetAttributeRemapOperation(attribute);
 
                 shaderSource.AppendLine($"\t{output} = {function}({input}) {remapOperation};");
 
-                previousNames.Add(attribute.attributeInfo.Name);
+                previousNames.Add(attribute.Name);
             }
         }
 
         private static string GetAttributeRemapOperation(VertexAttributeRenderInfo attribute)
         {
             string remapOperation = "";
-            if (attribute.remapToVisibleRange)
+            if (attribute.RemapToVisibleRange)
                 remapOperation = "* 0.5 + 0.5;";
             return remapOperation;
         }
@@ -117,7 +117,7 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
         private static string GetAttributeFunction(VertexAttributeRenderInfo attribute)
         {
             string function = "";
-            if (attribute.normalize)
+            if (attribute.Normalize)
                 function = "normalize";
             return function;
         }
@@ -129,33 +129,33 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
 
             foreach (var attribute in attributes)
             {
-                if (previousNames.Contains(attribute.attributeInfo.Name))
+                if (previousNames.Contains(attribute.Name))
                     continue;
 
-                string interpolation = GetInterpolationQualifier(attribute.attributeInfo.Type);
+                string interpolation = GetInterpolationQualifier(attribute.AttributeInfo.Type);
                 string type = GetTypeDeclaration(attribute);
-                string variableName = vertexOutputPrefix + attribute.attributeInfo.Name;
+                string variableName = vertexOutputPrefix + attribute.Name;
 
                 shaderSource.AppendLine($"{interpolation}in {type} {variableName};");
 
-                previousNames.Add(attribute.attributeInfo.Name);
+                previousNames.Add(attribute.Name);
             }
         }
 
         private static string GetTypeDeclaration(VertexAttributeRenderInfo attribute)
         {
-            if (attribute.attributeInfo.ValueCount == ValueCount.One)
+            if (attribute.AttributeInfo.ValueCount == ValueCount.One)
             {
-                if (attribute.attributeInfo.Type == VertexAttribPointerType.Float)
+                if (attribute.AttributeInfo.Type == VertexAttribPointerType.Float)
                     return "float";
-                else if (attribute.attributeInfo.Type == VertexAttribPointerType.Int)
+                else if (attribute.AttributeInfo.Type == VertexAttribPointerType.Int)
                     return "int";
                 else
                     return "uint";
             }
             else
             {
-                return $"vec{(int)attribute.attributeInfo.ValueCount}";
+                return $"vec{(int)attribute.AttributeInfo.ValueCount}";
             }
         }
 
@@ -165,7 +165,7 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
             if (attributes.Count == 0)
                 return;
 
-            string positionVariable = GlslVectorUtils.ConstructVector(ValueCount.Four, attributes[0].attributeInfo.ValueCount, attributes[0].attributeInfo.Name);
+            string positionVariable = GlslVectorUtils.ConstructVector(ValueCount.Four, attributes[0].AttributeInfo.ValueCount, attributes[0].Name);
             shaderSource.AppendLine($"\tgl_Position = {matrixName} * {positionVariable};");
         }
 
