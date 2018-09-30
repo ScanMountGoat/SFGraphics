@@ -178,6 +178,20 @@ namespace SFGraphics.GLObjects.Shaders
         }
 
         /// <summary>
+        /// Compiles and attaches shaders from <paramref name="fragmentSource"/> and <paramref name="vertexSource"/>.
+        /// </summary>
+        /// <param name="vertexSource">The vertex shader source</param>
+        /// <param name="fragmentSource">The fragment shader source</param>
+        public void LoadShaders(string vertexSource, string fragmentSource)
+        {
+            LoadShaders(new List<Tuple<string, ShaderType, string>>()
+            {
+                new Tuple<string, ShaderType, string>(vertexSource, ShaderType.VertexShader, "Vertex Shader"),
+                new Tuple<string, ShaderType, string>(fragmentSource, ShaderType.FragmentShader, "Fragment Shader"),
+            });
+        }
+
+        /// <summary>
         /// Creates and compiles a new shader from <paramref name="shaderSource"/>.
         /// Returns the ID created by GL.CreateShader(). 
         /// Shaders can be attached with <see cref="AttachShader(int, ShaderType, string)"/>

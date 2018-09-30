@@ -8,7 +8,7 @@ using OpenTK.Graphics.OpenGL;
 namespace ShaderGeneratorTests
 {
     [TestClass]
-    public class VertexAttributeShaderGenerator
+    public class VertexAttributeShaderCompilation
     {
         [TestInitialize]
         public void Initialize()
@@ -19,7 +19,7 @@ namespace ShaderGeneratorTests
         [TestMethod]
         public void NoAttributes()
         {
-            Shader shader = SFGenericModel.ShaderGenerators.VertexAttributeShaderGenerator.CreateShader(new List<VertexAttributeRenderInfo>());
+            Shader shader = CreateShader(new List<VertexAttributeRenderInfo>());
             Assert.IsTrue(shader.LinkStatusIsOk);
         }
 
@@ -30,7 +30,7 @@ namespace ShaderGeneratorTests
             {
                 new VertexAttributeRenderInfo(new VertexAttributeInfo("test", ValueCount.Three, VertexAttribPointerType.Float), false, false)
             };
-            Shader shader = SFGenericModel.ShaderGenerators.VertexAttributeShaderGenerator.CreateShader(attributes);
+            Shader shader = CreateShader(attributes);
             Assert.IsTrue(shader.LinkStatusIsOk);
         }
 
@@ -41,7 +41,7 @@ namespace ShaderGeneratorTests
             {
                 new VertexAttributeRenderInfo(new VertexAttributeInfo("test", ValueCount.Two, VertexAttribPointerType.Float), false, false)
             };
-            Shader shader = SFGenericModel.ShaderGenerators.VertexAttributeShaderGenerator.CreateShader(attributes);
+            Shader shader = CreateShader(attributes);
             Assert.IsTrue(shader.LinkStatusIsOk);
         }
 
@@ -52,7 +52,7 @@ namespace ShaderGeneratorTests
             {
                 new VertexAttributeRenderInfo(new VertexAttributeInfo("test", ValueCount.Four, VertexAttribPointerType.Float), false, false)
             };
-            Shader shader = SFGenericModel.ShaderGenerators.VertexAttributeShaderGenerator.CreateShader(attributes);
+            Shader shader = CreateShader(attributes);
             Assert.IsTrue(shader.LinkStatusIsOk);
         }
 
@@ -63,7 +63,7 @@ namespace ShaderGeneratorTests
             {
                 new VertexAttributeRenderInfo(new VertexAttributeInfo("test", ValueCount.One, VertexAttribPointerType.Float), false, false)
             };
-            Shader shader = SFGenericModel.ShaderGenerators.VertexAttributeShaderGenerator.CreateShader(attributes);
+            Shader shader = CreateShader(attributes);
             Assert.IsTrue(shader.LinkStatusIsOk);
         }
 
@@ -74,7 +74,7 @@ namespace ShaderGeneratorTests
             {
                 new VertexAttributeRenderInfo(new VertexAttributeInfo("test", ValueCount.One, VertexAttribPointerType.Int), false, false)
             };
-            Shader shader = SFGenericModel.ShaderGenerators.VertexAttributeShaderGenerator.CreateShader(attributes);
+            Shader shader = CreateShader(attributes);
             Assert.IsTrue(shader.LinkStatusIsOk);
         }
 
@@ -85,7 +85,7 @@ namespace ShaderGeneratorTests
             {
                 new VertexAttributeRenderInfo(new VertexAttributeInfo("test", ValueCount.One, VertexAttribPointerType.UnsignedInt), false, false)
             };
-            Shader shader = SFGenericModel.ShaderGenerators.VertexAttributeShaderGenerator.CreateShader(attributes);
+            Shader shader = CreateShader(attributes);
             Assert.IsTrue(shader.LinkStatusIsOk);
         }
 
@@ -99,8 +99,16 @@ namespace ShaderGeneratorTests
                 new VertexAttributeRenderInfo(new VertexAttributeInfo("test4", ValueCount.Four, VertexAttribPointerType.Float), false, false)
             };
 
-            Shader shader = SFGenericModel.ShaderGenerators.VertexAttributeShaderGenerator.CreateShader(attributes);
+            Shader shader = CreateShader(attributes);
             Assert.IsTrue(shader.LinkStatusIsOk);
+        }
+
+        private static Shader CreateShader(List<VertexAttributeRenderInfo> attributes)
+        {
+            VertexAttributeShaderGenerator.CreateShader(attributes, out string vertSource, out string fragSource);
+            Shader shader = new Shader();
+            shader.LoadShaders(vertSource, fragSource);
+            return shader;
         }
     }
 }

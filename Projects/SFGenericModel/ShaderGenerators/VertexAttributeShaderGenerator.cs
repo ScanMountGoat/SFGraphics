@@ -21,16 +21,14 @@ namespace SFGenericModel.ShaderGenerators
         /// </summary>
         /// <param name="attributes">Attributes used to generate render modes. 
         /// The first attribute is also used as the position.</param>
+        /// <param name="vertexSource">The generated GLSL vertex shader source</param>
+        /// <param name="fragmentSource">The generated GLSL fragment shader source</param>
         /// <returns>A new shader that can be used for rendering</returns>
-        public static Shader CreateShader(List<VertexAttributeRenderInfo> attributes)
+        public static void CreateShader(List<VertexAttributeRenderInfo> attributes, 
+            out string vertexSource, out string fragmentSource)
         {
-            string vertexSource = CreateVertexSource(attributes);
-            string fragSource = CreateFragmentSource(attributes);
-
-            System.Diagnostics.Debug.WriteLine(vertexSource);
-            System.Diagnostics.Debug.WriteLine(fragSource);
-
-            return GlslUtils.CreateShader(vertexSource, fragSource);
+            vertexSource = CreateVertexSource(attributes);
+            fragmentSource = CreateFragmentSource(attributes);
         }
 
         private static string CreateVertexSource(List<VertexAttributeRenderInfo> attributes)

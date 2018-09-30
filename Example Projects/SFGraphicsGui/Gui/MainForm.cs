@@ -117,12 +117,19 @@ namespace SFGraphicsGui
 
         private void DrawShape(List<Vector3> shapeVertices, SFShapes.Mesh3D shape)
         {
-            Shader shader = VertexAttributeShaderGenerator.CreateShader(shape.GetRenderAttributes());
-
             var textures = new List<TextureRenderInfo>() { new TextureRenderInfo("uvTestPattern", UvCoord.TexCoord0, TextureSwizzle.Rgb) };
             var pos = new SFGenericModel.VertexAttributes.VertexAttributeInfo("position", SFGenericModel.VertexAttributes.ValueCount.Three, VertexAttribPointerType.Float);
             var uv0 = new SFGenericModel.VertexAttributes.VertexAttributeInfo("uv0", SFGenericModel.VertexAttributes.ValueCount.Two, VertexAttribPointerType.Float);
-            shader = TextureShaderGenerator.CreateShader(textures, pos, pos, uv0);
+
+            string frag;
+            string vert;
+            TextureShaderGenerator.CreateShader(textures, pos, pos, uv0, out vert, out frag);
+
+            Shader shader = new Shader();
+            shader.LoadShaders(new List<Tuple<string, ShaderType, string>>() {
+                new Tuple<string, ShaderType, string>(vert, ShaderType.VertexShader, ""),
+                new Tuple<string, ShaderType, string>(frag, ShaderType.FragmentShader, ""),
+            });
             System.Diagnostics.Debug.WriteLine(shader.GetErrorLog());
 
             shader.UseProgram();

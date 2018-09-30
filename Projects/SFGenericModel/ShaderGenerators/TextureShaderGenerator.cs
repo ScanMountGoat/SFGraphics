@@ -7,27 +7,31 @@ using System.Text;
 namespace SFGenericModel.ShaderGenerators
 {
     /// <summary>
-    /// Contains methods for generating a texture debug shader.
+    /// Contains methods for generating a texture debug shader. 
+    /// The swizzling and texture coordinate display is controlled per texture.
     /// </summary>
     public static class TextureShaderGenerator
     {
         private static readonly string resultName = "result";
+
         private static readonly string reflectionVector = "R";
         private static readonly string viewVector = "V";
         private static readonly string viewNormalName = "viewNormal";
+
         private static readonly string attribIndexName = "textureIndex";
 
         /// <summary>
-        /// Generates a shader for rendering each of 
-        /// the vertex attributes individually.      
+        /// Generates a shader for rendering each of the specified textures individually.
         /// </summary>
         /// <param name="textures">Textures used to generate render modes</param>
-        /// <param name="position"></param>
+        /// <param name="position">The vertex position attribute</param>
         /// <param name="normal">The normals used for sphere map rendering</param>
-        /// <param name="uv0"></param>
+        /// <param name="uv0">The texture coordinate attribute</param>
+        /// <param name="vertexSource">The generated GLSL vertex shader source</param>
+        /// <param name="fragmentSource">The generated GLSL fragment shader source</param>
         /// <returns>A new shader that can be used for rendering</returns>
-        public static Shader CreateShader(List<TextureRenderInfo> textures, 
-            VertexAttribute position, VertexAttribute normal, VertexAttribute uv0)
+        public static void CreateShader(List<TextureRenderInfo> textures, 
+            VertexAttribute position, VertexAttribute normal, VertexAttribute uv0, out string vertexSource, out string fragmentSource)
         {
             var attributes = new List<VertexAttributeRenderInfo>()
             {
@@ -36,12 +40,8 @@ namespace SFGenericModel.ShaderGenerators
                 new VertexAttributeRenderInfo(uv0)
             };
 
-            string vertexSource = CreateVertexSource(attributes);
-            string fragSource = CreateFragmentSource(textures, attributes, uv0.Name, normal.Name);
-            System.Diagnostics.Debug.WriteLine(vertexSource);
-            System.Diagnostics.Debug.WriteLine(fragSource);
-
-            return GlslUtils.CreateShader(vertexSource, fragSource);
+            vertexSource = CreateVertexSource(attributes);
+            fragmentSource = CreateFragmentSource(textures, attributes, uv0.Name, normal.Name);
         }
 
         private static string CreateVertexSource(List<VertexAttributeRenderInfo> attributes)
@@ -88,6 +88,9 @@ namespace SFGenericModel.ShaderGenerators
 
         private static void AppendViewNormalAssignment(List<VertexAttributeRenderInfo> attributes, StringBuilder shaderSource)
         {
+            // Transforms the vertex normals by the transposed inverse of the modelview matrix.
+            // The result is remapped from [-1, 1] to [0, 1].
+            // The effect is similar to a "matcap" material in 3d modeling programs.
             string normal = $"{attributes[1].Name}.xyz";
             string viewNormal = $"{GlslUtils.vertexOutputPrefix}{viewNormalName}.xyz";
             shaderSource.AppendLine($"\t{viewNormal} = mat3({GlslUtils.sphereMatrixName}) * {normal};");
@@ -162,6 +165,8 @@ namespace SFGenericModel.ShaderGenerators
         private static void AppendReflectionVector(StringBuilder shaderSource, string normal)
         {
             shaderSource.AppendLine($"\tvec3 {reflectionVector} = reflect({viewVector}.xyz, {GlslUtils.vertexOutputPrefix}{normal}.xyz);");
+            // Correct for a vertically flipped reflection.
+            shaderSource.AppendLine($"\t{reflectionVector}.y *= -1;");
         }
 
         private static void AppendViewVector(StringBuilder shaderSource)

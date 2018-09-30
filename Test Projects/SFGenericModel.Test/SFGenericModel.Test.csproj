@@ -58,8 +58,8 @@
     <Compile Include="Tests\InvalidAttribSetEvent.cs" />
     <Compile Include="Tests\GroupByPrimitiveType.cs" />
     <Compile Include="Tests\RenderSettingsEquality.cs" />
-    <Compile Include="Tests\ShaderGeneratorTests\TextureShaderGenerator.cs" />
-    <Compile Include="Tests\ShaderGeneratorTests\VertexAttributeShaderGenerator.cs" />
+    <Compile Include="Tests\ShaderGeneratorTests\TextureShaderCompilation.cs" />
+    <Compile Include="Tests\ShaderGeneratorTests\VertexAttributeShaderCompilation.cs" />
     <Compile Include="Tests\VertexAttributeInfoSize.cs" />
   </ItemGroup>
   <ItemGroup>
