@@ -13,16 +13,6 @@ namespace SFGenericModel.ShaderGenerators
         TexCoord0,
 
         /// <summary>
-        /// The second UV channel.
-        /// </summary>
-        TexCoord1,
-
-        /// <summary>
-        /// The third UV channel.
-        /// </summary>
-        TexCoord2,
-
-        /// <summary>
         /// View normals remapped to the 0 to 1 range.
         /// </summary>
         CamEnvSphere,
@@ -87,10 +77,11 @@ namespace SFGenericModel.ShaderGenerators
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="uvCoord"></param>
-        /// <param name="textureSwizzle"></param>
-        public TextureRenderInfo(string name, UvCoord uvCoord, TextureSwizzle textureSwizzle) : this()
+        /// <param name="name">The value for <see cref="Name"/></param>
+        /// <param name="uvCoord">The value for <see cref="UvCoord"/></param>
+        /// <param name="textureSwizzle">The value for <see cref="TextureSwizzle"/></param>
+        public TextureRenderInfo(string name, UvCoord uvCoord = UvCoord.TexCoord0, 
+            TextureSwizzle textureSwizzle = TextureSwizzle.Rgb)
         {
             Name = name;
             UvCoord = uvCoord;

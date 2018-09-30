@@ -73,6 +73,21 @@ namespace ShaderGeneratorTests
         }
 
         [TestMethod]
+        public void SingleTextureCube()
+        {
+            var textures = new List<TextureRenderInfo>()
+            {
+                new TextureRenderInfo("tex1", UvCoord.CubeMap, TextureSwizzle.Rgb)
+            };
+            var pos = new VertexAttributeInfo("pos", ValueCount.Three, VertexAttribPointerType.Float);
+            var uv0 = new VertexAttributeInfo("uv", ValueCount.Two, VertexAttribPointerType.Float);
+
+            Shader shader = SFGenericModel.ShaderGenerators.TextureShaderGenerator.CreateShader(textures, pos, pos, uv0);
+            string log = shader.GetErrorLog();
+            Assert.IsTrue(shader.LinkStatusIsOk);
+        }
+
+        [TestMethod]
         public void SameTextureDifferentSwizzle()
         {
             var textures = new List<TextureRenderInfo>()
