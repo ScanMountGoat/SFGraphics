@@ -52,13 +52,13 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
             HashSet<string> previousNames = new HashSet<string>();
             foreach (var attribute in attributes)
             {
-                if (!previousNames.Contains(attribute.Name))
-                {
-                    string type = GetTypeDeclaration(attribute);
-                    shaderSource.AppendLine($"in {type} {attribute.Name};");
+                if (previousNames.Contains(attribute.Name))
+                    continue;
 
-                    previousNames.Add(attribute.Name);
-                }
+                string type = GetTypeDeclaration(attribute);
+                shaderSource.AppendLine($"in {type} {attribute.Name};");
+
+                previousNames.Add(attribute.Name);
             }
         }
 
@@ -68,12 +68,12 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
             HashSet<string> previousNames = new HashSet<string>();
             foreach (var attribute in attributes)
             {
-                if (!previousNames.Contains(attribute.Name))
-                {
-                    string type = GetTypeDeclaration(attribute);
-                    string interpolation = GetInterpolationQualifier(attribute.AttributeInfo.Type);
-                    shaderSource.AppendLine($"{interpolation}out {type} {vertexOutputPrefix}{attribute.Name};");
-                }
+                if (previousNames.Contains(attribute.Name))
+                    continue;
+
+                string type = GetTypeDeclaration(attribute);
+                string interpolation = GetInterpolationQualifier(attribute.AttributeInfo.Type);
+                shaderSource.AppendLine($"{interpolation}out {type} {vertexOutputPrefix}{attribute.Name};");
 
                 previousNames.Add(attribute.Name);
             }
@@ -111,18 +111,18 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
 
         private static string GetAttributeRemapOperation(VertexAttributeRenderInfo attribute)
         {
-            string remapOperation = "";
             if (attribute.RemapToVisibleRange)
-                remapOperation = "* 0.5 + 0.5;";
-            return remapOperation;
+                return "* 0.5 + 0.5;";
+            else
+                return "";
         }
 
         private static string GetAttributeFunction(VertexAttributeRenderInfo attribute)
         {
-            string function = "";
             if (attribute.Normalize)
-                function = "normalize";
-            return function;
+                return "normalize";
+            else
+                return "";
         }
 
         public static void AppendFragmentInputs(List<VertexAttributeRenderInfo> attributes, StringBuilder shaderSource)
@@ -137,7 +137,7 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
 
                 string interpolation = GetInterpolationQualifier(attribute.AttributeInfo.Type);
                 string type = GetTypeDeclaration(attribute);
-                string variableName = vertexOutputPrefix + attribute.Name;
+                string variableName = $"{vertexOutputPrefix}{attribute.Name}";
 
                 shaderSource.AppendLine($"{interpolation}in {type} {variableName};");
 
@@ -164,10 +164,10 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
 
         public static void AppendPositionAssignment(StringBuilder shaderSource, List<VertexAttributeRenderInfo> attributes)
         {
-            // Assume the first attribute is position.
             if (attributes.Count == 0)
                 return;
 
+            // Assume the first attribute is position.
             string positionVariable = GlslVectorUtils.ConstructVector(ValueCount.Four, attributes[0].AttributeInfo.ValueCount, attributes[0].Name);
             shaderSource.AppendLine($"\tgl_Position = {matrixName} * {positionVariable};");
         }

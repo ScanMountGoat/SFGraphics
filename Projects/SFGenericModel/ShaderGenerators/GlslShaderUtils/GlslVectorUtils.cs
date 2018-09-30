@@ -7,21 +7,22 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
     {
         public static readonly string[] vectorComponents = new string[] { "x", "y", "z", "w" };
 
-        public static string ConstructVector(ValueCount targetCount, ValueCount sourceCount, string sourceName)
+        public static string ConstructVector(ValueCount targetValueCount, ValueCount sourceCount, string sourceName)
         {
+            int targetCount = (int)targetValueCount;
             if (sourceCount == ValueCount.One)
-                return $"vec{(int)targetCount}({sourceName})";
+                return $"vec{targetCount}({sourceName})";
 
-            string components = GetMaxSharedComponents(sourceCount, targetCount);
+            string components = GetMaxSharedComponents(sourceCount, targetValueCount);
 
             // Add 1's for the remaining parts of the constructor.
             string paddingValues = "";
-            for (int i = components.Length; i < (int)targetCount; i++)
+            for (int i = components.Length; i < targetCount; i++)
             {
                 paddingValues += ", 1";
             }
 
-            return $"vec{(int)targetCount}({sourceName}.{components}{paddingValues})";
+            return $"vec{targetCount}({sourceName}.{components}{paddingValues})";
         }
 
         private static string GetMaxSharedComponents(ValueCount sourceCount, ValueCount targetCount)
@@ -39,30 +40,21 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
 
         public static string GetSwizzle(TextureSwizzle swizzle)
         {
-            string result = "rgb";
             switch (swizzle)
             {
                 case TextureSwizzle.Rgb:
-                    result = "rgb";
-                    break;
+                    return "rgb";
                 case TextureSwizzle.R:
-                    result = "rrr";
-                    break;
+                    return "rrr";
                 case TextureSwizzle.G:
-                    result = "ggg";
-                    break;
+                    return "ggg";
                 case TextureSwizzle.B:
-                    result = "bbb";
-                    break;
+                    return "bbb";
                 case TextureSwizzle.A:
-                    result = "aaa";
-                    break;
+                    return "aaa";
                 default:
-                    result = "rgb";
-                    break;
+                    return "rgb";
             }
-
-            return result;
         }
     }
 }
