@@ -28,7 +28,7 @@ namespace ShaderGeneratorTests
         {
             var attributes = new List<VertexAttributeRenderInfo>()
             {
-                new VertexAttributeRenderInfo(false, false, new VertexAttributeInfo("test", ValueCount.Three, VertexAttribPointerType.Float))
+                new VertexAttributeRenderInfo(new VertexAttributeInfo("test", ValueCount.Three, VertexAttribPointerType.Float), false, false)
             };
             Shader shader = SFGenericModel.ShaderGenerators.VertexAttributeShaderGenerator.CreateShader(attributes);
             Assert.IsTrue(shader.LinkStatusIsOk);
@@ -39,7 +39,7 @@ namespace ShaderGeneratorTests
         {
             var attributes = new List<VertexAttributeRenderInfo>()
             {
-                new VertexAttributeRenderInfo(false, false, new VertexAttributeInfo("test", ValueCount.Two, VertexAttribPointerType.Float))
+                new VertexAttributeRenderInfo(new VertexAttributeInfo("test", ValueCount.Two, VertexAttribPointerType.Float), false, false)
             };
             Shader shader = SFGenericModel.ShaderGenerators.VertexAttributeShaderGenerator.CreateShader(attributes);
             Assert.IsTrue(shader.LinkStatusIsOk);
@@ -50,7 +50,7 @@ namespace ShaderGeneratorTests
         {
             var attributes = new List<VertexAttributeRenderInfo>()
             {
-                new VertexAttributeRenderInfo(false, false, new VertexAttributeInfo("test", ValueCount.Four, VertexAttribPointerType.Float))
+                new VertexAttributeRenderInfo(new VertexAttributeInfo("test", ValueCount.Four, VertexAttribPointerType.Float), false, false)
             };
             Shader shader = SFGenericModel.ShaderGenerators.VertexAttributeShaderGenerator.CreateShader(attributes);
             Assert.IsTrue(shader.LinkStatusIsOk);
@@ -61,7 +61,7 @@ namespace ShaderGeneratorTests
         {
             var attributes = new List<VertexAttributeRenderInfo>()
             {
-                new VertexAttributeRenderInfo(false, false, new VertexAttributeInfo("test", ValueCount.One, VertexAttribPointerType.Float))
+                new VertexAttributeRenderInfo(new VertexAttributeInfo("test", ValueCount.One, VertexAttribPointerType.Float), false, false)
             };
             Shader shader = SFGenericModel.ShaderGenerators.VertexAttributeShaderGenerator.CreateShader(attributes);
             Assert.IsTrue(shader.LinkStatusIsOk);
@@ -72,7 +72,7 @@ namespace ShaderGeneratorTests
         {
             var attributes = new List<VertexAttributeRenderInfo>()
             {
-                new VertexAttributeRenderInfo(false, false, new VertexAttributeInfo("test", ValueCount.One, VertexAttribPointerType.Int))
+                new VertexAttributeRenderInfo(new VertexAttributeInfo("test", ValueCount.One, VertexAttribPointerType.Int), false, false)
             };
             Shader shader = SFGenericModel.ShaderGenerators.VertexAttributeShaderGenerator.CreateShader(attributes);
             Assert.IsTrue(shader.LinkStatusIsOk);
@@ -83,7 +83,7 @@ namespace ShaderGeneratorTests
         {
             var attributes = new List<VertexAttributeRenderInfo>()
             {
-                new VertexAttributeRenderInfo(false, false, new VertexAttributeInfo("test", ValueCount.One, VertexAttribPointerType.UnsignedInt))
+                new VertexAttributeRenderInfo(new VertexAttributeInfo("test", ValueCount.One, VertexAttribPointerType.UnsignedInt), false, false)
             };
             Shader shader = SFGenericModel.ShaderGenerators.VertexAttributeShaderGenerator.CreateShader(attributes);
             Assert.IsTrue(shader.LinkStatusIsOk);
@@ -94,9 +94,9 @@ namespace ShaderGeneratorTests
         {
             var attributes = new List<VertexAttributeRenderInfo>()
             {
-                new VertexAttributeRenderInfo(false, false, new VertexAttributeInfo("test2", ValueCount.Two, VertexAttribPointerType.Float)),
-                new VertexAttributeRenderInfo(false, false, new VertexAttributeInfo("test3", ValueCount.Three, VertexAttribPointerType.Float)),
-                new VertexAttributeRenderInfo(false, false, new VertexAttributeInfo("test4", ValueCount.Four, VertexAttribPointerType.Float))
+                new VertexAttributeRenderInfo(new VertexAttributeInfo("test2", ValueCount.Two, VertexAttribPointerType.Float), false, false),
+                new VertexAttributeRenderInfo(new VertexAttributeInfo("test3", ValueCount.Three, VertexAttribPointerType.Float), false, false),
+                new VertexAttributeRenderInfo(new VertexAttributeInfo("test4", ValueCount.Four, VertexAttribPointerType.Float), false, false)
             };
 
             Shader shader = SFGenericModel.ShaderGenerators.VertexAttributeShaderGenerator.CreateShader(attributes);

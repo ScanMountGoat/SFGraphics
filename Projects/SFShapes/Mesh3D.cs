@@ -31,7 +31,7 @@ namespace SFShapes
         {
             return new List<VertexAttributeRenderInfo>()
             {
-                new VertexAttributeRenderInfo(true, true, GetVertexAttributes()[0])
+                new VertexAttributeRenderInfo(GetVertexAttributes()[0], true, true)
             };
         }
     }

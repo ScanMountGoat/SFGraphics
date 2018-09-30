@@ -30,10 +30,10 @@ namespace SFGenericModel.ShaderGenerators
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="normalize"></param>
-        /// <param name="remapToVisibleRange"></param>
-        /// <param name="attributeInfo"></param>
-        public VertexAttributeRenderInfo(bool normalize, bool remapToVisibleRange, VertexAttribute attributeInfo)
+        /// <param name="attributeInfo">The value of <see cref="AttributeInfo"/></param>
+        /// <param name="normalize">The value of <see cref="Normalize"/></param>
+        /// <param name="remapToVisibleRange">The value of <see cref="RemapToVisibleRange"/></param>
+        public VertexAttributeRenderInfo(VertexAttribute attributeInfo, bool normalize  = false, bool remapToVisibleRange = false)
         {
             Normalize = normalize;
             RemapToVisibleRange = remapToVisibleRange;

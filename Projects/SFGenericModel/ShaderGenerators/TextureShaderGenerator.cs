@@ -29,9 +29,9 @@ namespace SFGenericModel.ShaderGenerators
         {
             var attributes = new List<VertexAttributeRenderInfo>()
             {
-                new VertexAttributeRenderInfo(false, false, position),
-                new VertexAttributeRenderInfo(false, false, normal),
-                new VertexAttributeRenderInfo(false, false, uv0)
+                new VertexAttributeRenderInfo(position),
+                new VertexAttributeRenderInfo(normal),
+                new VertexAttributeRenderInfo(uv0)
             };
 
             string vertexSource = CreateVertexSource(attributes);
