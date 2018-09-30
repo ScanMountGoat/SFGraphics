@@ -42,13 +42,24 @@ void main()
 	fragColor *= vector4a * matrix4a;
 	fragColor *= texture(tex2D, vec2(1));
 	fragColor *= texture(texCube, vec3(1));
-	fragColor *= floatArray1[0];
-	fragColor *= intArray1[0];
-	fragColor *= uintArray1[0];
+
+	// Use a for loop to access multiple elements.
+	// Even array[0] can cause issues.
+	for (int i = 0; i < 3; i++)
+	{
+		fragColor *= floatArray1[i];
+		fragColor *= intArray1[i];
+		fragColor *= uintArray1[i];
+
+		fragColor.rgb *= uniformBlock.values[i];
+		fragColor *= matrix4Arr[i];
+		fragColor.rg *= vector2Arr[i];
+		fragColor *= vector4Arr[i];
+		fragColor.rgb *= vector3Arr[i];
+	}
+
     fragColor.rgb *= uint1;
-	fragColor.rgb *= uniformBlock.values[0];
-	fragColor *= matrix4Arr[0];
-	fragColor.rg *= vector2Arr[0];
-	fragColor *= vector4Arr[0];
-	fragColor.rgb *= vector3Arr[0];
+
+
+
 }

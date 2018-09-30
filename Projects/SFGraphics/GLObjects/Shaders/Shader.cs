@@ -155,8 +155,11 @@ namespace SFGraphics.GLObjects.Shaders
         /// <param name="shaderName">The title used for the compilation errors section of the error log</param>
         public void LoadShader(string shaderSource, ShaderType shaderType, string shaderName = "Shader")
         {
-            int shaderId = CreateGlShader(shaderSource, shaderType);
-            AttachShader(shaderId, shaderType, shaderName);
+            if (!string.IsNullOrEmpty(shaderSource))
+            {
+                int shaderId = CreateGlShader(shaderSource, shaderType);
+                AttachShader(shaderId, shaderType, shaderName);
+            }
         }
 
         /// <summary>

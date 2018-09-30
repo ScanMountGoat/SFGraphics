@@ -19,13 +19,14 @@ namespace ShaderTests
         [TestMethod]
         public void EmptyShaders()
         {
+            // Empty shaders are ignored.
             Shader shader = new Shader();
             shader.LoadShader("", ShaderType.FragmentShader);
-            shader.LoadShader("", ShaderType.FragmentShader);
+            shader.LoadShader(null, ShaderType.FragmentShader);
             shader.LoadShader("", ShaderType.FragmentShader);
 
             string[] sources = shader.GetShaderSources();
-            Assert.AreEqual(3, sources.Length);
+            Assert.AreEqual(0, sources.Length);
         }
 
         [TestMethod]
