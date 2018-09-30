@@ -21,7 +21,7 @@ namespace ShaderGeneratorTests
         {
             var pos = new VertexAttributeInfo("position", ValueCount.Three, VertexAttribPointerType.Float);
             var uv0 = new VertexAttributeInfo("uv", ValueCount.Two, VertexAttribPointerType.Float);
-            Shader shader = SFGenericModel.ShaderGenerators.TextureShaderGenerator.CreateShader(new List<TextureRenderInfo>(), pos, uv0);
+            Shader shader = SFGenericModel.ShaderGenerators.TextureShaderGenerator.CreateShader(new List<TextureRenderInfo>(), pos, pos, uv0);
             Assert.IsTrue(shader.LinkStatusIsOk);
         }
 
@@ -29,7 +29,7 @@ namespace ShaderGeneratorTests
         public void SamePositionUvAttribute()
         {
             var pos = new VertexAttributeInfo("position", ValueCount.Three, VertexAttribPointerType.Float);
-            Shader shader = SFGenericModel.ShaderGenerators.TextureShaderGenerator.CreateShader(new List<TextureRenderInfo>(), pos, pos);
+            Shader shader = SFGenericModel.ShaderGenerators.TextureShaderGenerator.CreateShader(new List<TextureRenderInfo>(), pos, pos, pos);
             Assert.IsTrue(shader.LinkStatusIsOk);
         }
 
@@ -39,7 +39,7 @@ namespace ShaderGeneratorTests
             // The extra components for texture coordinates and position should be ignored.
             var pos = new VertexAttributeInfo("pos", ValueCount.Four, VertexAttribPointerType.Float);
             var uv0 = new VertexAttributeInfo("uv", ValueCount.Four, VertexAttribPointerType.Float);
-            Shader shader = SFGenericModel.ShaderGenerators.TextureShaderGenerator.CreateShader(new List<TextureRenderInfo>(), pos, uv0);
+            Shader shader = SFGenericModel.ShaderGenerators.TextureShaderGenerator.CreateShader(new List<TextureRenderInfo>(), pos, pos, uv0);
             Assert.IsTrue(shader.LinkStatusIsOk);
         }
 
@@ -53,7 +53,22 @@ namespace ShaderGeneratorTests
             var pos = new VertexAttributeInfo("pos", ValueCount.Three, VertexAttribPointerType.Float);
             var uv0 = new VertexAttributeInfo("uv", ValueCount.Two, VertexAttribPointerType.Float);
 
-            Shader shader = SFGenericModel.ShaderGenerators.TextureShaderGenerator.CreateShader(textures, pos, uv0);
+            Shader shader = SFGenericModel.ShaderGenerators.TextureShaderGenerator.CreateShader(textures, pos, pos, uv0);
+            Assert.IsTrue(shader.LinkStatusIsOk);
+        }
+
+        [TestMethod]
+        public void SingleTextureSphere()
+        {
+            var textures = new List<TextureRenderInfo>()
+            {
+                new TextureRenderInfo("tex1", UvCoord.CamEnvSphere, TextureSwizzle.Rgb)
+            };
+            var pos = new VertexAttributeInfo("pos", ValueCount.Three, VertexAttribPointerType.Float);
+            var uv0 = new VertexAttributeInfo("uv", ValueCount.Two, VertexAttribPointerType.Float);
+
+            Shader shader = SFGenericModel.ShaderGenerators.TextureShaderGenerator.CreateShader(textures, pos, pos, uv0);
+            string log = shader.GetErrorLog();
             Assert.IsTrue(shader.LinkStatusIsOk);
         }
 
@@ -68,7 +83,7 @@ namespace ShaderGeneratorTests
             var pos = new VertexAttributeInfo("pos", ValueCount.Three, VertexAttribPointerType.Float);
             var uv0 = new VertexAttributeInfo("uv", ValueCount.Two, VertexAttribPointerType.Float);
 
-            Shader shader = SFGenericModel.ShaderGenerators.TextureShaderGenerator.CreateShader(textures, pos, uv0);
+            Shader shader = SFGenericModel.ShaderGenerators.TextureShaderGenerator.CreateShader(textures, pos, pos, uv0);
             Assert.IsTrue(shader.LinkStatusIsOk);
         }
     }

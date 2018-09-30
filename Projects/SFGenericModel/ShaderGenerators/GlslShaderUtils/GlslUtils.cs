@@ -10,7 +10,10 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
     internal static class GlslUtils
     {
         public static readonly string matrixName = "mvpMatrix";
+        public static readonly string sphereMatrixName = "sphereMatrix";
+
         private static readonly string matrixUniform = $"uniform mat4 {matrixName};";
+        private static readonly string sphereMatrixUniform = $"uniform mat4 {sphereMatrixName};";
 
         public static readonly string outputName = "fragColor";
         private static readonly string fragmentOutput = $"out vec4 {outputName};";
@@ -172,6 +175,8 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
         public static void AppendMatrixUniform(StringBuilder shaderSource)
         {
             shaderSource.AppendLine(matrixUniform);
+            // Unused uniforms will be optimized out by the compiler.
+            shaderSource.AppendLine(sphereMatrixUniform);
         }
 
         public static void AppendFragmentOutput(StringBuilder shaderSource)

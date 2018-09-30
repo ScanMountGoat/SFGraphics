@@ -12,6 +12,7 @@ namespace SFGenericModel.ShaderGenerators
     public static class TextureShaderGenerator
     {
         private static readonly string resultName = "result";
+        private static readonly string viewNormalName = "viewNormal";
         private static readonly string attribIndexName = "textureIndex";
 
         /// <summary>
@@ -20,14 +21,16 @@ namespace SFGenericModel.ShaderGenerators
         /// </summary>
         /// <param name="textures">Textures used to generate render modes</param>
         /// <param name="position"></param>
+        /// <param name="normal">The normals used for sphere map rendering</param>
         /// <param name="uv0"></param>
         /// <returns>A new shader that can be used for rendering</returns>
         public static Shader CreateShader(List<TextureRenderInfo> textures, 
-            VertexAttribute position, VertexAttribute uv0)
+            VertexAttribute position, VertexAttribute normal, VertexAttribute uv0)
         {
             var attributes = new List<VertexAttributeRenderInfo>()
             {
                 new VertexAttributeRenderInfo(false, false, position),
+                new VertexAttributeRenderInfo(false, false, normal),
                 new VertexAttributeRenderInfo(false, false, uv0)
             };
 
@@ -53,9 +56,21 @@ namespace SFGenericModel.ShaderGenerators
 
             GlslUtils.AppendVertexInputs(attributes, shaderSource);
             GlslUtils.AppendVertexOutputs(attributes, shaderSource);
+            AppendViewNormalOutput(shaderSource);
+
             GlslUtils.AppendMatrixUniform(shaderSource);
 
             AppendVertexMainFunction(attributes, shaderSource);
+        }
+
+        private static void AppendViewNormalOutput(StringBuilder shaderSource)
+        {
+            shaderSource.AppendLine($"out vec3 {GlslUtils.vertexOutputPrefix}{viewNormalName};");
+        }
+
+        private static void AppendViewNormalInput(StringBuilder shaderSource)
+        {
+            shaderSource.AppendLine($"in vec3 {GlslUtils.vertexOutputPrefix}{viewNormalName};");
         }
 
         private static void AppendVertexMainFunction(List<VertexAttributeRenderInfo> attributes, StringBuilder shaderSource)
@@ -64,8 +79,17 @@ namespace SFGenericModel.ShaderGenerators
 
             GlslUtils.AppendVertexOutputAssignments(attributes, shaderSource);
             GlslUtils.AppendPositionAssignment(shaderSource, attributes);
+            AppendViewNormalAssignment(attributes, shaderSource);
 
             GlslUtils.AppendEndMain(shaderSource);
+        }
+
+        private static void AppendViewNormalAssignment(List<VertexAttributeRenderInfo> attributes, StringBuilder shaderSource)
+        {
+            string normal = $"{attributes[1].Name}.xyz";
+            string viewNormal = $"{GlslUtils.vertexOutputPrefix}{viewNormalName}.xyz";
+            shaderSource.AppendLine($"\t{viewNormal} = mat3({GlslUtils.sphereMatrixName}) * {normal};");
+            shaderSource.AppendLine($"\t{viewNormal} = {viewNormal} * 0.5 + 0.5;");
         }
 
         private static string CreateFragmentSource(List<TextureRenderInfo> textures, 
@@ -83,6 +107,8 @@ namespace SFGenericModel.ShaderGenerators
             GlslUtils.AppendShadingLanguageVersion(shaderSource);
 
             GlslUtils.AppendFragmentInputs(attributes, shaderSource);
+            AppendViewNormalInput(shaderSource);
+
             GlslUtils.AppendFragmentOutput(shaderSource);
 
             AppendTextureUniforms(textures, shaderSource);
@@ -138,7 +164,16 @@ namespace SFGenericModel.ShaderGenerators
         private static string GetResultAssignment(ValueCount resultCount, TextureRenderInfo texture, string uv0Name)
         {
             string swizzle = GlslVectorUtils.GetSwizzle(texture.TextureSwizzle);
-            return $"{resultName}.rgb = texture({texture.Name}, {GlslUtils.vertexOutputPrefix}{uv0Name}.xy).{swizzle};";
+            string texCoord = GetTexCoord(texture.UvCoord, uv0Name);
+            return $"{resultName}.rgb = texture({texture.Name}, {GlslUtils.vertexOutputPrefix}{texCoord}.xy).{swizzle};";
+        }
+
+        private static string GetTexCoord(UvCoord uvCoord, string uv0Name)
+        {
+            string texCoord = uv0Name;
+            if (uvCoord == UvCoord.CamEnvSphere)
+                texCoord = viewNormalName;
+            return texCoord;
         }
     }
 }
