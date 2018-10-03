@@ -16,6 +16,14 @@ namespace CameraTests
         }
 
         [TestMethod]
+        public void NonZeroPosition()
+        {
+            Camera camera = new Camera();
+            camera.Position = new Vector3(1, 2, 3);
+            Assert.AreEqual(Matrix4.CreateTranslation(1, -2, 3), camera.TranslationMatrix);
+        }
+
+        [TestMethod]
         public void PanNoScalingRenderDimensionsZero()
         {
             Camera camera = new Camera();
