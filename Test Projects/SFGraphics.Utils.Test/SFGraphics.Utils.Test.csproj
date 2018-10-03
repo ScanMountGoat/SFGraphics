@@ -57,22 +57,22 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Test\ColorToolsTests\ClampFloatTest.cs" />
-    <Compile Include="Test\ColorToolsTests\ClampIntTest.cs" />
-    <Compile Include="Test\ColorToolsTests\FloatToIntClampTest.cs" />
-    <Compile Include="Test\ColorToolsTests\HsvToRgbFloatTest.cs" />
-    <Compile Include="Test\ColorToolsTests\HsvToRgbVec3Test.cs" />
-    <Compile Include="Test\ColorToolsTests\InvertColorTest.cs" />
-    <Compile Include="Test\ColorToolsTests\RgbToHsvFloatTest.cs" />
-    <Compile Include="Test\ColorToolsTests\RgbToHsvVec3Test.cs" />
-    <Compile Include="Test\ColorToolsTests\Vector4FromColorTest.cs" />
-    <Compile Include="Test\VectorToolsTests\CalculateNormals.cs" />
-    <Compile Include="Test\VectorToolsTests\CalculateTangentBitangent.cs" />
-    <Compile Include="Test\VectorToolsTests\GetDegrees.cs" />
-    <Compile Include="Test\VectorToolsTests\GetRadians.cs" />
-    <Compile Include="Test\VectorToolsTests\Orthogonalize.cs" />
+    <Compile Include="Test\ColorUtilsTests\ClampFloatTest.cs" />
+    <Compile Include="Test\ColorUtilsTests\ClampIntTest.cs" />
+    <Compile Include="Test\ColorUtilsTests\FloatToIntClampTest.cs" />
+    <Compile Include="Test\ColorUtilsTests\HsvToRgbFloatTest.cs" />
+    <Compile Include="Test\ColorUtilsTests\HsvToRgbVec3Test.cs" />
+    <Compile Include="Test\ColorUtilsTests\InvertColorTest.cs" />
+    <Compile Include="Test\ColorUtilsTests\RgbToHsvFloatTest.cs" />
+    <Compile Include="Test\ColorUtilsTests\RgbToHsvVec3Test.cs" />
+    <Compile Include="Test\ColorUtilsTests\Vector4FromColorTest.cs" />
+    <Compile Include="Test\VectorUtilsTests\CalculateNormals.cs" />
+    <Compile Include="Test\VectorUtilsTests\CalculateTangentBitangent.cs" />
+    <Compile Include="Test\VectorUtilsTests\GetDegrees.cs" />
+    <Compile Include="Test\VectorUtilsTests\GetRadians.cs" />
+    <Compile Include="Test\VectorUtilsTests\Orthogonalize.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Test\BoundingSphereTests\BoundingSphereGeneratorTests.cs" />
+    <Compile Include="Test\BoundingSphereTests\BoundingSpheres.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

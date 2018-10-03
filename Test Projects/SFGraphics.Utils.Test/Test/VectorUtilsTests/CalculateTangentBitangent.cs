@@ -3,7 +3,7 @@ using OpenTK;
 using SFGraphics.Utils;
 using System;
 
-namespace VectorToolsTests
+namespace VectorUtilsTests
 {
     [TestClass]
     public class CalculateTangentBitangent

@@ -2,7 +2,7 @@
 using OpenTK;
 using SFGraphics.Utils;
 
-namespace VectorToolsTests
+namespace VectorUtilsTests
 {
     [TestClass]
     public class CalculateNormals

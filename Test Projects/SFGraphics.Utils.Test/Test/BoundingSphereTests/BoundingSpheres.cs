@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using SFGraphics.Utils;
 using OpenTK;
 
-namespace BoundingSphereGeneratorTests
+namespace BoundingSpheres
 {
     [TestClass()]
-    public class BoundingSphereGeneratorTests
+    public class BoundingSphereGeneration
     {
         [TestMethod()]
         public void NoVertices()
