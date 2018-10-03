@@ -9,6 +9,16 @@ namespace SFGraphics.Utils
     public static class VectorUtils
     {
         /// <summary>
+        /// The default value when the generated tangent would be a zero vector.
+        /// </summary>
+        public static Vector3 defaultTangent = new Vector3(1, 0, 0);
+
+        /// <summary>
+        /// The default value when the generated bitangent would be a zero vector.
+        /// </summary>
+        public static Vector3 defaultBitangent = new Vector3(0, 1, 0);
+
+        /// <summary>
         /// Converts <paramref name="radians"/> to degrees.
         /// </summary>
         /// <param name="radians">The number of radians</param>
@@ -29,12 +39,8 @@ namespace SFGraphics.Utils
         }
 
         /// <summary>
-        /// Uses the Gran-Schmidt method for orthogonalizing a vector to another vector.
-        /// The resulting vector is normalized.    
-        /// <para></para>
-        /// <para>
-        /// Ex: <c>Vector3 tanOrthoToNrm = Orthogonalize(tan, nrm);</c>
-        /// </para>
+        /// Uses the Gran-Schmidt method for returning a normalized copy 
+        /// of <paramref name="target"/> that is orthogonal to <paramref name="source"/>.
         /// </summary>
         /// <param name="target">The vector to normalize</param>
         /// <param name="source">The vector to normalize against</param>
@@ -45,14 +51,10 @@ namespace SFGraphics.Utils
         }
 
         /// <summary>
-        /// Generates a tangent vector <paramref name="tangent"/> and a bitangent vector
-        /// <paramref name="bitangent"/> for a triangle face. 
-        /// If the three vertices have the same UVs or position, <paramref name="tangent"/> is set to (1, 0, 0)
-        /// and <paramref name="bitangent"/> is set to (0, 1, 0). This prevents black shading artifacts.
+        /// Calculates <paramref name="tangent"/> and <paramref name="bitangent"/> 
+        /// for a triangle face. 
         /// <para></para><para></para>
-        /// <paramref name="tangent"/> and <paramref name="bitangent"/> should be added to the existing tangent
-        /// and bitangent value for each vertex in the triangle. Normalizing the final sum 
-        /// averages the tangents and bitangents for smoother results.
+        /// Zero vectors are set to <see cref="defaultTangent"/> and <see cref="defaultBitangent"/>.
         /// </summary>
         /// <param name="v1">The position of the first vertex</param>
         /// <param name="v2">The position of the second vertex</param>
@@ -72,6 +74,48 @@ namespace SFGraphics.Utils
             Vector2 uvA = uv2 - uv1;
             Vector2 uvB = uv3 - uv1;
 
+            bool overrideValues = PositionsOrUvsAreEqual(posA, posB, uvA, uvB);
+            if (overrideValues)
+            {
+                // HACK: Let's pick some arbitrary tangent vectors.
+                tangent = defaultTangent;
+                bitangent = defaultBitangent;
+                return;
+            }
+
+            float div = (uvA.X * uvB.Y - uvB.X * uvA.Y);
+
+            // Fix +/- infinity from division by 0.
+            float r = 1.0f;
+            if (div != 0)
+                r = 1.0f / div;
+
+            tangent = CalculateTangent(posA, posB, uvA, uvB, r);
+            bitangent = CalculateBitangent(posA, posB, uvA, uvB, r);
+        }
+
+        private static Vector3 CalculateBitangent(Vector3 posA, Vector3 posB, Vector2 uvA, Vector2 uvB, float r)
+        {
+            Vector3 bitangent;
+            float tX = uvA.X * posB.X - uvB.X * posA.X;
+            float tY = uvA.X * posB.Y - uvB.X * posA.Y;
+            float tZ = uvA.X * posB.Z - uvB.X * posA.Z;
+            bitangent = new Vector3(tX, tY, tZ) * r;
+            return bitangent;
+        }
+
+        private static Vector3 CalculateTangent(Vector3 posA, Vector3 posB, Vector2 uvA, Vector2 uvB, float r)
+        {
+            Vector3 tangent;
+            float sX = uvB.Y * posA.X - uvA.Y * posB.X;
+            float sY = uvB.Y * posA.Y - uvA.Y * posB.Y;
+            float sZ = uvB.Y * posA.Z - uvA.Y * posB.Z;
+            tangent = new Vector3(sX, sY, sZ) * r;
+            return tangent;
+        }
+
+        private static bool PositionsOrUvsAreEqual(Vector3 posA, Vector3 posB, Vector2 uvA, Vector2 uvB)
+        {
             // Prevent black tangents/bitangents for vertices with 
             // the same UV coordinates or position. 
             float delta = 0.00075f;
@@ -81,36 +125,13 @@ namespace SFGraphics.Utils
             bool sameY = (Math.Abs(posA.Y) < delta) && (Math.Abs(posB.Y) < delta);
             bool sameZ = (Math.Abs(posA.Z) < delta) && (Math.Abs(posB.Z) < delta);
 
-            if (sameU || sameV || sameX || sameY || sameZ)
-            {
-                // HACK: Let's pick some arbitrary tangent vectors.
-                tangent = new Vector3(1, 0, 0);
-                bitangent = new Vector3(0, 1, 0);
-                return;
-            }
-
-            float div = (uvA.X * uvB.Y - uvB.X * uvA.Y);
-            float r = 1.0f / div;
-
-            // Fix +/- infinity from division by 0.
-            if (div == 0)
-                r = 1.0f;
-
-            float sX = uvB.Y * posA.X - uvA.Y * posB.X;
-            float sY = uvB.Y * posA.Y - uvA.Y * posB.Y;
-            float sZ = uvB.Y * posA.Z - uvA.Y * posB.Z;
-            tangent = new Vector3(sX, sY, sZ) * r;
-            
-            float tX = uvA.X * posB.X - uvB.X * posA.X;
-            float tY = uvA.X * posB.Y - uvB.X * posA.Y;
-            float tZ = uvA.X * posB.Z - uvB.X * posA.Z;
-            bitangent = new Vector3(tX, tY, tZ) * r;
+            return sameU || sameV || sameX || sameY || sameZ;
         }
 
         /// <summary>
         /// Calculates the face normal of a triangle. The result is not normalized.
         /// A triangle facing the camera will have a positive normal when 
-        /// the verts are ordered counter-clockwise.
+        /// the vertices are ordered counter-clockwise.
         /// </summary>
         /// <param name="v1">The position of the first vertex</param>
         /// <param name="v2">The position of the second vertex</param>

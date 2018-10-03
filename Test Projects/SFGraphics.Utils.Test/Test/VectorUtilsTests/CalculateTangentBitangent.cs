@@ -17,16 +17,12 @@ namespace VectorUtilsTests
             Vector2 uv1 = new Vector2(1, 0);
             Vector2 uv2 = new Vector2(0, 1);
             Vector2 uv3 = new Vector2(1, 1);
-            Vector3 s;
-            Vector3 t;
-            VectorUtils.GenerateTangentBitangent(v1, v2, v3, uv1, uv2, uv3, out s, out t);
+            Vector3 tangent;
+            Vector3 bitangent;
+            VectorUtils.GenerateTangentBitangent(v1, v2, v3, uv1, uv2, uv3, out tangent, out bitangent);
 
-            // Make sure tangents and bitangents aren't all zero.
-            Assert.IsTrue((Math.Abs(s.X) > 0) || (Math.Abs(s.Y) > 0) || (Math.Abs(s.Z) > 0));
-            Assert.IsTrue((Math.Abs(t.X) > 0) || (Math.Abs(t.Y) > 0) || (Math.Abs(t.Z) > 0));
-
-            Assert.AreEqual(new Vector3(0, -1, 1), s);
-            Assert.AreEqual(new Vector3(-1, 0, 1), t);
+            Assert.AreEqual(new Vector3(0, -1, 1), tangent);
+            Assert.AreEqual(new Vector3(-1, 0, 1), bitangent);
         }
 
         [TestMethod]
@@ -38,13 +34,13 @@ namespace VectorUtilsTests
             Vector2 uv1 = new Vector2(1, 0);
             Vector2 uv2 = new Vector2(0, 1);
             Vector2 uv3 = new Vector2(1, 1);
-            Vector3 s;
-            Vector3 t;
-            VectorUtils.GenerateTangentBitangent(v1, v2, v3, uv1, uv2, uv3, out s, out t);
+            Vector3 tangent;
+            Vector3 bitangent;
+            VectorUtils.GenerateTangentBitangent(v1, v2, v3, uv1, uv2, uv3, out tangent, out bitangent);
 
             // Make sure tangents and bitangents aren't all zero.
-            Assert.IsTrue((Math.Abs(s.X) > 0) || (Math.Abs(s.Y) > 0) || (Math.Abs(s.Z) > 0));
-            Assert.IsTrue((Math.Abs(t.X) > 0) || (Math.Abs(t.Y) > 0) || (Math.Abs(t.Z) > 0));
+            Assert.AreEqual(VectorUtils.defaultTangent, tangent);
+            Assert.AreEqual(VectorUtils.defaultBitangent, bitangent);
         }
 
         [TestMethod]
@@ -56,13 +52,13 @@ namespace VectorUtilsTests
             Vector2 uv1 = new Vector2(1, 1);
             Vector2 uv2 = new Vector2(1, 1);
             Vector2 uv3 = new Vector2(1, 1);
-            Vector3 s;
-            Vector3 t;
-            VectorUtils.GenerateTangentBitangent(v1, v2, v3, uv1, uv2, uv3, out s, out t);
+            Vector3 tangent;
+            Vector3 bitangent;
+            VectorUtils.GenerateTangentBitangent(v1, v2, v3, uv1, uv2, uv3, out tangent, out bitangent);
 
             // Make sure tangents and bitangents aren't all zero.
-            Assert.IsTrue((Math.Abs(s.X) > 0) || (Math.Abs(s.Y) > 0) || (Math.Abs(s.Z) > 0));
-            Assert.IsTrue((Math.Abs(t.X) > 0) || (Math.Abs(t.Y) > 0) || (Math.Abs(t.Z) > 0));
+            Assert.AreEqual(VectorUtils.defaultTangent, tangent);
+            Assert.AreEqual(VectorUtils.defaultBitangent, bitangent);
         }
 
         [TestMethod]
@@ -74,13 +70,13 @@ namespace VectorUtilsTests
             Vector2 uv1 = new Vector2(1, 1);
             Vector2 uv2 = new Vector2(1, 1);
             Vector2 uv3 = new Vector2(1, 1);
-            Vector3 s;
-            Vector3 t;
-            VectorUtils.GenerateTangentBitangent(v1, v2, v3, uv1, uv2, uv3, out s, out t);
+            Vector3 tangent;
+            Vector3 bitangent;
+            VectorUtils.GenerateTangentBitangent(v1, v2, v3, uv1, uv2, uv3, out tangent, out bitangent);
 
             // Make sure tangents and bitangents aren't all zero.
-            Assert.IsTrue((Math.Abs(s.X) > 0) || (Math.Abs(s.Y) > 0) || (Math.Abs(s.Z) > 0));
-            Assert.IsTrue((Math.Abs(t.X) > 0) || (Math.Abs(t.Y) > 0) || (Math.Abs(t.Z) > 0));
+            Assert.AreEqual(VectorUtils.defaultTangent, tangent);
+            Assert.AreEqual(VectorUtils.defaultBitangent, bitangent);
         }
 
         [TestMethod]
@@ -95,17 +91,22 @@ namespace VectorUtilsTests
             Vector2 uv2 = new Vector2(0.5f, 0);
             Vector2 uv3 = new Vector2(1, 1);
 
-            Vector3 s;
-            Vector3 t;
-            VectorUtils.GenerateTangentBitangent(v1, v2, v3, uv1, uv2, uv3, out s, out t);
+            Vector3 tangent;
+            Vector3 bitangent;
+            VectorUtils.GenerateTangentBitangent(v1, v2, v3, uv1, uv2, uv3, out tangent, out bitangent);
 
             // Check for division by 0.
-            Assert.IsFalse(float.IsInfinity(s.X) || float.IsNaN(s.X));
-            Assert.IsFalse(float.IsInfinity(s.Y) || float.IsNaN(s.Y));
-            Assert.IsFalse(float.IsInfinity(s.Z) || float.IsNaN(s.Z));
-            Assert.IsFalse(float.IsInfinity(t.X) || float.IsNaN(s.X));
-            Assert.IsFalse(float.IsInfinity(t.Y) || float.IsNaN(t.Y));
-            Assert.IsFalse(float.IsInfinity(t.Z) || float.IsNaN(t.Z));
+            Assert.IsFalse(IsInfiniteOrNaN(tangent.X));
+            Assert.IsFalse(IsInfiniteOrNaN(tangent.Y));
+            Assert.IsFalse(IsInfiniteOrNaN(tangent.Z));
+            Assert.IsFalse(IsInfiniteOrNaN(bitangent.X));
+            Assert.IsFalse(IsInfiniteOrNaN(bitangent.Y));
+            Assert.IsFalse(IsInfiniteOrNaN(bitangent.Z));
+        }
+
+        private static bool IsInfiniteOrNaN(float f)
+        {
+            return float.IsInfinity(f) || float.IsNaN(f);
         }
     }
 }
