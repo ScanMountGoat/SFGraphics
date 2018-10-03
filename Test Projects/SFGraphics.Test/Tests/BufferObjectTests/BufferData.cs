@@ -6,13 +6,25 @@ namespace BufferObjectTests
     [TestClass]
     public class BufferData : BufferTest
     {
+        private struct Empty
+        {
+        }
+
         [TestMethod]
         public void GetFloats()
         {
             float[] readData = buffer.GetData<float>();
             CollectionAssert.AreEqual(originalData, readData);
         }
-        
+
+        [TestMethod]
+        public void GetDataEmptyStruct()
+        {
+            // Empty structs use 1 byte.
+            Empty[] readData = buffer.GetData<Empty>();
+            Assert.AreEqual(sizeof(float) * originalData.Length, readData.Length);
+        }
+
         [TestMethod]
         public void GetVector3FromFloats()
         {

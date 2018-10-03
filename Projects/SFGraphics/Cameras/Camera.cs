@@ -176,6 +176,7 @@ namespace SFGraphics.Cameras
 
         /// <summary>
         /// The width of the viewport or rendered region in pixels.
+        /// Values less than 1 are set to 1.
         /// </summary>
         public int RenderWidth
         {
@@ -189,6 +190,7 @@ namespace SFGraphics.Cameras
 
         /// <summary>
         /// The height of the viewport or rendered region in pixels.
+        /// Values less than 1 are set to 1.
         /// </summary>
         public int RenderHeight
         {
