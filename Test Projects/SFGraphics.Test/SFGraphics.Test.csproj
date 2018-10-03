@@ -61,8 +61,9 @@
     <Compile Include="Tests\BufferObjectTests\BufferData.cs" />
     <Compile Include="Tests\BufferObjectTests\GetSubData.cs" />
     <Compile Include="Tests\BufferObjectTests\MapBuffer.cs" />
-    <Compile Include="Tests\CameraTests\FovDegreesTest.cs" />
-    <Compile Include="Tests\CameraTests\FovRadiansTest.cs" />
+    <Compile Include="Tests\CameraTests\FovDegreesConversion.cs" />
+    <Compile Include="Tests\CameraTests\FovRadiansConversion.cs" />
+    <Compile Include="Tests\CameraTests\RotationMatrix.cs" />
     <Compile Include="Tests\ContextTest.cs" />
     <Compile Include="Tests\FramebufferTests\Completion.cs" />
     <Compile Include="Tests\FramebufferTests\ConstructorExceptions.cs" />
@@ -113,6 +114,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Projects\SFGraphics.Utils\SFGraphics.Utils.csproj">
+      <Project>{d78b8153-c955-4ef6-b02f-6d824bfd949e}</Project>
+      <Name>SFGraphics.Utils</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Projects\SFGraphics\SFGraphics.csproj">
       <Project>{a62e9240-ef67-41e5-a4e1-43f0afa759f4}</Project>
       <Name>SFGraphics</Name>

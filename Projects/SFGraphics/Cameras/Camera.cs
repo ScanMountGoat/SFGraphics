@@ -88,7 +88,10 @@ namespace SFGraphics.Cameras
             set
             {
                 rotationXRadians = value;
-                UpdateMatrices();
+
+                UpdateRotationMatrix();
+                UpdateModelViewMatrix();
+                UpdateMvpMatrix();
             }
         }
         private float rotationXRadians = 0;
@@ -103,7 +106,10 @@ namespace SFGraphics.Cameras
             {
                 // Only store radians internally.
                 rotationXRadians = (float)VectorUtils.GetRadians(value);
-                UpdateMatrices();
+
+                UpdateRotationMatrix();
+                UpdateModelViewMatrix();
+                UpdateMvpMatrix();
             }
         }
 
@@ -116,7 +122,10 @@ namespace SFGraphics.Cameras
             set
             {
                 rotationYRadians = value;
-                UpdateMatrices();
+
+                UpdateRotationMatrix();
+                UpdateModelViewMatrix();
+                UpdateMvpMatrix();
             }
         }
         private float rotationYRadians = 0;
@@ -130,7 +139,10 @@ namespace SFGraphics.Cameras
             set
             {
                 rotationYRadians = (float)VectorUtils.GetRadians(value);
-                UpdateMatrices();
+
+                UpdateRotationMatrix();
+                UpdateModelViewMatrix();
+                UpdateMvpMatrix();
             }
         }
 
