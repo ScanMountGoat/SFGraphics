@@ -64,6 +64,7 @@
     <Compile Include="Tests\CameraTests\FovDegreesConversion.cs" />
     <Compile Include="Tests\CameraTests\FovRadiansConversion.cs" />
     <Compile Include="Tests\CameraTests\RotationMatrix.cs" />
+    <Compile Include="Tests\CameraTests\TranslationMatrix.cs" />
     <Compile Include="Tests\ContextTest.cs" />
     <Compile Include="Tests\FramebufferTests\Completion.cs" />
     <Compile Include="Tests\FramebufferTests\ConstructorExceptions.cs" />

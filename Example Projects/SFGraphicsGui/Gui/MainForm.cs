@@ -137,8 +137,8 @@ namespace SFGraphicsGui
             shader.SetTexture("uvTestPattern", graphicsResources.uvTestPattern, 0);
 
             Camera camera = new Camera();
-            camera.renderWidth = glControl1.Width;
-            camera.renderHeight = glControl1.Height;
+            camera.RenderWidth = glControl1.Width;
+            camera.RenderHeight = glControl1.Height;
             Vector4 boundingSphere = SFGraphics.Utils.BoundingSphereGenerator.GenerateBoundingSphere(shapeVertices);
             camera.FrameBoundingSphere(boundingSphere.Xyz, boundingSphere.W, 0);
 

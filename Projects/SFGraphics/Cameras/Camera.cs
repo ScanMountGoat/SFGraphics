@@ -176,15 +176,29 @@ namespace SFGraphics.Cameras
 
         /// <summary>
         /// The width of the viewport or rendered region in pixels.
-        /// Only the ratio between <see cref="renderWidth"/> and <see cref="renderHeight"/> is important.
         /// </summary>
-        public int renderWidth = 1;
+        public int RenderWidth
+        {
+            get { return renderWidth; }
+            set
+            {
+                renderWidth = Math.Max(value, 1);
+            }
+        }
+        private int renderWidth = 1;
 
         /// <summary>
         /// The height of the viewport or rendered region in pixels.
-        /// Only the ratio between <see cref="renderWidth"/> and <see cref="renderHeight"/> is important.
         /// </summary>
-        public int renderHeight = 1;
+        public int RenderHeight
+        {
+            get { return renderHeight; }
+            set
+            {
+                renderHeight = Math.Max(value, 1);
+            }
+        }
+        private int renderHeight = 1;
 
         /// <summary>
         /// See <see cref="ModelViewMatrix"/>
@@ -233,7 +247,7 @@ namespace SFGraphics.Cameras
 
         /// <summary>
         /// The result of <see cref="Matrix4.CreatePerspectiveFieldOfView(float, float, float, float)"/> for 
-        /// <see cref="FovRadians"/>, <see cref="renderWidth"/> / <see cref="renderHeight"/>, <see cref="NearClipPlane"/>,
+        /// <see cref="FovRadians"/>, <see cref="RenderWidth"/> / <see cref="RenderHeight"/>, <see cref="NearClipPlane"/>,
         /// <see cref="FarClipPlane"/>
         /// </summary>
         public Matrix4 PerspectiveMatrix { get { return perspectiveMatrix; } }
@@ -258,8 +272,8 @@ namespace SFGraphics.Cameras
         public void Pan(float xAmount, float yAmount, bool scaleByDistanceToOrigin = true)
         {
             // Find the change in normalized screen coordinates.
-            float deltaX = xAmount / renderWidth;
-            float deltaY = yAmount / renderHeight;
+            float deltaX = xAmount / RenderWidth;
+            float deltaY = yAmount / RenderHeight;
 
             if (scaleByDistanceToOrigin)
             {
@@ -331,7 +345,7 @@ namespace SFGraphics.Cameras
         /// </summary>
         protected virtual void UpdatePerspectiveMatrix()
         {
-            perspectiveMatrix = Matrix4.CreatePerspectiveFieldOfView(fovRadians, renderWidth / (float)renderHeight, nearClipPlane, farClipPlane);
+            perspectiveMatrix = Matrix4.CreatePerspectiveFieldOfView(fovRadians, RenderWidth / (float)RenderHeight, nearClipPlane, farClipPlane);
         }
 
         /// <summary>
