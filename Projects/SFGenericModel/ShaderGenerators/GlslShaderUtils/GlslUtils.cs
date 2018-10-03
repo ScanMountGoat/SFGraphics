@@ -23,18 +23,6 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
 
         public static readonly string vertexOutputPrefix = "vert_";
 
-        public static Shader CreateShader(string vertexSource, string fragSource)
-        {
-            Shader shader = new Shader();
-            var shaders = new List<Tuple<string, ShaderType, string>>()
-            {
-                new Tuple<string, ShaderType, string>(vertexSource, ShaderType.VertexShader, ""),
-                new Tuple<string, ShaderType, string>(fragSource, ShaderType.FragmentShader, "")
-            };
-            shader.LoadShaders(shaders);
-            return shader;
-        }
-
         public static void AppendEndMain(StringBuilder shaderSource)
         {
             shaderSource.AppendLine("}");
@@ -148,17 +136,31 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
         private static string GetTypeDeclaration(VertexAttributeRenderInfo attribute)
         {
             if (attribute.AttributeInfo.ValueCount == ValueCount.One)
-            {
-                if (attribute.AttributeInfo.Type == VertexAttribPointerType.Float)
-                    return "float";
-                else if (attribute.AttributeInfo.Type == VertexAttribPointerType.Int)
-                    return "int";
-                else
-                    return "uint";
-            }
+                return GetScalarType(attribute);
             else
+                return GetVectorType(attribute);
+        }
+
+        private static string GetVectorType(VertexAttributeRenderInfo attribute)
+        {
+            if (attribute.AttributeInfo.Type != VertexAttribPointerType.Float)
+                throw new NotImplementedException($"Type {attribute.AttributeInfo.Type} is not supported.");
+
+            return $"vec{(int)attribute.AttributeInfo.ValueCount}";
+        }
+
+        private static string GetScalarType(VertexAttributeRenderInfo attribute)
+        {
+            switch (attribute.AttributeInfo.Type)
             {
-                return $"vec{(int)attribute.AttributeInfo.ValueCount}";
+                case VertexAttribPointerType.Int:
+                    return "int";
+                case VertexAttribPointerType.UnsignedInt:
+                    return "uint";
+                case VertexAttribPointerType.Float:
+                    return "float";
+                default:
+                    throw new NotImplementedException($"Type {attribute.AttributeInfo.Type} is not supported.");
             }
         }
 

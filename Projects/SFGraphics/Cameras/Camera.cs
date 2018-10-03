@@ -381,8 +381,8 @@ namespace SFGraphics.Cameras
         /// 
         /// </summary>
         /// <param name="center">The position of the center of the bounding sphere.</param>
-        /// <param name="radius">The radius of the bounding sphere.</param>
-        /// <param name="offset"></param>
+        /// <param name="radius">The radius of the bounding sphere in scene units</param>
+        /// <param name="offset">The offset in scene units</param>
         public void FrameBoundingSphere(Vector3 center, float radius, float offset = 10)
         {
             // Calculate a right triangle using the bounding sphere radius as the height and the fov as the angle.
