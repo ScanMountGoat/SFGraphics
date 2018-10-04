@@ -141,12 +141,32 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
                 return GetVectorType(attribute);
         }
 
-        private static string GetVectorType(VertexAttributeRenderInfo attribute)
+        private static string GetVectorType(VertexAttributeRenderInfo attributeInfo)
         {
-            if (attribute.AttributeInfo.Type != VertexAttribPointerType.Float)
-                throw new NotImplementedException($"Type {attribute.AttributeInfo.Type} is not supported.");
+            var attribute = attributeInfo.AttributeInfo;
 
-            return $"vec{(int)attribute.AttributeInfo.ValueCount}";
+            string typeName = GetVectorTypeName(attribute.Type, attribute is VertexAttributeIntInfo);
+            return $"{typeName}{(int)attributeInfo.AttributeInfo.ValueCount}";
+        }
+
+        private static string GetVectorTypeName(VertexAttribPointerType type, bool isInteger)
+        {
+            if (isInteger)
+            {
+                if (type == VertexAttribPointerType.Int)
+                    return "ivec";
+                else if (type == VertexAttribPointerType.UnsignedInt)
+                    return "uvec";
+                else
+                    throw new NotImplementedException($"Type {type} is not supported.");
+            }
+            else
+            {
+                if (type == VertexAttribPointerType.Float)
+                    return "vec";
+                else
+                    throw new NotImplementedException($"Type {type} is not supported.");
+            }
         }
 
         private static string GetScalarType(VertexAttributeRenderInfo attribute)

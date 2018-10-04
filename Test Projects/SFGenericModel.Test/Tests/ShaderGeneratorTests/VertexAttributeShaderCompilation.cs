@@ -35,7 +35,6 @@ namespace ShaderGeneratorTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(System.NotImplementedException))]
         public void SingleIntVec3Attribute()
         {
             var attributes = new List<VertexAttributeRenderInfo>()
@@ -43,6 +42,18 @@ namespace ShaderGeneratorTests
                 new VertexAttributeRenderInfo(new VertexAttributeIntInfo("test", ValueCount.Three, VertexAttribIntegerType.Int))
             };
             Shader shader = CreateShader(attributes);
+            Assert.IsTrue(shader.LinkStatusIsOk);
+        }
+
+        [TestMethod]
+        public void SingleUnsignedIntVec3Attribute()
+        {
+            var attributes = new List<VertexAttributeRenderInfo>()
+            {
+                new VertexAttributeRenderInfo(new VertexAttributeIntInfo("test", ValueCount.Three, VertexAttribIntegerType.UnsignedInt))
+            };
+            Shader shader = CreateShader(attributes);
+            Assert.IsTrue(shader.LinkStatusIsOk);
         }
 
         [TestMethod]
