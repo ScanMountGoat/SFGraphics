@@ -1,9 +1,10 @@
 ﻿using OpenTK.Graphics.OpenGL;
+using System;
 
 namespace SFGenericModel.VertexAttributes
 {
     /// <summary>
-    /// Stores the information used to configure vertex attributes for <see cref="GenericMesh{T}"/>.
+    /// A vertex attribute that preserves integer values. Only integer types are supported.
     /// </summary>
     public class VertexAttributeIntInfo : VertexAttribute
     {
@@ -18,18 +19,19 @@ namespace SFGenericModel.VertexAttributes
         public VertexAttributeIntInfo(string name, ValueCount valueCount, VertexAttribIntegerType type) 
             : base(name, valueCount, (VertexAttribPointerType)type)
         {
+            // The default attribute pointer type enum contains all the integer values.
             SizeInBytes = (int)valueCount * AttribPointerUtils.GetSizeInBytes(type);
         }
 
         /// <summary>
-        /// 
+        /// Configures the vertex attribute for the currently bound array buffer.
         /// </summary>
         /// <param name="index">The index of the attribute variable in the shader</param>
         /// <param name="strideInBytes">The vertex size in bytes</param>
-        /// <param name="offsetInBytes">The offset of the attribute in the vertex</param>
+        /// <param name="offsetInBytes">The offset in bytes of the attribute in the vertex</param>
         public override void SetVertexAttribute(int index, int strideInBytes, int offsetInBytes)
         {
-            GL.VertexAttribIPointer(index, (int)ValueCount, (VertexAttribIntegerType)Type, strideInBytes, new System.IntPtr(offsetInBytes));
+            GL.VertexAttribIPointer(index, (int)ValueCount, (VertexAttribIntegerType)Type, strideInBytes, new IntPtr(offsetInBytes));
         }
     }
 }

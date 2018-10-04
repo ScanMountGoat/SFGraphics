@@ -29,7 +29,7 @@ namespace SFGenericModel.VertexAttributes
     }
 
     /// <summary>
-    /// 
+    /// Stores information for a vertex attribute variable.
     /// </summary>
     public abstract class VertexAttribute
     {
@@ -55,11 +55,11 @@ namespace SFGenericModel.VertexAttributes
         public VertexAttribPointerType Type { get; }
 
         /// <summary>
-        /// 
+        /// Configures the vertex attribute for the currently bound array buffer.
         /// </summary>
         /// <param name="index">The index of the attribute variable in the shader</param>
         /// <param name="strideInBytes">The vertex size in bytes</param>
-        /// <param name="offsetInBytes">The offset of the attribute in the vertex</param>
+        /// <param name="offsetInBytes">The offset in bytes of the attribute in the vertex</param>
         public abstract void SetVertexAttribute(int index, int strideInBytes, int offsetInBytes);
 
         /// <summary>

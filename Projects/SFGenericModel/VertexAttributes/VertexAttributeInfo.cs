@@ -3,7 +3,7 @@
 namespace SFGenericModel.VertexAttributes
 {           
     /// <summary>
-    /// Stores the information used to configure vertex attributes for <see cref="GenericMesh{T}"/>.
+    /// A floating point vertex attribute. Integer types are converted directly to floats.
     /// </summary>
     public class VertexAttributeInfo : VertexAttribute
     {
@@ -22,11 +22,11 @@ namespace SFGenericModel.VertexAttributes
         }
 
         /// <summary>
-        /// 
+        /// Configures the vertex attribute for the currently bound array buffer.
         /// </summary>
         /// <param name="index">The index of the attribute variable in the shader</param>
         /// <param name="strideInBytes">The vertex size in bytes</param>
-        /// <param name="offsetInBytes">The offset of the attribute in the vertex</param>
+        /// <param name="offsetInBytes">The offset in bytes of the attribute in the vertex</param>
         public override void SetVertexAttribute(int index, int strideInBytes, int offsetInBytes)
         {
             GL.VertexAttribPointer(index, (int)ValueCount, Type, false, strideInBytes, offsetInBytes);

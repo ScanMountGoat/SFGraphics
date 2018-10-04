@@ -3,7 +3,7 @@
 namespace SFGenericModel.ShaderGenerators
 {
     /// <summary>
-    /// Stores information on how a vertex attribute will be displayed.
+    /// Determines how a <see cref="VertexAttribute"/> should be rendered for generated shaders.
     /// </summary>
     public struct VertexAttributeRenderInfo
     {

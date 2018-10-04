@@ -55,7 +55,7 @@ namespace SFGenericModel.ShaderGenerators
     }
 
     /// <summary>
-    /// Contains information on how a texture should be rendered.
+    /// Determines how a <see cref="Texture"/> should be rendered for generated shaders.
     /// </summary>
     public struct TextureRenderInfo
     {
