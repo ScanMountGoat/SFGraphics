@@ -1,12 +1,11 @@
 ﻿using OpenTK.Graphics.OpenGL;
-using System;
 
 namespace SFGenericModel.VertexAttributes
-{
+{           
     /// <summary>
-    /// A vertex attribute that preserves integer values. Only integer types are supported.
+    /// A floating point vertex attribute. Integer types are converted directly to floats.
     /// </summary>
-    public class VertexAttributeIntInfo : VertexAttribute
+    public class VertexFloatAttribute : VertexAttribute
     {
         /// <summary>
         /// Creates a new vertex attribute.
@@ -16,10 +15,9 @@ namespace SFGenericModel.VertexAttributes
         /// <param name="type">The data type of the value</param>
         /// <exception cref="System.NotSupportedException"><paramref name="type"/> is not 
         /// a supported attribute type.</exception>
-        public VertexAttributeIntInfo(string name, ValueCount valueCount, VertexAttribIntegerType type) 
-            : base(name, valueCount, (VertexAttribPointerType)type)
+        public VertexFloatAttribute(string name, ValueCount valueCount, VertexAttribPointerType type) 
+            : base(name, valueCount, type)
         {
-            // The default attribute pointer type enum contains all the integer values.
             SizeInBytes = (int)valueCount * AttribPointerUtils.GetSizeInBytes(type);
         }
 
@@ -31,7 +29,7 @@ namespace SFGenericModel.VertexAttributes
         /// <param name="offsetInBytes">The offset in bytes of the attribute in the vertex</param>
         public override void SetVertexAttribute(int index, int strideInBytes, int offsetInBytes)
         {
-            GL.VertexAttribIPointer(index, (int)ValueCount, (VertexAttribIntegerType)Type, strideInBytes, new IntPtr(offsetInBytes));
+            GL.VertexAttribPointer(index, (int)ValueCount, Type, false, strideInBytes, offsetInBytes);
         }
     }
 }

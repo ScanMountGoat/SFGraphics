@@ -118,8 +118,8 @@ namespace SFGraphicsGui
         private void DrawShape(List<Vector3> shapeVertices, SFShapes.Mesh3D shape)
         {
             var textures = new List<TextureRenderInfo>() { new TextureRenderInfo("uvTestPattern", UvCoord.TexCoord0, TextureSwizzle.Rgb) };
-            var pos = new SFGenericModel.VertexAttributes.VertexAttributeInfo("position", SFGenericModel.VertexAttributes.ValueCount.Three, VertexAttribPointerType.Float);
-            var uv0 = new SFGenericModel.VertexAttributes.VertexAttributeInfo("uv0", SFGenericModel.VertexAttributes.ValueCount.Two, VertexAttribPointerType.Float);
+            var pos = new SFGenericModel.VertexAttributes.VertexFloatAttribute("position", SFGenericModel.VertexAttributes.ValueCount.Three, VertexAttribPointerType.Float);
+            var uv0 = new SFGenericModel.VertexAttributes.VertexFloatAttribute("uv0", SFGenericModel.VertexAttributes.ValueCount.Two, VertexAttribPointerType.Float);
 
             string frag;
             string vert;

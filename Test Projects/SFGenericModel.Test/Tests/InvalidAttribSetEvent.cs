@@ -51,7 +51,7 @@ namespace GenericMeshTests
         [TestMethod]
         public void ValidAttributeLocation()
         {
-            mesh.vertexAttributes.Add(new VertexAttributeInfo("position", ValueCount.Three, VertexAttribPointerType.Float));
+            mesh.vertexAttributes.Add(new VertexFloatAttribute("position", ValueCount.Three, VertexAttribPointerType.Float));
             mesh.ConfigureVertexAttributes(shader);
             Assert.AreEqual(0, eventArgs.Count);
         }
@@ -59,7 +59,7 @@ namespace GenericMeshTests
         [TestMethod]
         public void ValidAttributeIntLocation()
         {
-            mesh.vertexAttributes.Add(new VertexAttributeIntInfo("intAttrib", ValueCount.One, VertexAttribIntegerType.Int));
+            mesh.vertexAttributes.Add(new VertexIntAttribute("intAttrib", ValueCount.One, VertexAttribIntegerType.Int));
             mesh.ConfigureVertexAttributes(shader);
             Assert.AreEqual(0, eventArgs.Count);
         }
@@ -67,7 +67,7 @@ namespace GenericMeshTests
         [TestMethod]
         public void InvalidAttributeIntLocation()
         {
-            mesh.vertexAttributes.Add(new VertexAttributeIntInfo("memes", ValueCount.One, VertexAttribIntegerType.Int));
+            mesh.vertexAttributes.Add(new VertexIntAttribute("memes", ValueCount.One, VertexAttribIntegerType.Int));
             mesh.ConfigureVertexAttributes(shader);
             Assert.AreEqual(1, eventArgs.Count);
         }
@@ -75,8 +75,8 @@ namespace GenericMeshTests
         [TestMethod]
         public void InvalidAttributeLocation()
         {
-            mesh.vertexAttributes.Add(new VertexAttributeInfo("position", ValueCount.Three, VertexAttribPointerType.Float));
-            mesh.vertexAttributes.Add(new VertexAttributeInfo("memes", ValueCount.Three, VertexAttribPointerType.Float));
+            mesh.vertexAttributes.Add(new VertexFloatAttribute("position", ValueCount.Three, VertexAttribPointerType.Float));
+            mesh.vertexAttributes.Add(new VertexFloatAttribute("memes", ValueCount.Three, VertexAttribPointerType.Float));
             mesh.ConfigureVertexAttributes(shader);
             Assert.AreEqual(1, eventArgs.Count);
         }

@@ -23,7 +23,7 @@ namespace SFShapes
         {
             return new List<VertexAttribute>()
             {
-                new VertexAttributeInfo("position", ValueCount.Three, VertexAttribPointerType.Float)
+                new VertexFloatAttribute("position", ValueCount.Three, VertexAttribPointerType.Float)
             };
         }
 

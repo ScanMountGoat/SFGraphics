@@ -25,9 +25,9 @@ namespace SFGraphicsGui
         {
             return new List<VertexAttribute>()
             {
-                new VertexAttributeInfo("position", ValueCount.Three, VertexAttribPointerType.Float),
-                new VertexAttributeInfo("normal",   ValueCount.Three, VertexAttribPointerType.Float),
-                new VertexAttributeInfo("color",    ValueCount.Four, VertexAttribPointerType.Float)
+                new VertexFloatAttribute("position", ValueCount.Three, VertexAttribPointerType.Float),
+                new VertexFloatAttribute("normal",   ValueCount.Three, VertexAttribPointerType.Float),
+                new VertexFloatAttribute("color",    ValueCount.Four, VertexAttribPointerType.Float)
             };
         }
     }

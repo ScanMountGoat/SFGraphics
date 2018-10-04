@@ -145,7 +145,7 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
         {
             var attribute = attributeInfo.AttributeInfo;
 
-            string typeName = GetVectorTypeName(attribute.Type, attribute is VertexAttributeIntInfo);
+            string typeName = GetVectorTypeName(attribute.Type, attribute is VertexIntAttribute);
             return $"{typeName}{(int)attributeInfo.AttributeInfo.ValueCount}";
         }
 

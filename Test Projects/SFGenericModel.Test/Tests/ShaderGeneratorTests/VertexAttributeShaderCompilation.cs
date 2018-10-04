@@ -28,7 +28,7 @@ namespace ShaderGeneratorTests
         {
             var attributes = new List<VertexAttributeRenderInfo>()
             {
-                new VertexAttributeRenderInfo(new VertexAttributeInfo("test", ValueCount.Three, VertexAttribPointerType.Float))
+                new VertexAttributeRenderInfo(new VertexFloatAttribute("test", ValueCount.Three, VertexAttribPointerType.Float))
             };
             Shader shader = CreateShader(attributes);
             Assert.IsTrue(shader.LinkStatusIsOk);
@@ -39,7 +39,7 @@ namespace ShaderGeneratorTests
         {
             var attributes = new List<VertexAttributeRenderInfo>()
             {
-                new VertexAttributeRenderInfo(new VertexAttributeIntInfo("test", ValueCount.Three, VertexAttribIntegerType.Int))
+                new VertexAttributeRenderInfo(new VertexIntAttribute("test", ValueCount.Three, VertexAttribIntegerType.Int))
             };
             Shader shader = CreateShader(attributes);
             Assert.IsTrue(shader.LinkStatusIsOk);
@@ -50,7 +50,7 @@ namespace ShaderGeneratorTests
         {
             var attributes = new List<VertexAttributeRenderInfo>()
             {
-                new VertexAttributeRenderInfo(new VertexAttributeIntInfo("test", ValueCount.Three, VertexAttribIntegerType.UnsignedInt))
+                new VertexAttributeRenderInfo(new VertexIntAttribute("test", ValueCount.Three, VertexAttribIntegerType.UnsignedInt))
             };
             Shader shader = CreateShader(attributes);
             Assert.IsTrue(shader.LinkStatusIsOk);
@@ -62,7 +62,7 @@ namespace ShaderGeneratorTests
         {
             var attributes = new List<VertexAttributeRenderInfo>()
             {
-                new VertexAttributeRenderInfo(new VertexAttributeIntInfo("test", ValueCount.One, VertexAttribIntegerType.Byte))
+                new VertexAttributeRenderInfo(new VertexIntAttribute("test", ValueCount.One, VertexAttribIntegerType.Byte))
             };
             Shader shader = CreateShader(attributes);
         }
@@ -72,7 +72,7 @@ namespace ShaderGeneratorTests
         {
             var attributes = new List<VertexAttributeRenderInfo>()
             {
-                new VertexAttributeRenderInfo(new VertexAttributeInfo("test", ValueCount.Two, VertexAttribPointerType.Float))
+                new VertexAttributeRenderInfo(new VertexFloatAttribute("test", ValueCount.Two, VertexAttribPointerType.Float))
             };
             Shader shader = CreateShader(attributes);
             Assert.IsTrue(shader.LinkStatusIsOk);
@@ -83,7 +83,7 @@ namespace ShaderGeneratorTests
         {
             var attributes = new List<VertexAttributeRenderInfo>()
             {
-                new VertexAttributeRenderInfo(new VertexAttributeInfo("test", ValueCount.Four, VertexAttribPointerType.Float))
+                new VertexAttributeRenderInfo(new VertexFloatAttribute("test", ValueCount.Four, VertexAttribPointerType.Float))
             };
             Shader shader = CreateShader(attributes);
             Assert.IsTrue(shader.LinkStatusIsOk);
@@ -94,7 +94,7 @@ namespace ShaderGeneratorTests
         {
             var attributes = new List<VertexAttributeRenderInfo>()
             {
-                new VertexAttributeRenderInfo(new VertexAttributeInfo("test", ValueCount.One, VertexAttribPointerType.Float))
+                new VertexAttributeRenderInfo(new VertexFloatAttribute("test", ValueCount.One, VertexAttribPointerType.Float))
             };
             Shader shader = CreateShader(attributes);
             Assert.IsTrue(shader.LinkStatusIsOk);
@@ -105,7 +105,7 @@ namespace ShaderGeneratorTests
         {
             var attributes = new List<VertexAttributeRenderInfo>()
             {
-                new VertexAttributeRenderInfo(new VertexAttributeInfo("test", ValueCount.One, VertexAttribPointerType.Int))
+                new VertexAttributeRenderInfo(new VertexFloatAttribute("test", ValueCount.One, VertexAttribPointerType.Int))
             };
             Shader shader = CreateShader(attributes);
             Assert.IsTrue(shader.LinkStatusIsOk);
@@ -116,7 +116,7 @@ namespace ShaderGeneratorTests
         {
             var attributes = new List<VertexAttributeRenderInfo>()
             {
-                new VertexAttributeRenderInfo(new VertexAttributeInfo("test", ValueCount.One, VertexAttribPointerType.UnsignedInt))
+                new VertexAttributeRenderInfo(new VertexFloatAttribute("test", ValueCount.One, VertexAttribPointerType.UnsignedInt))
             };
             Shader shader = CreateShader(attributes);
             Assert.IsTrue(shader.LinkStatusIsOk);
@@ -127,9 +127,9 @@ namespace ShaderGeneratorTests
         {
             var attributes = new List<VertexAttributeRenderInfo>()
             {
-                new VertexAttributeRenderInfo(new VertexAttributeInfo("test2", ValueCount.Two, VertexAttribPointerType.Float)),
-                new VertexAttributeRenderInfo(new VertexAttributeInfo("test3", ValueCount.Three, VertexAttribPointerType.Float)),
-                new VertexAttributeRenderInfo(new VertexAttributeInfo("test4", ValueCount.Four, VertexAttribPointerType.Float))
+                new VertexAttributeRenderInfo(new VertexFloatAttribute("test2", ValueCount.Two, VertexAttribPointerType.Float)),
+                new VertexAttributeRenderInfo(new VertexFloatAttribute("test3", ValueCount.Three, VertexAttribPointerType.Float)),
+                new VertexAttributeRenderInfo(new VertexFloatAttribute("test4", ValueCount.Four, VertexAttribPointerType.Float))
             };
 
             Shader shader = CreateShader(attributes);
