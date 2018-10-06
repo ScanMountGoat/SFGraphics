@@ -122,6 +122,21 @@ namespace SFGraphics.GLObjects.Textures
             GL.BindTexture(TextureTarget, Id);
         }
 
+        /// <summary>
+        /// Gets the image data for <paramref name="mipLevel"/>
+        /// in an RGBA unsigned byte format.
+        /// </summary>
+        /// <param name="mipLevel">The mip level to read</param>
+        /// <returns>The image data for <paramref name="mipLevel"/></returns>
+        public byte[] GetImageData(int mipLevel)
+        {
+            int channels = 4;
+            byte[] data = new byte[Width * Height * sizeof(byte) * channels];
+
+            GL.GetTexImage(TextureTarget, mipLevel, PixelFormat.Rgba, PixelType.UnsignedByte, data);
+            return data;
+        }
+
         private void SetTexParameter(TextureParameterName param, int value)
         {
             Bind();
