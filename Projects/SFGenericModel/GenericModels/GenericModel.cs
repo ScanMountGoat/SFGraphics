@@ -25,6 +25,14 @@ namespace SFGenericModel.GenericModels
         }
 
         /// <summary>
+        /// Creates an empty model.
+        /// </summary>
+        public GenericModel()
+        {
+            Meshes = new List<HideableMesh>();
+        }
+
+        /// <summary>
         /// Draws all meshes.
         /// </summary>
         /// <param name="shader">The shader used for drawing</param>
