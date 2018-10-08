@@ -327,7 +327,7 @@ namespace SFGraphics.Cameras
         }
 
         /// <summary>
-        /// 
+        /// Calculates <see cref="translationMatrix"/>.
         /// </summary>
         protected virtual void UpdateTranslationMatrix()
         {
@@ -335,7 +335,7 @@ namespace SFGraphics.Cameras
         }
 
         /// <summary>
-        /// 
+        /// Calculates <see cref="rotationMatrix"/>.
         /// </summary>
         protected virtual void UpdateRotationMatrix()
         {
@@ -343,7 +343,7 @@ namespace SFGraphics.Cameras
         }
 
         /// <summary>
-        /// 
+        /// Calculates <see cref="perspectiveMatrix"/>.
         /// </summary>
         protected virtual void UpdatePerspectiveMatrix()
         {
@@ -351,7 +351,7 @@ namespace SFGraphics.Cameras
         }
 
         /// <summary>
-        /// 
+        /// Calculates <see cref="modelViewMatrix"/>.
         /// </summary>
         protected virtual void UpdateModelViewMatrix()
         {
@@ -359,7 +359,7 @@ namespace SFGraphics.Cameras
         }
 
         /// <summary>
-        /// 
+        /// Calculates <see cref="mvpMatrix"/>.
         /// </summary>
         protected virtual void UpdateMvpMatrix()
         {
@@ -378,14 +378,15 @@ namespace SFGraphics.Cameras
         }
 
         /// <summary>
-        /// 
+        /// Transforms the camera to frame a sphere of the given dimensions in the viewport.
         /// </summary>
         /// <param name="center">The position of the center of the bounding sphere.</param>
         /// <param name="radius">The radius of the bounding sphere in scene units</param>
         /// <param name="offset">The offset in scene units</param>
-        public void FrameBoundingSphere(Vector3 center, float radius, float offset = 10)
+        public virtual void FrameBoundingSphere(Vector3 center, float radius, float offset = 10)
         {
-            // Calculate a right triangle using the bounding sphere radius as the height and the fov as the angle.
+            // Calculate a right triangle using the bounding sphere radius as height 
+            // and the field of view as the angle.
             // The distance is the base of the triangle. 
             float distance = radius / (float)Math.Tan(fovRadians / 2.0f);
 
