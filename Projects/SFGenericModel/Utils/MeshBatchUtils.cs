@@ -1,7 +1,6 @@
 ﻿using OpenTK.Graphics.OpenGL;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace SFGenericModel.Utils
 {

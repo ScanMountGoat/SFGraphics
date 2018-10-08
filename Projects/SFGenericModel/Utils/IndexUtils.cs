@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace SFGenericModel.Utils
 {
@@ -11,16 +8,15 @@ namespace SFGenericModel.Utils
     public static class IndexUtils
     {
         /// <summary>
-        /// Generates a unique index for each vertex in <paramref name="vertices"/>
-        /// starting with <c>0</c>.
+        /// Generates consecutive indices starting with 0 
+        /// up to but not including <paramref name="count"/>.
         /// </summary>
-        /// <typeparam name="T">The vertex struct</typeparam>
-        /// <param name="vertices">The vertices used to generate indices</param>
-        /// <returns></returns>
-        public static List<int> GenerateIndices<T>(List<T> vertices) where T : struct
+        /// <param name="count">The number of indices to generate</param>
+        /// <returns>Generated consecutive indices</returns>
+        public static List<int> GenerateIndices(int count)
         {
             List<int> vertexIndices = new List<int>();
-            for (int i = 0; i < vertices.Count; i++)
+            for (int i = 0; i < count; i++)
             {
                 vertexIndices.Add(i);
             }

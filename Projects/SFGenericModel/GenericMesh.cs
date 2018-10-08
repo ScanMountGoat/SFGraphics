@@ -223,7 +223,7 @@ namespace SFGenericModel
 
         private void InitializeBufferData(List<T> vertices)
         {
-            List<int> indices = IndexUtils.GenerateIndices(vertices);
+            List<int> indices = IndexUtils.GenerateIndices(vertices.Count);
             InitializeBufferData(vertices, indices);
         }
     }
