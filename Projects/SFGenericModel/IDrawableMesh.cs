@@ -4,7 +4,7 @@ using SFGraphics.GLObjects.Shaders;
 namespace SFGenericModel
 {
     /// <summary>
-    /// Defines methods for drawing a mesh using programable shaders.
+    /// Defines methods for drawing a mesh using programmable shaders.
     /// </summary>
     public interface IDrawableMesh
     {
