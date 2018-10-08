@@ -53,6 +53,7 @@
     <Compile Include="ShaderGenerators\GlslShaderUtils\GlslVectorUtils.cs" />
     <Compile Include="ShaderGenerators\TextureRenderInfo.cs" />
     <Compile Include="ShaderGenerators\TextureShaderGenerator.cs" />
+    <Compile Include="Utils\IndexUtils.cs" />
     <Compile Include="VertexAttributes\AttribPointerUtils.cs" />
     <Compile Include="MeshEventArgs\AttribSetEventArgs.cs" />
     <Compile Include="RenderState\AlphaBlendSettings.cs" />

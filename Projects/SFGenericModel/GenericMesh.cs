@@ -9,6 +9,7 @@ using SFGraphics.Cameras;
 using SFGraphics.GLObjects.Shaders;
 using SFGraphics.GLObjects.VertexArrays;
 using System.Collections.Generic;
+using SFGraphics.GLObjects.BufferObjects;
 
 namespace SFGenericModel
 {
@@ -20,11 +21,22 @@ namespace SFGenericModel
     /// materials and rendering state.
     /// </summary>
     /// <typeparam name="T">The struct used to define vertex data</typeparam>
-    public abstract class GenericMesh<T> : IndexedVertexData<T>, IDrawableMesh where T : struct
+    public abstract class GenericMesh<T> : IDrawableMesh where T : struct
     {
         private int previousShaderId = -1;
 
+        private readonly int vertexCount = 0;
+        private readonly int vertexSizeInBytes = 0;
+
         private VertexArrayObject vertexArrayObject = new VertexArrayObject();
+
+        private BufferObject vertexBuffer = new BufferObject(BufferTarget.ArrayBuffer);
+        private BufferObject vertexIndexBuffer = new BufferObject(BufferTarget.ElementArrayBuffer);
+
+        /// <summary>
+        /// Determines how primitives will be constructed from the vertex data.
+        /// </summary>
+        public PrimitiveType PrimitiveType { get; }
 
         /// <summary>
         /// The collection of OpenGL state set prior to drawing.
@@ -55,9 +67,13 @@ namespace SFGenericModel
         /// </summary>
         /// <param name="vertices"></param>
         /// <param name="primitiveType"></param>
-        public GenericMesh(List<T> vertices, PrimitiveType primitiveType) : base(vertices, primitiveType)
+        public GenericMesh(List<T> vertices, PrimitiveType primitiveType)
         {
+            PrimitiveType = primitiveType;
+            vertexSizeInBytes = System.Runtime.InteropServices.Marshal.SizeOf(typeof(T));
+            vertexCount = vertices.Count;
 
+            InitializeBufferData(vertices);
         }
 
         /// <summary>
@@ -66,10 +82,13 @@ namespace SFGenericModel
         /// <param name="vertices"></param>
         /// <param name="vertexIndices"></param>
         /// <param name="primitiveType">Determines how primitives will be constructed from the vertex data</param>
-        public GenericMesh(List<T> vertices, List<int> vertexIndices, PrimitiveType primitiveType) 
-            : base(vertices, vertexIndices, primitiveType)
+        public GenericMesh(List<T> vertices, List<int> vertexIndices, PrimitiveType primitiveType)
         {
+            PrimitiveType = primitiveType;
+            vertexSizeInBytes = System.Runtime.InteropServices.Marshal.SizeOf(typeof(T));
+            vertexCount = vertexIndices.Count;
 
+            InitializeBufferData(vertices, vertexIndices);
         }
 
         /// <summary>
@@ -121,7 +140,7 @@ namespace SFGenericModel
         /// <param name="camera"></param>
         public void Draw(Shader shader, Camera camera)
         {
-            Draw(shader, camera, VertexCount, 0);
+            Draw(shader, camera, vertexCount, 0);
         }
 
         /// <summary>
@@ -160,12 +179,12 @@ namespace SFGenericModel
         {
             vertexArrayObject.Bind();
 
-            VertexBuffer.Bind();
-            VertexIndexBuffer.Bind();
+            vertexBuffer.Bind();
+            vertexIndexBuffer.Bind();
 
             shader.EnableVertexAttributes();
             List<VertexAttribute> vertexAttributes = GetVertexAttributes();
-            SetVertexAttributes(shader, vertexAttributes, VertexSizeInBytes);
+            SetVertexAttributes(shader, vertexAttributes, vertexSizeInBytes);
 
             // Unbind all the buffers.
             // This step may not be necessary.
@@ -184,6 +203,18 @@ namespace SFGenericModel
                     OnInvalidAttribSet?.Invoke(this, new AttribSetEventArgs(attribute.Name, attribute.Type, attribute.ValueCount));
                 offset += attribute.SizeInBytes;
             }
+        }
+
+        private void InitializeBufferData(List<T> vertices, List<int> vertexIndices)
+        {
+            vertexBuffer.SetData(vertices.ToArray(), BufferUsageHint.StaticDraw);
+            vertexIndexBuffer.SetData(vertexIndices.ToArray(), BufferUsageHint.StaticDraw);
+        }
+
+        private void InitializeBufferData(List<T> vertices)
+        {
+            List<int> indices = IndexUtils.GenerateIndices(vertices);
+            InitializeBufferData(vertices, indices);
         }
     }
 }

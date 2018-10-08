@@ -1,12 +1,10 @@
 ﻿using OpenTK.Graphics.OpenGL;
-using SFGraphics.GLObjects.BufferObjects;
 using System.Collections.Generic;
 
 namespace SFGenericModel
 {
     /// <summary>
-    /// Creates buffers for indexed vertex data using an interleaved buffer of 
-    /// vertex attributes.
+    /// Stores indexed vertex data to be used for drawing with OpenGL.
     /// </summary>
     /// <typeparam name="T">The struct used for each vertex</typeparam>
     public class IndexedVertexData<T> where T : struct
@@ -17,19 +15,14 @@ namespace SFGenericModel
         public int VertexSizeInBytes { get; }
 
         /// <summary>
-        /// The number of vertices, which is equal to the number of vertex indices.
+        /// The vertex data.
         /// </summary>
-        public int VertexCount { get; }
+        public List<T> Vertices { get; }
 
         /// <summary>
-        /// An interleaved buffer of vertex attributes.
+        /// The vertex indices. The number of vertices rendered is the number of indices.
         /// </summary>
-        public BufferObject VertexBuffer { get; }
-
-        /// <summary>
-        /// The buffer of vertex indices.
-        /// </summary>
-        public BufferObject VertexIndexBuffer { get; }
+        public List<int> Indices { get; }
 
         /// <summary>
         /// Determines how primitives will be constructed from the vertex data.
@@ -39,57 +32,30 @@ namespace SFGenericModel
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="vertices"></param>
-        /// <param name="primitiveType"></param>
+        /// <param name="vertices">The value of <see cref="Vertices"/></param>
+        /// <param name="primitiveType">The value of <see cref="PrimitiveType"/></param>
         public IndexedVertexData(List<T> vertices, PrimitiveType primitiveType)
         {
-            VertexBuffer = new BufferObject(BufferTarget.ArrayBuffer);
-            VertexIndexBuffer = new BufferObject(BufferTarget.ElementArrayBuffer);
             PrimitiveType = primitiveType;
-
+            Vertices = vertices;
             VertexSizeInBytes = System.Runtime.InteropServices.Marshal.SizeOf(typeof(T));
-            VertexCount = vertices.Count;
 
-            // Generate a unique index for each vertex.
             // TODO: Generate more optimized indices
-            List<int> vertexIndices = GenerateIndices(vertices);
-            InitializeBufferData(vertices, vertexIndices);
+            Indices = Utils.IndexUtils.GenerateIndices(vertices);
         }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="vertices"></param>
-        /// <param name="vertexIndices"></param>
-        /// <param name="primitiveType"></param>
-        public IndexedVertexData(List<T> vertices, List<int> vertexIndices, PrimitiveType primitiveType)
+        /// <param name="vertices">The value of <see cref="Vertices"/></param>
+        /// <param name="indices">The value of <see cref="Indices"/></param>
+        /// <param name="primitiveType">The value of <see cref="PrimitiveType"/></param>
+        public IndexedVertexData(List<T> vertices, List<int> indices, PrimitiveType primitiveType)
         {
-            VertexBuffer = new BufferObject(BufferTarget.ArrayBuffer);
-            VertexIndexBuffer = new BufferObject(BufferTarget.ElementArrayBuffer);
+            Vertices = vertices;
+            Indices = indices;
             PrimitiveType = primitiveType;
-
             VertexSizeInBytes = System.Runtime.InteropServices.Marshal.SizeOf(typeof(T));
-            VertexCount = vertexIndices.Count;
-
-            InitializeBufferData(vertices, vertexIndices);
-        }
-
-        private void InitializeBufferData(List<T> vertices, List<int> vertexIndices)
-        {
-            VertexBuffer.SetData(vertices.ToArray(), BufferUsageHint.StaticDraw);
-            VertexIndexBuffer.SetData(vertexIndices.ToArray(), BufferUsageHint.StaticDraw);
-        }
-
-        private static List<int> GenerateIndices(List<T> vertices)
-        {
-            // TODO: Generate more optimized indices by looking for duplicate vertices.
-            List<int> vertexIndices = new List<int>();
-            for (int i = 0; i < vertices.Count; i++)
-            {
-                vertexIndices.Add(i);
-            }
-
-            return vertexIndices;
         }
     }
 }
