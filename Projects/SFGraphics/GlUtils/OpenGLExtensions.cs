@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using OpenTK.Graphics.OpenGL;
 
-
-namespace SFGraphics.Tools
+namespace SFGraphics.GlUtils
 {
     /// <summary>
     /// This class contains methods for checking the availability of OpenGL extensions.

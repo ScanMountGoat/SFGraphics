@@ -42,6 +42,7 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BitmapUtils.cs" />
     <Compile Include="BoundingSphereGenerator.cs" />
     <Compile Include="ColorUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

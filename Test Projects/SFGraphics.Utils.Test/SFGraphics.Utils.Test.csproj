@@ -57,6 +57,7 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Test\BitmapUtilsTests\GetBitmap.cs" />
     <Compile Include="Test\ColorUtilsTests\ClampFloatTest.cs" />
     <Compile Include="Test\ColorUtilsTests\ClampIntTest.cs" />
     <Compile Include="Test\ColorUtilsTests\FloatToIntClampTest.cs" />

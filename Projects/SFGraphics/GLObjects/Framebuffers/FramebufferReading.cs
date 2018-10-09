@@ -1,8 +1,6 @@
 ﻿using OpenTK.Graphics.OpenGL;
 using System;
 using System.Drawing;
-using System.Drawing.Imaging;
-using System.Runtime.InteropServices;
 
 namespace SFGraphics.GLObjects.Framebuffers
 {
@@ -23,7 +21,7 @@ namespace SFGraphics.GLObjects.Framebuffers
 
             byte[] pixels = GetBitmapPixels(saveAlpha, pixelSizeInBytes, imageSizeInBytes);
 
-            Bitmap bmp = CreateBitmap(pixels);
+            Bitmap bmp = Utils.BitmapUtils.GetBitmap(width, height, pixels);
             return bmp;
         }
 
@@ -50,17 +48,6 @@ namespace SFGraphics.GLObjects.Framebuffers
             byte[] pixels = ReadPixels(imageSizeInBytes);
             pixels = CopyPixelsFlipAdjustAlpha(width, height, saveAlpha, pixelSizeInBytes, pixels);
             return pixels;
-        }
-
-        private Bitmap CreateBitmap(byte[] imageData)
-        {
-            Bitmap bmp = new Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-
-            BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.WriteOnly, bmp.PixelFormat);
-            Marshal.Copy(imageData, 0, bmpData.Scan0, imageData.Length);
-
-            bmp.UnlockBits(bmpData);
-            return bmp;
         }
 
         private byte[] ReadPixels(int imageSizeInBytes)
