@@ -1,6 +1,5 @@
 ﻿using OpenTK.Graphics.OpenGL;
 using System;
-using System.Drawing;
 
 namespace SFGraphics.GLObjects.Framebuffers
 {
@@ -11,18 +10,18 @@ namespace SFGraphics.GLObjects.Framebuffers
         /// </summary>
         /// <param name="saveAlpha">The alpha channel is preserved when true or set to 255 (white when false</param>
         /// <returns>A bitmap of the framebuffer's contents</returns>
-        public Bitmap ReadImagePixels(bool saveAlpha = false)
+        public System.Drawing.Bitmap ReadImagePixels(bool saveAlpha = false)
         {
             int componentCount = 4; // RGBA
             int pixelSizeInBytes = sizeof(byte) * componentCount;
-            int imageSizeInBytes = width * height * pixelSizeInBytes;
+            int imageSizeInBytes = Width * Height * pixelSizeInBytes;
 
             Bind();
 
             byte[] pixels = GetBitmapPixels(saveAlpha, pixelSizeInBytes, imageSizeInBytes);
 
-            Bitmap bmp = Utils.BitmapUtils.GetBitmap(width, height, pixels);
-            return bmp;
+            var bitmap = Utils.BitmapUtils.GetBitmap(Width, Height, pixels);
+            return bitmap;
         }
 
         /// <summary>
@@ -33,20 +32,20 @@ namespace SFGraphics.GLObjects.Framebuffers
         /// <param name="x">The horizontal pixel coordinate</param>
         /// <param name="y">The vertical pixel coordinate</param>
         /// <returns>A color with the RGBA values of the selected pixel</returns>
-        public Color SamplePixelColor(int x, int y)
+        public System.Drawing.Color SamplePixelColor(int x, int y)
         {
             Bind();
 
             byte[] rgba = new byte[4];
-            GL.ReadPixels(x, y, 1, 1, OpenTK.Graphics.OpenGL.PixelFormat.Rgba, PixelType.UnsignedByte, rgba);
+            GL.ReadPixels(x, y, 1, 1, PixelFormat.Rgba, PixelType.UnsignedByte, rgba);
 
-            return Color.FromArgb(rgba[3], rgba[0], rgba[1], rgba[2]);
+            return System.Drawing.Color.FromArgb(rgba[3], rgba[0], rgba[1], rgba[2]);
         }
 
         private byte[] GetBitmapPixels(bool saveAlpha, int pixelSizeInBytes, int imageSizeInBytes)
         {
             byte[] pixels = ReadPixels(imageSizeInBytes);
-            pixels = CopyPixelsFlipAdjustAlpha(width, height, saveAlpha, pixelSizeInBytes, pixels);
+            pixels = CopyPixelsFlipAdjustAlpha(Width, Height, saveAlpha, pixelSizeInBytes, pixels);
             return pixels;
         }
 
@@ -54,7 +53,7 @@ namespace SFGraphics.GLObjects.Framebuffers
         {
             // Read the pixels from the framebuffer. PNG uses the BGRA format. 
             byte[] pixels = new byte[imageSizeInBytes];
-            GL.ReadPixels(0, 0, width, height, OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, pixels);
+            GL.ReadPixels(0, 0, Width, Height, PixelFormat.Bgra, PixelType.UnsignedByte, pixels);
             return pixels;
         }
 

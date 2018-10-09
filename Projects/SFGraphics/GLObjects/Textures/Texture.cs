@@ -1,11 +1,12 @@
 ﻿using OpenTK.Graphics.OpenGL;
+using SFGraphics.GLObjects.Framebuffers;
 
 namespace SFGraphics.GLObjects.Textures
 {
     /// <summary>
     /// Encapsulates an OpenGL texture object. 
     /// </summary>
-    public abstract class Texture : GLObject
+    public abstract class Texture : GLObject, IFramebufferAttachment
     {
         internal override GLObjectType ObjectType { get { return GLObjectType.Texture; } }
 
@@ -120,6 +121,18 @@ namespace SFGraphics.GLObjects.Textures
         public void Bind()
         {
             GL.BindTexture(TextureTarget, Id);
+        }
+
+        /// <summary>
+        /// Binds the texture to <paramref name="attachment"/> for
+        /// <paramref name="target"/>.
+        /// </summary>
+        /// <param name="attachment">The attachment point</param>
+        /// <param name="target">The target framebuffer for attachment</param>
+        public void Attach(FramebufferAttachment attachment, Framebuffer target)
+        {
+            target.Bind();
+            GL.FramebufferTexture(target.Target, attachment, Id, 0);
         }
 
         /// <summary>

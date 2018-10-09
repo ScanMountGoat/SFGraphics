@@ -7,7 +7,7 @@ namespace SFGraphics.GLObjects.RenderBuffers
     /// Encapsulates a renderbuffer object, 
     /// a framebuffer attachment that supports multisampling.
     /// </summary>
-    public class Renderbuffer : GLObject
+    public class Renderbuffer : GLObject, IFramebufferAttachment
     { 
         internal override GLObjectType ObjectType { get { return GLObjectType.RenderbufferObject; } }
 
@@ -63,6 +63,18 @@ namespace SFGraphics.GLObjects.RenderBuffers
         public void Bind()
         {
             GL.BindRenderbuffer(RenderbufferTarget.Renderbuffer, Id);
+        }
+
+        /// <summary>
+        /// Binds the renderbuffer to <paramref name="attachment"/> for
+        /// <paramref name="target"/>.
+        /// </summary>
+        /// <param name="attachment">The attachment point</param>
+        /// <param name="target">The target framebuffer for attachment</param>
+        public void Attach(FramebufferAttachment attachment, Framebuffer target)
+        {
+            target.Bind();
+            GL.FramebufferRenderbuffer(target.Target, attachment, RenderbufferTarget.Renderbuffer, Id);
         }
     }
 }

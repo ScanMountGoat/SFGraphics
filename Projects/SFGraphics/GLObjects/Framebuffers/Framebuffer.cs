@@ -29,39 +29,19 @@ namespace SFGraphics.GLObjects.Framebuffers
         /// <summary>
         /// All attached textures, renderbuffers, etc are resized when set. The framebuffer's contents will not be preserved when resizing.
         /// </summary>
-        public int Width
-        {
-            get { return width; }
-            set
-            {
-                width = value;
-                ResizeAllAttachments();
-            }
-        }
-        private int width = 1;
+        public int Width { get; }
 
         /// <summary>
         /// All attached textures, renderbuffers, etc are resized when set. The framebuffer's contents will not be preserved when resizing.
         /// </summary>
-        public int Height
-        {
-            get { return height; }
-            set
-            {
-                height = value;
-                ResizeAllAttachments();
-            }
-        }
-        private int height = 1;
+        public int Height { get; }
 
         /// <summary>
         /// All color attachment textures. 
         /// </summary>
-        public ReadOnlyCollection<Texture2D> ColorAttachments { get { return colorAttachments.AsReadOnly(); } }
+        public ReadOnlyCollection<IFramebufferAttachment> ColorAttachments { get { return colorAttachments.AsReadOnly(); } }
 
-        private List<Texture2D> colorAttachments = new List<Texture2D>();
-
-        private Renderbuffer rboDepth;
+        private List<IFramebufferAttachment> colorAttachments = new List<IFramebufferAttachment>();
 
         /// <summary>
         /// Generates an empty framebuffer with no attachments bound to the specified target. 
@@ -98,8 +78,8 @@ namespace SFGraphics.GLObjects.Framebuffers
 
             Bind();
             PixelInternalFormat = pixelInternalFormat;
-            this.width = width;
-            this.height = height;
+            Width = width;
+            Height = height;
 
             colorAttachments = CreateColorAttachments(width, height, colorAttachmentsCount);
 
@@ -209,9 +189,9 @@ namespace SFGraphics.GLObjects.Framebuffers
             AttachRenderbuffer(FramebufferAttachment.DepthAttachment, rboDepth);
         }
 
-        private List<Texture2D> CreateColorAttachments(int width, int height, int colorAttachmentsCount)
+        private List<IFramebufferAttachment> CreateColorAttachments(int width, int height, int colorAttachmentsCount)
         {
-            List<Texture2D> colorAttachments = new List<Texture2D>();
+            var colorAttachments = new List<IFramebufferAttachment>();
 
             List<DrawBuffersEnum> attachmentEnums = new List<DrawBuffersEnum>();
             for (int i = 0; i < colorAttachmentsCount; i++)
@@ -227,25 +207,6 @@ namespace SFGraphics.GLObjects.Framebuffers
             SetDrawBuffers(attachmentEnums.ToArray());
 
             return colorAttachments;
-        }
-
-        private void ResizeAllAttachments()
-        {
-            Bind();
-            
-            // Resize all attachments.
-            for (int i = 0; i < colorAttachments.Count; i++)
-            {
-                colorAttachments[i].Bind();
-                // TODO: Is it faster to just make a new texture?
-                GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat, width, height, 0, 
-                    PixelFormat.Rgba, PixelType.Float, IntPtr.Zero);
-                AttachTexture(FramebufferAttachment.ColorAttachment0 + i, colorAttachments[i]);
-            }
-
-            // Necessary for depth testing.
-            rboDepth = new Renderbuffer(width, height, RenderbufferStorage.DepthComponent);
-            AttachRenderbuffer(FramebufferAttachment.DepthAttachment, rboDepth);
         }
     }
 }

@@ -51,6 +51,7 @@
     <Compile Include="GLObjects\GLObjectManagement\GLObjectManager.cs" />
     <Compile Include="GLObjects\GLObject.cs" />
     <Compile Include="GLObjects\GLObjectManagement\ReferenceCounting.cs" />
+    <Compile Include="GLObjects\Framebuffers\IFramebufferAttachment.cs" />
     <Compile Include="GLObjects\Renderbuffers\Renderbuffer.cs" />
     <Compile Include="GLObjects\Samplers\SamplerObject.cs" />
     <Compile Include="GLObjects\Shaders\Utils\ActiveAttribInfo.cs" />
