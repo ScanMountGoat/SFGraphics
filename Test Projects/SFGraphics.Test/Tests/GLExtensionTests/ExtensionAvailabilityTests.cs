@@ -4,21 +4,24 @@ using SFGraphics.GlUtils;
 namespace GLExtensionTests
 {
     [TestClass()]
-    public class ExtensionAvailabilityTests
+    public class ExtensionAvailabilityTests : Tests.ContextTest
     {
-        [TestInitialize]
-        public void SetUpExtensions()
+        [TestMethod()]
+        public void CorrectName()
         {
-            // Set up the context for all the tests.
-            RenderTestUtils.OpenTKWindowlessContext.BindDummyContext();
-            OpenGLExtensions.InitializeCurrentExtensions();
+            Assert.IsTrue(OpenGLExtensions.IsAvailable("GL_ARB_sampler_objects"));
         }
 
         [TestMethod()]
-        [Ignore]
-        public void IsAvailableTest()
+        public void CorrectNameLowerCase()
         {
-            Assert.Fail("No extensions?");
+            Assert.IsTrue(OpenGLExtensions.IsAvailable("gl_arb_sampler_objects"));
+        }
+
+        [TestMethod()]
+        public void InvalidName()
+        {
+            Assert.IsFalse(OpenGLExtensions.IsAvailable("GL_dank_memes"));
         }
     }
 }
