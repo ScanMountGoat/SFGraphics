@@ -139,11 +139,11 @@ namespace SFGraphics.GLObjects.Textures
 
         /// <summary>
         /// Gets the image data for <paramref name="mipLevel"/>
-        /// in an RGBA unsigned byte format.
+        /// in an ABGR unsigned byte format.
         /// </summary>
         /// <param name="mipLevel">The mip level to read</param>
         /// <returns>The image data for <paramref name="mipLevel"/></returns>
-        public System.Drawing.Bitmap GetBitmap(int mipLevel)
+        public System.Drawing.Bitmap GetBitmap(int mipLevel = 0)
         {
             int channels = 4;
             byte[] data = new byte[Width * Height * sizeof(byte) * channels];

@@ -2,7 +2,6 @@
 using SFGraphics.Utils;
 using System.Drawing;
 
-
 namespace SFGraphicsTest.Test.BitmapUtilsTests
 {
     [TestClass]
