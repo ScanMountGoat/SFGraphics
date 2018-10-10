@@ -33,6 +33,11 @@ namespace SFGenericModel.RenderState
             this.polygonMode = polygonMode;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public override bool Equals(object obj)
         {
             if (!(obj is PolygonModeSettings))

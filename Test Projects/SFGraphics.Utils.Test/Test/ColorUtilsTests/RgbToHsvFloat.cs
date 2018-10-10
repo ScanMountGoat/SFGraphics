@@ -9,10 +9,7 @@ namespace ColorUtilsTests
         [TestMethod]
         public void RgbToHsvBlack()
         {
-            float h;
-            float s;
-            float v;
-            ColorUtils.RgbToHsv(0, 0, 0, out h, out s, out v);
+            ColorUtils.RgbToHsv(0, 0, 0, out float h, out float s, out float v);
 
             Assert.AreEqual(0, h);
             Assert.AreEqual(0, s);
@@ -22,10 +19,7 @@ namespace ColorUtilsTests
         [TestMethod]
         public void RgbToHsvWhite()
         {
-            float h;
-            float s;
-            float v;
-            ColorUtils.RgbToHsv(1, 1, 1, out h, out s, out v);
+            ColorUtils.RgbToHsv(1, 1, 1, out float h, out float s, out float v);
 
             Assert.AreEqual(0, h);
             Assert.AreEqual(0, s);
@@ -35,10 +29,7 @@ namespace ColorUtilsTests
         [TestMethod]
         public void RgbToHsvRed()
         {
-            float h;
-            float s;
-            float v;
-            ColorUtils.RgbToHsv(1, 0, 0, out h, out s, out v);
+            ColorUtils.RgbToHsv(1, 0, 0, out float h, out float s, out float v);
 
             Assert.AreEqual(0, h);
             Assert.AreEqual(1, s);

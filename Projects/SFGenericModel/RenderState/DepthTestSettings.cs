@@ -58,6 +58,10 @@ namespace SFGenericModel.RenderState
                    depthFunction == settings.depthFunction;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override int GetHashCode()
         {
             var hashCode = 1286869374;

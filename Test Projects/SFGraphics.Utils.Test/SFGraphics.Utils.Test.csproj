@@ -58,15 +58,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Test\BitmapUtilsTests\GetBitmap.cs" />
-    <Compile Include="Test\ColorUtilsTests\ClampFloatTest.cs" />
-    <Compile Include="Test\ColorUtilsTests\ClampIntTest.cs" />
-    <Compile Include="Test\ColorUtilsTests\FloatToIntClampTest.cs" />
-    <Compile Include="Test\ColorUtilsTests\HsvToRgbFloatTest.cs" />
-    <Compile Include="Test\ColorUtilsTests\HsvToRgbVec3Test.cs" />
-    <Compile Include="Test\ColorUtilsTests\InvertColorTest.cs" />
-    <Compile Include="Test\ColorUtilsTests\RgbToHsvFloatTest.cs" />
-    <Compile Include="Test\ColorUtilsTests\RgbToHsvVec3Test.cs" />
-    <Compile Include="Test\ColorUtilsTests\Vector4FromColorTest.cs" />
+    <Compile Include="Test\ColorUtilsTests\Clamp.cs" />
+    <Compile Include="Test\ColorUtilsTests\HsvToRgbFloat.cs" />
+    <Compile Include="Test\ColorUtilsTests\HsvToRgbVec3.cs" />
+    <Compile Include="Test\ColorUtilsTests\InvertColor.cs" />
+    <Compile Include="Test\ColorUtilsTests\RgbToHsvFloat.cs" />
+    <Compile Include="Test\ColorUtilsTests\RgbToHsvVec3.cs" />
+    <Compile Include="Test\ColorUtilsTests\Vector4FromColor.cs" />
     <Compile Include="Test\VectorUtilsTests\CalculateNormals.cs" />
     <Compile Include="Test\VectorUtilsTests\CalculateTangentBitangent.cs" />
     <Compile Include="Test\VectorUtilsTests\GetDegrees.cs" />

@@ -22,6 +22,20 @@ namespace SFGraphics.Utils
         }
 
         /// <summary>
+        /// Creates a <see cref="Color"/> from <paramref name="color"/>.
+        /// Values are scaled by 255 and clamped to the range [0, 255].
+        /// </summary>
+        /// <param name="color">The input color</param>
+        /// <returns>A new color</returns>
+        public static Color ColorFromVector3(Vector3 color)
+        {
+            int r = Clamp((int)(color.X * 255), 0, 255);
+            int g = Clamp((int)(color.Y * 255), 0, 255);
+            int b = Clamp((int)(color.Z * 255), 0, 255);
+            return Color.FromArgb(255, r, g, b);
+        }
+
+        /// <summary>
         /// Updates RGB values given an HSV color.
         /// </summary>
         /// <param name="h">Hue in range [0,360]</param>
@@ -279,33 +293,6 @@ namespace SFGraphics.Utils
         }
 
         /// <summary>
-        /// Returns the result of <paramref name="i"/> clamped between 
-        /// <paramref name="min"></paramref> and <paramref name="max"/>.     
-        /// </summary>
-        /// <param name="i">The input value</param>
-        /// <param name="min">Values lower than min are clamped to min.</param>
-        /// <param name="max">Values higher than max are clamped to max.</param>
-        /// <returns><paramref name="i"/> clamped between 
-        /// <paramref name="min"></paramref> and <paramref name="max"/></returns>
-        public static int ClampInt(int i, int min = 0, int max = 255) 
-        {
-            return Clamp(i, min, max);
-        }
-
-        /// Returns the result of <paramref name="f"/> clamped between 
-        /// <paramref name="min"></paramref> and <paramref name="max"/>.     
-        /// </summary>
-        /// <param name="f">The input value</param>
-        /// <param name="min">Values lower than min are clamped to min.</param>
-        /// <param name="max">Values higher than max are clamped to max.</param>
-        /// <returns><paramref name="f"/> clamped between 
-        /// <paramref name="min"></paramref> and <paramref name="max"/></returns>
-        public static float ClampFloat(float f, float min = 0, float max = 1) 
-        {
-            return Clamp(f, min, max);
-        }
-
-        /// <summary>
         /// Returns the result of <paramref name="value"/> clamped between
         /// <paramref name="min"/> and <paramref name="max"/>.
         /// </summary>
@@ -333,19 +320,6 @@ namespace SFGraphics.Utils
         public static Color InvertColor(Color color)
         {
             return Color.FromArgb(color.A, 255 - color.R, 255 - color.G, 255 - color.B);
-        }
-
-        /// <summary>
-        /// Converts f to an int clamped to the specified range.
-        /// </summary>
-        /// <param name="f">Multiplied by 255 and casted to int before being clamped</param>
-        /// <param name="min">Values lower than min are clamped to min.</param>
-        /// <param name="max">Values higher than max are clamped to max.</param>
-        /// <returns></returns>
-        public static int FloatToIntClamp(float f, int min = 0, int max = 255)
-        {
-            int i = (int)(f * 255);
-            return ClampInt(i, min, max);
         }
     }
 }
