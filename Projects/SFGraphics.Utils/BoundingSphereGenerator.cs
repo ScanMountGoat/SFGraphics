@@ -54,10 +54,7 @@ namespace SFGraphics.Utils
             float maxLength = Math.Max(Math.Max(xLength, yLength), zLength);
 
             // The center is the average in each direction.
-            Vector3 center = new Vector3(0);
-            center.X = (maxX + minX) / 2.0f;
-            center.Y = (maxY + minY) / 2.0f;
-            center.Z = (maxZ + minZ) / 2.0f;
+            Vector3 center = new Vector3((maxX + minX) / 2.0f, (maxY + minY) / 2.0f, (maxZ + minZ) / 2.0f);
 
             // The radius should be the hypotenuse of the triangle.
             // This ensures the sphere contains all points.

@@ -12,24 +12,24 @@ namespace SFGraphics.Utils
         private static readonly float MaxHueAngle = 360;
 
         /// <summary>
-        /// Converts the byte channel values of the input color [0,255] to float [0.0,1.0]. XYZW = RGBA.
+        /// Converts the byte channel values of the input color [0,255] to float [0, 1]. XYZW = RGBA.
         /// </summary>
-        /// <param name="color"></param>
-        /// <returns></returns>
+        /// <param name="color">the RGBA color</param>
+        /// <returns><paramref name="color"/> converted to a float vector</returns>
         public static Vector4 Vector4FromColor(Color color)
         {
             return new Vector4(color.R / 255f, color.G / 255f, color.B / 255f, color.A / 255f);
         }
 
         /// <summary>
-        /// 
+        /// Updates RGB values given an HSV color.
         /// </summary>
         /// <param name="h">Hue in range [0,360]</param>
         /// <param name="s">Saturation in range [0,1]. Values outside range are clamped.</param>
         /// <param name="v">Value</param>
-        /// <param name="r"></param>
-        /// <param name="g"></param>
-        /// <param name="b"></param>
+        /// <param name="r">The resulting red component</param>
+        /// <param name="g">The resulting green component</param>
+        /// <param name="b">The resulting blue component</param>
         public static void HsvToRgb(float h, float s, float v, out float r, out float g, out float b)
         {
             r = 1.0f;
@@ -126,14 +126,14 @@ namespace SFGraphics.Utils
         }
 
         /// <summary>
-        /// 
+        /// Updates HSV values given an RGB color.
         /// </summary>
-        /// <param name="r"></param>
-        /// <param name="g"></param>
-        /// <param name="b"></param>
-        /// <param name="h"></param>
-        /// <param name="s"></param>
-        /// <param name="v"></param>
+        /// <param name="h">The resulting hue in range [0,360]</param>
+        /// <param name="s">The resulting saturation in range [0,1]. Values outside range are clamped.</param>
+        /// <param name="v">The resulting value</param>
+        /// <param name="r">The red component</param>
+        /// <param name="g">The green component</param>
+        /// <param name="b">The blue component</param>
         public static void RgbToHsv(float r, float g, float b, out float h, out float s, out float v)
         {
             h = 360.0f;
@@ -149,7 +149,7 @@ namespace SFGraphics.Utils
         /// output.Z: value.
         /// </summary>
         /// <param name="rgb"></param>
-        /// <returns></returns>
+        /// <returns>The result float HSV values</returns>
         public static Vector3 RgbToHsv(Vector3 rgb)
         {
             float h = 360.0f;
@@ -202,118 +202,127 @@ namespace SFGraphics.Utils
         }
 
         /// <summary>
-        /// Calculates a visually similar RGB color to a blackbody.
+        /// Calculates a visually similar RGB color to a given blackbody temperature.
         /// </summary>
         /// <param name="temp">The color temperature in Kelvin. Ex: temp = 6500 for a calibrated PC monitor.</param>
-        /// <param name="R"></param>
-        /// <param name="G"></param>
-        /// <param name="B"></param>
-        public static void ColorTemp2RGB(float temp, out float R, out float G, out float B)
+        /// <param name="r">The resulting red component</param>
+        /// <param name="g">The resulting green component</param>
+        /// <param name="b">The resulting blue component</param>
+        public static void ColorTemp2RGB(float temp, out float r, out float g, out float b)
         {
             // Adapted from an approximation of the black body curve by Tanner Helland.
             // http://www.tannerhelland.com/4435/convert-temperature-rgb-algorithm-code/ 
 
-            R = 1.0f;
-            G = 1.0f;
-            B = 1.0f;
-
             // Use doubles for calculations and convert to float at the end.
             // No need for double precision floating point colors on GPU.
-            double Red = 255.0;
-            double Green = 255.0;
-            double Blue = 255.0;
+            double red = 255.0;
+            double green = 255.0;
+            double blue = 255.0;
 
             temp = temp / 100.0f;
 
             // Red calculations
             if (temp <= 66.0f)
-                Red = 255.0f;
+                red = 255.0f;
             else
             {
-                Red = temp - 60.0;
-                Red = 329.698727446 * Math.Pow(Red, -0.1332047592);
-                if (Red < 0.0)
-                    Red = 0.0;
-                if (Red > 255.0)
-                    Red = 255.0;
+                red = temp - 60.0;
+                red = 329.698727446 * Math.Pow(red, -0.1332047592);
+                if (red < 0.0)
+                    red = 0.0;
+                if (red > 255.0)
+                    red = 255.0;
             }
 
             // Green calculations
             if (temp <= 66.0)
             {
-                Green = temp;
-                Green = 99.4708025861 * Math.Log(Green) - 161.1195681661;
-                if (Green < 0.0)
-                    Green = 0.0;
-                if (Green > 255.0)
-                    Green = 255.0;
+                green = temp;
+                green = 99.4708025861 * Math.Log(green) - 161.1195681661;
+                if (green < 0.0)
+                    green = 0.0;
+                if (green > 255.0)
+                    green = 255.0;
             }
             else
             {
-                Green = temp - 60.0;
-                Green = 288.1221695283 * Math.Pow(Green, -0.0755148492);
-                if (Green < 0)
-                    Green = 0;
-                if (Green > 255)
-                    Green = 255;
+                green = temp - 60.0;
+                green = 288.1221695283 * Math.Pow(green, -0.0755148492);
+                if (green < 0)
+                    green = 0;
+                if (green > 255)
+                    green = 255;
             }
 
             // Blue calculations
             if (temp >= 66.0)
-                Blue = 255.0;
+                blue = 255.0;
             else if (temp <= 19.0)
-                Blue = 0.0;
+                blue = 0.0;
             else
             {
-                Blue = temp - 10;
-                Blue = 138.5177312231 * Math.Log(Blue) - 305.0447927307;
-                if (Blue < 0.0)
-                    Blue = 0.0;
-                if (Blue > 255)
-                    Blue = 255;
+                blue = temp - 10;
+                blue = 138.5177312231 * Math.Log(blue) - 305.0447927307;
+                if (blue < 0.0)
+                    blue = 0.0;
+                if (blue > 255)
+                    blue = 255;
             }
 
-            Red = Red / 255.0;
-            Green = Green / 255.0;
-            Blue = Blue / 255.0;
+            red = red / 255.0;
+            green = green / 255.0;
+            blue = blue / 255.0;
 
-            R = (float)Red;
-            G = (float)Green;
-            B = (float)Blue;
+            r = (float)red;
+            g = (float)green;
+            b = (float)blue;
         }
 
         /// <summary>
-        /// Returns an int restricted between min and max.
+        /// Returns the result of <paramref name="i"/> clamped between 
+        /// <paramref name="min"></paramref> and <paramref name="max"/>.     
         /// </summary>
-        /// <param name="i"></param>
+        /// <param name="i">The input value</param>
         /// <param name="min">Values lower than min are clamped to min.</param>
         /// <param name="max">Values higher than max are clamped to max.</param>
-        /// <returns></returns>
+        /// <returns><paramref name="i"/> clamped between 
+        /// <paramref name="min"></paramref> and <paramref name="max"/></returns>
         public static int ClampInt(int i, int min = 0, int max = 255) 
         {
-            if (i > max)
-                return max;
-            else if (i < min)
-                return min;
-            else
-                return i;
+            return Clamp(i, min, max);
+        }
+
+        /// Returns the result of <paramref name="f"/> clamped between 
+        /// <paramref name="min"></paramref> and <paramref name="max"/>.     
+        /// </summary>
+        /// <param name="f">The input value</param>
+        /// <param name="min">Values lower than min are clamped to min.</param>
+        /// <param name="max">Values higher than max are clamped to max.</param>
+        /// <returns><paramref name="f"/> clamped between 
+        /// <paramref name="min"></paramref> and <paramref name="max"/></returns>
+        public static float ClampFloat(float f, float min = 0, float max = 1) 
+        {
+            return Clamp(f, min, max);
         }
 
         /// <summary>
-        /// Returns a float restricted between min and max.
+        /// Returns the result of <paramref name="value"/> clamped between
+        /// <paramref name="min"/> and <paramref name="max"/>.
         /// </summary>
-        /// <param name="f"></param>
-        /// <param name="min">Values lower than min are clamped to min.</param>
-        /// <param name="max">Values higher than max are clamped to max.</param>
-        /// <returns></returns>
-        public static float ClampFloat(float f, float min = 0, float max = 1) 
+        /// <typeparam name="T">The type of value to compare</typeparam>
+        /// <param name="value">The input value</param>
+        /// <param name="min">The lowest possible output</param>
+        /// <param name="max">The highest possible output</param>
+        /// <returns>The result of <paramref name="value"/> clamped between
+        /// <paramref name="min"/> and <paramref name="max"/></returns>
+        public static T Clamp<T>(T value, T min, T max) where T : IComparable
         {
-            if (f > max)
+            if (value.CompareTo(max) > 0)
                 return max;
-            else if (f < min)
+            else if (value.CompareTo(min) < 0)
                 return min;
             else
-                return f;
+                return value;
         }
 
         /// <summary>
