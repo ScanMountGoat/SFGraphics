@@ -392,8 +392,7 @@ namespace SFGraphics.GLObjects.Shaders
 
             for (int i = 0; i < activeAttributeCount; i++)
             {
-                ActiveAttribType type;
-                string name = GL.GetActiveAttrib(Id, i, out int size, out type);
+                string name = GL.GetActiveAttrib(Id, i, out int size, out ActiveAttribType type);
                 // Ignore invalid attributes.
                 if (type != ActiveAttribType.None)
                 {

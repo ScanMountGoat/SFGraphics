@@ -45,6 +45,10 @@ namespace SFGenericModel.RenderState
                    polygonMode == settings.polygonMode;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override int GetHashCode()
         {
             var hashCode = -2139604081;

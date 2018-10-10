@@ -40,6 +40,11 @@ namespace SFGenericModel.RenderState
             this.depthFunction = depthFunction;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public override bool Equals(object obj)
         {
             if (!(obj is DepthTestSettings))

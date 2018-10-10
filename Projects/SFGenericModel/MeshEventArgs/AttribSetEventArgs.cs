@@ -14,6 +14,9 @@ namespace SFGenericModel.MeshEventArgs
         /// </summary>
         public string Name { get; }
 
+        /// <summary>
+        /// The data type of the attribute variable
+        /// </summary>
         public VertexAttribPointerType Type { get; }
 
         /// <summary>

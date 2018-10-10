@@ -41,6 +41,11 @@ namespace SFGenericModel.RenderState
             this.referenceAlpha = referenceAlpha;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public override bool Equals(object obj)
         {
             if (!(obj is AlphaTestSettings))
@@ -54,6 +59,10 @@ namespace SFGenericModel.RenderState
                    referenceAlpha == settings.referenceAlpha;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override int GetHashCode()
         {
             var hashCode = 1022993667;

@@ -56,6 +56,11 @@ namespace SFGenericModel.RenderState
             this.blendingEquationAlpha = blendingEquationAlpha;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public override bool Equals(object obj)
         {
             if (!(obj is AlphaBlendSettings))
@@ -71,6 +76,10 @@ namespace SFGenericModel.RenderState
                    blendingEquationAlpha == settings.blendingEquationAlpha;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override int GetHashCode()
         {
             var hashCode = 996220672;

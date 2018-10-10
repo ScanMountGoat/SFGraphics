@@ -33,6 +33,11 @@ namespace SFGenericModel.RenderState
             this.cullFaceMode = cullFaceMode;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public override bool Equals(object obj)
         {
             if (!(obj is FaceCullingSettings))
@@ -45,6 +50,10 @@ namespace SFGenericModel.RenderState
                    cullFaceMode == settings.cullFaceMode;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override int GetHashCode()
         {
             var hashCode = 96933389;
