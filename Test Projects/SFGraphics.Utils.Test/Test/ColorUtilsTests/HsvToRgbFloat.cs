@@ -4,15 +4,12 @@ using SFGraphics.Utils;
 namespace ColorUtilsTests
 {
     [TestClass]
-    public class HsvToRgbFloatTest
+    public class HsvToRgbFloat
     {
         [TestMethod]
-        public void HsvToRgbBlack()
+        public void Black()
         {
-            float r;
-            float g;
-            float b;
-            ColorUtils.HsvToRgb(0, 0, 0, out r, out g, out b);
+            ColorUtils.HsvToRgb(0, 0, 0, out float r, out float g, out float b);
 
             Assert.AreEqual(0, r);
             Assert.AreEqual(0, g);
@@ -20,12 +17,19 @@ namespace ColorUtilsTests
         }
 
         [TestMethod]
-        public void HsvToRgbWhite()
+        public void NegativeRed()
         {
-            float r;
-            float g;
-            float b;
-            ColorUtils.HsvToRgb(0, 0, 1, out r, out g, out b);
+            ColorUtils.HsvToRgb(0, 1, -1, out float r, out float g, out float b);
+
+            Assert.AreEqual(0, r);
+            Assert.AreEqual(0, g);
+            Assert.AreEqual(0, b);
+        }
+
+        [TestMethod]
+        public void White()
+        {
+            ColorUtils.HsvToRgb(0, 0, 1, out float r, out float g, out float b);
 
             Assert.AreEqual(1, r);
             Assert.AreEqual(1, g);
@@ -33,14 +37,61 @@ namespace ColorUtilsTests
         }
 
         [TestMethod]
-        public void HsvToRgbRed()
+        public void Red()
         {
-            float r;
-            float g;
-            float b;
-            ColorUtils.HsvToRgb(0, 1, 1, out r, out g, out b);
+            ColorUtils.HsvToRgb(0, 1, 1, out float r, out float g, out float b);
 
             Assert.AreEqual(1, r);
+            Assert.AreEqual(0, g);
+            Assert.AreEqual(0, b);
+        }
+
+        [TestMethod]
+        public void Cyan()
+        {
+            ColorUtils.HsvToRgb(180, 1, 1, out float r, out float g, out float b);
+
+            Assert.AreEqual(0, r);
+            Assert.AreEqual(1, g);
+            Assert.AreEqual(1, b);
+        }
+
+        [TestMethod]
+        public void Magenta()
+        {
+            ColorUtils.HsvToRgb(300, 1, 1, out float r, out float g, out float b);
+
+            Assert.AreEqual(1, r);
+            Assert.AreEqual(0, g);
+            Assert.AreEqual(1, b);
+        }
+
+        [TestMethod]
+        public void Yellow()
+        {
+            ColorUtils.HsvToRgb(60, 1, 1, out float r, out float g, out float b);
+
+            Assert.AreEqual(1, r);
+            Assert.AreEqual(1, g);
+            Assert.AreEqual(0, b);
+        }
+
+        [TestMethod]
+        public void GreyishRed()
+        {
+            ColorUtils.HsvToRgb(0, 0.5f, 1, out float r, out float g, out float b);
+
+            Assert.AreEqual(1, r);
+            Assert.AreEqual(0.5f, g);
+            Assert.AreEqual(0.5f, b);
+        }
+
+        [TestMethod]
+        public void BrightRed()
+        {
+            ColorUtils.HsvToRgb(0, 1, 10, out float r, out float g, out float b);
+
+            Assert.AreEqual(10, r);
             Assert.AreEqual(0, g);
             Assert.AreEqual(0, b);
         }

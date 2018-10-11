@@ -64,10 +64,8 @@
     <Compile Include="Test\ColorUtilsTests\GetColorTests\FromVector4.cs" />
     <Compile Include="Test\ColorUtilsTests\GetVector3FromColor.cs" />
     <Compile Include="Test\ColorUtilsTests\HsvToRgbFloat.cs" />
-    <Compile Include="Test\ColorUtilsTests\HsvToRgbVec3.cs" />
     <Compile Include="Test\ColorUtilsTests\InvertColor.cs" />
     <Compile Include="Test\ColorUtilsTests\RgbToHsvFloat.cs" />
-    <Compile Include="Test\ColorUtilsTests\RgbToHsvVec3.cs" />
     <Compile Include="Test\ColorUtilsTests\GetVector4FromColor.cs" />
     <Compile Include="Test\VectorUtilsTests\CalculateNormals.cs" />
     <Compile Include="Test\VectorUtilsTests\CalculateTangentBitangent.cs" />

@@ -9,7 +9,7 @@ namespace SFGraphics.Utils
     /// </summary>
     public static class ColorUtils
     {
-        private static readonly float MaxHueAngle = 360;
+        private static readonly float maxHueAngle = 360;
 
         /// <summary>
         /// Converts the byte channel values of the input color [0,255] to float [0, 1]. XYZW = RGBA.
@@ -93,28 +93,6 @@ namespace SFGraphics.Utils
         }
 
         /// <summary>
-        /// Calculates a floating point RGB color given HSV values.
-        /// </summary>
-        /// <param name="hsv">
-        /// X: Hue in range [0.0,1.0],
-        /// Y: Saturation in range [0.0,1.0],
-        /// Z: Value
-        /// </param>
-        /// <returns>The given HSV color in RGB</returns>
-        public static Vector3 HsvToRgb(Vector3 hsv)
-        {
-            float r = 1.0f;
-            float g = 1.0f;
-            float b = 1.0f;
-            float h = hsv.X * MaxHueAngle;
-            float s = hsv.Y;
-            float v = hsv.Z;
-
-            CalculateRgbFromHsv(h, s, v, ref r, ref g, ref b);
-            return new Vector3(r, g, b);
-        }
-
-        /// <summary>
         /// Updates HSV values given an RGB color.
         /// </summary>
         /// <param name="h">The resulting hue in range [0,360]</param>
@@ -133,33 +111,13 @@ namespace SFGraphics.Utils
         }
 
         /// <summary>
-        /// Converts the floating point color in RGB to HSV. 
-        /// output.X: hue in range [0,1], output.Y: saturation in range [0,1], 
-        /// output.Z: value.
-        /// </summary>
-        /// <param name="rgb"></param>
-        /// <returns>The result float HSV values</returns>
-        public static Vector3 RgbToHsv(Vector3 rgb)
-        {
-            float h = 360.0f;
-            float s = 1.0f;
-            float v = 1.0f;
-            float r = rgb.X;
-            float g = rgb.Y;
-            float b = rgb.Z;
-
-            CalculateHsvFromRgb(r, g, b, ref h, ref s, ref v);
-            return new Vector3(h / MaxHueAngle, s, v);
-        }
-
-        /// <summary>
         /// Calculates a visually similar RGB color to a given blackbody temperature.
         /// </summary>
-        /// <param name="temp">The color temperature in Kelvin. Ex: temp = 6500 for a calibrated PC monitor.</param>
+        /// <param name="temperatureKelvin">The color temperature in Kelvin. Ex: temp = 6500 for a calibrated PC monitor.</param>
         /// <param name="r">The resulting red component</param>
         /// <param name="g">The resulting green component</param>
         /// <param name="b">The resulting blue component</param>
-        public static void ColorTemp2RGB(float temp, out float r, out float g, out float b)
+        public static void GetRgb(float temperatureKelvin, out float r, out float g, out float b)
         {
             // Adapted from an approximation of the black body curve by Tanner Helland.
             // http://www.tannerhelland.com/4435/convert-temperature-rgb-algorithm-code/ 
@@ -170,14 +128,14 @@ namespace SFGraphics.Utils
             double green = 255.0;
             double blue = 255.0;
 
-            temp = temp / 100.0f;
+            temperatureKelvin = temperatureKelvin / 100.0f;
 
             // Red calculations
-            if (temp <= 66.0f)
+            if (temperatureKelvin <= 66.0f)
                 red = 255.0f;
             else
             {
-                red = temp - 60.0;
+                red = temperatureKelvin - 60.0;
                 red = 329.698727446 * Math.Pow(red, -0.1332047592);
                 if (red < 0.0)
                     red = 0.0;
@@ -186,9 +144,9 @@ namespace SFGraphics.Utils
             }
 
             // Green calculations
-            if (temp <= 66.0)
+            if (temperatureKelvin <= 66.0)
             {
-                green = temp;
+                green = temperatureKelvin;
                 green = 99.4708025861 * Math.Log(green) - 161.1195681661;
                 if (green < 0.0)
                     green = 0.0;
@@ -197,7 +155,7 @@ namespace SFGraphics.Utils
             }
             else
             {
-                green = temp - 60.0;
+                green = temperatureKelvin - 60.0;
                 green = 288.1221695283 * Math.Pow(green, -0.0755148492);
                 if (green < 0)
                     green = 0;
@@ -206,13 +164,13 @@ namespace SFGraphics.Utils
             }
 
             // Blue calculations
-            if (temp >= 66.0)
+            if (temperatureKelvin >= 66.0)
                 blue = 255.0;
-            else if (temp <= 19.0)
+            else if (temperatureKelvin <= 19.0)
                 blue = 0.0;
             else
             {
-                blue = temp - 10;
+                blue = temperatureKelvin - 10;
                 blue = 138.5177312231 * Math.Log(blue) - 305.0447927307;
                 if (blue < 0.0)
                     blue = 0.0;
@@ -259,13 +217,33 @@ namespace SFGraphics.Utils
             return Color.FromArgb(color.A, 255 - color.R, 255 - color.G, 255 - color.B);
         }
 
+        private static float RestrictHue(float hue)
+        {
+            while (hue < 0)
+                hue += maxHueAngle;
+            while (hue > 360)
+                hue -= maxHueAngle;
+
+            return hue;
+        }
+
+        private static int FloatToIntClamp(float r)
+        {
+            return Clamp((int)(r * 255), 0, 255);
+        }
+
         private static void CalculateHsvFromRgb(float r, float g, float b, ref float h, ref float s, ref float v)
         {
-            float cMax = Math.Max(Math.Max(r, g), b);
-            float cMin = Math.Min(Math.Min(r, g), b);
-            float delta = cMax - cMin;
+            // Negative colors don't make sense.
+            r = Math.Max(r, 0);
+            g = Math.Max(g, 0);
+            b = Math.Max(b, 0);
 
-            v = cMax;
+            float minComponent = Math.Max(Math.Max(r, g), b);
+            float maxComponent = Math.Min(Math.Min(r, g), b);
+            float delta = minComponent - maxComponent;
+
+            v = minComponent;
 
             if (delta == 0)
                 h = 0;
@@ -283,37 +261,27 @@ namespace SFGraphics.Utils
             }
             else
             {
-                if (r == cMax)
+                if (r == minComponent)
                     h = 60.0f * (((g - b) / delta));
-
-                else if (g == cMax)
+                else if (g == minComponent)
                     h = 60.0f * (((b - r) / delta) + 2);
-
-                else if (b == cMax)
+                else if (b == minComponent)
                     h = 60.0f * (((r - g) / delta) + 4);
 
-                while (h < 0.0f)
-                    h += 360.0f;
+                h = RestrictHue(h);
             }
-        }
-
-        private static int FloatToIntClamp(float r)
-        {
-            return Clamp((int)(r * 255), 0, 255);
         }
 
         private static void CalculateRgbFromHsv(float h, float s, float v, ref float r, ref float g, ref float b)
         {
             // Hue has to be 0 to 360.
-            while (h > 360)
-                h -= 360;
-            while (h < 0)
-                h += 360;
+            h = RestrictHue(h);
+
             // Saturation has to be 0 to 1.
-            if (s > 1)
-                s = 1;
-            if (s < 0)
-                s = 0;
+            s = Clamp(s, 0, 1);
+
+            // Negative colors don't make sense.
+            v = Math.Max(v, 0);
 
             float hf = h / 60.0f;
             int i = (int)Math.Floor(hf);
