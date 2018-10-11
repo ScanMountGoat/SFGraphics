@@ -16,23 +16,62 @@ namespace SFGraphics.Utils
         /// </summary>
         /// <param name="color">the RGBA color</param>
         /// <returns><paramref name="color"/> converted to a float vector</returns>
-        public static Vector4 Vector4FromColor(Color color)
+        public static Vector4 GetVector4(Color color)
         {
             return new Vector4(color.R / 255f, color.G / 255f, color.B / 255f, color.A / 255f);
         }
 
         /// <summary>
-        /// Creates a <see cref="Color"/> from <paramref name="color"/>.
-        /// Values are scaled by 255 and clamped to the range [0, 255].
+        /// Converts the byte channel values of the input color [0,255] to float [0, 1]. XYZ = RGB.
+        /// </summary>
+        /// <param name="color">the RGBA color</param>
+        /// <returns><paramref name="color"/> converted to a float vector</returns>
+        public static Vector3 GetVector3(Color color)
+        {
+            return new Vector3(color.R / 255f, color.G / 255f, color.B / 255f);
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Color"/> from float components
+        /// scaled by 255 and clamped to the range [0, 255].
+        /// </summary>
+        /// <param name="r">The red component</param>
+        /// <param name="g">The green component</param>
+        /// <param name="b">The blue component</param>
+        /// <param name="a">The alpha component</param>
+        /// <returns>A new color from the given floats</returns>
+        public static Color GetColor(float r, float g, float b, float a = 1)
+        {
+            int red = FloatToIntClamp(r);
+            int green = FloatToIntClamp(g);
+            int blue = FloatToIntClamp(b);
+            int alpha = FloatToIntClamp(a);
+            return Color.FromArgb(alpha, red, green, blue);
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Color"/> from float components
+        /// scaled by 255 and clamped to the range [0, 255].
         /// </summary>
         /// <param name="color">The input color</param>
-        /// <returns>A new color</returns>
-        public static Color ColorFromVector3(Vector3 color)
+        /// <returns>A new color from the given floats</returns>
+        public static Color GetColor(Vector3 color)
         {
-            int r = Clamp((int)(color.X * 255), 0, 255);
-            int g = Clamp((int)(color.Y * 255), 0, 255);
-            int b = Clamp((int)(color.Z * 255), 0, 255);
-            return Color.FromArgb(255, r, g, b);
+            int red = FloatToIntClamp(color.X);
+            int green = FloatToIntClamp(color.Y);
+            int blue = FloatToIntClamp(color.Z);
+            return Color.FromArgb(255, red, green, blue);
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Color"/> from float components
+        /// scaled by 255 and clamped to the range [0, 255].
+        /// </summary>
+        /// <param name="color">The input color</param>
+        /// <returns>A new color from the given floats</returns>
+        public static Color GetColor(Vector4 color)
+        {
+            return GetColor(color.X, color.Y, color.Z, color.W);
         }
 
         /// <summary>
@@ -75,70 +114,6 @@ namespace SFGraphics.Utils
             return new Vector3(r, g, b);
         }
 
-        private static void CalculateRgbFromHsv(float h, float s, float v, ref float r, ref float g, ref float b)
-        {
-            // Hue has to be 0 to 360.
-            while (h > 360)
-                h -= 360;
-            while (h < 0)
-                h += 360;
-            // Saturation has to be 0 to 1.
-            if (s > 1)
-                s = 1;
-            if (s < 0)
-                s = 0;
-
-            float hf = h / 60.0f;
-            int i = (int)Math.Floor(hf);
-            float f = hf - i;
-            float pv = v * (1 - s);
-            float qv = v * (1 - s * f);
-            float tv = v * (1 - s * (1 - f));
-
-            switch (i)
-            {
-                // Red is the dominant color
-                case 0:
-                    r = v;
-                    g = tv;
-                    b = pv;
-                    break;
-                // Green is the dominant color
-                case 1:
-                    r = qv;
-                    g = v;
-                    b = pv;
-                    break;
-                case 2:
-                    r = pv;
-                    g = v;
-                    b = tv;
-                    break;
-                // Blue is the dominant color
-                case 3:
-                    r = pv;
-                    g = qv;
-                    b = v;
-                    break;
-                case 4:
-                    r = tv;
-                    g = pv;
-                    b = v;
-                    break;
-                // Red is the dominant color
-                case 5:
-                    r = v;
-                    g = pv;
-                    b = qv;
-                    break;
-                case 6:
-                    r = v;
-                    g = tv;
-                    b = pv;
-                    break;
-            }
-        }
-
         /// <summary>
         /// Updates HSV values given an RGB color.
         /// </summary>
@@ -175,44 +150,6 @@ namespace SFGraphics.Utils
 
             CalculateHsvFromRgb(r, g, b, ref h, ref s, ref v);
             return new Vector3(h / MaxHueAngle, s, v);
-        }
-
-        private static void CalculateHsvFromRgb(float r, float g, float b, ref float h, ref float s, ref float v)
-        {
-            float cMax = Math.Max(Math.Max(r, g), b);
-            float cMin = Math.Min(Math.Min(r, g), b);
-            float delta = cMax - cMin;
-
-            v = cMax;
-
-            if (delta == 0)
-                h = 0;
-
-            // Check for divide by 0.
-            if (v == 0)
-                s = 0.0f;
-            else
-                s = delta / v;
-
-            // Check for divide by 0.
-            if (delta == 0)
-            {
-                h = 0;
-            }
-            else
-            {
-                if (r == cMax)
-                    h = 60.0f * (((g - b) / delta));
-
-                else if (g == cMax)
-                    h = 60.0f * (((b - r) / delta) + 2);
-
-                else if (b == cMax)
-                    h = 60.0f * (((r - g) / delta) + 4);
-
-                while (h < 0.0f)
-                    h += 360.0f;
-            }
         }
 
         /// <summary>
@@ -320,6 +257,113 @@ namespace SFGraphics.Utils
         public static Color InvertColor(Color color)
         {
             return Color.FromArgb(color.A, 255 - color.R, 255 - color.G, 255 - color.B);
+        }
+
+        private static void CalculateHsvFromRgb(float r, float g, float b, ref float h, ref float s, ref float v)
+        {
+            float cMax = Math.Max(Math.Max(r, g), b);
+            float cMin = Math.Min(Math.Min(r, g), b);
+            float delta = cMax - cMin;
+
+            v = cMax;
+
+            if (delta == 0)
+                h = 0;
+
+            // Check for divide by 0.
+            if (v == 0)
+                s = 0.0f;
+            else
+                s = delta / v;
+
+            // Check for divide by 0.
+            if (delta == 0)
+            {
+                h = 0;
+            }
+            else
+            {
+                if (r == cMax)
+                    h = 60.0f * (((g - b) / delta));
+
+                else if (g == cMax)
+                    h = 60.0f * (((b - r) / delta) + 2);
+
+                else if (b == cMax)
+                    h = 60.0f * (((r - g) / delta) + 4);
+
+                while (h < 0.0f)
+                    h += 360.0f;
+            }
+        }
+
+        private static int FloatToIntClamp(float r)
+        {
+            return Clamp((int)(r * 255), 0, 255);
+        }
+
+        private static void CalculateRgbFromHsv(float h, float s, float v, ref float r, ref float g, ref float b)
+        {
+            // Hue has to be 0 to 360.
+            while (h > 360)
+                h -= 360;
+            while (h < 0)
+                h += 360;
+            // Saturation has to be 0 to 1.
+            if (s > 1)
+                s = 1;
+            if (s < 0)
+                s = 0;
+
+            float hf = h / 60.0f;
+            int i = (int)Math.Floor(hf);
+            float f = hf - i;
+            float pv = v * (1 - s);
+            float qv = v * (1 - s * f);
+            float tv = v * (1 - s * (1 - f));
+
+            switch (i)
+            {
+                // Red is the dominant color
+                case 0:
+                    r = v;
+                    g = tv;
+                    b = pv;
+                    break;
+                // Green is the dominant color
+                case 1:
+                    r = qv;
+                    g = v;
+                    b = pv;
+                    break;
+                case 2:
+                    r = pv;
+                    g = v;
+                    b = tv;
+                    break;
+                // Blue is the dominant color
+                case 3:
+                    r = pv;
+                    g = qv;
+                    b = v;
+                    break;
+                case 4:
+                    r = tv;
+                    g = pv;
+                    b = v;
+                    break;
+                // Red is the dominant color
+                case 5:
+                    r = v;
+                    g = pv;
+                    b = qv;
+                    break;
+                case 6:
+                    r = v;
+                    g = tv;
+                    b = pv;
+                    break;
+            }
         }
     }
 }
