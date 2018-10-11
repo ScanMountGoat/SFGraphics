@@ -59,6 +59,7 @@
   <ItemGroup>
     <Compile Include="Test\BitmapUtilsTests\GetBitmap.cs" />
     <Compile Include="Test\ColorUtilsTests\Clamp.cs" />
+    <Compile Include="Test\ColorUtilsTests\GetColorVector3.cs" />
     <Compile Include="Test\ColorUtilsTests\HsvToRgbFloat.cs" />
     <Compile Include="Test\ColorUtilsTests\HsvToRgbVec3.cs" />
     <Compile Include="Test\ColorUtilsTests\InvertColor.cs" />
