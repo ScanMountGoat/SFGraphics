@@ -24,30 +24,5 @@ namespace SFGraphics.GLObjects.Shaders
         {
             errorLog.AppendShaderInfoLog(shaderName, shaderType, id);
         }
-
-        private bool CheckProgramStatus()
-        {
-            // Check for linker errors. 
-            // Compilation errors in individual shaders will also cause linker errors.
-            bool programLinkedSuccessfully = GetProgramLinkStatus();
-            return programLinkedSuccessfully;
-        }
-
-        private bool GetProgramLinkStatus()
-        {
-            // 1: linked successfully. 0: linker errors
-            int linkStatus = 1;
-            GL.GetProgram(Id, GetProgramParameterName.LinkStatus, out linkStatus);
-            return linkStatus != 0;
-        }
-
-        private bool GetProgramValidateStatus()
-        {
-            // 1: valid. 0: not valid
-            int validateStatus = 1;
-            GL.ValidateProgram(Id);
-            GL.GetProgram(Id, GetProgramParameterName.ValidateStatus, out validateStatus);
-            return validateStatus != 0;
-        }
     }
 }

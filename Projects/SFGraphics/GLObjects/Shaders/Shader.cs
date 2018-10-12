@@ -39,7 +39,7 @@ namespace SFGraphics.GLObjects.Shaders
         /// <para></para><para></para>
         /// This should be checked at runtime and only for debugging purposes.
         /// </summary>
-        public bool ValidateStatusIsOk {  get { return GetProgramValidateStatus(); } }
+        public bool ValidateStatusIsOk {  get { return Utils.ShaderValidation.GetProgramValidateStatus(Id); } }
 
         /// <summary>
         /// </summary>
@@ -238,7 +238,7 @@ namespace SFGraphics.GLObjects.Shaders
         {
             GL.ProgramBinary(Id, binaryFormat, programBinary, programBinary.Length);
 
-            LinkStatusIsOk = CheckProgramStatus();
+            LinkStatusIsOk = ShaderValidation.GetProgramLinkStatus(Id);
 
             // Scary things happen if we do this after a linking error.
             if (LinkStatusIsOk)
@@ -326,7 +326,7 @@ namespace SFGraphics.GLObjects.Shaders
         private void LinkProgramSetUpVariables()
         {
             GL.LinkProgram(Id);
-            LinkStatusIsOk = CheckProgramStatus();
+            LinkStatusIsOk = ShaderValidation.GetProgramLinkStatus(Id);
 
             // Scary things happen if we do this after a linking error.
             if (LinkStatusIsOk)
