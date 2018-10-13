@@ -300,6 +300,19 @@ namespace SFGraphics.GLObjects.Shaders
             return GL.GetUniformBlockIndex(Id, name);
         }
 
+        /// <summary>
+        /// Gets the error log containing hardware info, version number, compilation/linker errors, 
+        /// and attempts to initialize invalid uniform or vertex attribute names.
+        /// </summary>
+        /// <returns>A String of all detected errors</returns>
+        public string GetErrorLog()
+        {
+            // Don't append program errors until all the shaders are attached and compiled.
+            errorLog.AppendProgramInfoLog(Id);
+
+            return errorLog.ToString();
+        }
+
         private int[] GetAttachedShaders()
         {
             GL.GetProgram(Id, GetProgramParameterName.AttachedShaders, out int shaderCount);
@@ -313,7 +326,7 @@ namespace SFGraphics.GLObjects.Shaders
         private void AttachShaderNoLink(int shaderId, ShaderType shaderType, string shaderName = "")
         {
             GL.AttachShader(Id, shaderId);
-            AppendShaderCompilationErrors(shaderName, shaderType, shaderId);
+            errorLog.AppendShaderInfoLog(shaderName, shaderType, shaderId);
 
             // The shader won't be deleted until the program is deleted.
             GL.DeleteShader(shaderId);

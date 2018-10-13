@@ -60,7 +60,6 @@
     <Compile Include="GLObjects\Shaders\ShaderSetters.cs" />
     <Compile Include="GLObjects\Shaders\Shader.cs" />
     <Compile Include="GLObjects\Shaders\Utils\ShaderLog.cs" />
-    <Compile Include="GLObjects\Shaders\ShaderErrorLog.cs" />
     <Compile Include="GLObjects\Shaders\ShaderEventArgs\UniformSetEventArgs.cs" />
     <Compile Include="GLObjects\Shaders\Utils\ShaderValidation.cs" />
     <Compile Include="GLObjects\Textures\Utils\MipmapLoading.cs" />
