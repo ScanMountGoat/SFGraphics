@@ -55,7 +55,7 @@
     <EmbeddedResource Include="Shaders\invalidVert.vert" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Shaders\linkError.frag" />
+    <EmbeddedResource Include="Shaders\undefinedFunction.frag" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Shaders\validFrag.frag" />
@@ -68,6 +68,9 @@
       <Project>{a62e9240-ef67-41e5-a4e1-43f0afa759f4}</Project>
       <Name>SFGraphics</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Shaders\definedFunction.frag" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

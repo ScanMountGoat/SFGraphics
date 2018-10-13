@@ -20,7 +20,7 @@ namespace ShaderTests.ProgramCreationTests
             Shader shader = new Shader();
 
             // The shader declared but does not define a function.
-            string fragSource = RenderTestUtils.ResourceShaders.GetShaderSource("linkError.frag");
+            string fragSource = RenderTestUtils.ResourceShaders.GetShaderSource("undefinedFunction.frag");
             shader.LoadShader(fragSource, ShaderType.FragmentShader);
             Assert.IsFalse(shader.LinkStatusIsOk);
         }

@@ -235,13 +235,11 @@ namespace SFGraphics.GLObjects.Shaders
         /// <param name="programBinary">The compiled program binary</param>
         public void LoadProgramBinary(byte[] programBinary, BinaryFormat binaryFormat)
         {
+            // Linking isn't necessary when loading a program binary.
             GL.ProgramBinary(Id, binaryFormat, programBinary, programBinary.Length);
-
             LinkStatusIsOk = ShaderValidation.GetProgramLinkStatus(Id);
 
-            // Scary things happen if we do this after a linking error.
-            if (LinkStatusIsOk)
-                LoadShaderVariables();
+            LoadShaderVariables();
         }
 
         /// <summary>
@@ -341,28 +339,33 @@ namespace SFGraphics.GLObjects.Shaders
             GL.LinkProgram(Id);
             LinkStatusIsOk = ShaderValidation.GetProgramLinkStatus(Id);
 
-            // Scary things happen if we do this after a linking error.
-            if (LinkStatusIsOk)
-                LoadShaderVariables();
+            LoadShaderVariables();
         }
 
         private void LoadShaderVariables()
         {
+            // Scary things happen if we do this after a linking error.
+            if (!LinkStatusIsOk)
+                return;
+
             LoadAttributes();
             LoadUniforms();
         }
 
-        private void AddVertexAttribute(string name, ActiveAttribType type, int size)
+        private void AddActiveAttribute(int index)
         {
+            string name = GL.GetActiveAttrib(Id, index, out int size, out ActiveAttribType type);
+            int location = GL.GetAttribLocation(Id, name);
+
             // Overwrite existing vertex attributes.
-            int location = GL.GetAttribLocation(Id, name);        
             activeAttribByName[name] = new ActiveAttribInfo(location, type, size);
         }
 
-        private void AddUniform(string name, ActiveUniformType type, int size)
+        private void AddActiveUniform(int index)
         {
-            string nameNoArrayIndex = GetNameNoArrayBrackets(name);
+            string name = GL.GetActiveUniform(Id, index, out int size, out ActiveUniformType type);
 
+            string nameNoArrayIndex = GetNameNoArrayBrackets(name);
             string nameArrayIndex0 = nameNoArrayIndex + "[0]";
 
             // Uniform arrays can be "array[0]" or "array"
@@ -376,10 +379,10 @@ namespace SFGraphics.GLObjects.Shaders
 
         private static string GetNameNoArrayBrackets(string name)
         {
-            string nameNoArrayIndex = name;
             if (name.Contains("["))
-                nameNoArrayIndex = name.Substring(0, name.IndexOf('['));
-            return nameNoArrayIndex;
+                return name.Substring(0, name.IndexOf('['));
+            else
+                return name;
         }
 
         private void LoadUniforms()
@@ -390,12 +393,7 @@ namespace SFGraphics.GLObjects.Shaders
             GL.GetProgram(Id, GetProgramParameterName.ActiveUniforms, out activeUniformCount);
             for (int i = 0; i < activeUniformCount; i++)
             {
-                // Ignore invalid uniforms. 0 is "None" for type.
-                string uniform = GL.GetActiveUniform(Id, i, out int uniformSize, out ActiveUniformType uniformType);
-                if (uniformType != 0)
-                {
-                    AddUniform(uniform, uniformType, uniformSize);
-                }
+                AddActiveUniform(i);
             }
         }
 
@@ -405,12 +403,7 @@ namespace SFGraphics.GLObjects.Shaders
 
             for (int i = 0; i < activeAttributeCount; i++)
             {
-                string name = GL.GetActiveAttrib(Id, i, out int size, out ActiveAttribType type);
-                // Ignore invalid attributes.
-                if (type != ActiveAttribType.None)
-                {
-                    AddVertexAttribute(name, type, size);
-                }
+                AddActiveAttribute(i);
             }
         }
 
