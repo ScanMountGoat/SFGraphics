@@ -35,7 +35,10 @@ namespace SFGraphics.GLObjects.Shaders
             private set
             {
                 if (linkStatusIsOk != value)
-                    OnLinkStatusChanged?.Invoke(this, value);
+                {
+                    var linkStatusArgs = new LinkStatusEventArgs() { LinkStatus = value };
+                    OnLinkStatusChanged?.Invoke(this, linkStatusArgs);
+                }
                 linkStatusIsOk = value;
             }
         }
@@ -47,9 +50,10 @@ namespace SFGraphics.GLObjects.Shaders
         /// <para></para><para></para>
         /// This should be checked at runtime and only for debugging purposes.
         /// </summary>
-        public bool ValidateStatusIsOk {  get { return Utils.ShaderValidation.GetProgramValidateStatus(Id); } }
+        public bool ValidateStatusIsOk {  get { return ShaderValidation.GetProgramValidateStatus(Id); } }
 
         /// <summary>
+        /// 
         /// </summary>
         /// <param name="sender">The shader that generated the error</param>
         /// <param name="e">The arguments used to set the uniform</param>
@@ -59,9 +63,9 @@ namespace SFGraphics.GLObjects.Shaders
         /// 
         /// </summary>
         /// <param name="sender">The shader that generated the event</param>
-        /// <param name="linkStatusIsOk">The new link status. 
+        /// <param name="e">Information about the previous shader program linking. 
         /// <c>true</c> when linking was successful</param>
-        public delegate void LinkStatusChangedEventHandler(Shader sender, bool linkStatusIsOk);
+        public delegate void LinkStatusChangedEventHandler(Shader sender, LinkStatusEventArgs e);
 
         /// <summary>
         /// Occurs when arguments for setting a uniform don't match the shader.

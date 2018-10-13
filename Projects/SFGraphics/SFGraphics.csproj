@@ -54,6 +54,7 @@
     <Compile Include="GLObjects\Framebuffers\IFramebufferAttachment.cs" />
     <Compile Include="GLObjects\Renderbuffers\Renderbuffer.cs" />
     <Compile Include="GLObjects\Samplers\SamplerObject.cs" />
+    <Compile Include="GLObjects\Shaders\ShaderEventArgs\LinkStatusEventArgs.cs" />
     <Compile Include="GLObjects\Shaders\Utils\ActiveAttribInfo.cs" />
     <Compile Include="GLObjects\Shaders\Utils\ActiveUniformInfo.cs" />
     <Compile Include="GLObjects\Shaders\Utils\ShaderTypeConversions.cs" />

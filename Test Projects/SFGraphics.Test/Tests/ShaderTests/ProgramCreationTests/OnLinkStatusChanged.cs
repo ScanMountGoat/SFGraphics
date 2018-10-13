@@ -2,6 +2,7 @@
 using OpenTK.Graphics.OpenGL;
 using SFGraphics.GLObjects.Shaders;
 using System.Collections.Generic;
+using SFGraphics.GLObjects.Shaders.ShaderEventArgs;
 
 namespace ShaderTests.ProgramCreationTests
 {
@@ -9,7 +10,7 @@ namespace ShaderTests.ProgramCreationTests
     public class OnLinkStatusChanged
     {
         private Shader shader;
-        private List<bool> linkChangedEvents = new List<bool>();
+        private List<LinkStatusEventArgs> linkChangedEvents = new List<LinkStatusEventArgs>();
 
         [TestInitialize()]
         public void Initialize()
@@ -20,7 +21,7 @@ namespace ShaderTests.ProgramCreationTests
             shader.OnLinkStatusChanged += Shader_OnLinkStatusChanged;
         }
 
-        private void Shader_OnLinkStatusChanged(Shader sender, bool linkStatusIsOk)
+        private void Shader_OnLinkStatusChanged(Shader sender, LinkStatusEventArgs linkStatusIsOk)
         {
             linkChangedEvents.Add(linkStatusIsOk);
         }
@@ -31,7 +32,8 @@ namespace ShaderTests.ProgramCreationTests
             string shaderSource = RenderTestUtils.ResourceShaders.GetShaderSource("validFrag.frag");
             shader.LoadShader(shaderSource, ShaderType.FragmentShader);
 
-            CollectionAssert.AreEqual(new List<bool>() { true }, linkChangedEvents);
+            Assert.AreEqual(1, linkChangedEvents.Count);
+            Assert.AreEqual(true, linkChangedEvents[0].LinkStatus);
         }
 
         [TestMethod]
@@ -43,7 +45,9 @@ namespace ShaderTests.ProgramCreationTests
             string shaderSourceInvalid = RenderTestUtils.ResourceShaders.GetShaderSource("invalidFrag.frag");
             shader.LoadShader(shaderSourceInvalid, ShaderType.FragmentShader);
 
-            CollectionAssert.AreEqual(new List<bool>() { true, false }, linkChangedEvents);
+            Assert.AreEqual(2, linkChangedEvents.Count);
+            Assert.AreEqual(true, linkChangedEvents[0].LinkStatus);
+            Assert.AreEqual(false, linkChangedEvents[1].LinkStatus);
         }
     }
 }

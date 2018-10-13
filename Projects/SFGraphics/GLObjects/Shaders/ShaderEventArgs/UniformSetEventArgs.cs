@@ -11,36 +11,21 @@ namespace SFGraphics.GLObjects.Shaders.ShaderEventArgs
         /// <summary>
         /// The name of the uniform variable.
         /// </summary>
-        public string Name { get; }
+        public string Name { get; set; }
 
         /// <summary>
         /// The data type of the uniform.
         /// </summary>
-        public ActiveUniformType Type { get; }
+        public ActiveUniformType Type { get; set; }
 
         /// <summary>
         /// The value used to initialize the uniform variable.
         /// </summary>
-        public object Value { get; }
+        public object Value { get; set; }
 
         /// <summary>
         /// The number of components for <see cref="Value"/>.
         /// </summary>
-        public int Size { get; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="type"></param>
-        /// <param name="value"></param>
-        /// <param name="size"></param>
-        public UniformSetEventArgs(string name, ActiveUniformType type, object value, int size)
-        {
-            Name = name;
-            Type = type;
-            Value = value;
-            Size = size;
-        }
+        public int Size { get; set; }
     }
 }

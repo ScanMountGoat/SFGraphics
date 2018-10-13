@@ -337,8 +337,15 @@ namespace SFGraphics.GLObjects.Shaders
             bool validSamplerType = errorLog.IsValidSamplerType(textureUnit, uniformType);
             if (!validSamplerType)
             {
-                OnTextureUnitTypeMismatch?.Invoke(this,
-                    new UniformSetEventArgs(name, uniformType, texture, 1));
+                var uniformSetArgs = new UniformSetEventArgs()
+                {
+                    Name = name,
+                    Type = uniformType,
+                    Size = 1,
+                    Value = texture
+                };
+
+                OnTextureUnitTypeMismatch?.Invoke(this, uniformSetArgs);
             }
 
             bool validSet = validUniform && validSamplerType;
@@ -348,9 +355,15 @@ namespace SFGraphics.GLObjects.Shaders
         private void LogInvalidUniformSetRaiseEvent(string name, object value, ActiveUniformType type, int length = 1)
         {
             // TODO: This does multiple things and isn't very clear.
-            UniformSetEventArgs e = new UniformSetEventArgs(name, type, value, length);
-            errorLog.LogInvalidUniformSet(e);
-            OnInvalidUniformSet?.Invoke(this, e);
+            var uniformSetArgs = new UniformSetEventArgs()
+            {
+                Name = name,
+                Type = type,
+                Size = length,
+                Value = value
+            };
+            errorLog.LogInvalidUniformSet(uniformSetArgs);
+            OnInvalidUniformSet?.Invoke(this, uniformSetArgs);
         }
     }
 }
