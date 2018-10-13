@@ -20,13 +20,13 @@ namespace ShaderTests.ProgramCreationTests
             Shader shader = new Shader();
 
             // Load the shader files from the embedded resources.
-            string fragSource = RenderTestUtils.ResourceShaders.GetShaderSource("validFrag.frag");
+            string fragSource = RenderTestUtils.ResourceShaders.GetShaderSource("valid.frag");
             shader.LoadShader(fragSource, ShaderType.FragmentShader);
             // Force an update of compilation/link status.
             Assert.IsTrue(shader.LinkStatusIsOk);
 
             // Make sure the compilation/link status still updates.
-            string vertSource = RenderTestUtils.ResourceShaders.GetShaderSource("invalidVert.vert");
+            string vertSource = RenderTestUtils.ResourceShaders.GetShaderSource("invalid.vert");
             shader.LoadShader(vertSource, ShaderType.VertexShader);
             Assert.IsFalse(shader.LinkStatusIsOk);
         }

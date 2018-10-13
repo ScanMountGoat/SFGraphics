@@ -11,8 +11,8 @@ namespace RenderTestUtils
         {
             Shader shader = new Shader();
 
-            string fragSource = ResourceShaders.GetShaderSource("validFrag.frag");
-            string vertSource = ResourceShaders.GetShaderSource("validVert.vert");
+            string fragSource = ResourceShaders.GetShaderSource("valid.frag");
+            string vertSource = ResourceShaders.GetShaderSource("valid.vert");
 
             var shaders = new List<Tuple<string, ShaderType, string>>()
             {

@@ -29,7 +29,7 @@ namespace ShaderTests.ProgramCreationTests
         [TestMethod]
         public void ValidFragShader()
         {
-            string shaderSource = RenderTestUtils.ResourceShaders.GetShaderSource("validFrag.frag");
+            string shaderSource = RenderTestUtils.ResourceShaders.GetShaderSource("valid.frag");
             shader.LoadShader(shaderSource, ShaderType.FragmentShader);
 
             Assert.AreEqual(1, linkChangedEvents.Count);
@@ -39,10 +39,10 @@ namespace ShaderTests.ProgramCreationTests
         [TestMethod]
         public void ValidInvalidFragShader()
         {
-            string shaderSource = RenderTestUtils.ResourceShaders.GetShaderSource("validFrag.frag");
+            string shaderSource = RenderTestUtils.ResourceShaders.GetShaderSource("valid.frag");
             shader.LoadShader(shaderSource, ShaderType.FragmentShader);
 
-            string shaderSourceInvalid = RenderTestUtils.ResourceShaders.GetShaderSource("invalidFrag.frag");
+            string shaderSourceInvalid = RenderTestUtils.ResourceShaders.GetShaderSource("invalid.frag");
             shader.LoadShader(shaderSourceInvalid, ShaderType.FragmentShader);
 
             Assert.AreEqual(2, linkChangedEvents.Count);

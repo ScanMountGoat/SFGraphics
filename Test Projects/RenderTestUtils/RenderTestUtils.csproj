@@ -49,28 +49,25 @@
     <Compile Include="TestTools\ShaderTestUtils.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Shaders\invalidFrag.frag" />
+    <EmbeddedResource Include="Shaders\invalid.frag" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Shaders\invalidVert.vert" />
+    <EmbeddedResource Include="Shaders\invalid.vert" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Shaders\undefinedFunction.frag" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Shaders\validFrag.frag" />
+    <EmbeddedResource Include="Shaders\valid.frag" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Shaders\validVert.vert" />
+    <EmbeddedResource Include="Shaders\valid.vert" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Projects\SFGraphics\SFGraphics.csproj">
       <Project>{a62e9240-ef67-41e5-a4e1-43f0afa759f4}</Project>
       <Name>SFGraphics</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Shaders\definedFunction.frag" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

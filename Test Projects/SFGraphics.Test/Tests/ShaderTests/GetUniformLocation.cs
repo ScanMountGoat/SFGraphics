@@ -48,20 +48,5 @@ namespace ShaderTests
             var shader = new SFGraphics.GLObjects.Shaders.Shader();
             Assert.AreEqual(-1, shader.GetUniformLocation("memes"));
         }
-
-        [TestMethod]
-        public void ShaderLinkedTwice()
-        {
-            var shader = new SFGraphics.GLObjects.Shaders.Shader();
-
-            string fragSource1 = RenderTestUtils.ResourceShaders.GetShaderSource("undefinedFunction.frag");
-            shader.LoadShader(fragSource1, ShaderType.FragmentShader);
-
-            string fragSource2 = RenderTestUtils.ResourceShaders.GetShaderSource("definedFunction.frag");
-            shader.LoadShader(fragSource2, ShaderType.FragmentShader);
-
-            // Uniform locations can change after linking again.
-            Assert.AreEqual(GL.GetUniformLocation(shader.Id, "vec3Uniform"), shader.GetUniformLocation("vec3Uniform"));
-        }
     }
 }

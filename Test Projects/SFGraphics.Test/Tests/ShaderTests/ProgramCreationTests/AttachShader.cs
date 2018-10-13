@@ -19,7 +19,7 @@ namespace ShaderTests.ProgramCreationTests
         {
             // Load the shader file from the embedded resources.
             Shader shader = new Shader();
-            string shaderSource = RenderTestUtils.ResourceShaders.GetShaderSource("validFrag.frag");
+            string shaderSource = RenderTestUtils.ResourceShaders.GetShaderSource("valid.frag");
             int id = Shader.CreateGlShader(shaderSource, ShaderType.FragmentShader);
             shader.AttachShader(id, ShaderType.FragmentShader);
 
@@ -31,7 +31,7 @@ namespace ShaderTests.ProgramCreationTests
         {
             // Load the shader file from the embedded resources.
             Shader shader = new Shader();
-            string shaderSource = RenderTestUtils.ResourceShaders.GetShaderSource("invalidFrag.frag");
+            string shaderSource = RenderTestUtils.ResourceShaders.GetShaderSource("invalid.frag");
             int id = Shader.CreateGlShader(shaderSource, ShaderType.FragmentShader);
             shader.AttachShader(id, ShaderType.FragmentShader);
 
