@@ -14,9 +14,6 @@ namespace SFGraphics.GLObjects.Shaders
             // Don't append program errors until all the shaders are attached and compiled.
             errorLog.AppendProgramInfoLog(Id);
 
-            // Collect all of the spelling mistakes.
-            errorLog.AppendUniformErrors(invalidUniformByName);
-
             return errorLog.ToString();
         }
 

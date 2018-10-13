@@ -16,6 +16,14 @@ namespace SFGraphics.GLObjects.Shaders
     {
         internal override GLObjectType ObjectType { get { return GLObjectType.ShaderProgram; } }
 
+        private Dictionary<string, ActiveUniformInfo> activeUniformByName = new Dictionary<string, ActiveUniformInfo>();
+        private Dictionary<string, ActiveAttribInfo> activeAttribByName = new Dictionary<string, ActiveAttribInfo>();
+
+        private int activeUniformCount;
+        private int activeAttributeCount;
+
+        private ShaderLog errorLog = new ShaderLog();
+
         /// <summary>
         /// If <c>false</c>, rendering with this shader will most likely throw an <see cref="AccessViolationException"/>.
         /// <para></para><para></para>
@@ -70,19 +78,6 @@ namespace SFGraphics.GLObjects.Shaders
         /// Occurs when the value of <see cref="LinkStatusIsOk"/> changes.
         /// </summary>
         public event LinkStatusChangedEventHandler OnLinkStatusChanged;
-
-        private int activeUniformCount;
-        private int activeAttributeCount;
-
-        private ShaderLog errorLog = new ShaderLog();
-
-        private Dictionary<string, ActiveUniformInfo> activeUniformByName = new Dictionary<string, ActiveUniformInfo>();
-        private Dictionary<string, ActiveAttribInfo> activeAttribByName = new Dictionary<string, ActiveAttribInfo>();
-
-        private Dictionary<string, ActiveUniformInfo> invalidUniformByName = new Dictionary<string, ActiveUniformInfo>();
-        private Dictionary<string, ActiveAttribInfo> invalidAttribSetByName = new Dictionary<string, ActiveAttribInfo>();
-
-        private Dictionary<int, ActiveUniformType> samplerTypeByTextureUnit = new Dictionary<int, ActiveUniformType>();
 
         // This isn't in OpenTK's enums for some reason.
         // https://www.khronos.org/registry/OpenGL/api/GL/glcorearb.h
@@ -265,15 +260,6 @@ namespace SFGraphics.GLObjects.Shaders
             return shaderSources.ToArray();
         }
 
-        private int[] GetAttachedShaders()
-        {
-            GL.GetProgram(Id, GetProgramParameterName.AttachedShaders, out int shaderCount);
-            int[] shaderIds = new int[shaderCount];
-
-            GL.GetAttachedShaders(Id, shaderCount, out int actualCount, shaderIds);
-            return shaderIds;
-        }
-
         /// <summary>
         /// Gets the uniform's location from locations stored after linking.
         /// </summary>
@@ -313,6 +299,16 @@ namespace SFGraphics.GLObjects.Shaders
         {
             return GL.GetUniformBlockIndex(Id, name);
         }
+
+        private int[] GetAttachedShaders()
+        {
+            GL.GetProgram(Id, GetProgramParameterName.AttachedShaders, out int shaderCount);
+            int[] shaderIds = new int[shaderCount];
+
+            GL.GetAttachedShaders(Id, shaderCount, out int actualCount, shaderIds);
+            return shaderIds;
+        }
+
 
         private void AttachShaderNoLink(int shaderId, ShaderType shaderType, string shaderName = "")
         {
@@ -413,11 +409,6 @@ namespace SFGraphics.GLObjects.Shaders
             int id = CreateGlShader(shaderText, type);
             GL.AttachShader(program, id);
             return id;
-        }
-
-        private void LogInvalidUniformSet(UniformSetEventArgs e)
-        {
-            invalidUniformByName[e.Name] = new ActiveUniformInfo(-1, e.Type, e.Size);
         }
     }
 }
