@@ -58,6 +58,7 @@
     <Compile Include="Tests\GenericModelVisibility.cs" />
     <Compile Include="Tests\InvalidAttribSetEvent.cs" />
     <Compile Include="Tests\GroupByPrimitiveType.cs" />
+    <Compile Include="Tests\RenderSettingsTests\DepthTestSettingsEquality.cs" />
     <Compile Include="Tests\RenderSettingsTests\PolygonModeSettingsEquality.cs" />
     <Compile Include="Tests\RenderSettingsTests\RenderSettingsEquality.cs" />
     <Compile Include="Tests\ShaderGeneratorTests\TextureShaderCompilation.cs" />

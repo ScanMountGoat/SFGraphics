@@ -40,7 +40,7 @@ namespace SFGenericModel.RenderState
         /// <param name="lhs">The left object to compare</param>
         /// <param name="rhs">The right object to compare</param>
         /// <returns><c>true</c> if <paramref name="lhs"/> and <paramref name="rhs"/> are equal</returns>
-        public static bool operator == (PolygonModeSettings lhs, PolygonModeSettings rhs)
+        public static bool operator ==(PolygonModeSettings lhs, PolygonModeSettings rhs)
         {
             return lhs.Equals(rhs);
         }
@@ -52,7 +52,7 @@ namespace SFGenericModel.RenderState
         /// <param name="lhs">The left object to compare</param>
         /// <param name="rhs">The right object to compare</param>
         /// <returns><c>true</c> if <paramref name="lhs"/> and <paramref name="rhs"/> are not equal</returns>
-        public static bool operator != (PolygonModeSettings lhs, PolygonModeSettings rhs)
+        public static bool operator !=(PolygonModeSettings lhs, PolygonModeSettings rhs)
         {
             return !lhs.Equals(rhs);
         }
