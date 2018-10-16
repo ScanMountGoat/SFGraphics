@@ -104,9 +104,8 @@ namespace SFGraphics.GLObjects.Shaders
         }
 
         /// <summary>
-        /// Enables the vertex attribute arrays for all active attributes
-        /// for the currently bound vertex array object.
-        /// Ensures that extra attributes aren't enabled, which causes crashes on Geforce drivers.
+        /// Enables the vertex attribute arrays for all active attributes.
+        /// Use a <see cref="VertexArrays.VertexArrayObject"/> for modern OpenGL.
         /// </summary>
         public void EnableVertexAttributes()
         {
@@ -118,9 +117,8 @@ namespace SFGraphics.GLObjects.Shaders
         }
 
         /// <summary>
-        /// Disables the vertex attribute arrays for all active attributes 
-        /// for the currently bound vertex array object.
-        /// Ensures that extra attributes aren't enabled, which causes crashes on Geforce drivers.
+        /// Disables the vertex attribute arrays for all active attributes.
+        /// Use a <see cref="VertexArrays.VertexArrayObject"/> for modern OpenGL.
         /// </summary>
         public void DisableVertexAttributes()
         {
@@ -387,7 +385,7 @@ namespace SFGraphics.GLObjects.Shaders
 
         private void LoadUniforms()
         {
-            // Uniform locations may change when linking the shader again.
+            // Locations may change when linking the shader again.
             activeUniformByName.Clear();
 
             GL.GetProgram(Id, GetProgramParameterName.ActiveUniforms, out activeUniformCount);
@@ -399,6 +397,9 @@ namespace SFGraphics.GLObjects.Shaders
 
         private void LoadAttributes()
         {
+            // Locations may change when linking the shader again.
+            activeAttribByName.Clear();
+
             GL.GetProgram(Id, GetProgramParameterName.ActiveAttributes, out activeAttributeCount);
 
             for (int i = 0; i < activeAttributeCount; i++)

@@ -16,12 +16,10 @@ namespace RenderTestUtils
             Assembly assembly = Assembly.GetExecutingAssembly();
 
             string result = "";
-            using (Stream stream = assembly.GetManifestResourceStream(resourceName))
+            Stream stream = assembly.GetManifestResourceStream(resourceName);
+            using (StreamReader reader = new StreamReader(stream))
             {
-                using (StreamReader reader = new StreamReader(stream))
-                {
-                    result = reader.ReadToEnd();
-                }
+                result = reader.ReadToEnd();
             }
 
             return result;

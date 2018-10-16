@@ -16,7 +16,7 @@ namespace SFGraphicsGui
             Assembly assembly = Assembly.GetExecutingAssembly();
             string result;
             string[] resources = assembly.GetManifestResourceNames();
-            using (Stream stream = assembly.GetManifestResourceStream(resourceName))
+            Stream stream = assembly.GetManifestResourceStream(resourceName);
             using (StreamReader reader = new StreamReader(stream))
             {
                 result = reader.ReadToEnd();
