@@ -58,7 +58,8 @@
     <Compile Include="Tests\GenericModelVisibility.cs" />
     <Compile Include="Tests\InvalidAttribSetEvent.cs" />
     <Compile Include="Tests\GroupByPrimitiveType.cs" />
-    <Compile Include="Tests\RenderSettingsEquality.cs" />
+    <Compile Include="Tests\RenderSettingsTests\PolygonModeSettingsEquality.cs" />
+    <Compile Include="Tests\RenderSettingsTests\RenderSettingsEquality.cs" />
     <Compile Include="Tests\ShaderGeneratorTests\TextureShaderCompilation.cs" />
     <Compile Include="Tests\ShaderGeneratorTests\VertexAttributeShaderCompilation.cs" />
     <Compile Include="Tests\VertexAttributeInfoSize.cs" />
@@ -81,6 +82,7 @@
       <Name>RenderTestUtils</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
