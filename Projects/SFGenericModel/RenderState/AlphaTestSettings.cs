@@ -42,10 +42,34 @@ namespace SFGenericModel.RenderState
         }
 
         /// <summary>
-        /// 
+        /// Compares <paramref name="lhs"/> and <paramref name="rhs"/>
+        /// using <see cref="Equals(object)"/>.
         /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
+        /// <param name="lhs">The left object to compare</param>
+        /// <param name="rhs">The right object to compare</param>
+        /// <returns><c>true</c> if <paramref name="lhs"/> and <paramref name="rhs"/> are equal</returns>
+        public static bool operator ==(AlphaTestSettings lhs, AlphaTestSettings rhs)
+        {
+            return lhs.Equals(rhs);
+        }
+
+        /// <summary>
+        /// Compares <paramref name="lhs"/> and <paramref name="rhs"/>
+        /// using <see cref="Equals(object)"/>.
+        /// </summary>
+        /// <param name="lhs">The left object to compare</param>
+        /// <param name="rhs">The right object to compare</param>
+        /// <returns><c>true</c> if <paramref name="lhs"/> and <paramref name="rhs"/> are not equal</returns>
+        public static bool operator !=(AlphaTestSettings lhs, AlphaTestSettings rhs)
+        {
+            return !lhs.Equals(rhs);
+        }
+
+        /// <summary>
+        /// Compares the values of the object's fields with <paramref name="obj"/>
+        /// </summary>
+        /// <param name="obj">The object to compare with the current object</param>
+        /// <returns><c>true</c> if the specified object is equal to the current object</returns>
         public override bool Equals(object obj)
         {
             if (!(obj is AlphaTestSettings))
@@ -60,9 +84,9 @@ namespace SFGenericModel.RenderState
         }
 
         /// <summary>
-        /// 
+        /// Returns a hash code based on the object's fields.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A hash code for the current object</returns>
         public override int GetHashCode()
         {
             var hashCode = 1022993667;
