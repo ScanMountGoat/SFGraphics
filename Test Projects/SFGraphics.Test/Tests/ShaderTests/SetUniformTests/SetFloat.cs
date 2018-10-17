@@ -23,7 +23,7 @@ namespace ShaderTests.SetterTests
         [TestMethod]
         public void InvalidName()
         {
-            shader.SetFloat("memes", 0);
+            shader.SetFloat("memes", 0.5f);
             Assert.IsFalse(IsValidSet("memes", ActiveUniformType.Float));
         }
     }

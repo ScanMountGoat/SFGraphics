@@ -32,7 +32,7 @@ namespace ShaderTests.SetterTests
         public void FloatsInvalidName()
         {
             shader.SetVector2("memes2", 1, 1);
-            Assert.IsFalse(IsValidSet("memes", ActiveUniformType.FloatVec2));
+            Assert.IsFalse(IsValidSet("memes2", ActiveUniformType.FloatVec2));
         }
 
         [TestMethod]

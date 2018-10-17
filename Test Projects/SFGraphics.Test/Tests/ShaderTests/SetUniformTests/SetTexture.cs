@@ -21,10 +21,16 @@ namespace ShaderTests.SetterTests
         public void MoreThanOneTypePerTextureUnit()
         {
             shader.SetTexture("tex2D", new Texture2D(), 0);
-            shader.SetTexture("texCube", new TextureCubeMap(), 0);
+            var cube = new TextureCubeMap();
+            shader.SetTexture("texCube", cube, 0);
 
             Assert.AreEqual(0, invalidUniformSets.Count);
+
             Assert.AreEqual(1, invalidTextureSets.Count);
+            Assert.AreEqual("texCube", invalidTextureSets[0].Name);
+            Assert.AreEqual(0, invalidTextureSets[0].TextureUnit);
+            Assert.AreEqual(ActiveUniformType.SamplerCube, invalidTextureSets[0].Type);
+            Assert.AreEqual(cube, invalidTextureSets[0].Value);
         }
 
         [TestMethod]
