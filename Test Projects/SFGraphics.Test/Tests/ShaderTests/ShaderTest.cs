@@ -12,7 +12,7 @@ namespace ShaderTests
         protected Shader shader;
 
         protected List<UniformSetEventArgs> invalidUniformSets = new List<UniformSetEventArgs>();
-        protected List<UniformSetEventArgs> invalidTextureSets = new List<UniformSetEventArgs>();
+        protected List<TextureSetEventArgs> invalidTextureSets = new List<TextureSetEventArgs>();
 
         [TestInitialize()]
         public override void Initialize()
@@ -30,12 +30,12 @@ namespace ShaderTests
             invalidTextureSets.Clear();
         }
 
-        private void Shader_OnTextureUnitTypeMismatch(Shader sender, UniformSetEventArgs e)
+        private void Shader_OnTextureUnitTypeMismatch(object sender, TextureSetEventArgs e)
         {
             invalidTextureSets.Add(e);
         }
 
-        private void Shader_OnInvalidUniformSet(Shader sender, UniformSetEventArgs e)
+        private void Shader_OnInvalidUniformSet(object sender, UniformSetEventArgs e)
         {
             invalidUniformSets.Add(e);
         }

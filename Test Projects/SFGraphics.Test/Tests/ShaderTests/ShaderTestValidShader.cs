@@ -23,7 +23,7 @@ namespace ShaderTests
             eventArgs.Clear();
         }
 
-        private void Shader_OnInvalidUniformSet(Shader sender, UniformSetEventArgs e)
+        private void Shader_OnInvalidUniformSet(object sender, UniformSetEventArgs e)
         {
             eventArgs.Add(e);
         }

@@ -57,7 +57,14 @@ namespace SFGraphics.GLObjects.Shaders
         /// </summary>
         /// <param name="sender">The shader that generated the error</param>
         /// <param name="e">The arguments used to set the uniform</param>
-        public delegate void InvalidUniformSetEventHandler(Shader sender, UniformSetEventArgs e);
+        public delegate void InvalidUniformSetEventHandler(object sender, UniformSetEventArgs e);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender">The shader that generated the error</param>
+        /// <param name="e">The arguments used to set the uniform</param>
+        public delegate void InvalidTextureSetEventHandler(object sender, TextureSetEventArgs e);
 
         /// <summary>
         /// 
@@ -65,7 +72,7 @@ namespace SFGraphics.GLObjects.Shaders
         /// <param name="sender">The shader that generated the event</param>
         /// <param name="e">Information about the previous shader program linking. 
         /// <c>true</c> when linking was successful</param>
-        public delegate void LinkStatusChangedEventHandler(Shader sender, LinkStatusEventArgs e);
+        public delegate void LinkStatusChangedEventHandler(object sender, LinkStatusEventArgs e);
 
         /// <summary>
         /// Occurs when arguments for setting a uniform don't match the shader.
@@ -76,7 +83,7 @@ namespace SFGraphics.GLObjects.Shaders
         /// Occurs when a call to <see cref="SetTexture(string, Textures.Texture, int)"/>
         /// is made to a previously used texture unit but with a different sampler type.
         /// </summary>
-        public event InvalidUniformSetEventHandler OnTextureUnitTypeMismatch;
+        public event InvalidTextureSetEventHandler OnTextureUnitTypeMismatch;
 
         /// <summary>
         /// Occurs when the value of <see cref="LinkStatusIsOk"/> changes.

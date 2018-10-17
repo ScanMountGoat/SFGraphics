@@ -337,15 +337,15 @@ namespace SFGraphics.GLObjects.Shaders
             bool validSamplerType = errorLog.IsValidSamplerType(textureUnit, uniformType);
             if (!validSamplerType)
             {
-                var uniformSetArgs = new UniformSetEventArgs()
+                var textureSetArgs = new TextureSetEventArgs()
                 {
                     Name = name,
                     Type = uniformType,
-                    Size = 1,
+                    TextureUnit = textureUnit,
                     Value = texture
                 };
 
-                OnTextureUnitTypeMismatch?.Invoke(this, uniformSetArgs);
+                OnTextureUnitTypeMismatch?.Invoke(this, textureSetArgs);
             }
 
             bool validSet = validUniform && validSamplerType;

@@ -19,25 +19,25 @@ namespace MeshBatchUtilsTests
         private static readonly List<float> verticesAb = verticesA.Concat(verticesB).ToList();
         private static readonly List<float> verticesAc = verticesA.Concat(verticesC).ToList();
 
-        private List<IndexedVertexData<float>> trianglesTriangles = new List<IndexedVertexData<float>>()
+        private readonly List<IndexedVertexData<float>> trianglesTriangles = new List<IndexedVertexData<float>>()
         {
             new IndexedVertexData<float>(verticesA, indices, PrimitiveType.Triangles),
             new IndexedVertexData<float>(verticesB, indices, PrimitiveType.Triangles),
         };
 
-        private List<IndexedVertexData<float>> pointsPoints = new List<IndexedVertexData<float>>()
+        private readonly List<IndexedVertexData<float>> pointsPoints = new List<IndexedVertexData<float>>()
         {
             new IndexedVertexData<float>(verticesA, indices, PrimitiveType.Points),
             new IndexedVertexData<float>(verticesB, indices, PrimitiveType.Points),
         };
 
-        private List<IndexedVertexData<float>> triangleStripTriangleStrip = new List<IndexedVertexData<float>>()
+        private readonly List<IndexedVertexData<float>> triangleStripTriangleStrip = new List<IndexedVertexData<float>>()
         {
             new IndexedVertexData<float>(verticesA, indices, PrimitiveType.TriangleStrip),
             new IndexedVertexData<float>(verticesB, indices, PrimitiveType.TriangleStrip),
         };
 
-        private List<IndexedVertexData<float>> trianglesTriangleStripTriangles = new List<IndexedVertexData<float>>()
+        private readonly List<IndexedVertexData<float>> trianglesTriangleStripTriangles = new List<IndexedVertexData<float>>()
         {
             new IndexedVertexData<float>(verticesA, indices, PrimitiveType.Triangles),
             new IndexedVertexData<float>(verticesB, indices, PrimitiveType.TriangleStrip),

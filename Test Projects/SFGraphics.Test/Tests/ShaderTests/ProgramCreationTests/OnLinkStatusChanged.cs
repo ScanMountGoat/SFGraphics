@@ -21,9 +21,9 @@ namespace ShaderTests.ProgramCreationTests
             shader.OnLinkStatusChanged += Shader_OnLinkStatusChanged;
         }
 
-        private void Shader_OnLinkStatusChanged(Shader sender, LinkStatusEventArgs linkStatusIsOk)
+        private void Shader_OnLinkStatusChanged(object sender, LinkStatusEventArgs e)
         {
-            linkChangedEvents.Add(linkStatusIsOk);
+            linkChangedEvents.Add(e);
         }
 
         [TestMethod]
