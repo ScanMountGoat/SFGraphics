@@ -5,8 +5,7 @@ using OpenTK;
 namespace SFGraphics.Utils
 {
     /// <summary>
-    /// Generates bounding spheres for a collection of vertices.
-    /// This can be used with <see cref="SFGraphics.Cameras.Camera.FrameBoundingSphere(Vector3, float, float)"/> to make models visible in the viewport.
+    /// Contains methods to generate a bounding sphere for a collection of vertices.
     /// </summary>
     public static class BoundingSphereGenerator
     {

@@ -94,16 +94,6 @@ namespace SFGenericModel
         /// <summary>
         /// Creates a new mesh and initializes the vertex buffer data.
         /// </summary>
-        /// <param name="vertexData">The vertex indices, data, and primitive type</param>
-        public GenericMesh(VertexContainer<T> vertexData) 
-            : this(vertexData.vertices, vertexData.vertexIndices, vertexData.primitiveType)
-        {
-
-        }
-
-        /// <summary>
-        /// Creates a new mesh and initializes the vertex buffer data.
-        /// </summary>
         /// <param name="vertexData">Contains the vertices, indices, and primitive type</param>
         public GenericMesh(IndexedVertexData<T> vertexData) 
             : this(vertexData.Vertices, vertexData.Indices, vertexData.PrimitiveType)

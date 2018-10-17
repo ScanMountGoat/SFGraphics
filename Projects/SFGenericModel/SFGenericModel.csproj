@@ -69,7 +69,6 @@
     <Compile Include="VertexAttributes\VertexAttribute.cs" />
     <Compile Include="VertexAttributes\VertexIntAttribute.cs" />
     <Compile Include="VertexAttributes\VertexAttributeUtils.cs" />
-    <Compile Include="Utils\VertexContainer.cs" />
     <Compile Include="VertexAttributes\VertexFloatAttribute.cs" />
     <Compile Include="ShaderGenerators\VertexAttributeRenderInfo.cs" />
     <Compile Include="ShaderGenerators\VertexAttributeShaderGenerator.cs" />

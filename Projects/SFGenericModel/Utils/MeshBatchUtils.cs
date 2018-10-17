@@ -19,62 +19,62 @@ namespace SFGenericModel.Utils
         };
 
         /// <summary>
-        /// Creates a new collection of <see cref="VertexContainer{T}"/> objects with 
+        /// Creates a new collection of <see cref="IndexedVertexData{T}"/> objects with 
         /// only a single container for types that support merging.
         /// </summary>
         /// <typeparam name="T">The vertex data struct</typeparam>
         /// <param name="containers">The unoptimized vertex containers</param>
         /// <returns></returns>
-        public static List<VertexContainer<T>> GroupContainersByPrimitiveType<T>(List<VertexContainer<T>> containers)
+        public static List<IndexedVertexData<T>> GroupContainersByPrimitiveType<T>(List<IndexedVertexData<T>> containers)
             where T : struct
         {
             // Get all the containers for each type into a collection.
             var vertexContainersByType = OrganizeContainersByType(containers);
 
             // Merge each container list.
-            var result = new List<VertexContainer<T>>();
+            var result = new List<IndexedVertexData<T>>();
             foreach (var unmergedcontainers in vertexContainersByType.Values)
                 result.AddRange(GetMergedContainers(unmergedcontainers));
 
             return result;
         }
 
-        private static Dictionary<PrimitiveType, List<VertexContainer<T>>> OrganizeContainersByType<T>(List<VertexContainer<T>> containers) where T : struct
+        private static Dictionary<PrimitiveType, List<IndexedVertexData<T>>> OrganizeContainersByType<T>(List<IndexedVertexData<T>> containers) where T : struct
         {
-            var vertexContainersByType = new Dictionary<PrimitiveType, List<VertexContainer<T>>>();
+            var vertexContainersByType = new Dictionary<PrimitiveType, List<IndexedVertexData<T>>>();
 
             foreach (var container in containers)
             {
-                if (!vertexContainersByType.ContainsKey(container.primitiveType))
-                    vertexContainersByType[container.primitiveType] = new List<VertexContainer<T>>();
+                if (!vertexContainersByType.ContainsKey(container.PrimitiveType))
+                    vertexContainersByType[container.PrimitiveType] = new List<IndexedVertexData<T>>();
 
-                vertexContainersByType[container.primitiveType].Add(container);
+                vertexContainersByType[container.PrimitiveType].Add(container);
             }
 
             return vertexContainersByType;
         }
 
-        private static List<VertexContainer<T>> GetMergedContainers<T>(List<VertexContainer<T>> containersToMerge) where T : struct
+        private static List<IndexedVertexData<T>> GetMergedContainers<T>(List<IndexedVertexData<T>> containersToMerge) where T : struct
         {
             // Combining indices isn't supported for all types currently.
-            PrimitiveType type = containersToMerge.First().primitiveType;
+            PrimitiveType type = containersToMerge.First().PrimitiveType;
             if (!supportedTypes.Contains(type))
                 return containersToMerge;
 
             // Estimate the correct size to avoid costly array resize/copy operations.
-            int indexCount = containersToMerge.First().vertexIndices.Count * containersToMerge.Count;
-            int vertexCount = containersToMerge.First().vertices.Count * containersToMerge.Count;
+            int indexCount = containersToMerge.First().Indices.Count * containersToMerge.Count;
+            int vertexCount = containersToMerge.First().Vertices.Count * containersToMerge.Count;
 
             List<int> indices = new List<int>(indexCount);
             List<T> vertices = new List<T>(vertexCount);
             foreach (var container in containersToMerge)
             {
-                AddIndices(vertices.Count, container.vertexIndices, type, indices);
-                vertices.AddRange(container.vertices);
+                AddIndices(vertices.Count, container.Indices, type, indices);
+                vertices.AddRange(container.Vertices);
             }
 
-            VertexContainer<T> mergedContainer = new VertexContainer<T>(vertices, indices, type);
-            return new List<VertexContainer<T>>() { mergedContainer };
+            var mergedContainer = new IndexedVertexData<T>(vertices, indices, type);
+            return new List<IndexedVertexData<T>>() { mergedContainer };
         }
 
         private static void AddIndices(int offset, List<int> indicesToAdd, 
@@ -100,10 +100,10 @@ namespace SFGenericModel.Utils
             }
         }
 
-        private static List<T> AddVertices<T>(VertexContainer<T> containerA, VertexContainer<T> containerB)
+        private static List<T> AddVertices<T>(IndexedVertexData<T> containerA, IndexedVertexData<T> containerB)
             where T : struct
         {
-            return containerA.vertices.Concat(containerB.vertices).ToList();
+            return containerA.Vertices.Concat(containerB.Vertices).ToList();
         }
     }
 }
