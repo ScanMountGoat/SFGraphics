@@ -432,20 +432,6 @@ namespace SFGraphics.GLObjects.Shaders
                 AddActiveAttribute(i);
             }
         }
-
-        private int LoadShaderBasedOnType(string shaderSource, ShaderType shaderType)
-        {
-            // Returns the shader Id that was generated.
-            int id = AttachAndCompileShader(shaderSource, shaderType, Id);
-            return id;
-        }
-
-        private int AttachAndCompileShader(string shaderText, ShaderType type, int program)
-        {
-            int id = CreateGlShader(shaderText, type);
-            GL.AttachShader(program, id);
-            return id;
-        }
     }
 }
 

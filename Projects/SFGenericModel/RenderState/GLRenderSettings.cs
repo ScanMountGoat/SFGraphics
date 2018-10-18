@@ -17,6 +17,7 @@ namespace SFGenericModel.RenderState
             SetFaceCulling(renderSettings.faceCullingSettings);
             SetAlphaBlending(renderSettings.alphaBlendSettings);
             SetAlphaTesting(renderSettings.alphaTestSettings);
+            //SetDepthTesting(renderSettings.depthTestSettings);
         }
 
         private static void SetPolygonModeSettings(PolygonModeSettings settings)

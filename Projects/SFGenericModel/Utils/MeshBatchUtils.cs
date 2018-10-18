@@ -99,11 +99,5 @@ namespace SFGenericModel.Utils
                 target.Add(index + offset);
             }
         }
-
-        private static List<T> AddVertices<T>(IndexedVertexData<T> containerA, IndexedVertexData<T> containerB)
-            where T : struct
-        {
-            return containerA.Vertices.Concat(containerB.Vertices).ToList();
-        }
     }
 }
