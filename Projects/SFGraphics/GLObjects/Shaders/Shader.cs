@@ -308,6 +308,24 @@ namespace SFGraphics.GLObjects.Shaders
         }
 
         /// <summary>
+        /// Sets the binding point for a uniform block.
+        /// Invalid names are ignored. 
+        /// </summary>
+        /// <param name="name">The name of the uniform block</param>
+        /// <param name="bindingPoint">The binding point for the uniform block</param>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="bindingPoint"/> is negative</exception>
+        public void UniformBlockBinding(string name, int bindingPoint)
+        {
+            if (bindingPoint < 0)
+                throw new ArgumentOutOfRangeException("Binding points must be non negative.");
+
+            // Don't use invalid indices to prevent errors. 
+            int index = GetUniformBlockIndex(name);
+            if (index != -1)
+                GL.UniformBlockBinding(Id, index, bindingPoint);
+        }
+
+        /// <summary>
         /// Gets the error log containing hardware info, version number, compilation/linker errors, 
         /// and attempts to initialize invalid uniform or vertex attribute names.
         /// </summary>

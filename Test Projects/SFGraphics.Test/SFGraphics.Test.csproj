@@ -104,6 +104,7 @@
     <Compile Include="Tests\ShaderTests\SetUniformTests\SetVector3.cs" />
     <Compile Include="Tests\ShaderTests\SetUniformTests\SetVector4.cs" />
     <Compile Include="Tests\ShaderTests\ShaderTestValidShader.cs" />
+    <Compile Include="Tests\ShaderTests\UniformBlockBinding.cs" />
     <Compile Include="Tests\TextureTests\GetBitmap.cs" />
     <Compile Include="Tests\TextureTests\GetImageData.cs" />
     <Compile Include="Tests\TextureTests\Texture2D Tests\LoadImageData.cs" />
