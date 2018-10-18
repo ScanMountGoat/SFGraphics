@@ -54,7 +54,7 @@ namespace SFGenericModel
         /// <param name="sender">The <see cref="GenericMesh{T}"/> 
         /// instance that generated the error</param>
         /// <param name="e">The vertex attribute information</param>
-        public delegate void InvalidAttribSetEventHandler(GenericMesh<T> sender, AttribSetEventArgs e);
+        public delegate void InvalidAttribSetEventHandler(object sender, AttribSetEventArgs e);
 
         /// <summary>
         /// Occurs when specified vertex attribute information does not match the shader.

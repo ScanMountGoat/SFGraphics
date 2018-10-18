@@ -11,8 +11,9 @@ namespace SFGraphics.Cameras
     {
         /// <summary>
         /// The camera's initial position or position after <see cref="ResetToDefaultPosition"/>.
+        /// Defaults to (0, 10, -80).
         /// </summary>
-        public Vector3 DefaultPosition { get; private set; }
+        public Vector3 DefaultPosition { get; } = new Vector3(0, 10, -80);
 
         /// <summary>
         /// The position of the camera in scene units. 
@@ -259,8 +260,7 @@ namespace SFGraphics.Cameras
         /// </summary>
         public Camera()
         {
-            DefaultPosition = new Vector3(new Vector3(0, 10, -80));
-            ResetToDefaultPosition();
+
         }
 
         /// <summary>
@@ -371,7 +371,7 @@ namespace SFGraphics.Cameras
         /// </summary>
         public void ResetToDefaultPosition()
         {
-            position = new Vector3(0, 10, -80);
+            position = DefaultPosition;
             rotationXRadians = 0;
             rotationYRadians = 0;
             UpdateMatrices();

@@ -43,7 +43,7 @@ namespace GenericMeshTests
             eventArgs.Clear();
         }
 
-        private void Mesh_OnInvalidAttribSet(GenericMesh<float> sender, AttribSetEventArgs e)
+        private void Mesh_OnInvalidAttribSet(object sender, AttribSetEventArgs e)
         {
             eventArgs.Add(e);
         }
