@@ -48,8 +48,13 @@ namespace SFGraphics.GlUtils
 
         private static string[] GetAllExtensions()
         {
-            string allExtensions = GL.GetString(StringName.Extensions);
-            string[] extensions = allExtensions.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            // Using GL.GetString to retrieve all extensions is deprecated. 
+            int extensionCount = GL.GetInteger(GetPName.NumExtensions);
+            string[] extensions = new string[extensionCount];
+            for (int i = 0; i < extensionCount; i++)
+            {
+                extensions[i] = GL.GetString(StringNameIndexed.Extensions, i);
+            }
             return extensions;
         }
     }
