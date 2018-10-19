@@ -9,7 +9,8 @@ namespace ShaderTests.SetterTests
         [TestMethod]
         public void ValidNameValidType()
         {
-            shader.SetUint("uint1", 1);
+            shader.SetUint("uint1", uint.MaxValue);
+            Assert.AreEqual(uint.MaxValue, GetUint("uint1"));
             Assert.IsTrue(IsValidSet("uint1", ActiveUniformType.UnsignedInt));
         }
 

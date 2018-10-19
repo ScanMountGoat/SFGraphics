@@ -10,6 +10,11 @@ namespace ShaderTests.SetterTests
         public void ValidNameValidType()
         {
             shader.SetBoolToInt("boolInt1", true);
+            Assert.AreEqual(1, GetInt("boolInt1"));
+
+            shader.SetBoolToInt("boolInt1", false);
+            Assert.AreEqual(0, GetInt("boolInt1"));
+
             Assert.IsTrue(IsValidSet("boolInt1", ActiveUniformType.Int));
         }
 

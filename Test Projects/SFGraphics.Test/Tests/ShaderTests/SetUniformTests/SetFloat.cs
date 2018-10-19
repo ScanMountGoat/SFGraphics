@@ -9,7 +9,8 @@ namespace ShaderTests.SetterTests
         [TestMethod]
         public void ValidNameValidType()
         {
-            shader.SetFloat("float1", 0);
+            shader.SetFloat("float1", 1);
+            Assert.AreEqual(1, GetFloat("float1"));
             Assert.IsTrue(IsValidSet("float1", ActiveUniformType.Float));
         }
 

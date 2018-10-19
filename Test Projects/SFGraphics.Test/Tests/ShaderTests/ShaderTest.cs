@@ -53,5 +53,25 @@ namespace ShaderTests
 
             return !shader.GetErrorLog().Contains(expected) && invalidUniformSets.Count == 0;
         }
+
+        public float GetFloat(string name)
+        {
+            GL.GetUniform(shader.Id, shader.GetUniformLocation(name), out float value);
+            return value;
+        }
+
+        public int GetInt(string name)
+        {
+            GL.GetUniform(shader.Id, shader.GetUniformLocation(name), out int value);
+            GL.GetUniform(shader.Id, 0, out int x);
+            return value;
+        }
+
+        public uint GetUint(string name)
+        {
+            // HACK: The unsigned int method overload doesn't work for some reason.
+            GL.GetUniform(shader.Id, shader.GetUniformLocation(name), out int value);
+            return System.BitConverter.ToUInt32(System.BitConverter.GetBytes(value), 0);
+        }
     }
 }
