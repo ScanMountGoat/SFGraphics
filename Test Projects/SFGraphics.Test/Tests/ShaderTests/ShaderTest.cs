@@ -1,8 +1,9 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SFGraphics.GLObjects.Shaders;
-using System.Collections.Generic;
-using SFGraphics.GLObjects.Shaders.ShaderEventArgs;
+using OpenTK;
 using OpenTK.Graphics.OpenGL;
+using SFGraphics.GLObjects.Shaders;
+using SFGraphics.GLObjects.Shaders.ShaderEventArgs;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace ShaderTests
@@ -63,8 +64,30 @@ namespace ShaderTests
         public int GetInt(string name)
         {
             GL.GetUniform(shader.Id, shader.GetUniformLocation(name), out int value);
-            GL.GetUniform(shader.Id, 0, out int x);
+            int[] x = new int[16];
+            GL.GetUniform(shader.Id, shader.GetUniformLocation(name), x);
             return value;
+        }
+
+        public Vector2 GetVector2(string name)
+        {
+            float[] value = new float[2];
+            GL.GetUniform(shader.Id, shader.GetUniformLocation(name), value);
+            return new Vector2(value[0], value[1]);
+        }
+
+        public Vector3 GetVector3(string name)
+        {
+            float[] value = new float[3];
+            GL.GetUniform(shader.Id, shader.GetUniformLocation(name), value);
+            return new Vector3(value[0], value[1], value[2]);
+        }
+
+        public Vector4 GetVector4(string name)
+        {
+            float[] value = new float[4];
+            GL.GetUniform(shader.Id, shader.GetUniformLocation(name), value);
+            return new Vector4(value[0], value[1], value[2], value[3]);
         }
 
         public uint GetUint(string name)

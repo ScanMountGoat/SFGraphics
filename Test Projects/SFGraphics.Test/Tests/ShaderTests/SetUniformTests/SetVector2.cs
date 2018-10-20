@@ -8,9 +8,10 @@ namespace ShaderTests.SetterTests
     public class SetVector2 : ShaderTest
     {
         [TestMethod]
-        public void ValidName()
+        public void ValidNameValidType()
         {
-            shader.SetVector2("vector2a", new Vector2(1));
+            shader.SetVector2("vector2a", new Vector2(0.1f, -0.2f));
+            Assert.AreEqual(new Vector2(0.1f, -0.2f), GetVector2("vector2a"));
             Assert.IsTrue(IsValidSet("vector2a", ActiveUniformType.FloatVec2));
         }
 
@@ -22,9 +23,10 @@ namespace ShaderTests.SetterTests
         }
 
         [TestMethod]
-        public void FloatsValidName()
+        public void FloatsValidNameValidType()
         {
-            shader.SetVector2("vector2a", 1, 1);
+            shader.SetVector2("vector2a", 0.5f, -0.75f);
+            Assert.AreEqual(new Vector2(0.5f, -0.75f), GetVector2("vector2a"));
             Assert.IsTrue(IsValidSet("vector2a", ActiveUniformType.FloatVec2));
         }
 
