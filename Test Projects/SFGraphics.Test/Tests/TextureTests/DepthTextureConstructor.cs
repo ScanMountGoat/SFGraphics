@@ -7,7 +7,7 @@ using OpenTK.Graphics.OpenGL;
 namespace TextureTests
 {
     [TestClass]
-    public class ConstructorTestsDepth : Tests.ContextTest
+    public class DepthTetureConstructor : Tests.ContextTest
     {
         private readonly List<byte[]> mipmaps = new List<byte[]>();
 

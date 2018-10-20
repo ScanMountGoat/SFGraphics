@@ -6,7 +6,7 @@ namespace ShaderTests.SetterTests
     [TestClass]
     public class SetFloatArray : ShaderTest
     {
-        private float[] values = new float[] { 1.5f, 2.5f, 3.5f };
+        private readonly float[] values = new float[] { 1.5f, 2.5f, 3.5f };
 
         [TestMethod]
         public void ValidNameValidType()

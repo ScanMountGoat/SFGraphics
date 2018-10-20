@@ -30,10 +30,10 @@ namespace SFGenericModel
         public PrimitiveType PrimitiveType { get; }
 
         /// <summary>
-        /// 
+        /// Creates a new vertex data container with generated indices.
         /// </summary>
-        /// <param name="vertices">The value of <see cref="Vertices"/></param>
-        /// <param name="primitiveType">The value of <see cref="PrimitiveType"/></param>
+        /// <param name="vertices">The vertex data</param>
+        /// <param name="primitiveType">Determines how primitives will be constructed from vertex data</param>
         public IndexedVertexData(List<T> vertices, PrimitiveType primitiveType)
         {
             PrimitiveType = primitiveType;
@@ -45,11 +45,11 @@ namespace SFGenericModel
         }
 
         /// <summary>
-        /// 
+        /// Creates a new vertex data container.
         /// </summary>
-        /// <param name="vertices">The value of <see cref="Vertices"/></param>
-        /// <param name="indices">The value of <see cref="Indices"/></param>
-        /// <param name="primitiveType">The value of <see cref="PrimitiveType"/></param>
+        /// <param name="vertices">The vertex data</param>
+        /// <param name="indices">The vertex indices</param>
+        /// <param name="primitiveType">Determines how primitives will be constructed from vertex data</param>
         public IndexedVertexData(List<T> vertices, List<int> indices, PrimitiveType primitiveType)
         {
             Vertices = vertices;

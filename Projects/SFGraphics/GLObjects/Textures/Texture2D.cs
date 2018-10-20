@@ -19,7 +19,13 @@ namespace SFGraphics.GLObjects.Textures
         /// </summary>
         public Texture2D() : base(TextureTarget.Texture2D)
         {
-
+            // The load image data functions create mipmaps.
+            // Enable mipmaps by default.
+            TextureWrapS = TextureWrapMode.ClampToEdge;
+            TextureWrapT = TextureWrapMode.ClampToEdge;
+            TextureWrapR = TextureWrapMode.ClampToEdge;
+            MinFilter = TextureMinFilter.LinearMipmapLinear;
+            MagFilter = TextureMagFilter.Linear;
         }
 
         /// <summary>

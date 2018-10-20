@@ -17,7 +17,13 @@ namespace SFGraphics.GLObjects.Textures
         /// </summary>
         public TextureCubeMap() : base(TextureTarget.TextureCubeMap)
         {
-
+            // The load image data functions create mipmaps.
+            // Enable mipmaps by default.
+            TextureWrapS = TextureWrapMode.ClampToEdge;
+            TextureWrapT = TextureWrapMode.ClampToEdge;
+            TextureWrapR = TextureWrapMode.ClampToEdge;
+            MinFilter = TextureMinFilter.LinearMipmapLinear;
+            MagFilter = TextureMagFilter.Linear;
         }
 
         /// <summary>

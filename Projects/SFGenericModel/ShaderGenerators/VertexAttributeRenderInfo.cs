@@ -30,9 +30,9 @@ namespace SFGenericModel.ShaderGenerators
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="attributeInfo">The value of <see cref="AttributeInfo"/></param>
-        /// <param name="normalize">The value of <see cref="Normalize"/></param>
-        /// <param name="remapToVisibleRange">The value of <see cref="RemapToVisibleRange"/></param>
+        /// <param name="attributeInfo">Information about the attribute name and type</param>
+        /// <param name="normalize">Normalize the vector before rendering</param>
+        /// <param name="remapToVisibleRange">Remap values in range [-1, 1] to range [0, 1]</param>
         public VertexAttributeRenderInfo(VertexAttribute attributeInfo, bool normalize  = false, bool remapToVisibleRange = false)
         {
             Normalize = normalize;

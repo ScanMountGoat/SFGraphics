@@ -107,12 +107,6 @@ namespace SFGraphics.GLObjects.Textures
         public Texture(TextureTarget textureTarget) : base(GL.GenTexture())
         {
             TextureTarget = textureTarget;
-
-            TextureWrapS = TextureWrapMode.ClampToEdge;
-            TextureWrapT = TextureWrapMode.ClampToEdge;
-            TextureWrapR = TextureWrapMode.ClampToEdge;
-            MinFilter = TextureMinFilter.LinearMipmapLinear;
-            MagFilter = TextureMagFilter.Linear;
         }
 
         /// <summary>

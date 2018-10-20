@@ -66,6 +66,7 @@
     <Compile Include="GLObjects\Shaders\Utils\ShaderValidation.cs" />
     <Compile Include="GLObjects\Textures\Utils\MipmapLoading.cs" />
     <Compile Include="GLObjects\Textures\TextureFormats\CompressedBlockSize.cs" />
+    <Compile Include="GLObjects\Textures\Texture2DMultisample.cs" />
     <Compile Include="GLObjects\Textures\Utils\TextureExceptionMessages.cs" />
     <Compile Include="GLObjects\Textures\TextureFormats\TextureFormatUncompressed.cs" />
     <Compile Include="GLObjects\Textures\TextureFormats\TextureFormatTools.cs" />

@@ -121,9 +121,7 @@ namespace SFGraphicsGui
             var pos = new SFGenericModel.VertexAttributes.VertexFloatAttribute("position", SFGenericModel.VertexAttributes.ValueCount.Three, VertexAttribPointerType.Float);
             var uv0 = new SFGenericModel.VertexAttributes.VertexFloatAttribute("uv0", SFGenericModel.VertexAttributes.ValueCount.Two, VertexAttribPointerType.Float);
 
-            string frag;
-            string vert;
-            TextureShaderGenerator.CreateShader(textures, pos, pos, uv0, out vert, out frag);
+            TextureShaderGenerator.CreateShader(textures, pos, pos, uv0, out string vert, out string frag);
 
             Shader shader = new Shader();
             shader.LoadShaders(new List<Tuple<string, ShaderType, string>>() {
@@ -136,9 +134,12 @@ namespace SFGraphicsGui
 
             shader.SetTexture("uvTestPattern", graphicsResources.uvTestPattern, 0);
 
-            Camera camera = new Camera();
-            camera.RenderWidth = glControl1.Width;
-            camera.RenderHeight = glControl1.Height;
+            Camera camera = new Camera()
+            {
+                RenderWidth = glControl1.Width,
+                RenderHeight = glControl1.Height
+            };
+
             Vector4 boundingSphere = SFGraphics.Utils.BoundingSphereGenerator.GenerateBoundingSphere(shapeVertices);
             camera.FrameBoundingSphere(boundingSphere.Xyz, boundingSphere.W, 0);
 
