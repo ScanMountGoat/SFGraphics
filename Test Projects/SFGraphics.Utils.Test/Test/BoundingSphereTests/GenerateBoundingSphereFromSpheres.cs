@@ -10,7 +10,6 @@ namespace BoundingSpheres
     public class GenerateBoundingSphereFromSpheres
     {
         [TestMethod]
-        [Ignore]
         public void NoSpheres()
         {
             var boundingSphere = BoundingSphereGenerator.GenerateBoundingSphere(new List<Vector4>());
@@ -18,7 +17,6 @@ namespace BoundingSpheres
         }
 
         [TestMethod]
-        [Ignore]
         public void SingleBoundingSphere()
         {
             var spheres = new List<Vector4>() { new Vector4(0, 0, 0, 1) };
@@ -28,10 +26,24 @@ namespace BoundingSpheres
         }
 
         [TestMethod]
-        [Ignore]
         public void MaxRadiusSameCenter()
         {
             var spheres = new List<Vector4>() { new Vector4(0, 0, 0, 1), new Vector4(0, 0, 0, 2) };
+
+            var boundingSphere = BoundingSphereGenerator.GenerateBoundingSphere(spheres);
+            Assert.AreEqual(new Vector4(0, 0, 0, 2), boundingSphere);
+        }
+
+        [TestMethod]
+        public void DifferentRadiusDifferentCenter()
+        {
+            var spheres = new List<Vector4>()
+            {
+                new Vector4(1, 0, 0, 1),
+                new Vector4(-1, 0, 0, 1),
+                new Vector4(0, 1, 0, 1),
+                new Vector4(0, -1, 0, 1),
+            };
 
             var boundingSphere = BoundingSphereGenerator.GenerateBoundingSphere(spheres);
             Assert.AreEqual(new Vector4(0, 0, 0, 2), boundingSphere);

@@ -31,7 +31,7 @@ namespace SFGraphics.Utils
                 max = Vector3.ComponentMax(max, vertex);
             }
 
-            return GenerateBoundingSphere(min, max);
+            return GetBoundingSphereFromRegion(min, max);
         }
 
         /// <summary>
@@ -45,8 +45,7 @@ namespace SFGraphics.Utils
             if (boundingSpheres.Count == 0)
                 return new Vector4(0);
 
-            // Find the corners of the bounding region.
-            // Calculate the end points using the center and radius.
+            // Calculate the end points using the center and radius
             Vector3 min = boundingSpheres[0].Xyz - new Vector3(boundingSpheres[0].W);
             Vector3 max = boundingSpheres[0].Xyz + new Vector3(boundingSpheres[0].W);
 
@@ -56,7 +55,16 @@ namespace SFGraphics.Utils
                 max = Vector3.ComponentMax(max, sphere.Xyz + new Vector3(sphere.W));
             }
 
-            return GenerateBoundingSphere(min, max);
+            return GetBoundingSphereFromSpheres(min, max);
+        }
+
+        private static Vector4 GetBoundingSphereFromSpheres(Vector3 min, Vector3 max)
+        {
+            Vector3 lengths = max - min;
+            float maxLength = Math.Max(lengths.X, Math.Max(lengths.Y, lengths.Z));
+            Vector3 center = (max + min) / 2.0f;
+            float radius = maxLength / 2.0f;
+            return new Vector4(center, radius);
         }
 
         private static float CalculateRadius(float horizontalLeg, float verticalLeg)
@@ -64,7 +72,7 @@ namespace SFGraphics.Utils
             return (float)Math.Sqrt((horizontalLeg * horizontalLeg) + (verticalLeg * verticalLeg));
         }
 
-        private static Vector4 GenerateBoundingSphere(Vector3 min, Vector3 max)
+        private static Vector4 GetBoundingSphereFromRegion(Vector3 min, Vector3 max)
         {
             // The radius should be the hypotenuse of the triangle.
             // This ensures the sphere contains all points.
