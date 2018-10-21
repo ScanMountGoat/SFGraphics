@@ -6,20 +6,20 @@ using OpenTK;
 
 namespace BoundingSpheres
 {
-    [TestClass()]
-    public class BoundingSphereGeneration
+    [TestClass]
+    public class GenerateBoundingSphere
     {
-        [TestMethod()]
+        [TestMethod]
         public void NoVertices()
         {
-            Vector4 boundingSphere = BoundingSphereGenerator.GenerateBoundingSphere(new List<Vector3>());
+            var boundingSphere = BoundingSphereGenerator.GenerateBoundingSphere(new List<Vector3>());
             Assert.AreEqual(new Vector4(0), boundingSphere);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void UnitCube()
         {
-            List<Vector3> vertices = new List<Vector3>();
+            var vertices = new List<Vector3>();
             vertices.Add(new Vector3(1, -1, -1));
             vertices.Add(new Vector3(1, -1, 1));
             vertices.Add(new Vector3(-1, -1, 1));
@@ -29,7 +29,7 @@ namespace BoundingSpheres
             vertices.Add(new Vector3(-1, 1, 1));
             vertices.Add(new Vector3(-1, 1, -1));
 
-            Vector4 boundingSphere = BoundingSphereGenerator.GenerateBoundingSphere(vertices);
+            var boundingSphere = BoundingSphereGenerator.GenerateBoundingSphere(vertices);
             Assert.AreEqual(new Vector3(0, 0, 0), boundingSphere.Xyz);
             Assert.AreEqual(Math.Sqrt(2), boundingSphere.W, 0.001f);
         }

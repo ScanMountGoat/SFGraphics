@@ -1,6 +1,6 @@
-﻿using System;
+﻿using OpenTK;
+using System;
 using System.Collections.Generic;
-using OpenTK;
 
 namespace SFGraphics.Utils
 {
@@ -20,47 +20,60 @@ namespace SFGraphics.Utils
         {
             if (vertexPositions.Count == 0)
                 return new Vector4(0);
-            
-            // Compares the vertexPositions to the first vertex.
-            float minX = vertexPositions[0].X;
-            float maxX = vertexPositions[0].X;
 
-            float minY = vertexPositions[0].Y;
-            float maxY = vertexPositions[0].Y;
+            // Find the corners of the bounding region.
+            Vector3 min = new Vector3(vertexPositions[0]);
+            Vector3 max = new Vector3(vertexPositions[0]);
 
-            float minZ = vertexPositions[0].Z;
-            float maxZ = vertexPositions[0].Z;
-
-            // TODO: Parallel foreach?
-            // Finds the corners of the bounding box.
-            // This will be relatively slow for denser models.
             foreach (var vertex in vertexPositions)
             {
-                minX = Math.Min(minX, vertex.X);
-                maxX = Math.Max(maxX, vertex.X);
-
-                minY = Math.Min(minY, vertex.Y);
-                maxY = Math.Max(maxY, vertex.Y);
-
-                minZ = Math.Min(minZ, vertex.Z);
-                maxZ = Math.Max(maxZ, vertex.Z);
+                min = Vector3.ComponentMin(min, vertex);
+                max = Vector3.ComponentMax(max, vertex);
             }
 
-            // Finds the smallest cube that will hold the entire model.
-            float xLength = maxX - minX;
-            float yLength = maxY - minY;
-            float zLength = maxZ - minZ;
-            float maxLength = Math.Max(Math.Max(xLength, yLength), zLength);
+            return GenerateBoundingSphere(min, max);
+        }
 
-            // The center is the average in each direction.
-            Vector3 center = new Vector3((maxX + minX) / 2.0f, (maxY + minY) / 2.0f, (maxZ + minZ) / 2.0f);
+        /// <summary>
+        /// Generates a single bounding sphere that contains all the given
+        /// bounding spheres.
+        /// </summary>
+        /// <param name="boundingSpheres">The list of bounding sphere centers (xyz) and radii (w)</param>
+        /// <returns>A single bounding sphere that contains <paramref name="boundingSpheres"/></returns>
+        public static Vector4 GenerateBoundingSphere(List<Vector4> boundingSpheres)
+        {
+            if (boundingSpheres.Count == 0)
+                return new Vector4(0);
 
+            // Find the corners of the bounding region.
+            // Calculate the end points using the center and radius.
+            Vector3 min = boundingSpheres[0].Xyz - new Vector3(boundingSpheres[0].W);
+            Vector3 max = boundingSpheres[0].Xyz + new Vector3(boundingSpheres[0].W);
+
+            foreach (var sphere in boundingSpheres)
+            {
+                min = Vector3.ComponentMin(min, sphere.Xyz - new Vector3(sphere.W));
+                max = Vector3.ComponentMax(max, sphere.Xyz + new Vector3(sphere.W));
+            }
+
+            return GenerateBoundingSphere(min, max);
+        }
+
+        private static float CalculateRadius(float horizontalLeg, float verticalLeg)
+        {
+            return (float)Math.Sqrt((horizontalLeg * horizontalLeg) + (verticalLeg * verticalLeg));
+        }
+
+        private static Vector4 GenerateBoundingSphere(Vector3 min, Vector3 max)
+        {
             // The radius should be the hypotenuse of the triangle.
             // This ensures the sphere contains all points.
-            float horizontalLeg = xLength / 2.0f;
-            float verticalLeg = yLength / 2.0f;
+            Vector3 lengths = max - min;
+            float horizontalLeg = lengths.X / 2.0f;
+            float verticalLeg = lengths.Y / 2.0f;
 
-            float radius = (float)Math.Sqrt((horizontalLeg * horizontalLeg) + (verticalLeg * verticalLeg));
+            Vector3 center = (max + min) / 2.0f;
+            float radius = CalculateRadius(horizontalLeg, verticalLeg);
 
             return new Vector4(center, radius);
         }

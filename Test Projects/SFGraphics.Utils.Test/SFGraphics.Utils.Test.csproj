@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Test\BitmapUtilsTests\GetBitmap.cs" />
+    <Compile Include="Test\BoundingSphereTests\GenerateBoundingSphereFromSpheres.cs" />
     <Compile Include="Test\ColorUtilsTests\Clamp.cs" />
     <Compile Include="Test\ColorUtilsTests\GetColorTests\FromFloats.cs" />
     <Compile Include="Test\ColorUtilsTests\GetColorTests\FromVector3.cs" />
@@ -73,7 +74,7 @@
     <Compile Include="Test\VectorUtilsTests\GetRadians.cs" />
     <Compile Include="Test\VectorUtilsTests\Orthogonalize.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Test\BoundingSphereTests\BoundingSpheres.cs" />
+    <Compile Include="Test\BoundingSphereTests\GenerateBoundingSphere.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
