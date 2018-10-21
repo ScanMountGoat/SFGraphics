@@ -14,5 +14,16 @@ namespace BoundingSphereTests
             }
             return true;
         }
+
+        public static bool SphereContainsSpheres(Vector4 outer, List<Vector4> inner)
+        {
+            foreach (var sphere in inner)
+            {
+                // Check if distance between centers is less than sum of radii.
+                if (Vector3.Distance(sphere.Xyz, outer.Xyz) > (outer.W + sphere.W))
+                    return false;
+            }
+            return true;
+        }
     }
 }

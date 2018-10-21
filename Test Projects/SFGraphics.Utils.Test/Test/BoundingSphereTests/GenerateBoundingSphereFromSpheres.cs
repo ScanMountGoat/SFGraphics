@@ -22,7 +22,7 @@ namespace BoundingSphereTests
             var spheres = new List<Vector4>() { new Vector4(0, 0, 0, 1) };
 
             var boundingSphere = BoundingSphereGenerator.GenerateBoundingSphere(spheres);
-            Assert.AreEqual(new Vector4(0, 0, 0, 1), boundingSphere);
+            Assert.IsTrue(SpherePointUtils.SphereContainsSpheres(boundingSphere, spheres));
         }
 
         [TestMethod]
@@ -31,7 +31,7 @@ namespace BoundingSphereTests
             var spheres = new List<Vector4>() { new Vector4(0, 0, 0, 1), new Vector4(0, 0, 0, 2) };
 
             var boundingSphere = BoundingSphereGenerator.GenerateBoundingSphere(spheres);
-            Assert.AreEqual(new Vector4(0, 0, 0, 2), boundingSphere);
+            Assert.IsTrue(SpherePointUtils.SphereContainsSpheres(boundingSphere, spheres));
         }
 
         [TestMethod]
@@ -46,7 +46,7 @@ namespace BoundingSphereTests
             };
 
             var boundingSphere = BoundingSphereGenerator.GenerateBoundingSphere(spheres);
-            Assert.AreEqual(new Vector4(0, 0, 0, 2), boundingSphere);
+            Assert.IsTrue(SpherePointUtils.SphereContainsSpheres(boundingSphere, spheres));
         }
     }
 }
