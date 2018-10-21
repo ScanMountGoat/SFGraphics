@@ -10,28 +10,54 @@ namespace SFGraphics.Utils
     public static class BoundingSphereGenerator
     {
         /// <summary>
-        /// The center is the average of the min and max values for X, Y, Z.
-        /// The radius is calculated based on the smallest sphere that will contain all of <paramref name="vertexPositions"/>.
+        /// Generates a close to optimal sphere that contains all of the given points
+        /// within the sphere.
         /// Returns Vector4(center.Xyz, radius).
         /// </summary>
-        /// <param name="vertexPositions"></param>
+        /// <param name="points">The points that should be contained within the bounding sphere</param>
         /// <returns>Vector4(center.Xyz, radius)</returns>
-        public static Vector4 GenerateBoundingSphere(List<Vector3> vertexPositions)
+        public static Vector4 GenerateBoundingSphere(List<Vector3> points)
         {
-            if (vertexPositions.Count == 0)
+            if (points.Count == 0)
                 return new Vector4(0);
 
             // Find the corners of the bounding region.
-            Vector3 min = new Vector3(vertexPositions[0]);
-            Vector3 max = new Vector3(vertexPositions[0]);
+            Vector3 min = new Vector3(points[0]);
+            Vector3 max = new Vector3(points[0]);
 
-            foreach (var vertex in vertexPositions)
+            foreach (var point in points)
             {
-                min = Vector3.ComponentMin(min, vertex);
-                max = Vector3.ComponentMax(max, vertex);
+                min = Vector3.ComponentMin(min, point);
+                max = Vector3.ComponentMax(max, point);
             }
 
-            return GetBoundingSphereFromRegion(min, max);
+            Vector4 sphere = GetBoundingSphereFromRegion(min, max);
+            sphere = AdjustBoundingSphere(points, sphere);
+            return sphere;
+        }
+
+        // Optimization adapted from efficient bounding sphere algorithm by Jack Ritter
+        // Example c implementation:
+        // https://github.com/erich666/GraphicsGems/blob/master/gems/BoundSphere.c
+        private static Vector4 AdjustBoundingSphere(List<Vector3> points, Vector4 sphere)
+        {
+            foreach (var point in points)
+            {
+                // Avoid calculating square root for comparison.
+                Vector3 delta = point - sphere.Xyz;
+                float deltaLengthSquared = delta.LengthSquared;
+
+                // If the point isn't in the bounding sphere, extend the sphere.
+                if (deltaLengthSquared > (sphere.W * sphere.W))
+                {
+                    float newRadius = (float)Math.Sqrt(deltaLengthSquared);
+                    sphere.W = (sphere.W + newRadius) / 2.0f;
+                    float offset = newRadius - sphere.W;
+                    sphere.Xyz = ((sphere.W * sphere.Xyz) + (offset * point)) / newRadius;
+                }
+            }
+
+            return sphere;
         }
 
         /// <summary>

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using SFGraphics.Utils;
 using OpenTK;
 
-namespace BoundingSpheres
+namespace BoundingSphereTests
 {
     [TestClass]
     public class GenerateBoundingSphereFromSpheres
@@ -35,7 +35,7 @@ namespace BoundingSpheres
         }
 
         [TestMethod]
-        public void DifferentRadiusDifferentCenter()
+        public void DifferentRadiusDifferentCenter2D()
         {
             var spheres = new List<Vector4>()
             {

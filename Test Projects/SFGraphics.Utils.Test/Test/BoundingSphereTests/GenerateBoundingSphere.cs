@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using SFGraphics.Utils;
 using OpenTK;
 
-namespace BoundingSpheres
+namespace BoundingSphereTests
 {
     [TestClass]
     public class GenerateBoundingSphere
@@ -19,19 +19,18 @@ namespace BoundingSpheres
         [TestMethod]
         public void UnitCube()
         {
-            var vertices = new List<Vector3>();
-            vertices.Add(new Vector3(1, -1, -1));
-            vertices.Add(new Vector3(1, -1, 1));
-            vertices.Add(new Vector3(-1, -1, 1));
-            vertices.Add(new Vector3(-1, -1, -1));
-            vertices.Add(new Vector3(1, 1, -1));
-            vertices.Add(new Vector3(1, 1, 1));
-            vertices.Add(new Vector3(-1, 1, 1));
-            vertices.Add(new Vector3(-1, 1, -1));
+            var points = new List<Vector3>();
+            points.Add(new Vector3(0.5f, -0.5f, -0.5f));
+            points.Add(new Vector3(0.5f, -0.5f, 0.5f));
+            points.Add(new Vector3(-0.5f, -0.5f, 0.5f));
+            points.Add(new Vector3(-0.5f, -0.5f, -0.5f));
+            points.Add(new Vector3(0.5f, 0.5f, -0.5f));
+            points.Add(new Vector3(0.5f, 0.5f, 0.5f));
+            points.Add(new Vector3(-0.5f, 0.5f, 0.5f));
+            points.Add(new Vector3(-0.5f, 0.5f, -0.5f));
 
-            var boundingSphere = BoundingSphereGenerator.GenerateBoundingSphere(vertices);
-            Assert.AreEqual(new Vector3(0, 0, 0), boundingSphere.Xyz);
-            Assert.AreEqual(Math.Sqrt(2), boundingSphere.W, 0.001f);
+            var boundingSphere = BoundingSphereGenerator.GenerateBoundingSphere(points);
+            Assert.IsTrue(SpherePointUtils.SphereContainsPoints(boundingSphere, points));
         }
     }
 }
