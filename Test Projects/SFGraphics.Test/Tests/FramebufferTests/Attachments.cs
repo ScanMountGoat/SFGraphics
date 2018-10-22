@@ -6,28 +6,34 @@ using SFGraphics.GLObjects.Textures;
 namespace FramebufferTests
 {
     [TestClass]
-    public class Completion : Tests.ContextTest
+    public class Attachments : Tests.ContextTest
     {
         [TestMethod]
         public void NoAttachments()
         {
             // This is missing a depth attachment.
             Framebuffer framebuffer = new Framebuffer(FramebufferTarget.Framebuffer);
+
             Assert.AreEqual(FramebufferErrorCode.FramebufferIncompleteMissingAttachment, framebuffer.GetStatus());
+            Assert.AreEqual(0, framebuffer.Attachments.Count);
         }
 
         [TestMethod]
         public void JustDepthTexture()
         {
             Framebuffer framebuffer = new Framebuffer(FramebufferTarget.Framebuffer, 1, 1, PixelInternalFormat.Rgba, 0);
+
             Assert.AreEqual(FramebufferErrorCode.FramebufferComplete, framebuffer.GetStatus());
+            Assert.AreEqual(1, framebuffer.Attachments.Count);
         }
 
         [TestMethod]
         public void OneColor()
         {
             Framebuffer framebuffer = new Framebuffer(FramebufferTarget.Framebuffer, 1, 1, PixelInternalFormat.Rgba, 1);
+
             Assert.AreEqual(FramebufferErrorCode.FramebufferComplete, framebuffer.GetStatus());
+            Assert.AreEqual(2, framebuffer.Attachments.Count); // 1 + depth
         }
 
         [TestMethod]
@@ -35,7 +41,9 @@ namespace FramebufferTests
         {
             Framebuffer framebuffer = new Framebuffer(FramebufferTarget.Framebuffer);
             framebuffer.AddAttachment(FramebufferAttachment.ColorAttachment0, new Texture2DMultisample(8, 8, PixelInternalFormat.Rgba, 1));
+
             Assert.AreEqual(FramebufferErrorCode.FramebufferComplete, framebuffer.GetStatus());
+            Assert.AreEqual(1, framebuffer.Attachments.Count);
         }
 
         [TestMethod]
@@ -44,14 +52,18 @@ namespace FramebufferTests
             Framebuffer framebuffer = new Framebuffer(FramebufferTarget.Framebuffer);
             framebuffer.AddAttachment(FramebufferAttachment.ColorAttachment0, new Texture2DMultisample(8, 8, PixelInternalFormat.Rgba, 1));
             framebuffer.AddAttachment(FramebufferAttachment.DepthAttachment, new SFGraphics.GLObjects.RenderBuffers.Renderbuffer(8, 8, 1, RenderbufferStorage.DepthComponent));
+
             Assert.AreEqual(FramebufferErrorCode.FramebufferComplete, framebuffer.GetStatus());
+            Assert.AreEqual(2, framebuffer.Attachments.Count);
         }
 
         [TestMethod]
         public void MultipleColorTextures()
         {
             Framebuffer framebuffer = new Framebuffer(FramebufferTarget.Framebuffer, 1, 1, PixelInternalFormat.Rgba, 3);
+
             Assert.AreEqual(FramebufferErrorCode.FramebufferComplete, framebuffer.GetStatus());
+            Assert.AreEqual(4, framebuffer.Attachments.Count); // 3 + depth
         }
     }
 }

@@ -36,12 +36,18 @@ namespace SFGraphics.GLObjects.Framebuffers
         public int Height { get; }
 
         /// <summary>
+        /// 
+        /// </summary>
+        public List<IFramebufferAttachment> Attachments { get; private set; }
+
+        /// <summary>
         /// Generates an incomplete framebuffer of the specified target with no attachments. 
         /// </summary>
         /// <param name="framebufferTarget">The target to which <see cref="GLObject.Id"/> is bound</param>
         public Framebuffer(FramebufferTarget framebufferTarget) : base(GL.GenFramebuffer())
         {
             Target = framebufferTarget;
+            Attachments = new List<IFramebufferAttachment>();
         }
 
         /// <summary>
@@ -71,7 +77,7 @@ namespace SFGraphics.GLObjects.Framebuffers
             Width = width;
             Height = height;
 
-            CreateColorAttachments(width, height, colorAttachmentsCount);
+            Attachments = CreateColorAttachments(width, height, colorAttachmentsCount);
 
             SetUpRboDepth(width, height);
         }
@@ -96,6 +102,7 @@ namespace SFGraphics.GLObjects.Framebuffers
         public void AddAttachment(FramebufferAttachment attachmentPoint, IFramebufferAttachment attachment)
         {
             attachment.Attach(attachmentPoint, this);
+            Attachments.Add(attachment);
         }
 
         /// <summary>
