@@ -77,12 +77,12 @@ namespace SFGraphics.GLObjects.Framebuffers
         }
 
         /// <summary>
-        /// Gets the framebuffer status for this framebuffer.
+        /// Gets the framebuffer status, which indicates
+        /// if the framebuffer is complete and valid for rendering.
         /// </summary>
         /// <returns>The framebuffer status</returns>
         public FramebufferErrorCode GetStatus()
         {
-            // Check if the framebuffer is complete and valid for rendering.
             Bind();
             return GL.CheckFramebufferStatus(Target);
         }
@@ -92,7 +92,7 @@ namespace SFGraphics.GLObjects.Framebuffers
         /// Draw and read buffers must be configured separately.
         /// </summary>
         /// <param name="attachmentPoint">The target attachment point</param>
-        /// <param name="attachment">The texture to attach</param>
+        /// <param name="attachment">The object to attach</param>
         public void AddAttachment(FramebufferAttachment attachmentPoint, IFramebufferAttachment attachment)
         {
             attachment.Attach(attachmentPoint, this);
@@ -128,13 +128,7 @@ namespace SFGraphics.GLObjects.Framebuffers
             GL.ReadBuffer(readBufferMode);
         }
 
-        private Texture2D CreateColorAttachment(int width, int height, FramebufferAttachment attachment)
-        {
-            Texture2D texture = CreateColorAttachmentTexture(width, height);
-            return texture;
-        }
-
-        private Texture2D CreateColorAttachmentTexture(int width, int height)
+        private Texture2D CreateColorAttachment(int width, int height)
         {
             Texture2D texture = new Texture2D()
             {
@@ -164,7 +158,7 @@ namespace SFGraphics.GLObjects.Framebuffers
                 DrawBuffersEnum attachmentPoint = DrawBuffersEnum.ColorAttachment0 + i;
                 attachmentEnums.Add(attachmentPoint);
 
-                Texture2D texture = CreateColorAttachment(width, height, (FramebufferAttachment)attachmentPoint);
+                Texture2D texture = CreateColorAttachment(width, height);
                 colorAttachments.Add(texture);
                 AddAttachment((FramebufferAttachment)attachmentPoint, texture);
             }
