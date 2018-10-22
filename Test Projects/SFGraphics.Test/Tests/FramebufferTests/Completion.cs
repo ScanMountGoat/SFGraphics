@@ -6,15 +6,8 @@ using SFGraphics.GLObjects.Textures;
 namespace FramebufferTests
 {
     [TestClass]
-    public class Completion
+    public class Completion : Tests.ContextTest
     {
-        [TestInitialize()]
-        public void Initialize()
-        {
-            // Set up the context for all the tests.
-            RenderTestUtils.OpenTKWindowlessContext.BindDummyContext();
-        }
-
         [TestMethod]
         public void NoAttachments()
         {
@@ -24,21 +17,21 @@ namespace FramebufferTests
         }
 
         [TestMethod]
-        public void JustDepthAttachments()
+        public void JustDepthTexture()
         {
             Framebuffer framebuffer = new Framebuffer(FramebufferTarget.Framebuffer, 1, 1, PixelInternalFormat.Rgba, 0);
             Assert.AreEqual(FramebufferErrorCode.FramebufferComplete, framebuffer.GetStatus());
         }
 
         [TestMethod]
-        public void OneColorAttachment()
+        public void OneColor()
         {
             Framebuffer framebuffer = new Framebuffer(FramebufferTarget.Framebuffer, 1, 1, PixelInternalFormat.Rgba, 1);
             Assert.AreEqual(FramebufferErrorCode.FramebufferComplete, framebuffer.GetStatus());
         }
 
         [TestMethod]
-        public void OneMultisampledTextureColorAttachment()
+        public void OneMultisampledColorTexture()
         {
             Framebuffer framebuffer = new Framebuffer(FramebufferTarget.Framebuffer);
             framebuffer.AddAttachment(FramebufferAttachment.ColorAttachment0, new Texture2DMultisample(8, 8, PixelInternalFormat.Rgba, 1));
@@ -46,7 +39,16 @@ namespace FramebufferTests
         }
 
         [TestMethod]
-        public void MultipleColorAttachments()
+        public void MultisampledColorTextureMultiSampledRboDepth()
+        {
+            Framebuffer framebuffer = new Framebuffer(FramebufferTarget.Framebuffer);
+            framebuffer.AddAttachment(FramebufferAttachment.ColorAttachment0, new Texture2DMultisample(8, 8, PixelInternalFormat.Rgba, 1));
+            framebuffer.AddAttachment(FramebufferAttachment.DepthAttachment, new SFGraphics.GLObjects.RenderBuffers.Renderbuffer(8, 8, 1, RenderbufferStorage.DepthComponent));
+            Assert.AreEqual(FramebufferErrorCode.FramebufferComplete, framebuffer.GetStatus());
+        }
+
+        [TestMethod]
+        public void MultipleColorTextures()
         {
             Framebuffer framebuffer = new Framebuffer(FramebufferTarget.Framebuffer, 1, 1, PixelInternalFormat.Rgba, 3);
             Assert.AreEqual(FramebufferErrorCode.FramebufferComplete, framebuffer.GetStatus());
