@@ -98,39 +98,14 @@ namespace SFGraphics.GLObjects.Framebuffers
         }
 
         /// <summary>
-        /// Attaches <paramref name="texture"/> to <paramref name="attachment"/>.
+        /// Attaches <paramref name="attachment"/> to <paramref name="attachmentPoint"/>.
         /// Draw and read buffers must be configured separately.
         /// </summary>
-        /// <param name="attachment">The attachment target for the texture</param>
-        /// <param name="texture">The texture to attach</param>
-        public void AttachTexture(FramebufferAttachment attachment, Texture2D texture)
+        /// <param name="attachmentPoint">The target attachment point</param>
+        /// <param name="attachment">The texture to attach</param>
+        public void AddAttachment(FramebufferAttachment attachmentPoint, IFramebufferAttachment attachment)
         {
-            Bind();
-            GL.FramebufferTexture2D(Target, attachment, TextureTarget.Texture2D, texture.Id, 0);
-        }
-
-        /// <summary>
-        /// Attaches <paramref name="depthTexture"/> to <paramref name="attachment"/>.
-        /// </summary>
-        /// <param name="attachment">The attachment target for the texture. This should be a depth attachment.</param>
-        /// <param name="depthTexture">The depth texture to attach</param>
-        public void AttachDepthTexture(FramebufferAttachment attachment, DepthTexture depthTexture)
-        {
-            Bind();
-            GL.FramebufferTexture2D(Target, attachment, TextureTarget.Texture2D, depthTexture.Id, 0);
-        }
-
-        /// <summary>
-        /// Attaches <paramref name="renderbuffer"/> to <paramref name="attachment"/>.
-        /// Draw and read buffers must be configured separately.
-        /// </summary>
-        /// <param name="attachment">The attachment target for the renderbuffer</param>
-        /// <param name="renderbuffer">The renderbuffer to attach</param>
-        public void AttachRenderbuffer(FramebufferAttachment attachment, Renderbuffer renderbuffer)
-        {
-            Bind();
-            GL.FramebufferRenderbuffer(Target, attachment,
-                RenderbufferTarget.Renderbuffer, renderbuffer.Id);
+            attachment.Attach(attachmentPoint, this);
         }
 
         /// <summary>
@@ -186,7 +161,7 @@ namespace SFGraphics.GLObjects.Framebuffers
         {
             // Render buffer for the depth attachment, which is necessary for depth testing.
             Renderbuffer rboDepth = new Renderbuffer(width, height, RenderbufferStorage.DepthComponent);
-            AttachRenderbuffer(FramebufferAttachment.DepthAttachment, rboDepth);
+            AddAttachment(FramebufferAttachment.DepthAttachment, rboDepth);
         }
 
         private List<IFramebufferAttachment> CreateColorAttachments(int width, int height, int colorAttachmentsCount)
@@ -201,7 +176,7 @@ namespace SFGraphics.GLObjects.Framebuffers
 
                 Texture2D texture = CreateColorAttachment(width, height, (FramebufferAttachment)attachmentPoint);
                 colorAttachments.Add(texture);
-                AttachTexture((FramebufferAttachment)attachmentPoint, texture);
+                AddAttachment((FramebufferAttachment)attachmentPoint, texture);
             }
 
             SetDrawBuffers(attachmentEnums.ToArray());

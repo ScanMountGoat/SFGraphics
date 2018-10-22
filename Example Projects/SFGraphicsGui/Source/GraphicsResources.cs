@@ -114,8 +114,7 @@ namespace SFGraphicsGui
             // every time the application is run.
             if (OpenGLExtensions.IsAvailable("GL_ARB_get_program_binary"))
             {
-                BinaryFormat binaryFormat;
-                byte[] programBinary = shader.GetProgramBinary(out binaryFormat);
+                byte[] programBinary = shader.GetProgramBinary(out BinaryFormat binaryFormat);
 
                 shader.LoadProgramBinary(programBinary, binaryFormat);
             }

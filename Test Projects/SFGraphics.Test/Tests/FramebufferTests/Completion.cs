@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SFGraphics.GLObjects.Framebuffers;
 using OpenTK.Graphics.OpenGL;
+using SFGraphics.GLObjects.Textures;
 
 namespace FramebufferTests
 {
@@ -33,6 +34,14 @@ namespace FramebufferTests
         public void OneColorAttachment()
         {
             Framebuffer framebuffer = new Framebuffer(FramebufferTarget.Framebuffer, 1, 1, PixelInternalFormat.Rgba, 1);
+            Assert.AreEqual("FramebufferComplete", framebuffer.GetStatus());
+        }
+
+        [TestMethod]
+        public void OneMultisampledTextureColorAttachment()
+        {
+            Framebuffer framebuffer = new Framebuffer(FramebufferTarget.Framebuffer);
+            framebuffer.AddAttachment(FramebufferAttachment.ColorAttachment0, new Texture2DMultisample(8, 8, PixelInternalFormat.Rgba, 1));
             Assert.AreEqual("FramebufferComplete", framebuffer.GetStatus());
         }
 
