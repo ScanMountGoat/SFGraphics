@@ -20,21 +20,21 @@ namespace FramebufferTests
         {
             // This is missing a depth attachment.
             Framebuffer framebuffer = new Framebuffer(FramebufferTarget.Framebuffer);
-            Assert.AreEqual("FramebufferIncompleteMissingAttachment", framebuffer.GetStatus());
+            Assert.AreEqual(FramebufferErrorCode.FramebufferIncompleteMissingAttachment, framebuffer.GetStatus());
         }
 
         [TestMethod]
         public void JustDepthAttachments()
         {
             Framebuffer framebuffer = new Framebuffer(FramebufferTarget.Framebuffer, 1, 1, PixelInternalFormat.Rgba, 0);
-            Assert.AreEqual("FramebufferComplete", framebuffer.GetStatus());
+            Assert.AreEqual(FramebufferErrorCode.FramebufferComplete, framebuffer.GetStatus());
         }
 
         [TestMethod]
         public void OneColorAttachment()
         {
             Framebuffer framebuffer = new Framebuffer(FramebufferTarget.Framebuffer, 1, 1, PixelInternalFormat.Rgba, 1);
-            Assert.AreEqual("FramebufferComplete", framebuffer.GetStatus());
+            Assert.AreEqual(FramebufferErrorCode.FramebufferComplete, framebuffer.GetStatus());
         }
 
         [TestMethod]
@@ -42,14 +42,14 @@ namespace FramebufferTests
         {
             Framebuffer framebuffer = new Framebuffer(FramebufferTarget.Framebuffer);
             framebuffer.AddAttachment(FramebufferAttachment.ColorAttachment0, new Texture2DMultisample(8, 8, PixelInternalFormat.Rgba, 1));
-            Assert.AreEqual("FramebufferComplete", framebuffer.GetStatus());
+            Assert.AreEqual(FramebufferErrorCode.FramebufferComplete, framebuffer.GetStatus());
         }
 
         [TestMethod]
         public void MultipleColorAttachments()
         {
             Framebuffer framebuffer = new Framebuffer(FramebufferTarget.Framebuffer, 1, 1, PixelInternalFormat.Rgba, 3);
-            Assert.AreEqual("FramebufferComplete", framebuffer.GetStatus());
+            Assert.AreEqual(FramebufferErrorCode.FramebufferComplete, framebuffer.GetStatus());
         }
     }
 }

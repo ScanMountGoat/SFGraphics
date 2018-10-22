@@ -5,7 +5,6 @@ using SFGraphics.GLObjects.Textures.TextureFormats;
 using SFGraphics.GLObjects.Textures.Utils;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 
 namespace SFGraphics.GLObjects.Framebuffers
 {
@@ -37,21 +36,12 @@ namespace SFGraphics.GLObjects.Framebuffers
         public int Height { get; }
 
         /// <summary>
-        /// All color attachment textures. 
-        /// </summary>
-        public ReadOnlyCollection<IFramebufferAttachment> ColorAttachments { get { return colorAttachments.AsReadOnly(); } }
-
-        private List<IFramebufferAttachment> colorAttachments = new List<IFramebufferAttachment>();
-
-        /// <summary>
-        /// Generates an empty framebuffer with no attachments bound to the specified target. 
-        /// Binds the framebuffer.
+        /// Generates an incomplete framebuffer of the specified target with no attachments. 
         /// </summary>
         /// <param name="framebufferTarget">The target to which <see cref="GLObject.Id"/> is bound</param>
         public Framebuffer(FramebufferTarget framebufferTarget) : base(GL.GenFramebuffer())
         {
             Target = framebufferTarget;
-            Bind();
         }
 
         /// <summary>
@@ -81,7 +71,7 @@ namespace SFGraphics.GLObjects.Framebuffers
             Width = width;
             Height = height;
 
-            colorAttachments = CreateColorAttachments(width, height, colorAttachmentsCount);
+            CreateColorAttachments(width, height, colorAttachmentsCount);
 
             SetUpRboDepth(width, height);
         }
@@ -89,12 +79,12 @@ namespace SFGraphics.GLObjects.Framebuffers
         /// <summary>
         /// Gets the framebuffer status for this framebuffer.
         /// </summary>
-        /// <returns></returns>
-        public string GetStatus()
+        /// <returns>The framebuffer status</returns>
+        public FramebufferErrorCode GetStatus()
         {
-            // Check if any of the settings were incorrect when creating the fbo.
+            // Check if the framebuffer is complete and valid for rendering.
             Bind();
-            return GL.CheckFramebufferStatus(Target).ToString();
+            return GL.CheckFramebufferStatus(Target);
         }
 
         /// <summary>
