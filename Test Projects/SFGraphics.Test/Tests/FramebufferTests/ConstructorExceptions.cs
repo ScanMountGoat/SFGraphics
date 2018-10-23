@@ -26,7 +26,9 @@ namespace FramebufferTests
         public void UncompressedFormat()
         {
             // Shouldn't throw an exception.
-            Framebuffer framebuffer = new Framebuffer(FramebufferTarget.Framebuffer, 1, 1, PixelInternalFormat.Rgb);
+            Framebuffer framebuffer = new Framebuffer(FramebufferTarget.Framebuffer, 8, 4, PixelInternalFormat.Rgb);
+            Assert.AreEqual(8, framebuffer.Width);
+            Assert.AreEqual(4, framebuffer.Height);
         }
 
         [TestMethod]

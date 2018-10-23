@@ -26,14 +26,14 @@ namespace SFGraphics.GLObjects.Framebuffers
         public PixelInternalFormat PixelInternalFormat { get; }
 
         /// <summary>
-        /// All attached textures, renderbuffers, etc are resized when set. The framebuffer's contents will not be preserved when resizing.
+        /// The width of all attachments in pixels.
         /// </summary>
-        public int Width { get; }
+        public int Width { get; private set; } = 0;
 
         /// <summary>
-        /// All attached textures, renderbuffers, etc are resized when set. The framebuffer's contents will not be preserved when resizing.
+        /// The height of all attachments in pixels.
         /// </summary>
-        public int Height { get; }
+        public int Height { get; private set; } = 0;
 
         /// <summary>
         /// 
@@ -41,7 +41,8 @@ namespace SFGraphics.GLObjects.Framebuffers
         public List<IFramebufferAttachment> Attachments { get; private set; }
 
         /// <summary>
-        /// Generates an incomplete framebuffer of the specified target with no attachments. 
+        /// Generates an incomplete framebuffer of the specified target with no attachments.
+        /// The dimensions are invalid until an attachment is added.
         /// </summary>
         /// <param name="framebufferTarget">The target to which <see cref="GLObject.Id"/> is bound</param>
         public Framebuffer(FramebufferTarget framebufferTarget) : base(GL.GenFramebuffer())
@@ -95,12 +96,23 @@ namespace SFGraphics.GLObjects.Framebuffers
 
         /// <summary>
         /// Attaches <paramref name="attachment"/> to <paramref name="attachmentPoint"/>.
-        /// Draw and read buffers must be configured separately.
+        /// Sets <see cref="Width"/> and <see cref="Height"/> if this is the first attachment.
         /// </summary>
         /// <param name="attachmentPoint">The target attachment point</param>
         /// <param name="attachment">The object to attach</param>
+        /// <exception cref="ArgumentOutOfRangeException">The attachment dimensions do not match the framebuffer's dimensions.</exception>
         public void AddAttachment(FramebufferAttachment attachmentPoint, IFramebufferAttachment attachment)
         {
+            // Check if the dimensions are uninitialized.
+            if (Attachments.Count == 0 && Width == 0 && Height == 0)
+            {
+                Width = attachment.Width;
+                Height = attachment.Height;
+            }
+
+            if (attachment.Width != Width || attachment.Height != Height)
+                throw new ArgumentOutOfRangeException("The attachment dimensions do not match the framebuffer's dimensions.");
+
             attachment.Attach(attachmentPoint, this);
             Attachments.Add(attachment);
         }
@@ -144,7 +156,9 @@ namespace SFGraphics.GLObjects.Framebuffers
                 MagFilter = TextureMagFilter.Linear
             };
             // Necessary for texture completion.
-            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat, width, height, 0, PixelFormat.Rgba, PixelType.Float, IntPtr.Zero);
+            var format = new TextureFormatUncompressed(PixelInternalFormat, PixelFormat.Rgba, PixelType.Float);
+            texture.LoadImageData(width, height, format);
+
             return texture;
         }
 

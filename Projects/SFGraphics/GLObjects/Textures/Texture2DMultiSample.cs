@@ -31,6 +31,9 @@ namespace SFGraphics.GLObjects.Textures
 
         private void SetDimensionsAndFormat(int width, int height, PixelInternalFormat format)
         {
+            Width = width;
+            Height = height;
+
             Bind();
             GL.TexImage2DMultisample(TextureTargetMultisample.Texture2DMultisample, Samples, format,
                 width, height, true);

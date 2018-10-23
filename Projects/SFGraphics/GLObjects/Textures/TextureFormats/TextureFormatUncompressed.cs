@@ -22,14 +22,14 @@ namespace SFGraphics.GLObjects.Textures.TextureFormats
         /// <summary>
         /// The data type of each color component for the input data
         /// </summary>
-        public readonly PixelType pixelType; 
+        public readonly PixelType pixelType;
 
         /// <summary>
         /// Initializes the format information for an uncompressed format.
         /// </summary>
-        /// <param name="pixelInternalFormat"></param>
-        /// <param name="pixelFormat"></param>
-        /// <param name="pixelType"></param>
+        /// <param name="pixelInternalFormat">The format used by OpenGL to store the data</param>
+        /// <param name="pixelFormat">The format of the color components for the input data</param>
+        /// <param name="pixelType">The data type of each color component for the input data</param>
         /// <exception cref="ArgumentException"><paramref name="pixelInternalFormat"/> is a compressed format.</exception>
         public TextureFormatUncompressed(PixelInternalFormat pixelInternalFormat, PixelFormat pixelFormat, PixelType pixelType)
         {

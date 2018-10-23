@@ -14,5 +14,15 @@ namespace SFGraphics.GLObjects.Framebuffers
         /// <param name="attachment">The attachment point</param>
         /// <param name="target">The target framebuffer for attachment</param>
         void Attach(FramebufferAttachment attachment, Framebuffer target);
+
+        /// <summary>
+        /// The width of the attachment in pixels.
+        /// </summary>
+        int Width { get; }
+
+        /// <summary>
+        /// The height of the attachment in pixels.
+        /// </summary>
+        int Height { get; }
     }
 }
