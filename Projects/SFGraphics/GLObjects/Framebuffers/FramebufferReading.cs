@@ -1,5 +1,4 @@
 ﻿using OpenTK.Graphics.OpenGL;
-using System;
 
 namespace SFGraphics.GLObjects.Framebuffers
 {
@@ -12,15 +11,15 @@ namespace SFGraphics.GLObjects.Framebuffers
         /// <returns>A bitmap of the framebuffer's contents</returns>
         public System.Drawing.Bitmap ReadImagePixels(bool saveAlpha = false)
         {
-            int componentCount = 4; // RGBA
-            int pixelSizeInBytes = sizeof(byte) * componentCount;
+            // RGBA unsigned byte
+            int pixelSizeInBytes = sizeof(byte) * 4;
             int imageSizeInBytes = Width * Height * pixelSizeInBytes;
-
-            Bind();
 
             byte[] pixels = GetBitmapPixels(saveAlpha, pixelSizeInBytes, imageSizeInBytes);
 
             var bitmap = Utils.BitmapUtils.GetBitmap(Width, Height, pixels);
+            // Adjust for differences in the origin point.
+            bitmap.RotateFlip(System.Drawing.RotateFlipType.RotateNoneFlipY);
             return bitmap;
         }
 
@@ -45,41 +44,31 @@ namespace SFGraphics.GLObjects.Framebuffers
         private byte[] GetBitmapPixels(bool saveAlpha, int pixelSizeInBytes, int imageSizeInBytes)
         {
             byte[] pixels = ReadPixels(imageSizeInBytes);
-            pixels = CopyPixelsFlipAdjustAlpha(Width, Height, saveAlpha, pixelSizeInBytes, pixels);
+            if (!saveAlpha)
+                SetAlphaToWhite(Width, Height, pixelSizeInBytes, pixels);
             return pixels;
         }
 
         private byte[] ReadPixels(int imageSizeInBytes)
         {
-            // Read the pixels from the framebuffer. PNG uses the BGRA format. 
+            Bind();
             byte[] pixels = new byte[imageSizeInBytes];
+
+            // Read the pixels from the framebuffer. PNG uses the BGRA format. 
             GL.ReadPixels(0, 0, Width, Height, PixelFormat.Bgra, PixelType.UnsignedByte, pixels);
             return pixels;
         }
 
-        private static byte[] CopyPixelsFlipAdjustAlpha(int width, int height, bool saveAlpha, int pixelSizeInBytes, byte[] pixels)
+        private static void SetAlphaToWhite(int width, int height, int pixelSizeInBytes, byte[] pixels)
         {
-            // Flip data because glReadPixels reads it in from bottom row to top row
-            byte[] fixedPixels = new byte[pixels.Length];
             for (int h = 0; h < height; h++)
             {
                 for (int w = 0; w < width; w++)
                 {
-                    int sourceIndex = w + (h * width);
-                    int sourceByteIndex = sourceIndex * pixelSizeInBytes;
-
-                    int destinationIndex = ((height - h - 1) * width) + w;
-                    int destinationByteIndex = destinationIndex * pixelSizeInBytes;
-
-                    if (!saveAlpha)
-                        pixels[sourceByteIndex + 3] = 255;
-
-                    // Copy each pixel one at a time.
-                    Array.Copy(pixels, sourceByteIndex, fixedPixels, destinationByteIndex, pixelSizeInBytes);
+                    int pixelIndex = w + (h * width);
+                    pixels[pixelIndex * pixelSizeInBytes + 3] = 255;
                 }
             }
-
-            return fixedPixels;
         }
     }
 }
