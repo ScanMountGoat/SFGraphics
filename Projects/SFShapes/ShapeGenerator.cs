@@ -47,36 +47,47 @@ namespace SFShapes
                 new Vector3(center.X + -scaleX, center.Y + -scaleY, center.Z + -scaleZ),
                 new Vector3(center.X + -scaleX, center.Y + -scaleY, center.Z +  scaleZ),
                 new Vector3(center.X + -scaleX, center.Y +  scaleY, center.Z +  scaleZ),
+
                 new Vector3(center.X +  scaleX, center.Y +  scaleY, center.Z + -scaleZ),
                 new Vector3(center.X + -scaleX, center.Y + -scaleY, center.Z + -scaleZ),
                 new Vector3(center.X + -scaleX, center.Y +  scaleY, center.Z + -scaleZ),
+
                 new Vector3(center.X +  scaleX, center.Y + -scaleY, center.Z +  scaleZ),
                 new Vector3(center.X + -scaleX, center.Y + -scaleY, center.Z + -scaleZ),
                 new Vector3(center.X +  scaleX, center.Y + -scaleY, center.Z + -scaleZ),
+
                 new Vector3(center.X +  scaleX, center.Y +  scaleY, center.Z + -scaleZ),
                 new Vector3(center.X +  scaleX, center.Y + -scaleY, center.Z + -scaleZ),
                 new Vector3(center.X + -scaleX, center.Y + -scaleY, center.Z + -scaleZ),
+
                 new Vector3(center.X + -scaleX, center.Y + -scaleY, center.Z + -scaleZ),
                 new Vector3(center.X + -scaleX, center.Y +  scaleY, center.Z +  scaleZ),
                 new Vector3(center.X + -scaleX, center.Y +  scaleY, center.Z + -scaleZ),
+
                 new Vector3(center.X +  scaleX, center.Y + -scaleY, center.Z +  scaleZ),
                 new Vector3(center.X + -scaleX, center.Y + -scaleY, center.Z +  scaleZ),
                 new Vector3(center.X + -scaleX, center.Y + -scaleY, center.Z + -scaleZ),
+
                 new Vector3(center.X + -scaleX, center.Y +  scaleY, center.Z +  scaleZ),
                 new Vector3(center.X + -scaleX, center.Y + -scaleY, center.Z +  scaleZ),
                 new Vector3(center.X +  scaleX, center.Y + -scaleY, center.Z +  scaleZ),
+
                 new Vector3(center.X +  scaleX, center.Y +  scaleY, center.Z +  scaleZ),
                 new Vector3(center.X +  scaleX, center.Y + -scaleY, center.Z + -scaleZ),
                 new Vector3(center.X +  scaleX, center.Y +  scaleY, center.Z + -scaleZ),
+
                 new Vector3(center.X +  scaleX, center.Y + -scaleY, center.Z + -scaleZ),
                 new Vector3(center.X +  scaleX, center.Y +  scaleY, center.Z +  scaleZ),
                 new Vector3(center.X +  scaleX, center.Y + -scaleY, center.Z +  scaleZ),
+
                 new Vector3(center.X +  scaleX, center.Y +  scaleY, center.Z +  scaleZ),
                 new Vector3(center.X +  scaleX, center.Y +  scaleY, center.Z + -scaleZ),
                 new Vector3(center.X + -scaleX, center.Y +  scaleY, center.Z + -scaleZ),
+
                 new Vector3(center.X +  scaleX, center.Y +  scaleY, center.Z +  scaleZ),
                 new Vector3(center.X + -scaleX, center.Y +  scaleY, center.Z + -scaleZ),
                 new Vector3(center.X + -scaleX, center.Y +  scaleY, center.Z +  scaleZ),
+
                 new Vector3(center.X +  scaleX, center.Y +  scaleY, center.Z +  scaleZ),
                 new Vector3(center.X + -scaleX, center.Y +  scaleY, center.Z +  scaleZ),
                 new Vector3(center.X +  scaleX, center.Y + -scaleY, center.Z +  scaleZ)

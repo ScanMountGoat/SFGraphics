@@ -77,7 +77,7 @@ namespace SFGraphics.Utils
             bool overrideValues = PositionsOrUvsAreEqual(posA, posB, uvA, uvB);
             if (overrideValues)
             {
-                // HACK: Let's pick some arbitrary tangent vectors.
+                // Pick some arbitrary tangent vectors.
                 tangent = defaultTangent;
                 bitangent = defaultBitangent;
                 return;
@@ -92,6 +92,24 @@ namespace SFGraphics.Utils
 
             tangent = CalculateTangent(posA, posB, uvA, uvB, r);
             bitangent = CalculateBitangent(posA, posB, uvA, uvB, r);
+        }
+
+        /// <summary>
+        /// Calculates the face normal of a triangle. The result is not normalized.
+        /// A triangle facing the camera will have a positive normal when 
+        /// the vertices are ordered counter-clockwise.
+        /// </summary>
+        /// <param name="v1">The position of the first vertex</param>
+        /// <param name="v2">The position of the second vertex</param>
+        /// <param name="v3">The position of the third vertex</param>
+        /// <returns>The calculated face normal</returns>
+        public static  Vector3 CalculateNormal(Vector3 v1, Vector3 v2, Vector3 v3)
+        {
+            Vector3 U = v2 - v1;
+            Vector3 V = v3 - v1;
+
+            // Don't normalize here, so surface area can be calculated. 
+            return Vector3.Cross(U, V);
         }
 
         private static Vector3 CalculateBitangent(Vector3 posA, Vector3 posB, Vector2 uvA, Vector2 uvB, float r)
@@ -126,24 +144,6 @@ namespace SFGraphics.Utils
             bool sameZ = (Math.Abs(posA.Z) < delta) && (Math.Abs(posB.Z) < delta);
 
             return sameU || sameV || sameX || sameY || sameZ;
-        }
-
-        /// <summary>
-        /// Calculates the face normal of a triangle. The result is not normalized.
-        /// A triangle facing the camera will have a positive normal when 
-        /// the vertices are ordered counter-clockwise.
-        /// </summary>
-        /// <param name="v1">The position of the first vertex</param>
-        /// <param name="v2">The position of the second vertex</param>
-        /// <param name="v3">The position of the third vertex</param>
-        /// <returns>The calculated face normal</returns>
-        public static  Vector3 CalculateNormal(Vector3 v1, Vector3 v2, Vector3 v3)
-        {
-            Vector3 U = v2 - v1;
-            Vector3 V = v3 - v1;
-
-            // Don't normalize here, so surface area can be calculated. 
-            return Vector3.Cross(U, V);
         }
     }
 }

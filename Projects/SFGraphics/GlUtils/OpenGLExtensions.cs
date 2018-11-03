@@ -1,6 +1,5 @@
-﻿using System;
+﻿using OpenTK.Graphics.OpenGL;
 using System.Collections.Generic;
-using OpenTK.Graphics.OpenGL;
 
 namespace SFGraphics.GlUtils
 {

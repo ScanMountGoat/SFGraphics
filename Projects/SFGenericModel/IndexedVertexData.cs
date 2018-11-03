@@ -40,7 +40,6 @@ namespace SFGenericModel
             Vertices = vertices;
             VertexSizeInBytes = System.Runtime.InteropServices.Marshal.SizeOf(typeof(T));
 
-            // TODO: Generate more optimized indices
             Indices = Utils.IndexUtils.GenerateIndices(vertices.Count);
         }
 

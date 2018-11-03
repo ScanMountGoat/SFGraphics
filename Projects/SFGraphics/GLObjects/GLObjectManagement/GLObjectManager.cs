@@ -23,7 +23,7 @@ namespace SFGraphics.GLObjects.GLObjectManagement
 
         /// <summary>
         /// The appropriate GL.Delete() function is called for all <see cref="GLObject"/> instances
-        /// with no references.
+        /// that have been finalized.
         /// </summary>
         public static void DeleteUnusedGLObjects()
         {

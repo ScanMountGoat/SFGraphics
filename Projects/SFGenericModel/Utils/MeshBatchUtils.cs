@@ -28,7 +28,6 @@ namespace SFGenericModel.Utils
         public static List<IndexedVertexData<T>> GroupContainersByPrimitiveType<T>(List<IndexedVertexData<T>> containers)
             where T : struct
         {
-            // Get all the containers for each type into a collection.
             var vertexContainersByType = OrganizeContainersByType(containers);
 
             // Merge each container list.
@@ -43,6 +42,7 @@ namespace SFGenericModel.Utils
         {
             var vertexContainersByType = new Dictionary<PrimitiveType, List<IndexedVertexData<T>>>();
 
+            // Get all the containers for each type into a single list.
             foreach (var container in containers)
             {
                 if (!vertexContainersByType.ContainsKey(container.PrimitiveType))
@@ -93,7 +93,7 @@ namespace SFGenericModel.Utils
                 target.Add(indicesToAdd.First() + offset);
             }
 
-            // HACK: Assume no shared vertices between containers.
+            // Assume no shared vertices between containers.
             foreach (int index in indicesToAdd)
             {
                 target.Add(index + offset);
