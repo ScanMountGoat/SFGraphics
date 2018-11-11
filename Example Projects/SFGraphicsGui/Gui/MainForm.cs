@@ -97,7 +97,7 @@ namespace SFGraphicsGui
             glControl1.Invalidate();
         }
 
-        private void uVTestPatternToolStripMenuItem_Click(object sender, EventArgs e)
+        private void uvTestPatternToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (graphicsResources != null)
             {
