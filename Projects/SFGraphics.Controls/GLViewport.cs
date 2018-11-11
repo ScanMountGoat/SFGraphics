@@ -4,15 +4,20 @@ using OpenTK.Graphics.OpenGL;
 namespace SFGraphics.Controls
 {
     /// <summary>
-    /// Provides an easier to use interface for <see cref="OpenTK.GLControl"/>.
+    /// Provides functionality similar to <see cref="OpenTK.GameWindow"/> for <see cref="OpenTK.GLControl"/>.
     /// </summary>
     public class GLViewport : OpenTK.GLControl
     {
         /// <summary>
-        /// The default graphics mode for rendering. Enables depth/stencil buffers and antialiasing. 
+        /// The default graphics mode for rendering. Enables depth/stencil buffers and anti-aliasing. 
         /// </summary>
         public static readonly GraphicsMode defaultGraphicsMode = new GraphicsMode(new ColorFormat(8, 8, 8, 8), 24, 8, 16);
 
+        /// <summary>
+        /// Describes the arguments used for a rendered frame. 
+        /// </summary>
+        /// <param name="sender">The control rendering the frame</param>
+        /// <param name="e">information about the rendered frame</param>
         public delegate void OnRenderFrameEventHandler(object sender, System.EventArgs e);
 
         /// <summary>
