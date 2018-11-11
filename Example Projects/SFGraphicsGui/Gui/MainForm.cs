@@ -25,17 +25,14 @@ namespace SFGraphicsGui
         {
             // The context isn't current yet, so don't call any OpenTK methods here.
             InitializeComponent();
+            glControl1.OnRenderFrame += RenderFrame;
         }
 
-        private void glControl1_Paint(object sender, PaintEventArgs e)
+        private void RenderFrame(object sender, EventArgs e)
         {
             // Context creation and resource creation failed, so we can't render anything.
             if (graphicsResources == null)
                 return;
-
-            // Set up the viewport.
-            glControl1.MakeCurrent();
-            GL.Viewport(glControl1.ClientRectangle);
 
             // Draw a test pattern image to the screen.
             DrawScreenTexture(textureToRender);
@@ -94,7 +91,7 @@ namespace SFGraphicsGui
             }
 
             // Trigger the render event.
-            glControl1.Invalidate();
+            glControl1.RenderFrame();
         }
 
         private void uvTestPatternToolStripMenuItem_Click(object sender, EventArgs e)
@@ -102,7 +99,7 @@ namespace SFGraphicsGui
             if (graphicsResources != null)
             {
                 textureToRender = graphicsResources.uvTestPattern;
-                glControl1.Invalidate();
+                glControl1.RenderFrame();
             }
         }
 
@@ -111,7 +108,7 @@ namespace SFGraphicsGui
             if (graphicsResources != null)
             {
                 textureToRender = graphicsResources.floatMagentaBlackStripes;
-                glControl1.Invalidate();
+                glControl1.RenderFrame();
             }
         }
 
@@ -168,6 +165,11 @@ namespace SFGraphicsGui
             var sphereVertices = SFShapes.ShapeGenerator.GetSpherePositions(Vector3.Zero, 1, 32);
             var sphere = new SFShapes.Mesh3D(sphereVertices);
             DrawShape(sphereVertices.Item1, sphere);
+        }
+
+        private void glControl1_Resize(object sender, EventArgs e)
+        {
+            glControl1.RenderFrame();
         }
     }
 }

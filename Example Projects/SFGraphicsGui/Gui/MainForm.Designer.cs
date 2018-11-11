@@ -35,7 +35,7 @@
             this.renderShapeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.drawCubeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.drawSphereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.glControl1 = new GLViewport.GLViewport();
+            this.glControl1 = new SFGraphics.Controls.GLViewport();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -108,7 +108,7 @@
             this.glControl1.TabIndex = 2;
             this.glControl1.VSync = false;
             this.glControl1.Load += new System.EventHandler(this.glControl1_Load);
-            this.glControl1.Paint += new System.Windows.Forms.PaintEventHandler(this.glControl1_Paint);
+            this.glControl1.Resize += new System.EventHandler(this.glControl1_Resize);
             // 
             // MainForm
             // 
@@ -118,7 +118,7 @@
             this.Controls.Add(this.glControl1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "MainForm";
             this.Text = "SFGraphics Example";
             this.menuStrip1.ResumeLayout(false);
@@ -136,7 +136,7 @@
         private System.Windows.Forms.ToolStripMenuItem renderShapeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem drawCubeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem drawSphereToolStripMenuItem;
-        private GLViewport.GLViewport glControl1;
+        private SFGraphics.Controls.GLViewport glControl1;
     }
 }
 

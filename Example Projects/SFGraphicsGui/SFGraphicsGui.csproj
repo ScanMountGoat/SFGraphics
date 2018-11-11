@@ -89,13 +89,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Projects\GLViewport\GLViewport.csproj">
-      <Project>{1108246f-fe39-4018-a107-b9b1028b5cdb}</Project>
-      <Name>GLViewport</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Projects\SFGenericModel\SFGenericModel.csproj">
       <Project>{a94b234e-9f97-42bb-a405-8c713481a463}</Project>
       <Name>SFGenericModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Projects\SFGraphics.Controls\SFGraphics.Controls.csproj">
+      <Project>{1108246f-fe39-4018-a107-b9b1028b5cdb}</Project>
+      <Name>SFGraphics.Controls</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Projects\SFGraphics.Utils\SFGraphics.Utils.csproj">
       <Project>{d78b8153-c955-4ef6-b02f-6d824bfd949e}</Project>

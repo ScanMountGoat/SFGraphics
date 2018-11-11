@@ -27,7 +27,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RenderTestUtils", "Test Pro
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFShapes", "Projects\SFShapes\SFShapes.csproj", "{C70C5DB4-C934-4D59-BA34-D25F3A9A56D5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GLViewport", "Projects\GLViewport\GLViewport.csproj", "{1108246F-FE39-4018-A107-B9B1028B5CDB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFGraphics.Controls", "Projects\SFGraphics.Controls\SFGraphics.Controls.csproj", "{1108246F-FE39-4018-A107-B9B1028B5CDB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
