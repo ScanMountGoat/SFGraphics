@@ -118,7 +118,7 @@ namespace SFGraphics.GLObjects.BufferObjects
             int itemSizeInBytes = System.Runtime.InteropServices.Marshal.SizeOf(typeof(T));
 
             if ((TotalSizeInBytesPreviousWrite % itemSizeInBytes) != 0)
-                throw new ArgumentOutOfRangeException(BufferExceptionMessages.bufferNotDivisibleByRequestedType);
+                throw new ArgumentOutOfRangeException("T", BufferExceptionMessages.bufferNotDivisibleByRequestedType);
 
             int newItemCount = TotalSizeInBytesPreviousWrite / itemSizeInBytes;
 

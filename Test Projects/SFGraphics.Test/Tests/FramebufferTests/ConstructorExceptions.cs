@@ -16,10 +16,10 @@ namespace FramebufferTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeColorAttachments()
         {
-            Framebuffer framebuffer = new Framebuffer(FramebufferTarget.Framebuffer, 1, 1, PixelInternalFormat.Rgba, -1);
+            var e = Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                new Framebuffer(FramebufferTarget.Framebuffer, 1, 1, PixelInternalFormat.Rgba, -1));
         }
 
         [TestMethod]
@@ -32,10 +32,10 @@ namespace FramebufferTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
         public void CompressedFormat()
         {
-            Framebuffer framebuffer = new Framebuffer(FramebufferTarget.Framebuffer, 1, 1, PixelInternalFormat.CompressedRgbaS3tcDxt1Ext);
+            var e = Assert.ThrowsException<ArgumentException>(() =>
+                new Framebuffer(FramebufferTarget.Framebuffer, 1, 1, PixelInternalFormat.CompressedRgbaS3tcDxt1Ext));
         }
     }
 }

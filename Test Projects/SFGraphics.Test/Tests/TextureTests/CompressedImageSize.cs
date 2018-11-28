@@ -39,10 +39,10 @@ namespace TextureTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(NotSupportedException))]
         public void CompressedRed()
         {
-            CompressedTexImage2DSucceeded(width, height, InternalFormat.CompressedRed);
+            var e = Assert.ThrowsException<NotSupportedException>(() =>
+                CompressedTexImage2DSucceeded(width, height, InternalFormat.CompressedRed));
         }
 
         [TestMethod]
@@ -52,10 +52,10 @@ namespace TextureTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(NotSupportedException))]
         public void CompressedRg()
         {
-            CompressedTexImage2DSucceeded(width, height, InternalFormat.CompressedRg);
+            var e = Assert.ThrowsException<NotSupportedException>(() =>
+                CompressedTexImage2DSucceeded(width, height, InternalFormat.CompressedRg));
         }
 
         [TestMethod]
@@ -65,10 +65,10 @@ namespace TextureTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(NotSupportedException))]
         public void CompressedRgb()
         {
-            CompressedTexImage2DSucceeded(width, height, InternalFormat.CompressedRgb);
+            var e = Assert.ThrowsException<NotSupportedException>(() =>
+                CompressedTexImage2DSucceeded(width, height, InternalFormat.CompressedRgb));
         }
 
         [TestMethod]
@@ -84,10 +84,10 @@ namespace TextureTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(NotSupportedException))]
         public void CompressedRgba()
         {
-            CompressedTexImage2DSucceeded(width, height, InternalFormat.CompressedRgba);
+            var e = Assert.ThrowsException<NotSupportedException>(() =>
+                CompressedTexImage2DSucceeded(width, height, InternalFormat.CompressedRgba));
         }
 
         [TestMethod]
@@ -169,10 +169,10 @@ namespace TextureTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(NotSupportedException))]
         public void CompressedSrgb()
         {
-            CompressedTexImage2DSucceeded(width, height, InternalFormat.CompressedSrgb);
+            var e = Assert.ThrowsException<NotSupportedException>(() =>
+                CompressedTexImage2DSucceeded(width, height, InternalFormat.CompressedSrgb));
         }
 
         [TestMethod]
@@ -194,10 +194,10 @@ namespace TextureTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(NotSupportedException))]
         public void CompressedSrgbAlpha()
         {
-            CompressedTexImage2DSucceeded(width, height, InternalFormat.CompressedSrgbAlpha);
+            var e = Assert.ThrowsException<NotSupportedException>(() =>
+                CompressedTexImage2DSucceeded(width, height, InternalFormat.CompressedSrgbAlpha));
         }
 
         [TestMethod]

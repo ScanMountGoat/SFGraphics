@@ -21,19 +21,19 @@ namespace BufferObjectTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeOffset()
         {
-            buffer.SetSubData(dataToWrite, -1);
+            var e = Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                buffer.SetSubData(dataToWrite, -1));
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void ExceedsBufferSize()
         {
             // Try to write into an element past the end of the buffer.
             int offset = sizeof(float) * (originalData.Length + 1);
-            buffer.SetSubData(dataToWrite, offset);
+            var e = Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                buffer.SetSubData(dataToWrite, offset));
         }
     }
 }

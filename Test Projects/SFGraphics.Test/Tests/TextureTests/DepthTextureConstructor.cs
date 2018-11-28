@@ -19,10 +19,10 @@ namespace TextureTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
         public void NotDepthFormat()
         {
-            DepthTexture texture = new DepthTexture(1, 1, PixelInternalFormat.Rgba);
+            var e = Assert.ThrowsException<ArgumentException>(() =>
+                new DepthTexture(1, 1, PixelInternalFormat.Rgba));
         }
     }
 }

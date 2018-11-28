@@ -57,14 +57,14 @@ namespace ShaderGeneratorTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(System.NotImplementedException))]
         public void SingleByteAttribute()
         {
             var attributes = new List<VertexAttributeRenderInfo>()
             {
                 new VertexAttributeRenderInfo(new VertexIntAttribute("test", ValueCount.One, VertexAttribIntegerType.Byte))
             };
-            Shader shader = CreateShader(attributes);
+            var e = Assert.ThrowsException<System.NotImplementedException>(() =>
+                CreateShader(attributes));
         }
 
         [TestMethod]

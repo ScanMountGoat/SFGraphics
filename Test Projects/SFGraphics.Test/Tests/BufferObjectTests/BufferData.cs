@@ -35,10 +35,11 @@ namespace BufferObjectTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(System.ArgumentOutOfRangeException))]
         public void GetVector4FromFloats()
         {
-            Vector4[] readData = buffer.GetData<Vector4>();
+            var e = Assert.ThrowsException<System.ArgumentOutOfRangeException>(() => buffer.GetData<Vector4>());
+            Assert.AreEqual("T", e.ParamName);
+            Assert.AreEqual($"The buffer's size is not divisible by the requested type's size.{System.Environment.NewLine}Parameter name: T", e.Message);
         }
     }
 }

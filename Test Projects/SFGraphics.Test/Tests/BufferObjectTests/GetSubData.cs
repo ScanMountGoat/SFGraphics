@@ -7,7 +7,7 @@ namespace BufferObjectTests
     public class GetSubData : BufferTest
     {
         [TestMethod]
-        public void GetBufferSubDataValidRead()
+        public void ValidRead()
         {
             // Read at index 1.
             int index = 1;
@@ -19,25 +19,25 @@ namespace BufferObjectTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void GetBufferSubDataNegativeOffset()
+        public void NegativeOffset()
         {
-            float[] bufferData = buffer.GetSubData<float>(-1, 1);
+            var e = Assert.ThrowsException<ArgumentOutOfRangeException>(() => 
+                buffer.GetSubData<float>(-1, 1));
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void GetBufferSubDataNegativeItemCount()
         {
-            float[] bufferData = buffer.GetSubData<float>(0, -1);
+            var e = Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                buffer.GetSubData<float>(0, -1));
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void GetBufferSubDataExceedsBufferSize()
         {
             // Try to read one element beyond the buffer's capacity.
-            float[] bufferData = buffer.GetSubData<float>(0, originalData.Length + 1);
+            var e = Assert.ThrowsException<ArgumentOutOfRangeException>(() => 
+                buffer.GetSubData<float>(0, originalData.Length + 1));
         }
     }
 }

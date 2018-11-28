@@ -15,17 +15,17 @@ namespace TextureTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(System.ArgumentOutOfRangeException))]
         public void ZeroSamples()
         {
-            var texture = new Texture2DMultisample(64, 16, PixelInternalFormat.Rgb, 0);
+            var e = Assert.ThrowsException<System.ArgumentOutOfRangeException>(() =>
+                new Texture2DMultisample(64, 16, PixelInternalFormat.Rgb, 0));
         }
 
         [TestMethod]
-        [ExpectedException(typeof(System.ArgumentOutOfRangeException))]
         public void NegativeSamples()
         {
-            var texture = new Texture2DMultisample(64, 16, PixelInternalFormat.Rgb, -1);
+            var e = Assert.ThrowsException<System.ArgumentOutOfRangeException>(() =>
+                new Texture2DMultisample(64, 16, PixelInternalFormat.Rgb, -1));
         }
     }
 }

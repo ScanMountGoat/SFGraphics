@@ -25,11 +25,11 @@ namespace ShaderTests
 
 
         [TestMethod]
-        [ExpectedException(typeof(System.ArgumentOutOfRangeException))]
         public void InvalidBinding()
         {
             // Shouldn't throw graphics exceptions.
-            shader.UniformBlockBinding("UniformBlock", -1);
+            var e = Assert.ThrowsException<System.ArgumentOutOfRangeException>(() =>
+                shader.UniformBlockBinding("UniformBlock", -1));
         }
     }
 }

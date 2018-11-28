@@ -55,24 +55,25 @@ namespace TextureTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
         public void CompressedIncorrectFormat()
         {
-            texture.LoadImageData(128, 64, mipmaps, InternalFormat.Rgb);
+            var e = Assert.ThrowsException<ArgumentException>(() =>
+                texture.LoadImageData(128, 64, mipmaps, InternalFormat.Rgb));
         }
 
         [TestMethod]
-        [ExpectedException(typeof(NotSupportedException))]
         public void CompressedGenericFormat()
         {
-            texture.LoadImageData(128, 64, mipmaps, InternalFormat.CompressedRed);
+            var e = Assert.ThrowsException<NotSupportedException>(() =>
+                texture.LoadImageData(128, 64, mipmaps, InternalFormat.CompressedRed));
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
         public void UncompressedIncorrectFormat()
         {
-            texture.LoadImageData(128, 64, new byte[0], new TextureFormatUncompressed(PixelInternalFormat.CompressedRgbaS3tcDxt1Ext, PixelFormat.Rgba, PixelType.Float));
+            var e = Assert.ThrowsException<ArgumentException>(() =>
+                texture.LoadImageData(128, 64, new byte[0], 
+                    new TextureFormatUncompressed(PixelInternalFormat.CompressedRgbaS3tcDxt1Ext, PixelFormat.Rgba, PixelType.Float)));
         }
     }
 }

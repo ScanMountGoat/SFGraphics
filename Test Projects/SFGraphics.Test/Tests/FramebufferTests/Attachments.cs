@@ -55,7 +55,6 @@ namespace FramebufferTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(System.ArgumentOutOfRangeException))]
         public void DifferentSizedColorTextures()
         {
             Framebuffer framebuffer = new Framebuffer(FramebufferTarget.Framebuffer);
@@ -67,7 +66,9 @@ namespace FramebufferTests
 
             var texture2 = new Texture2D();
             texture2.LoadImageData(1, 1, format);
-            framebuffer.AddAttachment(FramebufferAttachment.ColorAttachment1, texture2);
+
+            var e = Assert.ThrowsException<System.ArgumentOutOfRangeException>(() =>
+                framebuffer.AddAttachment(FramebufferAttachment.ColorAttachment1, texture2));
         }
 
         [TestMethod]
