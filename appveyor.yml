@@ -44,4 +44,6 @@ after_build:
   - 7z a "SFGraphics.zip" "%APPVEYOR_BUILD_FOLDER%\Projects\SFGenericModel\bin\Release\SFGenericModel.xml"
   - 7z a "SFGraphics.zip" "%APPVEYOR_BUILD_FOLDER%\Projects\SFGraphics.Controls\bin\Release\SFGraphics.Controls.dll"
   - 7z a "SFGraphics.zip" "%APPVEYOR_BUILD_FOLDER%\Projects\SFGraphics.Controls\bin\Release\SFGraphics.Controls.xml"
+  - 7z a "SFGraphics.zip" "%APPVEYOR_BUILD_FOLDER%\Projects\SFShapes\bin\Release\SFShapes.dll"
+  - 7z a "SFGraphics.zip" "%APPVEYOR_BUILD_FOLDER%\Projects\SFShapes\bin\Release\SFShapes.xml"
   - appveyor PushArtifact "SFGraphics.zip"
