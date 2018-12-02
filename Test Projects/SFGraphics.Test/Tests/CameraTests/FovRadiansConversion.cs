@@ -5,7 +5,7 @@ using SFGraphics.Cameras;
 namespace CameraTests
 {
     [TestClass]
-    public class FovRadiansTest
+    public class FovRadiansConversion
     {
         [TestMethod]
         public void RadiansToDegreesMaxFov()

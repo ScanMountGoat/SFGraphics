@@ -185,6 +185,7 @@ namespace SFGraphics.Cameras
             set
             {
                 renderWidth = Math.Max(value, 1);
+                UpdateMatrices();
             }
         }
         private int renderWidth = 1;
@@ -199,6 +200,7 @@ namespace SFGraphics.Cameras
             set
             {
                 renderHeight = Math.Max(value, 1);
+                UpdateMatrices();
             }
         }
         private int renderHeight = 1;
