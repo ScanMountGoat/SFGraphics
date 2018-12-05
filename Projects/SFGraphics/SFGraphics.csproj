@@ -73,7 +73,7 @@
     <Compile Include="GLObjects\Textures\DepthTexture.cs" />
     <Compile Include="GLObjects\Textures\Texture.cs" />
     <Compile Include="GLObjects\Textures\Texture2D.cs" />
-    <Compile Include="GLObjects\Textures\TextureCubeMap.cs" />
+    <Compile Include="GLObjects\Textures\TextureCubemap.cs" />
     <Compile Include="GLObjects\VertexArrays\VertexArrayObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="GlUtils\OpenGLExtensions.cs" />

@@ -11,6 +11,8 @@ namespace SFGraphics.GLObjects.Textures
     /// </summary>
     public class TextureCubeMap : Texture
     {
+        private static readonly int faceCount = 6;
+
         /// <summary>
         /// Creates an empty cube map texture. 
         /// The texture is incomplete until the dimensions and format are set.
@@ -27,12 +29,12 @@ namespace SFGraphics.GLObjects.Textures
         }
 
         /// <summary>
-        /// Initializes an uncompressed cube map without mipmaps from vertically arranged faces in <paramref name="cubeMapFaces"/>.
+        /// Initializes an uncompressed cube map without mipmaps from vertically arranged faces in <paramref name="facesImage"/>.
         /// </summary>
-        /// <param name="cubeMapFaces">Faces arranged from top to bottom in the order
+        /// <param name="facesImage">Faces arranged from top to bottom in the order
         /// X+, X-, Y+, Y-, Z+, Z- </param>
         /// <param name="faceSideLength">The length in pixels of a side of any of the faces</param>
-        public void LoadImageData(System.Drawing.Bitmap cubeMapFaces, int faceSideLength = 128)
+        public void LoadImageData(System.Drawing.Bitmap facesImage, int faceSideLength = 128)
         {
             Width = faceSideLength;
             Height = faceSideLength;
@@ -41,26 +43,24 @@ namespace SFGraphics.GLObjects.Textures
             MagFilter = TextureMagFilter.Linear;
             MinFilter = TextureMinFilter.Linear;
 
-            const int cubeMapFaceCount = 6;
-
             // Faces are arranged vertically from top to bottom in the following order:
             // X +
             // X - 
             // Y + 
             // Y -
             // Z +
-            // Z -
-            System.Drawing.Rectangle[] cubeMapFaceRegions = new System.Drawing.Rectangle[cubeMapFaceCount];
-            for (int i = 0; i < cubeMapFaceRegions.Length; i++)
+            // Z 
+            System.Drawing.Rectangle[] faceRegions = new System.Drawing.Rectangle[faceCount];
+            for (int i = 0; i < faceRegions.Length; i++)
             {
-                cubeMapFaceRegions[i] = new System.Drawing.Rectangle(0, i * faceSideLength, faceSideLength, faceSideLength);
+                faceRegions[i] = new System.Drawing.Rectangle(0, i * faceSideLength, faceSideLength, faceSideLength);
             }
 
             Bind();
-            for (int i = 0; i < cubeMapFaceCount; i++)
+            for (int i = 0; i < faceCount; i++)
             {
                 // Copy the pixels for the appropriate face.
-                System.Drawing.Bitmap image = cubeMapFaces.Clone(cubeMapFaceRegions[i], cubeMapFaces.PixelFormat);
+                System.Drawing.Bitmap image = facesImage.Clone(faceRegions[i], facesImage.PixelFormat);
 
                 // Load the data to the texture.
                 System.Drawing.Imaging.BitmapData data = image.LockBits(new System.Drawing.Rectangle(0, 0, image.Width, image.Height),
@@ -75,7 +75,8 @@ namespace SFGraphics.GLObjects.Textures
         /// Initializes a compressed cube map with mipmaps.
         /// Each face should have the same dimensions, image format, and number of mipmaps.
         /// </summary>
-        /// <param name="faceSideLength">The side length in pixels of each face. Faces must be square.</param>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="faceSideLength">The side length in pixels of each face.</param>
         /// <param name="internalFormat"></param>
         /// <param name="mipsPosX">Mipmaps for the positive x target</param>
         /// <param name="mipsNegX">Mipmaps for the negative x target</param>
@@ -85,9 +86,9 @@ namespace SFGraphics.GLObjects.Textures
         /// <param name="mipsNegZ">Mipmaps for the negative z target</param>
         /// <exception cref="ArgumentException"><paramref name="internalFormat"/> is not a compressed format.</exception>
         /// <exception cref="ArgumentOutOfRangeException">The mipmap counts are not equal for all faces.</exception>
-        public void LoadImageData(int faceSideLength, InternalFormat internalFormat, 
-            List<byte[]> mipsPosX, List<byte[]> mipsNegX, List<byte[]> mipsPosY, 
-            List<byte[]> mipsNegY, List<byte[]> mipsPosZ, List<byte[]> mipsNegZ)
+        public void LoadImageData<T>(int faceSideLength, InternalFormat internalFormat, 
+            List<T[]> mipsPosX, List<T[]> mipsNegX, List<T[]> mipsPosY, 
+            List<T[]> mipsNegY, List<T[]> mipsPosZ, List<T[]> mipsNegZ) where T : struct
         {
             Width = faceSideLength;
             Height = faceSideLength;
@@ -111,16 +112,18 @@ namespace SFGraphics.GLObjects.Textures
         /// Initializes an uncompressed cube map without mipmaps.
         /// Each face should have the same dimensions and image format.
         /// </summary>
-        /// <param name="faceSideLength"></param>
-        /// <param name="textureFormat"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="faceSideLength">The side length in pixels of each face.</param>
+        /// <param name="format"></param>
         /// <param name="facePosX">The base mip level for the positive x target</param>
         /// <param name="faceNegX">The base mip level for the negative x target</param>
         /// <param name="facePosY">The base mip level for the positive y target</param>
         /// <param name="faceNegY">The base mip level for the negative y target</param>
         /// <param name="facePosZ">The base mip level for the positive z target</param>
         /// <param name="faceNegZ">The base mip level for the negative z target</param>
-        public void LoadImageData(int faceSideLength, TextureFormatUncompressed textureFormat, 
-            byte[] facePosX, byte[] faceNegX, byte[] facePosY, byte[] faceNegY, byte[] facePosZ, byte[] faceNegZ) 
+        public void LoadImageData<T>(int faceSideLength, TextureFormatUncompressed format, 
+            T[] facePosX, T[] faceNegX, T[] facePosY, 
+            T[] faceNegY, T[] facePosZ, T[] faceNegZ) where T : struct
         {
             Width = faceSideLength;
             Height = faceSideLength;
@@ -129,11 +132,11 @@ namespace SFGraphics.GLObjects.Textures
             MagFilter = TextureMagFilter.Linear;
             MinFilter = TextureMinFilter.Linear;
 
-            MipmapLoading.LoadFacesBaseLevel(faceSideLength, textureFormat, facePosX, faceNegX, facePosY, 
+            MipmapLoading.LoadFacesBaseLevel(faceSideLength, format, facePosX, faceNegX, facePosY, 
                 faceNegY, facePosZ, faceNegZ);
         }
 
-        private static bool CheckMipMapCountEquality(List<byte[]> mipsPosX, List<byte[]> mipsNegX, List<byte[]> mipsPosY, List<byte[]> mipsNegY, List<byte[]> mipsPosZ, List<byte[]> mipsNegZ)
+        private static bool CheckMipMapCountEquality<T>(List<T[]> mipsPosX, List<T[]> mipsNegX, List<T[]> mipsPosY, List<T[]> mipsNegY, List<T[]> mipsPosZ, List<T[]> mipsNegZ)
         {
             bool equalMipCountX = mipsPosX.Count == mipsNegX.Count;
             bool equalMipCountY = mipsPosY.Count == mipsNegY.Count;
