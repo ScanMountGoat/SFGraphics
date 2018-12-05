@@ -132,16 +132,21 @@ namespace SFGraphics.Utils
             return tangent;
         }
 
+        private static bool AlmostEqual(float a, float b, float delta = 0.00075f)
+        {
+            // Check if a and b are within a delta neighborhood of each other.
+            return Math.Abs(a - b) < delta;
+        }
+
         private static bool PositionsOrUvsAreEqual(Vector3 posA, Vector3 posB, Vector2 uvA, Vector2 uvB)
         {
             // Prevent black tangents/bitangents for vertices with 
             // the same UV coordinates or position. 
-            float delta = 0.00075f;
-            bool sameU = (Math.Abs(uvA.X) < delta) && (Math.Abs(uvB.X) < delta);
-            bool sameV = (Math.Abs(uvA.Y) < delta) && (Math.Abs(uvB.Y) < delta);
-            bool sameX = (Math.Abs(posA.X) < delta) && (Math.Abs(posB.X) < delta);
-            bool sameY = (Math.Abs(posA.Y) < delta) && (Math.Abs(posB.Y) < delta);
-            bool sameZ = (Math.Abs(posA.Z) < delta) && (Math.Abs(posB.Z) < delta);
+            bool sameU = AlmostEqual(uvA.X, 0) && AlmostEqual(uvB.X, 0);
+            bool sameV = AlmostEqual(uvA.Y, 0) && AlmostEqual(uvB.Y, 0);
+            bool sameX = AlmostEqual(posA.X, 0) && AlmostEqual(posB.X, 0);
+            bool sameY = AlmostEqual(posA.Y, 0) && AlmostEqual(posB.Y, 0);
+            bool sameZ = AlmostEqual(posA.Z, 0) && AlmostEqual(posB.Z, 0);
 
             return sameU || sameV || sameX || sameY || sameZ;
         }
