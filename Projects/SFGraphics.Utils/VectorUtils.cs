@@ -40,14 +40,14 @@ namespace SFGraphics.Utils
 
         /// <summary>
         /// Uses the Gran-Schmidt method for returning a normalized copy 
-        /// of <paramref name="target"/> that is orthogonal to <paramref name="source"/>.
+        /// of <paramref name="vectorToOrthogonalize"/> that is orthogonal to <paramref name="source"/>.
         /// </summary>
-        /// <param name="target">The vector to normalize</param>
+        /// <param name="vectorToOrthogonalize">The vector to normalize</param>
         /// <param name="source">The vector to normalize against</param>
-        /// <returns><paramref name="target"/> orthogonalized to <paramref name="source"/></returns>
-        public static Vector3 Orthogonalize(Vector3 target, Vector3 source)
+        /// <returns><paramref name="vectorToOrthogonalize"/> orthogonalized to <paramref name="source"/></returns>
+        public static Vector3 Orthogonalize(Vector3 vectorToOrthogonalize, Vector3 source)
         {
-            return Vector3.Normalize(target - source * Vector3.Dot(source, target));
+            return Vector3.Normalize(vectorToOrthogonalize - source * Vector3.Dot(source, vectorToOrthogonalize));
         }
 
         /// <summary>
