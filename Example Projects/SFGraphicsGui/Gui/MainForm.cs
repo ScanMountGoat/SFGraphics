@@ -36,7 +36,6 @@ namespace SFGraphicsGui
 
             // Draw a test pattern image to the screen.
             DrawScreenTexture(textureToRender);
-            glControl1.SwapBuffers();
 
             // Clean up any unused resources.
             GLObjectManager.DeleteUnusedGLObjects();
