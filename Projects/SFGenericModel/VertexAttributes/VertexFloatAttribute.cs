@@ -8,16 +8,22 @@ namespace SFGenericModel.VertexAttributes
     public class VertexFloatAttribute : VertexAttribute
     {
         /// <summary>
+        /// Integer types are converted to floating point when <c>true</c>.
+        /// </summary>
+        public bool Normalized { get; }
+
+        /// <summary>
         /// Creates a new vertex attribute.
         /// </summary>
         /// <param name="name">The name of the attribute in the shader</param>
         /// <param name="valueCount">The number of components for the value</param>
         /// <param name="type">The data type of the value</param>
-        /// <exception cref="System.NotSupportedException"><paramref name="type"/> is not 
-        /// a supported attribute type.</exception>
-        public VertexFloatAttribute(string name, ValueCount valueCount, VertexAttribPointerType type) 
+        /// <param name="normalized">Indicates whether integer types should be converted to floating point</param>
+        /// <exception cref="System.NotImplementedException"><paramref name="type"/> is not an implemented attribute type.</exception>
+        public VertexFloatAttribute(string name, ValueCount valueCount, VertexAttribPointerType type, bool normalized = false) 
             : base(name, valueCount, type)
         {
+            Normalized = normalized;
             SizeInBytes = (int)valueCount * AttribPointerUtils.GetSizeInBytes(type);
         }
 
@@ -29,7 +35,7 @@ namespace SFGenericModel.VertexAttributes
         /// <param name="offsetInBytes">The offset in bytes of the attribute in the vertex</param>
         public override void SetVertexAttribute(int index, int strideInBytes, int offsetInBytes)
         {
-            GL.VertexAttribPointer(index, (int)ValueCount, Type, false, strideInBytes, offsetInBytes);
+            GL.VertexAttribPointer(index, (int)ValueCount, Type, Normalized, strideInBytes, offsetInBytes);
         }
     }
 }
