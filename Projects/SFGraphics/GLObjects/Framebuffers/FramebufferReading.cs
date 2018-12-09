@@ -5,19 +5,44 @@ namespace SFGraphics.GLObjects.Framebuffers
     public sealed partial class Framebuffer
     {
         /// <summary>
-        /// Reads the framebuffer's contents into a Bitmap.
+        /// Reads the default framebuffer's contents into a Bitmap. The default framebuffer is bound prior to reading.
         /// </summary>
+        /// <param name="width">The width of the default framebuffer in pixels.</param>
+        /// <param name="height">The height of the default framebuffer in pixels.</param>
         /// <param name="saveAlpha">The alpha channel is preserved when true or set to 255 (white when false</param>
         /// <returns>A bitmap of the framebuffer's contents</returns>
+        public static System.Drawing.Bitmap ReadDefaultFramebufferImagePixels(int width, int height, bool saveAlpha = false)
+        {
+            // RGBA unsigned byte
+            int pixelSizeInBytes = sizeof(byte) * 4;
+            int imageSizeInBytes = width * height * pixelSizeInBytes;
+
+            // TODO: Does the draw buffer need to be set?
+            GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
+            byte[] pixels = GetBitmapPixels(width, height, pixelSizeInBytes, saveAlpha);
+
+            var bitmap = Utils.BitmapUtils.GetBitmap(width, height, pixels);
+
+            // Adjust for differences in the origin point.
+            bitmap.RotateFlip(System.Drawing.RotateFlipType.RotateNoneFlipY);
+            return bitmap;
+        }
+        
+        /// <summary>
+         /// Reads the framebuffer's contents into a Bitmap.
+         /// </summary>
+         /// <param name="saveAlpha">The alpha channel is preserved when true or set to 255 (white when false</param>
+         /// <returns>A bitmap of the framebuffer's contents</returns>
         public System.Drawing.Bitmap ReadImagePixels(bool saveAlpha = false)
         {
             // RGBA unsigned byte
             int pixelSizeInBytes = sizeof(byte) * 4;
-            int imageSizeInBytes = Width * Height * pixelSizeInBytes;
 
-            byte[] pixels = GetBitmapPixels(saveAlpha, pixelSizeInBytes, imageSizeInBytes);
+            Bind();
+            byte[] pixels = GetBitmapPixels(Width, Height, pixelSizeInBytes, saveAlpha);
 
             var bitmap = Utils.BitmapUtils.GetBitmap(Width, Height, pixels);
+
             // Adjust for differences in the origin point.
             bitmap.RotateFlip(System.Drawing.RotateFlipType.RotateNoneFlipY);
             return bitmap;
@@ -38,24 +63,28 @@ namespace SFGraphics.GLObjects.Framebuffers
             byte[] rgba = new byte[4];
             GL.ReadPixels(x, y, 1, 1, PixelFormat.Rgba, PixelType.UnsignedByte, rgba);
 
+            // Convert RGBA to ARGB.
             return System.Drawing.Color.FromArgb(rgba[3], rgba[0], rgba[1], rgba[2]);
         }
 
-        private byte[] GetBitmapPixels(bool saveAlpha, int pixelSizeInBytes, int imageSizeInBytes)
+        private static byte[] GetBitmapPixels(int width, int height, int pixelSizeInBytes, bool saveAlpha)
         {
-            byte[] pixels = ReadPixels(imageSizeInBytes);
+            int imageSizeInBytes = width * height * pixelSizeInBytes;
+
+            // Read the pixels from whatever framebuffer is currently bound.
+            byte[] pixels = ReadPixels(width, height, imageSizeInBytes);
+
             if (!saveAlpha)
-                SetAlphaToWhite(Width, Height, pixelSizeInBytes, pixels);
+                SetAlphaToWhite(width, height, pixelSizeInBytes, pixels);
             return pixels;
         }
 
-        private byte[] ReadPixels(int imageSizeInBytes)
+        private static byte[] ReadPixels(int width, int height, int imageSizeInBytes)
         {
-            Bind();
             byte[] pixels = new byte[imageSizeInBytes];
 
             // Read the pixels from the framebuffer. PNG uses the BGRA format. 
-            GL.ReadPixels(0, 0, Width, Height, PixelFormat.Bgra, PixelType.UnsignedByte, pixels);
+            GL.ReadPixels(0, 0, width, height, PixelFormat.Bgra, PixelType.UnsignedByte, pixels);
             return pixels;
         }
 
