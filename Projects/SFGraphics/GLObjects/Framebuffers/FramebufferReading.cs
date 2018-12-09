@@ -29,10 +29,10 @@ namespace SFGraphics.GLObjects.Framebuffers
         }
         
         /// <summary>
-         /// Reads the framebuffer's contents into a Bitmap.
-         /// </summary>
-         /// <param name="saveAlpha">The alpha channel is preserved when true or set to 255 (white when false</param>
-         /// <returns>A bitmap of the framebuffer's contents</returns>
+        /// Reads the framebuffer's contents into a Bitmap.
+        /// </summary>
+        /// <param name="saveAlpha">The alpha channel is preserved when true or set to 255 (white when false</param>
+        /// <returns>A bitmap of the framebuffer's contents</returns>
         public System.Drawing.Bitmap ReadImagePixels(bool saveAlpha = false)
         {
             // RGBA unsigned byte
