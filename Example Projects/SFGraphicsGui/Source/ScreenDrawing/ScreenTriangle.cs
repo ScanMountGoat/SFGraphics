@@ -20,15 +20,5 @@ namespace SFGraphicsGui
         {
 
         }
-
-        public override List<VertexAttribute> GetVertexAttributes()
-        {
-            return new List<VertexAttribute>()
-            {
-                new VertexFloatAttribute("position", ValueCount.Three, VertexAttribPointerType.Float),
-                new VertexFloatAttribute("normal",   ValueCount.Three, VertexAttribPointerType.Float),
-                new VertexFloatAttribute("color",    ValueCount.Four, VertexAttribPointerType.Float)
-            };
-        }
     }
 }

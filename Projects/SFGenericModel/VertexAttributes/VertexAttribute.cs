@@ -31,7 +31,7 @@ namespace SFGenericModel.VertexAttributes
     /// <summary>
     /// Stores information for a vertex attribute variable.
     /// </summary>
-    public abstract class VertexAttribute
+    public abstract class VertexAttribute : System.Attribute
     {
         /// <summary>
         /// The name of the attribute in the shader.

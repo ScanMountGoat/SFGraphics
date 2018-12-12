@@ -8,6 +8,9 @@ using System;
 
 namespace SFShapes
 {
+    /// <summary>
+    /// Draws simple geometry given a collection of vertex positions.
+    /// </summary>
     public class Mesh3D : GenericMesh<Vector3>
     {
         public Mesh3D(List<Vector3> vertices, PrimitiveType primitiveType) : base(vertices, primitiveType)

@@ -148,7 +148,21 @@ namespace SFGenericModel
         /// the order of the fields in <typeparamref name="T"/>.
         /// </summary>
         /// <returns>Vertex attribute information</returns>
-        public abstract List<VertexAttribute> GetVertexAttributes();
+        public virtual List<VertexAttribute> GetVertexAttributes()
+        {
+            // TODO: Store this result to optimize subsequent method calls.
+            var attributes = new List<VertexAttribute>();
+            foreach (var member in typeof(T).GetMembers())
+            {
+                foreach (VertexAttribute attribute in member.GetCustomAttributes(typeof(VertexAttribute), true))
+                {
+                    // Ignore duplicate attributes.
+                    attributes.Add(attribute);
+                    break;
+                }
+            }
+            return attributes;
+        }
 
         /// <summary>
         /// Sets <c>uniform mat4 mvpMatrix</c> in the shader using <see cref="Camera.MvpMatrix"/>.
@@ -183,7 +197,7 @@ namespace SFGenericModel
             vertexIndexBuffer.Bind();
 
             shader.EnableVertexAttributes();
-            List<VertexAttribute> vertexAttributes = GetVertexAttributes();
+            var vertexAttributes = GetVertexAttributes();
             SetVertexAttributes(shader, vertexAttributes, vertexSizeInBytes);
 
             // Unbind all the buffers.
