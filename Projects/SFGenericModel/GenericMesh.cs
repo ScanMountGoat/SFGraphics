@@ -23,6 +23,7 @@ namespace SFGenericModel
     /// <typeparam name="T">The struct used to define vertex data</typeparam>
     public abstract class GenericMesh<T> : IDrawableMesh where T : struct
     {
+        // Vertex attributes only need to be reconfigured when the shader changes.
         private int previousShaderId = -1;
 
         private readonly int vertexCount = 0;
@@ -128,6 +129,11 @@ namespace SFGenericModel
 
             GLRenderSettings.SetRenderSettings(renderSettings);
 
+            DrawGeometry(count, offset);
+        }
+
+        private void DrawGeometry(int count, int offset)
+        {
             vertexArrayObject.Bind();
             GL.DrawElements(PrimitiveType, count, DrawElementsType.UnsignedInt, offset);
             vertexArrayObject.Unbind();

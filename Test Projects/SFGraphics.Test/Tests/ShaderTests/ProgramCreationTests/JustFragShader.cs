@@ -5,15 +5,8 @@ using SFGraphics.GLObjects.Shaders;
 namespace ShaderTests.ProgramCreationTests
 {
     [TestClass]
-    public class JustFragShader
+    public class JustFragShader : Tests.ContextTest
     {
-        [TestInitialize()]
-        public void Initialize()
-        {
-            // Set up the context for all the tests.
-            RenderTestUtils.OpenTKWindowlessContext.BindDummyContext();
-        }
-
         [TestMethod]
         public void ValidFragShader()
         {
@@ -23,6 +16,9 @@ namespace ShaderTests.ProgramCreationTests
             shader.LoadShader(shaderSource, ShaderType.FragmentShader);
 
             Assert.IsTrue(shader.LinkStatusIsOk);
+
+            Assert.AreEqual(18, shader.ActiveUniformCount);
+            Assert.AreEqual(0, shader.ActiveAttributeCount);
         }
 
         [TestMethod]
@@ -34,6 +30,9 @@ namespace ShaderTests.ProgramCreationTests
             shader.LoadShader(shaderSource, ShaderType.FragmentShader);
 
             Assert.IsFalse(shader.LinkStatusIsOk);
+
+            Assert.AreEqual(0, shader.ActiveUniformCount);
+            Assert.AreEqual(0, shader.ActiveAttributeCount);
         }
 
         [TestMethod]

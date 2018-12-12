@@ -59,7 +59,4 @@ void main()
 	}
 
     fragColor.rgb *= uint1;
-
-
-
 }

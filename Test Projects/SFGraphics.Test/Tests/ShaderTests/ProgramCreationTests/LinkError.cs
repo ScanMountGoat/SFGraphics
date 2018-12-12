@@ -5,15 +5,8 @@ using SFGraphics.GLObjects.Shaders;
 namespace ShaderTests.ProgramCreationTests
 {
     [TestClass]
-    public class LinkError
+    public class LinkError : Tests.ContextTest
     {
-        [TestInitialize()]
-        public void Initialize()
-        {
-            // Set up the context for all the tests.
-            RenderTestUtils.OpenTKWindowlessContext.BindDummyContext();
-        }
-
         [TestMethod]
         public void FunctionNotDefined()
         {

@@ -5,15 +5,8 @@ using SFGraphics.GLObjects.Shaders;
 namespace ShaderTests.ProgramCreationTests
 {
     [TestClass]
-    public class JustVertShader
+    public class JustVertShader : Tests.ContextTest
     {
-        [TestInitialize()]
-        public void Initialize()
-        {
-            // Set up the context for all the tests.
-            RenderTestUtils.OpenTKWindowlessContext.BindDummyContext();
-        }
-
         [TestMethod]
         public void ValidVertShader()
         {
@@ -23,6 +16,9 @@ namespace ShaderTests.ProgramCreationTests
             shader.LoadShader(shaderSource, ShaderType.VertexShader);
 
             Assert.IsTrue(shader.LinkStatusIsOk);
+
+            Assert.AreEqual(0, shader.ActiveUniformCount);
+            Assert.AreEqual(2, shader.ActiveAttributeCount);
         }
 
         [TestMethod]
@@ -34,6 +30,9 @@ namespace ShaderTests.ProgramCreationTests
             shader.LoadShader(shaderSource, ShaderType.VertexShader);
 
             Assert.IsFalse(shader.LinkStatusIsOk);
+
+            Assert.AreEqual(0, shader.ActiveUniformCount);
+            Assert.AreEqual(0, shader.ActiveAttributeCount);
         }
     }
 }

@@ -19,7 +19,18 @@ namespace SFGraphics.GLObjects.Shaders
         private Dictionary<string, ActiveUniformInfo> activeUniformByName = new Dictionary<string, ActiveUniformInfo>();
         private Dictionary<string, ActiveAttribInfo> activeAttribByName = new Dictionary<string, ActiveAttribInfo>();
 
+        /// <summary>
+        /// The number of uniforms used by the shader. 
+        /// Uniforms optimized out by the compiler are unused.
+        /// </summary>
+        public int ActiveUniformCount => activeUniformCount;
         private int activeUniformCount;
+
+        /// <summary>
+        /// The number of vertex attributes used by the shader. 
+        /// Attributes optimized out by the compiler are unused.
+        /// </summary>
+        public int ActiveAttributeCount => activeAttributeCount;
         private int activeAttributeCount;
 
         private ShaderLog errorLog = new ShaderLog();
@@ -31,7 +42,8 @@ namespace SFGraphics.GLObjects.Shaders
         /// </summary>
         public bool LinkStatusIsOk
         {
-            get { return linkStatusIsOk; }
+            get => linkStatusIsOk; 
+
             private set
             {
                 if (linkStatusIsOk != value)
@@ -53,21 +65,21 @@ namespace SFGraphics.GLObjects.Shaders
         public bool ValidateStatusIsOk {  get { return ShaderValidation.GetProgramValidateStatus(Id); } }
 
         /// <summary>
-        /// 
+        /// Handles invalid uniforms.
         /// </summary>
         /// <param name="sender">The shader that generated the error</param>
         /// <param name="e">The arguments used to set the uniform</param>
         public delegate void InvalidUniformSetEventHandler(object sender, UniformSetEventArgs e);
 
         /// <summary>
-        /// 
+        /// Handles incorrect texture sets.
         /// </summary>
         /// <param name="sender">The shader that generated the error</param>
         /// <param name="e">The arguments used to set the uniform</param>
         public delegate void InvalidTextureSetEventHandler(object sender, TextureSetEventArgs e);
 
         /// <summary>
-        /// 
+        /// Handles changes to the link status.
         /// </summary>
         /// <param name="sender">The shader that generated the event</param>
         /// <param name="e">Information about the previous shader program linking. 

@@ -11,7 +11,7 @@ namespace ShaderTests.ProgramCreationTests
     {
         private Shader shader;
         private List<LinkStatusEventArgs> linkChangedEvents = new List<LinkStatusEventArgs>();
-
+        
         [TestInitialize()]
         public void Initialize()
         {
