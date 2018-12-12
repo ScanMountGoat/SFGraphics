@@ -144,8 +144,8 @@ namespace SFGenericModel
         }
 
         /// <summary>
-        /// The order of vertex attributes in the list should match 
-        /// the order of the fields in <typeparamref name="T"/>.
+        /// Gets the attribute rendering information for all the members of <typeparamref name="T"/> with a <see cref="VertexAttribute"/> using reflection.
+        /// When overriding this method, the order of attributes in the list should match the order of the member variables.
         /// </summary>
         /// <returns>Vertex attribute information</returns>
         public virtual List<VertexAttribute> GetVertexAttributes()
