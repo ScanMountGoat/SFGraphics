@@ -4,9 +4,7 @@ using System;
 namespace SFGraphics.GLObjects.BufferObjects
 {
     /// <summary>
-    /// Data can be read from and written to the buffer using any value type.
-    /// <para></para><para></para>
-    /// This class does not permanently store the data used for initialization. 
+    /// Encapsulates and OpenGL buffer object, which stores unformatted data to be used by the GPU.
     /// </summary>
     public sealed class BufferObject : GLObject
     {
@@ -17,15 +15,14 @@ namespace SFGraphics.GLObjects.BufferObjects
         /// </summary>
         public BufferTarget Target { get; }
 
-        // From last time setting the data.
+        /// <summary>
+        /// The size in bytes of the initialized data. The actual capacity may be bigger.
+        /// </summary>
+        public int SizeInBytes => itemCountPreviousWrite * itemSizeInBytesPreviousWrite;
+
+        // Store information from previous write to allow for bounds checking.
         private int itemCountPreviousWrite = 0;
         private int itemSizeInBytesPreviousWrite = 0;
-
-        // The actual capacity of the buffer may be bigger.
-        private int TotalSizeInBytesPreviousWrite
-        {
-            get { return itemCountPreviousWrite * itemSizeInBytesPreviousWrite; }
-        }
 
         /// <summary>
         /// Creates a buffer of the specified target with uninitialized data.
@@ -82,25 +79,22 @@ namespace SFGraphics.GLObjects.BufferObjects
 
         /// <summary>
         /// Initializes a portion of the buffer's data with the specified array.
-        /// <paramref name="data"/> should be contiguous in memory, so only 
-        /// non nullable structs containing value types as members will work properly.
         /// </summary>
-        /// <typeparam name="T">The type of each item. This includes arithmetic types like <see cref="int"/>.</typeparam>
+        /// <typeparam name="T">The type of each item.</typeparam>
         /// <param name="data">The data used to initialize the buffer's data.</param>
         /// <param name="offsetInBytes">The offset where data replacement will begin</param>
-        /// 
         /// <exception cref="ArgumentOutOfRangeException">The specified range includes data 
         /// outside the buffer's current capacity.</exception>        
         public void SetSubData<T>(T[] data, int offsetInBytes) where T : struct
         {
+            if (offsetInBytes < 0)
+                throw new ArgumentOutOfRangeException("offsetInBytes", BufferExceptionMessages.offsetMustBeNonNegative);
+
             int itemSizeInBytes = System.Runtime.InteropServices.Marshal.SizeOf(typeof(T));
 
-            if (offsetInBytes < 0 || itemSizeInBytes < 0)
-                throw new ArgumentOutOfRangeException(BufferExceptionMessages.offsetAndItemSizeMustBeNonNegative);
-
             int newBufferSize = CalculateRequiredSize(offsetInBytes, data.Length, itemSizeInBytes);
-            if (newBufferSize > TotalSizeInBytesPreviousWrite)
-                throw new ArgumentOutOfRangeException(BufferExceptionMessages.subDataTooLong);
+            if (newBufferSize > SizeInBytes)
+                throw new ArgumentOutOfRangeException("data", BufferExceptionMessages.subDataTooLong);
 
             Bind();
             GL.BufferSubData(Target, new IntPtr(offsetInBytes), itemSizeInBytes * data.Length, data);
@@ -117,10 +111,10 @@ namespace SFGraphics.GLObjects.BufferObjects
         {
             int itemSizeInBytes = System.Runtime.InteropServices.Marshal.SizeOf(typeof(T));
 
-            if ((TotalSizeInBytesPreviousWrite % itemSizeInBytes) != 0)
+            if ((SizeInBytes % itemSizeInBytes) != 0)
                 throw new ArgumentOutOfRangeException("T", BufferExceptionMessages.bufferNotDivisibleByRequestedType);
 
-            int newItemCount = TotalSizeInBytesPreviousWrite / itemSizeInBytes;
+            int newItemCount = SizeInBytes / itemSizeInBytes;
 
             Bind();
             T[] data = new T[newItemCount];
@@ -145,10 +139,10 @@ namespace SFGraphics.GLObjects.BufferObjects
 
             // Throw exception for attempts to read data outside the current range.
             if (offsetInBytes < 0 || itemCount < 0 || itemSizeInBytes < 0)
-                throw new ArgumentOutOfRangeException(BufferExceptionMessages.offsetAndItemSizeMustBeNonNegative);
+                throw new ArgumentOutOfRangeException(BufferExceptionMessages.offsetMustBeNonNegative);
 
             int newBufferSize = CalculateRequiredSize(offsetInBytes, itemCount, itemSizeInBytes);
-            if (newBufferSize > TotalSizeInBytesPreviousWrite)
+            if (newBufferSize > SizeInBytes)
                 throw new ArgumentOutOfRangeException(BufferExceptionMessages.subDataTooLong);
 
             Bind();

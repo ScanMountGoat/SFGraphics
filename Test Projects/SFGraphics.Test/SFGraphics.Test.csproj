@@ -61,6 +61,7 @@
     <Compile Include="Tests\BufferObjectTests\BufferData.cs" />
     <Compile Include="Tests\BufferObjectTests\GetSubData.cs" />
     <Compile Include="Tests\BufferObjectTests\MapBuffer.cs" />
+    <Compile Include="Tests\BufferObjectTests\SizeInBytes.cs" />
     <Compile Include="Tests\CameraTests\FovDegreesConversion.cs" />
     <Compile Include="Tests\CameraTests\FovRadiansConversion.cs" />
     <Compile Include="Tests\CameraTests\ProjectionMatrix.cs" />
