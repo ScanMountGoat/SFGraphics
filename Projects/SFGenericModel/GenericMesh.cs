@@ -197,6 +197,7 @@ namespace SFGenericModel
         /// <param name="shader"></param>
         public void ConfigureVertexAttributes(Shader shader)
         {
+            // The binding order here is critical.
             vertexArrayObject.Bind();
 
             vertexBuffer.Bind();
@@ -204,24 +205,26 @@ namespace SFGenericModel
 
             shader.EnableVertexAttributes();
             var vertexAttributes = GetVertexAttributes();
-            SetVertexAttributes(shader, vertexAttributes, vertexSizeInBytes);
+            SetVertexAttributes(shader, vertexAttributes);
+
+            // TODO: Binding the default VAO isn't part of the core specification.
+            vertexArrayObject.Unbind();
 
             // Unbind all the buffers.
             // This step may not be necessary.
-            vertexArrayObject.Unbind();
             GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, 0);
         }
 
-        private void SetVertexAttributes(Shader shader, List<VertexAttribute> attributes, int strideInBytes)
+        private void SetVertexAttributes(Shader shader, List<VertexAttribute> attributes)
         {
-            // Setting vertex attributes is handled automatically. 
+            // Calculating the offset requires the list order to match the struct member order.
             int offset = 0;
             foreach (var attribute in attributes)
             {
-                if(!VertexAttributeUtils.SetVertexAttribute(shader, attribute.Name, attribute, offset, strideInBytes))
+                if (!VertexAttributeUtils.SetVertexAttribute(shader, attribute, offset, vertexSizeInBytes))
                     OnInvalidAttribSet?.Invoke(this, new AttribSetEventArgs(attribute.Name, attribute.Type, attribute.ValueCount));
-                offset += attribute.SizeInBytes;
+                offset += attribute.SizeInBytes; 
             }
         }
 
