@@ -17,6 +17,7 @@ namespace SFGenericModel.VertexAttributes
             { VertexAttribPointerType.Int,           sizeof(int) },
             { VertexAttribPointerType.UnsignedInt,   sizeof(uint) },
             { VertexAttribPointerType.Float,         sizeof(float) },
+            { VertexAttribPointerType.HalfFloat,     sizeof(float) / 2 },
             { VertexAttribPointerType.Double,        sizeof(double) },
         };
 

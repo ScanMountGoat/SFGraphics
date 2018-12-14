@@ -50,6 +50,12 @@ namespace AttribPointerUtilsTest
         }
 
         [TestMethod]
+        public void HalfFloat()
+        {
+            CheckAttribPointerSize(sizeof(float) / 2, VertexAttribPointerType.HalfFloat);
+        }
+
+        [TestMethod]
         public void Double()
         {
             CheckAttribPointerSize(sizeof(double), VertexAttribPointerType.Double);
