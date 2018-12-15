@@ -40,6 +40,11 @@ namespace SFGenericModel
         public PrimitiveType PrimitiveType { get; }
 
         /// <summary>
+        /// Specifies the type of the index values.
+        /// </summary>
+        public DrawElementsType DrawElementsType { get; }
+
+        /// <summary>
         /// The collection of OpenGL state set prior to drawing.
         /// </summary>
         protected RenderSettings renderSettings = new RenderSettings();
@@ -66,11 +71,14 @@ namespace SFGenericModel
         /// Creates a new mesh and initializes the vertex buffer data.
         /// An index is generated for each vertex in <paramref name="vertices"/>.
         /// </summary>
-        /// <param name="vertices"></param>
-        /// <param name="primitiveType"></param>
+        /// <param name="vertices">The vertex data</param>
+        /// <param name="primitiveType">Determines how primitives will be constructed from the vertex data</param>
         public GenericMesh(List<T> vertices, PrimitiveType primitiveType)
         {
             PrimitiveType = primitiveType;
+            // TODO: Issues with signed vs unsigned integers?
+            DrawElementsType = DrawElementsType.UnsignedInt;
+
             vertexSizeInBytes = System.Runtime.InteropServices.Marshal.SizeOf(typeof(T));
             vertexCount = vertices.Count;
 
@@ -80,12 +88,15 @@ namespace SFGenericModel
         /// <summary>
         /// Creates a new mesh and initializes the vertex buffer data.
         /// </summary>
-        /// <param name="vertices"></param>
-        /// <param name="vertexIndices"></param>
+        /// <param name="vertices">The vertex data</param>
+        /// <param name="vertexIndices">The vertex index data</param>
         /// <param name="primitiveType">Determines how primitives will be constructed from the vertex data</param>
-        public GenericMesh(List<T> vertices, List<int> vertexIndices, PrimitiveType primitiveType)
+        /// <param name="drawElementsType">Specifies the type of the index values</param>
+        public GenericMesh(List<T> vertices, List<int> vertexIndices, PrimitiveType primitiveType, DrawElementsType drawElementsType = DrawElementsType.UnsignedInt)
         {
             PrimitiveType = primitiveType;
+            DrawElementsType = drawElementsType;
+
             vertexSizeInBytes = System.Runtime.InteropServices.Marshal.SizeOf(typeof(T));
             vertexCount = vertexIndices.Count;
 
@@ -135,7 +146,9 @@ namespace SFGenericModel
         private void DrawGeometry(int count, int offset)
         {
             vertexArrayObject.Bind();
-            GL.DrawElements(PrimitiveType, count, DrawElementsType.UnsignedInt, offset);
+            GL.DrawElements(PrimitiveType, count, DrawElementsType, offset);
+
+            // TODO: This isn't part of the core specification.
             vertexArrayObject.Unbind();
         }
 
@@ -197,6 +210,8 @@ namespace SFGenericModel
         /// <param name="shader"></param>
         public void ConfigureVertexAttributes(Shader shader)
         {
+            // TODO: Don't make this public.
+
             // The binding order here is critical.
             vertexArrayObject.Bind();
 
