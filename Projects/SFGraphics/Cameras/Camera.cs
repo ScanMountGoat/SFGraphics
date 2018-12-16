@@ -30,6 +30,12 @@ namespace SFGraphics.Cameras
         private Vector3 position = new Vector3(0, 10, -80);
 
         /// <summary>
+        /// The view direction vector used for shading calculations. Commonly abbreviated to "V" or "I".
+        /// </summary>
+        public Vector3 ViewVector => viewVector;
+        private Vector3 viewVector;
+
+        /// <summary>
         /// The scale for all objects. Defaults to 1.
         /// </summary>
         public float Scale
@@ -262,7 +268,7 @@ namespace SFGraphics.Cameras
         /// </summary>
         public Camera()
         {
-
+            UpdateMatrices();
         }
 
         /// <summary>
@@ -366,6 +372,9 @@ namespace SFGraphics.Cameras
         protected virtual void UpdateMvpMatrix()
         {
             mvpMatrix = modelViewMatrix * perspectiveMatrix;
+
+            var view = new Vector4(0, 0, -1, 0) * mvpMatrix;
+            viewVector = view.Xyz;
         }
 
         /// <summary>

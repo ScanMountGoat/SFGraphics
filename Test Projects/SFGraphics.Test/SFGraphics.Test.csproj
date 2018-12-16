@@ -69,6 +69,7 @@
     <Compile Include="Tests\CameraTests\ResetPosition.cs" />
     <Compile Include="Tests\CameraTests\RotationMatrix.cs" />
     <Compile Include="Tests\CameraTests\TranslationMatrix.cs" />
+    <Compile Include="Tests\CameraTests\ViewVector.cs" />
     <Compile Include="Tests\ContextTest.cs" />
     <Compile Include="Tests\FramebufferTests\Attachments.cs" />
     <Compile Include="Tests\FramebufferTests\ConstructorExceptions.cs" />
