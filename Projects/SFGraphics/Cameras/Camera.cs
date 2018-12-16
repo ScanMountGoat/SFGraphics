@@ -32,8 +32,7 @@ namespace SFGraphics.Cameras
         /// <summary>
         /// The view direction vector used for shading calculations. Commonly abbreviated to "V" or "I".
         /// </summary>
-        public Vector3 ViewVector => viewVector;
-        private Vector3 viewVector;
+        public Vector3 ViewVector { get; protected set; }
 
         /// <summary>
         /// The scale for all objects. Defaults to 1.
@@ -373,8 +372,8 @@ namespace SFGraphics.Cameras
         {
             mvpMatrix = modelViewMatrix * perspectiveMatrix;
 
-            var view = new Vector4(0, 0, -1, 0) * mvpMatrix;
-            viewVector = view.Xyz;
+            ViewVector = new Vector3(0, 0, 1) * new Matrix3(ModelViewMatrix).Inverted();
+            ViewVector = ViewVector.Normalized();
         }
 
         /// <summary>
