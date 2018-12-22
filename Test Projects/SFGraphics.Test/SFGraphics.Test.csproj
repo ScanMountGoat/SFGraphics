@@ -111,12 +111,13 @@
     <Compile Include="Tests\ShaderTests\UniformBlockBinding.cs" />
     <Compile Include="Tests\TextureTests\GetBitmap.cs" />
     <Compile Include="Tests\TextureTests\GetImageData.cs" />
-    <Compile Include="Tests\TextureTests\Texture2D Tests\LoadImageData.cs" />
+    <Compile Include="Tests\TextureTests\Texture2DTests\LoadImageData.cs" />
     <Compile Include="Tests\TextureTests\CompressedImageSize.cs" />
     <Compile Include="Tests\TextureTests\DepthTextureConstructor.cs" />
     <Compile Include="Tests\TextureTests\MipmapLoadingExceptions.cs" />
-    <Compile Include="Tests\TextureTests\Texture2D Tests\LoadImageDataBuffer.cs" />
+    <Compile Include="Tests\TextureTests\Texture2DTests\LoadImageDataBuffer.cs" />
     <Compile Include="Tests\TextureTests\Texture2DMsConstructor.cs" />
+    <Compile Include="Tests\TextureTests\Texture3DTests\LoadImageData.cs" />
     <Compile Include="Tests\TextureTests\TextureCubeMapLoadImageData.cs" />
     <Compile Include="Tests\GLExtensionTests\ExtensionAvailabilityTests.cs" />
   </ItemGroup>
