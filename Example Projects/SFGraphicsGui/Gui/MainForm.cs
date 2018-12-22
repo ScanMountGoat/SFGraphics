@@ -63,6 +63,7 @@ namespace SFGraphicsGui
             shader.SetMatrix4x4("mvpMatrix", ref matrix4);
                 
             shader.SetTexture("uvTexture", texture, textureUnit);
+            shader.SetTexture("lutTexture", graphicsResources.lutTexture, textureUnit + 1);
 
             graphicsResources.screenTriangle.Draw(shader, null);
         }

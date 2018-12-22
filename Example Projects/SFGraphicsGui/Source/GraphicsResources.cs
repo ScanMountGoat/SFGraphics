@@ -21,6 +21,8 @@ namespace SFGraphicsGui
 
         public SamplerObject samplerObject;
 
+        public Texture3D lutTexture;
+
         /// <summary>
         /// Create the <see cref="uvTestPattern"/>, <see cref="screenTextureShader"/>, and <see cref="screenTriangle"/>.
         /// Requires an OpenTK context to be current.
@@ -35,6 +37,9 @@ namespace SFGraphicsGui
             screenTextureShader = CreateShader();
             CreateSamplerObject();
             screenTriangle = new ScreenTriangle();
+
+            lutTexture = new Texture3D();
+            lutTexture.LoadImageData(1, 1, 1, new float[] { 1, 1, 1, 1 }, new TextureFormatUncompressed(PixelInternalFormat.Rgba, PixelFormat.Rgba, PixelType.Float));
 
             Benchmark();
         }

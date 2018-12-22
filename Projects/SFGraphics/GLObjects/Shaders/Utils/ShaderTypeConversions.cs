@@ -9,7 +9,8 @@ namespace SFGraphics.GLObjects.Shaders.Utils
         private static Dictionary<TextureTarget, ActiveUniformType> uniformTypeByTextureTarget = new Dictionary<TextureTarget, ActiveUniformType>()
         {
             { TextureTarget.Texture2D, ActiveUniformType.Sampler2D },
-            { TextureTarget.TextureCubeMap, ActiveUniformType.SamplerCube }
+            { TextureTarget.TextureCubeMap, ActiveUniformType.SamplerCube },
+            { TextureTarget.Texture3D, ActiveUniformType.Sampler3D }
         };
     
         public static ActiveUniformType GetUniformType(TextureTarget target)
