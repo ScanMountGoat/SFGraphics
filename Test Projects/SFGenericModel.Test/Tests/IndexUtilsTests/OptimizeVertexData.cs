@@ -85,7 +85,7 @@ namespace SFGenericModel.Utils.Test.IndexUtilsTests
         public void RepeatedAndUniqueVerticesWidthIndices()
         {
             var vertices = new List<char>() { 'a', 'b', 'd', 'b', 'b', 'c', 'c' };
-            var indices = new List<int>() { 0, 1, 2, 1, 1, 3, 3 };
+            var indices = new List<int>() { 0, 1, 2, 3, 4, 5, 6 };
             IndexUtils.OptimizedVertexData(vertices, out List<char> newVertices, out List<int> newIndices);
 
             CollectionAssert.AreEqual(new List<char>() { 'a', 'b', 'd', 'c' }, newVertices);
