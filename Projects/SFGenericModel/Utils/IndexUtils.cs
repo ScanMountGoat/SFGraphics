@@ -23,5 +23,38 @@ namespace SFGenericModel.Utils
 
             return vertexIndices;
         }
+
+        /// <summary>
+        /// Generates new vertices and indices with no repeated vertices.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="vertices">The original vertex list</param>
+        /// <param name="newVertices">The optimized list of vertices</param>
+        /// <param name="newIndices">The optimized list of indices</param>
+        public static void OptimizedVertexData<T>(List<T> vertices, out List<T> newVertices, out List<int> newIndices)
+        {
+            var indexByVertex = new Dictionary<T, int>();
+            int maxIndex = 0;
+
+            newVertices = new List<T>();
+
+            // Only add an index and vertex for new vertices.
+            foreach (var vertex in vertices)
+            {
+                if (!indexByVertex.ContainsKey(vertex))
+                {
+                    indexByVertex[vertex] = maxIndex;
+                    newVertices.Add(vertex);
+                    maxIndex++;
+                }
+            }
+            
+            // Use the optimized vertex list to generate new indices.
+            newIndices = new List<int>();
+            foreach (var vertex in vertices)
+            {
+                newIndices.Add(indexByVertex[vertex]);
+            }
+        }
     }
 }
