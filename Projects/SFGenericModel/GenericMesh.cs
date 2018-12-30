@@ -26,7 +26,6 @@ namespace SFGenericModel
         // Vertex attributes only need to be reconfigured when the shader changes.
         private int previousShaderId = -1;
 
-        private readonly int vertexCount = 0;
         private readonly int vertexSizeInBytes = 0;
 
         private VertexArrayObject vertexArrayObject = new VertexArrayObject();
@@ -35,12 +34,17 @@ namespace SFGenericModel
         private BufferObject vertexIndexBuffer = new BufferObject(BufferTarget.ElementArrayBuffer);
 
         /// <summary>
+        /// The number of vertices stored in the buffers used for drawing.
+        /// </summary>
+        public int VertexCount { get; } = 0;
+
+        /// <summary>
         /// Determines how primitives will be constructed from the vertex data.
         /// </summary>
         public PrimitiveType PrimitiveType { get; }
 
         /// <summary>
-        /// Specifies the type of the index values.
+        /// Specifies the data type of the index values.
         /// </summary>
         public DrawElementsType DrawElementsType { get; }
 
@@ -67,21 +71,25 @@ namespace SFGenericModel
         /// </summary>
         public event InvalidAttribSetEventHandler OnInvalidAttribSet;
 
+        private GenericMesh(PrimitiveType primitiveType, DrawElementsType drawElementsType, System.Type vertexType, int vertexCount)
+        {
+            PrimitiveType = primitiveType;
+            DrawElementsType = DrawElementsType.UnsignedInt;
+
+            // This works as expected as long as only value types are used.
+            vertexSizeInBytes = System.Runtime.InteropServices.Marshal.SizeOf(vertexType);
+            VertexCount = vertexCount;
+        }
+
         /// <summary>
         /// Creates a new mesh and initializes the vertex buffer data.
         /// An index is generated for each vertex in <paramref name="vertices"/>.
         /// </summary>
         /// <param name="vertices">The vertex data</param>
         /// <param name="primitiveType">Determines how primitives will be constructed from the vertex data</param>
-        public GenericMesh(List<T> vertices, PrimitiveType primitiveType)
+        public GenericMesh(List<T> vertices, PrimitiveType primitiveType) 
+            : this(primitiveType, DrawElementsType.UnsignedInt, typeof(T), vertices.Count)
         {
-            PrimitiveType = primitiveType;
-            // TODO: Issues with signed vs unsigned integers?
-            DrawElementsType = DrawElementsType.UnsignedInt;
-
-            vertexSizeInBytes = System.Runtime.InteropServices.Marshal.SizeOf(typeof(T));
-            vertexCount = vertices.Count;
-
             InitializeBufferData(vertices);
         }
 
@@ -91,15 +99,9 @@ namespace SFGenericModel
         /// <param name="vertices">The vertex data</param>
         /// <param name="vertexIndices">The vertex index data</param>
         /// <param name="primitiveType">Determines how primitives will be constructed from the vertex data</param>
-        /// <param name="drawElementsType">Specifies the type of the index values</param>
-        public GenericMesh(List<T> vertices, List<int> vertexIndices, PrimitiveType primitiveType, DrawElementsType drawElementsType = DrawElementsType.UnsignedInt)
+        public GenericMesh(List<T> vertices, List<int> vertexIndices, PrimitiveType primitiveType)
+            : this(primitiveType, DrawElementsType.UnsignedInt, typeof(T), vertexIndices.Count)
         {
-            PrimitiveType = primitiveType;
-            DrawElementsType = drawElementsType;
-
-            vertexSizeInBytes = System.Runtime.InteropServices.Marshal.SizeOf(typeof(T));
-            vertexCount = vertexIndices.Count;
-
             InitializeBufferData(vertices, vertexIndices);
         }
 
@@ -109,15 +111,9 @@ namespace SFGenericModel
         /// <param name="vertices">The vertex data</param>
         /// <param name="vertexIndices">The vertex index data</param>
         /// <param name="primitiveType">Determines how primitives will be constructed from the vertex data</param>
-        /// <param name="drawElementsType">Specifies the type of the index values</param>
-        public GenericMesh(List<T> vertices, List<uint> vertexIndices, PrimitiveType primitiveType, DrawElementsType drawElementsType = DrawElementsType.UnsignedInt)
+        public GenericMesh(List<T> vertices, List<uint> vertexIndices, PrimitiveType primitiveType)
+            : this(primitiveType, DrawElementsType.UnsignedInt, typeof(T), vertexIndices.Count)
         {
-            PrimitiveType = primitiveType;
-            DrawElementsType = drawElementsType;
-
-            vertexSizeInBytes = System.Runtime.InteropServices.Marshal.SizeOf(typeof(T));
-            vertexCount = vertexIndices.Count;
-
             InitializeBufferData(vertices, vertexIndices);
         }
 
@@ -156,6 +152,7 @@ namespace SFGenericModel
             SetCameraUniforms(shader, camera);
             SetMaterialUniforms(shader, material);
 
+            // TODO: Add an option to disable this.
             GLRenderSettings.SetRenderSettings(renderSettings);
 
             DrawGeometry(count, offset);
@@ -166,7 +163,8 @@ namespace SFGenericModel
             vertexArrayObject.Bind();
             GL.DrawElements(PrimitiveType, count, DrawElementsType, offset);
 
-            // TODO: This isn't part of the core specification.
+            // TODO: This isn't part of the OpenGL core specification.
+            // Leave this enabled for compatibility with older applications.
             vertexArrayObject.Unbind();
         }
 
@@ -177,7 +175,7 @@ namespace SFGenericModel
         /// <param name="camera"></param>
         public void Draw(Shader shader, Camera camera)
         {
-            Draw(shader, camera, vertexCount, 0);
+            Draw(shader, camera, VertexCount, 0);
         }
 
         /// <summary>
@@ -193,7 +191,7 @@ namespace SFGenericModel
             {
                 foreach (VertexAttribute attribute in member.GetCustomAttributes(typeof(VertexAttribute), true))
                 {
-                    // Ignore duplicate attributes.
+                    // Break to ignore duplicate attributes.
                     attributes.Add(attribute);
                     break;
                 }
