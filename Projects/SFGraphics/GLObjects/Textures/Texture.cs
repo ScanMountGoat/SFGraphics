@@ -145,8 +145,7 @@ namespace SFGraphics.GLObjects.Textures
         }
 
         /// <summary>
-        /// Gets the image data for <paramref name="mipLevel"/>
-        /// in an ABGR unsigned byte format.
+        /// Gets the image data for <paramref name="mipLevel"/> in an unsigned byte format.
         /// </summary>
         /// <param name="mipLevel">The mip level to read</param>
         /// <returns>The image data for <paramref name="mipLevel"/></returns>
@@ -154,7 +153,7 @@ namespace SFGraphics.GLObjects.Textures
         {
             int channels = 4;
             byte[] data = new byte[Width * Height * sizeof(byte) * channels];
-            GL.GetTexImage(TextureTarget, mipLevel, PixelFormat.AbgrExt, PixelType.UnsignedByte, data);
+            GL.GetTexImage(TextureTarget, mipLevel, PixelFormat.Bgra, PixelType.UnsignedByte, data);
 
             return SFGraphics.Utils.BitmapUtils.GetBitmap(Width, Height, data);
         }
