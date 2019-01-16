@@ -46,6 +46,7 @@
     <Compile Include="BoundingSphereGenerator.cs" />
     <Compile Include="ColorUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TriangleListUtils.cs" />
     <Compile Include="VectorUtils.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
