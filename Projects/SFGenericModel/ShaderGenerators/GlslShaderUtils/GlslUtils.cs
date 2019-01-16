@@ -1,8 +1,8 @@
 ﻿using OpenTK.Graphics.OpenGL;
 using SFGenericModel.VertexAttributes;
-using SFGraphics.GLObjects.Shaders;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
@@ -34,7 +34,7 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
             shaderSource.AppendLine("{");
         }
 
-        public static void AppendVertexInputs(List<VertexAttributeRenderInfo> attributes, StringBuilder shaderSource)
+        public static void AppendVertexInputs(IEnumerable<VertexAttributeRenderInfo> attributes, StringBuilder shaderSource)
         {
             // Ignore duplicates to prevent shader compile errors.
             HashSet<string> previousNames = new HashSet<string>();
@@ -50,7 +50,7 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
             }
         }
 
-        public static void AppendVertexOutputs(List<VertexAttributeRenderInfo> attributes, StringBuilder shaderSource)
+        public static void AppendVertexOutputs(IEnumerable<VertexAttributeRenderInfo> attributes, StringBuilder shaderSource)
         {
             // Ignore duplicates to prevent shader compile errors.
             HashSet<string> previousNames = new HashSet<string>();
@@ -75,7 +75,7 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
                 return "";
         }
 
-        public static void AppendVertexOutputAssignments(List<VertexAttributeRenderInfo> attributes, StringBuilder shaderSource)
+        public static void AppendVertexOutputAssignments(IEnumerable<VertexAttributeRenderInfo> attributes, StringBuilder shaderSource)
         {
             // Ignore duplicates to prevent shader compile errors.
             HashSet<string> previousNames = new HashSet<string>();
@@ -113,7 +113,7 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
                 return "";
         }
 
-        public static void AppendFragmentInputs(List<VertexAttributeRenderInfo> attributes, StringBuilder shaderSource)
+        public static void AppendFragmentInputs(IEnumerable<VertexAttributeRenderInfo> attributes, StringBuilder shaderSource)
         {
             // Ignore duplicates to prevent shader compile errors.
             HashSet<string> previousNames = new HashSet<string>();
@@ -184,13 +184,13 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
             }
         }
 
-        public static void AppendPositionAssignment(StringBuilder shaderSource, List<VertexAttributeRenderInfo> attributes)
+        public static void AppendPositionAssignment(StringBuilder shaderSource, IEnumerable<VertexAttributeRenderInfo> attributes)
         {
-            if (attributes.Count == 0)
+            // Assume the first attribute is position.
+            if (!attributes.GetEnumerator().MoveNext())
                 return;
 
-            // Assume the first attribute is position.
-            string positionVariable = GlslVectorUtils.ConstructVector(ValueCount.Four, attributes[0].AttributeInfo.ValueCount, attributes[0].Name);
+            string positionVariable = GlslVectorUtils.ConstructVector(ValueCount.Four, attributes.First().AttributeInfo.ValueCount, attributes.First().Name);
             shaderSource.AppendLine($"\tgl_Position = {matrixName} * {positionVariable};");
         }
 

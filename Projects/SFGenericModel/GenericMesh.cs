@@ -247,7 +247,7 @@ namespace SFGenericModel
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, 0);
         }
 
-        private void SetVertexAttributes(Shader shader, List<VertexAttribute> attributes)
+        private void SetVertexAttributes(Shader shader, IEnumerable<VertexAttribute> attributes)
         {
             // Calculating the offset requires the list order to match the struct member order.
             int offset = 0;

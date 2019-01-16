@@ -25,7 +25,7 @@ namespace SFGenericModel.Utils
         /// <typeparam name="T">The vertex data struct</typeparam>
         /// <param name="containers">The unoptimized vertex containers</param>
         /// <returns></returns>
-        public static List<IndexedVertexData<T>> GroupContainersByPrimitiveType<T>(List<IndexedVertexData<T>> containers)
+        public static List<IndexedVertexData<T>> GroupContainersByPrimitiveType<T>(IList<IndexedVertexData<T>> containers)
             where T : struct
         {
             var vertexContainersByType = OrganizeContainersByType(containers);
@@ -38,7 +38,7 @@ namespace SFGenericModel.Utils
             return result;
         }
 
-        private static Dictionary<PrimitiveType, List<IndexedVertexData<T>>> OrganizeContainersByType<T>(List<IndexedVertexData<T>> containers) where T : struct
+        private static Dictionary<PrimitiveType, List<IndexedVertexData<T>>> OrganizeContainersByType<T>(IList<IndexedVertexData<T>> containers) where T : struct
         {
             var vertexContainersByType = new Dictionary<PrimitiveType, List<IndexedVertexData<T>>>();
 
@@ -54,7 +54,7 @@ namespace SFGenericModel.Utils
             return vertexContainersByType;
         }
 
-        private static List<IndexedVertexData<T>> GetMergedContainers<T>(List<IndexedVertexData<T>> containersToMerge) where T : struct
+        private static IList<IndexedVertexData<T>> GetMergedContainers<T>(IList<IndexedVertexData<T>> containersToMerge) where T : struct
         {
             // Combining indices isn't supported for all types currently.
             PrimitiveType type = containersToMerge.First().PrimitiveType;
@@ -77,7 +77,7 @@ namespace SFGenericModel.Utils
             return new List<IndexedVertexData<T>>() { mergedContainer };
         }
 
-        private static void AddIndices(int offset, List<int> indicesToAdd, 
+        private static void AddIndices(int offset, IEnumerable<int> indicesToAdd, 
             PrimitiveType primitiveType, List<int> target) 
         {
             if (target.Count == 0)

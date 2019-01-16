@@ -215,11 +215,10 @@ namespace SFGraphics.GLObjects.Shaders
         /// <param name="fragmentSource">The fragment shader source</param>
         public void LoadShaders(string vertexSource, string fragmentSource)
         {
-            LoadShaders(new List<Tuple<string, ShaderType, string>>()
-            {
+            LoadShaders(
                 new Tuple<string, ShaderType, string>(vertexSource, ShaderType.VertexShader, "Vertex Shader"),
-                new Tuple<string, ShaderType, string>(fragmentSource, ShaderType.FragmentShader, "Fragment Shader"),
-            });
+                new Tuple<string, ShaderType, string>(fragmentSource, ShaderType.FragmentShader, "Fragment Shader")
+            );
         }
 
         /// <summary>

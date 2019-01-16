@@ -16,15 +16,16 @@ namespace SFGraphics.Utils
         /// </summary>
         /// <param name="points">The points that should be contained within the bounding sphere</param>
         /// <returns>Vector4(center.Xyz, radius)</returns>
-        public static Vector4 GenerateBoundingSphere(List<Vector3> points)
+        public static Vector4 GenerateBoundingSphere(IEnumerable<Vector3> points)
         {
-            if (points.Count == 0)
-                return new Vector4(0);
+            // The initial max/min should be the first point.
+            var enumerator = points.GetEnumerator();
+            enumerator.MoveNext();
+
+            Vector3 min = new Vector3(enumerator.Current);
+            Vector3 max = new Vector3(enumerator.Current);
 
             // Find the corners of the bounding region.
-            Vector3 min = new Vector3(points[0]);
-            Vector3 max = new Vector3(points[0]);
-
             foreach (var point in points)
             {
                 min = Vector3.ComponentMin(min, point);
@@ -39,7 +40,7 @@ namespace SFGraphics.Utils
         // Optimization adapted from efficient bounding sphere algorithm by Jack Ritter
         // Example c implementation:
         // https://github.com/erich666/GraphicsGems/blob/master/gems/BoundSphere.c
-        private static Vector4 AdjustBoundingSphere(List<Vector3> points, Vector4 sphere)
+        private static Vector4 AdjustBoundingSphere(IEnumerable<Vector3> points, Vector4 sphere)
         {
             foreach (var point in points)
             {
@@ -66,14 +67,15 @@ namespace SFGraphics.Utils
         /// </summary>
         /// <param name="boundingSpheres">The list of bounding sphere centers (xyz) and radii (w)</param>
         /// <returns>A single bounding sphere that contains <paramref name="boundingSpheres"/></returns>
-        public static Vector4 GenerateBoundingSphere(List<Vector4> boundingSpheres)
+        public static Vector4 GenerateBoundingSphere(IEnumerable<Vector4> boundingSpheres)
         {
-            if (boundingSpheres.Count == 0)
-                return new Vector4(0);
+            // The initial max/min should be the first point.
+            var enumerator = boundingSpheres.GetEnumerator();
+            enumerator.MoveNext();
 
             // Calculate the end points using the center and radius
-            Vector3 min = boundingSpheres[0].Xyz - new Vector3(boundingSpheres[0].W);
-            Vector3 max = boundingSpheres[0].Xyz + new Vector3(boundingSpheres[0].W);
+            Vector3 min = enumerator.Current.Xyz - new Vector3(enumerator.Current.W);
+            Vector3 max = enumerator.Current.Xyz + new Vector3(enumerator.Current.W);
 
             foreach (var sphere in boundingSpheres)
             {

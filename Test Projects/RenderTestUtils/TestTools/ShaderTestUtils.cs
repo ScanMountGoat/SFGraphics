@@ -1,6 +1,5 @@
 ﻿using OpenTK.Graphics.OpenGL;
 using SFGraphics.GLObjects.Shaders;
-using System.Collections.Generic;
 using System;
 
 namespace RenderTestUtils
