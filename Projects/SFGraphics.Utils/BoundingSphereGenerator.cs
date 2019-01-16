@@ -1,6 +1,7 @@
 ﻿using OpenTK;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SFGraphics.Utils
 {
@@ -19,11 +20,8 @@ namespace SFGraphics.Utils
         public static Vector4 GenerateBoundingSphere(IEnumerable<Vector3> points)
         {
             // The initial max/min should be the first point.
-            var enumerator = points.GetEnumerator();
-            enumerator.MoveNext();
-
-            Vector3 min = new Vector3(enumerator.Current);
-            Vector3 max = new Vector3(enumerator.Current);
+            Vector3 min = points.FirstOrDefault();
+            Vector3 max = points.FirstOrDefault();
 
             // Find the corners of the bounding region.
             foreach (var point in points)
@@ -70,13 +68,10 @@ namespace SFGraphics.Utils
         public static Vector4 GenerateBoundingSphere(IEnumerable<Vector4> boundingSpheres)
         {
             // The initial max/min should be the first point.
-            var enumerator = boundingSpheres.GetEnumerator();
-            enumerator.MoveNext();
+            Vector3 min = boundingSpheres.FirstOrDefault().Xyz - new Vector3(boundingSpheres.FirstOrDefault().W);
+            Vector3 max = boundingSpheres.FirstOrDefault().Xyz + new Vector3(boundingSpheres.FirstOrDefault().W);
 
             // Calculate the end points using the center and radius
-            Vector3 min = enumerator.Current.Xyz - new Vector3(enumerator.Current.W);
-            Vector3 max = enumerator.Current.Xyz + new Vector3(enumerator.Current.W);
-
             foreach (var sphere in boundingSpheres)
             {
                 min = Vector3.ComponentMin(min, sphere.Xyz - new Vector3(sphere.W));

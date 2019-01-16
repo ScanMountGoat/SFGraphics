@@ -51,11 +51,11 @@ namespace MeshBatchUtilsTests
 
             // Check that vertex data is combined.
             Assert.AreEqual(1, optimizedContainers.Count);
-            CollectionAssert.AreEqual(verticesAb, optimizedContainers[0].Vertices);
+            CollectionAssert.AreEqual(verticesAb, (System.Collections.ICollection)optimizedContainers[0].Vertices);
 
             // Check that indices are offset.
             var expectedIndices = new List<int>() { 0, 1, 2, 3, 4, 5 };
-            CollectionAssert.AreEqual(expectedIndices, optimizedContainers[0].Indices);
+            CollectionAssert.AreEqual(expectedIndices, (System.Collections.ICollection)optimizedContainers[0].Indices);
         }
 
         [TestMethod]
@@ -65,11 +65,11 @@ namespace MeshBatchUtilsTests
 
             // Check that vertex data is combined.
             Assert.AreEqual(1, optimizedContainers.Count);
-            CollectionAssert.AreEqual(verticesAb, optimizedContainers[0].Vertices);
+            CollectionAssert.AreEqual(verticesAb, (System.Collections.ICollection)optimizedContainers[0].Vertices);
 
             // Check that indices are offset.
             var expectedIndices = new List<int>() { 0, 1, 2, 3, 4, 5 };
-            CollectionAssert.AreEqual(expectedIndices, optimizedContainers[0].Indices);
+            CollectionAssert.AreEqual(expectedIndices, (System.Collections.ICollection)optimizedContainers[0].Indices);
         }
 
         [TestMethod]
@@ -80,11 +80,11 @@ namespace MeshBatchUtilsTests
             Assert.AreEqual(1, optimizedContainers.Count);
 
             // Check that vertex data is combined.
-            CollectionAssert.AreEqual(verticesAb, optimizedContainers[0].Vertices);
+            CollectionAssert.AreEqual(verticesAb, (System.Collections.ICollection)optimizedContainers[0].Vertices);
 
             // Check that indices are offset.
             var expectedIndices = new List<int>() { 0, 1, 2, 2, 3, 3, 4, 5 };
-            CollectionAssert.AreEqual(expectedIndices, optimizedContainers[0].Indices);
+            CollectionAssert.AreEqual(expectedIndices, (System.Collections.ICollection)optimizedContainers[0].Indices);
         }
 
         [TestMethod]
@@ -94,11 +94,11 @@ namespace MeshBatchUtilsTests
 
             // Check that vertex data is combined.
             Assert.AreEqual(2, optimizedContainers.Count);
-            CollectionAssert.AreEqual(verticesAc, optimizedContainers[0].Vertices);
+            CollectionAssert.AreEqual(verticesAc, (System.Collections.ICollection)optimizedContainers[0].Vertices);
 
             // Check that indices are offset.
             var expectedIndices = new List<int>() { 0, 1, 2, 3, 4, 5 };
-            CollectionAssert.AreEqual(expectedIndices, optimizedContainers[0].Indices);
+            CollectionAssert.AreEqual(expectedIndices, (System.Collections.ICollection)optimizedContainers[0].Indices);
         }
 
         [TestMethod]
