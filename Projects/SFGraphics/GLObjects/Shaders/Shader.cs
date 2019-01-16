@@ -14,7 +14,7 @@ namespace SFGraphics.GLObjects.Shaders
     /// </summary>
     public sealed partial class Shader : GLObject
     {
-        internal override GLObjectType ObjectType { get { return GLObjectType.ShaderProgram; } }
+        internal override GLObjectType ObjectType { get => GLObjectType.ShaderProgram; }
 
         private Dictionary<string, ActiveUniformInfo> activeUniformByName = new Dictionary<string, ActiveUniformInfo>();
         private Dictionary<string, ActiveAttribInfo> activeAttribByName = new Dictionary<string, ActiveAttribInfo>();
@@ -182,7 +182,22 @@ namespace SFGraphics.GLObjects.Shaders
         /// Compiles and attaches multiple shaders. Linking and setup is performed only once.
         /// </summary>
         /// <param name="shaders">(shader source, shader type, shader name)</param>
-        public void LoadShaders(List<Tuple<string, ShaderType, string>> shaders)
+        public void LoadShaders(IEnumerable<Tuple<string, ShaderType, string>> shaders)
+        {
+            foreach (var shader in shaders)
+            {
+                int shaderId = CreateGlShader(shader.Item1, shader.Item2);
+                AttachShaderNoLink(shaderId, shader.Item2, shader.Item3);
+            }
+
+            LinkProgramSetUpVariables();
+        }
+
+        /// <summary>
+        /// Compiles and attaches multiple shaders. Linking and setup is performed only once.
+        /// </summary>
+        /// <param name="shaders">(shader source, shader type, shader name)</param>
+        public void LoadShaders(params Tuple<string, ShaderType, string>[] shaders)
         {
             foreach (var shader in shaders)
             {

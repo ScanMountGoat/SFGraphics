@@ -9,7 +9,7 @@ namespace TextureTests
     [TestClass]
     public class GetBitmap : Tests.ContextTest
     {
-        private readonly byte[] originalData = new byte[] { 255, 128, 0, 10 };
+        private readonly byte[] originalData = new byte[] { 128, 0, 10, 255 };
 
         [TestMethod]
         public void GetSinglePixel()
