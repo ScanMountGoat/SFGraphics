@@ -13,6 +13,8 @@ namespace SFGraphics.GLObjects.Textures.Utils
     public static class MipmapLoading
     {
         private static readonly int minMipLevel = 0;
+        private static readonly int border = 0;
+        private static readonly IntPtr bufferOffset = IntPtr.Zero;
 
         /// <summary>
         /// Loads compressed 2D image data of the compressed format <paramref name="format"/> 
@@ -26,7 +28,7 @@ namespace SFGraphics.GLObjects.Textures.Utils
         /// <param name="mipmaps">The list of mipmaps to load for <paramref name="target"/></param>
         /// <param name="format">The input format and internal format information</param>
         public static void LoadCompressedMipMaps<T>(TextureTarget target, int width, int height, 
-            List<T[]> mipmaps, InternalFormat format) where T : struct
+            IList<T[]> mipmaps, InternalFormat format) where T : struct
         {
             // The number of mipmaps needs to be specified first.
             if (!TextureFormatTools.IsCubeMapTarget(target))
@@ -54,7 +56,7 @@ namespace SFGraphics.GLObjects.Textures.Utils
         /// <param name="mipmaps"></param>
         /// <param name="format">The input format and internal format information</param>
         public static void LoadCompressedMipmaps(TextureTarget target, int width, int height,
-            List<BufferObject> mipmaps, InternalFormat format)
+            IList<BufferObject> mipmaps, InternalFormat format)
         {
             // The number of mipmaps needs to be specified first.
             if (!TextureFormatTools.IsCubeMapTarget(target))
@@ -82,7 +84,7 @@ namespace SFGraphics.GLObjects.Textures.Utils
         /// <param name="mipmaps"></param>
         /// <param name="format">The input format and internal format information</param>
         public static void LoadUncompressedMipmaps(TextureTarget target, int width, int height,
-            List<BufferObject> mipmaps, TextureFormatUncompressed format)
+            IList<BufferObject> mipmaps, TextureFormatUncompressed format)
         {
             // The number of mipmaps needs to be specified first.
             if (!TextureFormatTools.IsCubeMapTarget(target))
@@ -119,7 +121,7 @@ namespace SFGraphics.GLObjects.Textures.Utils
         /// <summary>
         /// 
         /// </summary>
-        /// <typeparam name="T">The value type used for the image data. This inclues arithmetic types.</typeparam>
+        /// <typeparam name="T">The value type used for the image data.</typeparam>
         /// <param name="target">The target of the texture or cube face for loading mip maps</param>
         /// <param name="width">The width of the texture or cube map face in pixels</param>
         /// <param name="height">The height of the texture or cube map face in pixels</param>
@@ -221,8 +223,8 @@ namespace SFGraphics.GLObjects.Textures.Utils
         /// <param name="mipsPosZ"></param>
         /// <param name="mipsNegZ"></param>
         public static void LoadFacesMipmaps<T>(int length, InternalFormat format,
-            List<T[]> mipsPosX, List<T[]> mipsNegX, List<T[]> mipsPosY, 
-            List<T[]> mipsNegY, List<T[]> mipsPosZ, List<T[]> mipsNegZ) where T : struct
+            IList<T[]> mipsPosX, IList<T[]> mipsNegX, IList<T[]> mipsPosY,
+            IList<T[]> mipsNegY, IList<T[]> mipsPosZ, IList<T[]> mipsNegZ) where T : struct
         {
             LoadCompressedMipMaps(TextureTarget.TextureCubeMapPositiveX, length, length, mipsPosX, format);
             LoadCompressedMipMaps(TextureTarget.TextureCubeMapNegativeX, length, length, mipsNegX, format);
@@ -253,7 +255,6 @@ namespace SFGraphics.GLObjects.Textures.Utils
         private static void LoadUncompressedMipLevel<T>(TextureTarget target, int width, int height,
             T[] baseMipLevel, TextureFormatUncompressed format, int mipLevel) where T : struct
         {
-            int border = 0;
             GL.TexImage2D(target, mipLevel, format.pixelInternalFormat, width, height, border,
                 format.pixelFormat, format.pixelType, baseMipLevel);
         }
@@ -263,8 +264,6 @@ namespace SFGraphics.GLObjects.Textures.Utils
         {
             imageBuffer.Bind(BufferTarget.PixelUnpackBuffer);
 
-            IntPtr bufferOffset = IntPtr.Zero;
-            int border = 0;
             GL.TexImage2D(target, mipLevel, format.pixelInternalFormat, width, height, border,
                 format.pixelFormat, format.pixelType, bufferOffset);
 
@@ -275,7 +274,6 @@ namespace SFGraphics.GLObjects.Textures.Utils
         private static void LoadCompressedMipLevel<T>(TextureTarget target, int width, int height, 
             T[] imageData, InternalFormat format, int mipLevel) where T : struct
         {
-            int border = 0;
             int imageSize = TextureFormatTools.CalculateImageSize(width, height, format);
             GL.CompressedTexImage2D(target, mipLevel, format, width, height, border, imageSize, imageData);
         }
@@ -285,8 +283,6 @@ namespace SFGraphics.GLObjects.Textures.Utils
         {
             imageBuffer.Bind(BufferTarget.PixelUnpackBuffer);
 
-            IntPtr bufferOffset = IntPtr.Zero;
-            int border = 0;
             int imageSize = TextureFormatTools.CalculateImageSize(width, height, format);
 
             GL.CompressedTexImage2D(target, mipLevel, format, width, height, border, imageSize, bufferOffset);

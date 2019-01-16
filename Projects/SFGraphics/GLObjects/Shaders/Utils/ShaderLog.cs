@@ -10,8 +10,8 @@ namespace SFGraphics.GLObjects.Shaders.Utils
     /// </summary>
     class ShaderLog
     {
-        private Dictionary<string, ActiveUniformInfo> invalidUniformByName = new Dictionary<string, ActiveUniformInfo>();
-        private Dictionary<string, ActiveAttribInfo> invalidAttribSetByName = new Dictionary<string, ActiveAttribInfo>();
+        private readonly Dictionary<string, ActiveUniformInfo> invalidUniformByName = new Dictionary<string, ActiveUniformInfo>();
+        private readonly Dictionary<string, ActiveAttribInfo> invalidAttribSetByName = new Dictionary<string, ActiveAttribInfo>();
 
         private Dictionary<int, ActiveUniformType> samplerTypeByTextureUnit = new Dictionary<int, ActiveUniformType>();
 

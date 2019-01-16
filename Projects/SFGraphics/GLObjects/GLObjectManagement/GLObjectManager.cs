@@ -37,8 +37,7 @@ namespace SFGraphics.GLObjects.GLObjectManagement
             // Remove and delete associated data for Ids with no more references.
             foreach (var glObject in objectsNoReferences)
             {
-                int value;
-                if (referenceCountById.TryRemove(glObject, out value))
+                if (referenceCountById.TryRemove(glObject, out int value))
                 {
                     DeleteIdBasedOnType(glObject);
                 }

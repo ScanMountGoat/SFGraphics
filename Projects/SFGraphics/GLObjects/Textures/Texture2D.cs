@@ -156,7 +156,7 @@ namespace SFGraphics.GLObjects.Textures
         /// <param name="mipmaps">The image data for each mip level</param>
         /// <param name="internalFormat">The image format of <paramref name="mipmaps"/></param>
         /// <exception cref="ArgumentException"><paramref name="internalFormat"/> is not a compressed format.</exception>
-        public void LoadImageData<T>(int width, int height, List<T[]> mipmaps, InternalFormat internalFormat)
+        public void LoadImageData<T>(int width, int height, IList<T[]> mipmaps, InternalFormat internalFormat)
             where T : struct
         {
             if (!TextureFormatTools.IsCompressed(internalFormat))
@@ -178,7 +178,7 @@ namespace SFGraphics.GLObjects.Textures
         /// <param name="height">The height of the base mip level in pixels</param>
         /// <param name="mipmaps">The image data for each mip level</param>
         /// <param name="format">The image format of <paramref name="mipmaps"/></param>
-        public void LoadImageData(int width, int height, List<BufferObject> mipmaps,
+        public void LoadImageData(int width, int height, IList<BufferObject> mipmaps,
             TextureFormatUncompressed format)
         {
             Width = width;
@@ -194,7 +194,7 @@ namespace SFGraphics.GLObjects.Textures
         /// <param name="height">The height of the base mip level in pixels</param>
         /// <param name="mipmaps">The image data for each mip level</param>
         /// <param name="internalFormat">The image format of <paramref name="mipmaps"/></param>
-        public void LoadImageData(int width, int height, List<BufferObject> mipmaps,
+        public void LoadImageData(int width, int height, IList<BufferObject> mipmaps,
             InternalFormat internalFormat)
         {
             if (!TextureFormatTools.IsCompressed(internalFormat))

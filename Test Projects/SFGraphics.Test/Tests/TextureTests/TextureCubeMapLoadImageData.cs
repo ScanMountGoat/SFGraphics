@@ -13,8 +13,10 @@ namespace TextureTests
         [TestMethod]
         public void InvalidMipmapCount()
         {
-            List<byte[]> mipmapsBig = new List<byte[]>();
-            mipmapsBig.Add(new byte[16]);
+            List<byte[]> mipmapsBig = new List<byte[]>
+            {
+                new byte[16]
+            };
 
             var textureCubeMap = new SFGraphics.GLObjects.Textures.TextureCubeMap();
 

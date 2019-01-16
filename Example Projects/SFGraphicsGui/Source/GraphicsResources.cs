@@ -58,16 +58,20 @@ namespace SFGraphicsGui
 
         private void CreateSamplerObject()
         {
-            samplerObject = new SamplerObject();
-            samplerObject.MinFilter = TextureMinFilter.NearestMipmapLinear;
-            samplerObject.MagFilter = TextureMagFilter.Nearest;
+            samplerObject = new SamplerObject
+            {
+                MinFilter = TextureMinFilter.NearestMipmapLinear,
+                MagFilter = TextureMagFilter.Nearest
+            };
         }
 
         private static Texture2D CreateTextureFromFloatValues(bool usePbo, int width, int height)
         {
-            Texture2D floatTexture = new Texture2D();
-            floatTexture.MinFilter = TextureMinFilter.Nearest;
-            floatTexture.MagFilter = TextureMagFilter.Nearest;
+            Texture2D floatTexture = new Texture2D
+            {
+                MinFilter = TextureMinFilter.Nearest,
+                MagFilter = TextureMagFilter.Nearest
+            };
 
             int mipmaps = 0;
 

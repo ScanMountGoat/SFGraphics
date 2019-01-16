@@ -13,15 +13,28 @@ namespace SFShapes
     /// </summary>
     public class Mesh3D : GenericMesh<Vector3>
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="vertices"></param>
+        /// <param name="primitiveType"></param>
         public Mesh3D(List<Vector3> vertices, PrimitiveType primitiveType) : base(vertices, primitiveType)
         {
 
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="vertices"></param>
         public Mesh3D(Tuple<List<Vector3>, PrimitiveType> vertices) : base(vertices.Item1, vertices.Item2)
         {
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override List<VertexAttribute> GetVertexAttributes()
         {
             return new List<VertexAttribute>()
@@ -30,6 +43,10 @@ namespace SFShapes
             };
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public List<VertexAttributeRenderInfo> GetRenderAttributes()
         {
             return new List<VertexAttributeRenderInfo>()

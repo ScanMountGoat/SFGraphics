@@ -49,8 +49,8 @@ namespace SFGraphics.GLObjects.Textures
             // Y + 
             // Y -
             // Z +
-            // Z 
-            System.Drawing.Rectangle[] faceRegions = new System.Drawing.Rectangle[faceCount];
+            // Z -
+            var faceRegions = new System.Drawing.Rectangle[faceCount];
             for (int i = 0; i < faceRegions.Length; i++)
             {
                 faceRegions[i] = new System.Drawing.Rectangle(0, i * faceSideLength, faceSideLength, faceSideLength);
@@ -87,8 +87,8 @@ namespace SFGraphics.GLObjects.Textures
         /// <exception cref="ArgumentException"><paramref name="internalFormat"/> is not a compressed format.</exception>
         /// <exception cref="ArgumentOutOfRangeException">The mipmap counts are not equal for all faces.</exception>
         public void LoadImageData<T>(int faceSideLength, InternalFormat internalFormat, 
-            List<T[]> mipsPosX, List<T[]> mipsNegX, List<T[]> mipsPosY, 
-            List<T[]> mipsNegY, List<T[]> mipsPosZ, List<T[]> mipsNegZ) where T : struct
+            IList<T[]> mipsPosX, IList<T[]> mipsNegX, IList<T[]> mipsPosY, 
+            IList<T[]> mipsNegY, IList<T[]> mipsPosZ, IList<T[]> mipsNegZ) where T : struct
         {
             Width = faceSideLength;
             Height = faceSideLength;
@@ -96,7 +96,7 @@ namespace SFGraphics.GLObjects.Textures
             if (!TextureFormatTools.IsCompressed(internalFormat))
                 throw new ArgumentException(TextureExceptionMessages.expectedCompressed);
 
-            bool equalMipCounts = CheckMipMapCountEquality(mipsPosX, mipsNegX, mipsPosY, mipsNegY, mipsPosZ, mipsNegZ);
+            bool equalMipCounts = CheckCountEquality(mipsPosX, mipsNegX, mipsPosY, mipsNegY, mipsPosZ, mipsNegZ);
             if (!equalMipCounts)
                 throw new ArgumentOutOfRangeException(TextureExceptionMessages.cubeFaceMipCountDifferent);
 
@@ -136,13 +136,19 @@ namespace SFGraphics.GLObjects.Textures
                 faceNegY, facePosZ, faceNegZ);
         }
 
-        private static bool CheckMipMapCountEquality<T>(List<T[]> mipsPosX, List<T[]> mipsNegX, List<T[]> mipsPosY, List<T[]> mipsNegY, List<T[]> mipsPosZ, List<T[]> mipsNegZ)
+        private static bool CheckCountEquality<T>(params ICollection<T>[] collections)
         {
-            bool equalMipCountX = mipsPosX.Count == mipsNegX.Count;
-            bool equalMipCountY = mipsPosY.Count == mipsNegY.Count;
-            bool equalMipCountZ = mipsPosZ.Count == mipsNegZ.Count;
-            bool equalMipCounts = equalMipCountX && equalMipCountY && equalMipCountZ;
-            return equalMipCounts;
+            if (collections.Length == 0)
+                return true;
+
+            int firstCount = collections[0].Count;
+            foreach (var collection in collections)
+            {
+                if (collection.Count != firstCount)
+                    return false;
+            }
+
+            return true;
         }
     }
 }
