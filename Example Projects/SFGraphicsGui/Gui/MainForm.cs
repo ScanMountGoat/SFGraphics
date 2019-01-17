@@ -65,7 +65,7 @@ namespace SFGraphicsGui
             shader.SetTexture("uvTexture", texture, textureUnit);
             shader.SetTexture("lutTexture", graphicsResources.lutTexture, textureUnit + 1);
 
-            graphicsResources.screenTriangle.Draw(shader, null);
+            graphicsResources.screenTriangle.Draw(shader);
         }
 
         private void glControl1_Load(object sender, EventArgs e)
@@ -131,6 +131,7 @@ namespace SFGraphicsGui
 
             shader.SetTexture("uvTestPattern", graphicsResources.uvTestPattern, 0);
 
+
             Camera camera = new Camera()
             {
                 RenderWidth = glControl1.Width,
@@ -146,10 +147,15 @@ namespace SFGraphicsGui
             camera.RotationXDegrees = -50;
             camera.RotationYDegrees = -180;
 
+            var matrix = camera.MvpMatrix;
+            shader.SetMatrix4x4("mvpMatrix", ref matrix);
+
             glControl1.MakeCurrent();
             GL.ClearColor(1, 1, 1, 1);
             GL.Clear(ClearBufferMask.ColorBufferBit);
-            shape.Draw(shader, camera);
+
+            shape.Draw(shader);
+
             glControl1.SwapBuffers();
         }
 

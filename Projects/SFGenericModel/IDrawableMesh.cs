@@ -12,7 +12,7 @@ namespace SFGenericModel
         /// Draws the geometry using the specified shader and camera.
         /// </summary>
         /// <param name="shader">The shader used for drawing</param>
-        /// <param name="camera">The camera used to transform vertex positions</param>
-        void Draw(Shader shader, Camera camera);
+        /// 
+        void Draw(Shader shader);
     }
 }
