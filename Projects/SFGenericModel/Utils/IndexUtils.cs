@@ -31,7 +31,7 @@ namespace SFGenericModel.Utils
         /// <param name="vertices">The original vertex list</param>
         /// <param name="newVertices">The optimized list of vertices</param>
         /// <param name="newIndices">The optimized list of indices</param>
-        public static void OptimizedVertexData<T>(List<T> vertices, out List<T> newVertices, out List<int> newIndices)
+        public static void OptimizeVertexData<T>(IList<T> vertices, out List<T> newVertices, out List<int> newIndices)
         {
             var indexByVertex = new Dictionary<T, int>();
             int maxIndex = 0;
@@ -66,7 +66,7 @@ namespace SFGenericModel.Utils
         /// <param name="indices">The original vertex indices</param>
         /// <param name="newVertices">The optimized list of vertices</param>
         /// <param name="newIndices">The optimized list of indices</param>
-        public static void OptimizedVertexData<T>(List<T> vertices, List<int> indices, out List<T> newVertices, out List<int> newIndices)
+        public static void OptimizedVertexData<T>(IList<T> vertices, IList<int> indices, out List<T> newVertices, out List<int> newIndices)
         {
             var indexByVertex = new Dictionary<T, int>();
             int maxIndex = 0;
