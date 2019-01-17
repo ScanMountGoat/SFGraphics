@@ -42,8 +42,6 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GenericModels\GenericModel.cs" />
-    <Compile Include="GenericModels\HideableMesh.cs" />
     <Compile Include="IDrawableMesh.cs" />
     <Compile Include="IndexedVertexData.cs" />
     <Compile Include="RenderState\PolygonModeSettings.cs" />

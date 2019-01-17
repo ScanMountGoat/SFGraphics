@@ -56,7 +56,6 @@
     <Compile Include="Tests\AttribPointerSize.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tests\GenericMeshConstructors.cs" />
-    <Compile Include="Tests\GenericModelVisibility.cs" />
     <Compile Include="Tests\IndexUtilsTests\GenerateIndices.cs" />
     <Compile Include="Tests\InvalidAttribSetEvent.cs" />
     <Compile Include="Tests\GroupByPrimitiveType.cs" />
