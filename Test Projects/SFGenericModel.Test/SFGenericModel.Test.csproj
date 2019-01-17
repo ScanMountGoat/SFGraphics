@@ -58,7 +58,6 @@
     <Compile Include="Tests\GenericMeshConstructors.cs" />
     <Compile Include="Tests\GenericModelVisibility.cs" />
     <Compile Include="Tests\IndexUtilsTests\GenerateIndices.cs" />
-    <Compile Include="Tests\IndexUtilsTests\OptimizeVertexData.cs" />
     <Compile Include="Tests\InvalidAttribSetEvent.cs" />
     <Compile Include="Tests\GroupByPrimitiveType.cs" />
     <Compile Include="Tests\RenderSettingsTests\AlphaBlendSettingsEquality.cs" />

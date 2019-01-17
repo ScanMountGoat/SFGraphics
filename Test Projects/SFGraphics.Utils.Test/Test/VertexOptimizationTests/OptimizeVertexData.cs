@@ -1,16 +1,16 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 
-namespace SFGenericModel.Utils.Test.IndexUtilsTests
+namespace SFGraphics.Utils.Test.OptimizeVertexDataTests
 {
     [TestClass]
-    public class GenerateOptimizedVertexData
+    public class OptimizeVertexData
     {
         [TestMethod]
         public void SingleVertex()
         {
             var vertices = new List<char>() { 'a' };
-            IndexUtils.OptimizeVertexData(vertices, out List<char> newVertices, out List<int> newIndices);
+            VertexOptimization.OptimizeVertexData(vertices, out List<char> newVertices, out List<int> newIndices);
 
             CollectionAssert.AreEqual(vertices, newVertices);
             CollectionAssert.AreEqual(new List<int>() { 0 }, newIndices);
@@ -21,7 +21,7 @@ namespace SFGenericModel.Utils.Test.IndexUtilsTests
         {
             var vertices = new List<char>() { 'a' };
             var indices = new List<int>() { 0 };
-            IndexUtils.OptimizedVertexData(vertices, indices, out List<char> newVertices, out List<int> newIndices);
+            VertexOptimization.OptimizeVertexData(vertices, indices, out List<char> newVertices, out List<int> newIndices);
 
             CollectionAssert.AreEqual(vertices, newVertices);
             CollectionAssert.AreEqual(indices, newIndices);
@@ -31,7 +31,7 @@ namespace SFGenericModel.Utils.Test.IndexUtilsTests
         public void ThreeIdenticalVertices()
         {
             var vertices = new List<char>() { 'a', 'a', 'a' };
-            IndexUtils.OptimizeVertexData(vertices, out List<char> newVertices, out List<int> newIndices);
+            VertexOptimization.OptimizeVertexData(vertices, out List<char> newVertices, out List<int> newIndices);
 
             CollectionAssert.AreEqual(new List<char>() { 'a' }, newVertices);
             CollectionAssert.AreEqual(new List<int>() { 0, 0, 0 }, newIndices);
@@ -43,7 +43,7 @@ namespace SFGenericModel.Utils.Test.IndexUtilsTests
             var vertices = new List<char>() { 'a', 'a', 'a' };
             var indices = new List<int>() { 0, 1, 2 };
 
-            IndexUtils.OptimizedVertexData(vertices, indices, out List<char> newVertices, out List<int> newIndices);
+            VertexOptimization.OptimizeVertexData(vertices, indices, out List<char> newVertices, out List<int> newIndices);
 
             CollectionAssert.AreEqual(new List<char>() { 'a' }, newVertices);
             CollectionAssert.AreEqual(new List<int>() { 0, 0, 0 }, newIndices);
@@ -53,7 +53,7 @@ namespace SFGenericModel.Utils.Test.IndexUtilsTests
         public void ThreeUniqueVertices()
         {
             var vertices = new List<char>() { 'a', 'b', 'c' };
-            IndexUtils.OptimizeVertexData(vertices, out List<char> newVertices, out List<int> newIndices);
+            VertexOptimization.OptimizeVertexData(vertices, out List<char> newVertices, out List<int> newIndices);
 
             CollectionAssert.AreEqual(new List<char>() { 'a', 'b', 'c' }, newVertices);
             CollectionAssert.AreEqual(new List<int>() { 0, 1, 2 }, newIndices);
@@ -65,7 +65,7 @@ namespace SFGenericModel.Utils.Test.IndexUtilsTests
             var vertices = new List<char>() { 'a', 'b', 'c' };
             var indices = new List<int>() { 0, 1, 2 };
 
-            IndexUtils.OptimizedVertexData(vertices, indices, out List<char> newVertices, out List<int> newIndices);
+            VertexOptimization.OptimizeVertexData(vertices, indices, out List<char> newVertices, out List<int> newIndices);
 
             CollectionAssert.AreEqual(new List<char>() { 'a', 'b', 'c' }, newVertices);
             CollectionAssert.AreEqual(new List<int>() { 0, 1, 2 }, newIndices);
@@ -75,7 +75,7 @@ namespace SFGenericModel.Utils.Test.IndexUtilsTests
         public void RepeatedAndUniqueVertices()
         {
             var vertices = new List<char>() { 'a', 'b', 'd', 'b', 'b', 'c', 'c' };
-            IndexUtils.OptimizeVertexData(vertices, out List<char> newVertices, out List<int> newIndices);
+            VertexOptimization.OptimizeVertexData(vertices, out List<char> newVertices, out List<int> newIndices);
 
             CollectionAssert.AreEqual(new List<char>() { 'a', 'b', 'd', 'c' }, newVertices);
             CollectionAssert.AreEqual(new List<int>() { 0, 1, 2, 1, 1, 3, 3 }, newIndices);
@@ -86,7 +86,7 @@ namespace SFGenericModel.Utils.Test.IndexUtilsTests
         {
             var vertices = new List<char>() { 'a', 'b', 'd', 'b', 'b', 'c', 'c' };
             var indices = new List<int>() { 0, 1, 2, 3, 4, 5, 6 };
-            IndexUtils.OptimizeVertexData(vertices, out List<char> newVertices, out List<int> newIndices);
+            VertexOptimization.OptimizeVertexData(vertices, out List<char> newVertices, out List<int> newIndices);
 
             CollectionAssert.AreEqual(new List<char>() { 'a', 'b', 'd', 'c' }, newVertices);
             CollectionAssert.AreEqual(new List<int>() { 0, 1, 2, 1, 1, 3, 3 }, newIndices);
