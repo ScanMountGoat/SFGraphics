@@ -4,7 +4,8 @@ using System.Collections.Generic;
 namespace SFGenericModel.RenderState
 {
     /// <summary>
-    /// Stores the rendering state set before <see cref="GenericMesh{T}"/> is drawn.
+    /// Stores the rendering state used for drawing.
+    /// The OpenGL state can be set using <see cref="GLRenderSettings.SetRenderSettings(RenderSettings)"/>.
     /// </summary>
     public class RenderSettings
     {
