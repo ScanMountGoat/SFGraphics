@@ -1,7 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SFGraphics.GLObjects.Shaders;
-using System.Collections.Generic;
-using SFGraphics.GLObjects.Shaders.ShaderEventArgs;
 
 namespace Tests
 {

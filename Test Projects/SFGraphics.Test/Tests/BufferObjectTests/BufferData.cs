@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenTK;
 
-namespace BufferObjectTests
+namespace SFGraphics.Test.BufferObjectTests
 {
     [TestClass]
     public class BufferData : BufferTest

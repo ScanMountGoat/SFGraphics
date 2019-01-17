@@ -2,7 +2,7 @@
 using OpenTK.Graphics.OpenGL;
 using SFGraphics.GLObjects.Textures;
 
-namespace ShaderTests.SetterTests
+namespace SFGraphics.Test.ShaderTests.SetterTests
 {
     [TestClass]
     public class SetTexture : ShaderTest

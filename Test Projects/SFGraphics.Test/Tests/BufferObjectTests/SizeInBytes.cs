@@ -2,7 +2,7 @@
 using OpenTK.Graphics.OpenGL;
 using SFGraphics.GLObjects.BufferObjects;
 
-namespace BufferObjectTests
+namespace SFGraphics.Test.BufferObjectTests
 {
     [TestClass]
     public class SizeInBytes : Tests.ContextTest

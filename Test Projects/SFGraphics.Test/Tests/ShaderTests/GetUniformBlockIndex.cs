@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenTK.Graphics.OpenGL;
 
-namespace ShaderTests
+namespace SFGraphics.Test.ShaderTests
 {
     [TestClass]
     public class GetUniformBlockIndex : ShaderTest

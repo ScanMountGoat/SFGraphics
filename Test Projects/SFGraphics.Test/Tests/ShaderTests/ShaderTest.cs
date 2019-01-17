@@ -6,7 +6,7 @@ using SFGraphics.GLObjects.Shaders.ShaderEventArgs;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ShaderTests
+namespace SFGraphics.Test.ShaderTests
 {
     [TestClass]
     public abstract class ShaderTest : Tests.ContextTest

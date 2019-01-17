@@ -2,7 +2,7 @@
 using System.Collections.Concurrent;
 using SFGraphics.GLObjects.GLObjectManagement;
 
-namespace ReferenceCountTests
+namespace SFGraphics.Test.ReferenceCountTests
 {
     [TestClass]
     public class DecrementRefTest

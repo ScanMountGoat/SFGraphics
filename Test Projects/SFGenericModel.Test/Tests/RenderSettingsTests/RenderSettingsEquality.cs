@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SFGenericModel.RenderState;
 
-namespace RenderSettingsTests
+namespace SFGenericModel.Test.RenderSettingsTests
 {
     [TestClass]
     public class RenderSettingsEquality

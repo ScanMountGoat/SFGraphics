@@ -1,9 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SFGraphics.Utils;
-using System.Collections.Generic;
 using OpenTK;
+using System.Collections.Generic;
 
-namespace SFGraphicsTest.Test.TriangleUtilsTests
+namespace SFGraphics.Utils.Test.TriangleUtilsTests
 {
     [TestClass]
     public class CalculateTangentsBitangents

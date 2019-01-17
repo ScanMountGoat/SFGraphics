@@ -1,12 +1,11 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SFGraphics.GLObjects.Shaders;
-using SFGenericModel;
 using System.Collections.Generic;
 using OpenTK.Graphics.OpenGL;
 using SFGenericModel.MeshEventArgs;
 using SFGenericModel.VertexAttributes;
 
-namespace GenericMeshTests
+namespace SFGenericModel.Test.GenericMeshTests
 {
     [TestClass]
     public class AttribSet

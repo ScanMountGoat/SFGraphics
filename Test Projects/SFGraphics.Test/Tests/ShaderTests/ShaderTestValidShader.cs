@@ -3,7 +3,7 @@ using SFGraphics.GLObjects.Shaders;
 using System.Collections.Generic;
 using SFGraphics.GLObjects.Shaders.ShaderEventArgs;
 
-namespace ShaderTests
+namespace SFGraphics.Test.ShaderTests
 {
     [TestClass]
     class ShaderTestValidShader

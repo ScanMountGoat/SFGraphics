@@ -4,9 +4,8 @@ using System.Collections.Generic;
 using SFGenericModel.VertexAttributes;
 using SFGenericModel.ShaderGenerators;
 using OpenTK.Graphics.OpenGL;
-using System;
 
-namespace ShaderGeneratorTests
+namespace SFGenericModel.Test.ShaderGeneratorTests
 {
     [TestClass]
     public class TextureShaderCompilation

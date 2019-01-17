@@ -2,7 +2,7 @@
 using OpenTK.Graphics.OpenGL;
 using OpenTK;
 
-namespace ShaderTests.SetterTests
+namespace SFGraphics.Test.ShaderTests.SetterTests
 {
     [TestClass]
     public class SetMatrix4x4Arrays : ShaderTest

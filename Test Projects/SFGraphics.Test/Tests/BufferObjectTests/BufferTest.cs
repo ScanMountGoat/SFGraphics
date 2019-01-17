@@ -2,7 +2,7 @@
 using OpenTK.Graphics.OpenGL;
 using SFGraphics.GLObjects.BufferObjects;
 
-namespace BufferObjectTests
+namespace SFGraphics.Test.BufferObjectTests
 {
     public abstract class BufferTest : Tests.ContextTest
     {

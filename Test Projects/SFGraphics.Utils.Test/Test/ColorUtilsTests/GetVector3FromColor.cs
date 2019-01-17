@@ -1,9 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Drawing;
 using OpenTK;
-using SFGraphics.Utils;
 
-namespace ColorUtilsTests
+namespace SFGraphics.Utils.Test.ColorUtilsTests
 {
     [TestClass]
     public class Vector3FromColorTest

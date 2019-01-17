@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenTK.Graphics.OpenGL;
 using SFGraphics.GLObjects.Textures;
 using SFGraphics.GLObjects.Textures.TextureFormats;
 
-namespace TextureTests.Texture3DTests
+namespace SFGraphics.Test.TextureTests.Texture3DTests
 {
     [TestClass]
     public class LoadImageData : Tests.ContextTest

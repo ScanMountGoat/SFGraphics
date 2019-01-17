@@ -2,7 +2,7 @@
 using OpenTK.Graphics.OpenGL;
 using SFGenericModel.VertexAttributes;
 
-namespace AttribPointerUtilsTest
+namespace SFGenericModel.Test.AttribPointerUtilsTest
 {
     [TestClass]
     public class AttribPointerSize

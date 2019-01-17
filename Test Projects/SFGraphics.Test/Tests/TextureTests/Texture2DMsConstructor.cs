@@ -2,7 +2,7 @@
 using OpenTK.Graphics.OpenGL;
 using SFGraphics.GLObjects.Textures;
 
-namespace TextureTests
+namespace SFGraphics.Test.TextureTests
 {
     [TestClass]
     public class Texture2DMsConstructor : Tests.ContextTest

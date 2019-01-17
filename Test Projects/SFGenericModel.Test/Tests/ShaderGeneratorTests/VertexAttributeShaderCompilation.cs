@@ -5,7 +5,7 @@ using SFGenericModel.VertexAttributes;
 using SFGenericModel.ShaderGenerators;
 using OpenTK.Graphics.OpenGL;
 
-namespace ShaderGeneratorTests
+namespace SFGenericModel.Test.ShaderGeneratorTests
 {
     [TestClass]
     public class VertexAttributeShaderCompilation

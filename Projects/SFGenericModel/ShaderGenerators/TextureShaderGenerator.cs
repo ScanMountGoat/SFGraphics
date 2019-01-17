@@ -1,6 +1,5 @@
 ﻿using SFGenericModel.ShaderGenerators.GlslShaderUtils;
 using SFGenericModel.VertexAttributes;
-using SFGraphics.GLObjects.Shaders;
 using System.Collections.Generic;
 using System.Text;
 

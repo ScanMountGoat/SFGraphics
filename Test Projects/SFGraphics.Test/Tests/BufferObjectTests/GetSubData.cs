@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
-namespace BufferObjectTests
+namespace SFGraphics.Test.BufferObjectTests
 {
     [TestClass]
     public class GetSubData : BufferTest

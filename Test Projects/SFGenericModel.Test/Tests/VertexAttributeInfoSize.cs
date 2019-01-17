@@ -2,7 +2,7 @@
 using OpenTK.Graphics.OpenGL;
 using SFGenericModel.VertexAttributes;
 
-namespace VertexAttributeInfoTests
+namespace SFGenericModel.Test.VertexAttributeInfoTests
 {
     [TestClass]
     public class VertexAttributeInfoSize

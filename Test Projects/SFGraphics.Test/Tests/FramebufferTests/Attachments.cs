@@ -4,7 +4,7 @@ using OpenTK.Graphics.OpenGL;
 using SFGraphics.GLObjects.Textures;
 using SFGraphics.GLObjects.Textures.TextureFormats;
 
-namespace FramebufferTests
+namespace SFGraphics.Test.FramebufferTests
 {
     [TestClass]
     public class Attachments : Tests.ContextTest

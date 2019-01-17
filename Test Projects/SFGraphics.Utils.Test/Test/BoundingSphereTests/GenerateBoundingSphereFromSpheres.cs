@@ -1,10 +1,8 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
-using SFGraphics.Utils;
 using OpenTK;
 
-namespace BoundingSphereTests
+namespace SFGraphics.Utils.Test.BoundingSphereTests
 {
     [TestClass]
     public class GenerateBoundingSphereFromSpheres

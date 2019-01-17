@@ -2,7 +2,7 @@
 using SFGraphics.Cameras;
 using OpenTK;
 
-namespace CameraTests
+namespace SFGraphics.Test.CameraTests
 {
     [TestClass]
     public class TranslationMatrix

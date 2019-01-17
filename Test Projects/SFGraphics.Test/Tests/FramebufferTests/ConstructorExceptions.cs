@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SFGraphics.GLObjects.Framebuffers;
 using OpenTK.Graphics.OpenGL;
 
-namespace FramebufferTests
+namespace SFGraphics.Test.FramebufferTests
 {
     [TestClass]
     public class ConstructorExceptions

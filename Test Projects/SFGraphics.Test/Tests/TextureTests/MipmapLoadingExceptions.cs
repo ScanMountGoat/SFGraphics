@@ -4,7 +4,7 @@ using OpenTK.Graphics.OpenGL;
 using SFGraphics.GLObjects.Textures;
 using SFGraphics.GLObjects.Textures.Utils;
 
-namespace TextureTests
+namespace SFGraphics.Test.TextureTests
 {
     [TestClass]
     public class MipmapLoadingExceptions : Tests.ContextTest

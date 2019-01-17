@@ -4,7 +4,7 @@ using SFGraphics.GLObjects.Textures.TextureFormats;
 using OpenTK.Graphics.OpenGL;
 using System.Drawing;
 
-namespace TextureTests
+namespace SFGraphics.Test.TextureTests
 {
     [TestClass]
     public class GetBitmap : Tests.ContextTest

@@ -1,9 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenTK;
-using SFGraphics.Utils;
-using System;
 
-namespace VectorUtilsTests
+namespace SFGraphics.Utils.Test.VectorUtilsTests
 {
     [TestClass]
     public class CalculateTangentBitangent

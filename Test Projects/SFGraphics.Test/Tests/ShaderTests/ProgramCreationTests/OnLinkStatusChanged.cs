@@ -4,7 +4,7 @@ using SFGraphics.GLObjects.Shaders;
 using System.Collections.Generic;
 using SFGraphics.GLObjects.Shaders.ShaderEventArgs;
 
-namespace ShaderTests.ProgramCreationTests
+namespace SFGraphics.Test.ShaderTests.ProgramCreationTests
 {
     [TestClass]
     public class OnLinkStatusChanged

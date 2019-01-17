@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SFGraphics.Cameras;
 
-namespace CameraTests
+namespace SFGraphics.Test.CameraTests
 {
     [TestClass]
     public class ResetPosition

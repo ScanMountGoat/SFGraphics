@@ -1,8 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenTK;
-using SFGraphics.Utils;
 
-namespace VectorUtilsTests
+namespace SFGraphics.Utils.Test.VectorUtilsTests
 {
     [TestClass]
     public class Orthogonalize

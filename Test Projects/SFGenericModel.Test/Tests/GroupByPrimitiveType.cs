@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using SFGenericModel.Utils;
-using SFGenericModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenTK.Graphics.OpenGL;
 
-namespace MeshBatchUtilsTests
+namespace SFGenericModel.Test.MeshBatchUtilsTests
 {
     [TestClass]
     public class GroupByPrimitiveType

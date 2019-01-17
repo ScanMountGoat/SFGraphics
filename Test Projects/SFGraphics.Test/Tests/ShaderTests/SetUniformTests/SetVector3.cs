@@ -2,7 +2,7 @@
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
-namespace ShaderTests.SetterTests
+namespace SFGraphics.Test.ShaderTests.SetterTests
 {
     [TestClass]
     public class SetVector3 : ShaderTest

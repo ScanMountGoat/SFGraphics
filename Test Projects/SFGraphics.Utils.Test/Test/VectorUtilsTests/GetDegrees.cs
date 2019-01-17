@@ -1,7 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SFGraphics.Utils;
 
-namespace VectorUtilsTests
+namespace SFGraphics.Utils.Test.VectorUtilsTests
 {
     [TestClass]
     public class GetDegrees

@@ -3,7 +3,7 @@ using SFGraphics.GLObjects.Shaders;
 using OpenTK.Graphics.OpenGL;
 using System.Linq;
 
-namespace ShaderTests
+namespace SFGraphics.Test.ShaderTests
 {
     [TestClass]
     public class GetShaderSources : Tests.ContextTest

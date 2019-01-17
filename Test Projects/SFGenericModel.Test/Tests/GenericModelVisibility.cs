@@ -3,7 +3,7 @@ using SFGenericModel.GenericModels;
 using SFGraphics.Cameras;
 using SFGraphics.GLObjects.Shaders;
 
-namespace RenderSettingsTests
+namespace SFGenericModel.Test.RenderSettingsTests
 {
     [TestClass]
     public class GenericModelVisibility

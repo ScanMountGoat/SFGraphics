@@ -1,8 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SFGraphics.Utils;
 using System.Drawing;
 
-namespace SFGraphicsTest.Test.BitmapUtilsTests
+namespace SFGraphics.Utils.Test.BitmapUtilsTests
 {
     [TestClass]
     public class GetBitmap

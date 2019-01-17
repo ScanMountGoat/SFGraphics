@@ -2,7 +2,6 @@
 using OpenTK.Graphics.OpenGL;
 using SFGenericModel;
 using System.Collections.Generic;
-using SFGenericModel.VertexAttributes;
 
 namespace SFGraphicsGui
 {

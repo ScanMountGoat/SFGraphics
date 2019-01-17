@@ -2,7 +2,7 @@
 using OpenTK.Graphics.OpenGL;
 using SFGraphics.GLObjects.Shaders;
 
-namespace ShaderTests.ProgramCreationTests
+namespace SFGraphics.Test.ShaderTests.ProgramCreationTests
 {
     [TestClass]
     public class JustVertShader : Tests.ContextTest

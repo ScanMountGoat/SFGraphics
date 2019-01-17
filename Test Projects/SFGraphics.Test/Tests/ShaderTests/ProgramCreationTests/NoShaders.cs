@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SFGraphics.GLObjects.Shaders;
 
-namespace ShaderTests.ProgramCreationTests
+namespace SFGraphics.Test.ShaderTests.ProgramCreationTests
 {
     [TestClass]
     public class NoShaders : Tests.ContextTest

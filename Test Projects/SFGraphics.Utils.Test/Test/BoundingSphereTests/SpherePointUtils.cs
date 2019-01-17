@@ -1,7 +1,7 @@
 ﻿using OpenTK;
 using System.Collections.Generic;
 
-namespace BoundingSphereTests
+namespace SFGraphics.Utils.Test.BoundingSphereTests
 {
     internal static class SpherePointUtils
     {

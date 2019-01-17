@@ -1,8 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SFGraphics.GLObjects.Shaders;
 using SFGraphics.GLObjects.Textures;
 
-namespace ShaderTests
+namespace SFGraphics.Test.ShaderTests
 {
     [TestClass]
     public class ProgramValidateStatus : ShaderTest
