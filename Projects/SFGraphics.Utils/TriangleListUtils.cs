@@ -50,5 +50,26 @@ namespace SFGraphics.Utils
                 bitangents[i] *= -1;
             }
         }
+
+        /// <summary>
+        /// Calculates normalized, smooth tangents and bitangents for the given vertex data. Bitangents are adjusted to account for mirrored UVs.
+        /// </summary>
+        /// <param name="positions">The vertex positions</param>
+        /// <param name="normals">The vertex normals</param>
+        /// <param name="indices">The indices used to define the triangle faces</param>
+        public static void CalculateSmoothNormals(IList<Vector3> positions, IList<int> indices, out Vector3[] normals)
+        {
+            normals = new Vector3[positions.Count];
+
+            // Calculate the vectors.
+            for (int i = 0; i < indices.Count; i += 3)
+            {
+                var normal = VectorUtils.CalculateNormal(positions[indices[i]], positions[indices[i + 1]], positions[indices[i + 2]]);
+
+                normals[indices[i]] += normal;
+                normals[indices[i + 1]] += normal;
+                normals[indices[i + 2]] += normal;
+            }
+        }
     }
 }

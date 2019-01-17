@@ -69,6 +69,7 @@
     <Compile Include="Test\ColorUtilsTests\InvertColor.cs" />
     <Compile Include="Test\ColorUtilsTests\RgbToHsvFloat.cs" />
     <Compile Include="Test\ColorUtilsTests\GetVector4FromColor.cs" />
+    <Compile Include="Test\TriangleUtilsTests\CalculateSmoothNormals.cs" />
     <Compile Include="Test\TriangleUtilsTests\CalculateTangentsBitangents.cs" />
     <Compile Include="Test\VectorUtilsTests\CalculateNormals.cs" />
     <Compile Include="Test\VectorUtilsTests\CalculateTangentBitangent.cs" />
