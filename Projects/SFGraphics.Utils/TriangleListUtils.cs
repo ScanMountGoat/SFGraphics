@@ -43,6 +43,11 @@ namespace SFGraphics.Utils
                 bitangents[indices[i + 2]] += bitangent;
             }
 
+            for (int i = 0; i < tangents.Length; i++)
+            {
+                tangents[i].Normalize();
+            }
+
             // Account for mirrored normal maps.
             for (int i = 0; i < bitangents.Length; i++)
             {
@@ -69,6 +74,12 @@ namespace SFGraphics.Utils
                 normals[indices[i]] += normal;
                 normals[indices[i + 1]] += normal;
                 normals[indices[i + 2]] += normal;
+            }
+
+            // Normalize the result.
+            for (int i = 0; i < normals.Length; i++)
+            {
+                normals[i].Normalize();
             }
         }
     }

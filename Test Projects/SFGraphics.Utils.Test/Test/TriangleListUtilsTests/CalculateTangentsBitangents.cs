@@ -3,11 +3,32 @@ using OpenTK;
 using System;
 using System.Collections.Generic;
 
-namespace SFGraphics.Utils.Test.TriangleUtilsTests
+namespace SFGraphics.Utils.Test.TriangleListUtilsTests
 {
     [TestClass]
     public class CalculateTangentsBitangents
     {
+        private static readonly float delta = 0.0001f;
+
+        [TestMethod]
+        public void ThreeVertices()
+        {
+            var values3d = new List<Vector3>() { new Vector3(1, 0, 0), new Vector3(0, 1, 0), new Vector3(0, 0, 1) };
+            var values2d = new List<Vector2>() { new Vector2(1, 0), new Vector2(0, 0), new Vector2(0, 1) };
+
+            TriangleListUtils.CalculateTangentsBitangents(values3d, values3d, values2d,
+                new List<int>() { 0, 1, 2 }, out Vector3[] tangents, out Vector3[] bitangents);
+
+            // Ensure vectors are normalized.
+            Assert.AreEqual(1.0f, tangents[0].Length, delta);
+            Assert.AreEqual(1.0f, tangents[1].Length, delta);
+            Assert.AreEqual(1.0f, tangents[2].Length, delta);
+
+            Assert.AreEqual(1.0f, bitangents[0].Length, delta);
+            Assert.AreEqual(1.0f, bitangents[1].Length, delta);
+            Assert.AreEqual(1.0f, bitangents[2].Length, delta);
+        }
+
         [TestMethod]
         public void NoVertices()
         {
