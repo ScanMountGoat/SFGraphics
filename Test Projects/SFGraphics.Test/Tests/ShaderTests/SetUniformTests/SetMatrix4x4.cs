@@ -16,6 +16,13 @@ namespace SFGraphics.Test.ShaderTests.SetterTests
         }
 
         [TestMethod]
+        public void ValidNameValidTypeNoRef()
+        {
+            shader.SetMatrix4x4("matrix4a", Matrix4.Identity);
+            Assert.IsTrue(IsValidSet("matrix4a", ActiveUniformType.FloatMat4));
+        }
+
+        [TestMethod]
         public void InvalidName()
         {
             Matrix4 matrix4 = Matrix4.Identity;

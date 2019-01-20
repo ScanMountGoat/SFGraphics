@@ -9,7 +9,7 @@ namespace SFGraphics.GLObjects.Shaders
     public sealed partial class Shader
     {
         /// <summary>
-        /// Sets a float uniform variable. Logs invalid names.
+        /// Sets a float uniform variable. Invalid values are logged and not set.
         /// </summary>
         /// <param name="name">The uniform variable name</param>
         /// <param name="value">The value to assign to the uniform</param>
@@ -25,7 +25,7 @@ namespace SFGraphics.GLObjects.Shaders
         }
 
         /// <summary>
-        /// Sets all values for a float[] uniform variable. Logs invalid names.
+        /// Sets all values for a float[] uniform variable. Invalid values are logged and not set.
         /// </summary>
         /// <param name="name">The uniform variable name</param>
         /// <param name="value">The value to assign to the uniform</param>
@@ -41,7 +41,7 @@ namespace SFGraphics.GLObjects.Shaders
         }
 
         /// <summary>
-        /// Sets an int uniform variable. Logs invalid names.
+        /// Sets an int uniform variable. Invalid values are logged and not set.
         /// </summary>
         /// <param name="name">The uniform variable name</param>
         /// <param name="value">The value to assign to the uniform</param>
@@ -57,7 +57,7 @@ namespace SFGraphics.GLObjects.Shaders
         }
 
         /// <summary>
-        /// Sets all values for an int[] uniform variable. Logs invalid names.
+        /// Sets all values for an int[] uniform variable. Invalid values are logged and not set.
         /// </summary>
         /// <param name="name">The uniform variable name</param>
         /// <param name="value">The value to assign to the uniform</param>
@@ -73,7 +73,7 @@ namespace SFGraphics.GLObjects.Shaders
         }
 
         /// <summary>
-        /// Sets a uint uniform variable. Logs invalid names.
+        /// Sets a uint uniform variable. Invalid values are logged and not set.
         /// </summary>
         /// <param name="name">The uniform variable name</param>
         /// <param name="value">The value to assign to the uniform</param>
@@ -89,7 +89,7 @@ namespace SFGraphics.GLObjects.Shaders
         }
 
         /// <summary>
-        /// Sets all values for a uint[] uniform variable. Logs invalid names.
+        /// Sets all values for a uint[] uniform variable. Invalid values are logged and not set.
         /// </summary>
         /// <param name="name">The uniform variable name</param>
         /// <param name="value">The value to assign to the uniform</param>
@@ -106,7 +106,7 @@ namespace SFGraphics.GLObjects.Shaders
 
         /// <summary>
         /// Converts <paramref name="value"/> to an int and sets an int uniform. 
-        /// <c>true</c> = 1. <c>false</c> = 0. uniform variable. Logs invalid names.
+        /// <c>true</c> = 1. <c>false</c> = 0. uniform variable. Invalid values are logged and not set.
         /// </summary>
         /// <param name="name">The uniform variable name</param>
         /// <param name="value">The value to assign to the uniform</param>
@@ -127,7 +127,7 @@ namespace SFGraphics.GLObjects.Shaders
         }
 
         /// <summary>
-        /// Sets vec2 uniform variable. Logs invalid names.
+        /// Sets vec2 uniform variable. Invalid values are logged and not set.
         /// </summary>
         /// <param name="name">The uniform variable name</param>
         /// <param name="value">The value to assign to the uniform</param>
@@ -143,7 +143,7 @@ namespace SFGraphics.GLObjects.Shaders
         }
 
         /// <summary>
-        /// Sets all values for a vec2[] uniform variable. Logs invalid names.
+        /// Sets all values for a vec2[] uniform variable. Invalid values are logged and not set.
         /// </summary>
         /// <param name="name">The uniform variable name</param>
         /// <param name="value">The value to assign to the uniform</param>
@@ -163,7 +163,7 @@ namespace SFGraphics.GLObjects.Shaders
         }
 
         /// <summary>
-        /// Sets vec2 uniform variable. Logs invalid names.
+        /// Sets vec2 uniform variable. Invalid values are logged and not set.
         /// </summary>
         /// <param name="name">The uniform variable name</param>
         /// <param name="x">The value for name.x</param>
@@ -174,7 +174,7 @@ namespace SFGraphics.GLObjects.Shaders
         }
 
         /// <summary>
-        /// Sets vec3 uniform variable. Logs invalid names.
+        /// Sets vec3 uniform variable. Invalid values are logged and not set.
         /// </summary>
         /// <param name="name">The uniform variable name</param>
         /// <param name="value">The value to assign to the uniform</param>
@@ -190,7 +190,7 @@ namespace SFGraphics.GLObjects.Shaders
         }
 
         /// <summary>
-        /// Sets all values for a vec3 uniform variable. Logs invalid names.
+        /// Sets all values for a vec3 uniform variable. Invalid values are logged and not set.
         /// </summary>
         /// <param name="name">The uniform variable name</param>
         /// <param name="value">The value to assign to the uniform</param>
@@ -210,7 +210,7 @@ namespace SFGraphics.GLObjects.Shaders
         }
 
         /// <summary>
-        /// Sets vec3 uniform variable. Logs invalid names.
+        /// Sets vec3 uniform variable. Invalid values are logged and not set.
         /// </summary>
         /// <param name="name">The uniform variable name</param>
         /// <param name="x">The value for name.x</param>
@@ -222,7 +222,7 @@ namespace SFGraphics.GLObjects.Shaders
         }
 
         /// <summary>
-        /// Sets vec4 uniform variable. Logs invalid names.
+        /// Sets vec4 uniform variable. Invalid values are logged and not set.
         /// </summary>
         /// <param name="name">The uniform variable name</param>
         /// <param name="value">The value to assign to the uniform</param>
@@ -238,7 +238,7 @@ namespace SFGraphics.GLObjects.Shaders
         }
 
         /// <summary>
-        /// Sets vec4 uniform variable. Logs invalid names.
+        /// Sets vec4 uniform variable. Invalid values are logged and not set.
         /// </summary>
         /// <param name="name">The uniform variable name</param>
         /// <param name="x">The value for name.x</param>
@@ -251,7 +251,7 @@ namespace SFGraphics.GLObjects.Shaders
         }
 
         /// <summary>
-        /// Sets all values for a vec4 uniform variable. Logs invalid names.
+        /// Sets all values for a vec4 uniform variable. Invalid values are logged and not set.
         /// </summary>
         /// <param name="name">The uniform variable name</param>
         /// <param name="value">The value to assign to the uniform</param>
@@ -271,7 +271,7 @@ namespace SFGraphics.GLObjects.Shaders
         }
 
         /// <summary>
-        /// Sets a mat4 uniform variable. Logs invalid names.
+        /// Sets a mat4 uniform variable. Invalid values are logged and not set.
         /// </summary>
         /// <param name="name">The uniform variable name</param>
         /// <param name="value">The value to assign to the uniform</param>
@@ -287,7 +287,23 @@ namespace SFGraphics.GLObjects.Shaders
         }
 
         /// <summary>
-        /// Sets all values for a mat4[] uniform variable. Logs invalid names.
+        /// Sets a mat4 uniform variable. Invalid values are logged and not set.
+        /// </summary>
+        /// <param name="name">The uniform variable name</param>
+        /// <param name="value">The value to assign to the uniform</param>
+        public void SetMatrix4x4(string name, Matrix4 value)
+        {
+            if (!errorLog.IsValidUniform(activeUniformByName, name, ActiveUniformType.FloatMat4))
+            {
+                LogInvalidUniformSetRaiseEvent(name, value, ActiveUniformType.FloatMat4);
+                return;
+            }
+
+            GL.UniformMatrix4(activeUniformByName[name].location, false, ref value);
+        }
+
+        /// <summary>
+        /// Sets all values for a mat4[] uniform variable. Invalid values are logged and not set.
         /// </summary>
         /// <param name="name">The uniform variable name</param>
         /// <param name="value">The value to assign to the uniform</param>
@@ -309,7 +325,7 @@ namespace SFGraphics.GLObjects.Shaders
         /// <summary>
         /// <paramref name="texture"/> is bound to <paramref name="textureUnit"/> before 
         /// setting the uniform. 
-        /// Logs invalid names.
+        /// Invalid values are logged and not set.
         /// </summary>
         /// <param name="name">The uniform variable name</param>
         /// <param name="texture">The integer ID generated by GL.GenTexture()</param>
