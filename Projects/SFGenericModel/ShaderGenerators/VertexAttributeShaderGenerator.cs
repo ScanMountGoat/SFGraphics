@@ -15,22 +15,50 @@ namespace SFGenericModel.ShaderGenerators
         private static readonly string attribIndexName = "attributeIndex";
 
         /// <summary>
-        /// Generates a shader for rendering each of 
-        /// the vertex attributes individually.      
+        /// Generates a shader for rendering each of the vertex attributes individually.      
         /// </summary>
         /// <param name="attributes">Attributes used to generate render modes. 
         /// The first attribute is also used as the position.</param>
         /// <param name="vertexSource">The generated GLSL vertex shader source</param>
         /// <param name="fragmentSource">The generated GLSL fragment shader source</param>
-        /// <returns>A new shader that can be used for rendering</returns>
-        public static void CreateShader(List<VertexAttributeRenderInfo> attributes, 
+        public static void CreateShader(List<VertexRenderingAttribute> attributes, 
             out string vertexSource, out string fragmentSource)
         {
             vertexSource = CreateVertexSource(attributes);
             fragmentSource = CreateFragmentSource(attributes);
         }
 
-        private static string CreateVertexSource(List<VertexAttributeRenderInfo> attributes)
+        /// <summary>
+        /// Generates a shader for rendering each of the vertex attributes individually. 
+        /// The first attribute is also used as the position.
+        /// </summary>
+        /// <typeparam name="T">The vertex struct containing the <see cref="VertexRenderingAttribute"/> attributes.</typeparam>
+        /// <param name="vertexSource">The generated GLSL vertex shader source</param>
+        /// <param name="fragmentSource">The generated GLSL fragment shader source</param>
+        public static void CreateShader<T>(out string vertexSource, out string fragmentSource) where T : struct
+        {
+            List<VertexRenderingAttribute> attributes = GetRenderingAttributes<T>();
+            vertexSource = CreateVertexSource(attributes);
+            fragmentSource = CreateFragmentSource(attributes);
+        }
+
+        private static List<VertexRenderingAttribute> GetRenderingAttributes<T>() where T : struct
+        {
+            var attributes = new List<VertexRenderingAttribute>();
+            foreach (var member in typeof(T).GetMembers())
+            {
+                foreach (VertexRenderingAttribute attribute in member.GetCustomAttributes(typeof(VertexRenderingAttribute), true))
+                {
+                    // Break to ignore duplicate attributes.
+                    attributes.Add(attribute);
+                    break;
+                }
+            }
+
+            return attributes;
+        }
+
+        private static string CreateVertexSource(List<VertexRenderingAttribute> attributes)
         {
             StringBuilder shaderSource = new StringBuilder();
             AppendVertexShader(attributes, shaderSource);
@@ -38,7 +66,7 @@ namespace SFGenericModel.ShaderGenerators
             return shaderSource.ToString();
         }
 
-        private static void AppendVertexShader(List<VertexAttributeRenderInfo> attributes, StringBuilder shaderSource)
+        private static void AppendVertexShader(List<VertexRenderingAttribute> attributes, StringBuilder shaderSource)
         {
             GlslUtils.AppendShadingLanguageVersion(shaderSource);
 
@@ -49,7 +77,7 @@ namespace SFGenericModel.ShaderGenerators
             AppendVertexMainFunction(attributes, shaderSource);
         }
 
-        private static void AppendVertexMainFunction(List<VertexAttributeRenderInfo> attributes, StringBuilder shaderSource)
+        private static void AppendVertexMainFunction(List<VertexRenderingAttribute> attributes, StringBuilder shaderSource)
         {
             GlslUtils.AppendBeginMain(shaderSource);
 
@@ -59,7 +87,7 @@ namespace SFGenericModel.ShaderGenerators
             GlslUtils.AppendEndMain(shaderSource);
         }
 
-        private static string CreateFragmentSource(List<VertexAttributeRenderInfo> attributes)
+        private static string CreateFragmentSource(List<VertexRenderingAttribute> attributes)
         {
             StringBuilder shaderSource = new StringBuilder();
             AppendFragmentShader(attributes, shaderSource);
@@ -67,7 +95,7 @@ namespace SFGenericModel.ShaderGenerators
             return shaderSource.ToString();
         }
 
-        private static void AppendFragmentShader(List<VertexAttributeRenderInfo> attributes, StringBuilder shaderSource)
+        private static void AppendFragmentShader(List<VertexRenderingAttribute> attributes, StringBuilder shaderSource)
         {
             GlslUtils.AppendShadingLanguageVersion(shaderSource);
 
@@ -79,14 +107,14 @@ namespace SFGenericModel.ShaderGenerators
             AppendFragmentMainFunction(attributes, shaderSource);
         }
 
-        private static void AppendFragmentMainFunction(List<VertexAttributeRenderInfo> attributes, StringBuilder shaderSource)
+        private static void AppendFragmentMainFunction(List<VertexRenderingAttribute> attributes, StringBuilder shaderSource)
         {
             GlslUtils.AppendBeginMain(shaderSource);
             AppendMainFunctionBody(attributes, shaderSource);
             GlslUtils.AppendEndMain(shaderSource);
         }
 
-        private static void AppendMainFunctionBody(List<VertexAttributeRenderInfo> attributes, StringBuilder shaderSource)
+        private static void AppendMainFunctionBody(List<VertexRenderingAttribute> attributes, StringBuilder shaderSource)
         {
             shaderSource.AppendLine($"\tvec3 {resultName} = vec3(0);");
 
@@ -95,13 +123,13 @@ namespace SFGenericModel.ShaderGenerators
             shaderSource.AppendLine($"\t{GlslUtils.outputName} = vec4({resultName}, 1);");
         }
          
-        private static void AppendFragmentAttributeSwitch(List<VertexAttributeRenderInfo> attributes, StringBuilder shaderSource)
+        private static void AppendFragmentAttributeSwitch(List<VertexRenderingAttribute> attributes, StringBuilder shaderSource)
         {
             List<CaseStatement> cases = new List<CaseStatement>();
             for (int i = 0; i < attributes.Count; i++)
             {
                 string caseAssignment = GetResultAssignment(ValueCount.Three, 
-                    attributes[i].AttributeInfo.Name, attributes[i].AttributeInfo.ValueCount);
+                    attributes[i].Name, attributes[i].ValueCount);
                 cases.Add(new CaseStatement(i.ToString(), caseAssignment));
             }
 

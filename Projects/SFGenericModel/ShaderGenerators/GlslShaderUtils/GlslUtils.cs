@@ -34,7 +34,7 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
             shaderSource.AppendLine("{");
         }
 
-        public static void AppendVertexInputs(IEnumerable<VertexAttributeRenderInfo> attributes, StringBuilder shaderSource)
+        public static void AppendVertexInputs(IEnumerable<VertexRenderingAttribute> attributes, StringBuilder shaderSource)
         {
             // Ignore duplicates to prevent shader compile errors.
             HashSet<string> previousNames = new HashSet<string>();
@@ -50,7 +50,7 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
             }
         }
 
-        public static void AppendVertexOutputs(IEnumerable<VertexAttributeRenderInfo> attributes, StringBuilder shaderSource)
+        public static void AppendVertexOutputs(IEnumerable<VertexRenderingAttribute> attributes, StringBuilder shaderSource)
         {
             // Ignore duplicates to prevent shader compile errors.
             HashSet<string> previousNames = new HashSet<string>();
@@ -60,7 +60,7 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
                     continue;
 
                 string type = GetTypeDeclaration(attribute);
-                string interpolation = GetInterpolationQualifier(attribute.AttributeInfo.Type);
+                string interpolation = GetInterpolationQualifier(attribute.Type);
                 shaderSource.AppendLine($"{interpolation}out {type} {vertexOutputPrefix}{attribute.Name};");
 
                 previousNames.Add(attribute.Name);
@@ -75,7 +75,7 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
                 return "";
         }
 
-        public static void AppendVertexOutputAssignments(IEnumerable<VertexAttributeRenderInfo> attributes, StringBuilder shaderSource)
+        public static void AppendVertexOutputAssignments(IEnumerable<VertexRenderingAttribute> attributes, StringBuilder shaderSource)
         {
             // Ignore duplicates to prevent shader compile errors.
             HashSet<string> previousNames = new HashSet<string>();
@@ -97,7 +97,7 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
             }
         }
 
-        private static string GetAttributeRemapOperation(VertexAttributeRenderInfo attribute)
+        private static string GetAttributeRemapOperation(VertexRenderingAttribute attribute)
         {
             if (attribute.RemapToVisibleRange)
                 return "* 0.5 + 0.5;";
@@ -105,15 +105,15 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
                 return "";
         }
 
-        private static string GetAttributeFunction(VertexAttributeRenderInfo attribute)
+        private static string GetAttributeFunction(VertexRenderingAttribute attribute)
         {
-            if (attribute.Normalize)
+            if (attribute.NormalizeVector)
                 return "normalize";
             else
                 return "";
         }
 
-        public static void AppendFragmentInputs(IEnumerable<VertexAttributeRenderInfo> attributes, StringBuilder shaderSource)
+        public static void AppendFragmentInputs(IEnumerable<VertexRenderingAttribute> attributes, StringBuilder shaderSource)
         {
             // Ignore duplicates to prevent shader compile errors.
             HashSet<string> previousNames = new HashSet<string>();
@@ -123,7 +123,7 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
                 if (previousNames.Contains(attribute.Name))
                     continue;
 
-                string interpolation = GetInterpolationQualifier(attribute.AttributeInfo.Type);
+                string interpolation = GetInterpolationQualifier(attribute.Type);
                 string type = GetTypeDeclaration(attribute);
                 string variableName = $"{vertexOutputPrefix}{attribute.Name}";
 
@@ -133,20 +133,18 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
             }
         }
 
-        private static string GetTypeDeclaration(VertexAttributeRenderInfo attribute)
+        private static string GetTypeDeclaration(VertexRenderingAttribute attribute)
         {
-            if (attribute.AttributeInfo.ValueCount == ValueCount.One)
+            if (attribute.ValueCount == ValueCount.One)
                 return GetScalarType(attribute);
             else
                 return GetVectorType(attribute);
         }
 
-        private static string GetVectorType(VertexAttributeRenderInfo attributeInfo)
+        private static string GetVectorType(VertexRenderingAttribute attribute)
         {
-            var attribute = attributeInfo.AttributeInfo;
-
-            string typeName = GetVectorTypeName(attribute.Type, attribute is VertexIntAttribute);
-            return $"{typeName}{(int)attributeInfo.AttributeInfo.ValueCount}";
+            string typeName = GetVectorTypeName(attribute.Type, attribute.IsInteger);
+            return $"{typeName}{(int)attribute.ValueCount}";
         }
 
         private static string GetVectorTypeName(VertexAttribPointerType type, bool isInteger)
@@ -169,9 +167,9 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
             }
         }
 
-        private static string GetScalarType(VertexAttributeRenderInfo attribute)
+        private static string GetScalarType(VertexRenderingAttribute attribute)
         {
-            switch (attribute.AttributeInfo.Type)
+            switch (attribute.Type)
             {
                 case VertexAttribPointerType.Int:
                     return "int";
@@ -180,17 +178,17 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
                 case VertexAttribPointerType.Float:
                     return "float";
                 default:
-                    throw new NotImplementedException($"Type {attribute.AttributeInfo.Type} is not supported.");
+                    throw new NotImplementedException($"Type {attribute.Type} is not supported.");
             }
         }
 
-        public static void AppendPositionAssignment(StringBuilder shaderSource, IEnumerable<VertexAttributeRenderInfo> attributes)
+        public static void AppendPositionAssignment(StringBuilder shaderSource, IEnumerable<VertexRenderingAttribute> attributes)
         {
             // Assume the first attribute is position.
             if (!attributes.GetEnumerator().MoveNext())
                 return;
 
-            string positionVariable = GlslVectorUtils.ConstructVector(ValueCount.Four, attributes.First().AttributeInfo.ValueCount, attributes.First().Name);
+            string positionVariable = GlslVectorUtils.ConstructVector(ValueCount.Four, attributes.First().ValueCount, attributes.First().Name);
             shaderSource.AppendLine($"\tgl_Position = {matrixName} * {positionVariable};");
         }
 

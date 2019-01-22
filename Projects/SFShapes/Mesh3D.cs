@@ -47,11 +47,11 @@ namespace SFShapes
         /// 
         /// </summary>
         /// <returns></returns>
-        public List<VertexAttributeRenderInfo> GetRenderAttributes()
+        public List<VertexRenderingAttribute> GetRenderAttributes()
         {
-            return new List<VertexAttributeRenderInfo>()
+            return new List<VertexRenderingAttribute>()
             {
-                new VertexAttributeRenderInfo(GetVertexAttributes()[0], true, true)
+                new VertexRenderingAttribute(GetVertexAttributes()[0].Name, GetVertexAttributes()[0].ValueCount, GetVertexAttributes()[0].Type, true, true)
             };
         }
     }

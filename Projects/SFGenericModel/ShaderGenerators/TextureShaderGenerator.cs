@@ -32,18 +32,18 @@ namespace SFGenericModel.ShaderGenerators
         public static void CreateShader(List<TextureRenderInfo> textures, 
             VertexAttribute position, VertexAttribute normal, VertexAttribute uv0, out string vertexSource, out string fragmentSource)
         {
-            var attributes = new List<VertexAttributeRenderInfo>()
+            var attributes = new List<VertexRenderingAttribute>()
             {
-                new VertexAttributeRenderInfo(position),
-                new VertexAttributeRenderInfo(normal),
-                new VertexAttributeRenderInfo(uv0)
+                new VertexRenderingAttribute(position.Name, position.ValueCount, position.Type, false, false),
+                new VertexRenderingAttribute(normal.Name, position.ValueCount, position.Type, false, false),
+                new VertexRenderingAttribute(uv0.Name, position.ValueCount, position.Type, false, false)
             };
 
             vertexSource = CreateVertexSource(attributes);
             fragmentSource = CreateFragmentSource(textures, attributes, uv0.Name, normal.Name);
         }
 
-        private static string CreateVertexSource(List<VertexAttributeRenderInfo> attributes)
+        private static string CreateVertexSource(List<VertexRenderingAttribute> attributes)
         {
             StringBuilder shaderSource = new StringBuilder();
             AppendVertexShader(attributes, shaderSource);
@@ -51,7 +51,7 @@ namespace SFGenericModel.ShaderGenerators
             return shaderSource.ToString();
         }
 
-        private static void AppendVertexShader(List<VertexAttributeRenderInfo> attributes, StringBuilder shaderSource)
+        private static void AppendVertexShader(List<VertexRenderingAttribute> attributes, StringBuilder shaderSource)
         {
             GlslUtils.AppendShadingLanguageVersion(shaderSource);
 
@@ -74,7 +74,7 @@ namespace SFGenericModel.ShaderGenerators
             shaderSource.AppendLine($"in vec3 {GlslUtils.vertexOutputPrefix}{viewNormalName};");
         }
 
-        private static void AppendVertexMainFunction(List<VertexAttributeRenderInfo> attributes, StringBuilder shaderSource)
+        private static void AppendVertexMainFunction(List<VertexRenderingAttribute> attributes, StringBuilder shaderSource)
         {
             GlslUtils.AppendBeginMain(shaderSource);
 
@@ -85,7 +85,7 @@ namespace SFGenericModel.ShaderGenerators
             GlslUtils.AppendEndMain(shaderSource);
         }
 
-        private static void AppendViewNormalAssignment(List<VertexAttributeRenderInfo> attributes, StringBuilder shaderSource)
+        private static void AppendViewNormalAssignment(List<VertexRenderingAttribute> attributes, StringBuilder shaderSource)
         {
             // Transforms the vertex normals by the transposed inverse of the modelview matrix.
             // The result is remapped from [-1, 1] to [0, 1].
@@ -97,7 +97,7 @@ namespace SFGenericModel.ShaderGenerators
         }
 
         private static string CreateFragmentSource(List<TextureRenderInfo> textures, 
-            List<VertexAttributeRenderInfo> attributes, string uv0, string normal)
+            List<VertexRenderingAttribute> attributes, string uv0, string normal)
         {
             StringBuilder shaderSource = new StringBuilder();
             AppendFragmentShader(textures, attributes, shaderSource, uv0, normal);
@@ -106,7 +106,7 @@ namespace SFGenericModel.ShaderGenerators
         }
 
         private static void AppendFragmentShader(List<TextureRenderInfo> textures, 
-            List<VertexAttributeRenderInfo> attributes, StringBuilder shaderSource, 
+            List<VertexRenderingAttribute> attributes, StringBuilder shaderSource, 
             string uv0, string normal)
         {
             GlslUtils.AppendShadingLanguageVersion(shaderSource);
