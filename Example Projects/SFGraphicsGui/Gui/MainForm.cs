@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Windows.Forms;
+﻿using OpenTK;
 using OpenTK.Graphics.OpenGL;
+using SFGenericModel.ShaderGenerators;
+using SFGraphics.Cameras;
 using SFGraphics.GLObjects.Shaders;
 using SFGraphics.GLObjects.Textures;
-using SFGraphics.GLObjects.GLObjectManagement;
-using SFGenericModel.ShaderGenerators;
-using OpenTK;
-using SFGraphics.Cameras;
+using System;
+using System.Collections.Generic;
+using System.Windows.Forms;
 
 namespace SFGraphicsGui
 {
@@ -35,49 +34,16 @@ namespace SFGraphicsGui
                 return;
 
             // Draw a test pattern image to the screen.
-            DrawScreenTexture(textureToRender);
-
-            // Clean up any unused resources.
-            GLObjectManager.DeleteUnusedGLObjects();
-        }
-
-        private void DrawScreenTexture(Texture2D texture)
-        {
-            if (texture == null)
-                return;
-
-            // Always check program creation before using shaders to prevent crashes.
-            Shader shader = graphicsResources.screenTextureShader;
-            if (!shader.LinkStatusIsOk)
-                return;
-
-            // Render using the shader.
-            shader.UseProgram();
-
-            // The sampler's parameters are used instead of the texture's parameters.
-            int textureUnit = 0;
-            graphicsResources.samplerObject.Bind(textureUnit);
-
-            shader.SetInt("attributeIndex", 1);
-            Matrix4 matrix4 = Matrix4.Identity;
-            shader.SetMatrix4x4("mvpMatrix", ref matrix4);
-                
-            shader.SetTexture("uvTexture", texture, textureUnit);
-            shader.SetTexture("lutTexture", graphicsResources.lutTexture, textureUnit + 1);
-
-            graphicsResources.screenTriangle.Draw(shader);
+            graphicsResources.screenTriangle.DrawScreenTexture(textureToRender, graphicsResources.lutTexture,
+                graphicsResources.screenTextureShader, graphicsResources.samplerObject);
         }
 
         private void glControl1_Load(object sender, EventArgs e)
         {
             if (OpenTK.Graphics.GraphicsContext.CurrentContext != null)
-            {
                 SetUpRendering();
-            }
             else
-            {
                 MessageBox.Show("Context Creation Failed");
-            }
         }
 
         private void SetUpRendering()
@@ -120,7 +86,7 @@ namespace SFGraphicsGui
 
             TextureShaderGenerator.CreateShader(textures, pos, pos, uv0, out string vert, out string frag);
 
-            Shader shader = new Shader();
+            var shader = new Shader();
             shader.LoadShaders(new List<Tuple<string, ShaderType, string>>() {
                 new Tuple<string, ShaderType, string>(vert, ShaderType.VertexShader, ""),
                 new Tuple<string, ShaderType, string>(frag, ShaderType.FragmentShader, ""),
@@ -132,13 +98,13 @@ namespace SFGraphicsGui
             shader.SetTexture("uvTestPattern", graphicsResources.uvTestPattern, 0);
 
 
-            Camera camera = new Camera()
+            var camera = new Camera()
             {
                 RenderWidth = glControl1.Width,
                 RenderHeight = glControl1.Height
             };
 
-            Vector4 boundingSphere = SFGraphics.Utils.BoundingSphereGenerator.GenerateBoundingSphere(shapeVertices);
+            var boundingSphere = SFGraphics.Utils.BoundingSphereGenerator.GenerateBoundingSphere(shapeVertices);
             camera.FrameBoundingSphere(boundingSphere.Xyz, boundingSphere.W, 0);
 
             camera.NearClipPlane = 0.01f;

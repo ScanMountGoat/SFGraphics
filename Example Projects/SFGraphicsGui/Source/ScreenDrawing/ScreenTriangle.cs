@@ -1,11 +1,13 @@
 ﻿using OpenTK;
 using OpenTK.Graphics.OpenGL;
-using SFGenericModel;
+using SFGraphics.GLObjects.Samplers;
+using SFGraphics.GLObjects.Shaders;
+using SFGraphics.GLObjects.Textures;
 using System.Collections.Generic;
 
 namespace SFGraphicsGui
 {
-    class ScreenTriangle : GenericMesh<ScreenTriangleVertex>
+    class ScreenTriangle : SFGenericModel.GenericMesh<ScreenTriangleVertex>
     {
         // A triangle that extends past the screen.
         private static List<ScreenTriangleVertex> screenTrianglePositions = new List<ScreenTriangleVertex>()
@@ -18,6 +20,32 @@ namespace SFGraphicsGui
         public ScreenTriangle() : base(screenTrianglePositions, PrimitiveType.Triangles)
         {
 
+        }
+
+        public void DrawScreenTexture(Texture2D texture, Texture3D lut, Shader shader, SamplerObject sampler)
+        {
+            if (texture == null)
+                return;
+
+            // Always check program creation before using shaders to prevent crashes.
+            if (!shader.LinkStatusIsOk)
+                return;
+
+            // Render using the shader.
+            shader.UseProgram();
+
+            // The sampler's parameters are used instead of the texture's parameters.
+            int textureUnit = 0;
+            sampler.Bind(textureUnit);
+
+            shader.SetInt("attributeIndex", 1);
+            Matrix4 matrix4 = Matrix4.Identity;
+            shader.SetMatrix4x4("mvpMatrix", ref matrix4);
+
+            shader.SetTexture("uvTexture", texture, textureUnit);
+            shader.SetTexture("lutTexture", lut, textureUnit + 1);
+
+            Draw(shader);
         }
     }
 }

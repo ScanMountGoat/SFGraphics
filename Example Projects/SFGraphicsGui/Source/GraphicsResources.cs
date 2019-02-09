@@ -1,11 +1,9 @@
-﻿using OpenTK;
-using OpenTK.Graphics.OpenGL;
-using SFGraphics.GLObjects.BufferObjects;
+﻿using OpenTK.Graphics.OpenGL;
 using SFGraphics.GLObjects.Samplers;
 using SFGraphics.GLObjects.Shaders;
 using SFGraphics.GLObjects.Textures;
 using SFGraphics.GLObjects.Textures.TextureFormats;
-using SFGraphics.GlUtils;
+using System;
 
 namespace SFGraphicsGui
 {
@@ -33,7 +31,7 @@ namespace SFGraphicsGui
             uvTestPattern = new Texture2D();
             uvTestPattern.LoadImageData(Properties.Resources.UVPattern);
 
-            floatMagentaBlackStripes = CreateTextureFromFloatValues(true, 64, 64);
+            floatMagentaBlackStripes = TextureCreation.CreateStripes(true, 64, 64);
             screenTextureShader = CreateShader();
             CreateSamplerObject();
             screenTriangle = new ScreenTriangle();
@@ -65,68 +63,17 @@ namespace SFGraphicsGui
             };
         }
 
-        private static Texture2D CreateTextureFromFloatValues(bool usePbo, int width, int height)
-        {
-            Texture2D floatTexture = new Texture2D
-            {
-                MinFilter = TextureMinFilter.Nearest,
-                MagFilter = TextureMagFilter.Nearest
-            };
-
-            int mipmaps = 0;
-
-            Vector3[] pixels = GetImagePixels(width, height);
-
-            if (usePbo)
-                LoadFloatTexImageDataPbo(floatTexture, pixels, width, height);
-            else
-                LoadFloatTexImageData(floatTexture, pixels, width, height, mipmaps);
-
-            return floatTexture;
-        }
-
-        private static void LoadFloatTexImageData(Texture2D floatTexture, Vector3[] pixels, int width, int height, int mipmaps)
-        {
-            floatTexture.LoadImageData(width, height, pixels, new TextureFormatUncompressed(PixelInternalFormat.Rgb, PixelFormat.Rgb, PixelType.Float));
-        }
-
-        private static void LoadFloatTexImageDataPbo(Texture2D floatTexture, Vector3[] pixels, int width, int height)
-        {
-            BufferObject pixelBuffer = new BufferObject(BufferTarget.PixelUnpackBuffer);
-            pixelBuffer.SetData(pixels, BufferUsageHint.StaticDraw);
-            floatTexture.LoadImageData(width, height, pixelBuffer, new TextureFormatUncompressed(PixelInternalFormat.Rgb, PixelFormat.Rgb, PixelType.Float));
-        }
-
-        private static Vector3[] GetImagePixels(int width, int height)
-        {
-            Vector3[] pixels = new Vector3[width * height];
-            for (int i = 0; i < pixels.Length; i++)
-            {
-                // Magenta and black stripes.
-                pixels[i] = new Vector3(1, 0, 1) * (i % 2);
-            }
-
-            return pixels;
-        }
-
         private Shader CreateShader()
         {
-            Shader shader = new Shader();
-            string vertShaderSource = ResourceTextFile.GetFileText("SFGraphicsGui.Shaders.screenTexture.vert");
-            shader.LoadShader(vertShaderSource, ShaderType.VertexShader, "screenTexture");
+            var shader = new Shader();
 
-            string fragShaderSource = ResourceTextFile.GetFileText("SFGraphicsGui.Shaders.screenTexture.frag");
-            shader.LoadShader(fragShaderSource, ShaderType.FragmentShader, "screenTexture");
+            var vertShaderSource = ResourceTextFile.GetFileText("SFGraphicsGui.Shaders.screenTexture.vert");
+            var fragShaderSource = ResourceTextFile.GetFileText("SFGraphicsGui.Shaders.screenTexture.frag");
 
-            // An example of how to use precompiled shaders.
-            // The program binary can be saved to a file to avoid compiling shaders
-            // every time the application is run.
-            if (OpenGLExtensions.IsAvailable("GL_ARB_get_program_binary"))
-            {
-                byte[] programBinary = shader.GetProgramBinary(out BinaryFormat binaryFormat);
-
-                shader.LoadProgramBinary(programBinary, binaryFormat);
-            }
+            shader.LoadShaders(new Tuple<string, ShaderType, string>[] {
+                new Tuple<string, ShaderType, string>(fragShaderSource, ShaderType.FragmentShader, ""),
+                new Tuple<string, ShaderType, string>(vertShaderSource, ShaderType.VertexShader, "")
+            });
 
             return shader;
         }

@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace SFGraphicsGui
 {
-    static class ResourceTextFile
+    public static class ResourceTextFile
     {
         /// <summary>
         /// Reads all the text of the specified resource file into a string.
