@@ -51,7 +51,7 @@ namespace SFShapes
         {
             return new List<VertexRenderingAttribute>()
             {
-                new VertexRenderingAttribute(GetVertexAttributes()[0].Name, GetVertexAttributes()[0].ValueCount, GetVertexAttributes()[0].Type, true, true)
+                new VertexRenderingAttribute("position", ValueCount.Three, VertexAttribPointerType.Float, AttributeUsage.Position, true, true)
             };
         }
     }

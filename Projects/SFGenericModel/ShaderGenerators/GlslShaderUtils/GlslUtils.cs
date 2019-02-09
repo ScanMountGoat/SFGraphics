@@ -167,7 +167,7 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
             }
         }
 
-        private static string GetScalarType(VertexRenderingAttribute attribute)
+        private static string GetScalarType(VertexAttribute attribute)
         {
             switch (attribute.Type)
             {
@@ -195,6 +195,7 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
         public static void AppendMatrixUniform(StringBuilder shaderSource)
         {
             shaderSource.AppendLine(matrixUniform);
+            // TODO: ???
             // Unused uniforms will be optimized out by the compiler.
             shaderSource.AppendLine(sphereMatrixUniform);
         }

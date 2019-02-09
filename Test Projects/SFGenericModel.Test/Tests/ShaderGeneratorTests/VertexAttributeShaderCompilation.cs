@@ -12,14 +12,13 @@ namespace SFGenericModel.Test.ShaderGeneratorTests
     {
         private struct VertexStruct
         {
-            [VertexRendering("pos", ValueCount.Three, VertexAttribPointerType.Float, true, true)]
+            [VertexRendering("pos", ValueCount.Three, VertexAttribPointerType.Float, AttributeUsage.Position, true, true)]
             OpenTK.Vector3 position;
         }
 
         [TestInitialize]
         public void Initialize()
         {
-            var test = new VertexRenderingAttribute("pos", ValueCount.Three, VertexAttribPointerType.Float, false, false);
             RenderTestUtils.OpenTKWindowlessContext.BindDummyContext();
         }
 
@@ -35,7 +34,7 @@ namespace SFGenericModel.Test.ShaderGeneratorTests
         {
             var attributes = new List<VertexRenderingAttribute>()
             {
-                new VertexRenderingAttribute("test", ValueCount.Three, VertexAttribPointerType.Float, false, false)
+                new VertexRenderingAttribute("test", ValueCount.Three, VertexAttribPointerType.Float, AttributeUsage.Position, false, false)
             };
             Shader shader = CreateShader(attributes);
             Assert.IsTrue(shader.LinkStatusIsOk);
@@ -79,7 +78,7 @@ namespace SFGenericModel.Test.ShaderGeneratorTests
         {
             var attributes = new List<VertexRenderingAttribute>()
             {
-                new VertexRenderingAttribute("test", ValueCount.Two, VertexAttribPointerType.Float, false, false)
+                new VertexRenderingAttribute("test", ValueCount.Two, VertexAttribPointerType.Float, AttributeUsage.Default, false, false)
             };
             Shader shader = CreateShader(attributes);
             Assert.IsTrue(shader.LinkStatusIsOk);
@@ -90,7 +89,7 @@ namespace SFGenericModel.Test.ShaderGeneratorTests
         {
             var attributes = new List<VertexRenderingAttribute>()
             {
-                new VertexRenderingAttribute("test", ValueCount.Four, VertexAttribPointerType.Float, false, false)
+                new VertexRenderingAttribute("test", ValueCount.Four, VertexAttribPointerType.Float, AttributeUsage.Position, false, false)
             };
             Shader shader = CreateShader(attributes);
             Assert.IsTrue(shader.LinkStatusIsOk);
@@ -101,7 +100,7 @@ namespace SFGenericModel.Test.ShaderGeneratorTests
         {
             var attributes = new List<VertexRenderingAttribute>()
             {
-                new VertexRenderingAttribute("test", ValueCount.One, VertexAttribPointerType.Float, false, false)
+                new VertexRenderingAttribute("test", ValueCount.One, VertexAttribPointerType.Float, AttributeUsage.Position, false, false)
             };
             Shader shader = CreateShader(attributes);
             Assert.IsTrue(shader.LinkStatusIsOk);
@@ -112,7 +111,7 @@ namespace SFGenericModel.Test.ShaderGeneratorTests
         {
             var attributes = new List<VertexRenderingAttribute>()
             {
-                new VertexRenderingAttribute("test", ValueCount.One, VertexAttribPointerType.Int, false, false)
+                new VertexRenderingAttribute("test", ValueCount.One, VertexAttribPointerType.Int, AttributeUsage.Position, false, false)
             };
             Shader shader = CreateShader(attributes);
             Assert.IsTrue(shader.LinkStatusIsOk);
@@ -121,9 +120,10 @@ namespace SFGenericModel.Test.ShaderGeneratorTests
         [TestMethod]
         public void SingleUnsignedIntAttribute()
         {
+            // TODO: This is actually floating point?
             var attributes = new List<VertexRenderingAttribute>()
             {
-                new VertexRenderingAttribute("test", ValueCount.One, VertexAttribPointerType.UnsignedInt, false, false)
+                new VertexRenderingAttribute("test", ValueCount.One, VertexAttribPointerType.UnsignedInt, AttributeUsage.Position, false, false)
             };
             Shader shader = CreateShader(attributes);
             Assert.IsTrue(shader.LinkStatusIsOk);
@@ -134,9 +134,9 @@ namespace SFGenericModel.Test.ShaderGeneratorTests
         {
             var attributes = new List<VertexRenderingAttribute>()
             {
-                new VertexRenderingAttribute("test2", ValueCount.Two, VertexAttribPointerType.Float, false, false),
-                new VertexRenderingAttribute("test3", ValueCount.Three, VertexAttribPointerType.Float, false, false),
-                new VertexRenderingAttribute("test4", ValueCount.Four, VertexAttribPointerType.Float, false, false)
+                new VertexRenderingAttribute("test2", ValueCount.Two, VertexAttribPointerType.Float, AttributeUsage.Default, false, false),
+                new VertexRenderingAttribute("test3", ValueCount.Three, VertexAttribPointerType.Float, AttributeUsage.Default, false, false),
+                new VertexRenderingAttribute("test4", ValueCount.Four, VertexAttribPointerType.Float, AttributeUsage.Default, false, false)
             };
 
             Shader shader = CreateShader(attributes);

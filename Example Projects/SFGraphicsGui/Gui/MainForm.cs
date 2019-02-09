@@ -7,6 +7,7 @@ using SFGraphics.GLObjects.Textures;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using SFGenericModel.VertexAttributes;
 
 namespace SFGraphicsGui
 {
@@ -80,11 +81,9 @@ namespace SFGraphicsGui
 
         private void DrawShape(List<Vector3> shapeVertices, SFShapes.Mesh3D shape)
         {
-            var textures = new List<TextureRenderInfo>() { new TextureRenderInfo("uvTestPattern", UvCoord.TexCoord0, TextureSwizzle.Rgb) };
-            var pos = new SFGenericModel.VertexAttributes.VertexFloatAttribute("position", SFGenericModel.VertexAttributes.ValueCount.Three, VertexAttribPointerType.Float);
-            var uv0 = new SFGenericModel.VertexAttributes.VertexFloatAttribute("uv0", SFGenericModel.VertexAttributes.ValueCount.Two, VertexAttribPointerType.Float);
+            var pos = new VertexRenderingAttribute("position", ValueCount.Three, VertexAttribPointerType.Float, AttributeUsage.Position, true, true);
 
-            TextureShaderGenerator.CreateShader(textures, pos, pos, uv0, out string vert, out string frag);
+            VertexAttributeShaderGenerator.CreateShader(new List<VertexRenderingAttribute>() { pos }, out string vert, out string frag);
 
             var shader = new Shader();
             shader.LoadShaders(new List<Tuple<string, ShaderType, string>>() {

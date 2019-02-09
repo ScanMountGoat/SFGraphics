@@ -3,7 +3,7 @@
 namespace SFGenericModel.VertexAttributes
 {
     /// <summary>
-    /// The number of components for a vertex attribute.
+    /// The number of vector components for a vertex attribute. Scalars should use <see cref="ValueCount.One"/>.
     /// </summary>
     public enum ValueCount
     {

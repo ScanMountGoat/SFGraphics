@@ -21,26 +21,21 @@ namespace SFGenericModel.Test.ShaderGeneratorTests
         {
             var pos = new VertexFloatAttribute("position", ValueCount.Three, VertexAttribPointerType.Float);
             var uv0 = new VertexFloatAttribute("uv", ValueCount.Two, VertexAttribPointerType.Float);
-            Shader shader = CreateShader(new List<TextureRenderInfo>(), pos, pos, uv0);
+            Shader shader = CreateShader(new List<TextureRenderInfo>());
             Assert.IsTrue(shader.LinkStatusIsOk);
         }
 
         [TestMethod]
         public void SamePositionUvAttribute()
         {
-            var pos = new VertexFloatAttribute("position", ValueCount.Three, VertexAttribPointerType.Float);
-            Shader shader = CreateShader(new List<TextureRenderInfo>(), pos, pos, pos);
+            Shader shader = CreateShader(new List<TextureRenderInfo>());
             Assert.IsTrue(shader.LinkStatusIsOk);
         }
 
         [TestMethod]
         public void Vec4TexCoord()
         {
-            // The extra components for texture coordinates and position should be ignored.
-            var pos = new VertexFloatAttribute("pos", ValueCount.Four, VertexAttribPointerType.Float);
-            var uv0 = new VertexFloatAttribute("uv", ValueCount.Four, VertexAttribPointerType.Float);
-
-            Shader shader = CreateShader(new List<TextureRenderInfo>(), pos, pos, uv0);
+            Shader shader = CreateShader(new List<TextureRenderInfo>());
             Assert.IsTrue(shader.LinkStatusIsOk);
         }
 
@@ -51,10 +46,8 @@ namespace SFGenericModel.Test.ShaderGeneratorTests
             {
                 new TextureRenderInfo("tex1", UvCoord.TexCoord0, TextureSwizzle.Rgb)
             };
-            var pos = new VertexFloatAttribute("pos", ValueCount.Three, VertexAttribPointerType.Float);
-            var uv0 = new VertexFloatAttribute("uv", ValueCount.Two, VertexAttribPointerType.Float);
 
-            Shader shader = CreateShader(textures, pos, pos, uv0);
+            Shader shader = CreateShader(textures);
             Assert.IsTrue(shader.LinkStatusIsOk);
         }
 
@@ -65,10 +58,8 @@ namespace SFGenericModel.Test.ShaderGeneratorTests
             {
                 new TextureRenderInfo("tex1", UvCoord.CamEnvSphere, TextureSwizzle.Rgb)
             };
-            var pos = new VertexFloatAttribute("pos", ValueCount.Three, VertexAttribPointerType.Float);
-            var uv0 = new VertexFloatAttribute("uv", ValueCount.Two, VertexAttribPointerType.Float);
 
-            Shader shader = CreateShader(textures, pos, pos, uv0);
+            Shader shader = CreateShader(textures);
             Assert.IsTrue(shader.LinkStatusIsOk);
         }
 
@@ -82,7 +73,7 @@ namespace SFGenericModel.Test.ShaderGeneratorTests
             var pos = new VertexFloatAttribute("pos", ValueCount.Three, VertexAttribPointerType.Float);
             var uv0 = new VertexFloatAttribute("uv", ValueCount.Two, VertexAttribPointerType.Float);
 
-            Shader shader = CreateShader(textures, pos, pos, uv0);
+            Shader shader = CreateShader(textures);
             Assert.IsTrue(shader.LinkStatusIsOk);
         }
 
@@ -97,13 +88,22 @@ namespace SFGenericModel.Test.ShaderGeneratorTests
             var pos = new VertexFloatAttribute("pos", ValueCount.Three, VertexAttribPointerType.Float);
             var uv0 = new VertexFloatAttribute("uv", ValueCount.Two, VertexAttribPointerType.Float);
 
-            Shader shader = CreateShader(textures, pos, pos, uv0);
+            Shader shader = CreateShader(textures);
             Assert.IsTrue(shader.LinkStatusIsOk);
         }
 
-        private static Shader CreateShader(List<TextureRenderInfo> textures, VertexFloatAttribute pos, VertexFloatAttribute nrm, VertexFloatAttribute uv0)
+        private static Shader CreateShader(List<TextureRenderInfo> textures)
         {
-            TextureShaderGenerator.CreateShader(textures, pos, nrm, uv0, out string vertexSource, out string fragmentSource);
+            // TODO: Test with incorrect attributes.
+            var attributes = new List<VertexRenderingAttribute>()
+            {
+                new VertexRenderingAttribute("pos", ValueCount.Three, VertexAttribPointerType.Float, AttributeUsage.Position, false, false),
+                new VertexRenderingAttribute("nrm", ValueCount.Three, VertexAttribPointerType.Float, AttributeUsage.Normal, false, false),
+                new VertexRenderingAttribute("uv0", ValueCount.Two, VertexAttribPointerType.Float, AttributeUsage.TexCoord0, false, false)
+            };
+
+            TextureShaderGenerator.CreateShader(textures, attributes, out string vertexSource, out string fragmentSource);
+
             Shader shader = new Shader();
             shader.LoadShaders(vertexSource, fragmentSource);
             return shader;
