@@ -99,11 +99,5 @@ namespace SFGenericModel.ShaderGenerators
             NormalizeVector = normalizeVector;
             RemapToVisibleRange = remapToVisibleRange;
         }
-
-        public override void SetVertexAttribute(int index, int strideInBytes, int offsetInBytes)
-        {
-            // TODO: Move this functionality to an interface.
-            throw new System.NotImplementedException();
-        }
     }
 }

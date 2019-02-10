@@ -64,6 +64,7 @@
     <Compile Include="RenderState\RenderSettings.cs" />
     <Compile Include="RenderState\GLRenderSettings.cs" />
     <Compile Include="Utils\MeshBatchUtils.cs" />
+    <Compile Include="VertexAttributes\IVertexArrayAttrib.cs" />
     <Compile Include="VertexAttributes\VertexAttribute.cs" />
     <Compile Include="VertexAttributes\VertexIntAttribute.cs" />
     <Compile Include="VertexAttributes\VertexAttributeUtils.cs" />
