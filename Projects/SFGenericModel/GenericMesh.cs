@@ -57,6 +57,14 @@ namespace SFGenericModel
         private BufferObject vertexBuffer = new BufferObject(BufferTarget.ArrayBuffer);
         private BufferObject vertexIndexBuffer = new BufferObject(BufferTarget.ElementArrayBuffer);
 
+        // This result will be used a lot, so only initialize once.
+        private static List<VertexAttribute> vertexAttributes = null;
+
+        static GenericMesh()
+        {
+            InitializeVertexAttributes();
+        }
+
         private GenericMesh(PrimitiveType primitiveType, DrawElementsType drawElementsType, System.Type vertexType, int vertexCount)
         {
             PrimitiveType = primitiveType;
@@ -152,20 +160,9 @@ namespace SFGenericModel
         /// <returns>Vertex attribute information</returns>
         public virtual List<VertexAttribute> GetVertexAttributes()
         {
-            // TODO: Store this result to optimize subsequent method calls.
-            var attributes = new List<VertexAttribute>();
-            foreach (var member in typeof(T).GetMembers())
-            {
-                foreach (VertexAttribute attribute in member.GetCustomAttributes(typeof(VertexAttribute), true))
-                {
-                    // Break to ignore duplicate attributes.
-                    attributes.Add(attribute);
-                    break;
-                }
-            }
-            return attributes;
+            return vertexAttributes;
         }
-         
+
         /// <summary>
         /// 
         /// </summary>
@@ -191,6 +188,20 @@ namespace SFGenericModel
             // This step may not be necessary.
             GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, 0);
+        }
+
+        private static void InitializeVertexAttributes()
+        {
+            vertexAttributes = new List<VertexAttribute>();
+            foreach (var member in typeof(T).GetMembers())
+            {
+                foreach (VertexAttribute attribute in member.GetCustomAttributes(typeof(VertexAttribute), true))
+                {
+                    // Break to ignore duplicate attributes.
+                    vertexAttributes.Add(attribute);
+                    break;
+                }
+            }
         }
 
         private void DrawGeometry(int count, int offset)
