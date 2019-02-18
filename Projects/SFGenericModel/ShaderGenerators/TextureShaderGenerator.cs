@@ -27,17 +27,41 @@ namespace SFGenericModel.ShaderGenerators
         /// <param name="attributes"></param>
         /// <param name="vertexSource">The generated GLSL vertex shader source</param>
         /// <param name="fragmentSource">The generated GLSL fragment shader source</param>
+        /// <exception cref="System.ArgumentOutOfRangeException"><paramref name="attributes"/> is empty.</exception>
+        /// <exception cref="System.ArgumentException"><paramref name="attributes"/> does not contain attributes with the required usages.</exception>
         /// <returns>A new shader that can be used for rendering</returns>
-        public static void CreateShader(List<TextureRenderInfo> textures, IEnumerable<VertexRenderingAttribute> attributes, 
+        public static void CreateShader(List<TextureRenderInfo> textures, ICollection<VertexRenderingAttribute> attributes, 
             out string vertexSource, out string fragmentSource)
         {
-            // TODO: Avoid using LINQ.
-            // TODO: Check for empty lists.
-            var uvName = attributes.Where((item) => item.AttributeUsage == AttributeUsage.TexCoord0).First().Name;
-            var normalName = attributes.Where((item) => item.AttributeUsage == AttributeUsage.Normal).First().Name;
+            if (attributes.Count == 0)
+                throw new System.ArgumentOutOfRangeException("attributes", "attributes must be non empty to generate a valid shader.");
+
+            // TODO: Don't assume first attribute is position.
+            GetSpecialAttributeNames(attributes, out string uvName, out string normalName);
+
+            if (uvName == "")
+                throw new System.ArgumentException("No matching texture coordinates attribute was found.", "attributes");
+
+            if (normalName == "")
+                throw new System.ArgumentException("No matching vertex normal attribute was found.", "attributes");
 
             vertexSource = CreateVertexSource(attributes, normalName);
             fragmentSource = CreateFragmentSource(textures, attributes, uvName, normalName);
+        }
+
+        private static void GetSpecialAttributeNames(IEnumerable<VertexRenderingAttribute> attributes, out string uvName, out string normalName)
+        {
+            uvName = "";
+            normalName = "";
+
+            // TODO: Account for multiple attributes with the same usage.
+            foreach (var attribute in attributes)
+            {
+                if (attribute.AttributeUsage == AttributeUsage.TexCoord0)
+                    uvName = attribute.Name;
+                if (attribute.AttributeUsage == AttributeUsage.Normal)
+                    normalName = attribute.Name;
+            }
         }
 
         private static string CreateVertexSource(IEnumerable<VertexRenderingAttribute> attributes, string normalName)
