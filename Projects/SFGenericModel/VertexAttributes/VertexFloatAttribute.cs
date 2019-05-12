@@ -5,7 +5,7 @@ namespace SFGenericModel.VertexAttributes
     /// <summary>
     /// A floating point vertex attribute. Integer types are converted directly to floats.
     /// </summary>
-    public class VertexFloatAttribute : VertexAttribute
+    public sealed class VertexFloatAttribute : VertexAttribute
     {
         /// <summary>
         /// Integer types are converted to floating point when <c>true</c>.

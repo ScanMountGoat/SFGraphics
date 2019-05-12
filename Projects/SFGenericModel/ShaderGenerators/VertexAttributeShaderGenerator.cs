@@ -128,8 +128,7 @@ namespace SFGenericModel.ShaderGenerators
             List<CaseStatement> cases = new List<CaseStatement>();
             for (int i = 0; i < attributes.Count; i++)
             {
-                string caseAssignment = GetResultAssignment(ValueCount.Three, 
-                    attributes[i].Name, attributes[i].ValueCount);
+                string caseAssignment = GetResultAssignment(ValueCount.Three, attributes[i].Name, attributes[i].ValueCount);
                 cases.Add(new CaseStatement(i.ToString(), caseAssignment));
             }
 

@@ -6,7 +6,7 @@ namespace SFGenericModel.VertexAttributes
     /// <summary>
     /// A vertex attribute that preserves integer values. Only integer types are supported.
     /// </summary>
-    public class VertexIntAttribute : VertexAttribute
+    public sealed class VertexIntAttribute : VertexAttribute
     {
         /// <summary>
         /// Creates a new vertex attribute.
