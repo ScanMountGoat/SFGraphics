@@ -34,7 +34,7 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
             shaderSource.AppendLine("{");
         }
 
-        public static void AppendVertexInputs(IEnumerable<VertexRenderingAttribute> attributes, StringBuilder shaderSource)
+        public static void AppendVertexInputs(IEnumerable<VertexAttribute> attributes, StringBuilder shaderSource)
         {
             // Ignore duplicates to prevent shader compile errors.
             HashSet<string> previousNames = new HashSet<string>();
@@ -50,7 +50,7 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
             }
         }
 
-        public static void AppendVertexOutputs(IEnumerable<VertexRenderingAttribute> attributes, StringBuilder shaderSource)
+        public static void AppendVertexOutputs(IEnumerable<VertexAttribute> attributes, StringBuilder shaderSource)
         {
             // Ignore duplicates to prevent shader compile errors.
             HashSet<string> previousNames = new HashSet<string>();
@@ -75,7 +75,7 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
                 return "";
         }
 
-        public static void AppendVertexOutputAssignments(IEnumerable<VertexRenderingAttribute> attributes, StringBuilder shaderSource)
+        public static void AppendVertexOutputAssignments(IEnumerable<VertexAttribute> attributes, StringBuilder shaderSource)
         {
             // Ignore duplicates to prevent shader compile errors.
             HashSet<string> previousNames = new HashSet<string>();
@@ -97,7 +97,7 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
             }
         }
 
-        private static string GetAttributeRemapOperation(VertexRenderingAttribute attribute)
+        private static string GetAttributeRemapOperation(VertexAttribute attribute)
         {
             if (attribute.RemapToVisibleRange)
                 return "* 0.5 + 0.5;";
@@ -105,7 +105,7 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
                 return "";
         }
 
-        private static string GetAttributeFunction(VertexRenderingAttribute attribute)
+        private static string GetAttributeFunction(VertexAttribute attribute)
         {
             if (attribute.NormalizeVector)
                 return "normalize";
@@ -113,7 +113,7 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
                 return "";
         }
 
-        public static void AppendFragmentInputs(IEnumerable<VertexRenderingAttribute> attributes, StringBuilder shaderSource)
+        public static void AppendFragmentInputs(IEnumerable<VertexAttribute> attributes, StringBuilder shaderSource)
         {
             // Ignore duplicates to prevent shader compile errors.
             HashSet<string> previousNames = new HashSet<string>();
@@ -133,7 +133,7 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
             }
         }
 
-        private static string GetTypeDeclaration(VertexRenderingAttribute attribute)
+        private static string GetTypeDeclaration(VertexAttribute attribute)
         {
             if (attribute.ValueCount == ValueCount.One)
                 return GetScalarType(attribute);
@@ -141,9 +141,9 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
                 return GetVectorType(attribute);
         }
 
-        private static string GetVectorType(VertexRenderingAttribute attribute)
+        private static string GetVectorType(VertexAttribute attribute)
         {
-            string typeName = GetVectorTypeName(attribute.Type, attribute.IsInteger);
+            string typeName = GetVectorTypeName(attribute.Type, attribute is VertexIntAttribute);
             return $"{typeName}{(int)attribute.ValueCount}";
         }
 
@@ -182,7 +182,7 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
             }
         }
 
-        public static void AppendPositionAssignment(StringBuilder shaderSource, IEnumerable<VertexRenderingAttribute> attributes)
+        public static void AppendPositionAssignment(StringBuilder shaderSource, IEnumerable<VertexAttribute> attributes)
         {
             // Assume the first attribute is position.
             if (!attributes.GetEnumerator().MoveNext())

@@ -57,7 +57,7 @@ namespace SFGenericModel.Test.VertexAttributeInfoTests
 
         private static void CheckAttribPointerSizeTwoComponents(int expected, VertexAttribPointerType type)
         {
-            VertexFloatAttribute attribInfo = new VertexFloatAttribute("", ValueCount.Two, type);
+            VertexFloatAttribute attribInfo = new VertexFloatAttribute("", ValueCount.Two, type, false);
             Assert.AreEqual(expected, attribInfo.SizeInBytes);
         }
     }

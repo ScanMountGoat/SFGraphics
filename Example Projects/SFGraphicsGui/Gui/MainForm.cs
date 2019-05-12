@@ -81,9 +81,9 @@ namespace SFGraphicsGui
 
         private void DrawShape(List<Vector3> shapeVertices, SFShapes.Mesh3D shape)
         {
-            var pos = new VertexRenderingAttribute("position", ValueCount.Three, VertexAttribPointerType.Float, AttributeUsage.Position, true, true);
+            var pos = new VertexFloatAttribute("position", ValueCount.Three, VertexAttribPointerType.Float, false, AttributeUsage.Position, true, true);
 
-            VertexAttributeShaderGenerator.CreateShader(new List<VertexRenderingAttribute>() { pos }, out string vert, out string frag);
+            VertexAttributeShaderGenerator.CreateShader(new List<VertexAttribute>() { pos }, out string vert, out string frag);
 
             var shader = new Shader();
             shader.LoadShaders(new List<Tuple<string, ShaderType, string>>() {

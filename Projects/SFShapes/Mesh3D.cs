@@ -39,7 +39,7 @@ namespace SFShapes
         {
             return new List<VertexAttribute>()
             {
-                new VertexFloatAttribute("position", ValueCount.Three, VertexAttribPointerType.Float)
+                new VertexFloatAttribute("position", ValueCount.Three, VertexAttribPointerType.Float, false)
             };
         }
 
@@ -47,11 +47,11 @@ namespace SFShapes
         /// 
         /// </summary>
         /// <returns></returns>
-        public List<VertexRenderingAttribute> GetRenderAttributes()
+        public List<VertexAttribute> GetRenderAttributes()
         {
-            return new List<VertexRenderingAttribute>()
+            return new List<VertexAttribute>()
             {
-                new VertexRenderingAttribute("position", ValueCount.Three, VertexAttribPointerType.Float, AttributeUsage.Position, true, true)
+                new VertexFloatAttribute("position", ValueCount.Three, VertexAttribPointerType.Float, false, AttributeUsage.Position, true, true)
             };
         }
     }

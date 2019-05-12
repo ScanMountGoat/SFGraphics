@@ -29,6 +29,42 @@ namespace SFGenericModel.VertexAttributes
     }
 
     /// <summary>
+    /// Determines the additional usage for the generated shader.
+    /// </summary>
+    public enum AttributeUsage
+    {
+        /// <summary>
+        /// The attribute will only be used for the render modes.
+        /// </summary>
+        Default,
+
+        /// <summary>
+        /// The attribute will also be used as the vertex positions.
+        /// </summary>
+        Position,
+
+        /// <summary>
+        /// The attribute will also be used as the vertex normals.
+        /// </summary>
+        Normal,
+
+        /// <summary>
+        /// The attribute will also be used as the vertex tangents.
+        /// </summary>
+        Tangent,
+
+        /// <summary>
+        /// The attribute will also be used as the vertex bitangents.
+        /// </summary>
+        Bitangent,
+
+        /// <summary>
+        /// The attribute will also be used as the vertex UVs.
+        /// </summary>
+        TexCoord0
+    }
+
+    /// <summary>
     /// Stores information for a vertex attribute variable.
     /// </summary>
     public abstract class VertexAttribute : System.Attribute, IVertexArrayAttrib
@@ -55,16 +91,37 @@ namespace SFGenericModel.VertexAttributes
         public VertexAttribPointerType Type { get; }
 
         /// <summary>
+        /// How the attribute should be used for generated shaders.
+        /// </summary>
+        public AttributeUsage AttributeUsage { get; }
+
+        /// <summary>
+        /// Normalize the vector before rendering.
+        /// </summary>
+        public bool NormalizeVector { get; }
+
+        /// <summary>
+        /// Remap values in range [-1, 1] to range [0, 1]. This occurs after normalization.
+        /// </summary>
+        public bool RemapToVisibleRange { get; }
+
+        /// <summary>
         /// 
         /// </summary>
         /// <param name="name"></param>
         /// <param name="valueCount"></param>
         /// <param name="type"></param>
-        protected VertexAttribute(string name, ValueCount valueCount, VertexAttribPointerType type)
+        /// <param name="attributeUsage"></param>
+        /// <param name="normalizeVector"></param>
+        /// <param name="remapToVisibleRange"></param>
+        public VertexAttribute(string name, ValueCount valueCount, VertexAttribPointerType type, AttributeUsage attributeUsage, bool normalizeVector, bool remapToVisibleRange)
         {
             Name = name;
             ValueCount = valueCount;
             Type = type;
+            AttributeUsage = attributeUsage;
+            NormalizeVector = normalizeVector;
+            RemapToVisibleRange = remapToVisibleRange;
         }
 
         /// <summary>
@@ -73,9 +130,6 @@ namespace SFGenericModel.VertexAttributes
         /// <param name="index">The index of the attribute variable in the shader</param>
         /// <param name="strideInBytes">The vertex size in bytes</param>
         /// <param name="offsetInBytes">The offset in bytes of the attribute in the vertex</param>
-        public virtual void SetVertexAttribute(int index, int strideInBytes, int offsetInBytes)
-        {
-            // Do nothing.
-        }
+        public abstract void SetVertexAttribute(int index, int strideInBytes, int offsetInBytes);
     }
 }

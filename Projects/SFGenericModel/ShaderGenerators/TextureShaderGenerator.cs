@@ -30,7 +30,7 @@ namespace SFGenericModel.ShaderGenerators
         /// <exception cref="System.ArgumentOutOfRangeException"><paramref name="attributes"/> is empty.</exception>
         /// <exception cref="System.ArgumentException"><paramref name="attributes"/> does not contain attributes with the required usages.</exception>
         /// <returns>A new shader that can be used for rendering</returns>
-        public static void CreateShader(List<TextureRenderInfo> textures, ICollection<VertexRenderingAttribute> attributes, 
+        public static void CreateShader(List<TextureRenderInfo> textures, ICollection<VertexAttribute> attributes, 
             out string vertexSource, out string fragmentSource)
         {
             if (attributes.Count == 0)
@@ -49,7 +49,7 @@ namespace SFGenericModel.ShaderGenerators
             fragmentSource = CreateFragmentSource(textures, attributes, uvName, normalName);
         }
 
-        private static void GetSpecialAttributeNames(IEnumerable<VertexRenderingAttribute> attributes, out string uvName, out string normalName)
+        private static void GetSpecialAttributeNames(IEnumerable<VertexAttribute> attributes, out string uvName, out string normalName)
         {
             uvName = "";
             normalName = "";
@@ -64,7 +64,7 @@ namespace SFGenericModel.ShaderGenerators
             }
         }
 
-        private static string CreateVertexSource(IEnumerable<VertexRenderingAttribute> attributes, string normalName)
+        private static string CreateVertexSource(IEnumerable<VertexAttribute> attributes, string normalName)
         {
             StringBuilder shaderSource = new StringBuilder();
             AppendVertexShader(attributes, normalName, shaderSource);
@@ -72,7 +72,7 @@ namespace SFGenericModel.ShaderGenerators
             return shaderSource.ToString();
         }
 
-        private static void AppendVertexShader(IEnumerable<VertexRenderingAttribute> attributes, string normalName, StringBuilder shaderSource)
+        private static void AppendVertexShader(IEnumerable<VertexAttribute> attributes, string normalName, StringBuilder shaderSource)
         {
             GlslUtils.AppendShadingLanguageVersion(shaderSource);
 
@@ -95,7 +95,7 @@ namespace SFGenericModel.ShaderGenerators
             shaderSource.AppendLine($"in vec3 {GlslUtils.vertexOutputPrefix}{viewNormalName};");
         }
 
-        private static void AppendVertexMainFunction(IEnumerable<VertexRenderingAttribute> attributes, string normalName, StringBuilder shaderSource)
+        private static void AppendVertexMainFunction(IEnumerable<VertexAttribute> attributes, string normalName, StringBuilder shaderSource)
         {
             GlslUtils.AppendBeginMain(shaderSource);
 
@@ -121,7 +121,7 @@ namespace SFGenericModel.ShaderGenerators
         }
 
         private static string CreateFragmentSource(IEnumerable<TextureRenderInfo> textures, 
-            IEnumerable<VertexRenderingAttribute> attributes, string uv0AttributeName, string normalAttributeName)
+            IEnumerable<VertexAttribute> attributes, string uv0AttributeName, string normalAttributeName)
         {
             StringBuilder shaderSource = new StringBuilder();
             AppendFragmentShader(textures, attributes, shaderSource, uv0AttributeName, normalAttributeName);
@@ -130,7 +130,7 @@ namespace SFGenericModel.ShaderGenerators
         }
 
         private static void AppendFragmentShader(IEnumerable<TextureRenderInfo> textures, 
-            IEnumerable<VertexRenderingAttribute> attributes, StringBuilder shaderSource, 
+            IEnumerable<VertexAttribute> attributes, StringBuilder shaderSource, 
             string uv0, string normal)
         {
             GlslUtils.AppendShadingLanguageVersion(shaderSource);

@@ -19,9 +19,25 @@ namespace SFGenericModel.VertexAttributes
         /// <param name="valueCount">The number of components for the value</param>
         /// <param name="type">The data type of the value</param>
         /// <param name="normalized">Indicates whether integer types should be converted to floating point</param>
+        /// <param name="attributeUsage"></param>
+        /// <param name="normalizeVector"></param>
+        /// <param name="remapToVisibleRange"></param>
         /// <exception cref="System.NotImplementedException"><paramref name="type"/> is not an implemented attribute type.</exception>
-        public VertexFloatAttribute(string name, ValueCount valueCount, VertexAttribPointerType type, bool normalized = false) 
-            : base(name, valueCount, type)
+        public VertexFloatAttribute(string name, ValueCount valueCount, VertexAttribPointerType type, bool normalized, AttributeUsage attributeUsage, bool normalizeVector, bool remapToVisibleRange) 
+            : base(name, valueCount, type, attributeUsage, normalizeVector, remapToVisibleRange)
+        {
+            Normalized = normalized;
+            SizeInBytes = (int)valueCount * AttribPointerUtils.GetSizeInBytes(type);
+        }
+
+        /// <summary>
+        /// Creates a new vertex attribute.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="valueCount"></param>
+        /// <param name="type"></param>
+        /// <param name="normalized"></param>
+        public VertexFloatAttribute(string name, ValueCount valueCount, VertexAttribPointerType type, bool normalized) : base(name, valueCount, type, AttributeUsage.Default, false, false)
         {
             Normalized = normalized;
             SizeInBytes = (int)valueCount * AttribPointerUtils.GetSizeInBytes(type);

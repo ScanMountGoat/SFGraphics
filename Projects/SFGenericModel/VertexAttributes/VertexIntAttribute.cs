@@ -1,5 +1,4 @@
 ﻿using OpenTK.Graphics.OpenGL;
-using System;
 
 namespace SFGenericModel.VertexAttributes
 {
@@ -14,10 +13,25 @@ namespace SFGenericModel.VertexAttributes
         /// <param name="name">The name of the attribute in the shader</param>
         /// <param name="valueCount">The number of components for the value</param>
         /// <param name="type">The data type of the value</param>
+        /// <param name="attributeUsage"></param>
+        /// <param name="normalizeVector"></param>
+        /// <param name="remapToVisibleRange"></param>
         /// <exception cref="System.NotSupportedException"><paramref name="type"/> is not 
         /// a supported attribute type.</exception>
-        public VertexIntAttribute(string name, ValueCount valueCount, VertexAttribIntegerType type) 
-            : base(name, valueCount, (VertexAttribPointerType)type)
+        public VertexIntAttribute(string name, ValueCount valueCount, VertexAttribIntegerType type, AttributeUsage attributeUsage, bool normalizeVector, bool remapToVisibleRange) 
+            : base(name, valueCount, (VertexAttribPointerType)type, attributeUsage, normalizeVector, remapToVisibleRange)
+        {
+            // The default attribute pointer type enum contains all the integer values.
+            SizeInBytes = (int)valueCount * AttribPointerUtils.GetSizeInBytes(type);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="valueCount"></param>
+        /// <param name="type"></param>
+        public VertexIntAttribute(string name, ValueCount valueCount, VertexAttribIntegerType type) : base(name, valueCount, (VertexAttribPointerType)type, AttributeUsage.Default, false, false)
         {
             // The default attribute pointer type enum contains all the integer values.
             SizeInBytes = (int)valueCount * AttribPointerUtils.GetSizeInBytes(type);
@@ -31,7 +45,7 @@ namespace SFGenericModel.VertexAttributes
         /// <param name="offsetInBytes">The offset in bytes of the attribute in the vertex</param>
         public override void SetVertexAttribute(int index, int strideInBytes, int offsetInBytes)
         {
-            GL.VertexAttribIPointer(index, (int)ValueCount, (VertexAttribIntegerType)Type, strideInBytes, new IntPtr(offsetInBytes));
+            GL.VertexAttribIPointer(index, (int)ValueCount, (VertexAttribIntegerType)Type, strideInBytes, new System.IntPtr(offsetInBytes));
         }
     }
 }

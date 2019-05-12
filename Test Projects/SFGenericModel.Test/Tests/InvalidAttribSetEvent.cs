@@ -50,7 +50,7 @@ namespace SFGenericModel.Test.GenericMeshTests
         [TestMethod]
         public void ValidAttributeLocation()
         {
-            mesh.vertexAttributes.Add(new VertexFloatAttribute("position", ValueCount.Three, VertexAttribPointerType.Float));
+            mesh.vertexAttributes.Add(new VertexFloatAttribute("position", ValueCount.Three, VertexAttribPointerType.Float, false));
             mesh.ConfigureVertexAttributes(shader);
             Assert.AreEqual(0, eventArgs.Count);
         }
@@ -74,8 +74,8 @@ namespace SFGenericModel.Test.GenericMeshTests
         [TestMethod]
         public void InvalidAttributeLocation()
         {
-            mesh.vertexAttributes.Add(new VertexFloatAttribute("position", ValueCount.Three, VertexAttribPointerType.Float));
-            mesh.vertexAttributes.Add(new VertexFloatAttribute("memes", ValueCount.Three, VertexAttribPointerType.Float));
+            mesh.vertexAttributes.Add(new VertexFloatAttribute("position", ValueCount.Three, VertexAttribPointerType.Float, false));
+            mesh.vertexAttributes.Add(new VertexFloatAttribute("memes", ValueCount.Three, VertexAttribPointerType.Float, false));
             mesh.ConfigureVertexAttributes(shader);
             Assert.AreEqual(1, eventArgs.Count);
         }
