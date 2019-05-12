@@ -144,7 +144,8 @@ namespace SFGenericModel.Test.ShaderGeneratorTests
 
         private static Shader CreateShader(List<TextureRenderInfo> textures, List<VertexAttribute> attributes)
         {
-            TextureShaderGenerator.CreateShader(textures, attributes, out string vertexSource, out string fragmentSource);
+            var generator = new TextureShaderGenerator();
+            generator.CreateShader(textures, attributes, out string vertexSource, out string fragmentSource);
 
             Shader shader = new Shader();
             shader.LoadShaders(vertexSource, fragmentSource);

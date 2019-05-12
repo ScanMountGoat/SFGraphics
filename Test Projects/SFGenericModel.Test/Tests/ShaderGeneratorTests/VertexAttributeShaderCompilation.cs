@@ -152,7 +152,8 @@ namespace SFGenericModel.Test.ShaderGeneratorTests
 
         private static Shader CreateShader(List<VertexAttribute> attributes)
         {
-            VertexAttributeShaderGenerator.CreateShader(attributes, out string vertSource, out string fragSource);
+            var generator = new VertexAttributeShaderGenerator();
+            generator.CreateShader(attributes, out string vertSource, out string fragSource);
             Shader shader = new Shader();
             shader.LoadShaders(vertSource, fragSource);
             return shader;

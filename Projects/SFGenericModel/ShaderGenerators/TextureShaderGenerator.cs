@@ -10,8 +10,18 @@ namespace SFGenericModel.ShaderGenerators
     /// Contains methods for generating a texture debug shader. 
     /// The swizzling and texture coordinate display is controlled per texture.
     /// </summary>
-    public static class TextureShaderGenerator
+    public class TextureShaderGenerator
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        public string MvpMatrixName { get; set; } = "mvpMatrix";
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string SphereMatrixName { get; set; } = "sphereMatrix";
+
         private static readonly string resultName = "result";
 
         private static readonly string reflectionVector = "R";
@@ -30,7 +40,7 @@ namespace SFGenericModel.ShaderGenerators
         /// <exception cref="System.ArgumentOutOfRangeException"><paramref name="attributes"/> is empty.</exception>
         /// <exception cref="System.ArgumentException"><paramref name="attributes"/> does not contain attributes with the required usages.</exception>
         /// <returns>A new shader that can be used for rendering</returns>
-        public static void CreateShader(List<TextureRenderInfo> textures, ICollection<VertexAttribute> attributes, 
+        public void CreateShader(List<TextureRenderInfo> textures, ICollection<VertexAttribute> attributes, 
             out string vertexSource, out string fragmentSource)
         {
             if (attributes.Count == 0)
@@ -49,7 +59,7 @@ namespace SFGenericModel.ShaderGenerators
             fragmentSource = CreateFragmentSource(textures, attributes, uvName, normalName);
         }
 
-        private static void GetSpecialAttributeNames(IEnumerable<VertexAttribute> attributes, out string uvName, out string normalName)
+        private void GetSpecialAttributeNames(IEnumerable<VertexAttribute> attributes, out string uvName, out string normalName)
         {
             uvName = "";
             normalName = "";
@@ -64,7 +74,7 @@ namespace SFGenericModel.ShaderGenerators
             }
         }
 
-        private static string CreateVertexSource(IEnumerable<VertexAttribute> attributes, string normalName)
+        private string CreateVertexSource(IEnumerable<VertexAttribute> attributes, string normalName)
         {
             StringBuilder shaderSource = new StringBuilder();
             AppendVertexShader(attributes, normalName, shaderSource);
@@ -72,7 +82,7 @@ namespace SFGenericModel.ShaderGenerators
             return shaderSource.ToString();
         }
 
-        private static void AppendVertexShader(IEnumerable<VertexAttribute> attributes, string normalName, StringBuilder shaderSource)
+        private void AppendVertexShader(IEnumerable<VertexAttribute> attributes, string normalName, StringBuilder shaderSource)
         {
             GlslUtils.AppendShadingLanguageVersion(shaderSource);
 
@@ -80,35 +90,35 @@ namespace SFGenericModel.ShaderGenerators
             GlslUtils.AppendVertexOutputs(attributes, shaderSource);
             AppendViewNormalOutput(shaderSource);
 
-            GlslUtils.AppendMatrixUniform(shaderSource);
+            GlslUtils.AppendMatrixUniforms(shaderSource, MvpMatrixName, SphereMatrixName);
 
             AppendVertexMainFunction(attributes, normalName, shaderSource);
         }
 
-        private static void AppendViewNormalOutput(StringBuilder shaderSource)
+        private void AppendViewNormalOutput(StringBuilder shaderSource)
         {
             shaderSource.AppendLine($"out vec3 {GlslUtils.vertexOutputPrefix}{viewNormalName};");
         }
 
-        private static void AppendViewNormalInput(StringBuilder shaderSource)
+        private void AppendViewNormalInput(StringBuilder shaderSource)
         {
             shaderSource.AppendLine($"in vec3 {GlslUtils.vertexOutputPrefix}{viewNormalName};");
         }
 
-        private static void AppendVertexMainFunction(IEnumerable<VertexAttribute> attributes, string normalName, StringBuilder shaderSource)
+        private void AppendVertexMainFunction(IEnumerable<VertexAttribute> attributes, string normalName, StringBuilder shaderSource)
         {
             GlslUtils.AppendBeginMain(shaderSource);
 
             GlslUtils.AppendVertexOutputAssignments(attributes, shaderSource);
 
-            GlslUtils.AppendPositionAssignment(shaderSource, attributes);
+            GlslUtils.AppendPositionAssignment(shaderSource, attributes, MvpMatrixName);
 
             AppendViewNormalAssignment(normalName, shaderSource);
 
             GlslUtils.AppendEndMain(shaderSource);
         }
 
-        private static void AppendViewNormalAssignment(string normalAttributeName, StringBuilder shaderSource)
+        private void AppendViewNormalAssignment(string normalAttributeName, StringBuilder shaderSource)
         {
             // Transforms the vertex normals by the transposed inverse of the modelview matrix.
             // The result is remapped from [-1, 1] to [0, 1].
@@ -116,11 +126,11 @@ namespace SFGenericModel.ShaderGenerators
             // TODO: Verify that there are enough vector components.
             string normal = $"{normalAttributeName}.xyz";
             string viewNormal = $"{GlslUtils.vertexOutputPrefix}{viewNormalName}.xyz";
-            shaderSource.AppendLine($"\t{viewNormal} = mat3({GlslUtils.sphereMatrixName}) * {normal};");
+            shaderSource.AppendLine($"\t{viewNormal} = mat3({SphereMatrixName}) * {normal};");
             shaderSource.AppendLine($"\t{viewNormal} = {viewNormal} * 0.5 + 0.5;");
         }
 
-        private static string CreateFragmentSource(IEnumerable<TextureRenderInfo> textures, 
+        private string CreateFragmentSource(IEnumerable<TextureRenderInfo> textures, 
             IEnumerable<VertexAttribute> attributes, string uv0AttributeName, string normalAttributeName)
         {
             StringBuilder shaderSource = new StringBuilder();
@@ -129,7 +139,7 @@ namespace SFGenericModel.ShaderGenerators
             return shaderSource.ToString();
         }
 
-        private static void AppendFragmentShader(IEnumerable<TextureRenderInfo> textures, 
+        private void AppendFragmentShader(IEnumerable<TextureRenderInfo> textures, 
             IEnumerable<VertexAttribute> attributes, StringBuilder shaderSource, 
             string uv0, string normal)
         {
@@ -141,14 +151,14 @@ namespace SFGenericModel.ShaderGenerators
             GlslUtils.AppendFragmentOutput(shaderSource);
 
             AppendTextureUniforms(textures, shaderSource);
-            GlslUtils.AppendMatrixUniform(shaderSource);
+            GlslUtils.AppendMatrixUniforms(shaderSource, MvpMatrixName, SphereMatrixName);
 
             shaderSource.AppendLine($"uniform int {attribIndexName};");
 
             AppendFragmentMainFunction(textures, shaderSource, uv0, normal);
         }
 
-        private static void AppendTextureUniforms(IEnumerable<TextureRenderInfo> textures, StringBuilder shaderSource)
+        private void AppendTextureUniforms(IEnumerable<TextureRenderInfo> textures, StringBuilder shaderSource)
         {
             HashSet<string> previousNames = new HashSet<string>();
             foreach (var texture in textures)
@@ -165,7 +175,7 @@ namespace SFGenericModel.ShaderGenerators
             }
         }
 
-        private static void AppendFragmentMainFunction(IEnumerable<TextureRenderInfo> textures, StringBuilder shaderSource, 
+        private void AppendFragmentMainFunction(IEnumerable<TextureRenderInfo> textures, StringBuilder shaderSource, 
             string uv0, string normal)
         {
             GlslUtils.AppendBeginMain(shaderSource);
@@ -173,7 +183,7 @@ namespace SFGenericModel.ShaderGenerators
             GlslUtils.AppendEndMain(shaderSource);
         }
 
-        private static void AppendMainFunctionBody(IEnumerable<TextureRenderInfo> attributes, StringBuilder shaderSource, 
+        private void AppendMainFunctionBody(IEnumerable<TextureRenderInfo> attributes, StringBuilder shaderSource, 
             string uv0, string normal)
         {
             shaderSource.AppendLine($"\tvec3 {resultName} = vec3(0);");
@@ -186,19 +196,19 @@ namespace SFGenericModel.ShaderGenerators
             shaderSource.AppendLine($"\t{GlslUtils.outputName} = vec4({resultName}, 1);");
         }
 
-        private static void AppendReflectionVector(StringBuilder shaderSource, string normal)
+        private void AppendReflectionVector(StringBuilder shaderSource, string normal)
         {
             shaderSource.AppendLine($"\tvec3 {reflectionVector} = reflect({viewVector}.xyz, {GlslUtils.vertexOutputPrefix}{normal}.xyz);");
             // Correct for a vertically flipped reflection.
             shaderSource.AppendLine($"\t{reflectionVector}.y *= -1;");
         }
 
-        private static void AppendViewVector(StringBuilder shaderSource)
+        private void AppendViewVector(StringBuilder shaderSource)
         {
-            shaderSource.AppendLine($"\tvec3 {viewVector} = vec3(0, 0, -1) * mat3({GlslUtils.matrixName});");
+            shaderSource.AppendLine($"\tvec3 {viewVector} = vec3(0, 0, -1) * mat3({MvpMatrixName});");
         }
 
-        private static void AppendFragmentAttributeSwitch(IEnumerable<TextureRenderInfo> attributes, StringBuilder shaderSource, 
+        private void AppendFragmentAttributeSwitch(IEnumerable<TextureRenderInfo> attributes, StringBuilder shaderSource, 
             string uv0, string normalName)
         {
             List<CaseStatement> cases = new List<CaseStatement>();
@@ -213,7 +223,7 @@ namespace SFGenericModel.ShaderGenerators
             SwitchUtils.AppendSwitchStatement(shaderSource, attribIndexName, cases);
         }
 
-        private static string GetResultAssignment(ValueCount resultCount, TextureRenderInfo texture, 
+        private string GetResultAssignment(ValueCount resultCount, TextureRenderInfo texture, 
             string uv0Name, string normalName)
         {
             string swizzle = GlslVectorUtils.GetSwizzle(texture.TextureSwizzle);
@@ -221,7 +231,7 @@ namespace SFGenericModel.ShaderGenerators
             return $"{resultName}.rgb = texture({texture.Name}, {texCoord}).{swizzle};";
         }
 
-        private static string GetTexCoord(UvCoord uvCoord, string uv0Name, string normalName)
+        private string GetTexCoord(UvCoord uvCoord, string uv0Name, string normalName)
         {
             switch (uvCoord)
             {

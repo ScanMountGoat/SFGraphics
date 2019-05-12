@@ -9,12 +9,6 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
 {
     internal static class GlslUtils
     {
-        public static readonly string matrixName = "mvpMatrix";
-        public static readonly string sphereMatrixName = "sphereMatrix";
-
-        private static readonly string matrixUniform = $"uniform mat4 {matrixName};";
-        private static readonly string sphereMatrixUniform = $"uniform mat4 {sphereMatrixName};";
-
         public static readonly string outputName = "fragColor";
         private static readonly string fragmentOutput = $"out vec4 {outputName};";
 
@@ -182,7 +176,7 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
             }
         }
 
-        public static void AppendPositionAssignment(StringBuilder shaderSource, IEnumerable<VertexAttribute> attributes)
+        public static void AppendPositionAssignment(StringBuilder shaderSource, IEnumerable<VertexAttribute> attributes, string matrixName)
         {
             // Assume the first attribute is position.
             if (!attributes.GetEnumerator().MoveNext())
@@ -192,12 +186,12 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
             shaderSource.AppendLine($"\tgl_Position = {matrixName} * {positionVariable};");
         }
 
-        public static void AppendMatrixUniform(StringBuilder shaderSource)
+        public static void AppendMatrixUniforms(StringBuilder shaderSource, string matrixName, string sphereMatrixName)
         {
-            shaderSource.AppendLine(matrixUniform);
+            shaderSource.AppendLine($"uniform mat4 {matrixName};");
             // TODO: ???
             // Unused uniforms will be optimized out by the compiler.
-            shaderSource.AppendLine(sphereMatrixUniform);
+            shaderSource.AppendLine($"uniform mat4 {sphereMatrixName};");
         }
 
         public static void AppendFragmentOutput(StringBuilder shaderSource)

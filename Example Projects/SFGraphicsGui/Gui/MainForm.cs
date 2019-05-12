@@ -83,7 +83,8 @@ namespace SFGraphicsGui
         {
             var pos = new VertexFloatAttribute("position", ValueCount.Three, VertexAttribPointerType.Float, false, AttributeUsage.Position, true, true);
 
-            VertexAttributeShaderGenerator.CreateShader(new List<VertexAttribute>() { pos }, out string vert, out string frag);
+            var generator = new VertexAttributeShaderGenerator();
+            generator.CreateShader(new List<VertexAttribute>() { pos }, out string vert, out string frag);
 
             var shader = new Shader();
             shader.LoadShaders(new List<Tuple<string, ShaderType, string>>() {
