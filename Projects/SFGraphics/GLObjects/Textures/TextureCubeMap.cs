@@ -109,6 +109,40 @@ namespace SFGraphics.GLObjects.Textures
         }
 
         /// <summary>
+        /// Initializes an uncompressed cube map with mipmaps.
+        /// Each face should have the same dimensions, image format, and number of mipmaps.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="faceSideLength">The side length in pixels of each face.</param>
+        /// <param name="format"></param>
+        /// <param name="mipsPosX">Mipmaps for the positive x target</param>
+        /// <param name="mipsNegX">Mipmaps for the negative x target</param>
+        /// <param name="mipsPosY">Mipmaps for the positive y target</param>
+        /// <param name="mipsNegY">Mipmaps for the negative y target</param>
+        /// <param name="mipsPosZ">Mipmaps for the positive z target</param>
+        /// <param name="mipsNegZ">Mipmaps for the negative z target</param>
+        /// <exception cref="ArgumentException"><paramref name="format"/> is not a compressed format.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">The mipmap counts are not equal for all faces.</exception>
+        public void LoadImageData<T>(int faceSideLength, TextureFormatUncompressed format,
+            IList<T[]> mipsPosX, IList<T[]> mipsNegX, IList<T[]> mipsPosY,
+            IList<T[]> mipsNegY, IList<T[]> mipsPosZ, IList<T[]> mipsNegZ) where T : struct
+        {
+            Width = faceSideLength;
+            Height = faceSideLength;
+
+            bool equalMipCounts = CheckCountEquality(mipsPosX, mipsNegX, mipsPosY, mipsNegY, mipsPosZ, mipsNegZ);
+            if (!equalMipCounts)
+                throw new ArgumentOutOfRangeException(TextureExceptionMessages.cubeFaceMipCountDifferent);
+
+            // Necessary to access mipmaps past the base level.
+            MinFilter = TextureMinFilter.LinearMipmapLinear;
+
+            Bind();
+            MipmapLoading.LoadFacesMipmaps(faceSideLength, format, mipsPosX, mipsNegX, mipsPosY,
+                mipsNegY, mipsPosZ, mipsNegZ);
+        }
+
+        /// <summary>
         /// Initializes an uncompressed cube map without mipmaps.
         /// Each face should have the same dimensions and image format.
         /// </summary>

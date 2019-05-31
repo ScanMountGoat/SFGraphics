@@ -104,6 +104,36 @@ namespace SFGraphics.GLObjects.Textures.Utils
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="target">The target of the texture or cube face for loading mip maps</param>
+        /// <param name="width">The width of the texture or cube map face in pixels</param>
+        /// <param name="height">The height of the texture or cube map face in pixels</param>
+        /// <param name="mipmaps"></param>
+        /// <param name="format">The format information</param>
+        public static void LoadUncompressedMipmaps<T>(TextureTarget target, int width, int height,
+            IList<T[]> mipmaps, TextureFormatUncompressed format) where T : struct
+        {
+            // The number of mipmaps needs to be specified first.
+            if (!TextureFormatTools.IsCubeMapTarget(target))
+            {
+                int maxMipLevel = Math.Max(mipmaps.Count - 1, minMipLevel);
+                GL.TexParameter(target, TextureParameterName.TextureMaxLevel, maxMipLevel);
+            }
+
+            // Load mipmaps in the inclusive range [0, max level]
+            for (int mipLevel = 0; mipLevel < mipmaps.Count; mipLevel++)
+            {
+                int mipWidth = CalculateMipDimension(width, mipLevel);
+                int mipHeight = CalculateMipDimension(height, mipLevel);
+
+                LoadUncompressedMipLevel(target, mipWidth, mipHeight, mipmaps[mipLevel], format, mipLevel);
+            }
+        }
+
+
+
+        /// <summary>
         /// Loads the base mip level from <paramref name="image"/> and generates mipmaps.
         /// Mipmaps are not generated for cube map targets.
         /// </summary>
@@ -208,6 +238,32 @@ namespace SFGraphics.GLObjects.Textures.Utils
 
             LoadBaseLevelGenerateMipmaps(TextureTarget.TextureCubeMapPositiveZ, length, length, posZ, format);
             LoadBaseLevelGenerateMipmaps(TextureTarget.TextureCubeMapNegativeZ, length, length, negZ, format);
+        }
+
+        /// <summary>
+        /// Loads image data and mipmaps for all six faces of a cube map.
+        /// </summary>
+        /// <typeparam name="T">The value type used for the image data. This includes arithmetic types.</typeparam>
+        /// <param name="length">The width and height of each cube map face in pixels</param>
+        /// <param name="format"></param>
+        /// <param name="mipsPosX"></param>
+        /// <param name="mipsNegX"></param>
+        /// <param name="mipsPosY"></param>
+        /// <param name="mipsNegY"></param>
+        /// <param name="mipsPosZ"></param>
+        /// <param name="mipsNegZ"></param>
+        public static void LoadFacesMipmaps<T>(int length, TextureFormatUncompressed format,
+            IList<T[]> mipsPosX, IList<T[]> mipsNegX, IList<T[]> mipsPosY,
+            IList<T[]> mipsNegY, IList<T[]> mipsPosZ, IList<T[]> mipsNegZ) where T : struct
+        {
+            LoadUncompressedMipmaps(TextureTarget.TextureCubeMapPositiveX, length, length, mipsPosX, format);
+            LoadUncompressedMipmaps(TextureTarget.TextureCubeMapNegativeX, length, length, mipsNegX, format);
+
+            LoadUncompressedMipmaps(TextureTarget.TextureCubeMapPositiveY, length, length, mipsPosY, format);
+            LoadUncompressedMipmaps(TextureTarget.TextureCubeMapNegativeY, length, length, mipsNegY, format);
+
+            LoadUncompressedMipmaps(TextureTarget.TextureCubeMapPositiveZ, length, length, mipsPosZ, format);
+            LoadUncompressedMipmaps(TextureTarget.TextureCubeMapNegativeZ, length, length, mipsNegZ, format);
         }
 
         /// <summary>
