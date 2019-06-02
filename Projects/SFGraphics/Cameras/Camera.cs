@@ -20,19 +20,18 @@ namespace SFGraphics.Cameras
         /// </summary>
         public Vector3 Position
         {
-            get { return position; }
+            get
+            {
+                // Account for rotation when calculating the camera's actual position.
+                return (rotationMatrix * new Vector4(translation, 1)).Xyz;
+            }
             set
             {
-                position = value;
+                translation = value;
                 UpdateMatrices();
             }
         }
-        private Vector3 position = new Vector3(0, 10, -80);
-
-        /// <summary>
-        /// The view direction vector used for shading calculations. Commonly abbreviated to "V" or "I".
-        /// </summary>
-        public Vector3 ViewVector { get; protected set; }
+        private Vector3 translation = new Vector3(0, 10, -80);
 
         /// <summary>
         /// The scale for all objects. Defaults to 1.
@@ -288,14 +287,14 @@ namespace SFGraphics.Cameras
             {
                 // Translate the camera based on the distance from the origin and field of view.
                 // Objects will "follow" the mouse while panning.
-                position.Y += deltaY * ((float)Math.Sin(fovRadians) * position.Length);
-                position.X += deltaX * ((float)Math.Sin(fovRadians) * position.Length);
+                translation.Y += deltaY * ((float)Math.Sin(fovRadians) * translation.Length);
+                translation.X += deltaX * ((float)Math.Sin(fovRadians) * translation.Length);
             }
             else
             {
                 // Regular panning.
-                position.Y += deltaY;
-                position.X += deltaX;
+                translation.Y += deltaY;
+                translation.X += deltaX;
             }
 
             UpdateMatrices();
@@ -312,9 +311,9 @@ namespace SFGraphics.Cameras
             // Increase zoom speed when zooming out. 
             float zoomScale = 1;
             if (scaleByDistanceToOrigin)
-                zoomScale *= Math.Abs(position.Z);
+                zoomScale *= Math.Abs(translation.Z);
 
-            position.Z += amount * zoomScale;
+            translation.Z += amount * zoomScale;
 
             UpdateMatrices();
         }
@@ -338,7 +337,7 @@ namespace SFGraphics.Cameras
         /// </summary>
         protected virtual void UpdateTranslationMatrix()
         {
-            translationMatrix = Matrix4.CreateTranslation(position.X, -position.Y, position.Z);
+            translationMatrix = Matrix4.CreateTranslation(translation.X, -translation.Y, translation.Z);
         }
 
         /// <summary>
@@ -371,9 +370,6 @@ namespace SFGraphics.Cameras
         protected virtual void UpdateMvpMatrix()
         {
             mvpMatrix = modelViewMatrix * perspectiveMatrix;
-
-            ViewVector = new Vector3(0, 0, 1) * new Matrix3(ModelViewMatrix).Inverted();
-            ViewVector = ViewVector.Normalized();
         }
 
         /// <summary>
@@ -381,7 +377,7 @@ namespace SFGraphics.Cameras
         /// </summary>
         public void ResetToDefaultPosition()
         {
-            position = DefaultPosition;
+            translation = DefaultPosition;
             rotationXRadians = 0;
             rotationYRadians = 0;
             UpdateMatrices();
@@ -403,9 +399,9 @@ namespace SFGraphics.Cameras
             float distanceOffset = offset / fovRadians;
             rotationXRadians = 0;
             rotationYRadians = 0;
-            position.X = -center.X;
-            position.Y = center.Y;
-            position.Z = -1 * (distance + distanceOffset);
+            translation.X = -center.X;
+            translation.Y = center.Y;
+            translation.Z = -1 * (distance + distanceOffset);
 
             UpdateMatrices();
         }
