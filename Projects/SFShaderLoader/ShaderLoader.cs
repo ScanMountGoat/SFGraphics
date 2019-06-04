@@ -38,13 +38,18 @@ namespace SFShaderLoader
         /// Replaces the existing shader for <paramref name="name"/> if found.
         /// </summary>
         /// <param name="name">A unique shader name</param>
-        /// <param name="vertexSources"></param>
-        /// <param name="fragmentSources"></param>
-        /// <param name="geometrySources"></param>
+        /// <param name="shaderBinary">The compiled shader binary</param>
+        /// <param name="binaryFormat">The platform specific shader binary format</param>
         /// <returns><c>true</c> if the shader was successfully linked and added</returns>
-        public bool AddShader(string name, IEnumerable<BinaryShaderData> vertexSources, IEnumerable<BinaryShaderData> fragmentSources, IEnumerable<BinaryShaderData> geometrySources)
+        public bool AddShader(string name, byte[] shaderBinary, BinaryFormat binaryFormat)
         {
-            return false;
+            var shader = new Shader();
+            shader.LoadProgramBinary(shaderBinary, binaryFormat);
+
+            // Update if already present.
+            shaderByName[name] = shader;
+
+            return shader.LinkStatusIsOk;
         }
 
         /// <summary>
@@ -54,7 +59,10 @@ namespace SFShaderLoader
         /// <returns>the appropriate shader or <c>null</c> if not found</returns>
         public Shader GetShader(string shaderName)
         {
-            return null;
+            if (shaderByName.ContainsKey(shaderName))
+                return shaderByName[shaderName];
+            else
+                return null;
         }
 
         private static List<System.Tuple<string, ShaderType, string>> GetShaderSources(IEnumerable<string> vertexSources, 

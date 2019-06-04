@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
+using System.IO;
 
 namespace SFShaderLoader.Test
 {
@@ -14,7 +15,10 @@ namespace SFShaderLoader.Test
             RenderTestUtils.OpenTKWindowlessContext.BindDummyContext();
 
             // TODO: Use actual shader files.
-            loader.AddShader("validShader", new List<string>(), new List<string>(), new List<string>());
+            loader.AddShader("validShader",
+                new List<string>() { File.ReadAllText("Shaders/valid.vert") },
+                new List<string>() { File.ReadAllText("Shaders/valid.frag") },
+                new List<string>());
         }
 
         [TestMethod]

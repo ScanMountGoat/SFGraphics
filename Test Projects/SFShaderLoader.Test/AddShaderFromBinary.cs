@@ -1,5 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
+using SFGraphics.GLObjects.Shaders;
+using System.IO;
+using OpenTK.Graphics.OpenGL;
 
 namespace SFShaderLoader.Test
 {
@@ -17,15 +20,23 @@ namespace SFShaderLoader.Test
         [TestMethod]
         public void AddValidBinary()
         {
-            // TODO: Use actual shader files.
-            Assert.IsTrue(loader.AddShader("validShader", new List<BinaryShaderData>(), new List<BinaryShaderData>(), new List<BinaryShaderData>()));
+            // Compile a separate shader program to get the binaries.
+            var shader = new Shader();
+            shader.LoadShaders(File.ReadAllText("Shaders/valid.vert"), File.ReadAllText("Shaders/valid.frag"));
+            var binary = shader.GetProgramBinary(out BinaryFormat format);
+
+            Assert.IsTrue(loader.AddShader("validShader", binary, format));
         }
 
         [TestMethod]
         public void AddInvalidBinary()
         {
-            // TODO: Use actual shader files.
-            Assert.IsFalse(loader.AddShader("validShader", new List<BinaryShaderData>(), new List<BinaryShaderData>(), new List<BinaryShaderData>()));
+            // Compile a separate shader program to get the binaries.
+            var shader = new Shader();
+            shader.LoadShaders(File.ReadAllText("Shaders/valid.vert"), File.ReadAllText("Shaders/valid.frag"));
+            var binary = shader.GetProgramBinary(out BinaryFormat format);
+
+            Assert.IsFalse(loader.AddShader("validShader", binary, 0));
         }
     }
 }
