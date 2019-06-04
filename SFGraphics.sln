@@ -29,6 +29,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFShapes", "Projects\SFShap
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFGraphics.Controls", "Projects\SFGraphics.Controls\SFGraphics.Controls.csproj", "{1108246F-FE39-4018-A107-B9B1028B5CDB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFShaderLoader", "Projects\SFShaderLoader\SFShaderLoader.csproj", "{33FFA062-9FE2-4C96-A546-D76F43CE54D5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFShaderLoader.Test", "Test Projects\SFShaderLoader.Test\SFShaderLoader.Test.csproj", "{CE0AB008-0C14-4DC0-8F66-8C6F902E0315}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +79,14 @@ Global
 		{1108246F-FE39-4018-A107-B9B1028B5CDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1108246F-FE39-4018-A107-B9B1028B5CDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1108246F-FE39-4018-A107-B9B1028B5CDB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33FFA062-9FE2-4C96-A546-D76F43CE54D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33FFA062-9FE2-4C96-A546-D76F43CE54D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33FFA062-9FE2-4C96-A546-D76F43CE54D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33FFA062-9FE2-4C96-A546-D76F43CE54D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE0AB008-0C14-4DC0-8F66-8C6F902E0315}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE0AB008-0C14-4DC0-8F66-8C6F902E0315}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE0AB008-0C14-4DC0-8F66-8C6F902E0315}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE0AB008-0C14-4DC0-8F66-8C6F902E0315}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -90,6 +102,8 @@ Global
 		{53CBDEA3-F60C-4B16-B57F-21B6CE665040} = {AE6192C9-298F-470D-AE6F-DF2B29554CE4}
 		{C70C5DB4-C934-4D59-BA34-D25F3A9A56D5} = {EF1FFAC2-D7BD-4A7B-8802-D0F8A17AB9DA}
 		{1108246F-FE39-4018-A107-B9B1028B5CDB} = {EF1FFAC2-D7BD-4A7B-8802-D0F8A17AB9DA}
+		{33FFA062-9FE2-4C96-A546-D76F43CE54D5} = {EF1FFAC2-D7BD-4A7B-8802-D0F8A17AB9DA}
+		{CE0AB008-0C14-4DC0-8F66-8C6F902E0315} = {AE6192C9-298F-470D-AE6F-DF2B29554CE4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A5FFF81B-43BA-4824-9A6D-EC21147BDC9C}
