@@ -69,16 +69,17 @@ namespace SFShaderLoader
         /// Creates the compiled program binary for the shader specified by <paramref name="shaderName"/>.
         /// </summary>
         /// <param name="shaderName">The unique name used when the shader was added</param>
-        /// <param name="shaderBinary">The compiled shader binary</param>
+        /// <param name="programBinary">The compiled shader program binary</param>
         /// <param name="binaryFormat">The platform specific shader binary format</param>
+        /// <returns><c>true</c> if the binary was created successfully</returns>
         /// <exception cref="System.ArgumentException"><paramref name="shaderName"/> is not a valid shader.</exception>
-        public void CreateProgramBinary(string shaderName, out byte[] shaderBinary, out BinaryFormat binaryFormat)
+        public bool CreateProgramBinary(string shaderName, out byte[] programBinary, out BinaryFormat binaryFormat)
         {
             var shader = GetShader(shaderName);
             if (shader == null)
                 throw new System.ArgumentException("The specified shader could not be found.", "shaderName");
 
-            shaderBinary = shader.GetProgramBinary(out binaryFormat);
+            return shader.GetProgramBinary(out programBinary, out binaryFormat);
         }
 
         private static List<System.Tuple<string, ShaderType, string>> GetShaderSources(IEnumerable<string> vertexSources, 

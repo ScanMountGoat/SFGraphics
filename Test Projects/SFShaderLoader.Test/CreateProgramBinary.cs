@@ -25,11 +25,22 @@ namespace SFShaderLoader.Test
                             new List<string>() { File.ReadAllText("Shaders/valid.frag") },
                             new List<string>());
 
-            loader.CreateProgramBinary("validShader", out byte[] shaderBinary, out BinaryFormat binaryFormat);
+            Assert.IsTrue(loader.CreateProgramBinary("validShader", out byte[] bin, out BinaryFormat format));
             var shader = new Shader();
-            shader.LoadProgramBinary(shaderBinary, binaryFormat);
+            shader.LoadProgramBinary(bin, format);
 
             Assert.IsTrue(shader.LinkStatusIsOk);
+        }
+
+        [TestMethod]
+        public void ValidNameInvalidShader()
+        {
+            loader.AddShader("invalidShader",
+                            new List<string>() { File.ReadAllText("Shaders/valid.vert") },
+                            new List<string>() { "( ͡° ͜ʖ ͡°)" },
+                            new List<string>());
+
+            Assert.IsFalse(loader.CreateProgramBinary("invalidShader", out byte[] bin, out BinaryFormat format));
         }
 
         [TestMethod]

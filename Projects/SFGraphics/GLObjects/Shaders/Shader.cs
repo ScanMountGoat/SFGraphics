@@ -242,21 +242,28 @@ namespace SFGraphics.GLObjects.Shaders
         /// This method should be called after the shaders are loaded and the program is linked.
         /// Hardware or software changes may cause compatibility issues with the program binary.
         /// </summary>
-        /// <param name="binaryFormat"></param>
-        /// <returns></returns>
-        public byte[] GetProgramBinary(out BinaryFormat binaryFormat)
+        /// <param name="programBinary">The compiled shader program binary</param>
+        /// <param name="binaryFormat">The platform specific binary format</param>
+        /// <returns><c>true</c> if the binary was successfully created</returns>
+        public bool GetProgramBinary(out byte[] programBinary, out BinaryFormat binaryFormat)
         {
+            if (!linkStatusIsOk)
+            {
+                programBinary = null;
+                binaryFormat = 0;
+                return false;
+            }
+
             // bufSize is used for the array's length instead of the length parameter.
             GL.GetProgram(Id, (GetProgramParameterName)GL_PROGRAM_BINARY_MAX_LENGTH, out int bufSize);
-            byte[] programBinary = new byte[bufSize];
+            programBinary = new byte[bufSize];
 
             GL.GetProgramBinary(Id, bufSize, out int length, out binaryFormat, programBinary);
-            return programBinary;
+            return true;
         }
 
         /// <summary>
-        /// Loads the entire program from the compiled binary and format generated 
-        /// by <see cref="GetProgramBinary(out BinaryFormat)"/>.
+        /// Loads the entire program from the compiled binary and format.
         /// The value returned by <see cref="LinkStatusIsOk"/> is updated.
         /// <para></para><para></para>
         /// Hardware or software changes may cause compatibility issues with the program binary.

@@ -77,6 +77,7 @@
     <Compile Include="Tests\ReferenceCountTests\GetObjectsWithNoReferencesTests.cs" />
     <Compile Include="Tests\ReferenceCountTests\IncrementRefTest.cs" />
     <Compile Include="Tests\ShaderTests\GetAttribLocation.cs" />
+    <Compile Include="Tests\ShaderTests\GetProgramBinary.cs" />
     <Compile Include="Tests\ShaderTests\GetShaderSources.cs" />
     <Compile Include="Tests\ShaderTests\GetUniformBlockIndex.cs" />
     <Compile Include="Tests\ShaderTests\GetUniformLocation.cs" />
