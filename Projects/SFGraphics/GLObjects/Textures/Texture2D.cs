@@ -171,6 +171,25 @@ namespace SFGraphics.GLObjects.Textures
             MipmapLoading.LoadCompressedMipMaps(TextureTarget.Texture2D, width, height, mipmaps, internalFormat);
         }
 
+
+        /// <summary>
+        /// Loads a mip level of uncompressed texture data
+        /// for each array in <paramref name="mipmaps"/>.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="width">The width of the base mip level in pixels</param>
+        /// <param name="height">The height of the base mip level in pixels</param>
+        /// <param name="mipmaps">The image data for each mip level</param>
+        /// <param name="format">The image format of <paramref name="mipmaps"/></param>
+        public void LoadImageData<T>(int width, int height, IList<T[]> mipmaps, TextureFormatUncompressed format)
+            where T : struct
+        {
+            Width = width;
+            Height = height;
+
+            MipmapLoading.LoadUncompressedMipmaps(TextureTarget.Texture2D, width, height, mipmaps, format);
+        }
+
         /// <summary>
         /// 
         /// </summary>
