@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="AddShaderFromBinary.cs" />
     <Compile Include="AddShaderFromSource.cs" />
+    <Compile Include="CreateProgramBinary.cs" />
     <Compile Include="GetShader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

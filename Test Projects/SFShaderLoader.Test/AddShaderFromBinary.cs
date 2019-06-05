@@ -36,7 +36,7 @@ namespace SFShaderLoader.Test
             shader.LoadShaders(File.ReadAllText("Shaders/valid.vert"), File.ReadAllText("Shaders/valid.frag"));
             var binary = shader.GetProgramBinary(out BinaryFormat format);
 
-            Assert.IsFalse(loader.AddShader("validShader", binary, 0));
+            Assert.IsFalse(loader.AddShader("validShader", new byte[10], format));
         }
     }
 }
