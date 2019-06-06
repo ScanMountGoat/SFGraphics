@@ -30,12 +30,7 @@ namespace SFGraphics.GLObjects.Textures.Utils
         public static void LoadCompressedMipMaps<T>(TextureTarget target, int width, int height, 
             IList<T[]> mipmaps, InternalFormat format) where T : struct
         {
-            // The number of mipmaps needs to be specified first.
-            if (!TextureFormatTools.IsCubeMapTarget(target))
-            {
-                int maxMipLevel = Math.Max(mipmaps.Count - 1, minMipLevel);
-                GL.TexParameter(target, TextureParameterName.TextureMaxLevel, maxMipLevel);
-            }
+            SetMaxMipLevel(target, mipmaps);
 
             // Load mipmaps in the inclusive range [0, max level]
             for (int mipLevel = 0; mipLevel < mipmaps.Count; mipLevel++)
@@ -58,12 +53,7 @@ namespace SFGraphics.GLObjects.Textures.Utils
         public static void LoadCompressedMipmaps(TextureTarget target, int width, int height,
             IList<BufferObject> mipmaps, InternalFormat format)
         {
-            // The number of mipmaps needs to be specified first.
-            if (!TextureFormatTools.IsCubeMapTarget(target))
-            {
-                int maxMipLevel = Math.Max(mipmaps.Count - 1, minMipLevel);
-                GL.TexParameter(target, TextureParameterName.TextureMaxLevel, maxMipLevel);
-            }
+            SetMaxMipLevel(target, mipmaps);
 
             // Load mipmaps in the inclusive range [0, max level]
             for (int mipLevel = 0; mipLevel < mipmaps.Count; mipLevel++)
@@ -86,12 +76,7 @@ namespace SFGraphics.GLObjects.Textures.Utils
         public static void LoadUncompressedMipmaps(TextureTarget target, int width, int height,
             IList<BufferObject> mipmaps, TextureFormatUncompressed format)
         {
-            // The number of mipmaps needs to be specified first.
-            if (!TextureFormatTools.IsCubeMapTarget(target))
-            {
-                int maxMipLevel = Math.Max(mipmaps.Count - 1, minMipLevel);
-                GL.TexParameter(target, TextureParameterName.TextureMaxLevel, maxMipLevel);
-            }
+            SetMaxMipLevel(target, mipmaps);
 
             // Load mipmaps in the inclusive range [0, max level]
             for (int mipLevel = 0; mipLevel < mipmaps.Count; mipLevel++)
@@ -114,12 +99,7 @@ namespace SFGraphics.GLObjects.Textures.Utils
         public static void LoadUncompressedMipmaps<T>(TextureTarget target, int width, int height,
             IList<T[]> mipmaps, TextureFormatUncompressed format) where T : struct
         {
-            // The number of mipmaps needs to be specified first.
-            if (!TextureFormatTools.IsCubeMapTarget(target))
-            {
-                int maxMipLevel = Math.Max(mipmaps.Count - 1, minMipLevel);
-                GL.TexParameter(target, TextureParameterName.TextureMaxLevel, maxMipLevel);
-            }
+            SetMaxMipLevel(target, mipmaps);
 
             // Load mipmaps in the inclusive range [0, max level]
             for (int mipLevel = 0; mipLevel < mipmaps.Count; mipLevel++)
@@ -130,8 +110,6 @@ namespace SFGraphics.GLObjects.Textures.Utils
                 LoadUncompressedMipLevel(target, mipWidth, mipHeight, mipmaps[mipLevel], format, mipLevel);
             }
         }
-
-
 
         /// <summary>
         /// Loads the base mip level from <paramref name="image"/> and generates mipmaps.
@@ -292,6 +270,13 @@ namespace SFGraphics.GLObjects.Textures.Utils
             LoadCompressedMipMaps(TextureTarget.TextureCubeMapNegativeZ, length, length, mipsNegZ, format);
         }
 
+        private static void SetMaxMipLevel<T>(TextureTarget target, IList<T> mipmaps)
+        {
+            // The number of mipmaps needs to be specified first.
+            int maxMipLevel = Math.Max(mipmaps.Count - 1, minMipLevel);
+            GL.TexParameter(target, TextureParameterName.TextureMaxLevel, maxMipLevel);
+        }
+
         private static int CalculateMipDimension(int baseLevelDimension, int mipLevel)
         {
             return baseLevelDimension / (int)Math.Pow(2, mipLevel);
@@ -340,7 +325,6 @@ namespace SFGraphics.GLObjects.Textures.Utils
             imageBuffer.Bind(BufferTarget.PixelUnpackBuffer);
 
             int imageSize = TextureFormatTools.CalculateImageSize(width, height, format);
-
             GL.CompressedTexImage2D(target, mipLevel, format, width, height, border, imageSize, bufferOffset);
 
             // Unbind to avoid affecting other texture operations.
