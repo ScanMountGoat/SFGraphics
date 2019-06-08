@@ -8,31 +8,43 @@ namespace SFGenericModel.RenderState
     public static class GLRenderSettings
     {
         /// <summary>
-        /// Updates the current OpenGL rendering state based on render settings
+        /// Updates the current OpenGL rendering state based on <paramref name="settings"/>.
         /// </summary>
-        /// <param name="renderSettings">The settings used to perform the update</param>
-        public static void SetRenderSettings(RenderSettings renderSettings)
+        /// <param name="settings">The settings used to perform the update</param>
+        public static void SetRenderSettings(RenderSettings settings)
         {
-            SetPolygonModeSettings(renderSettings.polygonModeSettings);
-            SetFaceCulling(renderSettings.faceCullingSettings);
-            SetAlphaBlending(renderSettings.alphaBlendSettings);
-            SetAlphaTesting(renderSettings.alphaTestSettings);
-            //SetDepthTesting(renderSettings.depthTestSettings);
+            SetPolygonModeSettings(settings.polygonModeSettings);
+            SetFaceCulling(settings.faceCullingSettings);
+            SetAlphaBlending(settings.alphaBlendSettings);
+            SetAlphaTesting(settings.alphaTestSettings);
+            SetDepthTesting(settings.depthTestSettings);
         }
 
-        private static void SetPolygonModeSettings(PolygonModeSettings settings)
+        /// <summary>
+        /// Updates the current OpenGL rendering state based on <paramref name="settings"/>.
+        /// </summary>
+        /// <param name="settings">The settings used to perform the update</param>
+        public static void SetPolygonModeSettings(PolygonModeSettings settings)
         {
             GL.PolygonMode(settings.materialFace, settings.polygonMode);
         }
 
-        private static void SetFaceCulling(FaceCullingSettings settings)
+        /// <summary>
+        /// Updates the current OpenGL rendering state based on <paramref name="settings"/>.
+        /// </summary>
+        /// <param name="settings">The settings used to perform the update</param>
+        public static void SetFaceCulling(FaceCullingSettings settings)
         {
             SetGLEnableCap(EnableCap.CullFace, settings.enabled);
 
             GL.CullFace(settings.cullFaceMode);
         }
 
-        private static void SetDepthTesting(DepthTestSettings settings)
+        /// <summary>
+        /// Updates the current OpenGL rendering state based on <paramref name="settings"/>.
+        /// </summary>
+        /// <param name="settings">The settings used to perform the update</param>
+        public static void SetDepthTesting(DepthTestSettings settings)
         {
             SetGLEnableCap(EnableCap.DepthTest, settings.enabled);
 
@@ -40,7 +52,11 @@ namespace SFGenericModel.RenderState
             GL.DepthMask(settings.depthMask);
         }
 
-        private static void SetAlphaBlending(AlphaBlendSettings settings)
+        /// <summary>
+        /// Updates the current OpenGL rendering state based on <paramref name="settings"/>.
+        /// </summary>
+        /// <param name="settings">The settings used to perform the update</param>
+        public static void SetAlphaBlending(AlphaBlendSettings settings)
         {
             SetGLEnableCap(EnableCap.Blend, settings.enabled);
 
@@ -48,7 +64,11 @@ namespace SFGenericModel.RenderState
             GL.BlendEquationSeparate(settings.blendingEquationRgb, settings.blendingEquationAlpha);
         }
 
-        private static void SetAlphaTesting(AlphaTestSettings settings)
+        /// <summary>
+        /// Updates the current OpenGL rendering state based on <paramref name="settings"/>.
+        /// </summary>
+        /// <param name="settings">The settings used to perform the update</param>
+        public static void SetAlphaTesting(AlphaTestSettings settings)
         {
             SetGLEnableCap(EnableCap.AlphaTest, settings.enabled);
             GL.AlphaFunc(settings.alphaFunction, settings.referenceAlpha);
