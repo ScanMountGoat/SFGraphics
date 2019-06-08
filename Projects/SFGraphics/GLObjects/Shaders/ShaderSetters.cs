@@ -155,10 +155,9 @@ namespace SFGraphics.GLObjects.Shaders
                 return;
             }
 
-            string nameNoBracket = GetNameNoArrayBrackets(name);
             for (int i = 0; i < value.Length; i++)
             {
-                GL.Uniform2(GetUniformLocation($"{nameNoBracket}[{i}]"), value[i]); 
+                GL.Uniform2(GetUniformLocation(name) + i, value[i]); 
             }
         }
 
@@ -202,10 +201,9 @@ namespace SFGraphics.GLObjects.Shaders
                 return;
             }
 
-            string nameNoBracket = GetNameNoArrayBrackets(name);
             for (int i = 0; i < value.Length; i++)
             {
-                GL.Uniform3(GetUniformLocation($"{nameNoBracket}[{i}]"), value[i]);
+                GL.Uniform3(GetUniformLocation(name) + i, value[i]);
             }
         }
 
@@ -263,10 +261,9 @@ namespace SFGraphics.GLObjects.Shaders
                 return;
             }
 
-            string nameNoBracket = GetNameNoArrayBrackets(name);
             for (int i = 0; i < value.Length; i++)
             {
-                GL.Uniform4(GetUniformLocation($"{nameNoBracket}[{i}]"), value[i]);
+                GL.Uniform4(GetUniformLocation(name) + i, value[i]);
             }
         }
 
@@ -315,10 +312,9 @@ namespace SFGraphics.GLObjects.Shaders
                 return;
             }
 
-            string nameNoBracket = GetNameNoArrayBrackets(name);
             for (int i = 0; i < value.Length; i++)
             {
-                GL.UniformMatrix4(GetUniformLocation($"{nameNoBracket}[{i}]"), false, ref value[i]);
+                GL.UniformMatrix4(GetUniformLocation(name) + i, false, ref value[i]);
             }
         }
 

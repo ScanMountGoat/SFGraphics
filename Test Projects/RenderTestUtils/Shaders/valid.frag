@@ -10,16 +10,16 @@ uniform int boolInt1;
 uniform int intArray1[3];
 
 uniform vec2 vector2a;
-uniform vec2[8] vector2Arr;
+uniform vec2[2] vector2Arr;
 
 uniform vec3 vector3a;
-uniform vec3[8] vector3Arr;
+uniform vec3[2] vector3Arr;
 
 uniform vec4 vector4a;
-uniform vec4[8] vector4Arr;
+uniform vec4[2] vector4Arr;
 
 uniform mat4 matrix4a;
-uniform mat4[8] matrix4Arr;
+uniform mat4[2] matrix4Arr;
 
 uniform sampler2D tex2D;
 uniform samplerCube texCube;
@@ -45,7 +45,7 @@ void main()
 
 	// Use a for loop to access multiple elements.
 	// Even array[0] can cause issues.
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 2; i++)
 	{
 		fragColor *= floatArray1[i];
 		fragColor *= intArray1[i];
