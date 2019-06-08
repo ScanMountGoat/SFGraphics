@@ -92,7 +92,7 @@ namespace SFGraphics.Test.ShaderTests
 
         public uint GetUint(string name)
         {
-            // HACK: The unsigned int method overload doesn't work for some reason.
+            // The unsigned int method overload doesn't work for some reason.
             GL.GetUniform(shader.Id, shader.GetUniformLocation(name), out int value);
             return System.BitConverter.ToUInt32(System.BitConverter.GetBytes(value), 0);
         }

@@ -14,7 +14,6 @@ namespace SFShaderLoader.Test
         {
             RenderTestUtils.OpenTKWindowlessContext.BindDummyContext();
 
-            // TODO: Use actual shader files.
             loader.AddShader("validShader",
                 new List<string>() { File.ReadAllText("Shaders/valid.vert") },
                 new List<string>() { File.ReadAllText("Shaders/valid.frag") },

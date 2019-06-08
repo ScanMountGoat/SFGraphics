@@ -163,14 +163,8 @@ namespace SFGenericModel
             return vertexAttributes;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="shader"></param>
-        public void ConfigureVertexAttributes(Shader shader)
+        private void ConfigureVertexAttributes(Shader shader)
         {
-            // TODO: Don't make this public.
-
             // The binding order here is critical.
             vertexArrayObject.Bind();
 

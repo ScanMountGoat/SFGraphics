@@ -189,8 +189,6 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
         public static void AppendMatrixUniforms(StringBuilder shaderSource, string matrixName, string sphereMatrixName)
         {
             shaderSource.AppendLine($"uniform mat4 {matrixName};");
-            // TODO: ???
-            // Unused uniforms will be optimized out by the compiler.
             shaderSource.AppendLine($"uniform mat4 {sphereMatrixName};");
         }
 

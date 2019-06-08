@@ -13,6 +13,7 @@ namespace SFGenericModel.Test.GenericMeshTests
         private class TestMesh : GenericMesh<float>
         {
             public List<VertexAttribute> vertexAttributes = new List<VertexAttribute>();
+
             public TestMesh() : base(new List<float>(), PrimitiveType.Lines)
             {
 
@@ -51,7 +52,7 @@ namespace SFGenericModel.Test.GenericMeshTests
         public void ValidAttributeLocation()
         {
             mesh.vertexAttributes.Add(new VertexFloatAttribute("position", ValueCount.Three, VertexAttribPointerType.Float, false));
-            mesh.ConfigureVertexAttributes(shader);
+            mesh.Draw(shader);
             Assert.AreEqual(0, eventArgs.Count);
         }
 
@@ -59,7 +60,7 @@ namespace SFGenericModel.Test.GenericMeshTests
         public void ValidAttributeIntLocation()
         {
             mesh.vertexAttributes.Add(new VertexIntAttribute("intAttrib", ValueCount.One, VertexAttribIntegerType.Int));
-            mesh.ConfigureVertexAttributes(shader);
+            mesh.Draw(shader);
             Assert.AreEqual(0, eventArgs.Count);
         }
 
@@ -67,7 +68,7 @@ namespace SFGenericModel.Test.GenericMeshTests
         public void InvalidAttributeIntLocation()
         {
             mesh.vertexAttributes.Add(new VertexIntAttribute("memes", ValueCount.One, VertexAttribIntegerType.Int));
-            mesh.ConfigureVertexAttributes(shader);
+            mesh.Draw(shader);
             Assert.AreEqual(1, eventArgs.Count);
         }
 
@@ -76,7 +77,7 @@ namespace SFGenericModel.Test.GenericMeshTests
         {
             mesh.vertexAttributes.Add(new VertexFloatAttribute("position", ValueCount.Three, VertexAttribPointerType.Float, false));
             mesh.vertexAttributes.Add(new VertexFloatAttribute("memes", ValueCount.Three, VertexAttribPointerType.Float, false));
-            mesh.ConfigureVertexAttributes(shader);
+            mesh.Draw(shader);
             Assert.AreEqual(1, eventArgs.Count);
         }
     }
