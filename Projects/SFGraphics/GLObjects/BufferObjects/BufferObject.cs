@@ -137,6 +137,9 @@ namespace SFGraphics.GLObjects.BufferObjects
         {
             int itemSizeInBytes = System.Runtime.InteropServices.Marshal.SizeOf(typeof(T));
 
+            if ((SizeInBytes % itemSizeInBytes) != 0)
+                throw new ArgumentOutOfRangeException("T", BufferExceptionMessages.bufferNotDivisibleByRequestedType);
+
             // Throw exception for attempts to read data outside the current range.
             if (offsetInBytes < 0 || itemCount < 0 || itemSizeInBytes < 0)
                 throw new ArgumentOutOfRangeException(BufferExceptionMessages.offsetMustBeNonNegative);

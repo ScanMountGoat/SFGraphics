@@ -45,6 +45,9 @@ namespace SFGraphics.Utils.Test.TriangleListUtilsTests
             var e = Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
                 TriangleListUtils.CalculateTangentsBitangents(new List<Vector3>(), new List<Vector3>() { Vector3.Zero }, new List<Vector2>(),
                     new List<int>(), out Vector3[] tangents, out Vector3[] bitangents));
+
+            Assert.IsTrue(e.Message.Contains("Vector source lengths do not match."));
+            Assert.AreEqual("normals", e.ParamName);
         }
 
         [TestMethod]
@@ -53,6 +56,9 @@ namespace SFGraphics.Utils.Test.TriangleListUtilsTests
             var e = Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
                 TriangleListUtils.CalculateTangentsBitangents(new List<Vector3>(), new List<Vector3>(), new List<Vector2>() { Vector2.Zero },
                     new List<int>(), out Vector3[] tangents, out Vector3[] bitangents));
+
+            Assert.IsTrue(e.Message.Contains("Vector source lengths do not match."));
+            Assert.AreEqual("uvs", e.ParamName);
         }
     }
 }

@@ -19,6 +19,7 @@ namespace SFGraphics.GLObjects.Textures
         /// <param name="width">The width of the texture in pixels</param>
         /// <param name="height">The height of the texture in pixels</param>
         /// <param name="pixelInternalFormat">The internal format of the image data. This should be a valid depth format.</param>
+        /// <exception cref="ArgumentException">The format is not a valid depth format.</exception>
         public DepthTexture(int width, int height, PixelInternalFormat pixelInternalFormat) : base(TextureTarget.Texture2D)
         {
             // Only certain formats are valid for a depth attachment.

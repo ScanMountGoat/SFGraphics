@@ -69,6 +69,9 @@ namespace SFGraphics.Test.FramebufferTests
 
             var e = Assert.ThrowsException<System.ArgumentOutOfRangeException>(() =>
                 framebuffer.AddAttachment(FramebufferAttachment.ColorAttachment1, texture2));
+
+            Assert.IsTrue(e.Message.Contains("The attachment dimensions do not match the framebuffer's dimensions."));
+            Assert.AreEqual("width/height", e.ParamName);
         }
 
         [TestMethod]

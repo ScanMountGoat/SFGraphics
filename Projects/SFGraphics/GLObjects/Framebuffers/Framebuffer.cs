@@ -68,7 +68,7 @@ namespace SFGraphics.GLObjects.Framebuffers
             : this(target)
         {
             if (colorAttachmentsCount < 0)
-                throw new ArgumentOutOfRangeException("Color attachment count must be non negative.");
+                throw new ArgumentOutOfRangeException("colorAttachmentsCount", "Color attachment count must be non negative.");
 
             if (TextureFormatTools.IsCompressed(pixelInternalFormat))
                 throw new ArgumentException(TextureExceptionMessages.expectedUncompressed);
@@ -111,7 +111,7 @@ namespace SFGraphics.GLObjects.Framebuffers
             }
 
             if (attachment.Width != Width || attachment.Height != Height)
-                throw new ArgumentOutOfRangeException("The attachment dimensions do not match the framebuffer's dimensions.");
+                throw new ArgumentOutOfRangeException("width/height", "The attachment dimensions do not match the framebuffer's dimensions.");
 
             attachment.Attach(attachmentPoint, this);
             Attachments.Add(attachment);

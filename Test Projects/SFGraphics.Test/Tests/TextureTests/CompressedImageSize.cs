@@ -43,6 +43,8 @@ namespace SFGraphics.Test.TextureTests
         {
             var e = Assert.ThrowsException<NotSupportedException>(() =>
                 CompressedTexImage2DSucceeded(width, height, InternalFormat.CompressedRed));
+
+            Assert.AreEqual("Generic compressed formats are not supported.", e.Message);
         }
 
         [TestMethod]
@@ -56,6 +58,8 @@ namespace SFGraphics.Test.TextureTests
         {
             var e = Assert.ThrowsException<NotSupportedException>(() =>
                 CompressedTexImage2DSucceeded(width, height, InternalFormat.CompressedRg));
+
+            Assert.AreEqual("Generic compressed formats are not supported.", e.Message);
         }
 
         [TestMethod]
@@ -69,6 +73,8 @@ namespace SFGraphics.Test.TextureTests
         {
             var e = Assert.ThrowsException<NotSupportedException>(() =>
                 CompressedTexImage2DSucceeded(width, height, InternalFormat.CompressedRgb));
+
+            Assert.AreEqual("Generic compressed formats are not supported.", e.Message);
         }
 
         [TestMethod]
@@ -88,6 +94,8 @@ namespace SFGraphics.Test.TextureTests
         {
             var e = Assert.ThrowsException<NotSupportedException>(() =>
                 CompressedTexImage2DSucceeded(width, height, InternalFormat.CompressedRgba));
+
+            Assert.AreEqual("Generic compressed formats are not supported.", e.Message);
         }
 
         [TestMethod]
@@ -173,6 +181,8 @@ namespace SFGraphics.Test.TextureTests
         {
             var e = Assert.ThrowsException<NotSupportedException>(() =>
                 CompressedTexImage2DSucceeded(width, height, InternalFormat.CompressedSrgb));
+
+            Assert.AreEqual("Generic compressed formats are not supported.", e.Message);
         }
 
         [TestMethod]
@@ -198,6 +208,8 @@ namespace SFGraphics.Test.TextureTests
         {
             var e = Assert.ThrowsException<NotSupportedException>(() =>
                 CompressedTexImage2DSucceeded(width, height, InternalFormat.CompressedSrgbAlpha));
+
+            Assert.AreEqual("Generic compressed formats are not supported.", e.Message);
         }
 
         [TestMethod]

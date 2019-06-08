@@ -25,6 +25,9 @@ namespace SFGraphics.Test.BufferObjectTests
         {
             var e = Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
                 buffer.SetSubData(dataToWrite, -1));
+
+            Assert.IsTrue(e.Message.Contains("The offset must be non negative."));
+            Assert.AreEqual("offsetInBytes", e.ParamName);
         }
 
         [TestMethod]
@@ -34,6 +37,9 @@ namespace SFGraphics.Test.BufferObjectTests
             int offset = sizeof(float) * (originalData.Length + 1);
             var e = Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
                 buffer.SetSubData(dataToWrite, offset));
+
+            Assert.IsTrue(e.Message.Contains("The data read from or written to a buffer " +
+                "must not exceed the buffer's capacity."));
         }
     }
 }

@@ -23,6 +23,8 @@ namespace SFGraphics.Test.BufferObjectTests
         {
             var e = Assert.ThrowsException<ArgumentOutOfRangeException>(() => 
                 buffer.GetSubData<float>(-1, 1));
+
+            Assert.IsTrue(e.Message.Contains("The offset must be non negative."));
         }
 
         [TestMethod]
@@ -30,6 +32,8 @@ namespace SFGraphics.Test.BufferObjectTests
         {
             var e = Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
                 buffer.GetSubData<float>(0, -1));
+
+            Assert.IsTrue(e.Message.Contains("The offset must be non negative."));
         }
 
         [TestMethod]
@@ -38,6 +42,17 @@ namespace SFGraphics.Test.BufferObjectTests
             // Try to read one element beyond the buffer's capacity.
             var e = Assert.ThrowsException<ArgumentOutOfRangeException>(() => 
                 buffer.GetSubData<float>(0, originalData.Length + 1));
+
+            Assert.IsTrue(e.Message.Contains("The data read from or written to a buffer " +
+                "must not exceed the buffer's capacity."));
+        }
+
+        [TestMethod]
+        public void DataSizeNotDivisibleByType()
+        {
+            var e = Assert.ThrowsException<ArgumentOutOfRangeException>(() => buffer.GetSubData<OpenTK.Vector4>(0, 1));
+            Assert.AreEqual("T", e.ParamName);
+            Assert.AreEqual($"The buffer's size is not divisible by the requested type's size.{Environment.NewLine}Parameter name: T", e.Message);
         }
     }
 }

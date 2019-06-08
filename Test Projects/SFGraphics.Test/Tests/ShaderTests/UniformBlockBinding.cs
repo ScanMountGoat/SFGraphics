@@ -30,6 +30,9 @@ namespace SFGraphics.Test.ShaderTests
             // Shouldn't throw graphics exceptions.
             var e = Assert.ThrowsException<System.ArgumentOutOfRangeException>(() =>
                 shader.UniformBlockBinding("UniformBlock", -1));
+
+            Assert.IsTrue(e.Message.Contains("Binding points must be non negative."));
+            Assert.AreEqual("bindingPoint", e.ParamName);
         }
     }
 }

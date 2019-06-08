@@ -98,7 +98,7 @@ namespace SFGraphics.GLObjects.Textures
 
             bool equalMipCounts = CheckCountEquality(mipsPosX, mipsNegX, mipsPosY, mipsNegY, mipsPosZ, mipsNegZ);
             if (!equalMipCounts)
-                throw new ArgumentOutOfRangeException(TextureExceptionMessages.cubeFaceMipCountDifferent);
+                throw new ArgumentOutOfRangeException("mips", TextureExceptionMessages.cubeFaceMipCountDifferent);
 
             // Necessary to access mipmaps past the base level.
             MinFilter = TextureMinFilter.LinearMipmapLinear;

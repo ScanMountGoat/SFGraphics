@@ -46,7 +46,9 @@ namespace SFGenericModel.Test.ShaderGeneratorTests
         public void NoTexturesNoAttributes()
         {
             var e = Assert.ThrowsException<System.ArgumentOutOfRangeException>(() => CreateShader(new List<TextureRenderInfo>(), new List<VertexAttribute>()));
-            Assert.IsTrue(e.Message.StartsWith("attributes must be non empty to generate a valid shader."));
+
+            Assert.IsTrue(e.Message.Contains("attributes must be non empty to generate a valid shader."));
+            Assert.AreEqual("attributes", e.ParamName);
         }
 
         [TestMethod]
@@ -60,7 +62,9 @@ namespace SFGenericModel.Test.ShaderGeneratorTests
             };
 
             var e = Assert.ThrowsException<System.ArgumentException>(() => CreateShader(new List<TextureRenderInfo>(), attributes));
-            Assert.IsTrue(e.Message.StartsWith("No matching texture coordinates attribute was found."));
+
+            Assert.IsTrue(e.Message.Contains("No matching texture coordinates attribute was found."));
+            Assert.AreEqual("attributes", e.ParamName);
         }
 
         [TestMethod]
@@ -74,7 +78,9 @@ namespace SFGenericModel.Test.ShaderGeneratorTests
             };
 
             var e = Assert.ThrowsException<System.ArgumentException>(() => CreateShader(new List<TextureRenderInfo>(), attributes));
-            Assert.IsTrue(e.Message.StartsWith("No matching vertex normal attribute was found."));
+
+            Assert.IsTrue(e.Message.Contains("No matching vertex normal attribute was found."));
+            Assert.AreEqual("attributes", e.ParamName);
         }
 
         [TestMethod]

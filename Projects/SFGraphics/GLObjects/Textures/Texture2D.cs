@@ -156,6 +156,7 @@ namespace SFGraphics.GLObjects.Textures
         /// <param name="mipmaps">The image data for each mip level</param>
         /// <param name="internalFormat">The image format of <paramref name="mipmaps"/></param>
         /// <exception cref="ArgumentException"><paramref name="internalFormat"/> is not a compressed format.</exception>
+        /// <exception cref="NotSupportedException">The format is a generic compressed format.</exception>
         public void LoadImageData<T>(int width, int height, IList<T[]> mipmaps, InternalFormat internalFormat)
             where T : struct
         {

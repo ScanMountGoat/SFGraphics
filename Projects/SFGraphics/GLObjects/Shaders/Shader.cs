@@ -350,7 +350,7 @@ namespace SFGraphics.GLObjects.Shaders
         public void UniformBlockBinding(string name, int bindingPoint)
         {
             if (bindingPoint < 0)
-                throw new ArgumentOutOfRangeException("Binding points must be non negative.");
+                throw new ArgumentOutOfRangeException("bindingPoint", "Binding points must be non negative.");
 
             // Don't use invalid indices to prevent errors. 
             int index = GetUniformBlockIndex(name);

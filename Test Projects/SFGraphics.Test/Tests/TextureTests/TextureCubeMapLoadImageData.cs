@@ -25,6 +25,9 @@ namespace SFGraphics.Test.TextureTests
             var e = Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
                 textureCubeMap.LoadImageData(128, InternalFormat.CompressedRgbaS3tcDxt1Ext,
                 mipmaps, mipmaps, mipmaps, mipmapsBig, mipmaps, mipmaps));
+
+            Assert.IsTrue(e.Message.Contains("Mipmap count is not equal for all faces."));
+            Assert.AreEqual("mips", e.ParamName);
         }
 
         [TestMethod]
@@ -35,6 +38,8 @@ namespace SFGraphics.Test.TextureTests
             var e = Assert.ThrowsException<ArgumentException>(() =>
                 textureCubeMap.LoadImageData(128, InternalFormat.Rgba,
                 mipmaps, mipmaps, mipmaps, mipmaps, mipmaps, mipmaps));
+
+            Assert.AreEqual("The InternalFormat is not a compressed image format.", e.Message);
         }
 
         [TestMethod]

@@ -35,7 +35,7 @@ namespace SFGraphics.Test.BufferObjectTests
         }
 
         [TestMethod]
-        public void GetVector4FromFloats()
+        public void DataSizeNotDivisibleByType()
         {
             var e = Assert.ThrowsException<System.ArgumentOutOfRangeException>(() => buffer.GetData<Vector4>());
             Assert.AreEqual("T", e.ParamName);

@@ -20,6 +20,9 @@ namespace SFGraphics.Test.FramebufferTests
         {
             var e = Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
                 new Framebuffer(FramebufferTarget.Framebuffer, 1, 1, PixelInternalFormat.Rgba, -1));
+
+            Assert.IsTrue(e.Message.Contains("Color attachment count must be non negative."));
+            Assert.AreEqual("colorAttachmentsCount", e.ParamName);
         }
 
         [TestMethod]
@@ -36,6 +39,8 @@ namespace SFGraphics.Test.FramebufferTests
         {
             var e = Assert.ThrowsException<ArgumentException>(() =>
                 new Framebuffer(FramebufferTarget.Framebuffer, 1, 1, PixelInternalFormat.CompressedRgbaS3tcDxt1Ext));
+
+            Assert.AreEqual("The PixelInternalFormat is not an uncompressed image format.", e.Message);
         }
     }
 }

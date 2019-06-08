@@ -59,6 +59,8 @@ namespace SFGraphics.Test.TextureTests
         {
             var e = Assert.ThrowsException<ArgumentException>(() =>
                 texture.LoadImageData(128, 64, mipmaps, InternalFormat.Rgb));
+
+            Assert.AreEqual("The InternalFormat is not a compressed image format.", e.Message);
         }
 
         [TestMethod]
@@ -66,6 +68,8 @@ namespace SFGraphics.Test.TextureTests
         {
             var e = Assert.ThrowsException<NotSupportedException>(() =>
                 texture.LoadImageData(128, 64, mipmaps, InternalFormat.CompressedRed));
+
+            Assert.AreEqual("Generic compressed formats are not supported.", e.Message);
         }
 
         [TestMethod]
@@ -74,6 +78,8 @@ namespace SFGraphics.Test.TextureTests
             var e = Assert.ThrowsException<ArgumentException>(() =>
                 texture.LoadImageData(128, 64, new byte[0], 
                     new TextureFormatUncompressed(PixelInternalFormat.CompressedRgbaS3tcDxt1Ext, PixelFormat.Rgba, PixelType.Float)));
+
+            Assert.AreEqual("The PixelInternalFormat is not an uncompressed image format.", e.Message);
         }
     }
 }

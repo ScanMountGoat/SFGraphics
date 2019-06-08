@@ -19,6 +19,9 @@ namespace SFGraphics.Test.TextureTests
         {
             var e = Assert.ThrowsException<System.ArgumentOutOfRangeException>(() =>
                 new Texture2DMultisample(64, 16, PixelInternalFormat.Rgb, 0));
+
+            Assert.IsTrue(e.Message.Contains("Sample count must be greater than 0"));
+            Assert.AreEqual("samples", e.ParamName);
         }
 
         [TestMethod]
@@ -26,6 +29,9 @@ namespace SFGraphics.Test.TextureTests
         {
             var e = Assert.ThrowsException<System.ArgumentOutOfRangeException>(() =>
                 new Texture2DMultisample(64, 16, PixelInternalFormat.Rgb, -1));
+
+            Assert.IsTrue(e.Message.Contains("Sample count must be greater than 0"));
+            Assert.AreEqual("samples", e.ParamName);
         }
     }
 }
