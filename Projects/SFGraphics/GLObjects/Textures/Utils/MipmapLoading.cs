@@ -234,6 +234,9 @@ namespace SFGraphics.GLObjects.Textures.Utils
             IList<T[]> mipsPosX, IList<T[]> mipsNegX, IList<T[]> mipsPosY,
             IList<T[]> mipsNegY, IList<T[]> mipsPosZ, IList<T[]> mipsNegZ) where T : struct
         {
+            // Assume all the mipmap counts are the same.
+            SetMaxMipLevel(TextureTarget.TextureCubeMap, mipsPosX);
+
             LoadUncompressedMipmaps(TextureTarget.TextureCubeMapPositiveX, length, length, mipsPosX, format);
             LoadUncompressedMipmaps(TextureTarget.TextureCubeMapNegativeX, length, length, mipsNegX, format);
 
@@ -260,6 +263,9 @@ namespace SFGraphics.GLObjects.Textures.Utils
             IList<T[]> mipsPosX, IList<T[]> mipsNegX, IList<T[]> mipsPosY,
             IList<T[]> mipsNegY, IList<T[]> mipsPosZ, IList<T[]> mipsNegZ) where T : struct
         {
+            // Assume all the mipmap counts are the same.
+            SetMaxMipLevel(TextureTarget.TextureCubeMap, mipsPosX);
+
             LoadCompressedMipMaps(TextureTarget.TextureCubeMapPositiveX, length, length, mipsPosX, format);
             LoadCompressedMipMaps(TextureTarget.TextureCubeMapNegativeX, length, length, mipsNegX, format);
 
@@ -272,9 +278,12 @@ namespace SFGraphics.GLObjects.Textures.Utils
 
         private static void SetMaxMipLevel<T>(TextureTarget target, IList<T> mipmaps)
         {
-            // The number of mipmaps needs to be specified first.
-            int maxMipLevel = Math.Max(mipmaps.Count - 1, minMipLevel);
-            GL.TexParameter(target, TextureParameterName.TextureMaxLevel, maxMipLevel);
+            // The mip count can't be set for individual cubemap face targets.
+            if (!TextureFormatTools.IsCubeMapTarget(target))
+            {
+                int maxMipLevel = Math.Max(mipmaps.Count - 1, minMipLevel);
+                GL.TexParameter(target, TextureParameterName.TextureMaxLevel, maxMipLevel);
+            }
         }
 
         private static int CalculateMipDimension(int baseLevelDimension, int mipLevel)

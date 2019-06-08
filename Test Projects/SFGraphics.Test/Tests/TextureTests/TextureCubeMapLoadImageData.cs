@@ -54,7 +54,6 @@ namespace SFGraphics.Test.TextureTests
             Assert.AreEqual(128, texture.Height);
         }
 
-
         [TestMethod]
         public void UncompressedMipmaps()
         {
