@@ -301,7 +301,7 @@ namespace SFGraphics.GLObjects.Shaders
         }
 
         /// <summary>
-        /// Gets the uniform's location from locations stored after linking.
+        /// Gets the uniform's location or the location of the first element for arrays.
         /// </summary>
         /// <param name="name">The name of the uniform variable</param>
         /// <returns>The location of <paramref name="name"/></returns>
