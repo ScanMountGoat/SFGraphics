@@ -46,43 +46,42 @@ namespace SFGenericModel.ShaderGenerators
             if (attributes.Count == 0)
                 throw new System.ArgumentOutOfRangeException("attributes", "attributes must be non empty to generate a valid shader.");
 
-            // TODO: Don't assume first attribute is position.
-            GetSpecialAttributeNames(attributes, out string uvName, out string normalName);
+            GetSpecialAttributes(attributes, out VertexAttribute texcoords, out VertexAttribute normals);
 
-            if (uvName == "")
+            if (texcoords == null)
                 throw new System.ArgumentException("No matching texture coordinates attribute was found.", "attributes");
 
-            if (normalName == "")
+            if (normals == null)
                 throw new System.ArgumentException("No matching vertex normal attribute was found.", "attributes");
 
-            vertexSource = CreateVertexSource(attributes, normalName);
-            fragmentSource = CreateFragmentSource(textures, attributes, uvName, normalName);
+            vertexSource = CreateVertexSource(attributes, normals);
+            fragmentSource = CreateFragmentSource(textures, attributes, texcoords, normals);
         }
 
-        private void GetSpecialAttributeNames(IEnumerable<VertexAttribute> attributes, out string uvName, out string normalName)
+        private void GetSpecialAttributes(IEnumerable<VertexAttribute> attributes, out VertexAttribute texcoords, out VertexAttribute normals)
         {
-            uvName = "";
-            normalName = "";
+            texcoords = null;
+            normals = null;
 
             // TODO: Account for multiple attributes with the same usage.
             foreach (var attribute in attributes)
             {
                 if (attribute.AttributeUsage == AttributeUsage.TexCoord0)
-                    uvName = attribute.Name;
-                if (attribute.AttributeUsage == AttributeUsage.Normal)
-                    normalName = attribute.Name;
+                    texcoords = attribute;
+                else if (attribute.AttributeUsage == AttributeUsage.Normal)
+                    normals = attribute;
             }
         }
 
-        private string CreateVertexSource(IEnumerable<VertexAttribute> attributes, string normalName)
+        private string CreateVertexSource(IEnumerable<VertexAttribute> attributes, VertexAttribute normals)
         {
             StringBuilder shaderSource = new StringBuilder();
-            AppendVertexShader(attributes, normalName, shaderSource);
+            AppendVertexShader(attributes, normals, shaderSource);
 
             return shaderSource.ToString();
         }
 
-        private void AppendVertexShader(IEnumerable<VertexAttribute> attributes, string normalName, StringBuilder shaderSource)
+        private void AppendVertexShader(IEnumerable<VertexAttribute> attributes, VertexAttribute normals, StringBuilder shaderSource)
         {
             GlslUtils.AppendShadingLanguageVersion(shaderSource);
 
@@ -92,7 +91,7 @@ namespace SFGenericModel.ShaderGenerators
 
             GlslUtils.AppendMatrixUniforms(shaderSource, MvpMatrixName, SphereMatrixName);
 
-            AppendVertexMainFunction(attributes, normalName, shaderSource);
+            AppendVertexMainFunction(attributes, normals, shaderSource);
         }
 
         private void AppendViewNormalOutput(StringBuilder shaderSource)
@@ -105,7 +104,7 @@ namespace SFGenericModel.ShaderGenerators
             shaderSource.AppendLine($"in vec3 {GlslUtils.vertexOutputPrefix}{viewNormalName};");
         }
 
-        private void AppendVertexMainFunction(IEnumerable<VertexAttribute> attributes, string normalName, StringBuilder shaderSource)
+        private void AppendVertexMainFunction(IEnumerable<VertexAttribute> attributes, VertexAttribute normals, StringBuilder shaderSource)
         {
             GlslUtils.AppendBeginMain(shaderSource);
 
@@ -113,35 +112,32 @@ namespace SFGenericModel.ShaderGenerators
 
             GlslUtils.AppendPositionAssignment(shaderSource, attributes, MvpMatrixName);
 
-            AppendViewNormalAssignment(normalName, shaderSource);
+            AppendViewNormalAssignment(normals, shaderSource);
 
             GlslUtils.AppendEndMain(shaderSource);
         }
 
-        private void AppendViewNormalAssignment(string normalAttributeName, StringBuilder shaderSource)
+        private void AppendViewNormalAssignment(VertexAttribute normals, StringBuilder shaderSource)
         {
-            // Transforms the vertex normals by the transposed inverse of the modelview matrix.
-            // The result is remapped from [-1, 1] to [0, 1].
+            // Transforms the vertex normals to view space.
             // The effect is similar to a "matcap" material in 3d modeling programs.
-            // TODO: Verify that there are enough vector components.
-            string normal = $"{normalAttributeName}.xyz";
+            string normalVector = GlslVectorUtils.ConstructVector(ValueCount.Three, normals);
             string viewNormal = $"{GlslUtils.vertexOutputPrefix}{viewNormalName}.xyz";
-            shaderSource.AppendLine($"\t{viewNormal} = mat3({SphereMatrixName}) * {normal};");
+            shaderSource.AppendLine($"\t{viewNormal} = mat3({SphereMatrixName}) * {normalVector};");
             shaderSource.AppendLine($"\t{viewNormal} = {viewNormal} * 0.5 + 0.5;");
         }
 
         private string CreateFragmentSource(IEnumerable<TextureRenderInfo> textures, 
-            IEnumerable<VertexAttribute> attributes, string uv0AttributeName, string normalAttributeName)
+            IEnumerable<VertexAttribute> attributes, VertexAttribute texcoords, VertexAttribute normals)
         {
             StringBuilder shaderSource = new StringBuilder();
-            AppendFragmentShader(textures, attributes, shaderSource, uv0AttributeName, normalAttributeName);
+            AppendFragmentShader(textures, attributes, shaderSource, texcoords, normals);
 
             return shaderSource.ToString();
         }
 
-        private void AppendFragmentShader(IEnumerable<TextureRenderInfo> textures, 
-            IEnumerable<VertexAttribute> attributes, StringBuilder shaderSource, 
-            string uv0, string normal)
+        private void AppendFragmentShader(IEnumerable<TextureRenderInfo> textures, IEnumerable<VertexAttribute> attributes, StringBuilder shaderSource, 
+            VertexAttribute texcoords, VertexAttribute normal)
         {
             GlslUtils.AppendShadingLanguageVersion(shaderSource);
 
@@ -155,7 +151,7 @@ namespace SFGenericModel.ShaderGenerators
 
             shaderSource.AppendLine($"uniform int {attribIndexName};");
 
-            AppendFragmentMainFunction(textures, shaderSource, uv0, normal);
+            AppendFragmentMainFunction(textures, shaderSource, texcoords, normal);
         }
 
         private void AppendTextureUniforms(IEnumerable<TextureRenderInfo> textures, StringBuilder shaderSource)
@@ -175,8 +171,7 @@ namespace SFGenericModel.ShaderGenerators
             }
         }
 
-        private void AppendFragmentMainFunction(IEnumerable<TextureRenderInfo> textures, StringBuilder shaderSource, 
-            string uv0, string normal)
+        private void AppendFragmentMainFunction(IEnumerable<TextureRenderInfo> textures, StringBuilder shaderSource, VertexAttribute uv0, VertexAttribute normal)
         {
             GlslUtils.AppendBeginMain(shaderSource);
             AppendMainFunctionBody(textures, shaderSource, uv0, normal);
@@ -184,21 +179,24 @@ namespace SFGenericModel.ShaderGenerators
         }
 
         private void AppendMainFunctionBody(IEnumerable<TextureRenderInfo> attributes, StringBuilder shaderSource, 
-            string uv0, string normal)
+            VertexAttribute texcoords, VertexAttribute normals)
         {
             shaderSource.AppendLine($"\tvec3 {resultName} = vec3(0);");
 
             AppendViewVector(shaderSource);
-            AppendReflectionVector(shaderSource, normal);
+            AppendReflectionVector(shaderSource, normals);
 
-            AppendFragmentAttributeSwitch(attributes, shaderSource, uv0, normal);
+            AppendFragmentAttributeSwitch(attributes, shaderSource, texcoords, normals);
 
             shaderSource.AppendLine($"\t{GlslUtils.outputName} = vec4({resultName}, 1);");
         }
 
-        private void AppendReflectionVector(StringBuilder shaderSource, string normal)
+        private void AppendReflectionVector(StringBuilder shaderSource, VertexAttribute normal)
         {
-            shaderSource.AppendLine($"\tvec3 {reflectionVector} = reflect({viewVector}.xyz, {GlslUtils.vertexOutputPrefix}{normal}.xyz);");
+            // The normals attribute is a vertex shader output, so the prefix needs to be added.
+            string normalVector = GlslVectorUtils.ConstructVector(ValueCount.Three, normal.ValueCount, GlslUtils.vertexOutputPrefix + normal.Name);
+            shaderSource.AppendLine($"\tvec3 {reflectionVector} = reflect({viewVector}.xyz, {normalVector});");
+
             // Correct for a vertically flipped reflection.
             shaderSource.AppendLine($"\t{reflectionVector}.y *= -1;");
         }
@@ -209,13 +207,13 @@ namespace SFGenericModel.ShaderGenerators
         }
 
         private void AppendFragmentAttributeSwitch(IEnumerable<TextureRenderInfo> attributes, StringBuilder shaderSource, 
-            string uv0, string normalName)
+            VertexAttribute texcoords, VertexAttribute normals)
         {
             List<CaseStatement> cases = new List<CaseStatement>();
             int index = 0;
             foreach (var attribute in attributes)
             {
-                string caseAssignment = GetResultAssignment(ValueCount.Three, attribute, uv0, normalName);
+                string caseAssignment = GetResultAssignment(ValueCount.Three, attribute, texcoords, normals);
                 cases.Add(new CaseStatement(index.ToString(), caseAssignment));
                 index++;
             }
@@ -224,10 +222,10 @@ namespace SFGenericModel.ShaderGenerators
         }
 
         private string GetResultAssignment(ValueCount resultCount, TextureRenderInfo texture, 
-            string uv0Name, string normalName)
+            VertexAttribute texcoords, VertexAttribute normals)
         {
             string swizzle = GlslVectorUtils.GetSwizzle(texture.TextureSwizzle);
-            string texCoord = GetTexCoord(texture.UvCoord, uv0Name, normalName);
+            string texCoord = GetTexCoord(texture.UvCoord, texcoords.Name, normals.Name);
             return $"{resultName}.rgb = texture({texture.Name}, {texCoord}).{swizzle};";
         }
 

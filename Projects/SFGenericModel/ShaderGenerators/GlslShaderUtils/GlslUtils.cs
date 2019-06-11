@@ -178,12 +178,17 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
 
         public static void AppendPositionAssignment(StringBuilder shaderSource, IEnumerable<VertexAttribute> attributes, string matrixName)
         {
-            // Assume the first attribute is position.
-            if (!attributes.GetEnumerator().MoveNext())
+            var positionAttribute = GetPositionAttribute(attributes);
+            if (positionAttribute == null)
                 return;
 
             string positionVariable = GlslVectorUtils.ConstructVector(ValueCount.Four, attributes.First().ValueCount, attributes.First().Name);
             shaderSource.AppendLine($"\tgl_Position = {matrixName} * {positionVariable};");
+        }
+
+        private static VertexAttribute GetPositionAttribute(IEnumerable<VertexAttribute> attributes)
+        {
+            return attributes.Where(attribute => attribute.AttributeUsage == AttributeUsage.Position).FirstOrDefault();
         }
 
         public static void AppendMatrixUniforms(StringBuilder shaderSource, string matrixName, string sphereMatrixName)

@@ -70,7 +70,7 @@ namespace SFGenericModel.Test.ShaderGeneratorTests
         {
             var attributes = new List<VertexAttribute>()
             {
-                new VertexIntAttribute("test", ValueCount.One, VertexAttribIntegerType.Byte, AttributeUsage.Default, false, false)
+                new VertexIntAttribute("test", ValueCount.One, VertexAttribIntegerType.Byte, AttributeUsage.Position, false, false)
             };
             var e = Assert.ThrowsException<System.NotImplementedException>(() =>
                 CreateShader(attributes));

@@ -9,6 +9,7 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
 
         public static string ConstructVector(ValueCount targetValueCount, ValueCount sourceCount, string sourceName)
         {
+            // TODO: What happens when target and source count are both 1?
             int targetCount = (int)targetValueCount;
             if (sourceCount == ValueCount.One)
                 return $"vec{targetCount}({sourceName})";
@@ -23,6 +24,11 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
             }
 
             return $"vec{targetCount}({sourceName}.{components}{paddingValues})";
+        }
+
+        public static string ConstructVector(ValueCount targetValueCount, VertexAttribute source)
+        {
+            return ConstructVector(targetValueCount, source.ValueCount, source.Name);
         }
 
         private static string GetMaxSharedComponents(ValueCount sourceCount, ValueCount targetCount)

@@ -16,7 +16,14 @@ namespace SFGenericModel.Test.ShaderGeneratorTests
             new VertexFloatAttribute("nrm", ValueCount.Three, VertexAttribPointerType.Float, false, AttributeUsage.Normal, false, false),
             new VertexFloatAttribute("uv0", ValueCount.Two, VertexAttribPointerType.Float, false, AttributeUsage.TexCoord0, false, false)
         };
-        
+
+        private static readonly List<VertexAttribute> attributesScalarNormal = new List<VertexAttribute>()
+        {
+            new VertexFloatAttribute("pos", ValueCount.Three, VertexAttribPointerType.Float, false, AttributeUsage.Position, false, false),
+            new VertexFloatAttribute("nrm", ValueCount.One, VertexAttribPointerType.Float, false, AttributeUsage.Normal, false, false),
+            new VertexFloatAttribute("uv0", ValueCount.Two, VertexAttribPointerType.Float, false, AttributeUsage.TexCoord0, false, false)
+        };
+
         [TestInitialize]
         public void Initialize()
         {
@@ -118,6 +125,18 @@ namespace SFGenericModel.Test.ShaderGeneratorTests
             };
 
             Shader shader = CreateShader(textures, correctAttributes);
+            Assert.IsTrue(shader.LinkStatusIsOk);
+        }
+
+        [TestMethod]
+        public void SingleTextureSphereIncorrectNormals()
+        {
+            var textures = new List<TextureRenderInfo>()
+            {
+                new TextureRenderInfo("tex1", UvCoord.CamEnvSphere, TextureSwizzle.Rgb)
+            };
+
+            Shader shader = CreateShader(textures, attributesScalarNormal);
             Assert.IsTrue(shader.LinkStatusIsOk);
         }
 
