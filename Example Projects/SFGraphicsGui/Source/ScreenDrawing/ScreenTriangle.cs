@@ -46,6 +46,8 @@ namespace SFGraphicsGui
             shader.SetTexture("uvTexture", texture, textureUnit);
             shader.SetTexture("lutTexture", lut, textureUnit + 1);
 
+            GL.Disable(EnableCap.DepthTest);
+
             Draw(shader);
         }
 

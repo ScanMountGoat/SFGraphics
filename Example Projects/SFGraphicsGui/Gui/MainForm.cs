@@ -20,6 +20,7 @@ namespace SFGraphicsGui
     {
         private GraphicsResources graphicsResources;
         private Texture2D textureToRender;
+        private ObjMesh modelToRender;
 
         public MainForm()
         {
@@ -35,8 +36,16 @@ namespace SFGraphicsGui
                 return;
 
             // Draw a test pattern image to the screen.
-            graphicsResources.screenTriangle.DrawScreenTexture(textureToRender, graphicsResources.lutTexture,
-                graphicsResources.screenTextureShader, graphicsResources.samplerObject);
+            if (textureToRender != null)
+            {
+                graphicsResources.screenTriangle.DrawScreenTexture(textureToRender, graphicsResources.lutTexture,
+                    graphicsResources.screenTextureShader, graphicsResources.samplerObject);
+            }
+
+            if (modelToRender != null)
+            {
+                DrawModel();
+            }
         }
 
         private void glControl1_Load(object sender, EventArgs e)
@@ -152,38 +161,59 @@ namespace SFGraphicsGui
                 {
                     var result = FileFormatWavefront.FileFormatObj.Load(dialog.FileName, false);
 
-                    // TODO: Don't assume all attributes are present.
-
                     var vertices = GetVertices(result);
-                    var mesh = new ObjMesh(vertices);
-
-                    var generator = new VertexAttributeShaderGenerator();
-                    generator.CreateShader<ObjVertex>(out string vert, out string frag);
-                    var shader = new Shader();
-                    shader.LoadShaders(vert, frag);
-
-                    glControl1.MakeCurrent();
-                    GL.ClearColor(1, 1, 1, 1);
-                    GL.Clear(ClearBufferMask.ColorBufferBit);
-
-                    mesh.Draw(shader);
-
-                    glControl1.SwapBuffers();
+                    modelToRender = new ObjMesh(vertices);
+                    RenderFrame(null, null);
                 }
             }
         }
 
+        private void DrawModel()
+        {
+            var camera = new Camera()
+            {
+                RenderWidth = glControl1.Width,
+                RenderHeight = glControl1.Height,
+                NearClipPlane = 0.0001f,
+                FarClipPlane = 100.0f
+            };
+            camera.FrameBoundingSphere(modelToRender.BoundingSphere.Xyz, modelToRender.BoundingSphere.W, 0);
+
+            var generator = new VertexAttributeShaderGenerator();
+            generator.CreateShader<ObjVertex>(out string vertexSource, out string fragmentSource);
+            var shader = new Shader();
+            shader.LoadShaders(vertexSource, fragmentSource);
+
+            shader.UseProgram();
+            shader.SetMatrix4x4(generator.MvpMatrixName, camera.MvpMatrix);
+
+            GL.Clear(ClearBufferMask.DepthBufferBit);
+
+            SFGenericModel.RenderState.GLRenderSettings.SetFaceCulling(new SFGenericModel.RenderState.FaceCullingSettings(true, CullFaceMode.Back));
+            SFGenericModel.RenderState.GLRenderSettings.SetDepthTesting(new SFGenericModel.RenderState.DepthTestSettings(true, true, DepthFunction.Lequal));
+
+            modelToRender.Draw(shader);
+
+            glControl1.SwapBuffers();
+        }
+
         private static List<ObjVertex> GetVertices(FileFormatWavefront.FileLoadResult<FileFormatWavefront.Model.Scene> result)
         {
-            var vertices = new List<ObjVertex>(result.Model.Vertices.Count);
-            for (int i = 0; i < result.Model.Vertices.Count; i++)
-            {
-                var position = new Vector3(result.Model.Vertices[i].x, result.Model.Vertices[i].y, result.Model.Vertices[i].z);
-                //var normal = new Vector3(result.Model.Normals[i].x, result.Model.Normals[i].y, result.Model.Normals[i].z);
-                //var texcoord = new Vector2(result.Model.Uvs[i].u, result.Model.Uvs[i].v);
+            // TODO: Estimate vertex count.
+            // TODO: Groups?
+            var vertices = new List<ObjVertex>();
 
-                vertices.Add(new ObjVertex(position, Vector3.Zero, Vector2.Zero));
+            foreach (var face in result.Model.UngroupedFaces)
+            {
+                foreach (var index in face.Indices)
+                {
+                    // TODO: Don't assume all attributes are present.
+                    var position = new Vector3(result.Model.Vertices[index.vertex].x, result.Model.Vertices[index.vertex].y, result.Model.Vertices[index.vertex].z);
+
+                    vertices.Add(new ObjVertex(position, Vector3.Zero, Vector2.Zero));
+                }
             }
+
             return vertices;
         }
     }
