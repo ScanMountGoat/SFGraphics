@@ -12,6 +12,7 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
         public static readonly string outputName = "fragColor";
         private static readonly string fragmentOutput = $"out vec4 {outputName};";
 
+        // TODO: Allow other versions.
         public static readonly string version = "330";
         private static readonly string versionInfo = $"#version {version}";
 
@@ -30,7 +31,7 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
 
         public static void AppendVertexInputs(IEnumerable<VertexAttribute> attributes, StringBuilder shaderSource)
         {
-            // Ignore duplicates to prevent shader compile errors.
+            // TODO: Ignore duplicates to prevent shader compile errors?
             HashSet<string> previousNames = new HashSet<string>();
             foreach (var attribute in attributes)
             {
@@ -46,19 +47,24 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
 
         public static void AppendVertexOutputs(IEnumerable<VertexAttribute> attributes, StringBuilder shaderSource)
         {
-            // Ignore duplicates to prevent shader compile errors.
+            // TODO: Ignore duplicates to prevent shader compile errors?
             HashSet<string> previousNames = new HashSet<string>();
             foreach (var attribute in attributes)
             {
                 if (previousNames.Contains(attribute.Name))
                     continue;
 
-                string type = GetTypeDeclaration(attribute);
-                string interpolation = GetInterpolationQualifier(attribute.Type);
-                shaderSource.AppendLine($"{interpolation}out {type} {vertexOutputPrefix}{attribute.Name};");
+                AppendVertexOutput(shaderSource, attribute);
 
                 previousNames.Add(attribute.Name);
             }
+        }
+
+        public static void AppendVertexOutput(StringBuilder shaderSource, VertexAttribute attribute)
+        {
+            string type = GetTypeDeclaration(attribute);
+            string interpolation = GetInterpolationQualifier(attribute.Type);
+            shaderSource.AppendLine($"{interpolation}out {type} {vertexOutputPrefix}{attribute.Name};");
         }
 
         private static string GetInterpolationQualifier(VertexAttribPointerType type)
@@ -82,10 +88,10 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
                 string output = $"{vertexOutputPrefix}{attribute.Name}";
                 string input = $"{ attribute.Name}";
 
-                string function = GetAttributeFunction(attribute);
+                string function = GetAttributeFunctionName(attribute);
                 string remapOperation = GetAttributeRemapOperation(attribute);
 
-                shaderSource.AppendLine($"\t{output} = {function}({input}) {remapOperation};");
+                shaderSource.AppendLine($"\t{output} = {function}({input}){remapOperation};");
 
                 previousNames.Add(attribute.Name);
             }
@@ -94,12 +100,12 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
         private static string GetAttributeRemapOperation(VertexAttribute attribute)
         {
             if (attribute.RemapToVisibleRange)
-                return "* 0.5 + 0.5;";
+                return " * 0.5 + 0.5;";
             else
                 return "";
         }
 
-        private static string GetAttributeFunction(VertexAttribute attribute)
+        private static string GetAttributeFunctionName(VertexAttribute attribute)
         {
             if (attribute.NormalizeVector)
                 return "normalize";
@@ -109,7 +115,7 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
 
         public static void AppendFragmentInputs(IEnumerable<VertexAttribute> attributes, StringBuilder shaderSource)
         {
-            // Ignore duplicates to prevent shader compile errors.
+            // TODO: Ignore duplicates to prevent shader compile errors?
             HashSet<string> previousNames = new HashSet<string>();
 
             foreach (var attribute in attributes)
@@ -182,7 +188,7 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
             if (positionAttribute == null)
                 return;
 
-            string positionVariable = GlslVectorUtils.ConstructVector(ValueCount.Four, attributes.First().ValueCount, attributes.First().Name);
+            string positionVariable = GlslVectorUtils.ConstructVector(ValueCount.Four, positionAttribute.ValueCount, positionAttribute.Name);
             shaderSource.AppendLine($"\tgl_Position = {matrixName} * {positionVariable};");
         }
 
@@ -191,10 +197,12 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
             return attributes.Where(attribute => attribute.AttributeUsage == AttributeUsage.Position).FirstOrDefault();
         }
 
-        public static void AppendMatrixUniforms(StringBuilder shaderSource, string matrixName, string sphereMatrixName)
+        public static void AppendMatrix4Uniforms(StringBuilder shaderSource, params string[] matrixNames)
         {
-            shaderSource.AppendLine($"uniform mat4 {matrixName};");
-            shaderSource.AppendLine($"uniform mat4 {sphereMatrixName};");
+            foreach (var name in matrixNames)
+            {
+                shaderSource.AppendLine($"uniform mat4 {name};");
+            }
         }
 
         public static void AppendFragmentOutput(StringBuilder shaderSource)

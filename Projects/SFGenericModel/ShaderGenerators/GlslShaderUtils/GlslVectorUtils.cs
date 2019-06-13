@@ -7,7 +7,7 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
     {
         public static readonly string[] vectorComponents = new string[] { "x", "y", "z", "w" };
 
-        public static string ConstructVector(ValueCount targetValueCount, ValueCount sourceCount, string sourceName)
+        public static string ConstructVector(ValueCount targetValueCount, ValueCount sourceCount, string sourceName, string fillValue = "1.0")
         {
             // TODO: What happens when target and source count are both 1?
             int targetCount = (int)targetValueCount;
@@ -17,11 +17,7 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
             string components = GetMaxSharedComponents(sourceCount, targetValueCount);
 
             // Add 1's for the remaining parts of the constructor.
-            string paddingValues = "";
-            for (int i = components.Length; i < targetCount; i++)
-            {
-                paddingValues += ", 1";
-            }
+            string paddingValues = GetPaddingValues(components.Length, targetCount, fillValue);
 
             return $"vec{targetCount}({sourceName}.{components}{paddingValues})";
         }
@@ -29,6 +25,17 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
         public static string ConstructVector(ValueCount targetValueCount, VertexAttribute source)
         {
             return ConstructVector(targetValueCount, source.ValueCount, source.Name);
+        }
+
+        private static string GetPaddingValues(int sharedComponentCount, int targetCount, string fillValue)
+        {
+            string paddingValues = "";
+            for (int i = sharedComponentCount; i < targetCount; i++)
+            {
+                paddingValues += $", {fillValue}";
+            }
+
+            return paddingValues;
         }
 
         private static string GetMaxSharedComponents(ValueCount sourceCount, ValueCount targetCount)

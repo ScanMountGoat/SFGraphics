@@ -88,7 +88,7 @@ namespace SFGenericModel.ShaderGenerators
 
             GlslUtils.AppendVertexInputs(attributes, shaderSource);
             GlslUtils.AppendVertexOutputs(attributes, shaderSource);
-            GlslUtils.AppendMatrixUniforms(shaderSource, MvpMatrixName, SphereMatrixName);
+            GlslUtils.AppendMatrix4Uniforms(shaderSource, MvpMatrixName, SphereMatrixName);
 
             AppendVertexMainFunction(attributes, shaderSource);
         }
@@ -118,15 +118,22 @@ namespace SFGenericModel.ShaderGenerators
             GlslUtils.AppendFragmentInputs(attributes, shaderSource);
             GlslUtils.AppendFragmentOutput(shaderSource);
 
-            shaderSource.AppendLine($"uniform int {AttribIndexName};");
+            AppendAttributeIndexUniform(shaderSource);
 
             AppendFragmentMainFunction(attributes, shaderSource);
+        }
+
+        private void AppendAttributeIndexUniform(StringBuilder shaderSource)
+        {
+            shaderSource.AppendLine($"uniform int {AttribIndexName};");
         }
 
         private void AppendFragmentMainFunction(List<VertexAttribute> attributes, StringBuilder shaderSource)
         {
             GlslUtils.AppendBeginMain(shaderSource);
+
             AppendMainFunctionBody(attributes, shaderSource);
+
             GlslUtils.AppendEndMain(shaderSource);
         }
 
@@ -141,14 +148,20 @@ namespace SFGenericModel.ShaderGenerators
          
         private void AppendFragmentAttributeSwitch(List<VertexAttribute> attributes, StringBuilder shaderSource)
         {
+            var cases = GetCases(attributes);
+            SwitchUtils.AppendSwitchStatement(shaderSource, AttribIndexName, cases);
+        }
+
+        private List<CaseStatement> GetCases(List<VertexAttribute> attributes)
+        {
             List<CaseStatement> cases = new List<CaseStatement>();
             for (int i = 0; i < attributes.Count; i++)
             {
-                string caseAssignment = GetResultAssignment(ValueCount.Three, attributes[i].Name, attributes[i].ValueCount);
-                cases.Add(new CaseStatement(i.ToString(), caseAssignment));
+                string body = GetResultAssignment(ValueCount.Three, attributes[i].Name, attributes[i].ValueCount);
+                cases.Add(new CaseStatement(i.ToString(), body));
             }
 
-            SwitchUtils.AppendSwitchStatement(shaderSource, AttribIndexName, cases);
+            return cases;
         }
 
         private string GetResultAssignment(ValueCount resultCount, string sourceName, ValueCount sourceCount)

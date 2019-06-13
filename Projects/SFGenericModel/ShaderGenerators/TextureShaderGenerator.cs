@@ -13,12 +13,12 @@ namespace SFGenericModel.ShaderGenerators
     public class TextureShaderGenerator
     {
         /// <summary>
-        /// 
+        /// The variable name used for the model view projection matrix.
         /// </summary>
         public string MvpMatrixName { get; set; } = "mvpMatrix";
 
         /// <summary>
-        /// 
+        /// The variable name used for transforming normals to view space.
         /// </summary>
         public string SphereMatrixName { get; set; } = "sphereMatrix";
 
@@ -89,7 +89,7 @@ namespace SFGenericModel.ShaderGenerators
             GlslUtils.AppendVertexOutputs(attributes, shaderSource);
             AppendViewNormalOutput(shaderSource);
 
-            GlslUtils.AppendMatrixUniforms(shaderSource, MvpMatrixName, SphereMatrixName);
+            GlslUtils.AppendMatrix4Uniforms(shaderSource, MvpMatrixName, SphereMatrixName);
 
             AppendVertexMainFunction(attributes, normals, shaderSource);
         }
@@ -109,10 +109,8 @@ namespace SFGenericModel.ShaderGenerators
             GlslUtils.AppendBeginMain(shaderSource);
 
             GlslUtils.AppendVertexOutputAssignments(attributes, shaderSource);
-
-            GlslUtils.AppendPositionAssignment(shaderSource, attributes, MvpMatrixName);
-
             AppendViewNormalAssignment(normals, shaderSource);
+            GlslUtils.AppendPositionAssignment(shaderSource, attributes, MvpMatrixName);
 
             GlslUtils.AppendEndMain(shaderSource);
         }
@@ -147,7 +145,7 @@ namespace SFGenericModel.ShaderGenerators
             GlslUtils.AppendFragmentOutput(shaderSource);
 
             AppendTextureUniforms(textures, shaderSource);
-            GlslUtils.AppendMatrixUniforms(shaderSource, MvpMatrixName, SphereMatrixName);
+            GlslUtils.AppendMatrix4Uniforms(shaderSource, MvpMatrixName, SphereMatrixName);
 
             shaderSource.AppendLine($"uniform int {attribIndexName};");
 
@@ -209,6 +207,12 @@ namespace SFGenericModel.ShaderGenerators
         private void AppendFragmentAttributeSwitch(IEnumerable<TextureRenderInfo> attributes, StringBuilder shaderSource, 
             VertexAttribute texcoords, VertexAttribute normals)
         {
+            var cases = GetCases(attributes, texcoords, normals);
+            SwitchUtils.AppendSwitchStatement(shaderSource, attribIndexName, cases);
+        }
+
+        private List<CaseStatement> GetCases(IEnumerable<TextureRenderInfo> attributes, VertexAttribute texcoords, VertexAttribute normals)
+        {
             List<CaseStatement> cases = new List<CaseStatement>();
             int index = 0;
             foreach (var attribute in attributes)
@@ -218,7 +222,7 @@ namespace SFGenericModel.ShaderGenerators
                 index++;
             }
 
-            SwitchUtils.AppendSwitchStatement(shaderSource, attribIndexName, cases);
+            return cases;
         }
 
         private string GetResultAssignment(ValueCount resultCount, TextureRenderInfo texture, 

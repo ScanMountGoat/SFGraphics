@@ -22,15 +22,15 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
             shaderSource.AppendLine($"\t\t\tbreak;");
         }
 
-        private static void AppendEndSwitch(StringBuilder shaderSource)
-        {
-            shaderSource.AppendLine("\t}");
-        }
-
         private static void AppendBeginSwitch(StringBuilder shaderSource, string switchVariable)
         {
             shaderSource.AppendLine($"\tswitch ({switchVariable})");
             shaderSource.AppendLine("\t{");
+        }
+
+        private static void AppendEndSwitch(StringBuilder shaderSource)
+        {
+            shaderSource.AppendLine("\t}");
         }
     }
 }
