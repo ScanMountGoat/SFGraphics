@@ -61,7 +61,13 @@ namespace SFGraphicsGui
             // Display compilation warnings.
             if (!graphicsResources.screenTextureShader.LinkStatusIsOk)
             {
-                MessageBox.Show(graphicsResources.screenTextureShader.GetErrorLog(), "Failed Shader Compilation");
+                MessageBox.Show(graphicsResources.screenTextureShader.GetErrorLog(), "The texture shader did not link successfully.");
+            }
+
+            // Display compilation warnings.
+            if (!graphicsResources.objModelShader.LinkStatusIsOk)
+            {
+                MessageBox.Show(graphicsResources.objModelShader.GetErrorLog(), "The attribute shader did not link successfully.");
             }
 
             // Trigger the render event.
@@ -108,6 +114,9 @@ namespace SFGraphicsGui
 
         private void DrawModel()
         {
+            if (!graphicsResources.objModelShader.LinkStatusIsOk)
+                return;
+
             var camera = new Camera()
             {
                 RenderWidth = glControl1.Width,
@@ -130,30 +139,33 @@ namespace SFGraphicsGui
 
         private static List<ObjVertex> GetVertices(FileFormatWavefront.FileLoadResult<FileFormatWavefront.Model.Scene> result)
         {
-            // TODO: Estimate vertex count.
             // TODO: Groups?
-            var vertices = new List<ObjVertex>();
+            var vertices = new List<ObjVertex>(result.Model.UngroupedFaces.Count * 3);
 
             foreach (var face in result.Model.UngroupedFaces)
             {
                 foreach (var index in face.Indices)
                 {
-                    // TODO: Don't assume all attributes are present.
-                    var position = new Vector3(result.Model.Vertices[index.vertex].x, result.Model.Vertices[index.vertex].y, result.Model.Vertices[index.vertex].z);
-
-                    var normal = Vector3.Zero;
-                    if (index.normal != null)
-                        normal = new Vector3(result.Model.Normals[(int)index.normal].x, result.Model.Normals[(int)index.normal].y, result.Model.Normals[(int)index.normal].z);
-
-                    var texcoord = Vector2.Zero;
-                    if (index.uv != null)
-                        texcoord = new Vector2(result.Model.Uvs[(int)index.uv].u, result.Model.Uvs[(int)index.uv].v);
-
-                    vertices.Add(new ObjVertex(position, normal, texcoord));
+                    AddVertex(result, vertices, index);
                 }
             }
 
             return vertices;
+        }
+
+        private static void AddVertex(FileFormatWavefront.FileLoadResult<FileFormatWavefront.Model.Scene> result, List<ObjVertex> vertices, FileFormatWavefront.Model.Index index)
+        {
+            var position = new Vector3(result.Model.Vertices[index.vertex].x, result.Model.Vertices[index.vertex].y, result.Model.Vertices[index.vertex].z);
+
+            var normal = Vector3.Zero;
+            if (index.normal != null)
+                normal = new Vector3(result.Model.Normals[(int)index.normal].x, result.Model.Normals[(int)index.normal].y, result.Model.Normals[(int)index.normal].z);
+
+            var texcoord = Vector2.Zero;
+            if (index.uv != null)
+                texcoord = new Vector2(result.Model.Uvs[(int)index.uv].u, result.Model.Uvs[(int)index.uv].v);
+
+            vertices.Add(new ObjVertex(position, normal, texcoord));
         }
 
         private void glControl1_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
