@@ -8,7 +8,7 @@ using OpenTK.Graphics.OpenGL;
 namespace SFGenericModel.Test.ShaderGeneratorTests
 {
     [TestClass]
-    public class VertexAttributeShaderCompilation
+    public class CreateAttributeShader
     {
         private struct VertexStruct
         {
@@ -38,6 +38,13 @@ namespace SFGenericModel.Test.ShaderGeneratorTests
             };
 
             var shader = CreateShader(attributes);
+            Assert.IsTrue(shader.LinkStatusIsOk);
+        }
+
+        [TestMethod]
+        public void SingleVec3AttributeFromStruct()
+        {
+            var shader = CreateShader<VertexStruct>();
             Assert.IsTrue(shader.LinkStatusIsOk);
         }
 
@@ -155,6 +162,16 @@ namespace SFGenericModel.Test.ShaderGeneratorTests
             var generator = new VertexAttributeShaderGenerator();
             generator.CreateShader(attributes, out string vertSource, out string fragSource);
             Shader shader = new Shader();
+            shader.LoadShaders(vertSource, fragSource);
+            return shader;
+        }
+
+        private static Shader CreateShader<T>() where T : struct
+        {
+            var generator = new VertexAttributeShaderGenerator();
+            generator.CreateShader<T>(out string vertSource, out string fragSource);
+
+            var shader = new Shader();
             shader.LoadShaders(vertSource, fragSource);
             return shader;
         }

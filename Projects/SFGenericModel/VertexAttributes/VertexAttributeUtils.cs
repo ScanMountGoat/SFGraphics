@@ -1,4 +1,5 @@
 ﻿using SFGraphics.GLObjects.Shaders;
+using System.Collections.Generic;
 
 namespace SFGenericModel.VertexAttributes
 {
@@ -25,6 +26,28 @@ namespace SFGenericModel.VertexAttributes
 
             attribute.SetVertexAttribute(index, strideInBytes, offsetInBytes);
             return true;
+        }
+
+        /// <summary>
+        /// Gets the vertex attributes for the members of <typeparamref name="T"/>
+        /// with the appropriate attribute.
+        /// </summary>
+        /// <typeparam name="T">The vertex struct type</typeparam>
+        /// <returns>The vertex attributes for <typeparamref name="T"/></returns>
+        public static List<VertexAttribute> GetAttributesFromType<T>() where T : struct
+        {
+            var attributes = new List<VertexAttribute>();
+            foreach (var member in typeof(T).GetMembers())
+            {
+                foreach (VertexAttribute attribute in member.GetCustomAttributes(typeof(VertexAttribute), true))
+                {
+                    // Break to ignore duplicate attributes.
+                    attributes.Add(attribute);
+                    break;
+                }
+            }
+
+            return attributes;
         }
     }
 }

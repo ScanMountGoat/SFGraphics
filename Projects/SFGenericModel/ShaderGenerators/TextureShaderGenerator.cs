@@ -33,8 +33,24 @@ namespace SFGenericModel.ShaderGenerators
         /// <summary>
         /// Generates a shader for rendering each of the specified textures individually.
         /// </summary>
+        /// <typeparam name="T">The vertex struct used for rendering</typeparam>
         /// <param name="textures">Textures used to generate render modes</param>
-        /// <param name="attributes"></param>
+        /// <param name="vertexSource">The generated GLSL vertex shader source</param>
+        /// <param name="fragmentSource">The generated GLSL fragment shader source</param>
+        /// <exception cref="System.ArgumentOutOfRangeException">The struct has no attributes.</exception>
+        /// <exception cref="System.ArgumentException">The struct's attributes do not contain attributes with the required usages.</exception>
+        /// <returns>A new shader that can be used for rendering</returns>
+        public void CreateShader<T>(List<TextureRenderInfo> textures, out string vertexSource, out string fragmentSource) where T : struct
+        {
+            var attributes = VertexAttributeUtils.GetAttributesFromType<T>();
+            CreateShader(textures, attributes, out vertexSource, out fragmentSource);
+        }
+
+        /// <summary>
+        /// Generates a shader for rendering each of the specified textures individually.
+        /// </summary>
+        /// <param name="textures">Textures used to generate render modes</param>
+        /// <param name="attributes">The vertex attributes used for rendering</param>
         /// <param name="vertexSource">The generated GLSL vertex shader source</param>
         /// <param name="fragmentSource">The generated GLSL fragment shader source</param>
         /// <exception cref="System.ArgumentOutOfRangeException"><paramref name="attributes"/> is empty.</exception>

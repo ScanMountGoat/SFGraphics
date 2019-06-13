@@ -186,16 +186,7 @@ namespace SFGenericModel
 
         private static void InitializeVertexAttributes()
         {
-            vertexAttributes = new List<VertexAttribute>();
-            foreach (var member in typeof(T).GetMembers())
-            {
-                foreach (VertexAttribute attribute in member.GetCustomAttributes(typeof(VertexAttribute), true))
-                {
-                    // Break to ignore duplicate attributes.
-                    vertexAttributes.Add(attribute);
-                    break;
-                }
-            }
+            vertexAttributes = VertexAttributeUtils.GetAttributesFromType<T>();
         }
 
         private void DrawGeometry(int count, int offset)

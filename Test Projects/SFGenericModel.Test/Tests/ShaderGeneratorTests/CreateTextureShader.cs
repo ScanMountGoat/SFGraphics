@@ -4,12 +4,25 @@ using System.Collections.Generic;
 using SFGenericModel.VertexAttributes;
 using SFGenericModel.ShaderGenerators;
 using OpenTK.Graphics.OpenGL;
+using OpenTK;
 
 namespace SFGenericModel.Test.ShaderGeneratorTests
 {
     [TestClass]
-    public class TextureShaderCompilation
+    public class CreateTextureShader
     {
+        private struct VertexStruct
+        {
+            [VertexFloat("pos", ValueCount.Three, VertexAttribPointerType.Float, false, AttributeUsage.Position, false, false)]
+            public Vector3 Position { get; }
+
+            [VertexFloat("nrm", ValueCount.Three, VertexAttribPointerType.Float, false, AttributeUsage.Normal, false, false)]
+            public Vector3 Normal { get; }
+
+            [VertexFloat("uv0", ValueCount.Two, VertexAttribPointerType.Float, false, AttributeUsage.TexCoord0, false, false)]
+            public Vector2 Uv0 { get; }
+        }
+
         private static readonly List<VertexAttribute> correctAttributes = new List<VertexAttribute>()
         {
             new VertexFloatAttribute("pos", ValueCount.Three, VertexAttribPointerType.Float, false, AttributeUsage.Position, false, false),
@@ -117,6 +130,18 @@ namespace SFGenericModel.Test.ShaderGeneratorTests
         }
 
         [TestMethod]
+        public void SingleTextureVertexStruct()
+        {
+            var textures = new List<TextureRenderInfo>()
+            {
+                new TextureRenderInfo("tex1", UvCoord.TexCoord0, TextureSwizzle.Rgb)
+            };
+
+            Shader shader = CreateShader<VertexStruct>(textures);
+            Assert.IsTrue(shader.LinkStatusIsOk);
+        }
+
+        [TestMethod]
         public void SingleTextureSphere()
         {
             var textures = new List<TextureRenderInfo>()
@@ -171,6 +196,17 @@ namespace SFGenericModel.Test.ShaderGeneratorTests
         {
             var generator = new TextureShaderGenerator();
             generator.CreateShader(textures, attributes, out string vertexSource, out string fragmentSource);
+
+            Shader shader = new Shader();
+            shader.LoadShaders(vertexSource, fragmentSource);
+            return shader;
+        }
+
+        private static Shader CreateShader<T>(List<TextureRenderInfo> textures) where T : struct
+        {
+            var attributes = VertexAttributeUtils.GetAttributesFromType<T>();
+            var generator = new TextureShaderGenerator();
+            generator.CreateShader<T>(textures, out string vertexSource, out string fragmentSource);
 
             Shader shader = new Shader();
             shader.LoadShaders(vertexSource, fragmentSource);

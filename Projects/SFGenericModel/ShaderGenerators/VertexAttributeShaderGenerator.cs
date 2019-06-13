@@ -32,46 +32,28 @@ namespace SFGenericModel.ShaderGenerators
         public string AttribIndexName { get; set; } = "attributeIndex";
 
         /// <summary>
-        /// Generates a shader for rendering each of the vertex attributes individually.      
-        /// </summary>
-        /// <param name="attributes">Attributes used to generate render modes. 
-        /// The first attribute is also used as the position.</param>
-        /// <param name="vertexSource">The generated GLSL vertex shader source</param>
-        /// <param name="fragmentSource">The generated GLSL fragment shader source</param>
-        public void CreateShader(List<VertexAttribute> attributes, out string vertexSource, out string fragmentSource)
-        {
-            vertexSource = CreateVertexSource(attributes);
-            fragmentSource = CreateFragmentSource(attributes);
-        }
-
-        /// <summary>
         /// Generates a shader for rendering each of the vertex attributes individually. 
-        /// The first attribute is also used as the position.
         /// </summary>
         /// <typeparam name="T">The vertex struct containing the <see cref="VertexAttribute"/> attributes.</typeparam>
         /// <param name="vertexSource">The generated GLSL vertex shader source</param>
         /// <param name="fragmentSource">The generated GLSL fragment shader source</param>
         public void CreateShader<T>(out string vertexSource, out string fragmentSource) where T : struct
         {
-            var attributes = GetRenderingAttributes<T>();
+            var attributes = VertexAttributeUtils.GetAttributesFromType<T>();
             vertexSource = CreateVertexSource(attributes);
             fragmentSource = CreateFragmentSource(attributes);
         }
 
-        private List<VertexAttribute> GetRenderingAttributes<T>() where T : struct
+        /// <summary>
+        /// Generates a shader for rendering each of the vertex attributes individually.      
+        /// </summary>
+        /// <param name="attributes">Attributes used to generate render modes. 
+        /// <param name="vertexSource">The generated GLSL vertex shader source</param>
+        /// <param name="fragmentSource">The generated GLSL fragment shader source</param>
+        public void CreateShader(List<VertexAttribute> attributes, out string vertexSource, out string fragmentSource)
         {
-            var attributes = new List<VertexAttribute>();
-            foreach (var member in typeof(T).GetMembers())
-            {
-                foreach (VertexAttribute attribute in member.GetCustomAttributes(typeof(VertexAttribute), true))
-                {
-                    // Break to ignore duplicate attributes.
-                    attributes.Add(attribute);
-                    break;
-                }
-            }
-
-            return attributes;
+            vertexSource = CreateVertexSource(attributes);
+            fragmentSource = CreateFragmentSource(attributes);
         }
 
         private string CreateVertexSource(List<VertexAttribute> attributes)
