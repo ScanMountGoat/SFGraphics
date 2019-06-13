@@ -1,5 +1,6 @@
 ﻿using OpenTK;
 using OpenTK.Graphics.OpenGL;
+using SFGenericModel.VertexAttributes;
 using SFGraphics.GLObjects.Samplers;
 using SFGraphics.GLObjects.Shaders;
 using SFGraphics.GLObjects.Textures;
@@ -7,14 +8,14 @@ using System.Collections.Generic;
 
 namespace SFGraphicsGui
 {
-    class ScreenTriangle : SFGenericModel.GenericMesh<ScreenTriangleVertex>
+    class ScreenTriangle : SFGenericModel.GenericMesh<Vector3>
     {
         // A triangle that extends past the screen.
-        private static List<ScreenTriangleVertex> screenTrianglePositions = new List<ScreenTriangleVertex>()
+        private static readonly List<Vector3> screenTrianglePositions = new List<Vector3>()
         {
-            new ScreenTriangleVertex(new Vector3(-1f, -1f, 0.0f), new Vector3(-1,0,0), new Vector4(1)),
-            new ScreenTriangleVertex(new Vector3( 3f, -1f, 0.0f), new Vector3(0,-25,25), new Vector4(1)),
-            new ScreenTriangleVertex(new Vector3(-1f,  3f, 0.0f), new Vector3(0,1,-1), new Vector4(1))
+            new Vector3(-1f, -1f, 0.0f),
+            new Vector3( 3f, -1f, 0.0f), 
+            new Vector3(-1f,  3f, 0.0f),
         };
 
         public ScreenTriangle() : base(screenTrianglePositions, PrimitiveType.Triangles)
@@ -46,6 +47,11 @@ namespace SFGraphicsGui
             shader.SetTexture("lutTexture", lut, textureUnit + 1);
 
             Draw(shader);
+        }
+
+        public override List<VertexAttribute> GetVertexAttributes()
+        {
+            return new List<VertexAttribute>() { new VertexFloatAttribute("position", ValueCount.Three, VertexAttribPointerType.Float, false) };
         }
     }
 }

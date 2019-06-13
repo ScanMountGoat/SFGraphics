@@ -143,5 +143,48 @@ namespace SFGraphicsGui
         {
             glControl1.RenderFrame();
         }
+
+        private void openFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var dialog = new OpenFileDialog())
+            {
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    var result = FileFormatWavefront.FileFormatObj.Load(dialog.FileName, false);
+
+                    // TODO: Don't assume all attributes are present.
+
+                    var vertices = GetVertices(result);
+                    var mesh = new ObjMesh(vertices);
+
+                    var generator = new VertexAttributeShaderGenerator();
+                    generator.CreateShader<ObjVertex>(out string vert, out string frag);
+                    var shader = new Shader();
+                    shader.LoadShaders(vert, frag);
+
+                    glControl1.MakeCurrent();
+                    GL.ClearColor(1, 1, 1, 1);
+                    GL.Clear(ClearBufferMask.ColorBufferBit);
+
+                    mesh.Draw(shader);
+
+                    glControl1.SwapBuffers();
+                }
+            }
+        }
+
+        private static List<ObjVertex> GetVertices(FileFormatWavefront.FileLoadResult<FileFormatWavefront.Model.Scene> result)
+        {
+            var vertices = new List<ObjVertex>(result.Model.Vertices.Count);
+            for (int i = 0; i < result.Model.Vertices.Count; i++)
+            {
+                var position = new Vector3(result.Model.Vertices[i].x, result.Model.Vertices[i].y, result.Model.Vertices[i].z);
+                //var normal = new Vector3(result.Model.Normals[i].x, result.Model.Normals[i].y, result.Model.Normals[i].z);
+                //var texcoord = new Vector2(result.Model.Uvs[i].u, result.Model.Uvs[i].v);
+
+                vertices.Add(new ObjVertex(position, Vector3.Zero, Vector2.Zero));
+            }
+            return vertices;
+        }
     }
 }
