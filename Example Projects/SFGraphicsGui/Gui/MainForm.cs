@@ -1,8 +1,6 @@
 ﻿using OpenTK;
 using OpenTK.Graphics.OpenGL;
-using SFGenericModel.ShaderGenerators;
 using SFGraphics.Cameras;
-using SFGraphics.GLObjects.Shaders;
 using SFGraphics.GLObjects.Textures;
 using System;
 using System.Collections.Generic;
@@ -38,7 +36,7 @@ namespace SFGraphicsGui
             // Draw a test pattern image to the screen.
             if (textureToRender != null)
             {
-                graphicsResources.screenTriangle.DrawScreenTexture(textureToRender, graphicsResources.lutTexture,
+                graphicsResources.screenTriangle.DrawScreenTexture(textureToRender,
                     graphicsResources.screenTextureShader, graphicsResources.samplerObject);
             }
 
@@ -95,7 +93,7 @@ namespace SFGraphicsGui
 
         private void openFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            using (var dialog = new OpenFileDialog())
+            using (var dialog = new OpenFileDialog() { Filter = "Wavefront Obj|*.obj" })
             {
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
@@ -114,26 +112,20 @@ namespace SFGraphicsGui
             {
                 RenderWidth = glControl1.Width,
                 RenderHeight = glControl1.Height,
-                NearClipPlane = 0.0001f,
-                FarClipPlane = 100.0f
+                NearClipPlane = 0.01f,
             };
             camera.FrameBoundingSphere(modelToRender.BoundingSphere.Xyz, modelToRender.BoundingSphere.W, 0);
 
-            var generator = new VertexAttributeShaderGenerator();
-            generator.CreateShader<ObjVertex>(out string vertexSource, out string fragmentSource);
-            var shader = new Shader();
-            shader.LoadShaders(vertexSource, fragmentSource);
-
-            shader.UseProgram();
-            shader.SetMatrix4x4(generator.MvpMatrixName, camera.MvpMatrix);
-            shader.SetInt(generator.AttribIndexName, renderModeIndex);
+            graphicsResources.objModelShader.UseProgram();
+            graphicsResources.objModelShader.SetMatrix4x4("mvpMatrix", camera.MvpMatrix);
+            graphicsResources.objModelShader.SetInt("attributeIndex", renderModeIndex);
 
             GL.Clear(ClearBufferMask.DepthBufferBit);
 
             SFGenericModel.RenderState.GLRenderSettings.SetFaceCulling(new SFGenericModel.RenderState.FaceCullingSettings(true, CullFaceMode.Back));
             SFGenericModel.RenderState.GLRenderSettings.SetDepthTesting(new SFGenericModel.RenderState.DepthTestSettings(true, true, DepthFunction.Lequal));
 
-            modelToRender.Draw(shader);
+            modelToRender.Draw(graphicsResources.objModelShader);
         }
 
         private static List<ObjVertex> GetVertices(FileFormatWavefront.FileLoadResult<FileFormatWavefront.Model.Scene> result)
@@ -149,7 +141,15 @@ namespace SFGraphicsGui
                     // TODO: Don't assume all attributes are present.
                     var position = new Vector3(result.Model.Vertices[index.vertex].x, result.Model.Vertices[index.vertex].y, result.Model.Vertices[index.vertex].z);
 
-                    vertices.Add(new ObjVertex(position, Vector3.Zero, Vector2.Zero));
+                    var normal = Vector3.Zero;
+                    if (index.normal != null)
+                        normal = new Vector3(result.Model.Normals[(int)index.normal].x, result.Model.Normals[(int)index.normal].y, result.Model.Normals[(int)index.normal].z);
+
+                    var texcoord = Vector2.Zero;
+                    if (index.uv != null)
+                        texcoord = new Vector2(result.Model.Uvs[(int)index.uv].u, result.Model.Uvs[(int)index.uv].v);
+
+                    vertices.Add(new ObjVertex(position, normal, texcoord));
                 }
             }
 

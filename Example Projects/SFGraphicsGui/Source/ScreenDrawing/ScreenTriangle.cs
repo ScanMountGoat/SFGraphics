@@ -23,7 +23,7 @@ namespace SFGraphicsGui
 
         }
 
-        public void DrawScreenTexture(Texture2D texture, Texture3D lut, Shader shader, SamplerObject sampler)
+        public void DrawScreenTexture(Texture2D texture, Shader shader, SamplerObject sampler)
         {
             if (texture == null)
                 return;
@@ -44,7 +44,6 @@ namespace SFGraphicsGui
             shader.SetMatrix4x4("mvpMatrix", ref matrix4);
 
             shader.SetTexture("uvTexture", texture, textureUnit);
-            shader.SetTexture("lutTexture", lut, textureUnit + 1);
 
             GL.Disable(EnableCap.DepthTest);
 

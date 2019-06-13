@@ -14,12 +14,11 @@ namespace SFGraphicsGui
         public Texture2D floatMagentaBlackStripes;
 
         public Shader screenTextureShader;
+        public Shader objModelShader;
 
         public ScreenTriangle screenTriangle;
 
         public SamplerObject samplerObject;
-
-        public Texture3D lutTexture;
 
         /// <summary>
         /// Create the <see cref="uvTestPattern"/>, <see cref="screenTextureShader"/>, and <see cref="screenTriangle"/>.
@@ -32,14 +31,24 @@ namespace SFGraphicsGui
             uvTestPattern.LoadImageData(Properties.Resources.UVPattern);
 
             floatMagentaBlackStripes = TextureCreation.CreateStripes(true, 64, 64);
-            screenTextureShader = CreateShader();
+
+            screenTextureShader = CreateScreenTextureShader();
+
+            CreateObjModelShader();
+
             CreateSamplerObject();
+
             screenTriangle = new ScreenTriangle();
 
-            lutTexture = new Texture3D();
-            lutTexture.LoadImageData(1, 1, 1, new float[] { 1, 1, 1, 1 }, new TextureFormatUncompressed(PixelInternalFormat.Rgba, PixelFormat.Rgba, PixelType.Float));
-
             Benchmark();
+        }
+
+        private void CreateObjModelShader()
+        {
+            var generator = new SFGenericModel.ShaderGenerators.VertexAttributeShaderGenerator();
+            generator.CreateShader<ObjVertex>(out string vertexSource, out string fragmentSource);
+            objModelShader = new Shader();
+            objModelShader.LoadShaders(vertexSource, fragmentSource);
         }
 
         private void Benchmark()
@@ -63,17 +72,10 @@ namespace SFGraphicsGui
             };
         }
 
-        private Shader CreateShader()
+        private Shader CreateScreenTextureShader()
         {
             var shader = new Shader();
-
-            var vertShaderSource = ResourceTextFile.GetFileText("SFGraphicsGui.Shaders.screenTexture.vert");
-            var fragShaderSource = ResourceTextFile.GetFileText("SFGraphicsGui.Shaders.screenTexture.frag");
-
-            shader.LoadShaders(new Tuple<string, ShaderType, string>[] {
-                new Tuple<string, ShaderType, string>(fragShaderSource, ShaderType.FragmentShader, ""),
-                new Tuple<string, ShaderType, string>(vertShaderSource, ShaderType.VertexShader, "")
-            });
+            shader.LoadShaders(ResourceTextFile.GetFileText("SFGraphicsGui.Shaders.screenTexture.vert"), ResourceTextFile.GetFileText("SFGraphicsGui.Shaders.screenTexture.frag"));
 
             return shader;
         }
