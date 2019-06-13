@@ -8,6 +8,9 @@ namespace SFGenericModel.VertexAttributes
     /// </summary>
     public static class VertexAttributeUtils
     {
+        // Assume attributes won't be changed at runtime.
+        private static readonly Dictionary<System.Type, List<VertexAttribute>> attributesByType = new Dictionary<System.Type, List<VertexAttribute>>();
+
         /// <summary>
         /// Configures a vertex attribute for the currently bound element array buffer.
         /// Returns false on error.
@@ -36,6 +39,10 @@ namespace SFGenericModel.VertexAttributes
         /// <returns>The vertex attributes for <typeparamref name="T"/></returns>
         public static List<VertexAttribute> GetAttributesFromType<T>() where T : struct
         {
+            // Static constructors for GenericMesh<T> will likely initialize this, improving performance for subsequent calls.
+            if (attributesByType.ContainsKey(typeof(T)))
+                return attributesByType[typeof(T)];
+
             var attributes = new List<VertexAttribute>();
             foreach (var member in typeof(T).GetMembers())
             {
@@ -46,7 +53,7 @@ namespace SFGenericModel.VertexAttributes
                     break;
                 }
             }
-
+            attributesByType.Add(typeof(T), attributes);
             return attributes;
         }
     }

@@ -58,6 +58,7 @@ namespace SFGraphicsGui
             var stopwatch = System.Diagnostics.Stopwatch.StartNew();
             for (int i = 0; i < length; i++)
             {
+                var result = SFGenericModel.VertexAttributes.VertexAttributeUtils.GetAttributesFromType<ObjVertex>();
                 //SFGenericModel.RenderState.GLRenderSettings.SetRenderSettings(new SFGenericModel.RenderState.RenderSettings());
             }
             System.Diagnostics.Debug.WriteLine($"Operation: { (double)stopwatch.ElapsedMilliseconds / length } ms");

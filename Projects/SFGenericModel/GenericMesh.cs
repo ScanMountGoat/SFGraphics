@@ -60,13 +60,10 @@ namespace SFGenericModel
         // This result will be used a lot, so only initialize once.
         private static List<VertexAttribute> vertexAttributes = null;
 
-        static GenericMesh()
-        {
-            InitializeVertexAttributes();
-        }
-
         private GenericMesh(PrimitiveType primitiveType, DrawElementsType drawElementsType, System.Type vertexType, int vertexCount)
         {
+            InitializeVertexAttributes();
+
             PrimitiveType = primitiveType;
             DrawElementsType = DrawElementsType.UnsignedInt;
 
@@ -186,7 +183,8 @@ namespace SFGenericModel
 
         private static void InitializeVertexAttributes()
         {
-            vertexAttributes = VertexAttributeUtils.GetAttributesFromType<T>();
+            if (vertexAttributes == null)
+                vertexAttributes = VertexAttributeUtils.GetAttributesFromType<T>();
         }
 
         private void DrawGeometry(int count, int offset)
