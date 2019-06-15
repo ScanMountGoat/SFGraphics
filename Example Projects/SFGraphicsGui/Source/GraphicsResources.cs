@@ -53,15 +53,14 @@ namespace SFGraphicsGui
 
         private void Benchmark()
         {
-            int length = 10000;
+            int iterations = 10000;
 
             var stopwatch = System.Diagnostics.Stopwatch.StartNew();
-            for (int i = 0; i < length; i++)
+            for (int i = 0; i < iterations; i++)
             {
-                var result = SFGenericModel.VertexAttributes.VertexAttributeUtils.GetAttributesFromType<ObjVertex>();
-                //SFGenericModel.RenderState.GLRenderSettings.SetRenderSettings(new SFGenericModel.RenderState.RenderSettings());
+                //var result = SFGenericModel.Utils.IndexUtils.GenerateIndices(10000);
             }
-            System.Diagnostics.Debug.WriteLine($"Operation: { (double)stopwatch.ElapsedMilliseconds / length } ms");
+            System.Diagnostics.Debug.WriteLine($"Operation: { (double)stopwatch.ElapsedMilliseconds / iterations } ms");
         }
 
         private void CreateSamplerObject()

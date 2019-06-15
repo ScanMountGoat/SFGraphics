@@ -444,9 +444,9 @@ namespace SFGraphics.GLObjects.Shaders
         private void LoadUniforms()
         {
             // Locations may change when linking the shader again.
-            activeUniformByName.Clear();
-
             GL.GetProgram(Id, GetProgramParameterName.ActiveUniforms, out activeUniformCount);
+            activeUniformByName = new Dictionary<string, ActiveUniformInfo>(activeUniformCount);
+
             for (int i = 0; i < activeUniformCount; i++)
             {
                 AddActiveUniform(i);
@@ -456,9 +456,8 @@ namespace SFGraphics.GLObjects.Shaders
         private void LoadAttributes()
         {
             // Locations may change when linking the shader again.
-            activeAttribByName.Clear();
-
             GL.GetProgram(Id, GetProgramParameterName.ActiveAttributes, out activeAttributeCount);
+            activeAttribByName = new Dictionary<string, ActiveAttribInfo>(activeAttributeCount);
 
             for (int i = 0; i < activeAttributeCount; i++)
             {
