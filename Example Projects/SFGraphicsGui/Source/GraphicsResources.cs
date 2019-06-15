@@ -55,9 +55,11 @@ namespace SFGraphicsGui
         {
             int iterations = 10000;
 
+            var shader = new Shader();
             var stopwatch = System.Diagnostics.Stopwatch.StartNew();
             for (int i = 0; i < iterations; i++)
             {
+                shader.UseProgram();
                 //var result = SFGenericModel.Utils.IndexUtils.GenerateIndices(10000);
             }
             System.Diagnostics.Debug.WriteLine($"Operation: { (double)stopwatch.ElapsedMilliseconds / iterations } ms");

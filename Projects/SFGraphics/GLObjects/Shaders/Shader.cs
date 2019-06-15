@@ -115,11 +115,12 @@ namespace SFGraphics.GLObjects.Shaders
         }
 
         /// <summary>
-        /// Use <see cref="GLObject.Id"/> as the current program.
+        /// Use <see cref="GLObject.Id"/> as the current program for drawing.
         /// </summary>
         public void UseProgram()
         {
-            GL.UseProgram(Id);
+            if (linkStatusIsOk)
+                GL.UseProgram(Id);
         }
 
         /// <summary>
