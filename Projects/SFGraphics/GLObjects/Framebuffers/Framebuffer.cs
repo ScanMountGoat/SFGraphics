@@ -36,7 +36,7 @@ namespace SFGraphics.GLObjects.Framebuffers
         public int Height { get; private set; } = 0;
 
         /// <summary>
-        /// 
+        /// The attachments currently attached to the framebuffer
         /// </summary>
         public List<IFramebufferAttachment> Attachments { get; private set; }
 

@@ -39,7 +39,6 @@ namespace SFGenericModel.ShaderGenerators
         /// <param name="fragmentSource">The generated GLSL fragment shader source</param>
         /// <exception cref="System.ArgumentOutOfRangeException">The struct has no attributes.</exception>
         /// <exception cref="System.ArgumentException">The struct's attributes do not contain attributes with the required usages.</exception>
-        /// <returns>A new shader that can be used for rendering</returns>
         public void CreateShader<T>(List<TextureRenderInfo> textures, out string vertexSource, out string fragmentSource) where T : struct
         {
             var attributes = VertexAttributeUtils.GetAttributesFromType<T>();
@@ -55,7 +54,6 @@ namespace SFGenericModel.ShaderGenerators
         /// <param name="fragmentSource">The generated GLSL fragment shader source</param>
         /// <exception cref="System.ArgumentOutOfRangeException"><paramref name="attributes"/> is empty.</exception>
         /// <exception cref="System.ArgumentException"><paramref name="attributes"/> does not contain attributes with the required usages.</exception>
-        /// <returns>A new shader that can be used for rendering</returns>
         public void CreateShader(List<TextureRenderInfo> textures, ICollection<VertexAttribute> attributes, 
             out string vertexSource, out string fragmentSource)
         {

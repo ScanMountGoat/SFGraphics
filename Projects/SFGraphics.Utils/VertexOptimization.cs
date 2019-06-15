@@ -10,7 +10,7 @@ namespace SFGraphics.Utils
         /// <summary>
         /// Generates new vertices and indices with no repeated vertices.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="T">The vertex data type</typeparam>
         /// <param name="vertices">The original vertex list</param>
         /// <param name="newVertices">The optimized list of vertices</param>
         /// <param name="newIndices">The optimized list of indices</param>
@@ -44,7 +44,7 @@ namespace SFGraphics.Utils
         /// <summary>
         /// Generates new vertices and indices with no repeated vertices.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="T">The vertex data type</typeparam>
         /// <param name="vertices">The original vertex list</param>
         /// <param name="indices">The original vertex indices</param>
         /// <param name="newVertices">The optimized list of vertices</param>

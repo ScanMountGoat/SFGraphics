@@ -25,8 +25,8 @@ namespace SFGenericModel.RenderState
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="materialFace"></param>
-        /// <param name="polygonMode"></param>
+        /// <param name="materialFace">Determines what faces are effected</param>
+        /// <param name="polygonMode">Determines how primitives are drawn</param>
         public PolygonModeSettings(MaterialFace materialFace, PolygonMode polygonMode)
         {
             this.materialFace = materialFace;

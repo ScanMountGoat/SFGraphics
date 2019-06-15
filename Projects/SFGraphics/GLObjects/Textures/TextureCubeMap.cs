@@ -114,7 +114,7 @@ namespace SFGraphics.GLObjects.Textures
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="faceSideLength">The side length in pixels of each face.</param>
-        /// <param name="format"></param>
+        /// <param name="format">The image format</param>
         /// <param name="mipsPosX">Mipmaps for the positive x target</param>
         /// <param name="mipsNegX">Mipmaps for the negative x target</param>
         /// <param name="mipsPosY">Mipmaps for the positive y target</param>
@@ -148,7 +148,7 @@ namespace SFGraphics.GLObjects.Textures
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="faceSideLength">The side length in pixels of each face.</param>
-        /// <param name="format"></param>
+        /// <param name="format">The image format</param>
         /// <param name="facePosX">The base mip level for the positive x target</param>
         /// <param name="faceNegX">The base mip level for the negative x target</param>
         /// <param name="facePosY">The base mip level for the positive y target</param>

@@ -12,24 +12,21 @@ namespace SFGenericModel.ShaderGenerators
     public class VertexAttributeShaderGenerator
     {
         /// <summary>
-        /// 
+        /// The variable name used for the model view projection matrix.
         /// </summary>
         public string MvpMatrixName { get; set; } = "mvpMatrix";
 
         /// <summary>
-        /// 
+        /// The variable name used for transforming normals to view space.
         /// </summary>
         public string SphereMatrixName { get; set; } = "sphereMatrix";
 
         /// <summary>
-        /// 
-        /// </summary>
-        public string ResultName { get; set; } = "result";
-
-        /// <summary>
-        /// 
+        /// The variable name used for selecting the 0 indexed attribute to render.
         /// </summary>
         public string AttribIndexName { get; set; } = "attributeIndex";
+
+        private readonly string resultName = "result";
 
         /// <summary>
         /// Generates a shader for rendering each of the vertex attributes individually. 
@@ -121,11 +118,11 @@ namespace SFGenericModel.ShaderGenerators
 
         private void AppendMainFunctionBody(List<VertexAttribute> attributes, StringBuilder shaderSource)
         {
-            shaderSource.AppendLine($"\tvec3 {ResultName} = vec3(0);");
+            shaderSource.AppendLine($"\tvec3 {resultName} = vec3(0);");
 
             AppendFragmentAttributeSwitch(attributes, shaderSource);
 
-            shaderSource.AppendLine($"\t{GlslUtils.outputName} = vec4({ResultName}, 1);");
+            shaderSource.AppendLine($"\t{GlslUtils.outputName} = vec4({resultName}, 1);");
         }
          
         private void AppendFragmentAttributeSwitch(List<VertexAttribute> attributes, StringBuilder shaderSource)
@@ -150,7 +147,7 @@ namespace SFGenericModel.ShaderGenerators
         {
             string constructedVector = GlslVectorUtils.ConstructVector(resultCount, sourceCount,
                 GlslUtils.vertexOutputPrefix + sourceName);
-            return $"{ResultName}.rgb = {constructedVector};";
+            return $"{resultName}.rgb = {constructedVector};";
         }
     }
 }

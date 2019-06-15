@@ -24,7 +24,7 @@ namespace SFGenericModel.Utils
         /// </summary>
         /// <typeparam name="T">The vertex data struct</typeparam>
         /// <param name="containers">The unoptimized vertex containers</param>
-        /// <returns></returns>
+        /// <returns><paramref name="containers"/> grouped by primitive type</returns>
         public static List<IndexedVertexData<T>> GroupContainersByPrimitiveType<T>(IList<IndexedVertexData<T>> containers)
             where T : struct
         {

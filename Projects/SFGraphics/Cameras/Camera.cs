@@ -274,9 +274,7 @@ namespace SFGraphics.Cameras
         /// </summary>
         /// <param name="xAmount">The amount to add to the camera's x coordinate</param>
         /// <param name="yAmount">The amount to add to the camera's y coordinate</param>
-        /// <param name="scaleByDistanceToOrigin">When <c>true</c>, the <paramref name="xAmount"/>
-        /// and <paramref name="yAmount"/> are multiplied by the magnitude of <see cref="Position"/>
-        /// and the sine of <see cref="FovRadians"/></param>
+        /// <param name="scaleByDistanceToOrigin">When <c>true</c>, panning is faster for more distance objects.</param>
         public void Pan(float xAmount, float yAmount, bool scaleByDistanceToOrigin = true)
         {
             // Find the change in normalized screen coordinates.
@@ -303,7 +301,7 @@ namespace SFGraphics.Cameras
         /// <summary>
         /// Translates the camera along the z-axis by a specified amount.
         /// </summary>
-        /// <param name="amount"></param>
+        /// <param name="amount">The amount to zoom in scene units</param>
         /// <param name="scaleByDistanceToOrigin">When <c>true</c>, the <paramref name="amount"/> 
         /// is multiplied by the magnitude of <see cref="Position"/></param>
         public void Zoom(float amount, bool scaleByDistanceToOrigin = true)

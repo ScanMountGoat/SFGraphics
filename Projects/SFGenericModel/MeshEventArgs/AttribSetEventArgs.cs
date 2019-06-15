@@ -21,16 +21,16 @@ namespace SFGenericModel.MeshEventArgs
 
         /// <summary>
         /// The number of components. Ex: 1 for <see cref="float"/> or
-        /// 4 for Vector4.
+        /// 4 for <see cref="OpenTK.Vector4"/>.
         /// </summary>
         public ValueCount ValueCount { get; }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="type"></param>
-        /// <param name="valueCount"></param>
+        /// <param name="name">The name of the attribute</param>
+        /// <param name="type">The data type of the attribute</param>
+        /// <param name="valueCount">The number of vector components or 1 for scalars</param>
         public AttribSetEventArgs(string name, VertexAttribPointerType type, ValueCount valueCount)
         {
             Name = name;

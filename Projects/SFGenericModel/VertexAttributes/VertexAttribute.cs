@@ -108,12 +108,12 @@ namespace SFGenericModel.VertexAttributes
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="valueCount"></param>
-        /// <param name="type"></param>
-        /// <param name="attributeUsage"></param>
-        /// <param name="normalizeVector"></param>
-        /// <param name="remapToVisibleRange"></param>
+        /// <param name="name">The name of the attribute in the shader</param>
+        /// <param name="valueCount">The number of components</param>
+        /// <param name="type">The data type</param>
+        /// <param name="attributeUsage">How the attribute will be rendered</param>
+        /// <param name="normalizeVector">Normalize the vector before rendering</param>
+        /// <param name="remapToVisibleRange">Remap the vector before rendering</param>
         public VertexAttribute(string name, ValueCount valueCount, VertexAttribPointerType type, AttributeUsage attributeUsage, bool normalizeVector, bool remapToVisibleRange)
         {
             Name = name;

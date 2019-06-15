@@ -35,14 +35,13 @@ namespace SFGenericModel.RenderState
         public FaceCullingSettings faceCullingSettings = FaceCullingSettings.Default;
 
         /// <summary>
-        /// 
+        /// Compares the values of the object's fields with <paramref name="obj"/>
         /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
+        /// <param name="obj">The object to compare with the current object</param>
+        /// <returns><c>true</c> if the specified object is equal to the current object</returns>
         public override bool Equals(object obj)
         {
-            var settings = obj as RenderSettings;
-            return settings != null &&
+            return obj is RenderSettings settings &&
                 settings.alphaBlendSettings.Equals(alphaBlendSettings) &&
                 settings.alphaTestSettings.Equals(alphaTestSettings) &&
                 settings.depthTestSettings.Equals(depthTestSettings) &&
@@ -50,9 +49,9 @@ namespace SFGenericModel.RenderState
         }
 
         /// <summary>
-        /// 
+        /// Returns a hash code based on the object's fields.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A hash code for the current object</returns>
         public override int GetHashCode()
         {
             var hashCode = 2089746424;

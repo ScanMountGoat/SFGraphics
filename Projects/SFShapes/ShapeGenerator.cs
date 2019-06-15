@@ -35,7 +35,7 @@ namespace SFShapes
         /// <param name="scaleX">The total width of the shape</param>
         /// <param name="scaleY">The total height of the shape</param>
         /// <param name="scaleZ">The total depth of the shape</param>
-        /// <returns></returns>
+        /// <returns>Points for a rectangular prism</returns>
         public static Tuple<List<Vector3>, PrimitiveType> GetRectangularPrismPositions(Vector3 center, float scaleX, float scaleY, float scaleZ)
         {
             scaleX = scaleX * 0.5f;

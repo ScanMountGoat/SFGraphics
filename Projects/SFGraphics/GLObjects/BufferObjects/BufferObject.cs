@@ -44,7 +44,7 @@ namespace SFGraphics.GLObjects.BufferObjects
         /// <summary>
         /// Binds <see cref="GLObject.Id"/> to <paramref name="target"/>.
         /// </summary>
-        /// <param name="target"></param>
+        /// <param name="target">The target for the bind</param>
         public void Bind(BufferTarget target)
         {
             GL.BindBuffer(target, Id);
@@ -65,7 +65,7 @@ namespace SFGraphics.GLObjects.BufferObjects
         /// Initializes the buffer's data with the specified array.
         /// <paramref name="data"/> should be contiguous in memory, so only 
         /// </summary>
-        /// <typeparam name="T">The type of each item. This includes arithmetic types like <see cref="int"/>.</typeparam>
+        /// <typeparam name="T">The type of each item</typeparam>
         /// <param name="data">The data used to initialize the buffer's data</param>
         /// <param name="usageHint">A hint on how the data will be used, which allows performance optimizations</param>
         public void SetData<T>(T[] data, BufferUsageHint usageHint) where T : struct

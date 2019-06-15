@@ -2,9 +2,8 @@
 using OpenTK.Graphics.OpenGL;
 using SFGenericModel;
 using SFGenericModel.VertexAttributes;
-using System.Collections.Generic;
-using SFGenericModel.ShaderGenerators;
 using System;
+using System.Collections.Generic;
 
 namespace SFShapes
 {
@@ -16,8 +15,8 @@ namespace SFShapes
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="vertices"></param>
-        /// <param name="primitiveType"></param>
+        /// <param name="vertices">The points for the shape</param>
+        /// <param name="primitiveType">Determines how the shape should be drawn</param>
         public Mesh3D(List<Vector3> vertices, PrimitiveType primitiveType) : base(vertices, primitiveType)
         {
 
@@ -26,7 +25,7 @@ namespace SFShapes
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="vertices"></param>
+        /// <param name="vertices">The points of the shape</param>
         public Mesh3D(Tuple<List<Vector3>, PrimitiveType> vertices) : base(vertices.Item1, vertices.Item2)
         {
         }

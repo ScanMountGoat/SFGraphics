@@ -28,9 +28,9 @@ namespace SFGenericModel.VertexAttributes
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="valueCount"></param>
-        /// <param name="type"></param>
+        /// <param name="name">The name of the attribute</param>
+        /// <param name="valueCount">The number of vector components</param>
+        /// <param name="type">The data type</param>
         public VertexIntAttribute(string name, ValueCount valueCount, VertexAttribIntegerType type) : base(name, valueCount, (VertexAttribPointerType)type, AttributeUsage.Default, false, false)
         {
             // The default attribute pointer type enum contains all the integer values.
