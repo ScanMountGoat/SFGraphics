@@ -391,8 +391,8 @@ namespace SFGraphics.Cameras
         /// </summary>
         /// <param name="center">The position of the center of the bounding sphere.</param>
         /// <param name="radius">The radius of the bounding sphere in scene units</param>
-        /// <param name="offset">The offset in scene units</param>
-        public virtual void FrameBoundingSphere(Vector3 center, float radius, float offset = 10)
+        /// <param name="offset">The distance offset in scene units</param>
+        public virtual void FrameBoundingSphere(Vector3 center, float radius, float offset)
         {
             // Find the min to avoid clipping for non square aspect ratios.
             float fovHorizontal = (float)(2 * Math.Atan(Math.Tan(fovRadians / 2) * AspectRatio));
@@ -413,6 +413,25 @@ namespace SFGraphics.Cameras
             translation.Z = -1 * (distance + distanceOffset);
 
             UpdateMatrices();
+        }
+
+        /// <summary>
+        /// Transforms the camera to frame a sphere of the given dimensions in the viewport.
+        /// </summary>
+        /// <param name="boundingSphere">The sphere's center (XYZ) and radius (W)</param>
+        /// <param name="offset">The distance offset in scene units</param>
+        public void FrameBoundingSphere(Vector4 boundingSphere, float offset)
+        {
+            FrameBoundingSphere(boundingSphere.Xyz, boundingSphere.W, offset);
+        }
+
+        /// <summary>
+        /// Transforms the camera to frame a sphere of the given dimensions in the viewport.
+        /// </summary>
+        /// <param name="boundingSphere">The sphere's center (XYZ) and radius (W)</param>
+        public void FrameBoundingSphere(Vector4 boundingSphere)
+        {
+            FrameBoundingSphere(boundingSphere.Xyz, boundingSphere.W, 0);
         }
     }
 }

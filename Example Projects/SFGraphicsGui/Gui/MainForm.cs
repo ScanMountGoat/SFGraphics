@@ -123,7 +123,7 @@ namespace SFGraphicsGui
                 RenderHeight = glControl1.Height,
                 NearClipPlane = 0.01f,
             };
-            camera.FrameBoundingSphere(modelToRender.BoundingSphere.Xyz, modelToRender.BoundingSphere.W, 0);
+            camera.FrameBoundingSphere(modelToRender.BoundingSphere);
 
             graphicsResources.objModelShader.UseProgram();
             graphicsResources.objModelShader.SetMatrix4x4("mvpMatrix", camera.MvpMatrix);

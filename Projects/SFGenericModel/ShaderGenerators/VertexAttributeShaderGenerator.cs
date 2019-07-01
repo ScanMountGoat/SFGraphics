@@ -44,7 +44,7 @@ namespace SFGenericModel.ShaderGenerators
         /// <summary>
         /// Generates a shader for rendering each of the vertex attributes individually.      
         /// </summary>
-        /// <param name="attributes">Attributes used to generate render modes. 
+        /// <param name="attributes">Attributes used to generate render modes</param>
         /// <param name="vertexSource">The generated GLSL vertex shader source</param>
         /// <param name="fragmentSource">The generated GLSL fragment shader source</param>
         public void CreateShader(List<VertexAttribute> attributes, out string vertexSource, out string fragmentSource)
