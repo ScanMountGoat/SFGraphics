@@ -210,6 +210,11 @@ namespace SFGraphics.Cameras
         private int renderHeight = 1;
 
         /// <summary>
+        /// The ratio for <see cref="RenderWidth"/> / <see cref="RenderHeight"/>.
+        /// </summary>
+        public float AspectRatio => (float)RenderWidth / RenderHeight;
+
+        /// <summary>
         /// See <see cref="ModelViewMatrix"/>
         /// </summary>
         protected Matrix4 modelViewMatrix = Matrix4.Identity;
@@ -389,16 +394,22 @@ namespace SFGraphics.Cameras
         /// <param name="offset">The offset in scene units</param>
         public virtual void FrameBoundingSphere(Vector3 center, float radius, float offset = 10)
         {
-            // Calculate a right triangle using the bounding sphere radius as height 
-            // and the field of view as the angle.
-            // The distance is the base of the triangle. 
-            float distance = radius / (float)Math.Tan(fovRadians / 2.0f);
+            // Find the min to avoid clipping for non square aspect ratios.
+            float fovHorizontal = (float)(2 * Math.Atan(Math.Tan(fovRadians / 2) * AspectRatio));
+            float minFov = Math.Min(fovRadians, fovHorizontal);
 
-            float distanceOffset = offset / fovRadians;
+            // Calculate the height of a right triangle using field of view and the sphere radius.
+            float distance = radius / (float)Math.Tan(minFov / 2.0f);
+
+            // TODO: Don't reset rotation.
             rotationXRadians = 0;
             rotationYRadians = 0;
+
             translation.X = -center.X;
             translation.Y = center.Y;
+
+            // TODO: Why divide by field of view?
+            float distanceOffset = offset / minFov;
             translation.Z = -1 * (distance + distanceOffset);
 
             UpdateMatrices();
