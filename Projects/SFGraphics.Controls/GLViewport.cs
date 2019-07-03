@@ -7,7 +7,8 @@ namespace SFGraphics.Controls
 {
     /// <summary>
     /// Provides functionality similar to <see cref="OpenTK.GameWindow"/> for <see cref="OpenTK.GLControl"/>.
-    /// Rendered frames can be triggered manually or automatically with a separate thread.
+    /// <para></para><para></para>
+    /// Frame timing can be handled manually or with a dedicated thread using <see cref="ResumeRendering"/>.
     /// </summary>
     public class GLViewport : OpenTK.GLControl, System.IDisposable
     {
@@ -29,9 +30,10 @@ namespace SFGraphics.Controls
         public event OnRenderFrameEventHandler OnRenderFrame;
 
         /// <summary>
-        /// The minimum time in milliseconds between frames for the dedicated rendering thread.
+        /// The minimum time in milliseconds between frames.
+        /// A value of <c>0</c> unlocks the frame rate but can result in very high CPU usage.
         /// </summary>
-        public int RenderFrameInterval { get; set; } = 5;
+        public int RenderFrameInterval { get; set; } = 16;
 
         private readonly Thread renderThread = null;
         private bool shouldRenderFrames = false;
@@ -75,7 +77,7 @@ namespace SFGraphics.Controls
         }
 
         /// <summary>
-        /// Starts or resumes calling <see cref="RenderFrame"/> on the render thread with interval specified by <see cref="RenderFrameInterval"/>.
+        /// Starts or resumes frame updates with interval specified by <see cref="RenderFrameInterval"/>.
         /// </summary>
         public void ResumeRendering()
         {
@@ -85,7 +87,8 @@ namespace SFGraphics.Controls
         }
 
         /// <summary>
-        /// Pauses frame updates for the render thread. Frames can still be rendered manually with <see cref="RenderFrame"/>.
+        /// Pauses automatic frame updates. 
+        /// Frames can still be rendered manually with <see cref="RenderFrame"/>.
         /// </summary>
         public void PauseRendering()
         {
@@ -128,16 +131,11 @@ namespace SFGraphics.Controls
             {
                 if (shouldRenderFrames)
                 {
-                    if (stopwatch.ElapsedMilliseconds > RenderFrameInterval)
+                    if (stopwatch.ElapsedMilliseconds >= RenderFrameInterval)
                     {
                         Invalidate();
                         stopwatch.Restart();
                     }
-                }
-                else
-                {
-                    // HACK: Avoid wasting CPU time if we don't need to render anything.
-                    Thread.Sleep(1);
                 }
             }
         }

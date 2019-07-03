@@ -24,6 +24,7 @@ namespace SFGraphicsGui
         {
             // The context isn't current yet, so don't call any OpenTK methods here.
             InitializeComponent();
+            glViewport.VSync = true;
             glViewport.OnRenderFrame += RenderFrame;
         }
 
@@ -32,6 +33,8 @@ namespace SFGraphicsGui
             // Context creation and resource creation failed, so we can't render anything.
             if (graphicsResources == null)
                 return;
+
+            GL.Clear(ClearBufferMask.ColorBufferBit);
 
             // Draw a test pattern image to the screen.
             if (textureToRender != null)

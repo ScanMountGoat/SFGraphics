@@ -96,7 +96,6 @@
             this.glViewport.Location = new System.Drawing.Point(0, 24);
             this.glViewport.Margin = new System.Windows.Forms.Padding(6);
             this.glViewport.Name = "glViewport";
-            this.glViewport.RenderFrameInterval = 5;
             this.glViewport.Size = new System.Drawing.Size(540, 368);
             this.glViewport.TabIndex = 2;
             this.glViewport.VSync = false;
