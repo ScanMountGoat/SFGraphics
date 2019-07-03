@@ -1,10 +1,13 @@
 ﻿using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
+using System.Threading;
+using System.Diagnostics;
 
 namespace SFGraphics.Controls
 {
     /// <summary>
     /// Provides functionality similar to <see cref="OpenTK.GameWindow"/> for <see cref="OpenTK.GLControl"/>.
+    /// Rendered frames can be triggered manually or automatically with a separate thread.
     /// </summary>
     public class GLViewport : OpenTK.GLControl
     {
@@ -26,11 +29,28 @@ namespace SFGraphics.Controls
         public event OnRenderFrameEventHandler OnRenderFrame;
 
         /// <summary>
+        /// The minimum time in milliseconds between frames for the dedicated rendering thread.
+        /// </summary>
+        public int RenderFrameInterval { get; set; } = 5;
+
+        private readonly Thread renderThread = null;
+        private bool shouldRenderFrames = false;
+
+        /// <summary>
         /// Creates a new viewport with <see cref="defaultGraphicsMode"/>.
         /// </summary>
         public GLViewport() : base(defaultGraphicsMode)
         {
+            renderThread = new Thread(new ThreadStart(FrameTimingLoop));
 
+            // HACK: Make sure the frames are rendered on the UI thread.
+            // This limits performance but prevents attempts to make the context current on more than one thread.
+            Paint += GLViewport_Paint;
+        }
+
+        private void GLViewport_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
+        {
+            RenderFrame();
         }
 
         /// <summary>
@@ -46,6 +66,47 @@ namespace SFGraphics.Controls
 
             // Display the content on screen.
             SwapBuffers();
+        }
+
+        /// <summary>
+        /// Starts or resumes calling <see cref="RenderFrame"/> on the render thread with interval specified by <see cref="RenderFrameInterval"/>.
+        /// </summary>
+        public void ResumeRendering()
+        {
+            shouldRenderFrames = true;
+            if (!renderThread.IsAlive)
+                renderThread.Start();
+        }
+
+        /// <summary>
+        /// Pauses frame updates for the render thread. Frames can still be rendered manually with <see cref="RenderFrame"/>.
+        /// </summary>
+        public void PauseRendering()
+        {
+            shouldRenderFrames = false;
+        }
+
+        private void FrameTimingLoop()
+        {
+            // This may cause the application to continue to run in the background.
+            // TODO: Support killing the thread either manually or automatically.
+            var stopwatch = Stopwatch.StartNew();
+            while (true)
+            {
+                if (shouldRenderFrames)
+                {
+                    if (stopwatch.ElapsedMilliseconds > RenderFrameInterval)
+                    {
+                        Invalidate();
+                        stopwatch.Restart();
+                    }
+                }
+                else
+                {
+                    // HACK: Avoid wasting CPU time if we don't need to render anything.
+                    Thread.Sleep(1);
+                }
+            }
         }
     }
 }

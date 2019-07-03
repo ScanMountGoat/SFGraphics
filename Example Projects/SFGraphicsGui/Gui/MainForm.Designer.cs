@@ -34,7 +34,7 @@
             this.magentaBlackStripesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.glControl1 = new SFGraphics.Controls.GLViewport();
+            this.glViewport = new SFGraphics.Controls.GLViewport();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -91,24 +91,24 @@
             // 
             // glControl1
             // 
-            this.glControl1.BackColor = System.Drawing.Color.Black;
-            this.glControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.glControl1.Location = new System.Drawing.Point(0, 24);
-            this.glControl1.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
-            this.glControl1.Name = "glControl1";
-            this.glControl1.Size = new System.Drawing.Size(540, 368);
-            this.glControl1.TabIndex = 2;
-            this.glControl1.VSync = false;
-            this.glControl1.Load += new System.EventHandler(this.glControl1_Load);
-            this.glControl1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.glControl1_KeyPress);
-            this.glControl1.Resize += new System.EventHandler(this.glControl1_Resize);
+            this.glViewport.BackColor = System.Drawing.Color.Black;
+            this.glViewport.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.glViewport.Location = new System.Drawing.Point(0, 24);
+            this.glViewport.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.glViewport.Name = "glControl1";
+            this.glViewport.Size = new System.Drawing.Size(540, 368);
+            this.glViewport.TabIndex = 2;
+            this.glViewport.VSync = false;
+            this.glViewport.Load += new System.EventHandler(this.glControl1_Load);
+            this.glViewport.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.glControl1_KeyPress);
+            this.glViewport.Resize += new System.EventHandler(this.glControl1_Resize);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(540, 392);
-            this.Controls.Add(this.glControl1);
+            this.Controls.Add(this.glViewport);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
@@ -126,7 +126,7 @@
         private System.Windows.Forms.ToolStripMenuItem loadTextureToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem uVTestPatternToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem magentaBlackStripesToolStripMenuItem;
-        private SFGraphics.Controls.GLViewport glControl1;
+        private SFGraphics.Controls.GLViewport glViewport;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openFileToolStripMenuItem;
     }

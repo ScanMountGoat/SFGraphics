@@ -24,7 +24,7 @@ namespace SFGraphicsGui
         {
             // The context isn't current yet, so don't call any OpenTK methods here.
             InitializeComponent();
-            glControl1.OnRenderFrame += RenderFrame;
+            glViewport.OnRenderFrame += RenderFrame;
         }
 
         private void RenderFrame(object sender, EventArgs e)
@@ -71,7 +71,9 @@ namespace SFGraphicsGui
             }
 
             // Trigger the render event.
-            glControl1.RenderFrame();
+            glViewport.RenderFrame();
+
+            glViewport.ResumeRendering();
         }
 
         private void uvTestPatternToolStripMenuItem_Click(object sender, EventArgs e)
@@ -79,7 +81,7 @@ namespace SFGraphicsGui
             if (graphicsResources != null)
             {
                 textureToRender = graphicsResources.uvTestPattern;
-                glControl1.RenderFrame();
+                glViewport.RenderFrame();
             }
         }
 
@@ -88,13 +90,13 @@ namespace SFGraphicsGui
             if (graphicsResources != null)
             {
                 textureToRender = graphicsResources.floatMagentaBlackStripes;
-                glControl1.RenderFrame();
+                glViewport.RenderFrame();
             }
         }
 
         private void glControl1_Resize(object sender, EventArgs e)
         {
-            glControl1.RenderFrame();
+            glViewport.RenderFrame();
         }
 
         private void openFileToolStripMenuItem_Click(object sender, EventArgs e)
@@ -107,7 +109,7 @@ namespace SFGraphicsGui
 
                     var vertices = GetVertices(result);
                     modelToRender = new ObjMesh(vertices);
-                    glControl1.RenderFrame();
+                    glViewport.RenderFrame();
                 }
             }
         }
@@ -119,8 +121,8 @@ namespace SFGraphicsGui
 
             var camera = new Camera()
             {
-                RenderWidth = glControl1.Width,
-                RenderHeight = glControl1.Height,
+                RenderWidth = glViewport.Width,
+                RenderHeight = glViewport.Height,
                 NearClipPlane = 0.01f,
             };
             camera.FrameBoundingSphere(modelToRender.BoundingSphere);
@@ -174,7 +176,7 @@ namespace SFGraphicsGui
             {
                 // Convert 1 to 9 to 0 to 8.
                 renderModeIndex = Math.Max(int.Parse(e.KeyChar.ToString()) - 1, 0);
-                glControl1.RenderFrame();
+                glViewport.RenderFrame();
             }
         }
     }
