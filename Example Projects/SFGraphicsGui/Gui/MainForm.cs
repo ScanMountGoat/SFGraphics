@@ -47,6 +47,8 @@ namespace SFGraphicsGui
             {
                 DrawModel();
             }
+
+            SFGraphics.GLObjects.GLObjectManagement.GLObjectManager.DeleteUnusedGLObjects();
         }
 
         private void glControl1_Load(object sender, EventArgs e)

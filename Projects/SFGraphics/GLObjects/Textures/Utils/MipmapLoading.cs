@@ -193,8 +193,7 @@ namespace SFGraphics.GLObjects.Textures.Utils
         }
 
         /// <summary>
-        /// Loads image data for all six faces of a cubemap. No mipmaps are generated, so use a min filter
-        /// that does not use mipmaps.
+        /// Loads image data for all six faces of a cubemap. No mipmaps are generated.
         /// </summary>
         /// <typeparam name="T">The value type of the image data</typeparam>
         /// <param name="length">The width and height of each cube map face in pixels</param>

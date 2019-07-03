@@ -12,7 +12,7 @@ namespace SFGraphics.GLObjects.Textures.TextureFormats
     public static class TextureFormatTools
     {
         // These formats are implementation dependent, so we can't load them reliably.
-        private static HashSet<InternalFormat> genericCompressedFormats = new HashSet<InternalFormat>()
+        private static readonly HashSet<InternalFormat> genericCompressedFormats = new HashSet<InternalFormat>()
         {
             InternalFormat.CompressedRed,
             InternalFormat.CompressedRg,
@@ -39,11 +39,6 @@ namespace SFGraphics.GLObjects.Textures.TextureFormats
 
             int imageSize = blockSize * (int)Math.Ceiling(width / 4.0) * (int)Math.Ceiling(height / 4.0);
             return imageSize;
-        }
-
-        private static int CalculateBlockSize(InternalFormat format)
-        {
-            return CompressedBlockSize.blockSizeByFormat[format.ToString()];
         }
 
         /// <summary>
@@ -133,6 +128,11 @@ namespace SFGraphics.GLObjects.Textures.TextureFormats
         public static bool IsCubeMapTarget(TextureTarget target)
         {
             return target.ToString().ToLower().Contains("cubemap");
+        }
+
+        private static int CalculateBlockSize(InternalFormat format)
+        {
+            return CompressedBlockSize.blockSizeByFormat[format.ToString()];
         }
     }
 }

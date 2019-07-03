@@ -8,7 +8,7 @@ namespace SFGraphics.GLObjects.BufferObjects
     /// </summary>
     public sealed class BufferObject : GLObject
     {
-        internal override GLObjectType ObjectType { get { return GLObjectType.BufferObject; } }
+        internal override GLObjectType ObjectType => GLObjectType.BufferObject;
 
         /// <summary>
         /// The target to which <see cref="GLObject.Id"/> is bound when calling Bind().

@@ -8,7 +8,7 @@ namespace SFGraphics.GLObjects.VertexArrays
     /// </summary>
     public sealed class VertexArrayObject : GLObject
     {
-        internal override GLObjectType ObjectType { get { return GLObjectType.VertexArrayObject; } }
+        internal override GLObjectType ObjectType => GLObjectType.VertexArrayObject; 
 
         /// <summary>
         /// Creates an empty vertex array object.

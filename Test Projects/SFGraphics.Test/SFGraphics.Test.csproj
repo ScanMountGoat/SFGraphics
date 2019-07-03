@@ -73,9 +73,9 @@
     <Compile Include="Tests\FramebufferTests\Attachments.cs" />
     <Compile Include="Tests\FramebufferTests\ConstructorExceptions.cs" />
     <Compile Include="Tests\GLObjectTests\GLObjectToString.cs" />
-    <Compile Include="Tests\ReferenceCountTests\DecrementRefTest.cs" />
+    <Compile Include="Tests\ReferenceCountTests\RemoveReference.cs" />
     <Compile Include="Tests\ReferenceCountTests\GetObjectsWithNoReferencesTests.cs" />
-    <Compile Include="Tests\ReferenceCountTests\IncrementRefTest.cs" />
+    <Compile Include="Tests\ReferenceCountTests\AddReference.cs" />
     <Compile Include="Tests\ShaderTests\GetAttribLocation.cs" />
     <Compile Include="Tests\ShaderTests\GetProgramBinary.cs" />
     <Compile Include="Tests\ShaderTests\GetShaderSources.cs" />

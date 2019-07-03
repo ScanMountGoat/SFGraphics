@@ -17,8 +17,7 @@ namespace SFGraphics.GLObjects.GLObjectManagement
     /// </summary>
     public static class GLObjectManager
     {
-        // Use internal methods/variables so people can't mess this up.
-        internal static ConcurrentDictionary<Tuple<GLObject.GLObjectType, int>, int> referenceCountByGLObject = 
+        private static ConcurrentDictionary<Tuple<GLObject.GLObjectType, int>, int> referenceCountByGLObject =
             new ConcurrentDictionary<Tuple<GLObject.GLObjectType, int>, int>();
 
         /// <summary>
@@ -28,6 +27,16 @@ namespace SFGraphics.GLObjects.GLObjectManagement
         public static void DeleteUnusedGLObjects()
         {
             DeleteUnusedObjects(referenceCountByGLObject);
+        }
+
+        internal static void AddReference(GLObject.GLObjectType type, int id)
+        {
+            ReferenceCounting.AddReference(referenceCountByGLObject, new Tuple<GLObject.GLObjectType, int>(type, id));
+        }
+
+        internal static void RemoveReference(GLObject.GLObjectType type, int id)
+        {
+            ReferenceCounting.RemoveReference(referenceCountByGLObject, new Tuple<GLObject.GLObjectType, int>(type, id));
         }
 
         private static void DeleteUnusedObjects(ConcurrentDictionary<Tuple<GLObject.GLObjectType, int>, int> referenceCountById)

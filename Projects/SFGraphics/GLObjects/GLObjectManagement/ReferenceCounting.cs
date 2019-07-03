@@ -5,7 +5,7 @@ namespace SFGraphics.GLObjects.GLObjectManagement
 {
     /// <summary>
     /// Provides helpers for maintaining object reference counts.
-    /// <see cref="ConcurrentDictionary{TKey, TValue}"/> allows references to be incremented and
+    /// <see cref="ConcurrentDictionary{TKey, TValue}"/> allows reference counts to be incremented and
     /// decremented from separate threads.
     /// </summary>
     public static class ReferenceCounting
@@ -14,10 +14,10 @@ namespace SFGraphics.GLObjects.GLObjectManagement
         /// Increments the reference for <paramref name="objToIncrement"/> or 
         /// initializes to 1 if not found.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="referenceCountByObject"></param>
+        /// <typeparam name="T">The object's type</typeparam>
+        /// <param name="referenceCountByObject">The associated number of references for each object</param>
         /// <param name="objToIncrement"></param>
-        public static void IncrementReference<T>(ConcurrentDictionary<T, int> referenceCountByObject, T objToIncrement)
+        public static void AddReference<T>(ConcurrentDictionary<T, int> referenceCountByObject, T objToIncrement)
         {
             if (referenceCountByObject.ContainsKey(objToIncrement))
                 referenceCountByObject[objToIncrement] += 1;
@@ -29,10 +29,10 @@ namespace SFGraphics.GLObjects.GLObjectManagement
         /// Decrements the reference count for <paramref name="objToDecrement"/> if
         /// the reference count is greater than zero.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="referenceCountByObject"></param>
+        /// <typeparam name="T">The object's type</typeparam>
+        /// <param name="referenceCountByObject">The associated number of references for each object</param>
         /// <param name="objToDecrement"></param>
-        public static void DecrementReference<T>(ConcurrentDictionary<T, int> referenceCountByObject, T objToDecrement)
+        public static void RemoveReference<T>(ConcurrentDictionary<T, int> referenceCountByObject, T objToDecrement)
         {
             // Don't allow negative references just in case.
             if (referenceCountByObject.ContainsKey(objToDecrement))
@@ -46,11 +46,11 @@ namespace SFGraphics.GLObjects.GLObjectManagement
         /// Finds objects with zero references that can have their unmanaged data safely deleted.
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="referenceCountByObject"></param>
-        /// <returns>A hashset of objects with zero references</returns>
+        /// <param name="referenceCountByObject">The associated number of references for each object</param>
+        /// <returns>A collection of objects with zero references</returns>
         public static HashSet<T> GetObjectsWithNoReferences<T>(ConcurrentDictionary<T, int> referenceCountByObject)
         {
-            HashSet<T> objectsWithNoReferences = new HashSet<T>();
+            var objectsWithNoReferences = new HashSet<T>();
 
             foreach (var obj in referenceCountByObject)
             {

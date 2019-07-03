@@ -5,13 +5,13 @@ using SFGraphics.GLObjects.GLObjectManagement;
 namespace SFGraphics.Test.ReferenceCountTests
 {
     [TestClass]
-    public class IncrementRefTest
+    public class AddReference
     {
         [TestMethod]
         public void AddNewReference()
         {
             ConcurrentDictionary<string, int> refCountByName = new ConcurrentDictionary<string, int>();
-            ReferenceCounting.IncrementReference(refCountByName, "memes");
+            ReferenceCounting.AddReference(refCountByName, "memes");
 
             Assert.AreEqual(1, refCountByName["memes"]);
         }
@@ -20,8 +20,8 @@ namespace SFGraphics.Test.ReferenceCountTests
         public void IncrementExistingReference()
         {
             ConcurrentDictionary<string, int> refCountByName = new ConcurrentDictionary<string, int>();
-            ReferenceCounting.IncrementReference(refCountByName, "memes");
-            ReferenceCounting.IncrementReference(refCountByName, "memes");
+            ReferenceCounting.AddReference(refCountByName, "memes");
+            ReferenceCounting.AddReference(refCountByName, "memes");
 
             Assert.AreEqual(2, refCountByName["memes"]);
         }

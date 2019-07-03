@@ -86,8 +86,8 @@ namespace SFGraphics.GLObjects.Textures
         /// <param name="mipsNegZ">Mipmaps for the negative z target</param>
         /// <exception cref="ArgumentException"><paramref name="internalFormat"/> is not a compressed format.</exception>
         /// <exception cref="ArgumentOutOfRangeException">The mipmap counts are not equal for all faces.</exception>
-        public void LoadImageData<T>(int faceSideLength, InternalFormat internalFormat, 
-            IList<T[]> mipsPosX, IList<T[]> mipsNegX, IList<T[]> mipsPosY, 
+        public void LoadImageData<T>(int faceSideLength, InternalFormat internalFormat,
+            IList<T[]> mipsPosX, IList<T[]> mipsNegX, IList<T[]> mipsPosY,
             IList<T[]> mipsNegY, IList<T[]> mipsPosZ, IList<T[]> mipsNegZ) where T : struct
         {
             Width = faceSideLength;
@@ -104,7 +104,7 @@ namespace SFGraphics.GLObjects.Textures
             MinFilter = TextureMinFilter.LinearMipmapLinear;
 
             Bind();
-            MipmapLoading.LoadFacesMipmaps(faceSideLength, internalFormat, mipsPosX, mipsNegX, mipsPosY, 
+            MipmapLoading.LoadFacesMipmaps(faceSideLength, internalFormat, mipsPosX, mipsNegX, mipsPosY,
                 mipsNegY, mipsPosZ, mipsNegZ);
         }
 
@@ -155,8 +155,8 @@ namespace SFGraphics.GLObjects.Textures
         /// <param name="faceNegY">The base mip level for the negative y target</param>
         /// <param name="facePosZ">The base mip level for the positive z target</param>
         /// <param name="faceNegZ">The base mip level for the negative z target</param>
-        public void LoadImageData<T>(int faceSideLength, TextureFormatUncompressed format, 
-            T[] facePosX, T[] faceNegX, T[] facePosY, 
+        public void LoadImageData<T>(int faceSideLength, TextureFormatUncompressed format,
+            T[] facePosX, T[] faceNegX, T[] facePosY,
             T[] faceNegY, T[] facePosZ, T[] faceNegZ) where T : struct
         {
             Width = faceSideLength;
@@ -166,7 +166,7 @@ namespace SFGraphics.GLObjects.Textures
             MagFilter = TextureMagFilter.Linear;
             MinFilter = TextureMinFilter.Linear;
 
-            MipmapLoading.LoadFacesBaseLevel(faceSideLength, format, facePosX, faceNegX, facePosY, 
+            MipmapLoading.LoadFacesBaseLevel(faceSideLength, format, facePosX, faceNegX, facePosY,
                 faceNegY, facePosZ, faceNegZ);
         }
 

@@ -13,7 +13,7 @@ namespace SFGraphics.GLObjects.Framebuffers
     /// </summary>
     public sealed partial class Framebuffer : GLObject
     {
-        internal override GLObjectType ObjectType { get { return GLObjectType.FramebufferObject; } }
+        internal override GLObjectType ObjectType => GLObjectType.FramebufferObject;
 
         /// <summary>
         /// The target which <see cref="GLObject.Id"/> is bound when calling <see cref="Bind"/>.
