@@ -8,7 +8,7 @@ namespace SFGraphics.GLObjects.Shaders.Utils
     /// <summary>
     /// Stores hardware info, OpenGL/GLSL version, invalid uniform/attribute names, shader compilation errors, and linker errors.
     /// </summary>
-    class ShaderLog
+    internal sealed class ShaderLog
     {
         private readonly Dictionary<string, ActiveUniformInfo> invalidUniformByName = new Dictionary<string, ActiveUniformInfo>();
         private readonly Dictionary<string, ActiveAttribInfo> invalidAttribSetByName = new Dictionary<string, ActiveAttribInfo>();
@@ -38,11 +38,16 @@ namespace SFGraphics.GLObjects.Shaders.Utils
 
         public bool IsValidUniform(Dictionary<string, ActiveUniformInfo> uniforms, string name, ActiveUniformType type, int size = 1)
         {
-            bool validName = uniforms.ContainsKey(name);
-            bool validType = validName && uniforms[name].type == type;
-            bool validSize = validName && uniforms[name].size == size;
+            if (!uniforms.ContainsKey(name))
+                return false;
 
-            return validName && validType && validSize;
+            if (uniforms[name].type != type)
+                return false;
+
+            if (uniforms[name].size != size)
+                return false;
+
+            return true;
         }
 
         public void LogInvalidUniformSet(UniformSetEventArgs e)

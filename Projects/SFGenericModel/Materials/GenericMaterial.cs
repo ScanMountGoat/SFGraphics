@@ -162,8 +162,7 @@ namespace SFGenericModel.Materials
 
             foreach (var uniform in mat4UniformsByName)
             {
-                Matrix4 value = uniform.Value;
-                shader.SetMatrix4x4(uniform.Key, ref value);
+                shader.SetMatrix4x4(uniform.Key, uniform.Value);
             }
 
             int textureIndex = InitialTextureUnit;

@@ -55,12 +55,21 @@ namespace SFGraphicsGui
         {
             int iterations = 10000;
 
-            var shader = new Shader();
+            var material = new SFGenericModel.Materials.GenericMaterial();
+            for (int i = 0; i < 100; i++)
+            {
+                material.AddVector4(i.ToString(), OpenTK.Vector4.Zero);
+                material.AddTexture(i.ToString(), uvTestPattern);
+            }
+
             var stopwatch = System.Diagnostics.Stopwatch.StartNew();
             for (int i = 0; i < iterations; i++)
             {
-                shader.UseProgram();
-                //var result = SFGenericModel.Utils.IndexUtils.GenerateIndices(10000);
+                //objModelShader.SetFloat("memes", 1);
+                //objModelShader.SetFloat("memes", 1);
+                //objModelShader.SetFloat("memes", 1);
+                //objModelShader.SetFloat("memes", 1);
+                material.SetShaderUniforms(objModelShader);
             }
             System.Diagnostics.Debug.WriteLine($"Operation: { (double)stopwatch.ElapsedMilliseconds / iterations } ms");
         }
