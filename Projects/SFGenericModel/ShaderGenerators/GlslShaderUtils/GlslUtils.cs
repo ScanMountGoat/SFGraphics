@@ -12,10 +12,6 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
         public static readonly string outputName = "fragColor";
         private static readonly string fragmentOutput = $"out vec4 {outputName};";
 
-        // TODO: Allow other versions.
-        public static readonly string version = "330";
-        private static readonly string versionInfo = $"#version {version}";
-
         public static readonly string vertexOutputPrefix = "vert_";
 
         public static void AppendEndMain(StringBuilder shaderSource)
@@ -210,9 +206,9 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
             shaderSource.AppendLine(fragmentOutput);
         }
 
-        public static void AppendShadingLanguageVersion(StringBuilder shaderSource)
+        public static void AppendShadingLanguageVersion(StringBuilder shaderSource, int majorVersion, int minorVersion)
         {
-            shaderSource.AppendLine(versionInfo);
+            shaderSource.AppendLine($"#version {majorVersion}{minorVersion}0");
         }
     }
 }

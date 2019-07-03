@@ -26,6 +26,16 @@ namespace SFGenericModel.ShaderGenerators
         /// </summary>
         public string AttribIndexName { get; set; } = "attributeIndex";
 
+        /// <summary>
+        /// The minor shading language version. Ex: 4.20 is major version 4.
+        /// </summary>
+        public int GlslVersionMajor { get; set; } = 3;
+
+        /// <summary>
+        /// The minor shading language version. Ex: 4.20 is minor version 2.
+        /// </summary>
+        public int GlslVersionMinor { get; set; } = 3;
+
         private readonly string resultName = "result";
 
         /// <summary>
@@ -63,7 +73,7 @@ namespace SFGenericModel.ShaderGenerators
 
         private void AppendVertexShader(List<VertexAttribute> attributes, StringBuilder shaderSource)
         {
-            GlslUtils.AppendShadingLanguageVersion(shaderSource);
+            GlslUtils.AppendShadingLanguageVersion(shaderSource, GlslVersionMajor, GlslVersionMinor);
 
             GlslUtils.AppendVertexInputs(attributes, shaderSource);
             GlslUtils.AppendVertexOutputs(attributes, shaderSource);
@@ -92,7 +102,7 @@ namespace SFGenericModel.ShaderGenerators
 
         private void AppendFragmentShader(List<VertexAttribute> attributes, StringBuilder shaderSource)
         {
-            GlslUtils.AppendShadingLanguageVersion(shaderSource);
+            GlslUtils.AppendShadingLanguageVersion(shaderSource, GlslVersionMajor, GlslVersionMinor);
 
             GlslUtils.AppendFragmentInputs(attributes, shaderSource);
             GlslUtils.AppendFragmentOutput(shaderSource);

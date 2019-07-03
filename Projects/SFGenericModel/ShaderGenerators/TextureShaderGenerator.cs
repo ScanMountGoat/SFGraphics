@@ -22,6 +22,16 @@ namespace SFGenericModel.ShaderGenerators
         /// </summary>
         public string SphereMatrixName { get; set; } = "sphereMatrix";
 
+        /// <summary>
+        /// The minor shading language version. Ex: 4.20 is major version 4.
+        /// </summary>
+        public int GlslVersionMajor { get; set; } = 3;
+
+        /// <summary>
+        /// The minor shading language version. Ex: 4.20 is minor version 2.
+        /// </summary>
+        public int GlslVersionMinor { get; set; } = 3;
+
         private static readonly string resultName = "result";
 
         private static readonly string reflectionVector = "R";
@@ -97,7 +107,7 @@ namespace SFGenericModel.ShaderGenerators
 
         private void AppendVertexShader(IEnumerable<VertexAttribute> attributes, VertexAttribute normals, StringBuilder shaderSource)
         {
-            GlslUtils.AppendShadingLanguageVersion(shaderSource);
+            GlslUtils.AppendShadingLanguageVersion(shaderSource, GlslVersionMajor, GlslVersionMinor);
 
             GlslUtils.AppendVertexInputs(attributes, shaderSource);
             GlslUtils.AppendVertexOutputs(attributes, shaderSource);
@@ -151,7 +161,7 @@ namespace SFGenericModel.ShaderGenerators
         private void AppendFragmentShader(IEnumerable<TextureRenderInfo> textures, IEnumerable<VertexAttribute> attributes, StringBuilder shaderSource, 
             VertexAttribute texcoords, VertexAttribute normal)
         {
-            GlslUtils.AppendShadingLanguageVersion(shaderSource);
+            GlslUtils.AppendShadingLanguageVersion(shaderSource, GlslVersionMajor, GlslVersionMinor);
 
             GlslUtils.AppendFragmentInputs(attributes, shaderSource);
             AppendViewNormalInput(shaderSource);
