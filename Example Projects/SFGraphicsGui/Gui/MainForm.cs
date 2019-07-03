@@ -179,5 +179,11 @@ namespace SFGraphicsGui
                 glViewport.RenderFrame();
             }
         }
+
+        private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            // Users tend to complain when you leave threads running...
+            glViewport.Dispose();
+        }
     }
 }

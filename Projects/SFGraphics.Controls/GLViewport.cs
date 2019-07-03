@@ -9,7 +9,7 @@ namespace SFGraphics.Controls
     /// Provides functionality similar to <see cref="OpenTK.GameWindow"/> for <see cref="OpenTK.GLControl"/>.
     /// Rendered frames can be triggered manually or automatically with a separate thread.
     /// </summary>
-    public class GLViewport : OpenTK.GLControl
+    public class GLViewport : OpenTK.GLControl, System.IDisposable
     {
         /// <summary>
         /// The default graphics mode for rendering. Enables depth/stencil buffers and anti-aliasing. 
@@ -35,6 +35,9 @@ namespace SFGraphics.Controls
 
         private readonly Thread renderThread = null;
         private bool shouldRenderFrames = false;
+        private bool renderThreadShouldClose = false;
+
+        private bool disposed = false;
 
         /// <summary>
         /// Creates a new viewport with <see cref="defaultGraphicsMode"/>.
@@ -48,9 +51,12 @@ namespace SFGraphics.Controls
             Paint += GLViewport_Paint;
         }
 
-        private void GLViewport_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
+        /// <summary>
+        /// Frees resources if the user forgets to call <see cref="Dispose()"/>.
+        /// </summary>
+        ~GLViewport()
         {
-            RenderFrame();
+            Dispose(false);
         }
 
         /// <summary>
@@ -86,12 +92,39 @@ namespace SFGraphics.Controls
             shouldRenderFrames = false;
         }
 
+        /// <summary>
+        /// Frees unmanaged resources and terminates the render thread.
+        /// </summary>
+        public new void Dispose()
+        {
+            Dispose(true);
+            System.GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Frees unmanaged resources and terminates the render thread.
+        /// </summary>
+        /// <param name="disposing"><c>true</c> when called directly by user code</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (!disposed)
+            {
+                base.Dispose(disposing);
+                renderThreadShouldClose = true;
+
+                disposed = true;
+            }
+        }
+
+        private void GLViewport_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
+        {
+            RenderFrame();
+        }
+
         private void FrameTimingLoop()
         {
-            // This may cause the application to continue to run in the background.
-            // TODO: Support killing the thread either manually or automatically.
             var stopwatch = Stopwatch.StartNew();
-            while (true)
+            while (!renderThreadShouldClose)
             {
                 if (shouldRenderFrames)
                 {
