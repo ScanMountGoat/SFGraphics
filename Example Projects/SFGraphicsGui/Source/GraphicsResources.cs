@@ -53,23 +53,23 @@ namespace SFGraphicsGui
 
         private void Benchmark()
         {
-            int iterations = 10000;
+            int iterations = 100000;
 
-            var material = new SFGenericModel.Materials.GenericMaterial();
-            for (int i = 0; i < 100; i++)
+            var alpha1 = new SFGenericModel.RenderState.AlphaBlendSettings(false, BlendingFactor.ConstantAlpha, BlendingFactor.ConstantAlpha, BlendEquationMode.FuncAdd, BlendEquationMode.FuncAdd);
+            var depth1 = SFGenericModel.RenderState.DepthTestSettings.Default;
+            var alphaTest1 = SFGenericModel.RenderState.AlphaTestSettings.Default;
+
+            var settings = new SFGenericModel.RenderState.RenderSettings();
+            var settings2 = new SFGenericModel.RenderState.RenderSettings()
             {
-                material.AddVector4(i.ToString(), OpenTK.Vector4.Zero);
-                material.AddTexture(i.ToString(), uvTestPattern);
-            }
+                alphaBlendSettings = alpha1
+            };
 
             var stopwatch = System.Diagnostics.Stopwatch.StartNew();
             for (int i = 0; i < iterations; i++)
             {
-                //objModelShader.SetFloat("memes", 1);
-                //objModelShader.SetFloat("memes", 1);
-                //objModelShader.SetFloat("memes", 1);
-                //objModelShader.SetFloat("memes", 1);
-                material.SetShaderUniforms(objModelShader);
+                SFGenericModel.RenderState.GLRenderSettings.SetRenderSettings(settings);
+                SFGenericModel.RenderState.GLRenderSettings.SetRenderSettings(settings2);
             }
             System.Diagnostics.Debug.WriteLine($"Operation: { (double)stopwatch.ElapsedMilliseconds / iterations } ms");
         }

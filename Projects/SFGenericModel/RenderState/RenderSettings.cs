@@ -5,7 +5,7 @@ namespace SFGenericModel.RenderState
 {
     /// <summary>
     /// Stores the rendering state used for drawing.
-    /// The OpenGL state can be set using <see cref="GLRenderSettings.SetRenderSettings(RenderSettings)"/>.
+    /// The OpenGL state can be set using <see cref="GLRenderSettings.SetRenderSettings(RenderSettings, RenderSettings)"/>.
     /// </summary>
     public class RenderSettings
     {
