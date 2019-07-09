@@ -55,22 +55,18 @@ namespace SFGraphicsGui
         {
             int iterations = 100000;
 
-            var alpha1 = new SFGenericModel.RenderState.AlphaBlendSettings(false, BlendingFactor.ConstantAlpha, BlendingFactor.ConstantAlpha, BlendEquationMode.FuncAdd, BlendEquationMode.FuncAdd);
-            var depth1 = SFGenericModel.RenderState.DepthTestSettings.Default;
-            var alphaTest1 = SFGenericModel.RenderState.AlphaTestSettings.Default;
-
-            var settings = new SFGenericModel.RenderState.RenderSettings();
-            var settings2 = new SFGenericModel.RenderState.RenderSettings()
+            var material = new SFGenericModel.Materials.GenericMaterial();
+            for (int i = 0; i < 100; i++)
             {
-                alphaBlendSettings = alpha1
-            };
+                material.AddInt(i.ToString(), i);
+            }
 
             var stopwatch = System.Diagnostics.Stopwatch.StartNew();
             for (int i = 0; i < iterations; i++)
             {
-                SFGenericModel.RenderState.GLRenderSettings.SetRenderSettings(settings);
-                SFGenericModel.RenderState.GLRenderSettings.SetRenderSettings(settings2);
+                //material.SetShaderUniforms(objModelShader);
             }
+            stopwatch.Stop();
             System.Diagnostics.Debug.WriteLine($"Operation: { (double)stopwatch.ElapsedMilliseconds / iterations } ms");
         }
 
