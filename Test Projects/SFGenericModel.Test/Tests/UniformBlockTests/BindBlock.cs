@@ -15,8 +15,10 @@ namespace SFGenericModel.Test.UniformBlockTests
         public void Initialize()
         {
             RenderTestUtils.OpenTKWindowlessContext.BindDummyContext();
-            uniformBlock = new UniformBlock();
-            shader = RenderTestUtils.ShaderTestUtils.CreateValidShader();
+            if (shader == null)
+                shader = RenderTestUtils.ShaderTestUtils.CreateValidShader();
+
+            uniformBlock = new UniformBlock(shader, "UniformBlockA");
         }
 
         [TestMethod]

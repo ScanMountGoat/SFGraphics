@@ -76,6 +76,24 @@ namespace SFGraphics.GLObjects.BufferObjects
         }
 
         /// <summary>
+        /// Sets the buffers capacity to <paramref name="sizeInBytes"/>, invalidating existing data.
+        /// </summary>
+        /// <param name="sizeInBytes">The new buffer capacity</param>
+        /// <param name="usageHint">A hint on how the data will be used, which allows performance optimizations</param>
+        public void SetCapacity(int sizeInBytes, BufferUsageHint usageHint)
+        {
+            if (sizeInBytes < 0)
+                throw new ArgumentOutOfRangeException("sizeInBytes", "The buffer size must be non negative.");
+
+            // Workaround to ensure bounds checking still works properly.
+            itemCountPreviousWrite = 1;
+            itemSizeInBytesPreviousWrite = sizeInBytes;
+
+            Bind();
+            GL.BufferData(Target, sizeInBytes, IntPtr.Zero, usageHint);
+        }
+
+        /// <summary>
         /// Initializes the buffer's data with the specified array.
         /// <paramref name="data"/> should be contiguous in memory, so only 
         /// </summary>
