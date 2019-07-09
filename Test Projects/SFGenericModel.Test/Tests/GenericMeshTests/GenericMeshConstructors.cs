@@ -2,7 +2,7 @@
 using OpenTK.Graphics.OpenGL;
 using System.Collections.Generic;
 
-namespace SFGenericModel.Test
+namespace SFGenericModel.Test.GenericMeshTests
 {
     [TestClass]
     public class GenericMeshConstructors

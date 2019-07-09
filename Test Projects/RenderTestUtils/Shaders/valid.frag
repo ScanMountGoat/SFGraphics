@@ -24,16 +24,16 @@ uniform mat4[2] matrix4Arr;
 uniform sampler2D tex2D;
 uniform samplerCube texCube;
 
-uniform UniformBlock
+uniform UniformBlockA
 {
-	float values[10];
-} uniformBlock;
+	float blockAFloat;
+};
 
 out vec4 fragColor;
 
 void main()
 {
-    // Use all the uniforms, so they aren't optimized out.
+    // Use all the uniforms, so they aren't optimized out by the compiler.
     fragColor = vec4(1) * float1 * int1;
 	if (boolInt1 == 1)
 		fragColor *= 0.5;
@@ -42,16 +42,16 @@ void main()
 	fragColor *= vector4a * matrix4a;
 	fragColor *= texture(tex2D, vec2(1));
 	fragColor *= texture(texCube, vec3(1));
+	fragColor.rgb *= blockAFloat;
+
 
 	// Use a for loop to access multiple elements.
-	// Even array[0] can cause issues.
 	for (int i = 0; i < 2; i++)
 	{
 		fragColor *= floatArray1[i];
 		fragColor *= intArray1[i];
 		fragColor *= uintArray1[i];
 
-		fragColor.rgb *= uniformBlock.values[i];
 		fragColor *= matrix4Arr[i];
 		fragColor.rg *= vector2Arr[i];
 		fragColor *= vector4Arr[i];

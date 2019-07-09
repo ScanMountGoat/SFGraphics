@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="IDrawableMesh.cs" />
     <Compile Include="IndexedVertexData.cs" />
+    <Compile Include="Materials\UniformBlock.cs" />
     <Compile Include="RenderState\PolygonModeSettings.cs" />
     <Compile Include="ShaderGenerators\GlslShaderUtils\CaseStatement.cs" />
     <Compile Include="ShaderGenerators\GlslShaderUtils\SwitchUtils.cs" />

@@ -9,9 +9,9 @@ namespace SFGraphics.Test.ShaderTests
         [TestMethod]
         public void ValidName()
         {
-            shader.UniformBlockBinding("UniformBlock", 3);
+            shader.UniformBlockBinding("UniformBlockA", 3);
             GL.GetActiveUniformBlock(shader.Id,
-                shader.GetUniformBlockIndex("UniformBlock"),
+                shader.GetUniformBlockIndex("UniformBlockA"),
                 ActiveUniformBlockParameter.UniformBlockBinding, out int binding);
             Assert.AreEqual(3, binding);
         }
