@@ -62,6 +62,20 @@ namespace SFGraphics.GLObjects.BufferObjects
         }
 
         /// <summary>
+        /// Binds a range of this buffers data to an indexed buffer target.
+        /// </summary>
+        /// <param name="target">The target for the bind</param>
+        /// <param name="index">The index of the binding point</param>
+        /// <param name="offsetInBytes"></param>
+        /// <param name="sizeInBytes"></param>
+        public void BindRange(BufferRangeTarget target, int index, int offsetInBytes, int sizeInBytes)
+        {
+            // TODO: Check for out of bounds data ranges.
+            if (index != -1)
+                GL.BindBufferRange(target, index, Id, new IntPtr(offsetInBytes), sizeInBytes);
+        }
+
+        /// <summary>
         /// Initializes the buffer's data with the specified array.
         /// <paramref name="data"/> should be contiguous in memory, so only 
         /// </summary>

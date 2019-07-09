@@ -23,28 +23,28 @@ namespace SFGenericModel.Test.UniformBlockTests
         public void InvalidBlockName()
         {
             // Shouldn't throw exception.
-            uniformBlock.BindingPoint = 0;
+            uniformBlock.BlockBinding = 0;
             uniformBlock.BindBlock(shader, "memes");
         }
 
         [TestMethod]
         public void BindingPointZero()
         {
-            uniformBlock.BindingPoint = 0;
+            uniformBlock.BlockBinding = 0;
             uniformBlock.BindBlock(shader, "UniformBlockA");
 
             int binding = GetBlockBinding("UniformBlockA");
-            Assert.AreEqual(uniformBlock.BindingPoint, binding);
+            Assert.AreEqual(uniformBlock.BlockBinding, binding);
         }
 
         [TestMethod]
         public void BindingPointOne()
         {
-            uniformBlock.BindingPoint = 1;
+            uniformBlock.BlockBinding = 1;
             uniformBlock.BindBlock(shader, "UniformBlockA");
 
             int binding = GetBlockBinding("UniformBlockA");
-            Assert.AreEqual(uniformBlock.BindingPoint, binding);
+            Assert.AreEqual(uniformBlock.BlockBinding, binding);
         }
 
         private int GetBlockBinding(string name)

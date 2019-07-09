@@ -68,7 +68,6 @@
     <Compile Include="Tests\ShaderGeneratorTests\CreateTextureShader.cs" />
     <Compile Include="Tests\ShaderGeneratorTests\CreateAttributeShader.cs" />
     <Compile Include="Tests\UniformBlockTests\BindBlock.cs" />
-    <Compile Include="Tests\UniformBlockTests\SetFloat.cs" />
     <Compile Include="Tests\VertexAttributeInfoSize.cs" />
   </ItemGroup>
   <ItemGroup>

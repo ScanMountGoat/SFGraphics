@@ -56,6 +56,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tests\BufferObjectTests\BindBufferBase.cs" />
+    <Compile Include="Tests\BufferObjectTests\BindBufferRange.cs" />
     <Compile Include="Tests\BufferObjectTests\BufferTest.cs" />
     <Compile Include="Tests\BufferObjectTests\SetSubData.cs" />
     <Compile Include="Tests\BufferObjectTests\BufferData.cs" />
