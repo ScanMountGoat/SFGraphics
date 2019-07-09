@@ -46,14 +46,25 @@ namespace SFGenericModel.Materials
         }
 
         /// <summary>
+        /// Sets the associated buffer data for <paramref name="uniformName"/> to <paramref name="value"/>.
+        /// </summary>
+        /// <param name="uniformName">The name of the uniform inside the uniform block</param>
+        /// <param name="value">The new value for the uniform</param>
+        public void SetValue<T>(string uniformName, T value) where T : struct
+        {
+            if (offsetByUniformName.ContainsKey(uniformName))
+                uniformBuffer.SetSubData(new T[] { value }, offsetByUniformName[uniformName]);
+        }
+
+        /// <summary>
         /// Sets the associated buffer data for <paramref name="uniformName"/> to <paramref name="values"/>.
         /// </summary>
         /// <param name="uniformName">The name of the uniform inside the uniform block</param>
         /// <param name="values">The new value for the uniform</param>
-        public void SetMatrix4(string uniformName, Matrix4[] values)
+        public void SetValues<T>(string uniformName, T[] values) where T : struct
         {
-            // TODO: Invalid name?
-            uniformBuffer.SetSubData(values, offsetByUniformName[uniformName]);
+            if (offsetByUniformName.ContainsKey(uniformName))
+                uniformBuffer.SetSubData(values, offsetByUniformName[uniformName]);
         }
 
         private static int[] GetUniformOffsets(Shader shader, int uniformCount, int[] uniformIndices)
