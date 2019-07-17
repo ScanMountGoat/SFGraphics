@@ -190,7 +190,7 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
 
         private static VertexAttribute GetPositionAttribute(IEnumerable<VertexAttribute> attributes)
         {
-            return attributes.Where(attribute => attribute.AttributeUsage == AttributeUsage.Position).FirstOrDefault();
+            return attributes.FirstOrDefault(attribute => attribute.AttributeUsage == AttributeUsage.Position);
         }
 
         public static void AppendMatrix4Uniforms(StringBuilder shaderSource, params string[] matrixNames)

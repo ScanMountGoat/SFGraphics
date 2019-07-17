@@ -114,7 +114,6 @@ namespace SFGraphics.GLObjects.Shaders
         {
             if (!errorLog.IsValidUniform(activeUniformByName, name, ActiveUniformType.Int))
             {
-                int intValue = value ? 1 : 0;
                 LogInvalidUniformSetRaiseEvent(name, value, ActiveUniformType.Int);
                 return;
             }

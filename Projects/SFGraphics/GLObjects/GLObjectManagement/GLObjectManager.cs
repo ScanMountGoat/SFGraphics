@@ -17,7 +17,7 @@ namespace SFGraphics.GLObjects.GLObjectManagement
     /// </summary>
     public static class GLObjectManager
     {
-        private static ConcurrentDictionary<Tuple<GLObject.GLObjectType, int>, int> referenceCountByGLObject =
+        private static readonly ConcurrentDictionary<Tuple<GLObject.GLObjectType, int>, int> referenceCountByGLObject =
             new ConcurrentDictionary<Tuple<GLObject.GLObjectType, int>, int>();
 
         /// <summary>

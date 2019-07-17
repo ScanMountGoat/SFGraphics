@@ -9,7 +9,7 @@ namespace SFGraphics.GLObjects.RenderBuffers
     /// </summary>
     public class Renderbuffer : GLObject, IFramebufferAttachment
     { 
-        internal override GLObjectType ObjectType { get { return GLObjectType.RenderbufferObject; } }
+        internal override GLObjectType ObjectType => GLObjectType.RenderbufferObject;
 
         /// <summary>
         /// The width of the renderbuffer in pixels.

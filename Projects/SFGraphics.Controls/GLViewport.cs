@@ -35,18 +35,18 @@ namespace SFGraphics.Controls
         /// </summary>
         public int RenderFrameInterval { get; set; } = 16;
 
-        private readonly Thread renderThread = null;
-        private bool shouldRenderFrames = false;
-        private bool renderThreadShouldClose = false;
+        private readonly Thread renderThread;
+        private bool shouldRenderFrames;
+        private bool renderThreadShouldClose;
 
-        private bool disposed = false;
+        private bool disposed;
 
         /// <summary>
         /// Creates a new viewport with <see cref="defaultGraphicsMode"/>.
         /// </summary>
         public GLViewport() : base(defaultGraphicsMode)
         {
-            renderThread = new Thread(new ThreadStart(FrameTimingLoop));
+            renderThread = new Thread(FrameTimingLoop);
 
             // HACK: Make sure the frames are rendered on the UI thread.
             // This limits performance but prevents attempts to make the context current on more than one thread.

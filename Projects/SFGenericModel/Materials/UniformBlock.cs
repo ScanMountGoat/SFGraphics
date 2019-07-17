@@ -1,5 +1,4 @@
-﻿using OpenTK;
-using OpenTK.Graphics.OpenGL;
+﻿using OpenTK.Graphics.OpenGL;
 using SFGraphics.GLObjects.BufferObjects;
 using SFGraphics.GLObjects.Shaders;
 using System.Collections.Generic;
@@ -53,7 +52,7 @@ namespace SFGenericModel.Materials
         public void SetValue<T>(string uniformName, T value) where T : struct
         {
             if (offsetByUniformName.ContainsKey(uniformName))
-                uniformBuffer.SetSubData(new T[] { value }, offsetByUniformName[uniformName]);
+                uniformBuffer.SetSubData(new [] { value }, offsetByUniformName[uniformName]);
         }
 
         /// <summary>
@@ -85,7 +84,7 @@ namespace SFGenericModel.Materials
         {
             InitializeUniformOffsets(shader, uniformBlockName);
 
-            // Set buffer capacity, so uniforms can be intialized later.
+            // Set buffer capacity, so uniforms can be initialized later.
             GL.GetActiveUniformBlock(shader.Id, shader.GetUniformBlockIndex(uniformBlockName), ActiveUniformBlockParameter.UniformBlockDataSize, out int dataSize);
             uniformBuffer.SetCapacity(dataSize, BufferUsageHint.DynamicDraw);
         }

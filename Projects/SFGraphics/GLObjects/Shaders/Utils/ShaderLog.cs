@@ -11,11 +11,10 @@ namespace SFGraphics.GLObjects.Shaders.Utils
     internal sealed class ShaderLog
     {
         private readonly Dictionary<string, ActiveUniformInfo> invalidUniformByName = new Dictionary<string, ActiveUniformInfo>();
-        private readonly Dictionary<string, ActiveAttribInfo> invalidAttribSetByName = new Dictionary<string, ActiveAttribInfo>();
 
-        private Dictionary<int, ActiveUniformType> samplerTypeByTextureUnit = new Dictionary<int, ActiveUniformType>();
+        private readonly Dictionary<int, ActiveUniformType> samplerTypeByTextureUnit = new Dictionary<int, ActiveUniformType>();
 
-        private StringBuilder errorLog = new StringBuilder();
+        private readonly StringBuilder errorLog = new StringBuilder();
 
         public ShaderLog()
         {
@@ -82,7 +81,7 @@ namespace SFGraphics.GLObjects.Shaders.Utils
             errorLog.AppendLine(); // line between shaders
         }
 
-        override public string ToString()
+        public override string ToString()
         {
             // Collect all of the spelling mistakes.
             AppendUniformErrors();

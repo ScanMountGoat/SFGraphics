@@ -28,17 +28,17 @@ namespace SFGraphics.GLObjects.Framebuffers
         /// <summary>
         /// The width of all attachments in pixels.
         /// </summary>
-        public int Width { get; private set; } = 0;
+        public int Width { get; private set; }
 
         /// <summary>
         /// The height of all attachments in pixels.
         /// </summary>
-        public int Height { get; private set; } = 0;
+        public int Height { get; private set; }
 
         /// <summary>
         /// The attachments currently attached to the framebuffer
         /// </summary>
-        public List<IFramebufferAttachment> Attachments { get; private set; }
+        public List<IFramebufferAttachment> Attachments { get; }
 
         /// <summary>
         /// Generates an incomplete framebuffer of the specified target with no attachments.
@@ -68,7 +68,7 @@ namespace SFGraphics.GLObjects.Framebuffers
             : this(target)
         {
             if (colorAttachmentsCount < 0)
-                throw new ArgumentOutOfRangeException("colorAttachmentsCount", "Color attachment count must be non negative.");
+                throw new ArgumentOutOfRangeException(nameof(colorAttachmentsCount), "Color attachment count must be non negative.");
 
             if (TextureFormatTools.IsCompressed(pixelInternalFormat))
                 throw new ArgumentException(TextureExceptionMessages.expectedUncompressed);
@@ -111,7 +111,7 @@ namespace SFGraphics.GLObjects.Framebuffers
             }
 
             if (attachment.Width != Width || attachment.Height != Height)
-                throw new ArgumentOutOfRangeException("width/height", "The attachment dimensions do not match the framebuffer's dimensions.");
+                throw new ArgumentOutOfRangeException(nameof(attachment), "The attachment dimensions do not match the framebuffer's dimensions.");
 
             attachment.Attach(attachmentPoint, this);
             Attachments.Add(attachment);

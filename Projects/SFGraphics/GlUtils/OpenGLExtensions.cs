@@ -10,7 +10,7 @@ namespace SFGraphics.GlUtils
     /// </summary>
     public static class OpenGLExtensions
     {
-        private static HashSet<string> supportedExtensions = new HashSet<string>();
+        private static readonly HashSet<string> supportedExtensions = new HashSet<string>();
 
         /// <summary>
         /// Returns true if an extension is available. 

@@ -1,5 +1,4 @@
-﻿using SFGraphics.Cameras;
-using SFGraphics.GLObjects.Shaders;
+﻿using SFGraphics.GLObjects.Shaders;
 
 namespace SFGenericModel
 {
@@ -12,7 +11,6 @@ namespace SFGenericModel
         /// Draws the geometry using the specified shader and camera.
         /// </summary>
         /// <param name="shader">The shader used for drawing</param>
-        /// 
         void Draw(Shader shader);
     }
 }

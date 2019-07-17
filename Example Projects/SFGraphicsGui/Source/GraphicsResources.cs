@@ -2,8 +2,6 @@
 using SFGraphics.GLObjects.Samplers;
 using SFGraphics.GLObjects.Shaders;
 using SFGraphics.GLObjects.Textures;
-using SFGraphics.GLObjects.Textures.TextureFormats;
-using System;
 
 namespace SFGraphicsGui
 {

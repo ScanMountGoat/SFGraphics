@@ -20,7 +20,7 @@ namespace SFGenericModel
         /// <summary>
         /// The number of vertices stored in the buffers used for drawing.
         /// </summary>
-        public int VertexCount { get; } = 0;
+        public int VertexCount { get; }
 
         /// <summary>
         /// Determines how primitives will be constructed from the vertex data.
@@ -49,23 +49,23 @@ namespace SFGenericModel
         private int previousShaderId = -1;
 
         // Used for attribute offset calculation.
-        private readonly int vertexSizeInBytes = 0;
+        private readonly int vertexSizeInBytes;
 
-        private VertexArrayObject vertexArrayObject = new VertexArrayObject();
+        private readonly VertexArrayObject vertexArrayObject = new VertexArrayObject();
 
         // Vertex and index data.
-        private BufferObject vertexBuffer = new BufferObject(BufferTarget.ArrayBuffer);
-        private BufferObject vertexIndexBuffer = new BufferObject(BufferTarget.ElementArrayBuffer);
+        private readonly BufferObject vertexBuffer = new BufferObject(BufferTarget.ArrayBuffer);
+        private readonly BufferObject vertexIndexBuffer = new BufferObject(BufferTarget.ElementArrayBuffer);
 
         // This result will be used a lot, so only initialize once.
-        private static List<VertexAttribute> vertexAttributes = null;
+        private static List<VertexAttribute> vertexAttributes;
 
         private GenericMesh(PrimitiveType primitiveType, DrawElementsType drawElementsType, System.Type vertexType, int vertexCount)
         {
             InitializeVertexAttributes();
 
             PrimitiveType = primitiveType;
-            DrawElementsType = DrawElementsType.UnsignedInt;
+            DrawElementsType = drawElementsType;
 
             // This works as expected as long as only value types are used.
             vertexSizeInBytes = System.Runtime.InteropServices.Marshal.SizeOf(vertexType);
@@ -78,7 +78,7 @@ namespace SFGenericModel
         /// </summary>
         /// <param name="vertices">The vertex data</param>
         /// <param name="primitiveType">Determines how primitives will be constructed from the vertex data</param>
-        public GenericMesh(IList<T> vertices, PrimitiveType primitiveType) 
+        protected GenericMesh(IList<T> vertices, PrimitiveType primitiveType) 
             : this(primitiveType, DrawElementsType.UnsignedInt, typeof(T), vertices.Count)
         {
             InitializeBufferData(vertices);
@@ -90,7 +90,7 @@ namespace SFGenericModel
         /// <param name="vertices">The vertex data</param>
         /// <param name="vertexIndices">The vertex index data</param>
         /// <param name="primitiveType">Determines how primitives will be constructed from the vertex data</param>
-        public GenericMesh(IList<T> vertices, IList<int> vertexIndices, PrimitiveType primitiveType)
+        protected GenericMesh(IList<T> vertices, IList<int> vertexIndices, PrimitiveType primitiveType)
             : this(primitiveType, DrawElementsType.UnsignedInt, typeof(T), vertexIndices.Count)
         {
             InitializeBufferData(vertices, vertexIndices);
@@ -102,7 +102,7 @@ namespace SFGenericModel
         /// <param name="vertices">The vertex data</param>
         /// <param name="vertexIndices">The vertex index data</param>
         /// <param name="primitiveType">Determines how primitives will be constructed from the vertex data</param>
-        public GenericMesh(IList<T> vertices, IList<uint> vertexIndices, PrimitiveType primitiveType)
+        protected GenericMesh(IList<T> vertices, IList<uint> vertexIndices, PrimitiveType primitiveType)
             : this(primitiveType, DrawElementsType.UnsignedInt, typeof(T), vertexIndices.Count)
         {
             InitializeBufferData(vertices, vertexIndices);
@@ -112,7 +112,7 @@ namespace SFGenericModel
         /// Creates a new mesh and initializes the vertex buffer data.
         /// </summary>
         /// <param name="vertexData">Contains the vertices, indices, and primitive type</param>
-        public GenericMesh(IndexedVertexData<T> vertexData) 
+        protected GenericMesh(IndexedVertexData<T> vertexData) 
             : this(vertexData.Vertices, vertexData.Indices, vertexData.PrimitiveType)
         {
 
@@ -124,7 +124,7 @@ namespace SFGenericModel
         /// <param name="shader">The shader used for drawing</param>
         /// <param name="count">The number of vertices to draw</param>
         /// <param name="offset">The offset into the index buffer</param>
-        public void Draw(Shader shader, int count, int offset = 0)
+        public void Draw(Shader shader, int count, int offset)
         {
             if (!shader.LinkStatusIsOk)
                 return;
@@ -209,7 +209,7 @@ namespace SFGenericModel
             }
         }
 
-        private void InitializeBufferData<K>(IList<T> vertices, IList<K> vertexIndices) where K : struct
+        private void InitializeBufferData<TIndex>(IList<T> vertices, IList<TIndex> vertexIndices) where TIndex : struct
         {
             vertexBuffer.SetData(vertices.ToArray(), BufferUsageHint.StaticDraw);
             vertexIndexBuffer.SetData(vertexIndices.ToArray(), BufferUsageHint.StaticDraw);

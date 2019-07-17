@@ -24,7 +24,7 @@ namespace SFGraphics.GLObjects.Textures
         {
             Samples = samples;
             if (Samples <= 0)
-                throw new System.ArgumentOutOfRangeException("samples", "Sample count must be greater than 0");
+                throw new System.ArgumentOutOfRangeException(nameof(samples), "Sample count must be greater than 0");
 
             SetDimensionsAndFormat(width, height, format);
         }

@@ -21,8 +21,8 @@ namespace SFGraphics.GLObjects.BufferObjects
         public int SizeInBytes => itemCountPreviousWrite * itemSizeInBytesPreviousWrite;
 
         // Store information from previous write to allow for bounds checking.
-        private int itemCountPreviousWrite = 0;
-        private int itemSizeInBytesPreviousWrite = 0;
+        private int itemCountPreviousWrite;
+        private int itemSizeInBytesPreviousWrite;
 
         /// <summary>
         /// Creates a buffer of the specified target with uninitialized data.
@@ -83,7 +83,7 @@ namespace SFGraphics.GLObjects.BufferObjects
         public void SetCapacity(int sizeInBytes, BufferUsageHint usageHint)
         {
             if (sizeInBytes < 0)
-                throw new ArgumentOutOfRangeException("sizeInBytes", "The buffer size must be non negative.");
+                throw new ArgumentOutOfRangeException(nameof(sizeInBytes), "The buffer size must be non negative.");
 
             // Workaround to ensure bounds checking still works properly.
             itemCountPreviousWrite = 1;
@@ -120,13 +120,13 @@ namespace SFGraphics.GLObjects.BufferObjects
         public void SetSubData<T>(T[] data, int offsetInBytes) where T : struct
         {
             if (offsetInBytes < 0)
-                throw new ArgumentOutOfRangeException("offsetInBytes", BufferExceptionMessages.offsetMustBeNonNegative);
+                throw new ArgumentOutOfRangeException(nameof(offsetInBytes), BufferExceptionMessages.offsetMustBeNonNegative);
 
             int itemSizeInBytes = System.Runtime.InteropServices.Marshal.SizeOf(typeof(T));
 
             int newBufferSize = CalculateRequiredSize(offsetInBytes, data.Length, itemSizeInBytes);
             if (newBufferSize > SizeInBytes)
-                throw new ArgumentOutOfRangeException("data", BufferExceptionMessages.subDataTooLong);
+                throw new ArgumentOutOfRangeException(nameof(data), BufferExceptionMessages.subDataTooLong);
 
             Bind();
             GL.BufferSubData(Target, new IntPtr(offsetInBytes), itemSizeInBytes * data.Length, data);
@@ -144,7 +144,7 @@ namespace SFGraphics.GLObjects.BufferObjects
             int itemSizeInBytes = System.Runtime.InteropServices.Marshal.SizeOf(typeof(T));
 
             if ((SizeInBytes % itemSizeInBytes) != 0)
-                throw new ArgumentOutOfRangeException("T", BufferExceptionMessages.bufferNotDivisibleByRequestedType);
+                throw new ArgumentOutOfRangeException(nameof(T), BufferExceptionMessages.bufferNotDivisibleByRequestedType);
 
             int newItemCount = SizeInBytes / itemSizeInBytes;
 
@@ -170,7 +170,7 @@ namespace SFGraphics.GLObjects.BufferObjects
             int itemSizeInBytes = System.Runtime.InteropServices.Marshal.SizeOf(typeof(T));
 
             if ((SizeInBytes % itemSizeInBytes) != 0)
-                throw new ArgumentOutOfRangeException("T", BufferExceptionMessages.bufferNotDivisibleByRequestedType);
+                throw new ArgumentOutOfRangeException(nameof(T), BufferExceptionMessages.bufferNotDivisibleByRequestedType);
 
             // Throw exception for attempts to read data outside the current range.
             if (offsetInBytes < 0 || itemCount < 0 || itemSizeInBytes < 0)

@@ -19,7 +19,7 @@ namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
         {
             shaderSource.AppendLine($"\t\tcase {caseStatement.SwitchValue}:");
             shaderSource.AppendLine($"\t\t\t{caseStatement.CaseBody}");
-            shaderSource.AppendLine($"\t\t\tbreak;");
+            shaderSource.AppendLine("\t\t\tbreak;");
         }
 
         private static void AppendBeginSwitch(StringBuilder shaderSource, string switchVariable)

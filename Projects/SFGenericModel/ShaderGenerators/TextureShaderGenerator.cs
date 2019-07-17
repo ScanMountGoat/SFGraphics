@@ -2,7 +2,6 @@
 using SFGenericModel.VertexAttributes;
 using System.Collections.Generic;
 using System.Text;
-using System.Linq;
 
 namespace SFGenericModel.ShaderGenerators
 {
@@ -68,15 +67,15 @@ namespace SFGenericModel.ShaderGenerators
             out string vertexSource, out string fragmentSource)
         {
             if (attributes.Count == 0)
-                throw new System.ArgumentOutOfRangeException("attributes", "attributes must be non empty to generate a valid shader.");
+                throw new System.ArgumentOutOfRangeException(nameof(attributes), "attributes must be non empty to generate a valid shader.");
 
             GetSpecialAttributes(attributes, out VertexAttribute texcoords, out VertexAttribute normals);
 
             if (texcoords == null)
-                throw new System.ArgumentException("No matching texture coordinates attribute was found.", "attributes");
+                throw new System.ArgumentException("No matching texture coordinates attribute was found.", nameof(attributes));
 
             if (normals == null)
-                throw new System.ArgumentException("No matching vertex normal attribute was found.", "attributes");
+                throw new System.ArgumentException("No matching vertex normal attribute was found.", nameof(attributes));
 
             vertexSource = CreateVertexSource(attributes, normals);
             fragmentSource = CreateFragmentSource(textures, attributes, texcoords, normals);

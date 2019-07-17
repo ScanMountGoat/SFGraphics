@@ -46,7 +46,7 @@ namespace SFGenericModel.RenderState
         /// <param name="previousSettings">The settings used for the previous update</param>
         public static void SetPolygonModeSettings(PolygonModeSettings settings, PolygonModeSettings previousSettings)
         {
-            if (previousSettings == null || settings.materialFace != previousSettings.materialFace || settings.polygonMode != previousSettings.polygonMode)
+            if (settings.materialFace != previousSettings.materialFace || settings.polygonMode != previousSettings.polygonMode)
                 GL.PolygonMode(settings.materialFace, settings.polygonMode);
         }
 

@@ -49,16 +49,6 @@ namespace SFGenericModel.VertexAttributes
         Normal,
 
         /// <summary>
-        /// The attribute will also be used as the vertex tangents.
-        /// </summary>
-        Tangent,
-
-        /// <summary>
-        /// The attribute will also be used as the vertex bitangents.
-        /// </summary>
-        Bitangent,
-
-        /// <summary>
         /// The attribute will also be used as the vertex UVs.
         /// </summary>
         TexCoord0
@@ -67,7 +57,7 @@ namespace SFGenericModel.VertexAttributes
     /// <summary>
     /// Stores information for a vertex attribute variable.
     /// </summary>
-    public abstract class VertexAttribute : System.Attribute, IVertexArrayAttrib
+    public abstract class VertexAttribute : System.Attribute
     {
         /// <summary>
         /// The name of the attribute in the shader.
@@ -114,7 +104,7 @@ namespace SFGenericModel.VertexAttributes
         /// <param name="attributeUsage">How the attribute will be rendered</param>
         /// <param name="normalizeVector">Normalize the vector before rendering</param>
         /// <param name="remapToVisibleRange">Remap the vector before rendering</param>
-        public VertexAttribute(string name, ValueCount valueCount, VertexAttribPointerType type, AttributeUsage attributeUsage, bool normalizeVector, bool remapToVisibleRange)
+        protected VertexAttribute(string name, ValueCount valueCount, VertexAttribPointerType type, AttributeUsage attributeUsage, bool normalizeVector, bool remapToVisibleRange)
         {
             Name = name;
             ValueCount = valueCount;

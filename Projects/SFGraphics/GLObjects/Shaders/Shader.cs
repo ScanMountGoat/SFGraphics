@@ -14,7 +14,7 @@ namespace SFGraphics.GLObjects.Shaders
     /// </summary>
     public sealed partial class Shader : GLObject
     {
-        internal override GLObjectType ObjectType { get => GLObjectType.ShaderProgram; }
+        internal override GLObjectType ObjectType => GLObjectType.ShaderProgram;
 
         private Dictionary<string, ActiveUniformInfo> activeUniformByName = new Dictionary<string, ActiveUniformInfo>();
         private Dictionary<string, ActiveAttribInfo> activeAttribByName = new Dictionary<string, ActiveAttribInfo>();
@@ -33,7 +33,7 @@ namespace SFGraphics.GLObjects.Shaders
         public int ActiveAttributeCount => activeAttributeCount;
         private int activeAttributeCount;
 
-        private ShaderLog errorLog = new ShaderLog();
+        private readonly ShaderLog errorLog = new ShaderLog();
 
         /// <summary>
         /// If <c>false</c>, rendering with this shader will most likely throw an <see cref="AccessViolationException"/>.
@@ -54,7 +54,7 @@ namespace SFGraphics.GLObjects.Shaders
                 linkStatusIsOk = value;
             }
         }
-        private bool linkStatusIsOk = false;
+        private bool linkStatusIsOk;
 
         /// <summary>
         /// <c>true</c> when only one sampler type is used for each texture unit
@@ -62,7 +62,7 @@ namespace SFGraphics.GLObjects.Shaders
         /// <para></para><para></para>
         /// This should be checked at runtime and only for debugging purposes.
         /// </summary>
-        public bool ValidateStatusIsOk {  get { return ShaderValidation.GetProgramValidateStatus(Id); } }
+        public bool ValidateStatusIsOk => ShaderValidation.GetProgramValidateStatus(Id);
 
         /// <summary>
         /// Handles invalid uniforms.
@@ -351,7 +351,7 @@ namespace SFGraphics.GLObjects.Shaders
         public void UniformBlockBinding(string name, int bindingPoint)
         {
             if (bindingPoint < 0)
-                throw new ArgumentOutOfRangeException("bindingPoint", "Binding points must be non negative.");
+                throw new ArgumentOutOfRangeException(nameof(bindingPoint), "Binding points must be non negative.");
 
             // Don't use invalid indices to prevent errors. 
             int index = GetUniformBlockIndex(name);

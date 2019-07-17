@@ -71,7 +71,7 @@ namespace SFGraphics.Test.FramebufferTests
                 framebuffer.AddAttachment(FramebufferAttachment.ColorAttachment1, texture2));
 
             Assert.IsTrue(e.Message.Contains("The attachment dimensions do not match the framebuffer's dimensions."));
-            Assert.AreEqual("width/height", e.ParamName);
+            Assert.AreEqual("attachment", e.ParamName);
         }
 
         [TestMethod]

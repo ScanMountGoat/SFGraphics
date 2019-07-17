@@ -25,7 +25,7 @@ namespace SFGenericModel.RenderState
         /// <summary>
         /// The function used to determine if a fragment passes the depth test.
         /// </summary>
-        public DepthFunction depthFunction;
+        public readonly DepthFunction depthFunction;
 
         /// <summary>
         /// 

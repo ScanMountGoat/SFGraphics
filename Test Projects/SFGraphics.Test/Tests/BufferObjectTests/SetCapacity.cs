@@ -1,5 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OpenTK;
 
 namespace SFGraphics.Test.BufferObjectTests
 {

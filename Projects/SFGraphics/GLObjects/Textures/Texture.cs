@@ -8,7 +8,7 @@ namespace SFGraphics.GLObjects.Textures
     /// </summary>
     public abstract class Texture : GLObject, IFramebufferAttachment
     {
-        internal override GLObjectType ObjectType { get { return GLObjectType.Texture; } }
+        internal override GLObjectType ObjectType => GLObjectType.Texture;
 
         /// <summary>
         /// The width of the base mip level in pixels.
@@ -31,7 +31,7 @@ namespace SFGraphics.GLObjects.Textures
         /// </summary>
         public TextureMinFilter MinFilter
         {
-            get { return minFilter; }
+            get => minFilter;
             set
             {
                 minFilter = value;
@@ -46,7 +46,7 @@ namespace SFGraphics.GLObjects.Textures
         /// </summary>
         public TextureMagFilter MagFilter
         {
-            get { return magFilter; }
+            get => magFilter;
             set
             {
                 magFilter = value;
@@ -61,7 +61,7 @@ namespace SFGraphics.GLObjects.Textures
         /// </summary>
         public TextureWrapMode TextureWrapS
         {
-            get { return textureWrapS; }
+            get => textureWrapS;
             set
             {
                 textureWrapS = value;
@@ -76,7 +76,7 @@ namespace SFGraphics.GLObjects.Textures
         /// </summary>
         public TextureWrapMode TextureWrapT
         {
-            get { return textureWrapT; }
+            get => textureWrapT;
             set
             {
                 textureWrapT = value;
@@ -91,7 +91,7 @@ namespace SFGraphics.GLObjects.Textures
         /// </summary>
         public TextureWrapMode TextureWrapR
         {
-            get { return textureWrapR; }
+            get => textureWrapR;
             set
             {
                 textureWrapR = value;
@@ -104,7 +104,7 @@ namespace SFGraphics.GLObjects.Textures
         /// Creates an empty texture of the specified target.
         /// </summary>
         /// <param name="textureTarget">The target to which <see cref="GLObject.Id"/> is bound.</param>
-        public Texture(TextureTarget textureTarget) : base(GL.GenTexture())
+        protected Texture(TextureTarget textureTarget) : base(GL.GenTexture())
         {
             TextureTarget = textureTarget;
         }

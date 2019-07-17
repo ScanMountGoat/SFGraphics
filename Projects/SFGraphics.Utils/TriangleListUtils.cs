@@ -20,10 +20,10 @@ namespace SFGraphics.Utils
         public static void CalculateTangentsBitangents(IList<Vector3> positions, IList<Vector3> normals, IList<Vector2> uvs, IList<int> indices, out Vector3[] tangents, out Vector3[] bitangents)
         {
             if (normals.Count != positions.Count)
-                throw new System.ArgumentOutOfRangeException("normals", "Vector source lengths do not match.");
+                throw new System.ArgumentOutOfRangeException(nameof(normals), "Vector source lengths do not match.");
 
             if (uvs.Count != positions.Count)
-                throw new System.ArgumentOutOfRangeException("uvs", "Vector source lengths do not match.");
+                throw new System.ArgumentOutOfRangeException(nameof(uvs), "Vector source lengths do not match.");
 
             tangents = new Vector3[positions.Count];
             bitangents = new Vector3[positions.Count];

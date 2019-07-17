@@ -20,11 +20,7 @@ namespace SFGraphics.Cameras
         /// </summary>
         public Vector3 Position
         {
-            get
-            {
-                // Account for rotation when calculating the camera's actual position.
-                return (rotationMatrix * new Vector4(translation, 1)).Xyz;
-            }
+            get => (rotationMatrix * new Vector4(translation, 1)).Xyz;
             set
             {
                 translation = value;
@@ -38,7 +34,7 @@ namespace SFGraphics.Cameras
         /// </summary>
         public float Scale
         {
-            get { return scale; }
+            get => scale;
             set
             {
                 scale = value;
@@ -54,7 +50,7 @@ namespace SFGraphics.Cameras
         /// </summary>
         public float FovRadians
         {
-            get { return fovRadians; }
+            get => fovRadians;
             set
             {
                 if (value > 0 && value < Math.PI)
@@ -73,7 +69,7 @@ namespace SFGraphics.Cameras
         /// </summary>
         public float FovDegrees
         {
-            get { return (float)VectorUtils.GetDegrees(fovRadians); }
+            get => (float)VectorUtils.GetDegrees(fovRadians);
             set
             {
                 if (value > 0 && value < 180)
@@ -89,7 +85,7 @@ namespace SFGraphics.Cameras
         /// </summary>
         public float RotationXRadians
         {
-            get { return rotationXRadians; }
+            get => rotationXRadians;
             set
             {
                 rotationXRadians = value;
@@ -99,14 +95,14 @@ namespace SFGraphics.Cameras
                 UpdateMvpMatrix();
             }
         }
-        private float rotationXRadians = 0;
+        private float rotationXRadians;
 
         /// <summary>
         /// The rotation around the x-axis in degrees.
         /// </summary>
         public float RotationXDegrees
         {
-            get { return (float)VectorUtils.GetDegrees(rotationXRadians); }
+            get => (float)VectorUtils.GetDegrees(rotationXRadians);
             set
             {
                 // Only store radians internally.
@@ -123,7 +119,7 @@ namespace SFGraphics.Cameras
         /// </summary>
         public float RotationYRadians
         {
-            get { return rotationYRadians; }
+            get => rotationYRadians;
             set
             {
                 rotationYRadians = value;
@@ -133,14 +129,14 @@ namespace SFGraphics.Cameras
                 UpdateMvpMatrix();
             }
         }
-        private float rotationYRadians = 0;
+        private float rotationYRadians;
 
         /// <summary>
         /// The rotation around the y-axis in degrees.
         /// </summary>
         public float RotationYDegrees
         {
-            get { return (float)VectorUtils.GetDegrees(rotationYRadians); }
+            get => (float)VectorUtils.GetDegrees(rotationYRadians);
             set
             {
                 rotationYRadians = (float)VectorUtils.GetRadians(value);
@@ -156,7 +152,7 @@ namespace SFGraphics.Cameras
         /// </summary>
         public float FarClipPlane
         {
-            get { return farClipPlane; }
+            get => farClipPlane;
             set
             {
                 farClipPlane = value;
@@ -170,7 +166,7 @@ namespace SFGraphics.Cameras
         /// </summary>
         public float NearClipPlane
         {
-            get { return nearClipPlane; }
+            get => nearClipPlane;
             set
             {
                 nearClipPlane = value;
@@ -185,7 +181,7 @@ namespace SFGraphics.Cameras
         /// </summary>
         public int RenderWidth
         {
-            get { return renderWidth; }
+            get => renderWidth;
             set
             {
                 renderWidth = Math.Max(value, 1);
@@ -200,7 +196,7 @@ namespace SFGraphics.Cameras
         /// </summary>
         public int RenderHeight
         {
-            get { return renderHeight; }
+            get => renderHeight;
             set
             {
                 renderHeight = Math.Max(value, 1);
@@ -222,7 +218,7 @@ namespace SFGraphics.Cameras
         /// <summary>
         /// The result of <see cref="RotationMatrix"/> * <see cref="TranslationMatrix"/>
         /// </summary>
-        public Matrix4 ModelViewMatrix { get { return modelViewMatrix; } }
+        public Matrix4 ModelViewMatrix => modelViewMatrix;
 
         /// <summary>
         /// See <see cref="MvpMatrix"/>
@@ -232,7 +228,7 @@ namespace SFGraphics.Cameras
         /// <summary>
         /// The result of <see cref="ModelViewMatrix"/> * <see cref="PerspectiveMatrix"/>
         /// </summary>
-        public Matrix4 MvpMatrix { get { return mvpMatrix; } }
+        public Matrix4 MvpMatrix => mvpMatrix;
 
         /// <summary>
         /// See <see cref="RotationMatrix"/>
@@ -242,7 +238,7 @@ namespace SFGraphics.Cameras
         /// <summary>
         /// The result of <see cref="Matrix4.CreateRotationY(float)"/> * <see cref="Matrix4.CreateRotationX(float)"/>
         /// </summary>
-        public Matrix4 RotationMatrix { get { return rotationMatrix; } }
+        public Matrix4 RotationMatrix => rotationMatrix;
 
         /// <summary>
         /// See <see cref="TranslationMatrix"/>
@@ -252,7 +248,7 @@ namespace SFGraphics.Cameras
         /// <summary>
         /// The result of <see cref="Matrix4.CreateTranslation(float, float, float)"/> for X, -Y, Z of <see cref="Position"/>
         /// </summary>
-        public Matrix4 TranslationMatrix { get { return translationMatrix; } }
+        public Matrix4 TranslationMatrix => translationMatrix;
 
         /// <summary>
         /// See <see cref="PerspectiveMatrix"/>
@@ -264,7 +260,7 @@ namespace SFGraphics.Cameras
         /// <see cref="FovRadians"/>, <see cref="RenderWidth"/> / <see cref="RenderHeight"/>, <see cref="NearClipPlane"/>,
         /// <see cref="FarClipPlane"/>
         /// </summary>
-        public Matrix4 PerspectiveMatrix { get { return perspectiveMatrix; } }
+        public Matrix4 PerspectiveMatrix => perspectiveMatrix;
 
         /// <summary>
         /// Creates a new <see cref="Camera"/> located at <see cref="DefaultPosition"/>.

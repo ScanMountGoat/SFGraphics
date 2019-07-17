@@ -77,7 +77,7 @@ namespace SFShaderLoader
         {
             var shader = GetShader(shaderName);
             if (shader == null)
-                throw new System.ArgumentException("The specified shader could not be found.", "shaderName");
+                throw new System.ArgumentException("The specified shader could not be found.", nameof(shaderName));
 
             return shader.GetProgramBinary(out programBinary, out binaryFormat);
         }

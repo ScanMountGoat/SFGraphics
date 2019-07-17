@@ -32,8 +32,8 @@ namespace SFGenericModel.Utils
 
             // Merge each container list.
             var result = new List<IndexedVertexData<T>>();
-            foreach (var unmergedcontainers in vertexContainersByType.Values)
-                result.AddRange(GetMergedContainers(unmergedcontainers));
+            foreach (var unmergedContainers in vertexContainersByType.Values)
+                result.AddRange(GetMergedContainers(unmergedContainers));
 
             return result;
         }

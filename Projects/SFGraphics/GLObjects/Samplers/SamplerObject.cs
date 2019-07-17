@@ -8,14 +8,14 @@ namespace SFGraphics.GLObjects.Samplers
     /// </summary>
     public sealed class SamplerObject : GLObject
     {
-        internal override GLObjectType ObjectType { get { return GLObjectType.SamplerObject; } }
+        internal override GLObjectType ObjectType => GLObjectType.SamplerObject;
 
         /// <summary>
         /// Updates the SamplerParameter when set.
         /// </summary>
         public TextureMinFilter MinFilter
         {
-            get { return minFilter; }
+            get => minFilter;
             set
             {
                 minFilter = value;
@@ -29,7 +29,7 @@ namespace SFGraphics.GLObjects.Samplers
         /// </summary>
         public TextureMagFilter MagFilter
         {
-            get { return magFilter; }
+            get => magFilter;
             set
             {
                 magFilter = value;
@@ -43,7 +43,7 @@ namespace SFGraphics.GLObjects.Samplers
         /// </summary>
         public TextureWrapMode TextureWrapS
         {
-            get { return textureWrapS; }
+            get => textureWrapS;
             set
             {
                 textureWrapS = value;
@@ -57,7 +57,7 @@ namespace SFGraphics.GLObjects.Samplers
         /// </summary>
         public TextureWrapMode TextureWrapT
         {
-            get { return textureWrapT; }
+            get => textureWrapT;
             set
             {
                 textureWrapT = value;
@@ -71,7 +71,7 @@ namespace SFGraphics.GLObjects.Samplers
         /// </summary>
         public TextureWrapMode TextureWrapR
         {
-            get { return textureWrapR; }
+            get => textureWrapR;
             set
             {
                 textureWrapR = value;

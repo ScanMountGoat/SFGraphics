@@ -6,7 +6,7 @@ namespace SFGraphics.GLObjects.Shaders.Utils
 {
     internal static class ShaderTypeConversions
     {
-        private static Dictionary<TextureTarget, ActiveUniformType> uniformTypeByTextureTarget = new Dictionary<TextureTarget, ActiveUniformType>()
+        private static readonly Dictionary<TextureTarget, ActiveUniformType> uniformTypeByTextureTarget = new Dictionary<TextureTarget, ActiveUniformType>()
         {
             { TextureTarget.Texture2D, ActiveUniformType.Sampler2D },
             { TextureTarget.TextureCubeMap, ActiveUniformType.SamplerCube },
