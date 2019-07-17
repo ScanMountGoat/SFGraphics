@@ -10,21 +10,20 @@ namespace SFGraphics.Cameras
     public class Camera
     {
         /// <summary>
-        /// The camera's initial position or position after <see cref="ResetToDefaultPosition"/>.
-        /// Defaults to (0, 10, -80).
+        /// The position of the camera in scene units, taking into account translation and rotation.
         /// </summary>
-        public Vector3 DefaultPosition { get; } = new Vector3(0, 10, -80);
+        public Vector3 TransformedPosition { get; private set; }
 
         /// <summary>
-        /// The position of the camera in scene units. 
+        /// The translation component of the camera's transforms in scene units.
         /// </summary>
-        public Vector3 Position
+        public Vector3 Translation
         {
-            get => (rotationMatrix * new Vector4(translation, 1)).Xyz;
+            get => translation;
             set
             {
                 translation = value;
-                UpdateMatrices();
+                UpdateTransformationMatrices();
             }
         }
         private Vector3 translation = new Vector3(0, 10, -80);
@@ -38,7 +37,7 @@ namespace SFGraphics.Cameras
             set
             {
                 scale = value;
-                UpdateMatrices();
+                UpdateTransformationMatrices();
             }
         }
         private float scale = 1;
@@ -56,7 +55,7 @@ namespace SFGraphics.Cameras
                 if (value > 0 && value < Math.PI)
                 {
                     fovRadians = value;
-                    UpdateMatrices();
+                    UpdateTransformationMatrices();
                 }
             }
         }
@@ -75,7 +74,7 @@ namespace SFGraphics.Cameras
                 if (value > 0 && value < 180)
                 {
                     fovRadians = (float)VectorUtils.GetRadians(value);
-                    UpdateMatrices();
+                    UpdateTransformationMatrices();
                 }
             }
         }
@@ -156,7 +155,7 @@ namespace SFGraphics.Cameras
             set
             {
                 farClipPlane = value;
-                UpdateMatrices();
+                UpdateTransformationMatrices();
             }
         }
         private float farClipPlane = 100000;
@@ -170,7 +169,7 @@ namespace SFGraphics.Cameras
             set
             {
                 nearClipPlane = value;
-                UpdateMatrices();
+                UpdateTransformationMatrices();
             }
         }
         private float nearClipPlane = 1;
@@ -185,7 +184,7 @@ namespace SFGraphics.Cameras
             set
             {
                 renderWidth = Math.Max(value, 1);
-                UpdateMatrices();
+                UpdateTransformationMatrices();
             }
         }
         private int renderWidth = 1;
@@ -200,7 +199,7 @@ namespace SFGraphics.Cameras
             set
             {
                 renderHeight = Math.Max(value, 1);
-                UpdateMatrices();
+                UpdateTransformationMatrices();
             }
         }
         private int renderHeight = 1;
@@ -246,7 +245,7 @@ namespace SFGraphics.Cameras
         protected Matrix4 translationMatrix = Matrix4.Identity;
 
         /// <summary>
-        /// The result of <see cref="Matrix4.CreateTranslation(float, float, float)"/> for X, -Y, Z of <see cref="Position"/>
+        /// The result of <see cref="Matrix4.CreateTranslation(float, float, float)"/> for X, -Y, Z of <see cref="TransformedPosition"/>
         /// </summary>
         public Matrix4 TranslationMatrix => translationMatrix;
 
@@ -263,11 +262,12 @@ namespace SFGraphics.Cameras
         public Matrix4 PerspectiveMatrix => perspectiveMatrix;
 
         /// <summary>
-        /// Creates a new <see cref="Camera"/> located at <see cref="DefaultPosition"/>.
+        /// Creates a new <see cref="Camera"/> located at the origin/>.
         /// </summary>
         public Camera()
         {
-            UpdateMatrices();
+            // TODO: Some of the redundant matrix multiplications could be optimized out.
+            ResetTransforms();
         }
 
         /// <summary>
@@ -296,7 +296,7 @@ namespace SFGraphics.Cameras
                 translation.X += deltaX;
             }
 
-            UpdateMatrices();
+            UpdateTransformationMatrices();
         }
 
         /// <summary>
@@ -304,7 +304,7 @@ namespace SFGraphics.Cameras
         /// </summary>
         /// <param name="amount">The amount to zoom in scene units</param>
         /// <param name="scaleByDistanceToOrigin">When <c>true</c>, the <paramref name="amount"/> 
-        /// is multiplied by the magnitude of <see cref="Position"/></param>
+        /// is multiplied by the magnitude of <see cref="TransformedPosition"/></param>
         public void Zoom(float amount, bool scaleByDistanceToOrigin = true)
         {
             // Increase zoom speed when zooming out. 
@@ -314,13 +314,13 @@ namespace SFGraphics.Cameras
 
             translation.Z += amount * zoomScale;
 
-            UpdateMatrices();
+            UpdateTransformationMatrices();
         }
 
         /// <summary>
         /// Updates all matrix properties using the respective update methods.
         /// </summary>
-        protected void UpdateMatrices()
+        protected void UpdateTransformationMatrices()
         {
             UpdateTranslationMatrix();
             UpdateRotationMatrix();
@@ -329,6 +329,9 @@ namespace SFGraphics.Cameras
             UpdateModelViewMatrix();
 
             UpdateMvpMatrix();
+
+            // Ensure the vector used for shading gets updated.
+            TransformedPosition = (rotationMatrix * new Vector4(translation, 1)).Xyz;
         }
 
         /// <summary>
@@ -372,14 +375,13 @@ namespace SFGraphics.Cameras
         }
 
         /// <summary>
-        /// Sets <see cref="rotationXRadians"/> and <see cref="RotationYRadians"/> to 0.
+        /// Sets rotation and translation to <c>0</c>.
         /// </summary>
-        public void ResetToDefaultPosition()
+        public void ResetTransforms()
         {
-            translation = DefaultPosition;
-            rotationXRadians = 0;
-            rotationYRadians = 0;
-            UpdateMatrices();
+            Translation = Vector3.Zero;
+            RotationXRadians = 0;
+            RotationYRadians = 0;
         }
 
         /// <summary>
@@ -408,7 +410,7 @@ namespace SFGraphics.Cameras
             float distanceOffset = offset / minFov;
             translation.Z = -1 * (distance + distanceOffset);
 
-            UpdateMatrices();
+            UpdateTransformationMatrices();
         }
 
         /// <summary>
