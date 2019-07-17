@@ -1,5 +1,4 @@
-﻿using OpenTK;
-using OpenTK.Graphics.OpenGL;
+﻿using OpenTK.Graphics.OpenGL;
 using SFGenericModel;
 using SFGenericModel.VertexAttributes;
 using System;
@@ -10,14 +9,14 @@ namespace SFShapes
     /// <summary>
     /// Draws simple geometry given a collection of vertex positions.
     /// </summary>
-    public class Mesh3D : GenericMesh<Vector3>
+    public class Mesh3D : GenericMesh<Vertex3d>
     {
         /// <summary>
         /// 
         /// </summary>
         /// <param name="vertices">The points for the shape</param>
         /// <param name="primitiveType">Determines how the shape should be drawn</param>
-        public Mesh3D(List<Vector3> vertices, PrimitiveType primitiveType) : base(vertices, primitiveType)
+        public Mesh3D(List<Vertex3d> vertices, PrimitiveType primitiveType) : base(vertices, primitiveType)
         {
 
         }
@@ -26,27 +25,16 @@ namespace SFShapes
         /// 
         /// </summary>
         /// <param name="vertices">The points of the shape</param>
-        public Mesh3D(Tuple<List<Vector3>, PrimitiveType> vertices) : base(vertices.Item1, vertices.Item2)
+        public Mesh3D(Tuple<List<Vertex3d>, PrimitiveType> vertices) : base(vertices.Item1, vertices.Item2)
         {
+
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
-        public override List<VertexAttribute> GetVertexAttributes()
-        {
-            return new List<VertexAttribute>()
-            {
-                new VertexFloatAttribute("position", ValueCount.Three, VertexAttribPointerType.Float, false)
-            };
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public List<VertexAttribute> GetRenderAttributes()
+        public static List<VertexAttribute> GetRenderAttributes()
         {
             return new List<VertexAttribute>()
             {

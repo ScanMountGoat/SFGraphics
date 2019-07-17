@@ -57,13 +57,13 @@ namespace SFGenericModel
         private readonly BufferObject vertexBuffer = new BufferObject(BufferTarget.ArrayBuffer);
         private readonly BufferObject vertexIndexBuffer = new BufferObject(BufferTarget.ElementArrayBuffer);
 
-        // This result will be used a lot, so only initialize once.
-        private static List<VertexAttribute> vertexAttributes;
+        /// <summary>
+        /// The rendering information for each of the attributes in <typeparamref name="T"/> in the order they appear in the struct.
+        /// </summary>
+        protected static readonly List<VertexAttribute> vertexAttributes = vertexAttributes = VertexAttributeUtils.GetAttributesFromType<T>();
 
         private GenericMesh(PrimitiveType primitiveType, DrawElementsType drawElementsType, System.Type vertexType, int vertexCount)
         {
-            InitializeVertexAttributes();
-
             PrimitiveType = primitiveType;
             DrawElementsType = drawElementsType;
 
@@ -78,7 +78,7 @@ namespace SFGenericModel
         /// </summary>
         /// <param name="vertices">The vertex data</param>
         /// <param name="primitiveType">Determines how primitives will be constructed from the vertex data</param>
-        protected GenericMesh(IList<T> vertices, PrimitiveType primitiveType) 
+        protected GenericMesh(ICollection<T> vertices, PrimitiveType primitiveType) 
             : this(primitiveType, DrawElementsType.UnsignedInt, typeof(T), vertices.Count)
         {
             InitializeBufferData(vertices);
@@ -150,16 +150,6 @@ namespace SFGenericModel
             Draw(shader, VertexCount, 0);
         }
 
-        /// <summary>
-        /// Gets the attribute rendering information for all the members of <typeparamref name="T"/> with a <see cref="VertexAttribute"/> using reflection.
-        /// When overriding this method, the order of attributes in the list should match the order of the member variables.
-        /// </summary>
-        /// <returns>Vertex attribute information</returns>
-        public virtual List<VertexAttribute> GetVertexAttributes()
-        {
-            return vertexAttributes;
-        }
-
         private void ConfigureVertexAttributes(Shader shader)
         {
             // The binding order here is critical.
@@ -169,7 +159,6 @@ namespace SFGenericModel
             vertexIndexBuffer.Bind();
 
             shader.EnableVertexAttributes();
-            var vertexAttributes = GetVertexAttributes();
             SetVertexAttributes(shader, vertexAttributes);
 
             // TODO: Binding the default VAO isn't part of the core specification.
@@ -179,12 +168,6 @@ namespace SFGenericModel
             // This step may not be necessary.
             GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, 0);
-        }
-
-        private static void InitializeVertexAttributes()
-        {
-            if (vertexAttributes == null)
-                vertexAttributes = VertexAttributeUtils.GetAttributesFromType<T>();
         }
 
         private void DrawGeometry(int count, int offset)
@@ -209,13 +192,14 @@ namespace SFGenericModel
             }
         }
 
-        private void InitializeBufferData<TIndex>(IList<T> vertices, IList<TIndex> vertexIndices) where TIndex : struct
+        private void InitializeBufferData<TIndex>(IEnumerable<T> vertices, IEnumerable<TIndex> vertexIndices) where TIndex : struct
         {
+            // TODO: Forcing the parameters to be arrays will avoid copying the data an additional time.
             vertexBuffer.SetData(vertices.ToArray(), BufferUsageHint.StaticDraw);
             vertexIndexBuffer.SetData(vertexIndices.ToArray(), BufferUsageHint.StaticDraw);
         }
 
-        private void InitializeBufferData(IList<T> vertices)
+        private void InitializeBufferData(ICollection<T> vertices)
         {
             var indices = IndexUtils.GenerateIndices(vertices.Count);
             InitializeBufferData(vertices, indices);

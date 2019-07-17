@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SFGraphics.GLObjects.Shaders;
 using System.Collections.Generic;
+using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using SFGenericModel.MeshEventArgs;
 using SFGenericModel.VertexAttributes;
@@ -10,75 +11,65 @@ namespace SFGenericModel.Test.GenericMeshTests
     [TestClass]
     public class AttribSet
     {
-        private class TestMesh : GenericMesh<float>
+        private struct TestVertex
         {
-            public List<VertexAttribute> vertexAttributes = new List<VertexAttribute>();
+            [VertexFloatAttribute(nameof(position), ValueCount.Three, VertexAttribPointerType.Float, false)]
+            public readonly OpenTK.Vector3 position;
 
-            public TestMesh() : base(new List<float>(), PrimitiveType.Lines)
+            [VertexIntAttribute(nameof(intAttrib), ValueCount.One, VertexAttribIntegerType.Int)]
+            public readonly int intAttrib;
+
+            // These attribute properties are properly configured, but the names aren't present in the vertex shader.
+            [VertexIntAttribute("( ͡° ͜ʖ ͡°)", ValueCount.One, VertexAttribIntegerType.Int)]
+            public readonly int invalidIntAttribName;
+
+            [VertexFloatAttribute("(ಠ_ಠ)", ValueCount.One, VertexAttribPointerType.Float, false)]
+            public readonly float invalidFloatAttribName;
+        }
+
+        private class TestMesh : GenericMesh<TestVertex>
+        {
+            public TestMesh() : base(new List<TestVertex>(), PrimitiveType.Lines)
             {
 
-            }
-
-            public override List<VertexAttribute> GetVertexAttributes()
-            {
-                return vertexAttributes;
             }
         }
 
         private Shader shader;
         private TestMesh mesh;
-        private List<AttribSetEventArgs> eventArgs = new List<AttribSetEventArgs>();
+        private readonly List<AttribSetEventArgs> eventArgs = new List<AttribSetEventArgs>();
 
         [TestInitialize]
         public void Initialize()
         {
             RenderTestUtils.OpenTKWindowlessContext.BindDummyContext();
 
-            if (shader == null)
-            {
-                shader = RenderTestUtils.ShaderTestUtils.CreateValidShader();
-            }
+            shader = RenderTestUtils.ShaderTestUtils.CreateValidShader();
             mesh = new TestMesh();
+
             mesh.OnInvalidAttribSet += Mesh_OnInvalidAttribSet;
-            eventArgs.Clear();
+        }
+
+        [TestMethod]
+        public void ConfigureVertexAttributes()
+        {
+            mesh.Draw(shader);
+
+            Assert.AreEqual(2, eventArgs.Count);
+
+            // The enums are the same, so don't specifically check for integer types.
+            Assert.AreEqual("( ͡° ͜ʖ ͡°)", eventArgs[0].Name);
+            Assert.AreEqual(VertexAttribPointerType.Int, eventArgs[0].Type);
+            Assert.AreEqual(ValueCount.One, eventArgs[0].ValueCount);
+
+            Assert.AreEqual("(ಠ_ಠ)", eventArgs[1].Name);
+            Assert.AreEqual(VertexAttribPointerType.Float, eventArgs[1].Type);
+            Assert.AreEqual(ValueCount.One, eventArgs[1].ValueCount);
         }
 
         private void Mesh_OnInvalidAttribSet(object sender, AttribSetEventArgs e)
         {
             eventArgs.Add(e);
-        }
-
-        [TestMethod]
-        public void ValidAttributeLocation()
-        {
-            mesh.vertexAttributes.Add(new VertexFloatAttribute("position", ValueCount.Three, VertexAttribPointerType.Float, false));
-            mesh.Draw(shader);
-            Assert.AreEqual(0, eventArgs.Count);
-        }
-
-        [TestMethod]
-        public void ValidAttributeIntLocation()
-        {
-            mesh.vertexAttributes.Add(new VertexIntAttribute("intAttrib", ValueCount.One, VertexAttribIntegerType.Int));
-            mesh.Draw(shader);
-            Assert.AreEqual(0, eventArgs.Count);
-        }
-
-        [TestMethod]
-        public void InvalidAttributeIntLocation()
-        {
-            mesh.vertexAttributes.Add(new VertexIntAttribute("memes", ValueCount.One, VertexAttribIntegerType.Int));
-            mesh.Draw(shader);
-            Assert.AreEqual(1, eventArgs.Count);
-        }
-
-        [TestMethod]
-        public void InvalidAttributeLocation()
-        {
-            mesh.vertexAttributes.Add(new VertexFloatAttribute("position", ValueCount.Three, VertexAttribPointerType.Float, false));
-            mesh.vertexAttributes.Add(new VertexFloatAttribute("memes", ValueCount.Three, VertexAttribPointerType.Float, false));
-            mesh.Draw(shader);
-            Assert.AreEqual(1, eventArgs.Count);
         }
     }
 }

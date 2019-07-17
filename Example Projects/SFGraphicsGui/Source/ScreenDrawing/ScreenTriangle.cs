@@ -8,14 +8,14 @@ using System.Collections.Generic;
 
 namespace SFGraphicsGui
 {
-    class ScreenTriangle : SFGenericModel.GenericMesh<Vector3>
+    class ScreenTriangle : SFGenericModel.GenericMesh<ScreenVertex>
     {
         // A triangle that extends past the screen.
-        private static readonly List<Vector3> screenTrianglePositions = new List<Vector3>()
+        private static readonly List<ScreenVertex> screenTrianglePositions = new List<ScreenVertex>()
         {
-            new Vector3(-1f, -1f, 0.0f),
-            new Vector3( 3f, -1f, 0.0f), 
-            new Vector3(-1f,  3f, 0.0f),
+            new ScreenVertex(new Vector3(-1f, -1f, 0.0f)),
+            new ScreenVertex(new Vector3( 3f, -1f, 0.0f)), 
+            new ScreenVertex(new Vector3(-1f,  3f, 0.0f))
         };
 
         public ScreenTriangle() : base(screenTrianglePositions, PrimitiveType.Triangles)
@@ -48,11 +48,6 @@ namespace SFGraphicsGui
             GL.Disable(EnableCap.DepthTest);
 
             Draw(shader);
-        }
-
-        public override List<VertexAttribute> GetVertexAttributes()
-        {
-            return new List<VertexAttribute>() { new VertexFloatAttribute("position", ValueCount.Three, VertexAttribPointerType.Float, false) };
         }
     }
 }
