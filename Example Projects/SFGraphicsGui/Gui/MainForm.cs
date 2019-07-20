@@ -4,7 +4,10 @@ using SFGraphics.Cameras;
 using SFGraphics.GLObjects.Textures;
 using System;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
+using ColladaSharp;
 
 namespace SFGraphicsGui
 {
@@ -17,7 +20,7 @@ namespace SFGraphicsGui
     {
         private GraphicsResources graphicsResources;
         private Texture2D textureToRender;
-        private ObjMesh modelToRender;
+        private RenderMesh modelToRender;
         private int renderModeIndex = 0;
 
         public MainForm()
@@ -106,17 +109,61 @@ namespace SFGraphicsGui
 
         private void openFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            using (var dialog = new OpenFileDialog() { Filter = "Wavefront Obj|*.obj" })
+            using (var dialog = new OpenFileDialog() { Filter = "Model Formats|*.obj;*.dae" })
             {
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    var result = FileFormatWavefront.FileFormatObj.Load(dialog.FileName, false);
+                    glViewport.PauseRendering();
 
-                    var vertices = GetVertices(result);
-                    modelToRender = new ObjMesh(vertices);
+                    if (dialog.FileName.ToLower().EndsWith(".dae"))
+                        InitializeMeshFromCollada(dialog.FileName);
+                    else if (dialog.FileName.ToLower().EndsWith(".obj"))
+                        InitializeMeshFromObj(dialog);
+                    else
+                        return;
+
                     glViewport.RenderFrame();
+                    glViewport.ResumeRendering();
                 }
             }
+        }
+
+        private void InitializeMeshFromObj(OpenFileDialog dialog)
+        {
+            var vertices = GetVertices(FileFormatWavefront.FileFormatObj.Load(dialog.FileName, false));
+            modelToRender = new RenderMesh(vertices);
+        }
+
+        private async void InitializeMeshFromCollada(string filename)
+        {
+            var result = await Collada.ImportAsync(filename, new ColladaImportOptions(),
+                new Progress<float>(), CancellationToken.None);
+
+            var vertices = new List<RenderVertex>();
+            foreach (var scene in result.Scenes)
+            {
+                foreach (var subMesh in scene.Model.Children)
+                {
+                    for (int i = 0; i < subMesh.Primitives.Triangles.Count; i++)
+                    {
+                        var face = subMesh.Primitives.GetFace(i);
+                        vertices.Add(GetVertex(face.Vertex0));
+                        vertices.Add(GetVertex(face.Vertex1));
+                        vertices.Add(GetVertex(face.Vertex2));
+                    }
+                }
+            }
+
+            modelToRender = new RenderMesh(vertices);
+        }
+
+        private static RenderVertex GetVertex(ColladaSharp.Models.Vertex vertex)
+        {
+            // TODO: Orientation?
+            var position = new Vector4(vertex.Position.X, vertex.Position.Y, vertex.Position.Z, 1) * Matrix4.CreateRotationX(90);
+            var normal = new Vector4(vertex.Normal.X, vertex.Normal.Y, vertex.Normal.Z, 1) * Matrix4.CreateRotationX(90);
+            var texCoord = new Vector2(vertex.TexCoord.X, vertex.TexCoord.Y);
+            return new RenderVertex(position.Xyz, normal.Xyz, texCoord);
         }
 
         private void DrawModel()
@@ -144,10 +191,10 @@ namespace SFGraphicsGui
             modelToRender.Draw(graphicsResources.objModelShader);
         }
 
-        private static List<ObjVertex> GetVertices(FileFormatWavefront.FileLoadResult<FileFormatWavefront.Model.Scene> result)
+        private static List<RenderVertex> GetVertices(FileFormatWavefront.FileLoadResult<FileFormatWavefront.Model.Scene> result)
         {
             // TODO: Groups?
-            var vertices = new List<ObjVertex>(result.Model.UngroupedFaces.Count * 3);
+            var vertices = new List<RenderVertex>(result.Model.UngroupedFaces.Count * 3);
 
             foreach (var face in result.Model.UngroupedFaces)
             {
@@ -160,7 +207,7 @@ namespace SFGraphicsGui
             return vertices;
         }
 
-        private static void AddVertex(FileFormatWavefront.FileLoadResult<FileFormatWavefront.Model.Scene> result, List<ObjVertex> vertices, FileFormatWavefront.Model.Index index)
+        private static void AddVertex(FileFormatWavefront.FileLoadResult<FileFormatWavefront.Model.Scene> result, List<RenderVertex> vertices, FileFormatWavefront.Model.Index index)
         {
             var position = new Vector3(result.Model.Vertices[index.vertex].x, result.Model.Vertices[index.vertex].y, result.Model.Vertices[index.vertex].z);
 
@@ -172,7 +219,7 @@ namespace SFGraphicsGui
             if (index.uv != null)
                 texcoord = new Vector2(result.Model.Uvs[(int)index.uv].u, result.Model.Uvs[(int)index.uv].v);
 
-            vertices.Add(new ObjVertex(position, normal, texcoord));
+            vertices.Add(new RenderVertex(position, normal, texcoord));
         }
 
         private void glControl1_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)

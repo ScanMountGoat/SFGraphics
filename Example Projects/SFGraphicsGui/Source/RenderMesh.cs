@@ -4,11 +4,11 @@ using OpenTK;
 
 namespace SFGraphicsGui
 {
-    class ObjMesh : GenericMesh<ObjVertex>
+    class RenderMesh : GenericMesh<RenderVertex>
     {
         public Vector4 BoundingSphere { get; }
 
-        public ObjMesh(List<ObjVertex> vertices) : base(vertices, OpenTK.Graphics.OpenGL.PrimitiveType.Triangles)
+        public RenderMesh(List<RenderVertex> vertices) : base(vertices, OpenTK.Graphics.OpenGL.PrimitiveType.Triangles)
         {
             var positions = new List<Vector3>(vertices.Count);
             foreach (var vertex in vertices)

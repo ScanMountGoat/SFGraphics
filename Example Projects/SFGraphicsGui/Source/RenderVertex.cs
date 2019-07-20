@@ -3,7 +3,7 @@ using SFGenericModel.VertexAttributes;
 
 namespace SFGraphicsGui
 {
-    struct ObjVertex
+    struct RenderVertex
     {
         [VertexFloat("position", ValueCount.Three, OpenTK.Graphics.OpenGL.VertexAttribPointerType.Float, false, AttributeUsage.Position, true, true)]
         public Vector3 Position { get; }
@@ -14,7 +14,7 @@ namespace SFGraphicsGui
         [VertexFloat("texcoord0", ValueCount.Two, OpenTK.Graphics.OpenGL.VertexAttribPointerType.Float, false, AttributeUsage.TexCoord0, false, false)]
         public Vector2 TexCoord0 { get; }
 
-        public ObjVertex(Vector3 position, Vector3 normal, Vector2 texCoord0)
+        public RenderVertex(Vector3 position, Vector3 normal, Vector2 texCoord0)
         {
             Position = position;
             Normal = normal;

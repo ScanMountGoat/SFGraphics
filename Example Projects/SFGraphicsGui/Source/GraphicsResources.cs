@@ -44,7 +44,7 @@ namespace SFGraphicsGui
         private void CreateObjModelShader()
         {
             var generator = new SFGenericModel.ShaderGenerators.VertexAttributeShaderGenerator();
-            generator.CreateShader<ObjVertex>(out string vertexSource, out string fragmentSource);
+            generator.CreateShader<RenderVertex>(out string vertexSource, out string fragmentSource);
             objModelShader = new Shader();
             objModelShader.LoadShaders(vertexSource, fragmentSource);
         }
