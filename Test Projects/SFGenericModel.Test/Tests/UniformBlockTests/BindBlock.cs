@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenTK.Graphics.OpenGL;
 using SFGenericModel.Materials;
 using SFGraphics.GLObjects.Shaders;
@@ -8,8 +9,7 @@ namespace SFGenericModel.Test.UniformBlockTests
     [TestClass]
     public class BindBlock
     {
-        private UniformBlock uniformBlock = null;
-        private Shader shader = null;
+        private Shader shader;
 
         [TestInitialize]
         public void Initialize()
@@ -18,22 +18,32 @@ namespace SFGenericModel.Test.UniformBlockTests
             if (shader == null)
                 shader = RenderTestUtils.ShaderTestUtils.CreateValidShader();
 
-            uniformBlock = new UniformBlock(shader, "UniformBlockA");
         }
 
         [TestMethod]
         public void InvalidBlockName()
         {
             // Shouldn't throw exception.
-            uniformBlock.BlockBinding = 0;
-            uniformBlock.BindBlock(shader, "memes");
+            var e = Assert.ThrowsException<ArgumentException>(() =>
+            {
+                var uniformBlock = new UniformBlock(shader, "memes")
+                {
+                    BlockBinding = 0
+                };
+                uniformBlock.BindBlock(shader);
+            });
+            Assert.AreEqual("uniformBlockName", e.ParamName);
+            Assert.IsTrue(e.Message.Contains("memes is not an active uniform block in the specified shader."));
         }
 
         [TestMethod]
         public void BindingPointZero()
         {
-            uniformBlock.BlockBinding = 0;
-            uniformBlock.BindBlock(shader, "UniformBlockA");
+            var uniformBlock = new UniformBlock(shader, "UniformBlockA")
+            {
+                BlockBinding = 0
+            };
+            uniformBlock.BindBlock(shader);
 
             int binding = GetBlockBinding("UniformBlockA");
             Assert.AreEqual(uniformBlock.BlockBinding, binding);
@@ -42,8 +52,11 @@ namespace SFGenericModel.Test.UniformBlockTests
         [TestMethod]
         public void BindingPointOne()
         {
-            uniformBlock.BlockBinding = 1;
-            uniformBlock.BindBlock(shader, "UniformBlockA");
+            var uniformBlock = new UniformBlock(shader, "UniformBlockA")
+            {
+                BlockBinding = 1
+            };
+            uniformBlock.BindBlock(shader);
 
             int binding = GetBlockBinding("UniformBlockA");
             Assert.AreEqual(uniformBlock.BlockBinding, binding);
