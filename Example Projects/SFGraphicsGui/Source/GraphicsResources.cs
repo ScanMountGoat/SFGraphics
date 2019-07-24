@@ -28,7 +28,7 @@ namespace SFGraphicsGui
             uvTestPattern = new Texture2D();
             uvTestPattern.LoadImageData(Properties.Resources.UVPattern);
 
-            floatMagentaBlackStripes = TextureCreation.CreateStripes(true, 64, 64);
+            floatMagentaBlackStripes = TextureGenerator.CreateStripes(true, 64, 64);
 
             screenTextureShader = CreateScreenTextureShader();
 

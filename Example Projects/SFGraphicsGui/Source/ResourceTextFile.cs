@@ -13,15 +13,11 @@ namespace SFGraphicsGui
         /// <returns></returns>
         public static string GetFileText(string resourceName)
         {
-            Assembly assembly = Assembly.GetExecutingAssembly();
-            string result;
-            string[] resources = assembly.GetManifestResourceNames();
-            Stream stream = assembly.GetManifestResourceStream(resourceName);
+            Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName);
             using (StreamReader reader = new StreamReader(stream))
             {
-                result = reader.ReadToEnd();
+                return reader.ReadToEnd();
             }
-            return result;
         }
     }
 }

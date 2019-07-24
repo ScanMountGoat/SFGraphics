@@ -60,6 +60,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Source\ColladaToRenderMesh.cs" />
     <Compile Include="Source\GraphicsResources.cs" />
     <Compile Include="Gui\MainForm.cs">
       <SubType>Form</SubType>
@@ -67,6 +68,7 @@
     <Compile Include="Gui\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Source\ModelRendering.cs" />
     <Compile Include="Source\RenderMesh.cs" />
     <Compile Include="Source\RenderVertex.cs" />
     <Compile Include="Source\Program.cs" />
@@ -74,7 +76,8 @@
     <Compile Include="Source\ResourceTextFile.cs" />
     <Compile Include="Source\ScreenDrawing\ScreenTriangle.cs" />
     <Compile Include="Source\ScreenDrawing\ScreenVertex.cs" />
-    <Compile Include="Source\TextureCreation.cs" />
+    <Compile Include="Source\TextureGenerator.cs" />
+    <Compile Include="Source\WavefrontToRenderMesh.cs" />
     <EmbeddedResource Include="Gui\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>

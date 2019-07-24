@@ -6,7 +6,7 @@ using SFGraphics.GLObjects.Textures.TextureFormats;
 
 namespace SFGraphicsGui
 {
-    public static class TextureCreation
+    public static class TextureGenerator
     {
         public static Texture2D CreateStripes(bool usePbo, int width, int height)
         {
@@ -16,19 +16,17 @@ namespace SFGraphicsGui
                 MagFilter = TextureMagFilter.Nearest
             };
 
-            int mipmaps = 0;
-
             Vector3[] pixels = GetImagePixels(width, height);
 
             if (usePbo)
                 LoadFloatTexImageDataPbo(floatTexture, pixels, width, height);
             else
-                LoadFloatTexImageData(floatTexture, pixels, width, height, mipmaps);
+                LoadFloatTexImageData(floatTexture, pixels, width, height);
 
             return floatTexture;
         }
 
-        private static void LoadFloatTexImageData(Texture2D floatTexture, Vector3[] pixels, int width, int height, int mipmaps)
+        private static void LoadFloatTexImageData(Texture2D floatTexture, Vector3[] pixels, int width, int height)
         {
             floatTexture.LoadImageData(width, height, pixels, new TextureFormatUncompressed(PixelInternalFormat.Rgb, PixelFormat.Rgb, PixelType.Float));
         }
