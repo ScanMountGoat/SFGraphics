@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace SFGenericModel.Utils
 {
@@ -15,13 +16,7 @@ namespace SFGenericModel.Utils
         /// <returns>Generated consecutive indices</returns>
         public static List<int> GenerateIndices(int count)
         {
-            List<int> vertexIndices = new List<int>(count);
-            for (int i = 0; i < count; i++)
-            {
-                vertexIndices.Add(i);
-            }
-
-            return vertexIndices;
+            return Enumerable.Range(0, count).ToList();
         }
     }
 }
