@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SFGraphics.Cameras;
 using OpenTK;
+using SFGraphics.Cameras;
 
 namespace SFGraphics.Test.CameraTests
 {

@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenTK.Graphics.OpenGL;
+using RenderTestUtils;
 using SFGraphics.GLObjects.Shaders;
 
 namespace SFGraphics.Test.ShaderTests.ProgramCreationTests
@@ -7,11 +8,11 @@ namespace SFGraphics.Test.ShaderTests.ProgramCreationTests
     [TestClass]
     public class AttachShader
     {
-        [TestInitialize()]
+        [TestInitialize]
         public void Initialize()
         {
             // Set up the context for all the tests.
-            RenderTestUtils.OpenTKWindowlessContext.BindDummyContext();
+            OpenTKWindowlessContext.BindDummyContext();
         }
 
         [TestMethod]
@@ -19,7 +20,7 @@ namespace SFGraphics.Test.ShaderTests.ProgramCreationTests
         {
             // Load the shader file from the embedded resources.
             Shader shader = new Shader();
-            string shaderSource = RenderTestUtils.ResourceShaders.GetShaderSource("valid.frag");
+            string shaderSource = ResourceShaders.GetShaderSource("valid.frag");
             int id = Shader.CreateGlShader(shaderSource, ShaderType.FragmentShader);
             shader.AttachShader(id, ShaderType.FragmentShader);
 
@@ -31,7 +32,7 @@ namespace SFGraphics.Test.ShaderTests.ProgramCreationTests
         {
             // Load the shader file from the embedded resources.
             Shader shader = new Shader();
-            string shaderSource = RenderTestUtils.ResourceShaders.GetShaderSource("invalid.frag");
+            string shaderSource = ResourceShaders.GetShaderSource("invalid.frag");
             int id = Shader.CreateGlShader(shaderSource, ShaderType.FragmentShader);
             shader.AttachShader(id, ShaderType.FragmentShader);
 

@@ -1,15 +1,16 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Drawing;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenTK.Graphics.OpenGL;
 using SFGraphics.GLObjects.Textures;
 using SFGraphics.GLObjects.Textures.TextureFormats;
-using OpenTK.Graphics.OpenGL;
-using System.Drawing;
+using Tests;
 
 namespace SFGraphics.Test.TextureTests
 {
     [TestClass]
-    public class GetBitmap : Tests.ContextTest
+    public class GetBitmap : ContextTest
     {
-        private readonly byte[] originalData = new byte[] { 128, 0, 10, 255 };
+        private readonly byte[] originalData = { 128, 0, 10, 255 };
 
         [TestMethod]
         public void GetSinglePixel()
@@ -18,7 +19,7 @@ namespace SFGraphics.Test.TextureTests
             texture.LoadImageData(1, 1, originalData,
                 new TextureFormatUncompressed(PixelInternalFormat.Rgba, PixelFormat.Rgba, PixelType.UnsignedByte));
 
-            using (var bmp = texture.GetBitmap(0))
+            using (var bmp = texture.GetBitmap())
             {
                 // The channels will be swapped by OpenGL.
                 Assert.AreEqual(Color.FromArgb(255, 128, 0, 10), bmp.GetPixel(0, 0));

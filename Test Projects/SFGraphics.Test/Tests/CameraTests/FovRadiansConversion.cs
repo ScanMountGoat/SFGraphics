@@ -30,8 +30,7 @@ namespace SFGraphics.Test.CameraTests
         [TestMethod]
         public void RadiansToDegreesInsideRange()
         {
-            var camera = new Camera();
-            camera.FovRadians = (float)Math.PI / 2.0f;
+            var camera = new Camera { FovRadians = (float)Math.PI / 2.0f };
             Assert.AreEqual(90, camera.FovDegrees, 0.001);
         }
     }

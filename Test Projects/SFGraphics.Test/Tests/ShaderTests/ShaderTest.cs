@@ -1,29 +1,32 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OpenTK;
-using OpenTK.Graphics.OpenGL;
-using SFGraphics.GLObjects.Shaders;
-using SFGraphics.GLObjects.Shaders.ShaderEventArgs;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenTK;
+using OpenTK.Graphics.OpenGL;
+using RenderTestUtils;
+using SFGraphics.GLObjects.Shaders;
+using SFGraphics.GLObjects.Shaders.ShaderEventArgs;
+using Tests;
 
 namespace SFGraphics.Test.ShaderTests
 {
     [TestClass]
-    public abstract class ShaderTest : Tests.ContextTest
+    public abstract class ShaderTest : ContextTest
     {
         protected Shader shader;
 
         protected List<UniformSetEventArgs> invalidUniformSets = new List<UniformSetEventArgs>();
         protected List<TextureSetEventArgs> invalidTextureSets = new List<TextureSetEventArgs>();
 
-        [TestInitialize()]
+        [TestInitialize]
         public override void Initialize()
         {
             base.Initialize();
 
             if (shader == null)
             {
-                shader = RenderTestUtils.ShaderTestUtils.CreateValidShader();
+                shader = ShaderTestUtils.CreateValidShader();
                 shader.OnInvalidUniformSet += Shader_OnInvalidUniformSet;
                 shader.OnTextureUnitTypeMismatch += Shader_OnTextureUnitTypeMismatch;
             }
@@ -44,7 +47,7 @@ namespace SFGraphics.Test.ShaderTests
 
         public bool IsValidSet(string name, ActiveUniformType type)
         {
-            string expected = RenderTestUtils.ShaderTestUtils.GetInvalidUniformErrorMessage(name, type);
+            string expected = ShaderTestUtils.GetInvalidUniformErrorMessage(name, type);
 
             if (invalidUniformSets.Count > 0)
             {
@@ -94,7 +97,7 @@ namespace SFGraphics.Test.ShaderTests
         {
             // The unsigned int method overload doesn't work for some reason.
             GL.GetUniform(shader.Id, shader.GetUniformLocation(name), out int value);
-            return System.BitConverter.ToUInt32(System.BitConverter.GetBytes(value), 0);
+            return BitConverter.ToUInt32(BitConverter.GetBytes(value), 0);
         }
     }
 }

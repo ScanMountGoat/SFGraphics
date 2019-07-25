@@ -1,5 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Drawing;
+﻿using System.Drawing;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace SFGraphics.Utils.Test.ColorUtilsTests.GetColorTests
 {
@@ -9,7 +9,7 @@ namespace SFGraphics.Utils.Test.ColorUtilsTests.GetColorTests
         [TestMethod]
         public void WithinRange()
         {
-            Assert.AreEqual(Color.FromArgb(255, 127, 0, 255), ColorUtils.GetColor(0.5f, 0, 1, 1));
+            Assert.AreEqual(Color.FromArgb(255, 127, 0, 255), ColorUtils.GetColor(0.5f, 0, 1));
         }
 
         [TestMethod]

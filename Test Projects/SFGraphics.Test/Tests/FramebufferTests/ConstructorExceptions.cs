@@ -1,18 +1,19 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SFGraphics.GLObjects.Framebuffers;
 using OpenTK.Graphics.OpenGL;
+using RenderTestUtils;
+using SFGraphics.GLObjects.Framebuffers;
 
 namespace SFGraphics.Test.FramebufferTests
 {
     [TestClass]
     public class ConstructorExceptions
     {
-        [TestInitialize()]
+        [TestInitialize]
         public void Initialize()
         {
             // Set up the context for all the tests.
-            RenderTestUtils.OpenTKWindowlessContext.BindDummyContext();
+            OpenTKWindowlessContext.BindDummyContext();
         }
 
         [TestMethod]

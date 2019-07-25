@@ -1,7 +1,7 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OpenTK;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenTK;
 
 namespace SFGraphics.Utils.Test.TriangleListUtilsTests
 {
@@ -13,11 +13,11 @@ namespace SFGraphics.Utils.Test.TriangleListUtilsTests
         [TestMethod]
         public void ThreeVertices()
         {
-            var values3d = new List<Vector3>() { new Vector3(1, 0, 0), new Vector3(0, 1, 0), new Vector3(0, 0, 1) };
-            var values2d = new List<Vector2>() { new Vector2(1, 0), new Vector2(0, 0), new Vector2(0, 1) };
+            var values3d = new List<Vector3> { new Vector3(1, 0, 0), new Vector3(0, 1, 0), new Vector3(0, 0, 1) };
+            var values2d = new List<Vector2> { new Vector2(1, 0), new Vector2(0, 0), new Vector2(0, 1) };
 
             TriangleListUtils.CalculateTangentsBitangents(values3d, values3d, values2d,
-                new List<int>() { 0, 1, 2 }, out Vector3[] tangents, out Vector3[] bitangents);
+                new List<int> { 0, 1, 2 }, out Vector3[] tangents, out Vector3[] bitangents);
 
             // Ensure vectors are normalized.
             Assert.AreEqual(1.0f, tangents[0].Length, delta);
@@ -43,7 +43,7 @@ namespace SFGraphics.Utils.Test.TriangleListUtilsTests
         public void IncorrectNormalsCount()
         {
             var e = Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                TriangleListUtils.CalculateTangentsBitangents(new List<Vector3>(), new List<Vector3>() { Vector3.Zero }, new List<Vector2>(),
+                TriangleListUtils.CalculateTangentsBitangents(new List<Vector3>(), new List<Vector3> { Vector3.Zero }, new List<Vector2>(),
                     new List<int>(), out Vector3[] tangents, out Vector3[] bitangents));
 
             Assert.IsTrue(e.Message.Contains("Vector source lengths do not match."));
@@ -54,7 +54,7 @@ namespace SFGraphics.Utils.Test.TriangleListUtilsTests
         public void IncorrectUvsCount()
         {
             var e = Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                TriangleListUtils.CalculateTangentsBitangents(new List<Vector3>(), new List<Vector3>(), new List<Vector2>() { Vector2.Zero },
+                TriangleListUtils.CalculateTangentsBitangents(new List<Vector3>(), new List<Vector3>(), new List<Vector2> { Vector2.Zero },
                     new List<int>(), out Vector3[] tangents, out Vector3[] bitangents));
 
             Assert.IsTrue(e.Message.Contains("Vector source lengths do not match."));

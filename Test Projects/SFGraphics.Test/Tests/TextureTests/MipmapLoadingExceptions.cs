@@ -1,29 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using System.Drawing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenTK.Graphics.OpenGL;
-using SFGraphics.GLObjects.Textures;
 using SFGraphics.GLObjects.Textures.Utils;
+using Tests;
 
 namespace SFGraphics.Test.TextureTests
 {
     [TestClass]
-    public class MipmapLoadingExceptions : Tests.ContextTest
+    public class MipmapLoadingExceptions : ContextTest
     {
-        private readonly List<byte[]> mipmaps = new List<byte[]>();
-        private Texture2D texture;
-
-        [TestInitialize()]
-        public override void Initialize()
-        {
-            base.Initialize();
-            texture = new Texture2D();
-        }
-
         [TestMethod]
         public void LoadImageData2DBitmap()
         {
             // Doesn't throw exception.
-            MipmapLoading.LoadBaseLevelGenerateMipmaps(TextureTarget.Texture2D, new System.Drawing.Bitmap(128, 64));
+            MipmapLoading.LoadBaseLevelGenerateMipmaps(TextureTarget.Texture2D, new Bitmap(128, 64));
         }
 
         [TestMethod]
@@ -31,7 +21,7 @@ namespace SFGraphics.Test.TextureTests
         {
             // Doesn't throw exception.
             // Width and height must be equal for cube maps.
-            MipmapLoading.LoadBaseLevelGenerateMipmaps(TextureTarget.TextureCubeMapPositiveX, new System.Drawing.Bitmap(128, 128));
+            MipmapLoading.LoadBaseLevelGenerateMipmaps(TextureTarget.TextureCubeMapPositiveX, new Bitmap(128, 128));
         }
     }
 }

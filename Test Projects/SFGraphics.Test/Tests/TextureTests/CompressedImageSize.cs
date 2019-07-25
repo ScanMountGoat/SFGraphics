@@ -1,7 +1,8 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SFGraphics.GLObjects.Textures.TextureFormats;
 using OpenTK.Graphics.OpenGL;
+using RenderTestUtils;
+using SFGraphics.GLObjects.Textures.TextureFormats;
 
 namespace SFGraphics.Test.TextureTests
 {
@@ -15,7 +16,7 @@ namespace SFGraphics.Test.TextureTests
         public void TestSetup()
         {
             // Set up the context for all the tests.
-            RenderTestUtils.OpenTKWindowlessContext.BindDummyContext();
+            OpenTKWindowlessContext.BindDummyContext();
 
             // Binding a pixel unpack buffer affects texture loading methods.
             GL.BindBuffer(BufferTarget.PixelUnpackBuffer, 0);

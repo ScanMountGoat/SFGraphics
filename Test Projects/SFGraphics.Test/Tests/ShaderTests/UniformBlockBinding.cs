@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenTK.Graphics.OpenGL;
 
 namespace SFGraphics.Test.ShaderTests
@@ -28,7 +29,7 @@ namespace SFGraphics.Test.ShaderTests
         public void InvalidBinding()
         {
             // Shouldn't throw graphics exceptions.
-            var e = Assert.ThrowsException<System.ArgumentOutOfRangeException>(() =>
+            var e = Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
                 shader.UniformBlockBinding("UniformBlock", -1));
 
             Assert.IsTrue(e.Message.Contains("Binding points must be non negative."));

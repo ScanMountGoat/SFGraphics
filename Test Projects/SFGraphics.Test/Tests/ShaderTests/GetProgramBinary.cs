@@ -1,22 +1,25 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenTK.Graphics.OpenGL;
+using RenderTestUtils;
+using SFGraphics.GLObjects.Shaders;
+using Tests;
 
 namespace SFGraphics.Test.ShaderTests
 {
     [TestClass]
-    public class GetProgramBinary : Tests.ContextTest
+    public class GetProgramBinary : ContextTest
     {
         [TestMethod]
         public void ValidProgram()
         {
-            var shader = RenderTestUtils.ShaderTestUtils.CreateValidShader();
+            var shader = ShaderTestUtils.CreateValidShader();
             Assert.IsTrue(shader.GetProgramBinary(out byte[] binary, out BinaryFormat binaryFormat));
         }
 
         [TestMethod]
         public void InvalidProgram()
         {
-            var shader = new GLObjects.Shaders.Shader();
+            var shader = new Shader();
             Assert.IsFalse(shader.GetProgramBinary(out byte[] binary, out BinaryFormat binaryFormat));
         }
     }

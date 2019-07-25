@@ -1,14 +1,15 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenTK.Graphics.OpenGL;
 using SFGraphics.GLObjects.Textures;
 using SFGraphics.GLObjects.Textures.TextureFormats;
-using OpenTK.Graphics.OpenGL;
+using Tests;
 
 namespace SFGraphics.Test.TextureTests
 {
     [TestClass]
-    public class GetImageData : Tests.ContextTest
+    public class GetImageData : ContextTest
     {
-        private readonly byte[] originalData = new byte[] { 128, 255, 0, 10 };
+        private readonly byte[] originalData = { 128, 255, 0, 10 };
 
         [TestMethod]
         public void GetSingleRgbaPixel()

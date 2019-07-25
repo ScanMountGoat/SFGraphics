@@ -6,7 +6,7 @@ namespace SFGraphics.Test.ShaderTests.SetterTests
     [TestClass]
     public class SetFloatArray : ShaderTest
     {
-        private readonly float[] floatValues = new float[] { 1.5f, 2.5f, 3.5f };
+        private readonly float[] floatValues = { 1.5f, 2.5f, 3.5f };
 
         [TestMethod]
         public void ValidNameValidType()

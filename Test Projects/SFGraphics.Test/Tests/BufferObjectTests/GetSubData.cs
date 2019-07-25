@@ -1,5 +1,6 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenTK;
 
 namespace SFGraphics.Test.BufferObjectTests
 {
@@ -50,7 +51,7 @@ namespace SFGraphics.Test.BufferObjectTests
         [TestMethod]
         public void DataSizeNotDivisibleByType()
         {
-            var e = Assert.ThrowsException<ArgumentOutOfRangeException>(() => buffer.GetSubData<OpenTK.Vector4>(0, 1));
+            var e = Assert.ThrowsException<ArgumentOutOfRangeException>(() => buffer.GetSubData<Vector4>(0, 1));
             Assert.AreEqual("T", e.ParamName);
             Assert.AreEqual($"The buffer's size is not divisible by the requested type's size.{Environment.NewLine}Parameter name: T", e.Message);
         }

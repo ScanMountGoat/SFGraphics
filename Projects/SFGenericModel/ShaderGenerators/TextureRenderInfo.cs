@@ -80,8 +80,7 @@ namespace SFGenericModel.ShaderGenerators
         /// <param name="name">The value for <see cref="Name"/></param>
         /// <param name="uvCoord">The value for <see cref="UvCoord"/></param>
         /// <param name="textureSwizzle">The value for <see cref="TextureSwizzle"/></param>
-        public TextureRenderInfo(string name, UvCoord uvCoord = UvCoord.TexCoord0, 
-            TextureSwizzle textureSwizzle = TextureSwizzle.Rgb)
+        public TextureRenderInfo(string name, UvCoord uvCoord, TextureSwizzle textureSwizzle)
         {
             Name = name;
             UvCoord = uvCoord;

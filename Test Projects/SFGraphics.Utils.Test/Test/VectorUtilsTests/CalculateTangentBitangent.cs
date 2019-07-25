@@ -15,9 +15,8 @@ namespace SFGraphics.Utils.Test.VectorUtilsTests
             Vector2 uv1 = new Vector2(1, 0);
             Vector2 uv2 = new Vector2(0, 1);
             Vector2 uv3 = new Vector2(1, 1);
-            Vector3 tangent;
-            Vector3 bitangent;
-            VectorUtils.GenerateTangentBitangent(v1, v2, v3, uv1, uv2, uv3, out tangent, out bitangent);
+
+            VectorUtils.GenerateTangentBitangent(v1, v2, v3, uv1, uv2, uv3, out Vector3 tangent, out Vector3 bitangent);
 
             Assert.AreEqual(new Vector3(0, -1, 1), tangent);
             Assert.AreEqual(new Vector3(-1, 0, 1), bitangent);
@@ -32,9 +31,7 @@ namespace SFGraphics.Utils.Test.VectorUtilsTests
             Vector2 uv1 = new Vector2(1, 0);
             Vector2 uv2 = new Vector2(0, 1);
             Vector2 uv3 = new Vector2(1, 1);
-            Vector3 tangent;
-            Vector3 bitangent;
-            VectorUtils.GenerateTangentBitangent(v1, v2, v3, uv1, uv2, uv3, out tangent, out bitangent);
+            VectorUtils.GenerateTangentBitangent(v1, v2, v3, uv1, uv2, uv3, out Vector3 tangent, out Vector3 bitangent);
 
             // Make sure tangents and bitangents aren't all zero.
             Assert.AreEqual(VectorUtils.defaultTangent, tangent);
@@ -50,9 +47,7 @@ namespace SFGraphics.Utils.Test.VectorUtilsTests
             Vector2 uv1 = new Vector2(1, 1);
             Vector2 uv2 = new Vector2(1, 1);
             Vector2 uv3 = new Vector2(1, 1);
-            Vector3 tangent;
-            Vector3 bitangent;
-            VectorUtils.GenerateTangentBitangent(v1, v2, v3, uv1, uv2, uv3, out tangent, out bitangent);
+            VectorUtils.GenerateTangentBitangent(v1, v2, v3, uv1, uv2, uv3, out Vector3 tangent, out Vector3 bitangent);
 
             // Make sure tangents and bitangents aren't all zero.
             Assert.AreEqual(VectorUtils.defaultTangent, tangent);
@@ -68,9 +63,7 @@ namespace SFGraphics.Utils.Test.VectorUtilsTests
             Vector2 uv1 = new Vector2(1, 1);
             Vector2 uv2 = new Vector2(1, 1);
             Vector2 uv3 = new Vector2(1, 1);
-            Vector3 tangent;
-            Vector3 bitangent;
-            VectorUtils.GenerateTangentBitangent(v1, v2, v3, uv1, uv2, uv3, out tangent, out bitangent);
+            VectorUtils.GenerateTangentBitangent(v1, v2, v3, uv1, uv2, uv3, out Vector3 tangent, out Vector3 bitangent);
 
             // Make sure tangents and bitangents aren't all zero.
             Assert.AreEqual(VectorUtils.defaultTangent, tangent);
@@ -89,9 +82,7 @@ namespace SFGraphics.Utils.Test.VectorUtilsTests
             Vector2 uv2 = new Vector2(0.5f, 0);
             Vector2 uv3 = new Vector2(1, 1);
 
-            Vector3 tangent;
-            Vector3 bitangent;
-            VectorUtils.GenerateTangentBitangent(v1, v2, v3, uv1, uv2, uv3, out tangent, out bitangent);
+            VectorUtils.GenerateTangentBitangent(v1, v2, v3, uv1, uv2, uv3, out Vector3 tangent, out Vector3 bitangent);
 
             // Check for division by 0.
             Assert.IsFalse(IsInfiniteOrNaN(tangent.X));

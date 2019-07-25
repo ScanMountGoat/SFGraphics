@@ -1,11 +1,13 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenTK.Graphics.OpenGL;
 using SFGraphics.GLObjects.Textures;
+using Tests;
 
 namespace SFGraphics.Test.TextureTests
 {
     [TestClass]
-    public class Texture2DMsConstructor : Tests.ContextTest
+    public class Texture2DMsConstructor : ContextTest
     {
         [TestMethod]
         public void ValidSampleCount()
@@ -17,7 +19,7 @@ namespace SFGraphics.Test.TextureTests
         [TestMethod]
         public void ZeroSamples()
         {
-            var e = Assert.ThrowsException<System.ArgumentOutOfRangeException>(() =>
+            var e = Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
                 new Texture2DMultisample(64, 16, PixelInternalFormat.Rgb, 0));
 
             Assert.IsTrue(e.Message.Contains("Sample count must be greater than 0"));
@@ -27,7 +29,7 @@ namespace SFGraphics.Test.TextureTests
         [TestMethod]
         public void NegativeSamples()
         {
-            var e = Assert.ThrowsException<System.ArgumentOutOfRangeException>(() =>
+            var e = Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
                 new Texture2DMultisample(64, 16, PixelInternalFormat.Rgb, -1));
 
             Assert.IsTrue(e.Message.Contains("Sample count must be greater than 0"));

@@ -1,5 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Drawing;
+﻿using System.Drawing;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace SFGraphics.Utils.Test.ColorUtilsTests
 {

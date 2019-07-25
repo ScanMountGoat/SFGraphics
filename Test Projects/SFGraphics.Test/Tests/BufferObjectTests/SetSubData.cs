@@ -1,12 +1,12 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace SFGraphics.Test.BufferObjectTests
 {
     [TestClass]
     public class SetSubData : BufferTest
     {
-        private float[] dataToWrite = new float[] { -1 };
+        private float[] dataToWrite = { -1 };
 
         [TestMethod]
         public void ValidWrite()
@@ -16,7 +16,7 @@ namespace SFGraphics.Test.BufferObjectTests
             int offset = sizeof(float) * index;
             buffer.SetSubData(dataToWrite, offset);
 
-            float[] newBufferData = new float[] { 1.5f, -1, 3.5f };
+            float[] newBufferData = { 1.5f, -1, 3.5f };
             CollectionAssert.AreEqual(newBufferData, buffer.GetData<float>());
         }
 

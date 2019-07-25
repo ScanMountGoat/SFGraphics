@@ -1,19 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenTK.Graphics.OpenGL;
 using SFGraphics.GLObjects.Textures;
 using SFGraphics.GLObjects.Textures.TextureFormats;
+using Tests;
 
 namespace SFGraphics.Test.TextureTests
 {
     [TestClass]
-    public class LoadImageData : Tests.ContextTest
+    public class LoadImageData : ContextTest
     {
         private readonly List<byte[]> mipmaps = new List<byte[]>();
         private Texture2D texture;
 
-        [TestInitialize()]
+        [TestInitialize]
         public override void Initialize()
         {
             base.Initialize();
@@ -25,7 +27,7 @@ namespace SFGraphics.Test.TextureTests
         [TestMethod]
         public void Bitmap()
         {
-            using (var bmp = new System.Drawing.Bitmap(4, 2))
+            using (var bmp = new Bitmap(4, 2))
             {
                 texture.LoadImageData(bmp);
 

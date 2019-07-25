@@ -1,5 +1,5 @@
-﻿using OpenTK;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using OpenTK;
 
 namespace SFGraphics.Utils.Test.BoundingSphereTests
 {

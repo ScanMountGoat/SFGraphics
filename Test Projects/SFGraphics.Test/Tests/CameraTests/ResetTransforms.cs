@@ -10,7 +10,7 @@ namespace SFGraphics.Test.CameraTests
         [TestMethod]
         public void ResetAllTransforms()
         {
-            Camera camera = new Camera() { Translation = new OpenTK.Vector3(-1, -1, -1) };
+            Camera camera = new Camera { Translation = new Vector3(-1, -1, -1) };
             camera.ResetTransforms();
             Assert.AreEqual(Vector3.Zero, camera.Translation);
             Assert.AreEqual(Vector3.Zero, camera.TransformedPosition);

@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenTK.Graphics.OpenGL;
 
 namespace SFGraphics.Test.ShaderTests.SetterTests
@@ -6,7 +7,7 @@ namespace SFGraphics.Test.ShaderTests.SetterTests
     [TestClass]
     public class SetUintArray : ShaderTest
     {
-        private readonly uint[] uintValues = new uint[] { 1, 2, 3 };
+        private readonly uint[] uintValues = { 1, 2, 3 };
 
         [TestMethod]
         public void ValidNameValidType()
@@ -46,7 +47,7 @@ namespace SFGraphics.Test.ShaderTests.SetterTests
             for (int i = 0; i < length; i++)
             {
                 GL.GetUniform(shader.Id, shader.GetUniformLocation(name) + i, out int value);
-                values[i] = System.BitConverter.ToUInt32(System.BitConverter.GetBytes(value), 0);
+                values[i] = BitConverter.ToUInt32(BitConverter.GetBytes(value), 0);
             }
 
             return values;

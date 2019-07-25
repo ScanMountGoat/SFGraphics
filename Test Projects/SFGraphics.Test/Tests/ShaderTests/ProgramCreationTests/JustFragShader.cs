@@ -1,18 +1,20 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenTK.Graphics.OpenGL;
+using RenderTestUtils;
 using SFGraphics.GLObjects.Shaders;
+using Tests;
 
 namespace SFGraphics.Test.ShaderTests.ProgramCreationTests
 {
     [TestClass]
-    public class JustFragShader : Tests.ContextTest
+    public class JustFragShader : ContextTest
     {
         [TestMethod]
         public void ValidFragShader()
         {
             // Load the shader file from the embedded resources.
             Shader shader = new Shader();
-            string shaderSource = RenderTestUtils.ResourceShaders.GetShaderSource("valid.frag");
+            string shaderSource = ResourceShaders.GetShaderSource("valid.frag");
             shader.LoadShader(shaderSource, ShaderType.FragmentShader);
 
             Assert.IsTrue(shader.LinkStatusIsOk);
@@ -26,7 +28,7 @@ namespace SFGraphics.Test.ShaderTests.ProgramCreationTests
         {
             // Load the shader file from the embedded resources.
             Shader shader = new Shader();
-            string shaderSource = RenderTestUtils.ResourceShaders.GetShaderSource("invalid.frag");
+            string shaderSource = ResourceShaders.GetShaderSource("invalid.frag");
             shader.LoadShader(shaderSource, ShaderType.FragmentShader);
 
             Assert.IsFalse(shader.LinkStatusIsOk);

@@ -1,11 +1,13 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenTK.Graphics.OpenGL;
+using RenderTestUtils;
 using SFGraphics.GLObjects.Shaders;
+using Tests;
 
 namespace SFGraphics.Test.ShaderTests.ProgramCreationTests
 {
     [TestClass]
-    public class LinkError : Tests.ContextTest
+    public class LinkError : ContextTest
     {
         [TestMethod]
         public void FunctionNotDefined()
@@ -13,7 +15,7 @@ namespace SFGraphics.Test.ShaderTests.ProgramCreationTests
             Shader shader = new Shader();
 
             // The shader declared but does not define a function.
-            string fragSource = RenderTestUtils.ResourceShaders.GetShaderSource("undefinedFunction.frag");
+            string fragSource = ResourceShaders.GetShaderSource("undefinedFunction.frag");
             shader.LoadShader(fragSource, ShaderType.FragmentShader);
             Assert.IsFalse(shader.LinkStatusIsOk);
         }

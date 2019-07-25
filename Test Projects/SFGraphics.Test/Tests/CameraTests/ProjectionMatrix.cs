@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SFGraphics.Cameras;
 using OpenTK;
+using SFGraphics.Cameras;
 
 namespace SFGraphics.Test.CameraTests
 {
@@ -10,10 +10,7 @@ namespace SFGraphics.Test.CameraTests
         [TestMethod]
         public void ChangeWidthHeightFov()
         {
-            Camera camera = new Camera();
-            camera.RenderWidth = 1;
-            camera.RenderHeight = 2;
-            camera.FovRadians = 0.5f;
+            Camera camera = new Camera { RenderWidth = 1, RenderHeight = 2, FovRadians = 0.5f };
             var expected = Matrix4.CreatePerspectiveFieldOfView(0.5f, 0.5f, camera.NearClipPlane, camera.FarClipPlane);
             Assert.AreEqual(expected, camera.PerspectiveMatrix);
         }

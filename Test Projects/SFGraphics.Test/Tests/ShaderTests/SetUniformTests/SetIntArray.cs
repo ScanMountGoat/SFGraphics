@@ -6,7 +6,7 @@ namespace SFGraphics.Test.ShaderTests.SetterTests
     [TestClass]
     public class SetIntArray : ShaderTest
     {
-        private readonly int[] intValues = new int[] { -1, 0, 1 };
+        private readonly int[] intValues = { -1, 0, 1 };
 
         [TestMethod]
         public void ValidNameValidType()

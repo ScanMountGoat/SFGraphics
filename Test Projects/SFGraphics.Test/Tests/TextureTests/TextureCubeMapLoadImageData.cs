@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenTK.Graphics.OpenGL;
-using SFGraphics.GLObjects.Textures.TextureFormats;
 using SFGraphics.GLObjects.Textures;
+using SFGraphics.GLObjects.Textures.TextureFormats;
+using Tests;
 
 namespace SFGraphics.Test.TextureTests
 {
     [TestClass]
-    public class TextureCubeMapLoadImageData : Tests.ContextTest
+    public class TextureCubeMapLoadImageData : ContextTest
     {
         private static readonly List<byte[]> mipmaps = new List<byte[]>();
 
@@ -59,7 +61,7 @@ namespace SFGraphics.Test.TextureTests
         {
             var texture = new TextureCubeMap();
             var format = new TextureFormatUncompressed(PixelInternalFormat.Rgba32f, PixelFormat.Rgba, PixelType.Float);
-            texture.LoadImageData(128, InternalFormat.CompressedRgbaS3tcDxt1Ext,
+            texture.LoadImageData(128, format,
                 mipmaps, mipmaps, mipmaps, mipmaps, mipmaps, mipmaps);
 
             Assert.AreEqual(128, texture.Width);
@@ -71,7 +73,7 @@ namespace SFGraphics.Test.TextureTests
         {
             // Will fail if exception is thrown.
             var texture = new TextureCubeMap();
-            texture.LoadImageData(new System.Drawing.Bitmap(8, 8 * 8 * 6), 8);
+            texture.LoadImageData(new Bitmap(8, 8 * 8 * 6), 8);
 
             Assert.AreEqual(8, texture.Width);
             Assert.AreEqual(8, texture.Height);

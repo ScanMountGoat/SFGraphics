@@ -23,7 +23,7 @@ namespace SFGraphics.Test.BufferObjectTests
         [TestMethod]
         public void WriteToPtr()
         {
-            float[] dataToWrite = new float[] { -1f, -1f, -1f };
+            float[] dataToWrite = { -1f, -1f, -1f };
 
             // Modify the buffer's data using its pointer.
             IntPtr pointer = buffer.MapBuffer(BufferAccess.ReadWrite);

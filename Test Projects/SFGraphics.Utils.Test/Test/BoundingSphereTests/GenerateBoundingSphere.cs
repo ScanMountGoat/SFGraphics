@@ -1,5 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenTK;
 
 namespace SFGraphics.Utils.Test.BoundingSphereTests
@@ -17,15 +17,17 @@ namespace SFGraphics.Utils.Test.BoundingSphereTests
         [TestMethod]
         public void UnitCube()
         {
-            var points = new List<Vector3>();
-            points.Add(new Vector3(0.5f, -0.5f, -0.5f));
-            points.Add(new Vector3(0.5f, -0.5f, 0.5f));
-            points.Add(new Vector3(-0.5f, -0.5f, 0.5f));
-            points.Add(new Vector3(-0.5f, -0.5f, -0.5f));
-            points.Add(new Vector3(0.5f, 0.5f, -0.5f));
-            points.Add(new Vector3(0.5f, 0.5f, 0.5f));
-            points.Add(new Vector3(-0.5f, 0.5f, 0.5f));
-            points.Add(new Vector3(-0.5f, 0.5f, -0.5f));
+            var points = new List<Vector3>
+            {
+                new Vector3(0.5f, -0.5f, -0.5f),
+                new Vector3(0.5f, -0.5f, 0.5f),
+                new Vector3(-0.5f, -0.5f, 0.5f),
+                new Vector3(-0.5f, -0.5f, -0.5f),
+                new Vector3(0.5f, 0.5f, -0.5f),
+                new Vector3(0.5f, 0.5f, 0.5f),
+                new Vector3(-0.5f, 0.5f, 0.5f),
+                new Vector3(-0.5f, 0.5f, -0.5f)
+            };
 
             var boundingSphere = BoundingSphereGenerator.GenerateBoundingSphere(points);
             Assert.IsTrue(SpherePointUtils.SphereContainsPoints(boundingSphere, points));

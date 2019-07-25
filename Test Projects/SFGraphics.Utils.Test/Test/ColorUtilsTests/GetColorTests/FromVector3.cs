@@ -1,6 +1,6 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Drawing;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenTK;
-using System.Drawing;
 
 namespace SFGraphics.Utils.Test.ColorUtilsTests.GetColorTests
 {

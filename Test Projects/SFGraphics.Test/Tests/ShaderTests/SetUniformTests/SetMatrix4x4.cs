@@ -1,14 +1,13 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OpenTK.Graphics.OpenGL;
 using OpenTK;
+using OpenTK.Graphics.OpenGL;
 
 namespace SFGraphics.Test.ShaderTests.SetterTests
 {
     [TestClass]
     public class SetMatrix4x4 : ShaderTest
     {
-        private static readonly float[] identityMatrix = new float[]
-        {
+        private static readonly float[] identityMatrix = {
             1, 0, 0, 0,
             0, 1, 0, 0,
             0, 0, 1, 0,

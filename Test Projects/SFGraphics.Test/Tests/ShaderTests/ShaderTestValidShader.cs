@@ -1,6 +1,7 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Collections.Generic;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using RenderTestUtils;
 using SFGraphics.GLObjects.Shaders;
-using System.Collections.Generic;
 using SFGraphics.GLObjects.Shaders.ShaderEventArgs;
 
 namespace SFGraphics.Test.ShaderTests
@@ -11,12 +12,12 @@ namespace SFGraphics.Test.ShaderTests
         protected Shader shader;
         protected List<UniformSetEventArgs> eventArgs = new List<UniformSetEventArgs>();
 
-        [TestInitialize()]
+        [TestInitialize]
         public void Initialize()
         {
             if (shader == null)
             {
-                shader = RenderTestUtils.ShaderTestUtils.CreateValidShader();
+                shader = ShaderTestUtils.CreateValidShader();
                 shader.OnInvalidUniformSet += Shader_OnInvalidUniformSet;
             }
 

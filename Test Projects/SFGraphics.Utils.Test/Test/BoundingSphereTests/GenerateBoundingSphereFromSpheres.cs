@@ -1,5 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenTK;
 
 namespace SFGraphics.Utils.Test.BoundingSphereTests
@@ -17,7 +17,7 @@ namespace SFGraphics.Utils.Test.BoundingSphereTests
         [TestMethod]
         public void SingleBoundingSphere()
         {
-            var spheres = new List<Vector4>() { new Vector4(0, 0, 0, 1) };
+            var spheres = new List<Vector4> { new Vector4(0, 0, 0, 1) };
 
             var boundingSphere = BoundingSphereGenerator.GenerateBoundingSphere(spheres);
             Assert.IsTrue(SpherePointUtils.SphereContainsSpheres(boundingSphere, spheres));
@@ -26,7 +26,7 @@ namespace SFGraphics.Utils.Test.BoundingSphereTests
         [TestMethod]
         public void MaxRadiusSameCenter()
         {
-            var spheres = new List<Vector4>() { new Vector4(0, 0, 0, 1), new Vector4(0, 0, 0, 2) };
+            var spheres = new List<Vector4> { new Vector4(0, 0, 0, 1), new Vector4(0, 0, 0, 2) };
 
             var boundingSphere = BoundingSphereGenerator.GenerateBoundingSphere(spheres);
             Assert.IsTrue(SpherePointUtils.SphereContainsSpheres(boundingSphere, spheres));
@@ -35,12 +35,12 @@ namespace SFGraphics.Utils.Test.BoundingSphereTests
         [TestMethod]
         public void DifferentCenter2D()
         {
-            var spheres = new List<Vector4>()
+            var spheres = new List<Vector4>
             {
                 new Vector4(1, 0, 0, 1),
                 new Vector4(-1, 0, 0, 1),
                 new Vector4(0, 1, 0, 1),
-                new Vector4(0, -1, 0, 1),
+                new Vector4(0, -1, 0, 1)
             };
 
             var boundingSphere = BoundingSphereGenerator.GenerateBoundingSphere(spheres);
@@ -50,12 +50,12 @@ namespace SFGraphics.Utils.Test.BoundingSphereTests
         [TestMethod]
         public void DifferentCenter3D()
         {
-            var spheres = new List<Vector4>()
+            var spheres = new List<Vector4>
             {
                 new Vector4(1, 0, 1, 1),
                 new Vector4(-1, 0, 1, 1),
                 new Vector4(-1, 2, -1, 1),
-                new Vector4(1, 2, -1, 1),
+                new Vector4(1, 2, -1, 1)
             };
 
             var boundingSphere = BoundingSphereGenerator.GenerateBoundingSphere(spheres);

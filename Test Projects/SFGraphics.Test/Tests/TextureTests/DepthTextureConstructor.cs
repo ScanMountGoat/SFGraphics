@@ -1,16 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SFGraphics.GLObjects.Textures;
 using OpenTK.Graphics.OpenGL;
+using SFGraphics.GLObjects.Textures;
+using Tests;
 
 namespace SFGraphics.Test.TextureTests
 {
     [TestClass]
-    public class DepthTetureConstructor : Tests.ContextTest
+    public class DepthTextureConstructor : ContextTest
     {
-        private readonly List<byte[]> mipmaps = new List<byte[]>();
-
         [TestMethod]
         public void DepthFormat()
         {

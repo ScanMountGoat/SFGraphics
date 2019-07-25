@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenTK;
 
 namespace SFGraphics.Test.BufferObjectTests
@@ -29,7 +30,7 @@ namespace SFGraphics.Test.BufferObjectTests
         public void GetVector3FromFloats()
         {
             // The 3 floats should make a single Vector3 struct.
-            Vector3[] expectedData = new Vector3[] { new Vector3(1.5f, 2.5f, 3.5f) };
+            Vector3[] expectedData = { new Vector3(1.5f, 2.5f, 3.5f) };
             Vector3[] readData = buffer.GetData<Vector3>();
             CollectionAssert.AreEqual(expectedData, readData);
         }
@@ -37,9 +38,9 @@ namespace SFGraphics.Test.BufferObjectTests
         [TestMethod]
         public void DataSizeNotDivisibleByType()
         {
-            var e = Assert.ThrowsException<System.ArgumentOutOfRangeException>(() => buffer.GetData<Vector4>());
+            var e = Assert.ThrowsException<ArgumentOutOfRangeException>(() => buffer.GetData<Vector4>());
             Assert.AreEqual("T", e.ParamName);
-            Assert.AreEqual($"The buffer's size is not divisible by the requested type's size.{System.Environment.NewLine}Parameter name: T", e.Message);
+            Assert.AreEqual($"The buffer's size is not divisible by the requested type's size.{Environment.NewLine}Parameter name: T", e.Message);
         }
     }
 }

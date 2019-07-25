@@ -1,20 +1,19 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OpenTK.Graphics.OpenGL;
+﻿using System.Collections.Generic;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenTK;
+using OpenTK.Graphics.OpenGL;
 
 namespace SFGraphics.Test.ShaderTests.SetterTests
 {
     [TestClass]
     public class SetMatrix4x4Arrays : ShaderTest
     {
-        private readonly Matrix4[] matrix4Values = new Matrix4[]
-        {
+        private readonly Matrix4[] matrix4Values = {
             Matrix4.Identity,
             Matrix4.Identity * 2
         };
 
-        private static readonly float[] expectedValues = new float[]
-        {
+        private static readonly float[] expectedValues = {
             1, 0, 0, 0,
             0, 1, 0, 0,
             0, 0, 1, 0,
@@ -58,7 +57,7 @@ namespace SFGraphics.Test.ShaderTests.SetterTests
 
         private float[] GetMatrixArray(string name, int length)
         {
-            var result = new System.Collections.Generic.List<float>(16 * length);
+            var result = new List<float>(16 * length);
             for (int i = 0; i < length; i++)
             {
                 float[] matrixValues = new float[16];

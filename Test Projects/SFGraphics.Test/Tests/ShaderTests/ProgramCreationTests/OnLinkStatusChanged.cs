@@ -1,7 +1,8 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Collections.Generic;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenTK.Graphics.OpenGL;
+using RenderTestUtils;
 using SFGraphics.GLObjects.Shaders;
-using System.Collections.Generic;
 using SFGraphics.GLObjects.Shaders.ShaderEventArgs;
 
 namespace SFGraphics.Test.ShaderTests.ProgramCreationTests
@@ -12,11 +13,11 @@ namespace SFGraphics.Test.ShaderTests.ProgramCreationTests
         private Shader shader;
         private List<LinkStatusEventArgs> linkChangedEvents = new List<LinkStatusEventArgs>();
         
-        [TestInitialize()]
+        [TestInitialize]
         public void Initialize()
         {
             // Set up the context for all the tests.
-            RenderTestUtils.OpenTKWindowlessContext.BindDummyContext();
+            OpenTKWindowlessContext.BindDummyContext();
             shader = new Shader();
             shader.OnLinkStatusChanged += Shader_OnLinkStatusChanged;
         }
@@ -29,7 +30,7 @@ namespace SFGraphics.Test.ShaderTests.ProgramCreationTests
         [TestMethod]
         public void ValidFragShader()
         {
-            string shaderSource = RenderTestUtils.ResourceShaders.GetShaderSource("valid.frag");
+            string shaderSource = ResourceShaders.GetShaderSource("valid.frag");
             shader.LoadShader(shaderSource, ShaderType.FragmentShader);
 
             Assert.AreEqual(1, linkChangedEvents.Count);
@@ -39,10 +40,10 @@ namespace SFGraphics.Test.ShaderTests.ProgramCreationTests
         [TestMethod]
         public void ValidInvalidFragShader()
         {
-            string shaderSource = RenderTestUtils.ResourceShaders.GetShaderSource("valid.frag");
+            string shaderSource = ResourceShaders.GetShaderSource("valid.frag");
             shader.LoadShader(shaderSource, ShaderType.FragmentShader);
 
-            string shaderSourceInvalid = RenderTestUtils.ResourceShaders.GetShaderSource("invalid.frag");
+            string shaderSourceInvalid = ResourceShaders.GetShaderSource("invalid.frag");
             shader.LoadShader(shaderSourceInvalid, ShaderType.FragmentShader);
 
             Assert.AreEqual(2, linkChangedEvents.Count);

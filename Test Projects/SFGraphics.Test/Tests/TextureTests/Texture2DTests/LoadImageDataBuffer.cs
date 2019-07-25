@@ -4,14 +4,13 @@ using OpenTK.Graphics.OpenGL;
 using SFGraphics.GLObjects.BufferObjects;
 using SFGraphics.GLObjects.Textures;
 using SFGraphics.GLObjects.Textures.TextureFormats;
+using Tests;
 
 namespace SFGraphics.Test.TextureTests
 {
     [TestClass]
-    public class LoadImageDataBuffer : Tests.ContextTest
+    public class LoadImageDataBuffer : ContextTest
     {
-        private static readonly List<BufferObject> mipmaps = new List<BufferObject>();
-
         [TestMethod]
         public void UncompressedBaseLevel()
         {
@@ -27,7 +26,7 @@ namespace SFGraphics.Test.TextureTests
             Texture2D texture = new Texture2D();
             BufferObject pixelBuffer = new BufferObject(BufferTarget.PixelUnpackBuffer);
             pixelBuffer.SetData(new float[] { 1, 1, 1 }, BufferUsageHint.StaticDraw);
-            texture.LoadImageData(1, 1, new List<BufferObject>() { pixelBuffer }, 
+            texture.LoadImageData(1, 1, new List<BufferObject> { pixelBuffer },
                 new TextureFormatUncompressed(PixelInternalFormat.Rgb, PixelFormat.Rgb, PixelType.Float));
         }
 
@@ -37,7 +36,7 @@ namespace SFGraphics.Test.TextureTests
             Texture2D texture = new Texture2D();
             BufferObject pixelBuffer = new BufferObject(BufferTarget.PixelUnpackBuffer);
             pixelBuffer.SetData(new float[] { 1, 1, 1 }, BufferUsageHint.StaticDraw);
-            texture.LoadImageData(1, 1, new List<BufferObject>() { pixelBuffer }, InternalFormat.CompressedRgbaS3tcDxt1Ext);
+            texture.LoadImageData(1, 1, new List<BufferObject> { pixelBuffer }, InternalFormat.CompressedRgbaS3tcDxt1Ext);
         }
 
         [TestMethod]

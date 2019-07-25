@@ -1,13 +1,16 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SFGraphics.GLObjects.Framebuffers;
+﻿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenTK.Graphics.OpenGL;
+using SFGraphics.GLObjects.Framebuffers;
+using SFGraphics.GLObjects.RenderBuffers;
 using SFGraphics.GLObjects.Textures;
 using SFGraphics.GLObjects.Textures.TextureFormats;
+using Tests;
 
 namespace SFGraphics.Test.FramebufferTests
 {
     [TestClass]
-    public class Attachments : Tests.ContextTest
+    public class Attachments : ContextTest
     {
         [TestMethod]
         public void NoAttachments()
@@ -31,7 +34,7 @@ namespace SFGraphics.Test.FramebufferTests
         [TestMethod]
         public void OneColorTexture()
         {
-            Framebuffer framebuffer = new Framebuffer(FramebufferTarget.Framebuffer, 1, 1, PixelInternalFormat.Rgba, 1);
+            Framebuffer framebuffer = new Framebuffer(FramebufferTarget.Framebuffer, 1, 1);
 
             Assert.AreEqual(FramebufferErrorCode.FramebufferComplete, framebuffer.GetStatus());
             Assert.AreEqual(2, framebuffer.Attachments.Count); // 1 + depth
@@ -67,7 +70,7 @@ namespace SFGraphics.Test.FramebufferTests
             var texture2 = new Texture2D();
             texture2.LoadImageData(1, 1, format);
 
-            var e = Assert.ThrowsException<System.ArgumentOutOfRangeException>(() =>
+            var e = Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
                 framebuffer.AddAttachment(FramebufferAttachment.ColorAttachment1, texture2));
 
             Assert.IsTrue(e.Message.Contains("The attachment dimensions do not match the framebuffer's dimensions."));
@@ -89,7 +92,7 @@ namespace SFGraphics.Test.FramebufferTests
         {
             Framebuffer framebuffer = new Framebuffer(FramebufferTarget.Framebuffer);
             framebuffer.AddAttachment(FramebufferAttachment.ColorAttachment0, new Texture2DMultisample(8, 8, PixelInternalFormat.Rgba, 1));
-            framebuffer.AddAttachment(FramebufferAttachment.DepthAttachment, new SFGraphics.GLObjects.RenderBuffers.Renderbuffer(8, 8, 1, RenderbufferStorage.DepthComponent));
+            framebuffer.AddAttachment(FramebufferAttachment.DepthAttachment, new Renderbuffer(8, 8, 1, RenderbufferStorage.DepthComponent));
 
             Assert.AreEqual(FramebufferErrorCode.FramebufferComplete, framebuffer.GetStatus());
             Assert.AreEqual(2, framebuffer.Attachments.Count);

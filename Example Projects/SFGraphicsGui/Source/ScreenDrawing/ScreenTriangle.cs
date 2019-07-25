@@ -3,7 +3,6 @@ using OpenTK.Graphics.OpenGL;
 using SFGraphics.GLObjects.Samplers;
 using SFGraphics.GLObjects.Shaders;
 using SFGraphics.GLObjects.Textures;
-using System.Collections.Generic;
 
 namespace SFGraphicsGui
 {

@@ -7,7 +7,7 @@ namespace SFGraphics.Test.ShaderTests.SetterTests
     [TestClass]
     public class SetVector2Array : ShaderTest
     {
-        private readonly Vector2[] vector2Values = new Vector2[2]
+        private readonly Vector2[] vector2Values = 
         {
             new Vector2(1, 2),
             new Vector2(3, 4)

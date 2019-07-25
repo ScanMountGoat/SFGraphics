@@ -1,24 +1,25 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SFGraphics.GlUtils;
+using Tests;
 
 namespace SFGraphics.Test.GLExtensionTests
 {
-    [TestClass()]
-    public class ExtensionAvailabilityTests : Tests.ContextTest
+    [TestClass]
+    public class ExtensionAvailabilityTests : ContextTest
     {
-        [TestMethod()]
+        [TestMethod]
         public void CorrectName()
         {
             Assert.IsTrue(OpenGLExtensions.IsAvailable("GL_ARB_sampler_objects"));
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void CorrectNameLowerCase()
         {
             Assert.IsTrue(OpenGLExtensions.IsAvailable("gl_arb_sampler_objects"));
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void InvalidName()
         {
             Assert.IsFalse(OpenGLExtensions.IsAvailable("GL_dank_memes"));

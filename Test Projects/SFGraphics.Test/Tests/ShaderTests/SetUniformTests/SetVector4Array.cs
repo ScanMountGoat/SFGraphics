@@ -7,8 +7,7 @@ namespace SFGraphics.Test.ShaderTests.SetterTests
     [TestClass]
     public class SetVector4Array : ShaderTest
     {
-        private readonly Vector4[] vector4Values = new Vector4[]
-        {
+        private readonly Vector4[] vector4Values = {
             new Vector4(1, 2, 3, 4),
             new Vector4(5, 6, 7, 8)
         };

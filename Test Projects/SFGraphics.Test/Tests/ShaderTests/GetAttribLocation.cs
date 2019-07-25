@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenTK.Graphics.OpenGL;
+using SFGraphics.GLObjects.Shaders;
 
 namespace SFGraphics.Test.ShaderTests
 {
@@ -33,7 +34,7 @@ namespace SFGraphics.Test.ShaderTests
         [TestMethod]
         public void ShaderNotLinked()
         {
-            var shader = new SFGraphics.GLObjects.Shaders.Shader();
+            var shader = new Shader();
             Assert.AreEqual(-1, shader.GetAttribLocation("memes"));
         }
     }

@@ -1,5 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SFGraphics.GLObjects.GLObjectManagement;
 
 namespace SFGraphics.Test.ReferenceCountTests

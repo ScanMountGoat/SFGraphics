@@ -6,7 +6,6 @@ using SFGraphics.GLObjects.BufferObjects;
 using SFGraphics.GLObjects.Shaders;
 using SFGraphics.GLObjects.VertexArrays;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace SFGenericModel
 {

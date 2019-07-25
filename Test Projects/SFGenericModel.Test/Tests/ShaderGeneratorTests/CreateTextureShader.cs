@@ -59,7 +59,7 @@ namespace SFGenericModel.Test.ShaderGeneratorTests
             };
 
             // The specific exception doesn't matter at this point.
-            var e = Assert.ThrowsException<System.ArgumentException>(() => CreateShader(new List<TextureRenderInfo>(), attributes));
+            Assert.ThrowsException<System.ArgumentException>(() => CreateShader(new List<TextureRenderInfo>(), attributes));
         }
 
         [TestMethod]
@@ -172,8 +172,6 @@ namespace SFGenericModel.Test.ShaderGeneratorTests
             {
                 new TextureRenderInfo("tex1", UvCoord.CubeMap, TextureSwizzle.Rgb)
             };
-            var pos = new VertexFloatAttribute("pos", ValueCount.Three, VertexAttribPointerType.Float, false);
-            var uv0 = new VertexFloatAttribute("uv", ValueCount.Two, VertexAttribPointerType.Float, false);
 
             Shader shader = CreateShader(textures, correctAttributes);
             Assert.IsTrue(shader.LinkStatusIsOk);
@@ -204,7 +202,6 @@ namespace SFGenericModel.Test.ShaderGeneratorTests
 
         private static Shader CreateShader<T>(List<TextureRenderInfo> textures) where T : struct
         {
-            var attributes = VertexAttributeUtils.GetAttributesFromType<T>();
             var generator = new TextureShaderGenerator();
             generator.CreateShader<T>(textures, out string vertexSource, out string fragmentSource);
 

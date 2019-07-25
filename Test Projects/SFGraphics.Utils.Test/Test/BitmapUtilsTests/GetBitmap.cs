@@ -1,5 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Drawing;
+﻿using System.Drawing;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace SFGraphics.Utils.Test.BitmapUtilsTests
 {
@@ -9,7 +9,7 @@ namespace SFGraphics.Utils.Test.BitmapUtilsTests
         [TestMethod]
         public void CreateSinglePixel()
         {
-            byte[] pixels = new byte[] { 1, 2, 3, 4 };
+            byte[] pixels = { 1, 2, 3, 4 };
             using (var bmp = BitmapUtils.GetBitmap(1, 1, pixels))
             {
                 // Compare ABGR to ARGB.

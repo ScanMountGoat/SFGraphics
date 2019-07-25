@@ -26,8 +26,10 @@ namespace SFGenericModel.Test.RenderSettingsTests
         public void DifferentAlphaTest()
         {
             RenderSettings settings = new RenderSettings();
-            RenderSettings settings2 = new RenderSettings();
-            settings2.alphaTestSettings = new AlphaTestSettings(true, OpenTK.Graphics.OpenGL.AlphaFunction.Gequal, 0.5f);
+            RenderSettings settings2 = new RenderSettings
+            {
+                alphaTestSettings = new AlphaTestSettings(true, OpenTK.Graphics.OpenGL.AlphaFunction.Gequal, 0.5f)
+            };
             Assert.IsFalse(settings.Equals(settings2));
         }
 
@@ -35,8 +37,10 @@ namespace SFGenericModel.Test.RenderSettingsTests
         public void DifferentFaceCull()
         {
             RenderSettings settings = new RenderSettings();
-            RenderSettings settings2 = new RenderSettings();
-            settings2.faceCullingSettings = new FaceCullingSettings(false, OpenTK.Graphics.OpenGL.CullFaceMode.Back);
+            RenderSettings settings2 = new RenderSettings
+            {
+                faceCullingSettings = new FaceCullingSettings(false, OpenTK.Graphics.OpenGL.CullFaceMode.Back)
+            };
 
             Assert.IsFalse(settings.Equals(settings2));
         }
@@ -45,8 +49,10 @@ namespace SFGenericModel.Test.RenderSettingsTests
         public void DifferentAlphaBlend()
         {
             RenderSettings settings = new RenderSettings();
-            RenderSettings settings2 = new RenderSettings();
-            settings2.alphaBlendSettings.enabled = !settings.alphaBlendSettings.enabled;
+            RenderSettings settings2 = new RenderSettings
+            {
+                alphaBlendSettings = {enabled = !settings.alphaBlendSettings.enabled}
+            };
 
             Assert.IsFalse(settings.Equals(settings2));
         }
@@ -55,8 +61,10 @@ namespace SFGenericModel.Test.RenderSettingsTests
         public void DifferentDepthTest()
         {
             RenderSettings settings = new RenderSettings();
-            RenderSettings settings2 = new RenderSettings();
-            settings2.depthTestSettings = new DepthTestSettings(false, true, OpenTK.Graphics.OpenGL.DepthFunction.Lequal);
+            RenderSettings settings2 = new RenderSettings
+            {
+                depthTestSettings = new DepthTestSettings(false, true, OpenTK.Graphics.OpenGL.DepthFunction.Lequal)
+            };
 
             Assert.IsFalse(settings.Equals(settings2));
         }

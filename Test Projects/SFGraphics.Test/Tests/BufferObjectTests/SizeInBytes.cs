@@ -1,11 +1,12 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenTK.Graphics.OpenGL;
 using SFGraphics.GLObjects.BufferObjects;
+using Tests;
 
 namespace SFGraphics.Test.BufferObjectTests
 {
     [TestClass]
-    public class SizeInBytes : Tests.ContextTest
+    public class SizeInBytes : ContextTest
     {
         [TestMethod]
         public void UninitializedBuffer()

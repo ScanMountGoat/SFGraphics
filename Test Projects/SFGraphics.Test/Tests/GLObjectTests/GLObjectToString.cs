@@ -1,21 +1,23 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenTK.Graphics.OpenGL;
+using RenderTestUtils;
 using SFGraphics.GLObjects.BufferObjects;
+using SFGraphics.GLObjects.Framebuffers;
+using SFGraphics.GLObjects.RenderBuffers;
 using SFGraphics.GLObjects.Shaders;
 using SFGraphics.GLObjects.Textures;
 using SFGraphics.GLObjects.VertexArrays;
-using SFGraphics.GLObjects.RenderBuffers;
-using SFGraphics.GLObjects.Framebuffers;
 
 namespace SFGraphics.Test.GLObjectTests
 {
-    [TestClass()]
+    [TestClass]
     public class GLObjectToString
     {
         [TestInitialize]
         public void Initialize()
         {
             // Set up the context for all the tests.
-            RenderTestUtils.OpenTKWindowlessContext.BindDummyContext();
+            OpenTKWindowlessContext.BindDummyContext();
         }
 
         [TestMethod]
@@ -35,7 +37,7 @@ namespace SFGraphics.Test.GLObjectTests
         [TestMethod]
         public void BufferObject()
         {
-            BufferObject glObject = new BufferObject(OpenTK.Graphics.OpenGL.BufferTarget.ArrayBuffer);
+            BufferObject glObject = new BufferObject(BufferTarget.ArrayBuffer);
             Assert.AreEqual($"BufferObject ID: {glObject.Id}", glObject.ToString());
         }
 
@@ -50,14 +52,14 @@ namespace SFGraphics.Test.GLObjectTests
         [TestMethod]
         public void RenderbufferObject()
         {
-            Renderbuffer glObject = new Renderbuffer(1, 1, OpenTK.Graphics.OpenGL.RenderbufferStorage.Rgba16);
+            Renderbuffer glObject = new Renderbuffer(1, 1, RenderbufferStorage.Rgba16);
             Assert.AreEqual($"RenderbufferObject ID: {glObject.Id}", glObject.ToString());
         }
 
         [TestMethod]
         public void FramebufferObject()
         {
-            Framebuffer glObject = new Framebuffer(OpenTK.Graphics.OpenGL.FramebufferTarget.Framebuffer);
+            Framebuffer glObject = new Framebuffer(FramebufferTarget.Framebuffer);
             Assert.AreEqual($"FramebufferObject ID: {glObject.Id}", glObject.ToString());
         }
     }
