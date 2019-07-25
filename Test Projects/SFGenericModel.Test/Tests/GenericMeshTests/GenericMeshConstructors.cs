@@ -1,6 +1,7 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Collections.Generic;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenTK.Graphics.OpenGL;
-using System.Collections.Generic;
+using RenderTestUtils;
 
 namespace SFGenericModel.Test.GenericMeshTests
 {
@@ -14,30 +15,30 @@ namespace SFGenericModel.Test.GenericMeshTests
 
             }
 
-            public TestMesh(List<float> vertices, PrimitiveType type) : base(vertices, type)
+            public TestMesh(float[] vertices, PrimitiveType type) : base(vertices, type)
             {
 
             }
 
-            public TestMesh(List<float> vertices, List<int> indices, PrimitiveType type) : base(vertices, indices, type)
+            public TestMesh(float[] vertices, int[] indices, PrimitiveType type) : base(vertices, indices, type)
             {
 
             }
 
-            public TestMesh(List<float> vertices, List<uint> indices, PrimitiveType type) : base(vertices, indices, type)
+            public TestMesh(float[] vertices, uint[] indices, PrimitiveType type) : base(vertices, indices, type)
             {
 
             }
         }
 
-        private readonly List<float> vertices = new List<float>() { 1, 2, 3 };
-        private readonly List<int> signedIndices = new List<int>() { 1, 2, 3, 4 };
-        private readonly List<uint> indices = new List<uint>() { 1, 2, 3, 4, 5 };
+        private readonly float[] vertices = { 1, 2, 3 };
+        private readonly int[] signedIndices = { 1, 2, 3, 4 };
+        private readonly uint[] indices = { 1, 2, 3, 4, 5 };
 
         [TestInitialize]
         public void Initialize()
         {
-            RenderTestUtils.OpenTKWindowlessContext.BindDummyContext();
+            OpenTKWindowlessContext.BindDummyContext();
         }
 
         [TestMethod]
@@ -45,7 +46,7 @@ namespace SFGenericModel.Test.GenericMeshTests
         {
             var mesh = new TestMesh(new IndexedVertexData<float>(vertices, PrimitiveType.Points));
 
-            Assert.AreEqual(vertices.Count, mesh.VertexCount);
+            Assert.AreEqual(vertices.Length, mesh.VertexCount);
             Assert.AreEqual(PrimitiveType.Points, mesh.PrimitiveType);
             Assert.AreEqual(DrawElementsType.UnsignedInt, mesh.DrawElementsType);
         }
@@ -55,7 +56,7 @@ namespace SFGenericModel.Test.GenericMeshTests
         {
             var mesh = new TestMesh(vertices, PrimitiveType.Points);
 
-            Assert.AreEqual(vertices.Count, mesh.VertexCount);
+            Assert.AreEqual(vertices.Length, mesh.VertexCount);
             Assert.AreEqual(PrimitiveType.Points, mesh.PrimitiveType);
             Assert.AreEqual(DrawElementsType.UnsignedInt, mesh.DrawElementsType);
         }
@@ -65,7 +66,7 @@ namespace SFGenericModel.Test.GenericMeshTests
         {
             var mesh = new TestMesh(vertices, signedIndices, PrimitiveType.Points);
 
-            Assert.AreEqual(signedIndices.Count, mesh.VertexCount);
+            Assert.AreEqual(signedIndices.Length, mesh.VertexCount);
             Assert.AreEqual(PrimitiveType.Points, mesh.PrimitiveType);
             Assert.AreEqual(DrawElementsType.UnsignedInt, mesh.DrawElementsType);
         }
@@ -75,7 +76,7 @@ namespace SFGenericModel.Test.GenericMeshTests
         {
             var mesh = new TestMesh(vertices, indices, PrimitiveType.Points);
 
-            Assert.AreEqual(indices.Count, mesh.VertexCount);
+            Assert.AreEqual(indices.Length, mesh.VertexCount);
             Assert.AreEqual(PrimitiveType.Points, mesh.PrimitiveType);
             Assert.AreEqual(DrawElementsType.UnsignedInt, mesh.DrawElementsType);
         }

@@ -1,10 +1,11 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SFGraphics.GLObjects.Shaders;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
+using RenderTestUtils;
 using SFGenericModel.MeshEventArgs;
 using SFGenericModel.VertexAttributes;
+using SFGraphics.GLObjects.Shaders;
 
 namespace SFGenericModel.Test.GenericMeshTests
 {
@@ -14,7 +15,7 @@ namespace SFGenericModel.Test.GenericMeshTests
         private struct TestVertex
         {
             [VertexFloatAttribute(nameof(position), ValueCount.Three, VertexAttribPointerType.Float, false)]
-            public readonly OpenTK.Vector3 position;
+            public readonly Vector3 position;
 
             [VertexIntAttribute(nameof(intAttrib), ValueCount.One, VertexAttribIntegerType.Int)]
             public readonly int intAttrib;
@@ -29,7 +30,7 @@ namespace SFGenericModel.Test.GenericMeshTests
 
         private class TestMesh : GenericMesh<TestVertex>
         {
-            public TestMesh() : base(new List<TestVertex>(), PrimitiveType.Lines)
+            public TestMesh() : base(new TestVertex[1], PrimitiveType.Lines)
             {
 
             }
@@ -42,9 +43,9 @@ namespace SFGenericModel.Test.GenericMeshTests
         [TestInitialize]
         public void Initialize()
         {
-            RenderTestUtils.OpenTKWindowlessContext.BindDummyContext();
+            OpenTKWindowlessContext.BindDummyContext();
 
-            shader = RenderTestUtils.ShaderTestUtils.CreateValidShader();
+            shader = ShaderTestUtils.CreateValidShader();
             mesh = new TestMesh();
 
             mesh.OnInvalidAttribSet += Mesh_OnInvalidAttribSet;

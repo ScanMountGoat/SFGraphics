@@ -10,7 +10,7 @@ namespace SFGenericModel.Utils.Test.IndexUtilsTests
         public void ZeroCount()
         {
             var indices = IndexUtils.GenerateIndices(0);
-            Assert.AreEqual(0, indices.Count);
+            Assert.AreEqual(0, indices.Length);
         }
 
         [TestMethod]

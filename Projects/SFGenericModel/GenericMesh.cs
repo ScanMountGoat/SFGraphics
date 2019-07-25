@@ -78,8 +78,8 @@ namespace SFGenericModel
         /// </summary>
         /// <param name="vertices">The vertex data</param>
         /// <param name="primitiveType">Determines how primitives will be constructed from the vertex data</param>
-        protected GenericMesh(ICollection<T> vertices, PrimitiveType primitiveType) 
-            : this(primitiveType, DrawElementsType.UnsignedInt, typeof(T), vertices.Count)
+        protected GenericMesh(T[] vertices, PrimitiveType primitiveType) 
+            : this(primitiveType, DrawElementsType.UnsignedInt, typeof(T), vertices.Length)
         {
             InitializeBufferData(vertices);
         }
@@ -90,8 +90,8 @@ namespace SFGenericModel
         /// <param name="vertices">The vertex data</param>
         /// <param name="vertexIndices">The vertex index data</param>
         /// <param name="primitiveType">Determines how primitives will be constructed from the vertex data</param>
-        protected GenericMesh(IList<T> vertices, IList<int> vertexIndices, PrimitiveType primitiveType)
-            : this(primitiveType, DrawElementsType.UnsignedInt, typeof(T), vertexIndices.Count)
+        protected GenericMesh(T[] vertices, int[] vertexIndices, PrimitiveType primitiveType)
+            : this(primitiveType, DrawElementsType.UnsignedInt, typeof(T), vertexIndices.Length)
         {
             InitializeBufferData(vertices, vertexIndices);
         }
@@ -102,8 +102,8 @@ namespace SFGenericModel
         /// <param name="vertices">The vertex data</param>
         /// <param name="vertexIndices">The vertex index data</param>
         /// <param name="primitiveType">Determines how primitives will be constructed from the vertex data</param>
-        protected GenericMesh(IList<T> vertices, IList<uint> vertexIndices, PrimitiveType primitiveType)
-            : this(primitiveType, DrawElementsType.UnsignedInt, typeof(T), vertexIndices.Count)
+        protected GenericMesh(T[] vertices, uint[] vertexIndices, PrimitiveType primitiveType)
+            : this(primitiveType, DrawElementsType.UnsignedInt, typeof(T), vertexIndices.Length)
         {
             InitializeBufferData(vertices, vertexIndices);
         }
@@ -192,16 +192,16 @@ namespace SFGenericModel
             }
         }
 
-        private void InitializeBufferData<TIndex>(IEnumerable<T> vertices, IEnumerable<TIndex> vertexIndices) where TIndex : struct
+        private void InitializeBufferData<TIndex>(T[] vertices, TIndex[] vertexIndices) where TIndex : struct
         {
             // TODO: Forcing the parameters to be arrays will avoid copying the data an additional time.
-            vertexBuffer.SetData(vertices.ToArray(), BufferUsageHint.StaticDraw);
-            vertexIndexBuffer.SetData(vertexIndices.ToArray(), BufferUsageHint.StaticDraw);
+            vertexBuffer.SetData(vertices, BufferUsageHint.StaticDraw);
+            vertexIndexBuffer.SetData(vertexIndices, BufferUsageHint.StaticDraw);
         }
 
-        private void InitializeBufferData(ICollection<T> vertices)
+        private void InitializeBufferData(T[] vertices)
         {
-            var indices = IndexUtils.GenerateIndices(vertices.Count);
+            var indices = IndexUtils.GenerateIndices(vertices.Length);
             InitializeBufferData(vertices, indices);
         }
     }

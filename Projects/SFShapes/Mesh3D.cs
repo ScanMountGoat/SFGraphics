@@ -16,7 +16,7 @@ namespace SFShapes
         /// </summary>
         /// <param name="vertices">The points for the shape</param>
         /// <param name="primitiveType">Determines how the shape should be drawn</param>
-        public Mesh3D(List<Vertex3d> vertices, PrimitiveType primitiveType) : base(vertices, primitiveType)
+        public Mesh3D(Vertex3d[] vertices, PrimitiveType primitiveType) : base(vertices, primitiveType)
         {
 
         }
@@ -25,7 +25,7 @@ namespace SFShapes
         /// 
         /// </summary>
         /// <param name="vertices">The points of the shape</param>
-        public Mesh3D(Tuple<List<Vertex3d>, PrimitiveType> vertices) : base(vertices.Item1, vertices.Item2)
+        public Mesh3D(Tuple<Vertex3d[], PrimitiveType> vertices) : base(vertices.Item1, vertices.Item2)
         {
 
         }

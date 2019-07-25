@@ -9,7 +9,7 @@ namespace SFGraphicsGui.Source
 {
     internal static class ColladaToRenderMesh
     {
-        public static async Task<List<RenderVertex>> GetVerticesAsync(string filename)
+        public static async Task<RenderVertex[]> GetVerticesAsync(string filename)
         {
             var result = await Collada.ImportAsync(filename, new ColladaImportOptions(),
                 new Progress<float>(), CancellationToken.None);
@@ -29,7 +29,7 @@ namespace SFGraphicsGui.Source
                 }
             }
 
-            return vertices;
+            return vertices.ToArray();
         }
 
         private static RenderVertex GetVertex(ColladaSharp.Models.Vertex vertex)

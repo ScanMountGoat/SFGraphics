@@ -8,9 +8,9 @@ namespace SFGraphicsGui
     {
         public Vector4 BoundingSphere { get; }
 
-        public RenderMesh(List<RenderVertex> vertices) : base(vertices, OpenTK.Graphics.OpenGL.PrimitiveType.Triangles)
+        public RenderMesh(RenderVertex[] vertices) : base(vertices, OpenTK.Graphics.OpenGL.PrimitiveType.Triangles)
         {
-            var positions = new List<Vector3>(vertices.Count);
+            var positions = new List<Vector3>(vertices.Length);
             foreach (var vertex in vertices)
                 positions.Add(vertex.Position);
 

@@ -10,7 +10,7 @@ namespace SFGraphicsGui
     class ScreenTriangle : SFGenericModel.GenericMesh<ScreenVertex>
     {
         // A triangle that extends past the screen.
-        private static readonly List<ScreenVertex> screenTrianglePositions = new List<ScreenVertex>()
+        private static readonly ScreenVertex[] screenTrianglePositions = 
         {
             new ScreenVertex(new Vector3(-1f, -1f, 0.0f)),
             new ScreenVertex(new Vector3( 3f, -1f, 0.0f)), 

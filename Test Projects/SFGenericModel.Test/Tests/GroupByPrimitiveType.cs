@@ -9,14 +9,14 @@ namespace SFGenericModel.Test.MeshBatchUtilsTests
     [TestClass]
     public class GroupByPrimitiveType
     {
-        private static readonly List<int> indices = new List<int>() { 0, 1, 2 };
+        private static readonly int[] indices = { 0, 1, 2 };
 
-        private static readonly List<float> verticesA = new List<float>() { 1, 2, 3 };
-        private static readonly List<float> verticesB = new List<float>() { 4, 5, 6 };
-        private static readonly List<float> verticesC = new List<float>() { 7, 8, 9 };
+        private static readonly float[] verticesA = { 1, 2, 3 };
+        private static readonly float[] verticesB = { 4, 5, 6 };
+        private static readonly float[] verticesC = { 7, 8, 9 };
 
-        private static readonly List<float> verticesAb = verticesA.Concat(verticesB).ToList();
-        private static readonly List<float> verticesAc = verticesA.Concat(verticesC).ToList();
+        private static readonly float[] verticesAb = verticesA.Concat(verticesB).ToArray();
+        private static readonly float[] verticesAc = verticesA.Concat(verticesC).ToArray();
 
         private readonly List<IndexedVertexData<float>> trianglesTriangles = new List<IndexedVertexData<float>>()
         {
@@ -50,11 +50,11 @@ namespace SFGenericModel.Test.MeshBatchUtilsTests
 
             // Check that vertex data is combined.
             Assert.AreEqual(1, optimizedContainers.Count);
-            CollectionAssert.AreEqual(verticesAb, (System.Collections.ICollection)optimizedContainers[0].Vertices);
+            CollectionAssert.AreEqual(verticesAb, optimizedContainers[0].Vertices);
 
             // Check that indices are offset.
             var expectedIndices = new List<int>() { 0, 1, 2, 3, 4, 5 };
-            CollectionAssert.AreEqual(expectedIndices, (System.Collections.ICollection)optimizedContainers[0].Indices);
+            CollectionAssert.AreEqual(expectedIndices, optimizedContainers[0].Indices);
         }
 
         [TestMethod]
@@ -64,11 +64,11 @@ namespace SFGenericModel.Test.MeshBatchUtilsTests
 
             // Check that vertex data is combined.
             Assert.AreEqual(1, optimizedContainers.Count);
-            CollectionAssert.AreEqual(verticesAb, (System.Collections.ICollection)optimizedContainers[0].Vertices);
+            CollectionAssert.AreEqual(verticesAb, optimizedContainers[0].Vertices);
 
             // Check that indices are offset.
             var expectedIndices = new List<int>() { 0, 1, 2, 3, 4, 5 };
-            CollectionAssert.AreEqual(expectedIndices, (System.Collections.ICollection)optimizedContainers[0].Indices);
+            CollectionAssert.AreEqual(expectedIndices, optimizedContainers[0].Indices);
         }
 
         [TestMethod]
@@ -79,11 +79,11 @@ namespace SFGenericModel.Test.MeshBatchUtilsTests
             Assert.AreEqual(1, optimizedContainers.Count);
 
             // Check that vertex data is combined.
-            CollectionAssert.AreEqual(verticesAb, (System.Collections.ICollection)optimizedContainers[0].Vertices);
+            CollectionAssert.AreEqual(verticesAb, optimizedContainers[0].Vertices);
 
             // Check that indices are offset.
             var expectedIndices = new List<int>() { 0, 1, 2, 2, 3, 3, 4, 5 };
-            CollectionAssert.AreEqual(expectedIndices, (System.Collections.ICollection)optimizedContainers[0].Indices);
+            CollectionAssert.AreEqual(expectedIndices, optimizedContainers[0].Indices);
         }
 
         [TestMethod]
@@ -93,11 +93,11 @@ namespace SFGenericModel.Test.MeshBatchUtilsTests
 
             // Check that vertex data is combined.
             Assert.AreEqual(2, optimizedContainers.Count);
-            CollectionAssert.AreEqual(verticesAc, (System.Collections.ICollection)optimizedContainers[0].Vertices);
+            CollectionAssert.AreEqual(verticesAc, optimizedContainers[0].Vertices);
 
             // Check that indices are offset.
             var expectedIndices = new List<int>() { 0, 1, 2, 3, 4, 5 };
-            CollectionAssert.AreEqual(expectedIndices, (System.Collections.ICollection)optimizedContainers[0].Indices);
+            CollectionAssert.AreEqual(expectedIndices, optimizedContainers[0].Indices);
         }
 
         [TestMethod]
@@ -114,15 +114,15 @@ namespace SFGenericModel.Test.MeshBatchUtilsTests
         {
             List<IndexedVertexData<float>> vertexContainers = new List<IndexedVertexData<float>>()
             {
-                new IndexedVertexData<float>(new List<float>(), new List<int>(), PrimitiveType.Triangles),
-                new IndexedVertexData<float>(new List<float>(), new List<int>(), PrimitiveType.Triangles)
+                new IndexedVertexData<float>(new float[0], new int[0], PrimitiveType.Triangles),
+                new IndexedVertexData<float>(new float[0], new int[0], PrimitiveType.Triangles)
             };
 
             var optimizedContainers = MeshBatchUtils.GroupContainersByPrimitiveType(vertexContainers);
 
             Assert.AreEqual(1, optimizedContainers.Count);
-            Assert.AreEqual(0, optimizedContainers[0].Vertices.Count);
-            Assert.AreEqual(0, optimizedContainers[0].Indices.Count);
+            Assert.AreEqual(0, optimizedContainers[0].Vertices.Length);
+            Assert.AreEqual(0, optimizedContainers[0].Indices.Length);
         }
     }
 }

@@ -17,12 +17,12 @@ namespace SFGenericModel
         /// <summary>
         /// The vertex data.
         /// </summary>
-        public IList<T> Vertices { get; }
+        public T[] Vertices { get; }
 
         /// <summary>
         /// The vertex indices. The number of vertices rendered is the number of indices.
         /// </summary>
-        public IList<int> Indices { get; }
+        public int[] Indices { get; }
 
         /// <summary>
         /// Determines how primitives will be constructed from the vertex data.
@@ -34,13 +34,13 @@ namespace SFGenericModel
         /// </summary>
         /// <param name="vertices">The vertex data</param>
         /// <param name="primitiveType">Determines how primitives will be constructed from vertex data</param>
-        public IndexedVertexData(IList<T> vertices, PrimitiveType primitiveType)
+        public IndexedVertexData(T[] vertices, PrimitiveType primitiveType)
         {
             PrimitiveType = primitiveType;
             Vertices = vertices;
             VertexSizeInBytes = System.Runtime.InteropServices.Marshal.SizeOf(typeof(T));
 
-            Indices = Utils.IndexUtils.GenerateIndices(vertices.Count);
+            Indices = Utils.IndexUtils.GenerateIndices(vertices.Length);
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace SFGenericModel
         /// <param name="vertices">The vertex data</param>
         /// <param name="indices">The vertex indices</param>
         /// <param name="primitiveType">Determines how primitives will be constructed from vertex data</param>
-        public IndexedVertexData(IList<T> vertices, IList<int> indices, PrimitiveType primitiveType)
+        public IndexedVertexData(T[] vertices, int[] indices, PrimitiveType primitiveType)
         {
             Vertices = vertices;
             Indices = indices;

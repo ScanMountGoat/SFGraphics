@@ -62,8 +62,8 @@ namespace SFGenericModel.Utils
                 return containersToMerge;
 
             // Estimate the correct size to avoid costly array resize/copy operations.
-            int indexCount = containersToMerge.First().Indices.Count * containersToMerge.Count;
-            int vertexCount = containersToMerge.First().Vertices.Count * containersToMerge.Count;
+            int indexCount = containersToMerge.First().Indices.Length * containersToMerge.Count;
+            int vertexCount = containersToMerge.First().Vertices.Length * containersToMerge.Count;
 
             List<int> indices = new List<int>(indexCount);
             List<T> vertices = new List<T>(vertexCount);
@@ -73,7 +73,7 @@ namespace SFGenericModel.Utils
                 vertices.AddRange(container.Vertices);
             }
 
-            var mergedContainer = new IndexedVertexData<T>(vertices, indices, type);
+            var mergedContainer = new IndexedVertexData<T>(vertices.ToArray(), indices.ToArray(), type);
             return new List<IndexedVertexData<T>>() { mergedContainer };
         }
 

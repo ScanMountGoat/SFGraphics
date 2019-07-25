@@ -11,23 +11,25 @@ namespace SFGraphicsGui.Source
             return new RenderMesh(vertices);
         }
 
-        private static List<RenderVertex> GetVertices(FileFormatWavefront.FileLoadResult<FileFormatWavefront.Model.Scene> result)
+        private static RenderVertex[] GetVertices(FileFormatWavefront.FileLoadResult<FileFormatWavefront.Model.Scene> result)
         {
             // TODO: Groups?
-            var vertices = new List<RenderVertex>(result.Model.UngroupedFaces.Count * 3);
+            var vertices = new RenderVertex[result.Model.UngroupedFaces.Count * 3];
 
+            int i = 0;
             foreach (var face in result.Model.UngroupedFaces)
             {
                 foreach (var index in face.Indices)
                 {
-                    AddVertex(result, vertices, index);
+                    vertices[i] = GetVertex(result, index);
+                    i++;
                 }
             }
 
             return vertices;
         }
 
-        private static void AddVertex(FileFormatWavefront.FileLoadResult<FileFormatWavefront.Model.Scene> result, List<RenderVertex> vertices, FileFormatWavefront.Model.Index index)
+        private static RenderVertex GetVertex(FileFormatWavefront.FileLoadResult<FileFormatWavefront.Model.Scene> result, FileFormatWavefront.Model.Index index)
         {
             var position = new Vector3(result.Model.Vertices[index.vertex].x, result.Model.Vertices[index.vertex].y, result.Model.Vertices[index.vertex].z);
 
@@ -39,7 +41,7 @@ namespace SFGraphicsGui.Source
             if (index.uv != null)
                 texCoord = new Vector2(result.Model.Uvs[(int)index.uv].u, result.Model.Uvs[(int)index.uv].v);
 
-            vertices.Add(new RenderVertex(position, normal, texCoord));
+            return new RenderVertex(position, normal, texCoord);
         }
     }
 }
