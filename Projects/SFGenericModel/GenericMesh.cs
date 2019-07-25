@@ -58,9 +58,9 @@ namespace SFGenericModel
         private readonly BufferObject vertexIndexBuffer = new BufferObject(BufferTarget.ElementArrayBuffer);
 
         /// <summary>
-        /// The rendering information for each of the attributes in <typeparamref name="T"/> in the order they appear in the struct.
+        /// Initialized by default using the member attributes of <typeparamref name="T"/>.
         /// </summary>
-        protected static readonly List<VertexAttribute> vertexAttributes = vertexAttributes = VertexAttributeUtils.GetAttributesFromType<T>();
+        protected static List<VertexAttribute> vertexAttributes = VertexAttributeUtils.GetAttributesFromType<T>();
 
         private GenericMesh(PrimitiveType primitiveType, DrawElementsType drawElementsType, System.Type vertexType, int vertexCount)
         {
