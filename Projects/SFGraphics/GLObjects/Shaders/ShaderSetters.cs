@@ -118,11 +118,7 @@ namespace SFGraphics.GLObjects.Shaders
                 return;
             }
 
-            // if/else is faster than the ternary operator. 
-            if (value)
-                GL.Uniform1(activeUniformByName[name].location, 1);
-            else
-                GL.Uniform1(activeUniformByName[name].location, 0);
+            GL.Uniform1(activeUniformByName[name].location, value ? 1 : 0);
         }
 
         /// <summary>

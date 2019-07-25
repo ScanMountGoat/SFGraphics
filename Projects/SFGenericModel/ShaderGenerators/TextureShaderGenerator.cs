@@ -240,7 +240,7 @@ namespace SFGenericModel.ShaderGenerators
             int index = 0;
             foreach (var attribute in attributes)
             {
-                string caseAssignment = GetResultAssignment(ValueCount.Three, attribute, texcoords, normals);
+                string caseAssignment = GetResultAssignment(attribute, texcoords, normals);
                 cases.Add(new CaseStatement(index.ToString(), caseAssignment));
                 index++;
             }
@@ -248,15 +248,15 @@ namespace SFGenericModel.ShaderGenerators
             return cases;
         }
 
-        private string GetResultAssignment(ValueCount resultCount, TextureRenderInfo texture, 
+        private string GetResultAssignment(TextureRenderInfo texture, 
             VertexAttribute texcoords, VertexAttribute normals)
         {
             string swizzle = GlslVectorUtils.GetSwizzle(texture.TextureSwizzle);
-            string texCoord = GetTexCoord(texture.UvCoord, texcoords.Name, normals.Name);
+            string texCoord = GetTexCoord(texture.UvCoord, texcoords.Name);
             return $"{resultName}.rgb = texture({texture.Name}, {texCoord}).{swizzle};";
         }
 
-        private string GetTexCoord(UvCoord uvCoord, string uv0Name, string normalName)
+        private string GetTexCoord(UvCoord uvCoord, string uv0Name)
         {
             switch (uvCoord)
             {

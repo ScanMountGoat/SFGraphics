@@ -86,10 +86,7 @@ namespace SFGenericModel.Materials
         public void AddBoolToInt(string uniformName, bool value)
         {
             intUniformNames.Add(uniformName);
-            if (value)
-                intValues.Add(1);
-            else
-                intValues.Add(0);
+            intValues.Add(value ? 1 : 0);
         }
 
         /// <summary>

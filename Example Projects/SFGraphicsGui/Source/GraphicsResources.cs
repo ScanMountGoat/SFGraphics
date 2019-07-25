@@ -59,10 +59,12 @@ namespace SFGraphicsGui
                 material.AddInt(i.ToString(), i);
             }
 
+            objModelShader.UseProgram();
             var stopwatch = System.Diagnostics.Stopwatch.StartNew();
             for (int i = 0; i < iterations; i++)
             {
-                //material.SetShaderUniforms(objModelShader);
+                objModelShader.SetBoolToInt("attributeIndex", true);
+                objModelShader.SetBoolToInt("attributeIndex", false);
             }
             stopwatch.Stop();
             System.Diagnostics.Debug.WriteLine($"Operation: { (double)stopwatch.ElapsedMilliseconds / iterations } ms");
