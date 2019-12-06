@@ -94,26 +94,24 @@ namespace SFGraphicsGui
 
         private async void openFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            glViewport.PauseRendering();
             using (var dialog = new OpenFileDialog { Filter = "Model Formats|*.obj;*.dae" })
             {
-                if (dialog.ShowDialog() != DialogResult.OK)
-                    return;
-
-                glViewport.PauseRendering();
-
-                if (dialog.FileName.ToLower().EndsWith(".dae"))
+                if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    var vertices = await ColladaToRenderMesh.GetVerticesAsync(dialog.FileName);
-                    modelToRender = new RenderMesh(vertices);
-                }
-                else if (dialog.FileName.ToLower().EndsWith(".obj"))
-                {
-                    modelToRender = WavefrontToRenderMesh.CreateRenderMesh(dialog.FileName);
-                }
 
-                //glViewport.RenderFrame();
-                glViewport.ResumeRendering();
+                    if (dialog.FileName.ToLower().EndsWith(".dae"))
+                    {
+                        var vertices = await ColladaToRenderMesh.GetVerticesAsync(dialog.FileName);
+                        modelToRender = new RenderMesh(vertices);
+                    }
+                    else if (dialog.FileName.ToLower().EndsWith(".obj"))
+                    {
+                        modelToRender = WavefrontToRenderMesh.CreateRenderMesh(dialog.FileName);
+                    }
+                }
             }
+            glViewport.ResumeRendering();
         }
 
         private void glControl1_KeyPress(object sender, KeyPressEventArgs e)

@@ -1,5 +1,4 @@
-﻿using System;
-using OpenTK.Graphics;
+﻿using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using System.Threading;
 using System.Diagnostics;
@@ -13,6 +12,7 @@ namespace SFGraphics.Controls
     /// </summary>
     public class GLViewport : OpenTK.GLControl, System.IDisposable
     {
+
         /// <summary>
         /// The default graphics mode for rendering. Enables depth/stencil buffers and anti-aliasing. 
         /// </summary>
@@ -37,8 +37,10 @@ namespace SFGraphics.Controls
         public int RenderFrameInterval { get; set; } = 16;
 
         private readonly Thread renderThread;
-        private bool shouldRenderFrames;
         private bool renderThreadShouldClose;
+
+        private readonly AutoResetEvent shouldRenderEvent = new AutoResetEvent(true);
+        private bool shouldRenderFrames = true;
 
         private bool disposed;
 
@@ -47,11 +49,8 @@ namespace SFGraphics.Controls
         /// </summary>
         public GLViewport() : base(defaultGraphicsMode)
         {
-            renderThread = new Thread(FrameTimingLoop);
-
-            // HACK: Make sure the frames are rendered on the UI thread.
-            // This limits performance but prevents attempts to make the context current on more than one thread.
-            //Paint += GLViewport_Paint;
+            // Rendering should stop when the application exits.
+            renderThread = new Thread(FrameTimingLoop) { IsBackground = true };
         }
 
         /// <summary>
@@ -67,6 +66,10 @@ namespace SFGraphics.Controls
         /// </summary>
         public void RenderFrame()
         {
+            // TODO: Render on the current thread?
+            // This will cause issues with VAOs.
+            // Should this method be public?
+
             // Set the drawable area to the current dimensions.
             MakeCurrent();
             GL.Viewport(ClientRectangle);
@@ -82,7 +85,10 @@ namespace SFGraphics.Controls
         /// </summary>
         public void ResumeRendering()
         {
+            // TODO: Synchronization issues with boolean flag?
+            shouldRenderEvent.Set();
             shouldRenderFrames = true;
+
             if (!renderThread.IsAlive)
                 renderThread.Start();
         }
@@ -93,7 +99,9 @@ namespace SFGraphics.Controls
         /// </summary>
         public void PauseRendering()
         {
+            // TODO: Synchronization issues with boolean flag?
             shouldRenderFrames = false;
+            shouldRenderEvent.Reset();
         }
 
         /// <summary>
@@ -102,6 +110,7 @@ namespace SFGraphics.Controls
         public new void Dispose()
         {
             Dispose(true);
+            shouldRenderEvent.Dispose();
             System.GC.SuppressFinalize(this);
         }
 
@@ -120,24 +129,19 @@ namespace SFGraphics.Controls
             }
         }
 
-        private void GLViewport_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
-        {
-            RenderFrame();
-        }
-
         private void FrameTimingLoop()
         {
+            // TODO: What happens when rendering is paused and the form is closed?
             var stopwatch = Stopwatch.StartNew();
             while (!renderThreadShouldClose)
             {
-                if (shouldRenderFrames)
+                if (!shouldRenderFrames)
+                    shouldRenderEvent.WaitOne();
+
+                if (stopwatch.ElapsedMilliseconds >= RenderFrameInterval)
                 {
-                    if (stopwatch.ElapsedMilliseconds >= RenderFrameInterval)
-                    {
-                        //Invalidate();
-                        RenderFrame();
-                        stopwatch.Restart();
-                    }
+                    RenderFrame();
+                    stopwatch.Restart();
                 }
             }
         }
