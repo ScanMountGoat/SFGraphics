@@ -69,7 +69,8 @@ namespace SFGraphicsGui
             }
 
             // Trigger the render event.
-            glViewport.RenderFrame();
+            //glViewport.RenderFrame();
+            glViewport.Context.MakeCurrent(null);
             glViewport.ResumeRendering();
         }
 
@@ -77,18 +78,18 @@ namespace SFGraphicsGui
         {
 
             textureToRender = graphicsResources.uvTestPattern;
-            glViewport.RenderFrame();
+            //glViewport.RenderFrame();
         }
 
         private void magentaBlackStripesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             textureToRender = graphicsResources.floatMagentaBlackStripes;
-            glViewport.RenderFrame();
+            //glViewport.RenderFrame();
         }
 
         private void glControl1_Resize(object sender, EventArgs e)
         {
-            glViewport.RenderFrame();
+            //glViewport.RenderFrame();
         }
 
         private async void openFileToolStripMenuItem_Click(object sender, EventArgs e)
@@ -110,7 +111,7 @@ namespace SFGraphicsGui
                     modelToRender = WavefrontToRenderMesh.CreateRenderMesh(dialog.FileName);
                 }
 
-                glViewport.RenderFrame();
+                //glViewport.RenderFrame();
                 glViewport.ResumeRendering();
             }
         }
@@ -121,7 +122,7 @@ namespace SFGraphicsGui
             {
                 // Convert 1 to 9 to 0 to 8.
                 renderModeIndex = Math.Max(int.Parse(e.KeyChar.ToString()) - 1, 0);
-                glViewport.RenderFrame();
+                //glViewport.RenderFrame();
             }
         }
 

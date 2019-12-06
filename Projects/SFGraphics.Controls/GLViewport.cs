@@ -1,4 +1,5 @@
-﻿using OpenTK.Graphics;
+﻿using System;
+using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using System.Threading;
 using System.Diagnostics;
@@ -50,7 +51,7 @@ namespace SFGraphics.Controls
 
             // HACK: Make sure the frames are rendered on the UI thread.
             // This limits performance but prevents attempts to make the context current on more than one thread.
-            Paint += GLViewport_Paint;
+            //Paint += GLViewport_Paint;
         }
 
         /// <summary>
@@ -133,7 +134,8 @@ namespace SFGraphics.Controls
                 {
                     if (stopwatch.ElapsedMilliseconds >= RenderFrameInterval)
                     {
-                        Invalidate();
+                        //Invalidate();
+                        RenderFrame();
                         stopwatch.Restart();
                     }
                 }
