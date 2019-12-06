@@ -69,9 +69,10 @@ namespace SFGraphics.Controls
         {
             isNotRendering.Reset();
 
-            // TODO: Render on the current thread?
-            // This will cause issues with VAOs.
+            // This will cause issues with VAOs because of using multiple threads.
+
             // Should this method be public?
+            // A possible solution is to make another method that only allows a single frame to render.
 
             // Set the drawable area to the current dimensions.
             MakeCurrent();
@@ -93,19 +94,14 @@ namespace SFGraphics.Controls
         /// </summary>
         public void ResumeRendering()
         {
-            // TODO: This fails if called more than once.
-            // TODO: Handle the context switching automatically.
-            // Make sure the context is not current on the calling thread.
-            // The context will be made current by the rendering thread.
+            // Make sure the context is only current on a single thread.
             if (Context.IsCurrent)
                 Context.MakeCurrent(null);
 
             shouldRender.Set();
 
             if (!renderThread.IsAlive)
-            {
                 renderThread.Start();
-            }
         }
 
         /// <summary>
