@@ -12,7 +12,6 @@ namespace SFGraphics.Controls
     /// </summary>
     public class GLViewport : OpenTK.GLControl, System.IDisposable
     {
-
         /// <summary>
         /// The default graphics mode for rendering. Enables depth/stencil buffers and anti-aliasing. 
         /// </summary>
@@ -37,10 +36,11 @@ namespace SFGraphics.Controls
         public int RenderFrameInterval { get; set; } = 16;
 
         private readonly Thread renderThread;
+
         private bool renderThreadShouldClose;
 
-        private readonly AutoResetEvent shouldRenderEvent = new AutoResetEvent(true);
-        private bool shouldRenderFrames = true;
+        // Use a reset event to avoid busy waiting.
+        private readonly ManualResetEvent shouldRenderEvent = new ManualResetEvent(true);
 
         private bool disposed;
 
@@ -85,9 +85,7 @@ namespace SFGraphics.Controls
         /// </summary>
         public void ResumeRendering()
         {
-            // TODO: Synchronization issues with boolean flag?
             shouldRenderEvent.Set();
-            shouldRenderFrames = true;
 
             if (!renderThread.IsAlive)
                 renderThread.Start();
@@ -99,8 +97,6 @@ namespace SFGraphics.Controls
         /// </summary>
         public void PauseRendering()
         {
-            // TODO: Synchronization issues with boolean flag?
-            shouldRenderFrames = false;
             shouldRenderEvent.Reset();
         }
 
@@ -135,8 +131,7 @@ namespace SFGraphics.Controls
             var stopwatch = Stopwatch.StartNew();
             while (!renderThreadShouldClose)
             {
-                if (!shouldRenderFrames)
-                    shouldRenderEvent.WaitOne();
+                shouldRenderEvent.WaitOne();
 
                 if (stopwatch.ElapsedMilliseconds >= RenderFrameInterval)
                 {
