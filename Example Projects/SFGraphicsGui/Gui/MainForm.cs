@@ -3,12 +3,17 @@ using SFGraphics.GLObjects.Textures;
 using SFGraphicsGui.Source;
 using System;
 using System.Windows.Forms;
+using OpenTK;
+using OpenTK.Graphics;
+using KeyPressEventArgs = System.Windows.Forms.KeyPressEventArgs;
 
 namespace SFGraphicsGui
 {
     public partial class MainForm : Form
     {
         private GraphicsResources graphicsResources;
+        private GameWindow sharedResourcesContext;
+
         private Texture2D textureToRender;
         private RenderMesh modelToRender;
         private int renderModeIndex;
@@ -46,14 +51,20 @@ namespace SFGraphicsGui
 
         private void glControl1_Load(object sender, EventArgs e)
         {
-            if (OpenTK.Graphics.GraphicsContext.CurrentContext != null)
-                SetUpRendering();
-            else
-                MessageBox.Show("Context Creation Failed");
+            SetUpRendering();
         }
 
         private void SetUpRendering()
         {
+            GraphicsContext.ShareContexts = true;
+
+            // TODO: Add this to one of the utils libraries.
+            // Make a dummy context to share resources with the rendering thread.
+            sharedResourcesContext = new GameWindow(640, 480, GraphicsMode.Default, "", GameWindowFlags.Default,
+                DisplayDevice.Default, 3, 3, GraphicsContextFlags.Default);
+            sharedResourcesContext.Visible = false;
+            sharedResourcesContext.MakeCurrent();
+
             graphicsResources = new GraphicsResources();
 
             // Display compilation warnings.
@@ -68,8 +79,7 @@ namespace SFGraphicsGui
                 MessageBox.Show(graphicsResources.objModelShader.GetErrorLog(), "The attribute shader did not link successfully.");
             }
 
-            // Trigger the render event.
-            glViewport.Context.MakeCurrent(null);
+            // Start rendering on the dedicated thread.
             glViewport.ResumeRendering();
         }
 
@@ -95,6 +105,7 @@ namespace SFGraphicsGui
             {
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
+                    sharedResourcesContext.MakeCurrent();
 
                     if (dialog.FileName.ToLower().EndsWith(".dae"))
                     {

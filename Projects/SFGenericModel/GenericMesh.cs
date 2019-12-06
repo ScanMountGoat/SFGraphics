@@ -50,7 +50,8 @@ namespace SFGenericModel
         // Used for attribute offset calculation.
         private readonly int vertexSizeInBytes;
 
-        private readonly VertexArrayObject vertexArrayObject = new VertexArrayObject();
+        // TODO: Add a proper check to ensure VAOs are recreated when used on separate threads.
+        private VertexArrayObject vertexArrayObject;
 
         // Vertex and index data.
         private readonly BufferObject vertexBuffer = new BufferObject(BufferTarget.ArrayBuffer);
@@ -151,6 +152,10 @@ namespace SFGenericModel
 
         private void ConfigureVertexAttributes(Shader shader)
         {
+            // TODO: Add a proper check to ensure VAOs are recreated when used on separate threads.
+            if (vertexArrayObject == null)
+                vertexArrayObject = new VertexArrayObject();
+
             // The binding order here is critical.
             vertexArrayObject.Bind();
 

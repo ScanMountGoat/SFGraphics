@@ -85,10 +85,18 @@ namespace SFGraphics.Controls
         /// </summary>
         public void ResumeRendering()
         {
+            // TODO: This fails if called more than once.
+            // TODO: Handle the context switching automatically.
+            // Make sure the context is not current on the calling thread.
+            // The context will be made current by the rendering thread.
+            Context.MakeCurrent(null);
+
             shouldRenderEvent.Set();
 
             if (!renderThread.IsAlive)
+            {
                 renderThread.Start();
+            }
         }
 
         /// <summary>
