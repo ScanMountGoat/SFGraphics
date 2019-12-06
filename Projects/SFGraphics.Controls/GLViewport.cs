@@ -40,7 +40,8 @@ namespace SFGraphics.Controls
         private bool renderThreadShouldClose;
 
         // Use a reset event to avoid busy waiting.
-        private readonly ManualResetEvent shouldRenderEvent = new ManualResetEvent(true);
+        private readonly ManualResetEvent shouldRender = new ManualResetEvent(true);
+        private readonly ManualResetEvent isNotRendering = new ManualResetEvent(true);
 
         private bool disposed;
 
@@ -66,6 +67,8 @@ namespace SFGraphics.Controls
         /// </summary>
         public void RenderFrame()
         {
+            isNotRendering.Reset();
+
             // TODO: Render on the current thread?
             // This will cause issues with VAOs.
             // Should this method be public?
@@ -78,10 +81,15 @@ namespace SFGraphics.Controls
 
             // Display the content on screen.
             SwapBuffers();
+
+            // Unbind the context so it can be used on another thread.
+            Context.MakeCurrent(null);
+            isNotRendering.Set();
         }
 
         /// <summary>
         /// Starts or resumes frame updates with interval specified by <see cref="RenderFrameInterval"/>.
+        /// The context is made current on the rendering thread.
         /// </summary>
         public void ResumeRendering()
         {
@@ -89,9 +97,10 @@ namespace SFGraphics.Controls
             // TODO: Handle the context switching automatically.
             // Make sure the context is not current on the calling thread.
             // The context will be made current by the rendering thread.
-            Context.MakeCurrent(null);
+            if (Context.IsCurrent)
+                Context.MakeCurrent(null);
 
-            shouldRenderEvent.Set();
+            shouldRender.Set();
 
             if (!renderThread.IsAlive)
             {
@@ -100,12 +109,16 @@ namespace SFGraphics.Controls
         }
 
         /// <summary>
-        /// Pauses automatic frame updates. 
-        /// Frames can still be rendered manually with <see cref="RenderFrame"/>.
+        /// Pauses the rendering thread and blocks until the current frame has finished.
+        /// The context is made current on the calling thread.
         /// </summary>
         public void PauseRendering()
         {
-            shouldRenderEvent.Reset();
+            shouldRender.Reset();
+
+            // Block until rendering has actually stopped before using the context on the current thread.
+            isNotRendering.WaitOne();
+            MakeCurrent();
         }
 
         /// <summary>
@@ -114,7 +127,7 @@ namespace SFGraphics.Controls
         public new void Dispose()
         {
             Dispose(true);
-            shouldRenderEvent.Dispose();
+            shouldRender.Dispose();
             System.GC.SuppressFinalize(this);
         }
 
@@ -128,7 +141,7 @@ namespace SFGraphics.Controls
             {
                 // Make sure the rendering thread exits.
                 renderThreadShouldClose = true;
-                shouldRenderEvent.Set();
+                shouldRender.Set();
                 renderThread.Join();
 
                 base.Dispose(disposing);
@@ -143,7 +156,7 @@ namespace SFGraphics.Controls
             var stopwatch = Stopwatch.StartNew();
             while (!renderThreadShouldClose)
             {
-                shouldRenderEvent.WaitOne();
+                shouldRender.WaitOne();
 
                 if (stopwatch.ElapsedMilliseconds >= RenderFrameInterval)
                 {

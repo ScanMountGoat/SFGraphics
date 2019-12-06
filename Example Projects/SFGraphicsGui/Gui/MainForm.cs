@@ -1,10 +1,9 @@
-﻿using OpenTK.Graphics.OpenGL;
+﻿using OpenTK.Graphics;
+using OpenTK.Graphics.OpenGL;
 using SFGraphics.GLObjects.Textures;
 using SFGraphicsGui.Source;
 using System;
 using System.Windows.Forms;
-using OpenTK;
-using OpenTK.Graphics;
 using KeyPressEventArgs = System.Windows.Forms.KeyPressEventArgs;
 
 namespace SFGraphicsGui
@@ -12,7 +11,6 @@ namespace SFGraphicsGui
     public partial class MainForm : Form
     {
         private GraphicsResources graphicsResources;
-        private GameWindow sharedResourcesContext;
 
         private Texture2D textureToRender;
         private RenderMesh modelToRender;
@@ -56,14 +54,8 @@ namespace SFGraphicsGui
 
         private void SetUpRendering()
         {
-            GraphicsContext.ShareContexts = true;
-
-            // TODO: Add this to one of the utils libraries.
-            // Make a dummy context to share resources with the rendering thread.
-            sharedResourcesContext = new GameWindow(640, 480, GraphicsMode.Default, "", GameWindowFlags.Default,
-                DisplayDevice.Default, 3, 3, GraphicsContextFlags.Default);
-            sharedResourcesContext.Visible = false;
-            sharedResourcesContext.MakeCurrent();
+            // Pause the rendering thread to use the context on the current thread.
+            glViewport.PauseRendering();
 
             graphicsResources = new GraphicsResources();
 
@@ -73,7 +65,6 @@ namespace SFGraphicsGui
                 MessageBox.Show(graphicsResources.screenTextureShader.GetErrorLog(), "The texture shader did not link successfully.");
             }
 
-            // Display compilation warnings.
             if (!graphicsResources.objModelShader.LinkStatusIsOk)
             {
                 MessageBox.Show(graphicsResources.objModelShader.GetErrorLog(), "The attribute shader did not link successfully.");
@@ -105,8 +96,6 @@ namespace SFGraphicsGui
             {
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    sharedResourcesContext.MakeCurrent();
-
                     if (dialog.FileName.ToLower().EndsWith(".dae"))
                     {
                         var vertices = await ColladaToRenderMesh.GetVerticesAsync(dialog.FileName);
@@ -127,7 +116,6 @@ namespace SFGraphicsGui
             {
                 // Convert 1 to 9 to 0 to 8.
                 renderModeIndex = Math.Max(int.Parse(e.KeyChar.ToString()) - 1, 0);
-                //glViewport.RenderFrame();
             }
         }
 
