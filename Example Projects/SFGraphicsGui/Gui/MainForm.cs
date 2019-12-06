@@ -17,7 +17,7 @@ namespace SFGraphicsGui
         {
             // The context isn't current yet, so don't call any OpenTK methods here.
             InitializeComponent();
-            glViewport.VSync = true;
+            glViewport.VSync = false;
             glViewport.OnRenderFrame += RenderFrame;
         }
 
@@ -69,27 +69,23 @@ namespace SFGraphicsGui
             }
 
             // Trigger the render event.
-            //glViewport.RenderFrame();
             glViewport.Context.MakeCurrent(null);
             glViewport.ResumeRendering();
         }
 
         private void uvTestPatternToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
             textureToRender = graphicsResources.uvTestPattern;
-            //glViewport.RenderFrame();
         }
 
         private void magentaBlackStripesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             textureToRender = graphicsResources.floatMagentaBlackStripes;
-            //glViewport.RenderFrame();
         }
 
         private void glControl1_Resize(object sender, EventArgs e)
         {
-            //glViewport.RenderFrame();
+
         }
 
         private async void openFileToolStripMenuItem_Click(object sender, EventArgs e)

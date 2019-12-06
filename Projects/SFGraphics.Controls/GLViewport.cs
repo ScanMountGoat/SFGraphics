@@ -118,8 +118,12 @@ namespace SFGraphics.Controls
         {
             if (!disposed)
             {
-                base.Dispose(disposing);
+                // Make sure the rendering thread exits.
                 renderThreadShouldClose = true;
+                shouldRenderEvent.Set();
+                renderThread.Join();
+
+                base.Dispose(disposing);
 
                 disposed = true;
             }
