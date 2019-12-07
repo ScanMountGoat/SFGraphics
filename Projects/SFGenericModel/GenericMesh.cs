@@ -6,6 +6,7 @@ using SFGraphics.GLObjects.BufferObjects;
 using SFGraphics.GLObjects.Shaders;
 using SFGraphics.GLObjects.VertexArrays;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace SFGenericModel
 {
@@ -44,8 +45,11 @@ namespace SFGenericModel
         /// </summary>
         public event InvalidAttribSetEventHandler OnInvalidAttribSet;
 
-        // Vertex attributes only need to be reconfigured when the shader changes.
+        // Vertex attributes need to be reconfigured when the shader changes.
         private int previousShaderId = -1;
+
+        // The VAO needs to be remade when the thread changes.
+        private int previousThreadId = -1;
 
         // Used for attribute offset calculation.
         private readonly int vertexSizeInBytes;
@@ -131,11 +135,12 @@ namespace SFGenericModel
 
             shader.UseProgram();
 
-            // Only update when the shader changes.
-            if (shader.Id != previousShaderId)
+            // Only reconfigure the vertex attributes when necessary to improve performance.
+            if (shader.Id != previousShaderId || Thread.CurrentThread.ManagedThreadId != previousThreadId)
             {
                 ConfigureVertexAttributes(shader);
                 previousShaderId = shader.Id;
+                previousThreadId = Thread.CurrentThread.ManagedThreadId;
             }
 
             DrawGeometry(count, offset);
@@ -152,9 +157,8 @@ namespace SFGenericModel
 
         private void ConfigureVertexAttributes(Shader shader)
         {
-            // TODO: Add a proper check to ensure VAOs are recreated when used on separate threads.
-            if (vertexArrayObject == null)
-                vertexArrayObject = new VertexArrayObject();
+            // Recreate the object every time in case the thread has changed.
+            vertexArrayObject = new VertexArrayObject();
 
             // The binding order here is critical.
             vertexArrayObject.Bind();
