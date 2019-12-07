@@ -77,11 +77,13 @@ namespace SFGraphicsGui
         private void uvTestPatternToolStripMenuItem_Click(object sender, EventArgs e)
         {
             textureToRender = graphicsResources.uvTestPattern;
+            glViewport.RenderFrame();
         }
 
         private void magentaBlackStripesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             textureToRender = graphicsResources.floatMagentaBlackStripes;
+            glViewport.RenderFrame();
         }
 
         private void glControl1_Resize(object sender, EventArgs e)

@@ -25,7 +25,7 @@ namespace SFGraphics.Controls
         public delegate void OnRenderFrameEventHandler(object sender, System.EventArgs e);
 
         /// <summary>
-        /// Occurs after frame setup and before the front and back buffer are swapped. To render a frame, use <see cref="RenderFrame"/>.
+        /// Occurs after frame setup and before the front and back buffer are swapped. To render a frame, use <see cref="SetUpAndRenderFrame"/>.
         /// </summary>
         public event OnRenderFrameEventHandler OnRenderFrame;
 
@@ -63,16 +63,22 @@ namespace SFGraphics.Controls
         }
 
         /// <summary>
-        /// Sets up, renders, and displays a frame. Subscribe to <see cref="OnRenderFrame"/> to add custom rendering code.
+        /// Renders and displays a frame on the current thread. Subscribe to <see cref="OnRenderFrame"/> to add custom rendering code.
         /// </summary>
         public void RenderFrame()
         {
+            // Pause rendering to ensure the context is current on the appropriate thread.
+            PauseRendering();
+
+            SetUpAndRenderFrame();
+
+            // TODO: Only restart rendering if it was rendering previously.
+            RestartRendering();
+        }
+
+        private void SetUpAndRenderFrame()
+        {
             isNotRendering.Reset();
-
-            // This will cause issues with VAOs because of using multiple threads.
-
-            // Should this method be public?
-            // A possible solution is to make another method that only allows a single frame to render.
 
             // Set the drawable area to the current dimensions.
             MakeCurrent();
@@ -112,7 +118,7 @@ namespace SFGraphics.Controls
         {
             shouldRender.Reset();
 
-            // Block until rendering has actually stopped before using the context on the current thread.
+            // Block until rendering has actually stopped before the making context current on the current thread.
             isNotRendering.WaitOne();
             MakeCurrent();
         }
@@ -156,7 +162,7 @@ namespace SFGraphics.Controls
 
                 if (stopwatch.ElapsedMilliseconds >= RenderFrameInterval)
                 {
-                    RenderFrame();
+                    SetUpAndRenderFrame();
                     stopwatch.Restart();
                 }
             }
