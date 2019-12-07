@@ -8,7 +8,7 @@ namespace SFGraphics.Controls
     /// <summary>
     /// Provides functionality similar to <see cref="OpenTK.GameWindow"/> for <see cref="OpenTK.GLControl"/>.
     /// <para></para><para></para>
-    /// Frame timing can be handled manually or with a dedicated thread using <see cref="ResumeRendering"/>.
+    /// Frame timing can be handled manually or with a dedicated thread using <see cref="RestartRendering"/>.
     /// </summary>
     public class GLViewport : OpenTK.GLControl, System.IDisposable
     {
@@ -25,7 +25,7 @@ namespace SFGraphics.Controls
         public delegate void OnRenderFrameEventHandler(object sender, System.EventArgs e);
 
         /// <summary>
-        /// Occurs after frame setup and before the front and back buffer are swapped. To render a frame, use <see cref="RenderFrame"/>.
+        /// Occurs after frame setup and before the front and back buffer are swapped. To render a frame, use <see cref="SetUpAndRenderFrame"/>.
         /// </summary>
         public event OnRenderFrameEventHandler OnRenderFrame;
 
@@ -36,8 +36,12 @@ namespace SFGraphics.Controls
         public int RenderFrameInterval { get; set; } = 16;
 
         private readonly Thread renderThread;
-        private bool shouldRenderFrames;
+
         private bool renderThreadShouldClose;
+
+        // Use a reset event to avoid busy waiting.
+        private readonly ManualResetEvent shouldRender = new ManualResetEvent(true);
+        private readonly ManualResetEvent isNotRendering = new ManualResetEvent(true);
 
         private bool disposed;
 
@@ -46,11 +50,8 @@ namespace SFGraphics.Controls
         /// </summary>
         public GLViewport() : base(defaultGraphicsMode)
         {
-            renderThread = new Thread(FrameTimingLoop);
-
-            // HACK: Make sure the frames are rendered on the UI thread.
-            // This limits performance but prevents attempts to make the context current on more than one thread.
-            Paint += GLViewport_Paint;
+            // Rendering should stop when the application exits.
+            renderThread = new Thread(FrameTimingLoop) { IsBackground = true };
         }
 
         /// <summary>
@@ -62,10 +63,23 @@ namespace SFGraphics.Controls
         }
 
         /// <summary>
-        /// Sets up, renders, and displays a frame. Subscribe to <see cref="OnRenderFrame"/> to add custom rendering code.
+        /// Renders and displays a frame on the current thread. Subscribe to <see cref="OnRenderFrame"/> to add custom rendering code.
         /// </summary>
         public void RenderFrame()
         {
+            // Pause rendering to ensure the context is current on the appropriate thread.
+            PauseRendering();
+
+            SetUpAndRenderFrame();
+
+            // TODO: Only restart rendering if it was rendering previously.
+            RestartRendering();
+        }
+
+        private void SetUpAndRenderFrame()
+        {
+            isNotRendering.Reset();
+
             // Set the drawable area to the current dimensions.
             MakeCurrent();
             GL.Viewport(ClientRectangle);
@@ -74,25 +88,39 @@ namespace SFGraphics.Controls
 
             // Display the content on screen.
             SwapBuffers();
+
+            // Unbind the context so it can be used on another thread.
+            Context.MakeCurrent(null);
+            isNotRendering.Set();
         }
 
         /// <summary>
         /// Starts or resumes frame updates with interval specified by <see cref="RenderFrameInterval"/>.
+        /// The context is made current on the rendering thread.
         /// </summary>
-        public void ResumeRendering()
+        public void RestartRendering()
         {
-            shouldRenderFrames = true;
+            // Make sure the context is only current on a single thread.
+            if (Context.IsCurrent)
+                Context.MakeCurrent(null);
+
+            shouldRender.Set();
+
             if (!renderThread.IsAlive)
                 renderThread.Start();
         }
 
         /// <summary>
-        /// Pauses automatic frame updates. 
-        /// Frames can still be rendered manually with <see cref="RenderFrame"/>.
+        /// Pauses the rendering thread and blocks until the current frame has finished.
+        /// The context is made current on the calling thread.
         /// </summary>
         public void PauseRendering()
         {
-            shouldRenderFrames = false;
+            shouldRender.Reset();
+
+            // Block until rendering has actually stopped before the making context current on the current thread.
+            isNotRendering.WaitOne();
+            MakeCurrent();
         }
 
         /// <summary>
@@ -101,6 +129,7 @@ namespace SFGraphics.Controls
         public new void Dispose()
         {
             Dispose(true);
+            shouldRender.Dispose();
             System.GC.SuppressFinalize(this);
         }
 
@@ -112,30 +141,29 @@ namespace SFGraphics.Controls
         {
             if (!disposed)
             {
-                base.Dispose(disposing);
+                // Make sure the rendering thread exits.
                 renderThreadShouldClose = true;
+                shouldRender.Set();
+                renderThread.Join();
+
+                base.Dispose(disposing);
 
                 disposed = true;
             }
         }
 
-        private void GLViewport_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
-        {
-            RenderFrame();
-        }
-
         private void FrameTimingLoop()
         {
+            // TODO: What happens when rendering is paused and the form is closed?
             var stopwatch = Stopwatch.StartNew();
             while (!renderThreadShouldClose)
             {
-                if (shouldRenderFrames)
+                shouldRender.WaitOne();
+
+                if (stopwatch.ElapsedMilliseconds >= RenderFrameInterval)
                 {
-                    if (stopwatch.ElapsedMilliseconds >= RenderFrameInterval)
-                    {
-                        Invalidate();
-                        stopwatch.Restart();
-                    }
+                    SetUpAndRenderFrame();
+                    stopwatch.Restart();
                 }
             }
         }

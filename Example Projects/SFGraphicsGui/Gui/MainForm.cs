@@ -1,14 +1,17 @@
-﻿using OpenTK.Graphics.OpenGL;
+﻿using OpenTK.Graphics;
+using OpenTK.Graphics.OpenGL;
 using SFGraphics.GLObjects.Textures;
 using SFGraphicsGui.Source;
 using System;
 using System.Windows.Forms;
+using KeyPressEventArgs = System.Windows.Forms.KeyPressEventArgs;
 
 namespace SFGraphicsGui
 {
     public partial class MainForm : Form
     {
         private GraphicsResources graphicsResources;
+
         private Texture2D textureToRender;
         private RenderMesh modelToRender;
         private int renderModeIndex;
@@ -17,7 +20,7 @@ namespace SFGraphicsGui
         {
             // The context isn't current yet, so don't call any OpenTK methods here.
             InitializeComponent();
-            glViewport.VSync = true;
+            glViewport.VSync = false;
             glViewport.OnRenderFrame += RenderFrame;
         }
 
@@ -46,14 +49,14 @@ namespace SFGraphicsGui
 
         private void glControl1_Load(object sender, EventArgs e)
         {
-            if (OpenTK.Graphics.GraphicsContext.CurrentContext != null)
-                SetUpRendering();
-            else
-                MessageBox.Show("Context Creation Failed");
+            SetUpRendering();
         }
 
         private void SetUpRendering()
         {
+            // Pause the rendering thread to use the context on the current thread.
+            glViewport.PauseRendering();
+
             graphicsResources = new GraphicsResources();
 
             // Display compilation warnings.
@@ -62,20 +65,17 @@ namespace SFGraphicsGui
                 MessageBox.Show(graphicsResources.screenTextureShader.GetErrorLog(), "The texture shader did not link successfully.");
             }
 
-            // Display compilation warnings.
             if (!graphicsResources.objModelShader.LinkStatusIsOk)
             {
                 MessageBox.Show(graphicsResources.objModelShader.GetErrorLog(), "The attribute shader did not link successfully.");
             }
 
-            // Trigger the render event.
-            glViewport.RenderFrame();
-            glViewport.ResumeRendering();
+            // Start rendering on the dedicated thread.
+            glViewport.RestartRendering();
         }
 
         private void uvTestPatternToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
             textureToRender = graphicsResources.uvTestPattern;
             glViewport.RenderFrame();
         }
@@ -88,31 +88,28 @@ namespace SFGraphicsGui
 
         private void glControl1_Resize(object sender, EventArgs e)
         {
-            glViewport.RenderFrame();
+
         }
 
         private async void openFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            glViewport.PauseRendering();
             using (var dialog = new OpenFileDialog { Filter = "Model Formats|*.obj;*.dae" })
             {
-                if (dialog.ShowDialog() != DialogResult.OK)
-                    return;
-
-                glViewport.PauseRendering();
-
-                if (dialog.FileName.ToLower().EndsWith(".dae"))
+                if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    var vertices = await ColladaToRenderMesh.GetVerticesAsync(dialog.FileName);
-                    modelToRender = new RenderMesh(vertices);
+                    if (dialog.FileName.ToLower().EndsWith(".dae"))
+                    {
+                        var vertices = await ColladaToRenderMesh.GetVerticesAsync(dialog.FileName);
+                        modelToRender = new RenderMesh(vertices);
+                    }
+                    else if (dialog.FileName.ToLower().EndsWith(".obj"))
+                    {
+                        modelToRender = WavefrontToRenderMesh.CreateRenderMesh(dialog.FileName);
+                    }
                 }
-                else if (dialog.FileName.ToLower().EndsWith(".obj"))
-                {
-                    modelToRender = WavefrontToRenderMesh.CreateRenderMesh(dialog.FileName);
-                }
-
-                glViewport.RenderFrame();
-                glViewport.ResumeRendering();
             }
+            glViewport.RestartRendering();
         }
 
         private void glControl1_KeyPress(object sender, KeyPressEventArgs e)
@@ -121,7 +118,6 @@ namespace SFGraphicsGui
             {
                 // Convert 1 to 9 to 0 to 8.
                 renderModeIndex = Math.Max(int.Parse(e.KeyChar.ToString()) - 1, 0);
-                glViewport.RenderFrame();
             }
         }
 
