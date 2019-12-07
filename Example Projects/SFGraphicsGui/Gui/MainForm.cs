@@ -71,7 +71,7 @@ namespace SFGraphicsGui
             }
 
             // Start rendering on the dedicated thread.
-            glViewport.ResumeRendering();
+            glViewport.RestartRendering();
         }
 
         private void uvTestPatternToolStripMenuItem_Click(object sender, EventArgs e)
@@ -107,7 +107,7 @@ namespace SFGraphicsGui
                     }
                 }
             }
-            glViewport.ResumeRendering();
+            glViewport.RestartRendering();
         }
 
         private void glControl1_KeyPress(object sender, KeyPressEventArgs e)

@@ -8,7 +8,7 @@ namespace SFGraphics.Controls
     /// <summary>
     /// Provides functionality similar to <see cref="OpenTK.GameWindow"/> for <see cref="OpenTK.GLControl"/>.
     /// <para></para><para></para>
-    /// Frame timing can be handled manually or with a dedicated thread using <see cref="ResumeRendering"/>.
+    /// Frame timing can be handled manually or with a dedicated thread using <see cref="RestartRendering"/>.
     /// </summary>
     public class GLViewport : OpenTK.GLControl, System.IDisposable
     {
@@ -92,7 +92,7 @@ namespace SFGraphics.Controls
         /// Starts or resumes frame updates with interval specified by <see cref="RenderFrameInterval"/>.
         /// The context is made current on the rendering thread.
         /// </summary>
-        public void ResumeRendering()
+        public void RestartRendering()
         {
             // Make sure the context is only current on a single thread.
             if (Context.IsCurrent)
