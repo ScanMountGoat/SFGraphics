@@ -35,6 +35,9 @@ namespace SFGraphics.Controls
         /// </summary>
         public int RenderFrameInterval { get; set; } = 16;
 
+        // This value is not threadsafe, so it shouldn't be used in the rendering thread.
+        private bool isRendering;
+
         private readonly Thread renderThread;
 
         private bool renderThreadShouldClose;
@@ -67,13 +70,16 @@ namespace SFGraphics.Controls
         /// </summary>
         public void RenderFrame()
         {
+            var wasRendering = isRendering;
+
             // Pause rendering to ensure the context is current on the appropriate thread.
             PauseRendering();
 
             SetUpAndRenderFrame();
 
-            // TODO: Only restart rendering if it was rendering previously.
-            RestartRendering();
+            // If rendering was already paused, keep the context current on this thread.
+            if (wasRendering)
+                RestartRendering();
         }
 
         private void SetUpAndRenderFrame()
@@ -100,6 +106,8 @@ namespace SFGraphics.Controls
         /// </summary>
         public void RestartRendering()
         {
+            isRendering = true;
+
             // Make sure the context is only current on a single thread.
             if (Context.IsCurrent)
                 Context.MakeCurrent(null);
@@ -116,6 +124,8 @@ namespace SFGraphics.Controls
         /// </summary>
         public void PauseRendering()
         {
+            isRendering = false;
+
             shouldRender.Reset();
 
             // Block until rendering has actually stopped before the making context current on the current thread.
