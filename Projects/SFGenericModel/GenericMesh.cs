@@ -54,7 +54,6 @@ namespace SFGenericModel
         // Used for attribute offset calculation.
         private readonly int vertexSizeInBytes;
 
-        // TODO: Add a proper check to ensure VAOs are recreated when used on separate threads.
         private VertexArrayObject vertexArrayObject;
 
         // Vertex and index data.

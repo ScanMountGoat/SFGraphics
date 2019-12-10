@@ -35,8 +35,10 @@ namespace SFGraphics.Controls
         /// </summary>
         public int RenderFrameInterval { get; set; } = 16;
 
-        // This value is not threadsafe, so it shouldn't be used in the rendering thread.
-        private bool isRendering;
+        /// <summary>
+        /// <c>true</c> when frame updates are being run from the dedicated rendering thread.
+        /// </summary>
+        public bool IsRendering { get; private set; }
 
         private readonly Thread renderThread;
 
@@ -44,7 +46,7 @@ namespace SFGraphics.Controls
 
         // Use a reset event to avoid busy waiting.
         private readonly ManualResetEvent shouldRender = new ManualResetEvent(true);
-        private readonly ManualResetEvent isNotRendering = new ManualResetEvent(true);
+        private readonly ManualResetEvent isNotRenderingFrame = new ManualResetEvent(true);
 
         private bool disposed;
 
@@ -70,21 +72,21 @@ namespace SFGraphics.Controls
         /// </summary>
         public void RenderFrame()
         {
-            var wasRendering = isRendering;
+            var wasRenderingOnThread = IsRendering;
 
             // Pause rendering to ensure the context is current on the appropriate thread.
             PauseRendering();
 
-            SetUpAndRenderFrame();
+            SetUpAndRenderFrame(wasRenderingOnThread);
 
             // If rendering was already paused, keep the context current on this thread.
-            if (wasRendering)
+            if (wasRenderingOnThread)
                 RestartRendering();
         }
 
-        private void SetUpAndRenderFrame()
+        private void SetUpAndRenderFrame(bool wasRenderingOnThread)
         {
-            isNotRendering.Reset();
+            isNotRenderingFrame.Reset();
 
             // Set the drawable area to the current dimensions.
             MakeCurrent();
@@ -95,9 +97,11 @@ namespace SFGraphics.Controls
             // Display the content on screen.
             SwapBuffers();
 
-            // Unbind the context so it can be used on another thread.
-            Context.MakeCurrent(null);
-            isNotRendering.Set();
+            // Unbind the context so it can be used on the render thread.
+            if (wasRenderingOnThread)
+                Context.MakeCurrent(null);
+
+            isNotRenderingFrame.Set();
         }
 
         /// <summary>
@@ -106,7 +110,7 @@ namespace SFGraphics.Controls
         /// </summary>
         public void RestartRendering()
         {
-            isRendering = true;
+            IsRendering = true;
 
             // Make sure the context is only current on a single thread.
             if (Context.IsCurrent)
@@ -124,12 +128,12 @@ namespace SFGraphics.Controls
         /// </summary>
         public void PauseRendering()
         {
-            isRendering = false;
+            IsRendering = false;
 
             shouldRender.Reset();
 
             // Block until rendering has actually stopped before the making context current on the current thread.
-            isNotRendering.WaitOne();
+            isNotRenderingFrame.WaitOne();
             MakeCurrent();
         }
 
@@ -172,7 +176,7 @@ namespace SFGraphics.Controls
 
                 if (stopwatch.ElapsedMilliseconds >= RenderFrameInterval)
                 {
-                    SetUpAndRenderFrame();
+                    SetUpAndRenderFrame(true);
                     stopwatch.Restart();
                 }
             }
