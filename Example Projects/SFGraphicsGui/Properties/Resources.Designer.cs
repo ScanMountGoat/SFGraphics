@@ -59,15 +59,5 @@ namespace SFGraphicsGui.Properties {
                 resourceCulture = value;
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap UVPattern {
-            get {
-                object obj = ResourceManager.GetObject("UVPattern", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
     }
 }

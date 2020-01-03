@@ -1,14 +1,17 @@
-﻿using OpenTK.Graphics;
-using OpenTK.Graphics.OpenGL;
+﻿using OpenTK.Graphics.OpenGL;
 using SFGraphics.GLObjects.Textures;
 using SFGraphicsGui.Source;
 using System;
-using System.Windows.Forms;
-using KeyPressEventArgs = System.Windows.Forms.KeyPressEventArgs;
+using System.Windows;
+using System.Windows.Input;
+using Microsoft.Win32;
 
 namespace SFGraphicsGui
 {
-    public partial class MainForm : Form
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml
+    /// </summary>
+    public partial class MainWindow : Window
     {
         private GraphicsResources graphicsResources;
 
@@ -16,20 +19,19 @@ namespace SFGraphicsGui
         private RenderMesh modelToRender;
         private int renderModeIndex;
 
-        public MainForm()
+        public MainWindow()
         {
             // The context isn't current yet, so don't call any OpenTK methods here.
             InitializeComponent();
             glViewport.VSync = false;
             glViewport.OnRenderFrame += RenderFrame;
+
+            SetUpRendering();
+            glViewport.RestartRendering();
         }
 
         private void RenderFrame(object sender, EventArgs e)
         {
-            // Context creation and resource creation failed, so we can't render anything.
-            if (graphicsResources == null)
-                return;
-
             GL.Clear(ClearBufferMask.ColorBufferBit);
 
             // Draw a test pattern image to the screen.
@@ -47,11 +49,6 @@ namespace SFGraphicsGui
             SFGraphics.GLObjects.GLObjectManagement.GLObjectManager.DeleteUnusedGLObjects();
         }
 
-        private void glControl1_Load(object sender, EventArgs e)
-        {
-            SetUpRendering();
-        }
-
         private void SetUpRendering()
         {
             // Pause the rendering thread to use the context on the current thread.
@@ -62,41 +59,44 @@ namespace SFGraphicsGui
             // Display compilation warnings.
             if (!graphicsResources.screenTextureShader.LinkStatusIsOk)
             {
-                MessageBox.Show(graphicsResources.screenTextureShader.GetErrorLog(), "The texture shader did not link successfully.");
+                MessageBox.Show(graphicsResources.screenTextureShader.GetErrorLog(),
+                    "The texture shader did not link successfully.");
             }
 
             if (!graphicsResources.objModelShader.LinkStatusIsOk)
             {
-                MessageBox.Show(graphicsResources.objModelShader.GetErrorLog(), "The attribute shader did not link successfully.");
+                MessageBox.Show(graphicsResources.objModelShader.GetErrorLog(),
+                    "The attribute shader did not link successfully.");
             }
 
             // Start rendering on the dedicated thread.
             glViewport.RestartRendering();
         }
 
-        private void uvTestPatternToolStripMenuItem_Click(object sender, EventArgs e)
+        private void BackgroundNone_Click(object sender, RoutedEventArgs e)
+        {
+            textureToRender = null;
+            glViewport.RenderFrame();
+        }
+
+        private void BackgroundUvTestPattern_Click(object sender, RoutedEventArgs e)
         {
             textureToRender = graphicsResources.uvTestPattern;
             glViewport.RenderFrame();
         }
 
-        private void magentaBlackStripesToolStripMenuItem_Click(object sender, EventArgs e)
+        private void BackgroundMagentaBlackStripes_Click(object sender, RoutedEventArgs e)
         {
             textureToRender = graphicsResources.floatMagentaBlackStripes;
             glViewport.RenderFrame();
         }
 
-        private void glControl1_Resize(object sender, EventArgs e)
-        {
-
-        }
-
-        private async void openFileToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void FileOpen_OnClick(object sender, RoutedEventArgs e)
         {
             glViewport.PauseRendering();
-            using (var dialog = new OpenFileDialog { Filter = "Model Formats|*.obj;*.dae" })
+            var dialog = new OpenFileDialog {Filter = "Model Formats|*.obj;*.dae"};
             {
-                if (dialog.ShowDialog() == DialogResult.OK)
+                if (dialog.ShowDialog() == true)
                 {
                     if (dialog.FileName.ToLower().EndsWith(".dae"))
                     {
@@ -112,19 +112,48 @@ namespace SFGraphicsGui
             glViewport.RestartRendering();
         }
 
-        private void glControl1_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (char.IsDigit(e.KeyChar))
-            {
-                // Convert 1 to 9 to 0 to 8.
-                renderModeIndex = Math.Max(int.Parse(e.KeyChar.ToString()) - 1, 0);
-            }
-        }
-
-        private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
+        private void Window_Closed(object sender, EventArgs e)
         {
             // Users tend to complain when you leave threads running...
             glViewport.Dispose();
+        }
+
+        private void Window_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            // Map the number keys to render modes 1 to 10 inclusive. 
+            switch (e.Key)
+            {
+                case Key.D1:
+                    renderModeIndex = 0;
+                    break;
+                case Key.D2:
+                    renderModeIndex = 1;
+                    break;
+                case Key.D3:
+                    renderModeIndex = 2;
+                    break;
+                case Key.D4:
+                    renderModeIndex = 3;
+                    break;
+                case Key.D5:
+                    renderModeIndex = 4;
+                    break;
+                case Key.D6:
+                    renderModeIndex = 5;
+                    break;
+                case Key.D7:
+                    renderModeIndex = 6;
+                    break;
+                case Key.D8:
+                    renderModeIndex = 7;
+                    break;
+                case Key.D9:
+                    renderModeIndex = 8;
+                    break;
+                case Key.D0:
+                    renderModeIndex = 10;
+                    break;
+            }      
         }
     }
 }

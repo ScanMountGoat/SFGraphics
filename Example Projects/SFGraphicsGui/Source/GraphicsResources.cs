@@ -1,7 +1,9 @@
-﻿using OpenTK.Graphics.OpenGL;
+﻿using System.Drawing;
+using OpenTK.Graphics.OpenGL;
 using SFGraphics.GLObjects.Samplers;
 using SFGraphics.GLObjects.Shaders;
 using SFGraphics.GLObjects.Textures;
+using System.IO;
 
 namespace SFGraphicsGui
 {
@@ -26,7 +28,10 @@ namespace SFGraphicsGui
         {
             // Texture setup from a bitmap.
             uvTestPattern = new Texture2D();
-            uvTestPattern.LoadImageData(Properties.Resources.UVPattern);
+            using (var bmp = Image.FromFile("Resources/UVPattern.png"))
+            {
+                uvTestPattern.LoadImageData((Bitmap)bmp);
+            }
 
             floatMagentaBlackStripes = TextureGenerator.CreateStripes(true, 64, 64);
 
@@ -82,7 +87,7 @@ namespace SFGraphicsGui
         private Shader CreateScreenTextureShader()
         {
             var shader = new Shader();
-            shader.LoadShaders(ResourceTextFile.GetFileText("SFGraphicsGui.Shaders.screenTexture.vert"), ResourceTextFile.GetFileText("SFGraphicsGui.Shaders.screenTexture.frag"));
+            shader.LoadShaders(File.ReadAllText("Shaders/screenTexture.vert"), File.ReadAllText("Shaders/screenTexture.frag"));
 
             return shader;
         }
