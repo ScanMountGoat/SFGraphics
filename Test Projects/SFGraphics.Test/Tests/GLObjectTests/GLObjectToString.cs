@@ -1,6 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenTK.Graphics.OpenGL;
-using RenderTestUtils;
 using SFGraphics.GLObjects.BufferObjects;
 using SFGraphics.GLObjects.Framebuffers;
 using SFGraphics.GLObjects.RenderBuffers;
@@ -11,15 +10,8 @@ using SFGraphics.GLObjects.VertexArrays;
 namespace SFGraphics.Test.GLObjectTests
 {
     [TestClass]
-    public class GLObjectToString
+    public class GLObjectToString : GraphicsContextTest
     {
-        [TestInitialize]
-        public void Initialize()
-        {
-            // Set up the context for all the tests.
-            OpenTKWindowlessContext.BindDummyContext();
-        }
-
         [TestMethod]
         public void Shader()
         {

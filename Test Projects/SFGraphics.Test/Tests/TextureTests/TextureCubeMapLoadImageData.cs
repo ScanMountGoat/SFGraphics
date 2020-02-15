@@ -5,12 +5,12 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenTK.Graphics.OpenGL;
 using SFGraphics.GLObjects.Textures;
 using SFGraphics.GLObjects.Textures.TextureFormats;
-using Tests;
+
 
 namespace SFGraphics.Test.TextureTests
 {
     [TestClass]
-    public class TextureCubeMapLoadImageData : ContextTest
+    public class TextureCubeMapLoadImageData : GraphicsContextTest
     {
         private static readonly List<byte[]> mipmaps = new List<byte[]>();
 

@@ -2,12 +2,12 @@
 using OpenTK.Graphics.OpenGL;
 using RenderTestUtils;
 using SFGraphics.GLObjects.Shaders;
-using Tests;
+
 
 namespace SFGraphics.Test.ShaderTests.ProgramCreationTests
 {
     [TestClass]
-    public class LinkError : ContextTest
+    public class LinkError : GraphicsContextTest
     {
         [TestMethod]
         public void FunctionNotDefined()

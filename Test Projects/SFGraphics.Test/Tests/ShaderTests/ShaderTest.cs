@@ -7,12 +7,12 @@ using OpenTK.Graphics.OpenGL;
 using RenderTestUtils;
 using SFGraphics.GLObjects.Shaders;
 using SFGraphics.GLObjects.Shaders.ShaderEventArgs;
-using Tests;
+
 
 namespace SFGraphics.Test.ShaderTests
 {
     [TestClass]
-    public abstract class ShaderTest : ContextTest
+    public abstract class ShaderTest : GraphicsContextTest
     {
         protected Shader shader;
 

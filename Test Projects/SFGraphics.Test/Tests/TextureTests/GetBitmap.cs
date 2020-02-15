@@ -3,12 +3,12 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenTK.Graphics.OpenGL;
 using SFGraphics.GLObjects.Textures;
 using SFGraphics.GLObjects.Textures.TextureFormats;
-using Tests;
+
 
 namespace SFGraphics.Test.TextureTests
 {
     [TestClass]
-    public class GetBitmap : ContextTest
+    public class GetBitmap : GraphicsContextTest
     {
         private readonly byte[] originalData = { 128, 0, 10, 255 };
 

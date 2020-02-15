@@ -4,12 +4,12 @@ using OpenTK.Graphics.OpenGL;
 using SFGraphics.GLObjects.BufferObjects;
 using SFGraphics.GLObjects.Textures;
 using SFGraphics.GLObjects.Textures.TextureFormats;
-using Tests;
+
 
 namespace SFGraphics.Test.TextureTests
 {
     [TestClass]
-    public class LoadImageDataBuffer : ContextTest
+    public class LoadImageDataBuffer : GraphicsContextTest
     {
         [TestMethod]
         public void UncompressedBaseLevel()

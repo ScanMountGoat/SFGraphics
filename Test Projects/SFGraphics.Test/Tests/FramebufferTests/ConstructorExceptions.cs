@@ -2,12 +2,11 @@
 using OpenTK.Graphics.OpenGL;
 using SFGraphics.GLObjects.Framebuffers;
 using System;
-using Tests;
 
 namespace SFGraphics.Test.FramebufferTests
 {
     [TestClass]
-    public class ConstructorExceptions : ContextTest
+    public class ConstructorExceptions : GraphicsContextTest
     {
         [TestMethod]
         public void NegativeColorAttachments()

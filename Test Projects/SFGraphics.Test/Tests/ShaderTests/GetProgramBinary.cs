@@ -2,12 +2,11 @@
 using OpenTK.Graphics.OpenGL;
 using RenderTestUtils;
 using SFGraphics.GLObjects.Shaders;
-using Tests;
 
 namespace SFGraphics.Test.ShaderTests
 {
     [TestClass]
-    public class GetProgramBinary : ContextTest
+    public class GetProgramBinary : GraphicsContextTest
     {
         [TestMethod]
         public void ValidProgram()

@@ -2,12 +2,12 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenTK.Graphics.OpenGL;
 using SFGraphics.GLObjects.Shaders;
-using Tests;
+
 
 namespace SFGraphics.Test.ShaderTests
 {
     [TestClass]
-    public class GetShaderSources : ContextTest
+    public class GetShaderSources : GraphicsContextTest
     {
         [TestMethod]
         public void NoShaders()

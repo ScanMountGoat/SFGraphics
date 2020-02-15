@@ -2,12 +2,12 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenTK.Graphics.OpenGL;
 using SFGraphics.GLObjects.Textures.Utils;
-using Tests;
+
 
 namespace SFGraphics.Test.TextureTests
 {
     [TestClass]
-    public class MipmapLoadingExceptions : ContextTest
+    public class MipmapLoadingExceptions : GraphicsContextTest
     {
         [TestMethod]
         public void LoadImageData2DBitmap()

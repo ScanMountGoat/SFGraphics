@@ -8,16 +8,16 @@ using SFGraphics.GLObjects.Shaders.ShaderEventArgs;
 namespace SFGraphics.Test.ShaderTests.ProgramCreationTests
 {
     [TestClass]
-    public class OnLinkStatusChanged
+    public class OnLinkStatusChanged : GraphicsContextTest
     {
         private Shader shader;
-        private List<LinkStatusEventArgs> linkChangedEvents = new List<LinkStatusEventArgs>();
+        private readonly List<LinkStatusEventArgs> linkChangedEvents = new List<LinkStatusEventArgs>();
         
         [TestInitialize]
-        public void Initialize()
+        public override void Initialize()
         {
             // Set up the context for all the tests.
-            OpenTKWindowlessContext.BindDummyContext();
+            base.Initialize();
             shader = new Shader();
             shader.OnLinkStatusChanged += Shader_OnLinkStatusChanged;
         }

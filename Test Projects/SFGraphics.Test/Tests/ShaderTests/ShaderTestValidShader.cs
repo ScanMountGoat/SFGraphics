@@ -7,7 +7,7 @@ using SFGraphics.GLObjects.Shaders.ShaderEventArgs;
 namespace SFGraphics.Test.ShaderTests
 {
     [TestClass]
-    class ShaderTestValidShader
+    internal class ShaderTestValidShader
     {
         protected Shader shader;
         protected List<UniformSetEventArgs> eventArgs = new List<UniformSetEventArgs>();

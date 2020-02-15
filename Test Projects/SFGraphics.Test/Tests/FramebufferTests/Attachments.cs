@@ -5,12 +5,11 @@ using SFGraphics.GLObjects.Framebuffers;
 using SFGraphics.GLObjects.RenderBuffers;
 using SFGraphics.GLObjects.Textures;
 using SFGraphics.GLObjects.Textures.TextureFormats;
-using Tests;
 
 namespace SFGraphics.Test.FramebufferTests
 {
     [TestClass]
-    public class Attachments : ContextTest
+    public class Attachments : GraphicsContextTest
     {
         [TestMethod]
         public void NoAttachments()

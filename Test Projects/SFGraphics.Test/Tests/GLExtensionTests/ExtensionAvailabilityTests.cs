@@ -1,11 +1,10 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SFGraphics.GlUtils;
-using Tests;
 
 namespace SFGraphics.Test.GLExtensionTests
 {
     [TestClass]
-    public class ExtensionAvailabilityTests : ContextTest
+    public class ExtensionAvailabilityTests : GraphicsContextTest
     {
         [TestMethod]
         public void CorrectName()

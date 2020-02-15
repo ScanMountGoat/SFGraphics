@@ -1,11 +1,11 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SFGraphics.GLObjects.Shaders;
-using Tests;
+
 
 namespace SFGraphics.Test.ShaderTests.ProgramCreationTests
 {
     [TestClass]
-    public class NoShaders : ContextTest
+    public class NoShaders : GraphicsContextTest
     {
         [TestMethod]
         public void NoAttachedShaders()

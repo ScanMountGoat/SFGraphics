@@ -2,12 +2,12 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenTK.Graphics.OpenGL;
 using SFGraphics.GLObjects.Textures;
-using Tests;
+
 
 namespace SFGraphics.Test.TextureTests
 {
     [TestClass]
-    public class DepthTextureConstructor : ContextTest
+    public class DepthTextureConstructor : GraphicsContextTest
     {
         [TestMethod]
         public void DepthFormat()

@@ -6,15 +6,8 @@ using SFGraphics.GLObjects.Shaders;
 namespace SFGraphics.Test.ShaderTests.ProgramCreationTests
 {
     [TestClass]
-    public class AttachShader
+    public class AttachShader : GraphicsContextTest
     {
-        [TestInitialize]
-        public void Initialize()
-        {
-            // Set up the context for all the tests.
-            OpenTKWindowlessContext.BindDummyContext();
-        }
-
         [TestMethod]
         public void ValidFragShader()
         {

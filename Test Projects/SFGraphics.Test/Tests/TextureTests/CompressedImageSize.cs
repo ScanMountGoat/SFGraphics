@@ -1,13 +1,12 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenTK.Graphics.OpenGL;
-using RenderTestUtils;
 using SFGraphics.GLObjects.Textures.TextureFormats;
+using System;
 
 namespace SFGraphics.Test.TextureTests
 {
     [TestClass]
-    public class CompressedImageSize
+    public class CompressedImageSize : GraphicsContextTest
     {
         private static readonly int width = 8;
         private static readonly int height = 2;
@@ -16,7 +15,7 @@ namespace SFGraphics.Test.TextureTests
         public void TestSetup()
         {
             // Set up the context for all the tests.
-            OpenTKWindowlessContext.BindDummyContext();
+            base.Initialize();
 
             // Binding a pixel unpack buffer affects texture loading methods.
             GL.BindBuffer(BufferTarget.PixelUnpackBuffer, 0);

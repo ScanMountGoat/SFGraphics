@@ -1,13 +1,12 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenTK.Graphics.OpenGL;
 using SFGraphics.GLObjects.RenderBuffers;
-using Tests;
 using System;
 
 namespace SFGraphics.Test.RenderbufferTests
 {
     [TestClass]
-    public class ConstructorExceptions : ContextTest
+    public class ConstructorExceptions : GraphicsContextTest
     {
         [TestMethod]
         public void NegativeWidth()

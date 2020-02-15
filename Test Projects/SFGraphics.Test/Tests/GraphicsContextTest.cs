@@ -1,10 +1,10 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RenderTestUtils;
 
-namespace Tests
+namespace SFGraphics.Test
 {
     [TestClass]
-    public abstract class ContextTest
+    public abstract class GraphicsContextTest
     {
         [TestInitialize]
         public virtual void Initialize()

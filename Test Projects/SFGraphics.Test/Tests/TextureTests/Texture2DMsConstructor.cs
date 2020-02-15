@@ -2,12 +2,12 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenTK.Graphics.OpenGL;
 using SFGraphics.GLObjects.Textures;
-using Tests;
+
 
 namespace SFGraphics.Test.TextureTests
 {
     [TestClass]
-    public class Texture2DMsConstructor : ContextTest
+    public class Texture2DMsConstructor : GraphicsContextTest
     {
         [TestMethod]
         public void ValidSampleCount()

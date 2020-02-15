@@ -2,12 +2,12 @@
 using OpenTK.Graphics.OpenGL;
 using SFGraphics.GLObjects.Textures;
 using SFGraphics.GLObjects.Textures.TextureFormats;
-using Tests;
+
 
 namespace SFGraphics.Test.TextureTests
 {
     [TestClass]
-    public class GetImageData : ContextTest
+    public class GetImageData : GraphicsContextTest
     {
         private readonly byte[] originalData = { 128, 255, 0, 10 };
 
