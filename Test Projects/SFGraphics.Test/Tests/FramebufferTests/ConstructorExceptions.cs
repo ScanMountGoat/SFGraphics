@@ -1,21 +1,14 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenTK.Graphics.OpenGL;
-using RenderTestUtils;
 using SFGraphics.GLObjects.Framebuffers;
+using System;
+using Tests;
 
 namespace SFGraphics.Test.FramebufferTests
 {
     [TestClass]
-    public class ConstructorExceptions
+    public class ConstructorExceptions : ContextTest
     {
-        [TestInitialize]
-        public void Initialize()
-        {
-            // Set up the context for all the tests.
-            OpenTKWindowlessContext.BindDummyContext();
-        }
-
         [TestMethod]
         public void NegativeColorAttachments()
         {

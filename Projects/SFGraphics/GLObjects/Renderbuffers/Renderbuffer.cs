@@ -1,4 +1,5 @@
-﻿using OpenTK.Graphics.OpenGL;
+﻿using System;
+using OpenTK.Graphics.OpenGL;
 using SFGraphics.GLObjects.Framebuffers;
 
 namespace SFGraphics.GLObjects.RenderBuffers
@@ -33,6 +34,12 @@ namespace SFGraphics.GLObjects.RenderBuffers
             Width = width;
             Height = height;
 
+            if (Width < 0)
+                throw new ArgumentOutOfRangeException("width", "Dimensions must be non negative.");
+
+            if (Height < 0)
+                throw new ArgumentOutOfRangeException("height", "Dimensions must be non negative.");
+
             // Allocate storage for the renderbuffer.
             Bind();
             GL.RenderbufferStorage(RenderbufferTarget.Renderbuffer, internalFormat, width, height);
@@ -50,6 +57,12 @@ namespace SFGraphics.GLObjects.RenderBuffers
         {
             Width = width;
             Height = height;
+
+            if (Width < 0)
+                throw new ArgumentOutOfRangeException("width", "Dimensions must be non negative.");
+
+            if (Height < 0)
+                throw new ArgumentOutOfRangeException("height", "Dimensions must be non negative.");
 
             // Allocate storage for the renderbuffer.
             Bind();

@@ -78,6 +78,7 @@
     <Compile Include="Tests\ReferenceCountTests\RemoveReference.cs" />
     <Compile Include="Tests\ReferenceCountTests\GetObjectsWithNoReferencesTests.cs" />
     <Compile Include="Tests\ReferenceCountTests\AddReference.cs" />
+    <Compile Include="Tests\RenderbufferTests\ConstructorExceptions.cs" />
     <Compile Include="Tests\ShaderTests\GetAttribLocation.cs" />
     <Compile Include="Tests\ShaderTests\GetProgramBinary.cs" />
     <Compile Include="Tests\ShaderTests\GetShaderSources.cs" />
