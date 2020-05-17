@@ -7,12 +7,20 @@ using SFGraphics.GLObjects.Textures;
 using SFGraphics.GLObjects.Textures.TextureFormats;
 
 
-namespace SFGraphics.Test.TextureTests
+namespace SFGraphics.Test.TextureTests.TextureCubeMapTests
 {
     [TestClass]
     public class TextureCubeMapLoadImageData : GraphicsContextTest
     {
         private static readonly List<byte[]> mipmaps = new List<byte[]>();
+
+        [TestInitialize]
+        public override void Initialize()
+        {
+            base.Initialize();
+            mipmaps.Add(new byte[8]);
+            mipmaps.Add(new byte[8]);
+        }
 
         [TestMethod]
         public void InvalidMipmapCount()
@@ -63,6 +71,18 @@ namespace SFGraphics.Test.TextureTests
             var format = new TextureFormatUncompressed(PixelInternalFormat.Rgba32f, PixelFormat.Rgba, PixelType.Float);
             texture.LoadImageData(128, format,
                 mipmaps, mipmaps, mipmaps, mipmaps, mipmaps, mipmaps);
+
+            Assert.AreEqual(128, texture.Width);
+            Assert.AreEqual(128, texture.Height);
+        }
+
+        [TestMethod]
+        public void UncompressedGenerateMipmaps()
+        {
+            var texture = new TextureCubeMap();
+            var format = new TextureFormatUncompressed(PixelInternalFormat.Rgba32f, PixelFormat.Rgba, PixelType.Float);
+            texture.LoadImageData(128, format,
+                mipmaps[0], mipmaps[0], mipmaps[0], mipmaps[0], mipmaps[0], mipmaps[0]);
 
             Assert.AreEqual(128, texture.Width);
             Assert.AreEqual(128, texture.Height);

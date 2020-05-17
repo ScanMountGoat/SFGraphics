@@ -121,9 +121,7 @@ namespace SFGraphics.GLObjects.Textures.Utils
         public static void LoadBaseLevelGenerateMipmaps(TextureTarget target, Bitmap image)
         {
             LoadUncompressedMipLevel(target, image, 0);
-
-            if (!TextureFormatTools.IsCubeMapTarget(target))
-                GL.GenerateMipmap((GenerateMipmapTarget)target);
+            GenerateMipmaps(target);
         }
 
         /// <summary>
@@ -139,8 +137,7 @@ namespace SFGraphics.GLObjects.Textures.Utils
             T[] baseMipLevel, InternalFormat format) where T : struct
         {
             LoadCompressedMipLevel(target, width, height, baseMipLevel, format, 0);
-
-            GL.GenerateMipmap((GenerateMipmapTarget)target);
+            GenerateMipmaps(target);
         }
 
         /// <summary>
@@ -155,8 +152,7 @@ namespace SFGraphics.GLObjects.Textures.Utils
             BufferObject baseMipLevel, InternalFormat internalFormat)
         {
             LoadCompressedMipLevel(target, width, height, baseMipLevel, internalFormat, 0);
-
-            GL.GenerateMipmap((GenerateMipmapTarget)target);
+            GenerateMipmaps(target);
         }
 
         /// <summary>
@@ -172,8 +168,7 @@ namespace SFGraphics.GLObjects.Textures.Utils
             T[] baseMipLevel, TextureFormatUncompressed format) where T : struct
         {
             LoadUncompressedMipLevel(target, width, height, baseMipLevel, format, 0);
-
-            GL.GenerateMipmap((GenerateMipmapTarget)target);
+            GenerateMipmaps(target);
         }
 
         /// <summary>
@@ -188,8 +183,7 @@ namespace SFGraphics.GLObjects.Textures.Utils
             BufferObject baseMipLevel, TextureFormatUncompressed format)
         {
             LoadUncompressedMipLevel(target, width, height, baseMipLevel, format, 0);
-
-            GL.GenerateMipmap((GenerateMipmapTarget)target);
+            GenerateMipmaps(target);
         }
 
         /// <summary>
@@ -215,6 +209,9 @@ namespace SFGraphics.GLObjects.Textures.Utils
 
             LoadBaseLevelGenerateMipmaps(TextureTarget.TextureCubeMapPositiveZ, length, length, posZ, format);
             LoadBaseLevelGenerateMipmaps(TextureTarget.TextureCubeMapNegativeZ, length, length, negZ, format);
+
+            // Mipmaps can't be generated until the texture is cube map complete.
+            GL.GenerateMipmap(GenerateMipmapTarget.TextureCubeMap);
         }
 
         /// <summary>
@@ -273,6 +270,23 @@ namespace SFGraphics.GLObjects.Textures.Utils
 
             LoadCompressedMipMaps(TextureTarget.TextureCubeMapPositiveZ, length, length, mipsPosZ, format);
             LoadCompressedMipMaps(TextureTarget.TextureCubeMapNegativeZ, length, length, mipsNegZ, format);
+        }
+
+        private static void GenerateMipmaps(TextureTarget target)
+        {
+            if (!TextureFormatTools.IsCubeMapTarget(target))
+                GL.GenerateMipmap(GetMipmapTarget(target));
+        }
+
+        private static GenerateMipmapTarget GetMipmapTarget(TextureTarget target)
+        {
+            // TODO: Support other types.
+            if (target == TextureTarget.Texture2D)
+                return GenerateMipmapTarget.Texture2D;
+            if (target.ToString().ToLower().Contains("cubemap"))
+                return GenerateMipmapTarget.TextureCubeMap;
+
+            throw new NotImplementedException($"{target} is not supported for mipmap generation.");
         }
 
         private static void SetMaxMipLevel<T>(TextureTarget target, IList<T> mipmaps)
