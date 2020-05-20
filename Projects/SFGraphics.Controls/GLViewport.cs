@@ -158,7 +158,8 @@ namespace SFGraphics.Controls
                 // Make sure the rendering thread exits.
                 renderThreadShouldClose = true;
                 shouldRender.Set();
-                renderThread.Join();
+                if (renderThread.IsAlive)
+                    renderThread.Join();
 
                 base.Dispose(disposing);
 

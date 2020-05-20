@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27703.2026
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFGraphics", "Projects\SFGraphics\SFGraphics.csproj", "{A62E9240-EF67-41E5-A4E1-43F0AFA759F4}"
 EndProject
@@ -32,6 +32,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFShaderLoader.Test", "Test Projects\SFShaderLoader.Test\SFShaderLoader.Test.csproj", "{CE0AB008-0C14-4DC0-8F66-8C6F902E0315}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFGraphicsGui", "Example Projects\SFGraphicsGui\SFGraphicsGui.csproj", "{48F8F66F-C91E-4B08-86C1-F5291D1509C4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFGraphics.Controls.Test", "Test Projects\SFGraphics.Controls.Test\SFGraphics.Controls.Test.csproj", "{C2177742-6B80-4410-B146-8054F28DC022}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -87,6 +89,10 @@ Global
 		{48F8F66F-C91E-4B08-86C1-F5291D1509C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{48F8F66F-C91E-4B08-86C1-F5291D1509C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{48F8F66F-C91E-4B08-86C1-F5291D1509C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2177742-6B80-4410-B146-8054F28DC022}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2177742-6B80-4410-B146-8054F28DC022}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2177742-6B80-4410-B146-8054F28DC022}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2177742-6B80-4410-B146-8054F28DC022}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -104,6 +110,7 @@ Global
 		{33FFA062-9FE2-4C96-A546-D76F43CE54D5} = {EF1FFAC2-D7BD-4A7B-8802-D0F8A17AB9DA}
 		{CE0AB008-0C14-4DC0-8F66-8C6F902E0315} = {AE6192C9-298F-470D-AE6F-DF2B29554CE4}
 		{48F8F66F-C91E-4B08-86C1-F5291D1509C4} = {B7BAD9C1-C7D9-4CDE-B9AF-68ACAD0BAF40}
+		{C2177742-6B80-4410-B146-8054F28DC022} = {AE6192C9-298F-470D-AE6F-DF2B29554CE4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A5FFF81B-43BA-4824-9A6D-EC21147BDC9C}

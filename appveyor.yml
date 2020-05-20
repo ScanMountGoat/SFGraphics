@@ -35,6 +35,7 @@ test:
     - '**\Test Projects\SFGraphics.Test\bin\Release\SFGraphics.Test.dll'
     - '**\Test Projects\SFGenericModel.Test\bin\Release\SFGenericModel.Test.dll'
     - '**\Test Projects\SFShaderLoader.Test\bin\Release\SFShaderLoader.Test.dll'
+    - '**\Test Projects\SFGraphics.Controls.Test\bin\Release\SFGraphics.Controls.Test.dll'
 
 after_build:
     - 7z a "SFGraphics.zip" "%APPVEYOR_BUILD_FOLDER%\Projects\SFGraphics\bin\Release\SFGraphics.dll"
