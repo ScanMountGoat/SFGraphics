@@ -57,7 +57,30 @@ namespace SFGraphics.Utils
         }
 
         /// <summary>
-        /// Calculates normalized, smooth tangents and bitangents for the given vertex data. Bitangents are adjusted to account for mirrored UVs.
+        /// Calculates normalized, smooth tangents. Bitangents can be generated as <code>cross(N.xyz, T.xyz) * T.w</code>
+        /// </summary>
+        /// <param name="positions">The vertex positions</param>
+        /// <param name="normals">The vertex normals</param>
+        /// <param name="uvs">The vertex texture coordinates</param>
+        /// <param name="indices">The indices used to define the triangle faces</param>
+        /// <param name="tangents">The newly generated tangents</param>
+        /// <param name="bitangents">The newly generated bitangents</param>
+        public static void CalculateTangents(IList<Vector3> positions, IList<Vector3> normals, IList<Vector2> uvs, IList<int> indices, out Vector4[] tangents)
+        {
+            CalculateTangentsBitangents(positions, normals, uvs, indices, out Vector3[] tangentsVec3, out Vector3[] bitangentsVec3);
+
+            tangents = new Vector4[tangentsVec3.Length];
+            // Account for mirrored normal maps.
+            // Instead of storing the bitangent, store if the bitangent should be flipped in W.
+            for (int i = 0; i < tangentsVec3.Length; i++)
+            {
+                tangents[i].Xyz = tangentsVec3[i];
+                tangents[i].W = -1 * System.Math.Sign(Vector3.Dot(Vector3.Cross(tangents[i].Xyz, bitangentsVec3[i]), normals[i]));
+            }
+        }
+
+        /// <summary>
+        /// Calculates normalized, smooth normals for the given vertex positions.
         /// </summary>
         /// <param name="positions">The vertex positions</param>
         /// <param name="normals">The vertex normals</param>
