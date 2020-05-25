@@ -112,6 +112,19 @@ namespace SFGraphics.Utils
             return Vector3.Cross(U, V);
         }
 
+        /// <summary>
+        /// Calculates the W component for a 4 component tangent vector.
+        /// The bitangent can be generated as <code>cross(N.xyz, T.xyz) * T.w</code>
+        /// </summary>
+        /// <param name="normal">The vertex normal</param>
+        /// <param name="tangent"></param>
+        /// <param name="bitangent"></param>
+        /// <returns><code>1.0</code> if the bitangent should not flipped, <code>-1.0</code> if the bitangent should be flipped</returns>
+        public static float CalculateTangentW(Vector3 normal, Vector3 tangent, Vector3 bitangent)
+        {
+            return -1 * Math.Sign(Vector3.Dot(Vector3.Cross(tangent, bitangent), normal));
+        }
+
         private static Vector3 CalculateBitangent(Vector3 posA, Vector3 posB, Vector2 uvA, Vector2 uvB, float r)
         {
             Vector3 bitangent;
