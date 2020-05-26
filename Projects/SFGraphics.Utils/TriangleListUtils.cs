@@ -46,13 +46,17 @@ namespace SFGraphics.Utils
 
             for (int i = 0; i < tangents.Length; i++)
             {
+                // Check to prevent potential NaN after this step.
+                // TODO: Why does this happen?
+                if (tangents[i].LengthSquared == 0.0)
+                    tangents[i] = VectorUtils.defaultTangent;
                 tangents[i].Normalize();
             }
 
             // Account for mirrored normal maps.
             for (int i = 0; i < bitangents.Length; i++)
             {
-                // Check to prevent potential NaN after this step.
+                // Check to prevent potential NaN.
                 // TODO: Why does this happen?
                 if (bitangents[i].LengthSquared == 0.0)
                     bitangents[i] = VectorUtils.defaultBitangent;
