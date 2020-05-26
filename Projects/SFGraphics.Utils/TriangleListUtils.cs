@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using OpenTK;
 
 namespace SFGraphics.Utils
@@ -51,6 +52,10 @@ namespace SFGraphics.Utils
             // Account for mirrored normal maps.
             for (int i = 0; i < bitangents.Length; i++)
             {
+                // Check to prevent potential NaN after this step.
+                // TODO: Why does this happen?
+                if (bitangents[i].LengthSquared == 0.0)
+                    bitangents[i] = VectorUtils.defaultBitangent;
                 bitangents[i] = VectorUtils.Orthogonalize(bitangents[i], normals[i]);
                 bitangents[i] *= -1;
             }
