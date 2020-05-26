@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using OpenTK;
+using SFGraphics.GLObjects.Samplers;
 using SFGraphics.GLObjects.Shaders;
 using SFGraphics.GLObjects.Textures;
 
@@ -37,6 +38,7 @@ namespace SFGenericModel.Materials
 
         private readonly List<string> textureUniformNames = new List<string>();
         private readonly List<Texture> textureValues = new List<Texture>();
+        private readonly List<SamplerObject> samplerValues = new List<SamplerObject>();
 
         /// <summary>
         /// Creates an empty generic material.
@@ -142,6 +144,20 @@ namespace SFGenericModel.Materials
         {
             textureUniformNames.Add(uniformName);
             textureValues.Add(value);
+            samplerValues.Add(null);
+        }
+
+        /// <summary>
+        /// Adds a sampler uniform to the material.
+        /// </summary>
+        /// <param name="uniformName">The name of the uniform variable</param>
+        /// <param name="value">The value to set for the uniform</param>
+        /// <param name="sampler">A sampler for the texture <paramref name="value"/></param>
+        public void AddTexture(string uniformName, Texture value, SamplerObject sampler)
+        {
+            textureUniformNames.Add(uniformName);
+            textureValues.Add(value);
+            samplerValues.Add(sampler);
         }
 
         /// <summary>
@@ -184,6 +200,8 @@ namespace SFGenericModel.Materials
             for (int i = 0; i < textureUniformNames.Count; i++)
             {
                 shader.SetTexture(textureUniformNames[i], textureValues[i], textureIndex);
+                if (samplerValues[i] != null)
+                    samplerValues[i].Bind(textureIndex);
                 textureIndex++;
             }
         }
