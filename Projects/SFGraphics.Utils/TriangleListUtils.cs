@@ -57,7 +57,9 @@ namespace SFGraphics.Utils
             // Account for mirrored normal maps.
             for (int i = 0; i < bitangents.Length; i++)
             {
-                bitangents[i] = VectorUtils.Orthogonalize(bitangents[i], normals[i]);
+                // The default bitangent may be parallel to the normal vector.
+                if (Vector3.Cross(bitangents[i], normals[i]).Length != 0.0f)
+                    bitangents[i] = VectorUtils.Orthogonalize(bitangents[i], normals[i]);
                 bitangents[i] *= -1;
             }
 
