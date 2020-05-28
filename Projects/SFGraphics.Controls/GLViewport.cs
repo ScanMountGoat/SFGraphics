@@ -15,7 +15,7 @@ namespace SFGraphics.Controls
         /// <summary>
         /// The default graphics mode for rendering. Enables depth/stencil buffers and anti-aliasing. 
         /// </summary>
-        public static readonly GraphicsMode defaultGraphicsMode = new GraphicsMode(new ColorFormat(8, 8, 8, 8), 24, 8, 16);
+        public static readonly GraphicsMode defaultGraphicsMode = new GraphicsMode(new ColorFormat(8, 8, 8, 8), 24, 8, 2);
 
         /// <summary>
         /// Describes the arguments used for a rendered frame. 
@@ -51,12 +51,20 @@ namespace SFGraphics.Controls
         private bool disposed;
 
         /// <summary>
-        /// Creates a new viewport with <see cref="defaultGraphicsMode"/>.
+        /// Creates a new viewport with <paramref name="graphicsMode"/>.
         /// </summary>
-        public GLViewport() : base(defaultGraphicsMode)
+        public GLViewport(GraphicsMode graphicsMode) : base(graphicsMode)
         {
             // Rendering should stop when the application exits.
             renderThread = new Thread(FrameTimingLoop) { IsBackground = true };
+        }
+
+        /// <summary>
+        /// Creates a new viewport with <see cref="defaultGraphicsMode"/>.
+        /// </summary>
+        public GLViewport() : this(defaultGraphicsMode)
+        {
+         
         }
 
         /// <summary>
