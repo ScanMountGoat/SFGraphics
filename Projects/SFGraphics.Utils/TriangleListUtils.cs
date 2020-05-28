@@ -44,24 +44,27 @@ namespace SFGraphics.Utils
                 bitangents[indices[i + 2]] += bitangent;
             }
 
+            // Even if the vectors are not zero, they may still sum to zero.
             for (int i = 0; i < tangents.Length; i++)
             {
-                // Check to prevent potential NaN after this step.
-                // TODO: Why does this happen?
-                if (tangents[i].LengthSquared == 0.0)
+                if (tangents[i].Length == 0.0f)
                     tangents[i] = VectorUtils.defaultTangent;
-                tangents[i].Normalize();
+
+                if (bitangents[i].Length == 0.0f)
+                    bitangents[i] = VectorUtils.defaultBitangent;
             }
 
             // Account for mirrored normal maps.
             for (int i = 0; i < bitangents.Length; i++)
             {
-                // Check to prevent potential NaN.
-                // TODO: Why does this happen?
-                if (bitangents[i].LengthSquared == 0.0)
-                    bitangents[i] = VectorUtils.defaultBitangent;
                 bitangents[i] = VectorUtils.Orthogonalize(bitangents[i], normals[i]);
                 bitangents[i] *= -1;
+            }
+
+            for (int i = 0; i < tangents.Length; i++)
+            {
+                tangents[i].Normalize();
+                bitangents[i].Normalize();
             }
         }
 

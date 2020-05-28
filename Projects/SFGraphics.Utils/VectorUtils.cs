@@ -74,24 +74,22 @@ namespace SFGraphics.Utils
             Vector2 uvA = uv2 - uv1;
             Vector2 uvB = uv3 - uv1;
 
-            bool overrideValues = PositionsOrUvsAreEqual(posA, posB, uvA, uvB);
-            if (overrideValues)
-            {
-                // Pick some arbitrary tangent vectors.
-                tangent = defaultTangent;
-                bitangent = defaultBitangent;
-                return;
-            }
-
             float div = (uvA.X * uvB.Y - uvB.X * uvA.Y);
 
-            // Fix +/- infinity from division by 0.
+            // Fix +/- infinity from division by zero.
             float r = 1.0f;
             if (div != 0)
                 r = 1.0f / div;
 
             tangent = CalculateTangent(posA, posB, uvA, uvB, r);
             bitangent = CalculateBitangent(posA, posB, uvA, uvB, r);
+
+            // Set zero vectors to arbitrarily chosen orthogonal vectors.
+            // This prevents unwanted black areas when rendering.
+            if (tangent.Length == 0.0f)
+                tangent = defaultTangent;
+            if (bitangent.Length == 0.0f)
+                bitangent = defaultBitangent;
         }
 
         /// <summary>
@@ -147,14 +145,12 @@ namespace SFGraphics.Utils
 
         private static bool AlmostEqual(float a, float b, float delta = 0.00075f)
         {
-            // Check if a and b are within a delta neighborhood of each other.
             return Math.Abs(a - b) < delta;
         }
 
         private static bool PositionsOrUvsAreEqual(Vector3 posA, Vector3 posB, Vector2 uvA, Vector2 uvB)
         {
-            // Prevent black tangents/bitangents for vertices with 
-            // the same UV coordinates or position. 
+            // Prevent black tangents/bitangents for vertices with the same UV coordinates or position. 
             bool sameU = AlmostEqual(uvA.X, 0) && AlmostEqual(uvB.X, 0);
             bool sameV = AlmostEqual(uvA.Y, 0) && AlmostEqual(uvB.Y, 0);
             bool sameX = AlmostEqual(posA.X, 0) && AlmostEqual(posB.X, 0);
