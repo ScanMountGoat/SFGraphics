@@ -18,6 +18,7 @@ namespace SFGenericModel.Materials
         /// </summary>
         public int InitialTextureUnit { get; }
 
+        // TODO: Why are these not dictionaries?
         private readonly List<string> floatUniformNames = new List<string>();
         private readonly List<float> floatValues = new List<float>();
 
@@ -162,47 +163,91 @@ namespace SFGenericModel.Materials
 
         /// <summary>
         /// Sets uniform values for all the added uniform values.
+        /// Redundant setting of texture uniform is skipped to improve performance.
         /// </summary>
         /// <param name="shader">The shader whose uniforms will be set</param>
-        public void SetShaderUniforms(Shader shader)
+        /// <param name="previousMaterial">The previous material used to set this shader's uniforms</param>
+        public void SetShaderUniforms(Shader shader, GenericMaterial previousMaterial = null)
+        {
+            SetIntUniforms(shader);
+            SetFloatUniforms(shader);
+            SetVec2Uniforms(shader);
+            SetVec3Uniforms(shader);
+            SetVec4Uniforms(shader);
+            SetMat4Uniforms(shader);
+            SetTextureUniforms(shader, previousMaterial);
+        }
+
+        private void SetTextureUniforms(Shader shader, GenericMaterial previousMaterial)
+        {
+            int textureIndex = InitialTextureUnit;
+            for (int i = 0; i < textureUniformNames.Count; i++)
+            {
+                var name = textureUniformNames[i];
+                var value = textureValues[i];
+
+                // If the same texture is bound to this texture unit, we don't need to set it again.
+                bool shouldSkip = previousMaterial != null 
+                    && i < previousMaterial.textureUniformNames.Count 
+                    && previousMaterial.textureUniformNames[i] == name 
+                    && previousMaterial.textureValues[i] == value;
+
+                if (!shouldSkip)
+                {
+                    shader.SetTexture(name, value, textureIndex);
+                    if (samplerValues[i] != null)
+                        samplerValues[i].Bind(textureIndex);
+                }
+
+                textureIndex++;
+            }
+        }
+
+        private void SetIntUniforms(Shader shader)
         {
             for (int i = 0; i < intUniformNames.Count; i++)
             {
                 shader.SetInt(intUniformNames[i], intValues[i]);
             }
+        }
 
+        private void SetFloatUniforms(Shader shader)
+        {
             for (int i = 0; i < floatUniformNames.Count; i++)
             {
                 shader.SetFloat(floatUniformNames[i], floatValues[i]);
             }
+        }
 
+        private void SetVec2Uniforms(Shader shader)
+        {
             for (int i = 0; i < vec2UniformNames.Count; i++)
             {
                 shader.SetVector2(vec2UniformNames[i], vec2Values[i]);
             }
+        }
 
+        private void SetVec3Uniforms(Shader shader)
+        {
             for (int i = 0; i < vec3UniformNames.Count; i++)
             {
                 shader.SetVector3(vec3UniformNames[i], vec3Values[i]);
             }
+        }
 
+        private void SetVec4Uniforms(Shader shader)
+        {
             for (int i = 0; i < vec4UniformNames.Count; i++)
             {
                 shader.SetVector4(vec4UniformNames[i], vec4Values[i]);
             }
+        }
 
+        private void SetMat4Uniforms(Shader shader)
+        {
             for (int i = 0; i < mat4UniformNames.Count; i++)
             {
                 shader.SetMatrix4x4(mat4UniformNames[i], mat4Values[i]);
-            }
-
-            int textureIndex = InitialTextureUnit;
-            for (int i = 0; i < textureUniformNames.Count; i++)
-            {
-                shader.SetTexture(textureUniformNames[i], textureValues[i], textureIndex);
-                if (samplerValues[i] != null)
-                    samplerValues[i].Bind(textureIndex);
-                textureIndex++;
             }
         }
     }
