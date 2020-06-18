@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using OpenTK.Graphics.OpenGL;
 using SFGraphics.GLObjects.Shaders.Utils;
 using SFGraphics.GLObjects.Shaders.ShaderEventArgs;
+using System.Runtime.ExceptionServices;
 
 namespace SFGraphics.GLObjects.Shaders
 {
@@ -151,7 +152,6 @@ namespace SFGraphics.GLObjects.Shaders
 
         /// <summary>
         /// Attaches <paramref name="shaderId"/> and links the program. 
-        /// The value for <see cref="LinkStatusIsOk"/> is updated.
         /// </summary>
         /// <param name="shaderId">The integer ID returned by <see cref="CreateGlShader(string, ShaderType)"/></param>
         /// <param name="shaderType">The type of shader.
@@ -265,20 +265,30 @@ namespace SFGraphics.GLObjects.Shaders
 
         /// <summary>
         /// Loads the entire program from the compiled binary and format.
-        /// The value returned by <see cref="LinkStatusIsOk"/> is updated.
         /// <para></para><para></para>
         /// Hardware or software changes may cause compatibility issues with the program binary.
         /// If program creation fails with precompiled binaries, resort to compiling the shaders from source. 
         /// </summary>
         /// <param name="binaryFormat">The format of the compiled binary</param>
         /// <param name="programBinary">The compiled program binary</param>
-        public void LoadProgramBinary(byte[] programBinary, BinaryFormat binaryFormat)
+        /// <returns><c>true</c> if the binary was loaded successfully</returns>
+        [HandleProcessCorruptedStateExceptions]
+        public bool TryLoadProgramBinary(byte[] programBinary, BinaryFormat binaryFormat)
         {
-            // Linking isn't necessary when loading a program binary.
-            GL.ProgramBinary(Id, binaryFormat, programBinary, programBinary.Length);
-            LinkStatusIsOk = ShaderValidation.GetProgramLinkStatus(Id);
+            try
+            {
+                // Linking isn't necessary when loading a program binary.
+                GL.ProgramBinary(Id, binaryFormat, programBinary, programBinary.Length);
+            }
+            catch (AccessViolationException)
+            {
+                // The binary is corrupt or the wrong format. 
+                return false;
+            }
 
-            LoadShaderVariables();
+            LinkStatusIsOk = ShaderValidation.GetProgramLinkStatus(Id);
+            TryLoadShaderVariables();
+            return true;
         }
 
         /// <summary>
@@ -396,17 +406,18 @@ namespace SFGraphics.GLObjects.Shaders
             GL.LinkProgram(Id);
             LinkStatusIsOk = ShaderValidation.GetProgramLinkStatus(Id);
 
-            LoadShaderVariables();
+            TryLoadShaderVariables();
         }
 
-        private void LoadShaderVariables()
+        private bool TryLoadShaderVariables()
         {
             // Scary things happen if we do this after a linking error.
             if (!LinkStatusIsOk)
-                return;
+                return false;
 
             LoadAttributes();
             LoadUniforms();
+            return true;
         }
 
         private void AddActiveAttribute(int index)

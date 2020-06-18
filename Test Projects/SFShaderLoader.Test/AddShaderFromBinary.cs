@@ -19,7 +19,6 @@ namespace SFShaderLoader.Test
         [TestMethod]
         public void AddValidBinary()
         {
-            // Compile a separate shader program to get the binaries.
             var shader = new Shader();
             shader.LoadShaders(File.ReadAllText("Shaders/valid.vert"), File.ReadAllText("Shaders/valid.frag"));
             shader.GetProgramBinary(out byte[] binary, out BinaryFormat format);
@@ -30,12 +29,12 @@ namespace SFShaderLoader.Test
         [TestMethod]
         public void AddInvalidBinary()
         {
-            // Compile a separate shader program to get the binaries.
             var shader = new Shader();
             shader.LoadShaders(File.ReadAllText("Shaders/valid.vert"), File.ReadAllText("Shaders/valid.frag"));
             shader.GetProgramBinary(out byte[] binary, out BinaryFormat format);
 
-            Assert.IsFalse(loader.AddShader("validShader", new byte[10], format));
+            // Use an empty binary to try and trigger an exception with GL.ProgramBinary.
+            Assert.IsFalse(loader.AddShader("validShader", new byte[0], format));
         }
     }
 }

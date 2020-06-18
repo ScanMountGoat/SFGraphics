@@ -44,7 +44,7 @@ namespace SFShaderLoader
         public bool AddShader(string name, byte[] shaderBinary, BinaryFormat binaryFormat)
         {
             var shader = new Shader();
-            shader.LoadProgramBinary(shaderBinary, binaryFormat);
+            shader.TryLoadProgramBinary(shaderBinary, binaryFormat);
 
             // Update if already present.
             shaderByName[name] = shader;
