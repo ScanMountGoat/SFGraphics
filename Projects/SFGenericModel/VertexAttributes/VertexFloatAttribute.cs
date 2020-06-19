@@ -8,17 +8,17 @@ namespace SFGenericModel.VertexAttributes
     public sealed class VertexFloatAttribute : VertexAttribute
     {
         /// <summary>
-        /// Integer types are converted to floating point when <c>true</c>.
+        /// <param name="normalized">When <c>true</c>, integer values are converted to floats. Ex: <c>float = int / INT_MAX</c></param>
         /// </summary>
         public bool Normalized { get; }
 
         /// <summary>
-        /// Creates a new vertex attribute.
+        /// 
         /// </summary>
         /// <param name="name">The name of the attribute in the shader</param>
         /// <param name="valueCount">The number of components for the value</param>
         /// <param name="type">The data type of the value</param>
-        /// <param name="normalized">Indicates whether integer types should be converted to floating point</param>
+        /// <param name="normalized">When <c>true</c>, integer values are converted to floats. Ex: <c>float = int / INT_MAX</c></param>
         /// <param name="attributeUsage">How the attribute should be rendered</param>
         /// <param name="normalizeVector">Normalize the vector before rendering</param>
         /// <param name="remapToVisibleRange">Remap the vector before rendering</param>
@@ -31,12 +31,12 @@ namespace SFGenericModel.VertexAttributes
         }
 
         /// <summary>
-        /// Creates a new vertex attribute.
+        /// 
         /// </summary>
         /// <param name="name">The name of the attribute</param>
         /// <param name="valueCount">The number of vector components</param>
         /// <param name="type">The data type</param>
-        /// <param name="normalized">Integer types are converted to floating point when <c>true</c></param>
+        /// <param name="normalized">When <c>true</c>, integer values are converted to floats. Ex: <c>float = int / INT_MAX</c></param>
         public VertexFloatAttribute(string name, ValueCount valueCount, VertexAttribPointerType type, bool normalized) : base(name, valueCount, type, AttributeUsage.Default, false, false)
         {
             Normalized = normalized;

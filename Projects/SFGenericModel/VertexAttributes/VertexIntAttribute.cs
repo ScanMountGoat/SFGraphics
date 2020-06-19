@@ -8,14 +8,14 @@ namespace SFGenericModel.VertexAttributes
     public sealed class VertexIntAttribute : VertexAttribute
     {
         /// <summary>
-        /// Creates a new vertex attribute.
+        /// 
         /// </summary>
         /// <param name="name">The name of the attribute in the shader</param>
         /// <param name="valueCount">The number of components for the value</param>
         /// <param name="type">The data type of the value</param>
-        /// <param name="attributeUsage"></param>
-        /// <param name="normalizeVector"></param>
-        /// <param name="remapToVisibleRange"></param>
+        /// <param name="attributeUsage">How the attribute should be rendered</param>
+        /// <param name="normalizeVector">Normalize the vector before rendering</param>
+        /// <param name="remapToVisibleRange">Remap the vector before rendering</param>
         /// <exception cref="System.NotSupportedException"><paramref name="type"/> is not 
         /// a supported attribute type.</exception>
         public VertexIntAttribute(string name, ValueCount valueCount, VertexAttribIntegerType type, AttributeUsage attributeUsage, bool normalizeVector, bool remapToVisibleRange) 
