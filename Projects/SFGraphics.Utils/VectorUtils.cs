@@ -117,10 +117,10 @@ namespace SFGraphics.Utils
         /// <param name="normal">The vertex normal</param>
         /// <param name="tangent"></param>
         /// <param name="bitangent"></param>
-        /// <returns><code>1.0</code> if the bitangent should not flipped, <code>-1.0</code> if the bitangent should be flipped</returns>
+        /// <returns><code>1.0</code> if the bitangent should not be flipped, <code>-1.0</code> if the bitangent should be flipped</returns>
         public static float CalculateTangentW(Vector3 normal, Vector3 tangent, Vector3 bitangent)
         {
-            return -1 * Math.Sign(Vector3.Dot(Vector3.Cross(tangent, bitangent), normal));
+            return Math.Sign(Vector3.Dot(Vector3.Cross(tangent, bitangent), normal));
         }
 
         private static Vector3 CalculateBitangent(Vector3 posA, Vector3 posB, Vector2 uvA, Vector2 uvB, float r)
@@ -141,23 +141,6 @@ namespace SFGraphics.Utils
             float sZ = uvB.Y * posA.Z - uvA.Y * posB.Z;
             tangent = new Vector3(sX, sY, sZ) * r;
             return tangent;
-        }
-
-        private static bool AlmostEqual(float a, float b, float delta = 0.00075f)
-        {
-            return Math.Abs(a - b) < delta;
-        }
-
-        private static bool PositionsOrUvsAreEqual(Vector3 posA, Vector3 posB, Vector2 uvA, Vector2 uvB)
-        {
-            // Prevent black tangents/bitangents for vertices with the same UV coordinates or position. 
-            bool sameU = AlmostEqual(uvA.X, 0) && AlmostEqual(uvB.X, 0);
-            bool sameV = AlmostEqual(uvA.Y, 0) && AlmostEqual(uvB.Y, 0);
-            bool sameX = AlmostEqual(posA.X, 0) && AlmostEqual(posB.X, 0);
-            bool sameY = AlmostEqual(posA.Y, 0) && AlmostEqual(posB.Y, 0);
-            bool sameZ = AlmostEqual(posA.Z, 0) && AlmostEqual(posB.Z, 0);
-
-            return sameU || sameV || sameX || sameY || sameZ;
         }
     }
 }

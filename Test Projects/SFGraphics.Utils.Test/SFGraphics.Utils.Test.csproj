@@ -73,6 +73,7 @@
     <Compile Include="Test\TriangleListUtilsTests\CalculateTangentsBitangents.cs" />
     <Compile Include="Test\VectorUtilsTests\CalculateNormals.cs" />
     <Compile Include="Test\VectorUtilsTests\CalculateTangentBitangent.cs" />
+    <Compile Include="Test\VectorUtilsTests\CalculateTangentW.cs" />
     <Compile Include="Test\VectorUtilsTests\GetDegrees.cs" />
     <Compile Include="Test\VectorUtilsTests\GetRadians.cs" />
     <Compile Include="Test\VectorUtilsTests\Orthogonalize.cs" />
