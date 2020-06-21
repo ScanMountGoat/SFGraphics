@@ -27,7 +27,7 @@ namespace SFShaderLoader.Test
 
             Assert.IsTrue(loader.CreateProgramBinary("validShader", out byte[] bin, out BinaryFormat format));
             var shader = new Shader();
-            Assert.IsTrue(shader.TryLoadProgramBinary(bin, format));
+            Assert.IsTrue(shader.TryLoadProgramFromBinary(bin, format));
 
             Assert.IsTrue(shader.LinkStatusIsOk);
         }

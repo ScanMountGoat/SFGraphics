@@ -67,12 +67,12 @@ namespace SFGraphics.GLObjects.Shaders.Utils
                 errorLog.AppendLine($"[Warning] Attempted to set undeclared uniform variable {uniform.Key} of type { uniform.Value.type }");
         }
         
-        public void AppendShaderInfoLog(string shaderName, ShaderType shaderType, int shader)
+        public void AppendShaderInfoLog(ShaderObject shader)
         {
             // Append compilation errors for the current shader. 
-            errorLog.AppendLine($"{shaderName} {shaderType} Log:");
+            errorLog.AppendLine($"{shader.ShaderType} Log:");
 
-            string error = GL.GetShaderInfoLog(shader);
+            string error = GL.GetShaderInfoLog(shader.Id);
             if (error == "")
                 errorLog.AppendLine("No Error");
             else

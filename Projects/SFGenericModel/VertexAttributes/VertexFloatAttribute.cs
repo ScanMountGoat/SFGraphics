@@ -8,7 +8,7 @@ namespace SFGenericModel.VertexAttributes
     public sealed class VertexFloatAttribute : VertexAttribute
     {
         /// <summary>
-        /// <param name="normalized">When <c>true</c>, integer values are converted to floats. Ex: <c>float = int / INT_MAX</c></param>
+        /// When <c>true</c>, integer values are converted to floats. Ex: <c>float = int / INT_MAX</c>
         /// </summary>
         public bool Normalized { get; }
 

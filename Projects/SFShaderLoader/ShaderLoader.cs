@@ -22,7 +22,7 @@ namespace SFShaderLoader
         /// <returns><c>true</c> if the shader was successfully linked</returns>
         public bool AddShader(string name, IEnumerable<string> vertexSources, IEnumerable<string> fragmentSources, IEnumerable<string> geometrySources)
         {
-            var shaderSources = GetShaderSources(vertexSources, fragmentSources, geometrySources);
+            var shaderSources = CreateShaderObjects(vertexSources, fragmentSources, geometrySources);
 
             var shader = new Shader();
             shader.LoadShaders(shaderSources);
@@ -44,7 +44,7 @@ namespace SFShaderLoader
         public bool AddShader(string name, byte[] shaderBinary, BinaryFormat binaryFormat)
         {
             var shader = new Shader();
-            shader.TryLoadProgramBinary(shaderBinary, binaryFormat);
+            shader.TryLoadProgramFromBinary(shaderBinary, binaryFormat);
 
             // Update if already present.
             shaderByName[name] = shader;
@@ -82,21 +82,21 @@ namespace SFShaderLoader
             return shader.GetProgramBinary(out programBinary, out binaryFormat);
         }
 
-        private static List<System.Tuple<string, ShaderType, string>> GetShaderSources(IEnumerable<string> vertexSources, 
+        private static ShaderObject[] CreateShaderObjects(IEnumerable<string> vertexSources, 
             IEnumerable<string> fragmentSources, IEnumerable<string> geometrySources)
         {
-            var shaderSources = new List<System.Tuple<string, ShaderType, string>>();
+            var shaderSources = new List<ShaderObject>();
 
             foreach (var source in vertexSources)
-                shaderSources.Add(new System.Tuple<string, ShaderType, string>(source, ShaderType.VertexShader, ""));
+                shaderSources.Add(new ShaderObject(source, ShaderType.VertexShader));
 
             foreach (var source in fragmentSources)
-                shaderSources.Add(new System.Tuple<string, ShaderType, string>(source, ShaderType.FragmentShader, ""));
+                shaderSources.Add(new ShaderObject(source, ShaderType.FragmentShader));
 
             foreach (var source in geometrySources)
-                shaderSources.Add(new System.Tuple<string, ShaderType, string>(source, ShaderType.GeometryShader, ""));
+                shaderSources.Add(new ShaderObject(source, ShaderType.GeometryShader));
 
-            return shaderSources;
+            return shaderSources.ToArray();
         }
     }
 }

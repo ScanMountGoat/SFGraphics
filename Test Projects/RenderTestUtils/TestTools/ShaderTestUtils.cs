@@ -13,8 +13,9 @@ namespace RenderTestUtils
             string fragSource = ResourceShaders.GetShaderSource("valid.frag");
             string vertSource = ResourceShaders.GetShaderSource("valid.vert");
 
-            shader.LoadShaders(new Tuple<string, ShaderType, string>(fragSource, ShaderType.FragmentShader, ""),
-                new Tuple<string, ShaderType, string>(vertSource, ShaderType.VertexShader, ""));
+            shader.LoadShaders(
+                new ShaderObject(fragSource, ShaderType.FragmentShader),
+                new ShaderObject(vertSource, ShaderType.VertexShader));
 
             shader.UseProgram();
 

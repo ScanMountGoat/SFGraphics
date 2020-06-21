@@ -35,6 +35,11 @@ namespace SFGraphics.GLObjects
             ShaderProgram,
 
             /// <summary>
+            /// <see cref="Shaders.ShaderObject"/>
+            /// </summary>
+            Shader,
+
+            /// <summary>
             /// <see cref="BufferObjects.BufferObject"/>
             /// </summary>
             BufferObject,

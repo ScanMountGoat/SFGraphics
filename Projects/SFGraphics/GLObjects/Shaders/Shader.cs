@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using OpenTK.Graphics.OpenGL;
-using SFGraphics.GLObjects.Shaders.Utils;
+﻿using OpenTK.Graphics.OpenGL;
 using SFGraphics.GLObjects.Shaders.ShaderEventArgs;
-using System.Runtime.ExceptionServices;
+using SFGraphics.GLObjects.Shaders.Utils;
+using System;
+using System.Collections.Generic;
 
 namespace SFGraphics.GLObjects.Shaders
 {
@@ -24,15 +23,13 @@ namespace SFGraphics.GLObjects.Shaders
         /// The number of uniforms used by the shader. 
         /// Uniforms optimized out by the compiler are unused.
         /// </summary>
-        public int ActiveUniformCount => activeUniformCount;
-        private int activeUniformCount;
+        public int ActiveUniformCount { get; private set; }
 
         /// <summary>
         /// The number of vertex attributes used by the shader. 
         /// Attributes optimized out by the compiler are unused.
         /// </summary>
-        public int ActiveAttributeCount => activeAttributeCount;
-        private int activeAttributeCount;
+        public int ActiveAttributeCount { get; private set; }
 
         private readonly ShaderLog errorLog = new ShaderLog();
 
@@ -151,167 +148,6 @@ namespace SFGraphics.GLObjects.Shaders
         }
 
         /// <summary>
-        /// Attaches <paramref name="shaderId"/> and links the program. 
-        /// </summary>
-        /// <param name="shaderId">The integer ID returned by <see cref="CreateGlShader(string, ShaderType)"/></param>
-        /// <param name="shaderType">The type of shader.
-        /// Ex: ShaderType.FragmentShader</param>        
-        /// <param name="shaderName"></param>
-        public void AttachShader(int shaderId, ShaderType shaderType, string shaderName = "")
-        {
-            AttachShaderNoLink(shaderId, shaderType, shaderName);
-            LinkProgramSetUpVariables();
-        }
-
-        /// <summary>
-        /// Compiles and attaches a single shader from <paramref name="shaderSource"/>.
-        /// Performs linking and shader setup.
-        /// </summary>
-        /// <param name="shaderSource">The shader code source</param>
-        /// <param name="shaderType">The type of shader to load</param>
-        /// <param name="shaderName">The title used for the compilation errors section of the error log</param>
-        public void LoadShader(string shaderSource, ShaderType shaderType, string shaderName = "Shader")
-        {
-            if (!string.IsNullOrEmpty(shaderSource))
-            {
-                int shaderId = CreateGlShader(shaderSource, shaderType);
-                AttachShader(shaderId, shaderType, shaderName);
-            }
-        }
-
-        /// <summary>
-        /// Compiles and attaches multiple shaders. Linking and setup is performed only once.
-        /// </summary>
-        /// <param name="shaders">(shader source, shader type, shader name)</param>
-        public void LoadShaders(IEnumerable<Tuple<string, ShaderType, string>> shaders)
-        {
-            foreach (var shader in shaders)
-            {
-                int shaderId = CreateGlShader(shader.Item1, shader.Item2);
-                AttachShaderNoLink(shaderId, shader.Item2, shader.Item3);
-            }
-
-            LinkProgramSetUpVariables();
-        }
-
-        /// <summary>
-        /// Compiles and attaches multiple shaders. Linking and setup is performed only once.
-        /// </summary>
-        /// <param name="shaders">(shader source, shader type, shader name)</param>
-        public void LoadShaders(params Tuple<string, ShaderType, string>[] shaders)
-        {
-            foreach (var shader in shaders)
-            {
-                int shaderId = CreateGlShader(shader.Item1, shader.Item2);
-                AttachShaderNoLink(shaderId, shader.Item2, shader.Item3);
-            }
-
-            LinkProgramSetUpVariables();
-        }
-
-        /// <summary>
-        /// Compiles and attaches shaders from <paramref name="fragmentSource"/> and <paramref name="vertexSource"/>.
-        /// </summary>
-        /// <param name="vertexSource">The vertex shader source</param>
-        /// <param name="fragmentSource">The fragment shader source</param>
-        public void LoadShaders(string vertexSource, string fragmentSource)
-        {
-            LoadShaders(
-                new Tuple<string, ShaderType, string>(vertexSource, ShaderType.VertexShader, "Vertex Shader"),
-                new Tuple<string, ShaderType, string>(fragmentSource, ShaderType.FragmentShader, "Fragment Shader")
-            );
-        }
-
-        /// <summary>
-        /// Creates and compiles a new shader from <paramref name="shaderSource"/>.
-        /// Returns the ID created by GL.CreateShader(). 
-        /// Shaders can be attached with <see cref="AttachShader(int, ShaderType, string)"/>
-        /// </summary>
-        /// <param name="shaderSource">A string containing the shader source text</param>
-        /// <param name="shaderType">The type of shader to create</param>
-        /// <returns>The integer ID created by GL.CreateShader()</returns>
-        public static int CreateGlShader(string shaderSource, ShaderType shaderType)
-        {
-            int id = GL.CreateShader(shaderType);
-            GL.ShaderSource(id, shaderSource);
-            GL.CompileShader(id);
-            return id;
-        }
-
-        /// <summary>
-        /// Gets the compiled program binary for the program <see cref="GLObject.Id"/>.
-        /// This method should be called after the shaders are loaded and the program is linked.
-        /// Hardware or software changes may cause compatibility issues with the program binary.
-        /// </summary>
-        /// <param name="programBinary">The compiled shader program binary</param>
-        /// <param name="binaryFormat">The platform specific binary format</param>
-        /// <returns><c>true</c> if the binary was successfully created</returns>
-        public bool GetProgramBinary(out byte[] programBinary, out BinaryFormat binaryFormat)
-        {
-            if (!linkStatusIsOk)
-            {
-                programBinary = null;
-                binaryFormat = 0;
-                return false;
-            }
-
-            // bufSize is used for the array's length instead of the length parameter.
-            GL.GetProgram(Id, (GetProgramParameterName)GL_PROGRAM_BINARY_MAX_LENGTH, out int bufSize);
-            programBinary = new byte[bufSize];
-
-            GL.GetProgramBinary(Id, bufSize, out int length, out binaryFormat, programBinary);
-            return true;
-        }
-
-        /// <summary>
-        /// Loads the entire program from the compiled binary and format.
-        /// <para></para><para></para>
-        /// Hardware or software changes may cause compatibility issues with the program binary.
-        /// If program creation fails with precompiled binaries, resort to compiling the shaders from source. 
-        /// </summary>
-        /// <param name="binaryFormat">The format of the compiled binary</param>
-        /// <param name="programBinary">The compiled program binary</param>
-        /// <returns><c>true</c> if the binary was loaded successfully</returns>
-        [HandleProcessCorruptedStateExceptions]
-        public bool TryLoadProgramBinary(byte[] programBinary, BinaryFormat binaryFormat)
-        {
-            try
-            {
-                // Linking isn't necessary when loading a program binary.
-                GL.ProgramBinary(Id, binaryFormat, programBinary, programBinary.Length);
-            }
-            catch (AccessViolationException)
-            {
-                // The binary is corrupt or the wrong format. 
-                return false;
-            }
-
-            LinkStatusIsOk = ShaderValidation.GetProgramLinkStatus(Id);
-            TryLoadShaderVariables();
-            return true;
-        }
-
-        /// <summary>
-        /// Gets the shader source for all attached shaders.
-        /// </summary>
-        /// <returns>An array of shader sources for all attached shaders</returns>
-        public string[] GetShaderSources()
-        {
-            int[] shaders = GetAttachedShaders();
-            List<string> shaderSources = new List<string>();
-            foreach (var shader in shaders)
-            {
-                GL.GetShader(shader, ShaderParameter.ShaderSourceLength, out int length);
-                string source = "";
-                if (length != 0)
-                    GL.GetShaderSource(shader, length, out int actualLength, out source);
-                shaderSources.Add(source);
-            }
-
-            return shaderSources.ToArray();
-        }
-
-        /// <summary>
         /// Gets the uniform's location or the location of the first element for arrays.
         /// </summary>
         /// <param name="name">The name of the uniform variable</param>
@@ -380,101 +216,6 @@ namespace SFGraphics.GLObjects.Shaders
             errorLog.AppendProgramInfoLog(Id);
 
             return errorLog.ToString();
-        }
-
-        private int[] GetAttachedShaders()
-        {
-            GL.GetProgram(Id, GetProgramParameterName.AttachedShaders, out int shaderCount);
-            int[] shaderIds = new int[shaderCount];
-
-            GL.GetAttachedShaders(Id, shaderCount, out int actualCount, shaderIds);
-            return shaderIds;
-        }
-
-
-        private void AttachShaderNoLink(int shaderId, ShaderType shaderType, string shaderName = "")
-        {
-            GL.AttachShader(Id, shaderId);
-            errorLog.AppendShaderInfoLog(shaderName, shaderType, shaderId);
-
-            // The shader won't be deleted until the program is deleted.
-            GL.DeleteShader(shaderId);
-        }
-
-        private void LinkProgramSetUpVariables()
-        {
-            GL.LinkProgram(Id);
-            LinkStatusIsOk = ShaderValidation.GetProgramLinkStatus(Id);
-
-            TryLoadShaderVariables();
-        }
-
-        private bool TryLoadShaderVariables()
-        {
-            // Scary things happen if we do this after a linking error.
-            if (!LinkStatusIsOk)
-                return false;
-
-            LoadAttributes();
-            LoadUniforms();
-            return true;
-        }
-
-        private void AddActiveAttribute(int index)
-        {
-            string name = GL.GetActiveAttrib(Id, index, out int size, out ActiveAttribType type);
-            int location = GL.GetAttribLocation(Id, name);
-
-            // Overwrite existing vertex attributes.
-            activeAttribByName[name] = new ActiveAttribInfo(location, type, size);
-        }
-
-        private void AddActiveUniform(int index)
-        {
-            string name = GL.GetActiveUniform(Id, index, out int size, out ActiveUniformType type);
-
-            string nameNoArrayIndex = GetNameNoArrayBrackets(name);
-            string nameArrayIndex0 = nameNoArrayIndex + "[0]";
-
-            // Uniform arrays can be "array[0]" or "array"
-            int location = GL.GetUniformLocation(Id, nameNoArrayIndex);
-            if (location == -1)
-                location = GL.GetUniformLocation(Id, nameArrayIndex0);
-
-            // Overwrite existing uniforms.
-            activeUniformByName[nameNoArrayIndex] = new ActiveUniformInfo(location, type, size);
-        }
-
-        private static string GetNameNoArrayBrackets(string name)
-        {
-            if (name.Contains("["))
-                return name.Substring(0, name.IndexOf('['));
-            else
-                return name;
-        }
-
-        private void LoadUniforms()
-        {
-            // Locations may change when linking the shader again.
-            GL.GetProgram(Id, GetProgramParameterName.ActiveUniforms, out activeUniformCount);
-            activeUniformByName = new Dictionary<string, ActiveUniformInfo>(activeUniformCount);
-
-            for (int i = 0; i < activeUniformCount; i++)
-            {
-                AddActiveUniform(i);
-            }
-        }
-
-        private void LoadAttributes()
-        {
-            // Locations may change when linking the shader again.
-            GL.GetProgram(Id, GetProgramParameterName.ActiveAttributes, out activeAttributeCount);
-            activeAttribByName = new Dictionary<string, ActiveAttribInfo>(activeAttributeCount);
-
-            for (int i = 0; i < activeAttributeCount; i++)
-            {
-                AddActiveAttribute(i);
-            }
         }
     }
 }

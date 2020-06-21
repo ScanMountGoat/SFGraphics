@@ -15,7 +15,7 @@ namespace SFGraphics.Test.ShaderTests.ProgramCreationTests
             // Load the shader file from the embedded resources.
             Shader shader = new Shader();
             string shaderSource = ResourceShaders.GetShaderSource("valid.frag");
-            shader.LoadShader(shaderSource, ShaderType.FragmentShader);
+            shader.LoadShaders(new ShaderObject(shaderSource, ShaderType.FragmentShader));
 
             Assert.IsTrue(shader.LinkStatusIsOk);
 
@@ -29,7 +29,7 @@ namespace SFGraphics.Test.ShaderTests.ProgramCreationTests
             // Load the shader file from the embedded resources.
             Shader shader = new Shader();
             string shaderSource = ResourceShaders.GetShaderSource("invalid.frag");
-            shader.LoadShader(shaderSource, ShaderType.FragmentShader);
+            shader.LoadShaders(new ShaderObject(shaderSource, ShaderType.FragmentShader));
 
             Assert.IsFalse(shader.LinkStatusIsOk);
 
@@ -42,7 +42,7 @@ namespace SFGraphics.Test.ShaderTests.ProgramCreationTests
         {
             // Load the shader file from the embedded resources.
             Shader shader = new Shader();
-            shader.LoadShader("", ShaderType.FragmentShader);
+            shader.LoadShaders(new ShaderObject("", ShaderType.FragmentShader));
 
             Assert.IsFalse(shader.LinkStatusIsOk);
         }
@@ -52,7 +52,7 @@ namespace SFGraphics.Test.ShaderTests.ProgramCreationTests
         {
             // Load the shader file from the embedded resources.
             Shader shader = new Shader();
-            shader.LoadShader(null, ShaderType.FragmentShader);
+            shader.LoadShaders(new ShaderObject(null, ShaderType.FragmentShader));
 
             Assert.IsFalse(shader.LinkStatusIsOk);
         }

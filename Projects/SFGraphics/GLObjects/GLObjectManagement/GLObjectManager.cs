@@ -65,6 +65,9 @@ namespace SFGraphics.GLObjects.GLObjectManagement
                 case GLObject.GLObjectType.ShaderProgram:
                     GL.DeleteProgram(glObject.Item2);
                     break;
+                case GLObject.GLObjectType.Shader:
+                    GL.DeleteShader(glObject.Item2);
+                    break;
                 case GLObject.GLObjectType.VertexArrayObject:
                     GL.DeleteVertexArray(glObject.Item2);
                     break;

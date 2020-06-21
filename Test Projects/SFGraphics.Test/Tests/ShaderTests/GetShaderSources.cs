@@ -22,9 +22,9 @@ namespace SFGraphics.Test.ShaderTests
         {
             // Empty shaders are ignored.
             Shader shader = new Shader();
-            shader.LoadShader("", ShaderType.FragmentShader);
-            shader.LoadShader(null, ShaderType.FragmentShader);
-            shader.LoadShader("", ShaderType.FragmentShader);
+            shader.LoadShaders(
+                new ShaderObject("", ShaderType.FragmentShader), 
+                new ShaderObject(null, ShaderType.FragmentShader));
 
             string[] sources = shader.GetShaderSources();
             Assert.AreEqual(0, sources.Length);
@@ -34,9 +34,10 @@ namespace SFGraphics.Test.ShaderTests
         public void InvalidShaders()
         {
             Shader shader = new Shader();
-            shader.LoadShader("a", ShaderType.FragmentShader);
-            shader.LoadShader("b", ShaderType.FragmentShader);
-            shader.LoadShader("c", ShaderType.FragmentShader);
+            shader.LoadShaders(
+                new ShaderObject("a", ShaderType.FragmentShader),
+                new ShaderObject("b", ShaderType.FragmentShader),
+                new ShaderObject("c", ShaderType.FragmentShader));
 
             string[] sources = shader.GetShaderSources();
             Assert.AreEqual(3, sources.Length);

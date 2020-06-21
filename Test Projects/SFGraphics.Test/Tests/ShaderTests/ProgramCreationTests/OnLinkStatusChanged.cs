@@ -31,7 +31,7 @@ namespace SFGraphics.Test.ShaderTests.ProgramCreationTests
         public void ValidFragShader()
         {
             string shaderSource = ResourceShaders.GetShaderSource("valid.frag");
-            shader.LoadShader(shaderSource, ShaderType.FragmentShader);
+            shader.LoadShaders(new ShaderObject(shaderSource, ShaderType.FragmentShader));
 
             Assert.AreEqual(1, linkChangedEvents.Count);
             Assert.AreEqual(true, linkChangedEvents[0].LinkStatus);
@@ -41,10 +41,10 @@ namespace SFGraphics.Test.ShaderTests.ProgramCreationTests
         public void ValidInvalidFragShader()
         {
             string shaderSource = ResourceShaders.GetShaderSource("valid.frag");
-            shader.LoadShader(shaderSource, ShaderType.FragmentShader);
+            shader.LoadShaders(new ShaderObject(shaderSource, ShaderType.FragmentShader));
 
             string shaderSourceInvalid = ResourceShaders.GetShaderSource("invalid.frag");
-            shader.LoadShader(shaderSourceInvalid, ShaderType.FragmentShader);
+            shader.LoadShaders(new ShaderObject(shaderSourceInvalid, ShaderType.FragmentShader));
 
             Assert.AreEqual(2, linkChangedEvents.Count);
             Assert.AreEqual(true, linkChangedEvents[0].LinkStatus);

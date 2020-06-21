@@ -56,6 +56,8 @@
     <Compile Include="GLObjects\Samplers\SamplerObject.cs" />
     <Compile Include="GLObjects\Shaders\ShaderEventArgs\LinkStatusEventArgs.cs" />
     <Compile Include="GLObjects\Shaders\ShaderEventArgs\TextureSetEventArgs.cs" />
+    <Compile Include="GLObjects\Shaders\ShaderLoaders.cs" />
+    <Compile Include="GLObjects\Shaders\ShaderObject.cs" />
     <Compile Include="GLObjects\Shaders\Utils\ActiveAttribInfo.cs" />
     <Compile Include="GLObjects\Shaders\Utils\ActiveUniformInfo.cs" />
     <Compile Include="GLObjects\Shaders\Utils\ShaderTypeConversions.cs" />

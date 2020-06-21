@@ -14,10 +14,10 @@ namespace SFGraphics.Test.ShaderTests.ProgramCreationTests
             // Load the shader file from the embedded resources.
             Shader shader = new Shader();
             string shaderSource = ResourceShaders.GetShaderSource("valid.frag");
-            shader.LoadShader(shaderSource, ShaderType.FragmentShader);
+            shader.LoadShaders(new ShaderObject(shaderSource, ShaderType.FragmentShader));
 
             string shaderSource2 = ResourceShaders.GetShaderSource("invalid.frag");
-            shader.LoadShader(shaderSource2, ShaderType.FragmentShader);
+            shader.LoadShaders(new ShaderObject(shaderSource2, ShaderType.FragmentShader));
 
             Assert.IsFalse(shader.LinkStatusIsOk);
         }
