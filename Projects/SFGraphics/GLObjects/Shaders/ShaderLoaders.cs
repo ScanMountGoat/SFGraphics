@@ -2,6 +2,7 @@
 using SFGraphics.GLObjects.Shaders.Utils;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.ExceptionServices;
 
 namespace SFGraphics.GLObjects.Shaders
@@ -95,31 +96,13 @@ namespace SFGraphics.GLObjects.Shaders
         /// <returns>An array of shader sources for all attached shaders</returns>
         public string[] GetShaderSources()
         {
-            int[] shaders = GetAttachedShaders();
-            List<string> shaderSources = new List<string>();
-            foreach (var shader in shaders)
-            {
-                GL.GetShader(shader, ShaderParameter.ShaderSourceLength, out int length);
-                string source = "";
-                if (length != 0)
-                    GL.GetShaderSource(shader, length, out _, out source);
-                shaderSources.Add(source);
-            }
-
-            return shaderSources.ToArray();
-        }
-
-        private int[] GetAttachedShaders()
-        {
-            GL.GetProgram(Id, GetProgramParameterName.AttachedShaders, out int shaderCount);
-            int[] shaderIds = new int[shaderCount];
-            GL.GetAttachedShaders(Id, shaderCount, out _, shaderIds);
-            return shaderIds;
+            return attachedShaders.Select(shader => shader.GetShaderSource()).ToArray();
         }
 
         private void AttachShader(ShaderObject shader)
         {
             GL.AttachShader(Id, shader.Id);
+            attachedShaders.Add(shader);
             errorLog.AppendShaderInfoLog(shader);
         }
 

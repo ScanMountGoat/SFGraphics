@@ -19,6 +19,10 @@ namespace SFGraphics.GLObjects.Shaders
         private Dictionary<string, ActiveUniformInfo> activeUniformByName = new Dictionary<string, ActiveUniformInfo>();
         private Dictionary<string, ActiveAttribInfo> activeAttribByName = new Dictionary<string, ActiveAttribInfo>();
 
+        // Keeping another reference will make shader objects eligible for cleanup later, 
+        // but it reduces the number of GL calls required for some methods.
+        private readonly List<ShaderObject> attachedShaders = new List<ShaderObject>();
+
         /// <summary>
         /// The number of uniforms used by the shader. 
         /// Uniforms optimized out by the compiler are unused.

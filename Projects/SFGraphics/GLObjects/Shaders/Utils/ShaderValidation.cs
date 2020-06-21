@@ -2,10 +2,7 @@
 
 namespace SFGraphics.GLObjects.Shaders.Utils
 {
-    /// <summary>
-    /// Contains methods for validating <see cref="Shader"/> objects prior to rendering.
-    /// </summary>
-    public static class ShaderValidation
+    internal static class ShaderValidation
     {
         /// <summary>
         /// Returns <c>true</c> if the program linked successfully.
@@ -14,7 +11,7 @@ namespace SFGraphics.GLObjects.Shaders.Utils
         /// <returns><c>true</c> if the program linked successfully</returns>
         public static bool GetProgramLinkStatus(int programId)
         {
-            // 1: linked successfully. 0: linker errors
+            // 1: linked successfully, 0: linker errors
             GL.GetProgram(programId, GetProgramParameterName.LinkStatus, out int linkStatus);
             return linkStatus != 0;
         }
@@ -26,10 +23,17 @@ namespace SFGraphics.GLObjects.Shaders.Utils
         /// <returns><c>true</c> if the program status is valid for rendering</returns>
         public static bool GetProgramValidateStatus(int programId)
         {
-            // 1: valid. 0: not valid
+            // 1: valid, 0: not valid
             GL.ValidateProgram(programId);
             GL.GetProgram(programId, GetProgramParameterName.ValidateStatus, out int validateStatus);
             return validateStatus != 0;
+        }
+
+        public static bool GetShaderObjectCompileStatus(int shaderId)
+        {
+            // 1: compiled successfully, 0: errors in compilation.
+            GL.GetShader(shaderId, ShaderParameter.CompileStatus, out int compileStatus);
+            return compileStatus != 0;
         }
     }
 }
