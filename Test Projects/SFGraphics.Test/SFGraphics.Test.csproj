@@ -66,6 +66,7 @@
     <Compile Include="Tests\BufferObjectTests\SizeInBytes.cs" />
     <Compile Include="Tests\CameraTests\FovDegreesConversion.cs" />
     <Compile Include="Tests\CameraTests\FovRadiansConversion.cs" />
+    <Compile Include="Tests\CameraTests\GetSetTranslation.cs" />
     <Compile Include="Tests\CameraTests\ProjectionMatrix.cs" />
     <Compile Include="Tests\CameraTests\RenderDimensions.cs" />
     <Compile Include="Tests\CameraTests\ResetTransforms.cs" />

@@ -29,6 +29,43 @@ namespace SFGraphics.Cameras
         private Vector3 translation = new Vector3(0, 10, -80);
 
         /// <summary>
+        /// The x component of the camera's translation in scene units.
+        /// </summary>
+        public float TranslationX 
+        {
+            get => translation.X;
+            set
+            {
+                translation.X = value;
+            }
+        }
+
+        /// <summary>
+        /// The y component of the camera's translation in scene units.
+        /// </summary>
+        public float TranslationY
+        {
+            get => translation.Y;
+            set
+            {
+                translation.Y = value;
+            }
+        }
+
+        /// <summary>
+        /// The z component of the camera's translation in scene units.
+        /// </summary>
+        public float TranslationZ
+        {
+            get => translation.Z;
+            set
+            {
+                translation.Z = value;
+            }
+        }
+
+
+        /// <summary>
         /// The scale for all objects. Defaults to 1.
         /// </summary>
         public float Scale
