@@ -177,13 +177,14 @@ namespace SFGraphics.Controls
 
         private void FrameTimingLoop()
         {
-            // TODO: What happens when rendering is paused and the form is closed?
             var stopwatch = Stopwatch.StartNew();
             while (!renderThreadShouldClose)
             {
                 shouldRender.WaitOne();
 
-                if (stopwatch.ElapsedMilliseconds >= RenderFrameInterval)
+                // The reset event has to be set for the thread to exit gracefully.
+                // Don't attempt to render a frame if the thread is flagged to close.
+                if (stopwatch.ElapsedMilliseconds >= RenderFrameInterval && !renderThreadShouldClose)
                 {
                     SetUpAndRenderFrame(true);
                     stopwatch.Restart();
