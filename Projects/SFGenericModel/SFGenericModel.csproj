@@ -42,7 +42,7 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IDrawableMesh.cs" />
+    <Compile Include="GenericMeshBase.cs" />
     <Compile Include="IndexedVertexData.cs" />
     <Compile Include="Materials\UniformBlock.cs" />
     <Compile Include="RenderState\PolygonModeSettings.cs" />

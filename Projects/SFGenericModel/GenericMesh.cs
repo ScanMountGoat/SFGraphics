@@ -4,38 +4,28 @@ using SFGenericModel.Utils;
 using SFGenericModel.VertexAttributes;
 using SFGraphics.GLObjects.BufferObjects;
 using SFGraphics.GLObjects.Shaders;
-using SFGraphics.GLObjects.VertexArrays;
 using System.Collections.Generic;
-using System.Threading;
 
 namespace SFGenericModel
 {
     /// <summary>
-    /// A class for drawing indexed, generic vertex data using a user defined 
+    /// A class for drawing indexed, interleaved vertex data using a user defined 
     /// vertex struct <typeparamref name="T"/>.
     /// </summary>
     /// <typeparam name="T">The struct used to define vertex data</typeparam>
-    public abstract class GenericMesh<T> : IDrawableMesh where T : struct
+    public abstract class GenericMesh<T> : GenericMeshBase where T : struct
     {
-        /// <summary>
-        /// The number of vertices stored in the buffers used for drawing.
-        /// </summary>
-        public int VertexCount { get; }
+        // Used for attribute offset calculation.
+        private readonly int vertexSizeInBytes;
 
-        /// <summary>
-        /// Determines how primitives will be constructed from the vertex data.
-        /// </summary>
-        public PrimitiveType PrimitiveType { get; }
-
-        /// <summary>
-        /// Specifies the data type of the index values.
-        /// </summary>
-        public DrawElementsType DrawElementsType { get; }
+        // Vertex and index data.
+        private readonly BufferObject vertexBuffer = new BufferObject(BufferTarget.ArrayBuffer);
+        private readonly BufferObject vertexIndexBuffer = new BufferObject(BufferTarget.ElementArrayBuffer);
 
         /// <summary>
         /// Contains information about the arguments used to set a vertex attribute.
         /// </summary>
-        /// <param name="sender">The <see cref="GenericMesh{T}"/> 
+        /// <param name="sender">The <see cref=""/> 
         /// instance that generated the error</param>
         /// <param name="e">The vertex attribute information</param>
         public delegate void InvalidAttribSetEventHandler(object sender, AttribSetEventArgs e);
@@ -45,34 +35,14 @@ namespace SFGenericModel
         /// </summary>
         public event InvalidAttribSetEventHandler OnInvalidAttribSet;
 
-        // Vertex attributes need to be reconfigured when the shader changes.
-        private int previousShaderId = -1;
-
-        // The VAO needs to be remade when the thread changes.
-        private int previousThreadId = -1;
-
-        // Used for attribute offset calculation.
-        private readonly int vertexSizeInBytes;
-
-        private VertexArrayObject vertexArrayObject;
-
-        // Vertex and index data.
-        private readonly BufferObject vertexBuffer = new BufferObject(BufferTarget.ArrayBuffer);
-        private readonly BufferObject vertexIndexBuffer = new BufferObject(BufferTarget.ElementArrayBuffer);
-
         /// <summary>
         /// Initialized by default using the member attributes of <typeparamref name="T"/>.
         /// </summary>
         protected static List<VertexAttribute> vertexAttributes = VertexAttributeUtils.GetAttributesFromType<T>();
 
-        private GenericMesh(PrimitiveType primitiveType, DrawElementsType drawElementsType, System.Type vertexType, int vertexCount)
+        private GenericMesh(PrimitiveType primitiveType, DrawElementsType drawElementsType, System.Type vertexType, int vertexCount) : base(primitiveType, drawElementsType, vertexCount)
         {
-            PrimitiveType = primitiveType;
-            DrawElementsType = drawElementsType;
-
-            // This works as expected as long as only value types are used.
             vertexSizeInBytes = System.Runtime.InteropServices.Marshal.SizeOf(vertexType);
-            VertexCount = vertexCount;
         }
 
         /// <summary>
@@ -122,69 +92,16 @@ namespace SFGenericModel
         }
 
         /// <summary>
-        /// Draws the geometry data.
+        /// Configures the vertex attributes for members of <typeparamref name="T"/> with <see cref="VertexAttribute"/> attributes.
         /// </summary>
-        /// <param name="shader">The shader used for drawing</param>
-        /// <param name="count">The number of vertices to draw</param>
-        /// <param name="offset">The offset into the index buffer</param>
-        public void Draw(Shader shader, int count, int offset)
+        /// <param name="shader">The shader to query for attribute information</param>
+        protected override void ConfigureVertexAttributes(Shader shader)
         {
-            if (!shader.LinkStatusIsOk)
-                return;
-
-            shader.UseProgram();
-
-            // Only reconfigure the vertex attributes when necessary to improve performance.
-            if (shader.Id != previousShaderId || Thread.CurrentThread.ManagedThreadId != previousThreadId)
-            {
-                ConfigureVertexAttributes(shader);
-                previousShaderId = shader.Id;
-                previousThreadId = Thread.CurrentThread.ManagedThreadId;
-            }
-
-            DrawGeometry(count, offset);
-        }
-
-        /// <summary>
-        /// Draws the geometry data.
-        /// </summary>
-        /// <param name="shader">The shader used for drawing</param>
-        public void Draw(Shader shader)
-        {
-            Draw(shader, VertexCount, 0);
-        }
-
-        private void ConfigureVertexAttributes(Shader shader)
-        {
-            // Recreate the object every time in case the thread has changed.
-            vertexArrayObject = new VertexArrayObject();
-
-            // The binding order here is critical.
-            vertexArrayObject.Bind();
-
             vertexBuffer.Bind();
             vertexIndexBuffer.Bind();
 
             shader.EnableVertexAttributes();
             SetVertexAttributes(shader, vertexAttributes);
-
-            // TODO: Binding the default VAO isn't part of the core specification.
-            vertexArrayObject.Unbind();
-
-            // Unbind all the buffers.
-            // This step may not be necessary.
-            GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
-            GL.BindBuffer(BufferTarget.ElementArrayBuffer, 0);
-        }
-
-        private void DrawGeometry(int count, int offset)
-        {
-            vertexArrayObject.Bind();
-            GL.DrawElements(PrimitiveType, count, DrawElementsType, offset);
-
-            // TODO: This isn't part of the OpenGL core specification.
-            // Leave this enabled for compatibility with older applications.
-            vertexArrayObject.Unbind();
         }
 
         private void SetVertexAttributes(Shader shader, IEnumerable<VertexAttribute> attributes)
