@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GenericMeshBase.cs" />
+    <Compile Include="GenericMeshNonInterleaved.cs" />
     <Compile Include="IndexedVertexData.cs" />
     <Compile Include="Materials\UniformBlock.cs" />
     <Compile Include="RenderState\PolygonModeSettings.cs" />
@@ -72,6 +73,10 @@
     <Compile Include="ShaderGenerators\VertexAttributeShaderGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SFGraphics.Utils\SFGraphics.Utils.csproj">
+      <Project>{D78B8153-C955-4EF6-B02F-6D824BFD949E}</Project>
+      <Name>SFGraphics.Utils</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SFGraphics\SFGraphics.csproj">
       <Project>{a62e9240-ef67-41e5-a4e1-43f0afa759f4}</Project>
       <Name>SFGraphics</Name>

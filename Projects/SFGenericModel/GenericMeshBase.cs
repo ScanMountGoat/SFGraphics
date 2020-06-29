@@ -12,7 +12,8 @@ namespace SFGenericModel
     public abstract class GenericMeshBase
     {
         /// <summary>
-        /// The number of vertices stored in the buffers used for drawing.
+        /// The number of vertices stored in the vertex data buffers.
+        /// The actual number of vertices used for drawing depends on the number of indices.
         /// </summary>
         public int VertexCount { get; }
 
