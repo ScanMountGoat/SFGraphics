@@ -1,4 +1,5 @@
 ﻿using OpenTK.Graphics.OpenGL;
+using SFGraphics.Utils;
 using System;
 
 namespace SFGraphics.GLObjects.BufferObjects
@@ -119,14 +120,10 @@ namespace SFGraphics.GLObjects.BufferObjects
         /// outside the buffer's current capacity.</exception>        
         public void SetSubData<T>(T[] data, int offsetInBytes) where T : struct
         {
-            if (offsetInBytes < 0)
-                throw new ArgumentOutOfRangeException(nameof(offsetInBytes), BufferExceptionMessages.offsetMustBeNonNegative);
-
             int itemSizeInBytes = System.Runtime.InteropServices.Marshal.SizeOf(typeof(T));
+            if (!BufferValidation.IsValidAccess(offsetInBytes, itemSizeInBytes, data.Length, SizeInBytes))
+                throw new ArgumentOutOfRangeException("", BufferExceptionMessages.outOfRange);
 
-            int newBufferSize = CalculateRequiredSize(offsetInBytes, data.Length, itemSizeInBytes);
-            if (newBufferSize > SizeInBytes)
-                throw new ArgumentOutOfRangeException(nameof(data), BufferExceptionMessages.subDataTooLong);
 
             Bind();
             GL.BufferSubData(Target, new IntPtr(offsetInBytes), itemSizeInBytes * data.Length, data);
@@ -163,22 +160,12 @@ namespace SFGraphics.GLObjects.BufferObjects
         /// <param name="offsetInBytes">The starting offset for reading</param>
         /// <param name="itemCount">The number of items of type <typeparamref name="T"/> to read.</param>
         /// <returns>An array of size <paramref name="itemCount"/></returns>
-        /// <exception cref="ArgumentOutOfRangeException">The specified range includes data 
-        /// outside the buffer's current capacity.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">The specified range includes data outside the buffer's current capacity.</exception>
         public T[] GetSubData<T>(int offsetInBytes, int itemCount) where T : struct
         {
             int itemSizeInBytes = System.Runtime.InteropServices.Marshal.SizeOf(typeof(T));
-
-            if ((SizeInBytes % itemSizeInBytes) != 0)
-                throw new ArgumentOutOfRangeException(nameof(T), BufferExceptionMessages.bufferNotDivisibleByRequestedType);
-
-            // Throw exception for attempts to read data outside the current range.
-            if (offsetInBytes < 0 || itemCount < 0 || itemSizeInBytes < 0)
-                throw new ArgumentOutOfRangeException(BufferExceptionMessages.offsetMustBeNonNegative);
-
-            int newBufferSize = CalculateRequiredSize(offsetInBytes, itemCount, itemSizeInBytes);
-            if (newBufferSize > SizeInBytes)
-                throw new ArgumentOutOfRangeException(BufferExceptionMessages.subDataTooLong);
+            if (!BufferValidation.IsValidAccess(offsetInBytes, itemSizeInBytes, itemCount, SizeInBytes))
+                throw new ArgumentOutOfRangeException("", BufferExceptionMessages.outOfRange);
 
             Bind();
 

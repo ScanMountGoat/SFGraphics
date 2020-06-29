@@ -40,7 +40,7 @@ namespace SFGraphics.Test.BufferObjectTests
         {
             var e = Assert.ThrowsException<ArgumentOutOfRangeException>(() => buffer.GetData<Vector4>());
             Assert.AreEqual("T", e.ParamName);
-            Assert.AreEqual($"The buffer's size is not divisible by the requested type's size.{Environment.NewLine}Parameter name: T", e.Message);
+            Assert.AreEqual($"The buffer data is not divisible by the requested type's size.{Environment.NewLine}Parameter name: T", e.Message);
         }
     }
 }

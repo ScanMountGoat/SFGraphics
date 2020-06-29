@@ -60,6 +60,7 @@
     <Compile Include="Test\BitmapUtilsTests\GetBitmap.cs" />
     <Compile Include="Test\BoundingSphereTests\SpherePointUtils.cs" />
     <Compile Include="Test\BoundingSphereTests\GenerateBoundingSphereFromSpheres.cs" />
+    <Compile Include="Test\BufferValidationTests\IsValidAccess.cs" />
     <Compile Include="Test\ColorUtilsTests\Clamp.cs" />
     <Compile Include="Test\ColorUtilsTests\GetColorTests\FromFloats.cs" />
     <Compile Include="Test\ColorUtilsTests\GetColorTests\FromVector3.cs" />

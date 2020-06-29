@@ -23,6 +23,10 @@ namespace SFGenericModel
         // Each attribute has it's own buffer using generics (each buffer can be specified in a different type. OpenGL won't care).
         // Validate buffer sizes based on vertex shader attribute information.
 
+        // TODO: 
+        // Support the case where buffer can be shared among multiple attributes.
+        // This has little advantage for rendering, but it can simplify parsing code.
+
         // Possible implementation.
         void SetAttributeData<T>(string attributeName, T[] attributeData)
         {
