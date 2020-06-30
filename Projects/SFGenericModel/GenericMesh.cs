@@ -59,6 +59,7 @@ namespace SFGenericModel
 
         /// <summary>
         /// Creates a new mesh and initializes the vertex buffer data.
+        /// Indices in <paramref name="vertexIndices"/> are treated as unsigned integers.
         /// </summary>
         /// <param name="vertices">The vertex data</param>
         /// <param name="vertexIndices">The vertex index data</param>

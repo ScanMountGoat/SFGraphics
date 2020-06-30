@@ -39,9 +39,8 @@ namespace SFGenericModel
         /// </summary>
         /// <param name="vertexIndices">The indices used for drawing</param>
         /// <param name="primitiveType">Determines how primitives will be constructed from the vertex data</param>
-        /// <param name="drawElementsType">The data type of the vertex indices</param>
         /// <param name="vertexCount">The number of vertices for the vertex data buffers. This should be the same for fall buffers.</param>
-        public GenericMeshNonInterleaved(int[] vertexIndices, PrimitiveType primitiveType, DrawElementsType drawElementsType, int vertexCount) : base(primitiveType, drawElementsType, vertexCount)
+        public GenericMeshNonInterleaved(uint[] vertexIndices, PrimitiveType primitiveType, int vertexCount) : base(primitiveType, DrawElementsType.UnsignedInt, vertexCount)
         {
             vertexIndexBuffer.SetData(vertexIndices, BufferUsageHint.StaticDraw);
         }

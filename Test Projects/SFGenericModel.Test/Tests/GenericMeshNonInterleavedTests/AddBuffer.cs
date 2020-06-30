@@ -11,7 +11,7 @@ namespace SFGenericModel.Test.GenericMeshNonInterleavedTests
 
         private class MeshA : GenericMeshNonInterleaved
         {
-            public MeshA() : base(new int[16], PrimitiveType.Triangles, DrawElementsType.UnsignedInt, vertexCount) { }
+            public MeshA() : base(new uint[16], PrimitiveType.Triangles, vertexCount) { }
         }
 
         [TestInitialize]
