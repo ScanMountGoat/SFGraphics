@@ -71,17 +71,6 @@ namespace SFGenericModel
             attributesByBuffer.Add(buffer, new List<VertexAttributeExtended>());
         }
 
-        // TODO:
-        // Support a variable number of attributes.
-        // Each attribute has it's own buffer using generics (each buffer can be specified in a different type. OpenGL won't care).
-        // Validate buffer sizes based on vertex shader attribute information.
-
-        // TODO: 
-        // Support the case where buffer can be shared among multiple attributes.
-        // This has little advantage for rendering, but it can simplify parsing code.
-
-        // Possible implementation.
-
         /// <summary>
         /// Configures the data source for a floating point vertex attribute.
         /// An exception is thrown if the specified parameters would result in an invalid buffer access.
@@ -118,6 +107,7 @@ namespace SFGenericModel
         {
             // TODO: Check for any active attributes that have no data assigned and throw exception.
             // This will likely cause a crash when calling GL.DrawElements.
+            // This can probably be added to Shader and/or GenericMeshBase.
 
             vertexIndexBuffer.Bind();
 
