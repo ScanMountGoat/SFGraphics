@@ -122,10 +122,9 @@ namespace SFGraphics.GLObjects.Shaders
 
             LoadAttributes();
             LoadUniforms();
+            LoadUniformBlocks();
             return true;
         }
-
-
 
         private void AddActiveAttribute(int index)
         {
@@ -162,15 +161,30 @@ namespace SFGraphics.GLObjects.Shaders
 
         private void LoadUniforms()
         {
-            // Locations may change when linking the shader again.
             GL.GetProgram(Id, GetProgramParameterName.ActiveUniforms, out int activeUniformCount);
             ActiveUniformCount = activeUniformCount;
 
+            // Reset the dictionary because locations may change when linking the shader again.
             activeUniformByName = new Dictionary<string, ActiveUniformInfo>(ActiveUniformCount);
 
             for (int i = 0; i < ActiveUniformCount; i++)
             {
                 AddActiveUniform(i);
+            }
+        }
+
+        private void LoadUniformBlocks()
+        {
+            GL.GetProgram(Id, GetProgramParameterName.ActiveUniformBlocks, out int activeUniformBlockCount);
+            ActiveUniformBlockCount = activeUniformBlockCount;
+
+            // Reset the dictionary because locations may change when linking the shader again.
+            activeUniformBlockIndexByName = new Dictionary<string, int>(ActiveUniformBlockCount);
+
+            for (int i = 0; i < ActiveUniformBlockCount; i++)
+            {
+                var name = GL.GetActiveUniformBlockName(Id, i);
+                activeUniformBlockIndexByName.Add(name, i);
             }
         }
 

@@ -21,6 +21,7 @@ namespace SFGraphics.Test.ShaderTests.ProgramCreationTests
 
             Assert.AreEqual(18, shader.ActiveUniformCount);
             Assert.AreEqual(0, shader.ActiveAttributeCount);
+            Assert.AreEqual(1, shader.ActiveUniformBlockCount);
         }
 
         [TestMethod]
@@ -35,6 +36,7 @@ namespace SFGraphics.Test.ShaderTests.ProgramCreationTests
 
             Assert.AreEqual(0, shader.ActiveUniformCount);
             Assert.AreEqual(0, shader.ActiveAttributeCount);
+            Assert.AreEqual(0, shader.ActiveUniformBlockCount);
         }
 
         [TestMethod]

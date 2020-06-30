@@ -1,4 +1,5 @@
-﻿using OpenTK.Graphics.OpenGL;
+﻿using OpenTK.Graphics;
+using OpenTK.Graphics.OpenGL;
 using SFGraphics.GLObjects.Shaders.ShaderEventArgs;
 using SFGraphics.GLObjects.Shaders.Utils;
 using System;
@@ -18,6 +19,7 @@ namespace SFGraphics.GLObjects.Shaders
 
         private Dictionary<string, ActiveUniformInfo> activeUniformByName = new Dictionary<string, ActiveUniformInfo>();
         private Dictionary<string, ActiveAttribInfo> activeAttribByName = new Dictionary<string, ActiveAttribInfo>();
+        private Dictionary<string, int> activeUniformBlockIndexByName = new Dictionary<string, int>();
 
         // Keeping another reference will make shader objects eligible for cleanup later, 
         // but it reduces the number of GL calls required for some methods.
@@ -25,13 +27,19 @@ namespace SFGraphics.GLObjects.Shaders
 
         /// <summary>
         /// The number of uniforms used by the shader. 
-        /// Uniforms optimized out by the compiler are unused.
+        /// Uniforms optimized out by the compiler are considered unused.
         /// </summary>
         public int ActiveUniformCount { get; private set; }
 
         /// <summary>
+        /// The number of uniform blocks used by the shader.
+        /// Uniforms optimized out by the compiler are considered unused.
+        /// </summary>
+        public int ActiveUniformBlockCount { get; private set; }
+
+        /// <summary>
         /// The number of vertex attributes used by the shader. 
-        /// Attributes optimized out by the compiler are unused.
+        /// Attributes optimized out by the compiler are considered unused.
         /// </summary>
         public int ActiveAttributeCount { get; private set; }
 
@@ -182,13 +190,16 @@ namespace SFGraphics.GLObjects.Shaders
         }
 
         /// <summary>
-        /// Gets the block index of a uniform block.
+        /// Gets the block index the uniform block <paramref name="name"/>.
         /// </summary>
-        /// <param name="name">The name of the uniform block</param>
-        /// <returns>The index of <paramref name="name"/></returns>
+        /// <param name="name">The name of the uniform block in the shader</param>
+        /// <returns>The index of <paramref name="name"/> or <c>-1</c> if not found</returns>
         public int GetUniformBlockIndex(string name)
         {
-            return GL.GetUniformBlockIndex(Id, name);
+            if (string.IsNullOrEmpty(name) || !activeUniformBlockIndexByName.ContainsKey(name))
+                return -1;
+            else
+                return activeUniformBlockIndexByName[name];
         }
 
         /// <summary>

@@ -20,6 +20,7 @@ namespace SFGraphics.Test.ShaderTests.ProgramCreationTests
             Assert.IsTrue(shader.LinkStatusIsOk);
 
             Assert.AreEqual(0, shader.ActiveUniformCount);
+            Assert.AreEqual(0, shader.ActiveUniformBlockCount);
             Assert.AreEqual(2, shader.ActiveAttributeCount);
         }
 
@@ -34,6 +35,7 @@ namespace SFGraphics.Test.ShaderTests.ProgramCreationTests
             Assert.IsFalse(shader.LinkStatusIsOk);
 
             Assert.AreEqual(0, shader.ActiveUniformCount);
+            Assert.AreEqual(0, shader.ActiveUniformBlockCount);
             Assert.AreEqual(0, shader.ActiveAttributeCount);
         }
     }
