@@ -45,7 +45,7 @@ namespace SFGenericModel.Test.GenericMeshTests
         {
             var mesh = new TestMesh(new IndexedVertexData<float>(vertices, PrimitiveType.Points));
 
-            Assert.AreEqual(vertices.Length, mesh.VertexCount);
+            Assert.AreEqual(vertices.Length, mesh.VertexIndexCount);
             Assert.AreEqual(PrimitiveType.Points, mesh.PrimitiveType);
             Assert.AreEqual(DrawElementsType.UnsignedInt, mesh.DrawElementsType);
         }
@@ -55,7 +55,7 @@ namespace SFGenericModel.Test.GenericMeshTests
         {
             var mesh = new TestMesh(vertices, PrimitiveType.Points);
 
-            Assert.AreEqual(vertices.Length, mesh.VertexCount);
+            Assert.AreEqual(vertices.Length, mesh.VertexIndexCount);
             Assert.AreEqual(PrimitiveType.Points, mesh.PrimitiveType);
             Assert.AreEqual(DrawElementsType.UnsignedInt, mesh.DrawElementsType);
         }
@@ -65,7 +65,7 @@ namespace SFGenericModel.Test.GenericMeshTests
         {
             var mesh = new TestMesh(vertices, signedIndices, PrimitiveType.Points);
 
-            Assert.AreEqual(signedIndices.Length, mesh.VertexCount);
+            Assert.AreEqual(signedIndices.Length, mesh.VertexIndexCount);
             Assert.AreEqual(PrimitiveType.Points, mesh.PrimitiveType);
             Assert.AreEqual(DrawElementsType.UnsignedInt, mesh.DrawElementsType);
         }
@@ -75,7 +75,7 @@ namespace SFGenericModel.Test.GenericMeshTests
         {
             var mesh = new TestMesh(vertices, indices, PrimitiveType.Points);
 
-            Assert.AreEqual(indices.Length, mesh.VertexCount);
+            Assert.AreEqual(indices.Length, mesh.VertexIndexCount);
             Assert.AreEqual(PrimitiveType.Points, mesh.PrimitiveType);
             Assert.AreEqual(DrawElementsType.UnsignedInt, mesh.DrawElementsType);
         }

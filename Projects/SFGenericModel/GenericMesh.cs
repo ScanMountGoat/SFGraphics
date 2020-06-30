@@ -98,7 +98,6 @@ namespace SFGenericModel
         /// <param name="shader">The shader to query for attribute information</param>
         protected override void ConfigureVertexAttributes(Shader shader)
         {
-            vertexBuffer.Bind();
             vertexIndexBuffer.Bind();
 
             shader.EnableVertexAttributes();
@@ -107,6 +106,8 @@ namespace SFGenericModel
 
         private void SetVertexAttributes(Shader shader, IEnumerable<VertexAttribute> attributes)
         {
+            vertexBuffer.Bind();
+
             // Calculating the offset requires the list order to match the struct member order.
             int offset = 0;
             foreach (var attribute in attributes)

@@ -12,10 +12,10 @@ namespace SFGenericModel
     public abstract class GenericMeshBase
     {
         /// <summary>
-        /// The number of vertices stored in the vertex data buffers.
-        /// The actual number of vertices used for drawing depends on the number of indices.
+        /// The number of actual vertices to draw.
+        /// The vertex data buffers may have fewer elements if vertices are shared.
         /// </summary>
-        public int VertexCount { get; }
+        public int VertexIndexCount { get; }
 
         /// <summary>
         /// Determines how primitives will be constructed from the vertex data.
@@ -43,7 +43,7 @@ namespace SFGenericModel
         {
             PrimitiveType = primitiveType;
             DrawElementsType = drawElementsType;
-            VertexCount = vertexCount;
+            VertexIndexCount = vertexCount;
         }
 
         /// <summary>
@@ -77,7 +77,7 @@ namespace SFGenericModel
         /// <param name="shader">The shader used for drawing</param>
         public void Draw(Shader shader)
         {
-            Draw(shader, VertexCount, 0);
+            Draw(shader, VertexIndexCount, 0);
         }
 
         /// <summary>

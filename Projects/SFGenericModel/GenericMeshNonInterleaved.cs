@@ -13,6 +13,12 @@ namespace SFGenericModel
     /// </summary>
     public abstract class GenericMeshNonInterleaved : GenericMeshBase
     {
+        /// <summary>
+        /// The number of vertices for the vertex data buffers.
+        /// See <see cref="GenericMeshBase.VertexIndexCount"/> for comparison.
+        /// </summary>
+        public int VertexCount { get; }
+
         private static readonly string invalidAccessMessage = "One or more attribute data accesses will not be within the specified buffer's data storage";
 
         private class VertexAttributeExtended
@@ -39,9 +45,10 @@ namespace SFGenericModel
         /// </summary>
         /// <param name="vertexIndices">The indices used for drawing</param>
         /// <param name="primitiveType">Determines how primitives will be constructed from the vertex data</param>
-        /// <param name="vertexCount">The number of vertices for the vertex data buffers. This should be the same for fall buffers.</param>
-        public GenericMeshNonInterleaved(uint[] vertexIndices, PrimitiveType primitiveType, int vertexCount) : base(primitiveType, DrawElementsType.UnsignedInt, vertexCount)
+        /// <param name="vertexCount">The number of vertices for the vertex data buffers. This should be the same for all buffers.</param>
+        public GenericMeshNonInterleaved(uint[] vertexIndices, PrimitiveType primitiveType, int vertexCount) : base(primitiveType, DrawElementsType.UnsignedInt, vertexIndices.Length)
         {
+            VertexCount = vertexCount;
             vertexIndexBuffer.SetData(vertexIndices, BufferUsageHint.StaticDraw);
         }
 
@@ -109,8 +116,8 @@ namespace SFGenericModel
         /// <param name="shader">The shader to query for attribute information</param>
         protected override void ConfigureVertexAttributes(Shader shader)
         {
-            // TODO: Check or any active attributes that have no data assigned and throw exception.
-            // This will likely cause a crash when callin GL.DrawElements.
+            // TODO: Check for any active attributes that have no data assigned and throw exception.
+            // This will likely cause a crash when calling GL.DrawElements.
 
             vertexIndexBuffer.Bind();
 
