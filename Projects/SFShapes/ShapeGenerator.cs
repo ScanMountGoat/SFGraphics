@@ -22,7 +22,7 @@ namespace SFShapes
         /// <param name="center">The center of the shape</param>
         /// <param name="scale">The side length of each cube face</param>
         /// <returns></returns>
-        public static Tuple<List<Vector3>, PrimitiveType> GetCubePositions(Vector3 center, float scale)
+        public static Tuple<Vector3[], PrimitiveType> GetCubePositions(Vector3 center, float scale)
         {
             return GetRectangularPrismPositions(center, scale, scale, scale);
         }
@@ -36,13 +36,13 @@ namespace SFShapes
         /// <param name="scaleY">The total height of the shape</param>
         /// <param name="scaleZ">The total depth of the shape</param>
         /// <returns>Points for a rectangular prism</returns>
-        public static Tuple<List<Vector3>, PrimitiveType> GetRectangularPrismPositions(Vector3 center, float scaleX, float scaleY, float scaleZ)
+        public static Tuple<Vector3[], PrimitiveType> GetRectangularPrismPositions(Vector3 center, float scaleX, float scaleY, float scaleZ)
         {
-            scaleX = scaleX * 0.5f;
-            scaleY = scaleY * 0.5f;
-            scaleZ = scaleZ * 0.5f;
+            scaleX *= 0.5f;
+            scaleY *= 0.5f;
+            scaleZ *= 0.5f;
 
-            List<Vector3> positions = new List<Vector3>()
+            var positions = new Vector3[]
             {
                 new Vector3(center.X + -scaleX, center.Y + -scaleY, center.Z + -scaleZ),
                 new Vector3(center.X + -scaleX, center.Y + -scaleY, center.Z +  scaleZ),
@@ -93,7 +93,7 @@ namespace SFShapes
                 new Vector3(center.X +  scaleX, center.Y + -scaleY, center.Z +  scaleZ)
             };
 
-            return new Tuple<List<Vector3>, PrimitiveType>(positions, PrimitiveType.Triangles);
+            return new Tuple<Vector3[], PrimitiveType>(positions, PrimitiveType.Triangles);
         }
 
         /// <summary>
@@ -105,7 +105,7 @@ namespace SFShapes
         /// <returns>Vertices for a triangle strip sphere</returns>
         /// <exception cref="ArgumentOutOfRangeException">Radius is <c>0</c> or negative. 
         /// Precision is less than <see cref="minSpherePrecision"/>.</exception>
-        public static Tuple<List<Vector3>, PrimitiveType> GetSpherePositions(Vector3 center, float radius, int precision)
+        public static Tuple<Vector3[], PrimitiveType> GetSpherePositions(Vector3 center, float radius, int precision)
         {
             // Adapted to modern OpenGL from method in OpenTKContext.cs
             // https://github.com/libertyernie/brawltools/blob/ba2e029a51224f83e77fd9332c969c99fe092f33/BrawlLib/OpenGL/TKContext.cs#L487-L539
@@ -122,24 +122,20 @@ namespace SFShapes
             float oneOverPrecision = 1.0f / precision;
             float twoPIOverPrecision = (float)(Math.PI * 2.0 * oneOverPrecision);
 
-            float theta1 = 0;
-            float theta2 = 0;
-            float theta3 = 0;
-
             for (int j = 0; j < precision / 2; j++)
             {
-                theta1 = (j * twoPIOverPrecision) - halfPI;
-                theta2 = ((j + 1) * twoPIOverPrecision) - halfPI;
+                float theta1 = (j * twoPIOverPrecision) - halfPI;
+                float theta2 = ((j + 1) * twoPIOverPrecision) - halfPI;
 
                 for (int i = 0; i <= precision; i++)
                 {
-                    theta3 = i * twoPIOverPrecision;
+                    float theta3 = i * twoPIOverPrecision;
                     CreateFirstSphereVertex(center, radius, positions, theta2, theta3);
                     CreateSecondSphereVertex(center, radius, positions, theta1, theta3);
                 }
             }
 
-            return new Tuple<List<Vector3>, PrimitiveType>(positions, PrimitiveType.TriangleStrip);
+            return new Tuple<Vector3[], PrimitiveType>(positions.ToArray(), PrimitiveType.TriangleStrip);
         }
 
         private static void CreateSecondSphereVertex(Vector3 center, float radius, List<Vector3> positions, float theta1, float theta3)
