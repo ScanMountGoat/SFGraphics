@@ -16,11 +16,9 @@ namespace SFGenericModel
     public abstract class GenericMesh<T> : GenericMeshBase where T : struct
     {
         // Used for attribute offset calculation.
-        private readonly int vertexSizeInBytes;
+        private static readonly int vertexSizeInBytes = System.Runtime.InteropServices.Marshal.SizeOf(typeof(T));
 
-        // Vertex and index data.
         private readonly BufferObject vertexBuffer = new BufferObject(BufferTarget.ArrayBuffer);
-        private readonly BufferObject vertexIndexBuffer = new BufferObject(BufferTarget.ElementArrayBuffer);
 
         /// <summary>
         /// Contains information about the arguments used to set a vertex attribute.
@@ -40,19 +38,13 @@ namespace SFGenericModel
         /// </summary>
         protected static List<VertexAttribute> vertexAttributes = VertexAttributeUtils.GetAttributesFromType<T>();
 
-        private GenericMesh(PrimitiveType primitiveType, DrawElementsType drawElementsType, System.Type vertexType, int vertexCount) : base(primitiveType, drawElementsType, vertexCount)
-        {
-            vertexSizeInBytes = System.Runtime.InteropServices.Marshal.SizeOf(vertexType);
-        }
-
         /// <summary>
         /// Creates a new mesh and initializes the vertex buffer data.
         /// An index is generated for each vertex in <paramref name="vertices"/>.
         /// </summary>
         /// <param name="vertices">The vertex data</param>
         /// <param name="primitiveType">Determines how primitives will be constructed from the vertex data</param>
-        protected GenericMesh(T[] vertices, PrimitiveType primitiveType) 
-            : this(primitiveType, DrawElementsType.UnsignedInt, typeof(T), vertices.Length)
+        public GenericMesh(T[] vertices, PrimitiveType primitiveType) : base(vertices.Length, primitiveType)
         {
             InitializeBufferData(vertices);
         }
@@ -64,10 +56,10 @@ namespace SFGenericModel
         /// <param name="vertices">The vertex data</param>
         /// <param name="vertexIndices">The vertex index data</param>
         /// <param name="primitiveType">Determines how primitives will be constructed from the vertex data</param>
-        protected GenericMesh(T[] vertices, int[] vertexIndices, PrimitiveType primitiveType)
-            : this(primitiveType, DrawElementsType.UnsignedInt, typeof(T), vertexIndices.Length)
+        public GenericMesh(T[] vertices, int[] vertexIndices, PrimitiveType primitiveType)
+            : base((uint[])(object)vertexIndices, primitiveType)
         {
-            InitializeBufferData(vertices, vertexIndices);
+            InitializeBufferData(vertices);
         }
 
         /// <summary>
@@ -76,17 +68,17 @@ namespace SFGenericModel
         /// <param name="vertices">The vertex data</param>
         /// <param name="vertexIndices">The vertex index data</param>
         /// <param name="primitiveType">Determines how primitives will be constructed from the vertex data</param>
-        protected GenericMesh(T[] vertices, uint[] vertexIndices, PrimitiveType primitiveType)
-            : this(primitiveType, DrawElementsType.UnsignedInt, typeof(T), vertexIndices.Length)
+        public GenericMesh(T[] vertices, uint[] vertexIndices, PrimitiveType primitiveType)
+            : base(vertexIndices, primitiveType)
         {
-            InitializeBufferData(vertices, vertexIndices);
+            InitializeBufferData(vertices);
         }
 
         /// <summary>
         /// Creates a new mesh and initializes the vertex buffer data.
         /// </summary>
         /// <param name="vertexData">Contains the vertices, indices, and primitive type</param>
-        protected GenericMesh(IndexedVertexData<T> vertexData) 
+        public GenericMesh(IndexedVertexData<T> vertexData) 
             : this(vertexData.Vertices, vertexData.Indices, vertexData.PrimitiveType)
         {
 
@@ -98,8 +90,6 @@ namespace SFGenericModel
         /// <param name="shader">The shader to query for attribute information</param>
         protected override void ConfigureVertexAttributes(Shader shader)
         {
-            vertexIndexBuffer.Bind();
-
             shader.EnableVertexAttributes();
             SetVertexAttributes(shader, vertexAttributes);
         }
@@ -118,17 +108,9 @@ namespace SFGenericModel
             }
         }
 
-        private void InitializeBufferData<TIndex>(T[] vertices, TIndex[] vertexIndices) where TIndex : struct
-        {
-            // TODO: Forcing the parameters to be arrays will avoid copying the data an additional time.
-            vertexBuffer.SetData(vertices, BufferUsageHint.StaticDraw);
-            vertexIndexBuffer.SetData(vertexIndices, BufferUsageHint.StaticDraw);
-        }
-
         private void InitializeBufferData(T[] vertices)
         {
-            var indices = IndexUtils.GenerateIndices(vertices.Length);
-            InitializeBufferData(vertices, indices);
+            vertexBuffer.SetData(vertices, BufferUsageHint.StaticDraw);
         }
     }
 }

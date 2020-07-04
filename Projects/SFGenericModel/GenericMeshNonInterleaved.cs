@@ -35,8 +35,6 @@ namespace SFGenericModel
             }
         }
 
-        private readonly BufferObject vertexIndexBuffer = new BufferObject(BufferTarget.ElementArrayBuffer);
-
         private readonly Dictionary<string, BufferObject> bufferByName = new Dictionary<string, BufferObject>();
         private readonly Dictionary<BufferObject, List<VertexAttributeExtended>> attributesByBuffer = new Dictionary<BufferObject, List<VertexAttributeExtended>>();
 
@@ -46,10 +44,9 @@ namespace SFGenericModel
         /// <param name="vertexIndices">The indices used for drawing</param>
         /// <param name="primitiveType">Determines how primitives will be constructed from the vertex data</param>
         /// <param name="vertexCount">The number of vertices for the vertex data buffers. This should be the same for all buffers.</param>
-        public GenericMeshNonInterleaved(uint[] vertexIndices, PrimitiveType primitiveType, int vertexCount) : base(primitiveType, DrawElementsType.UnsignedInt, vertexIndices.Length)
+        public GenericMeshNonInterleaved(uint[] vertexIndices, PrimitiveType primitiveType, int vertexCount) : base(vertexIndices, primitiveType)
         {
             VertexCount = vertexCount;
-            vertexIndexBuffer.SetData(vertexIndices, BufferUsageHint.StaticDraw);
         }
 
         /// <summary>
@@ -108,9 +105,6 @@ namespace SFGenericModel
             // TODO: Check for any active attributes that have no data assigned and throw exception.
             // This will likely cause a crash when calling GL.DrawElements.
             // This can probably be added to Shader and/or GenericMeshBase.
-
-            vertexIndexBuffer.Bind();
-
             shader.EnableVertexAttributes();
             SetVertexAttributes(shader);
         }
