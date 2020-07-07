@@ -19,7 +19,7 @@ namespace SFGraphics.Test.ShaderTests.ProgramCreationTests
             // Set up the context for all the tests.
             base.Initialize();
             shader = new Shader();
-            shader.OnLinkStatusChanged += Shader_OnLinkStatusChanged;
+            shader.LinkStatusChanged += Shader_OnLinkStatusChanged;
         }
 
         private void Shader_OnLinkStatusChanged(object sender, LinkStatusEventArgs e)

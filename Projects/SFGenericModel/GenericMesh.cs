@@ -23,7 +23,7 @@ namespace SFGenericModel
         /// <summary>
         /// Contains information about the arguments used to set a vertex attribute.
         /// </summary>
-        /// <param name="sender">The <see cref=""/> 
+        /// <param name="sender">The object generating the event/> 
         /// instance that generated the error</param>
         /// <param name="e">The vertex attribute information</param>
         public delegate void InvalidAttribSetEventHandler(object sender, AttribSetEventArgs e);
@@ -31,7 +31,16 @@ namespace SFGenericModel
         /// <summary>
         /// Occurs when specified vertex attribute information does not match the shader.
         /// </summary>
-        public event InvalidAttribSetEventHandler OnInvalidAttribSet;
+        public event InvalidAttribSetEventHandler InvalidAttribSet;
+
+        /// <summary>
+        /// Invoke the <see cref="InvalidAttribSet"/> event with the specified args.
+        /// </summary>
+        /// <param name="e">The vertex attribut information</param>
+        protected virtual void OnInvalidAttributeSet(AttribSetEventArgs e)
+        {
+            InvalidAttribSet?.Invoke(this, e);
+        }
 
         /// <summary>
         /// Initialized by default using the member attributes of <typeparamref name="T"/>.
@@ -103,7 +112,7 @@ namespace SFGenericModel
             foreach (var attribute in attributes)
             {
                 if (!VertexAttributeUtils.SetVertexAttribute(shader, attribute, offset, vertexSizeInBytes))
-                    OnInvalidAttribSet?.Invoke(this, new AttribSetEventArgs(attribute.Name, attribute.Type, attribute.ValueCount));
+                    OnInvalidAttribSet(new AttribSetEventArgs(attribute.Name, attribute.Type, attribute.ValueCount));
                 offset += attribute.SizeInBytes; 
             }
         }

@@ -18,7 +18,7 @@ namespace SFGraphics.Test.ShaderTests
             if (shader == null)
             {
                 shader = ShaderTestUtils.CreateValidShader();
-                shader.OnInvalidUniformSet += Shader_OnInvalidUniformSet;
+                shader.InvalidUniformSet += Shader_OnInvalidUniformSet;
             }
 
             eventArgs.Clear();

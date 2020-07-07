@@ -352,7 +352,7 @@ namespace SFGraphics.GLObjects.Shaders
                     Value = texture
                 };
 
-                OnTextureUnitTypeMismatch?.Invoke(this, textureSetArgs);
+                TextureUnitTypeMismatched?.Invoke(this, textureSetArgs);
             }
 
             bool validSet = validUniform && validSamplerType;
@@ -370,7 +370,7 @@ namespace SFGraphics.GLObjects.Shaders
                 Value = value
             };
             errorLog.LogInvalidUniformSet(uniformSetArgs);
-            OnInvalidUniformSet?.Invoke(this, uniformSetArgs);
+            InvalidUniformSet?.Invoke(this, uniformSetArgs);
         }
     }
 }

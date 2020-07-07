@@ -48,7 +48,7 @@ namespace SFGenericModel.Test.GenericMeshTests
             shader = ShaderTestUtils.CreateValidShader();
             mesh = new TestMesh();
 
-            mesh.OnInvalidAttribSet += Mesh_OnInvalidAttribSet;
+            mesh.InvalidAttribSet += Mesh_OnInvalidAttribSet;
         }
 
         [TestMethod]

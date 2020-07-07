@@ -27,8 +27,8 @@ namespace SFGraphics.Test.ShaderTests
             if (shader == null)
             {
                 shader = ShaderTestUtils.CreateValidShader();
-                shader.OnInvalidUniformSet += Shader_OnInvalidUniformSet;
-                shader.OnTextureUnitTypeMismatch += Shader_OnTextureUnitTypeMismatch;
+                shader.InvalidUniformSet += Shader_OnInvalidUniformSet;
+                shader.TextureUnitTypeMismatched += Shader_OnTextureUnitTypeMismatch;
             }
 
             invalidUniformSets.Clear();

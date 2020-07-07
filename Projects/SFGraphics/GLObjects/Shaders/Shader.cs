@@ -59,7 +59,7 @@ namespace SFGraphics.GLObjects.Shaders
                 if (linkStatusIsOk != value)
                 {
                     var linkStatusArgs = new LinkStatusEventArgs() { LinkStatus = value };
-                    OnLinkStatusChanged?.Invoke(this, linkStatusArgs);
+                    LinkStatusChanged?.Invoke(this, linkStatusArgs);
                 }
                 linkStatusIsOk = value;
             }
@@ -99,18 +99,18 @@ namespace SFGraphics.GLObjects.Shaders
         /// <summary>
         /// Occurs when arguments for setting a uniform don't match the shader.
         /// </summary>
-        public event InvalidUniformSetEventHandler OnInvalidUniformSet;
+        public event InvalidUniformSetEventHandler InvalidUniformSet;
 
         /// <summary>
         /// Occurs when a call to <see cref="SetTexture(string, Textures.Texture, int)"/>
         /// is made to a previously used texture unit but with a different sampler type.
         /// </summary>
-        public event InvalidTextureSetEventHandler OnTextureUnitTypeMismatch;
+        public event InvalidTextureSetEventHandler TextureUnitTypeMismatched;
 
         /// <summary>
         /// Occurs when the value of <see cref="LinkStatusIsOk"/> changes.
         /// </summary>
-        public event LinkStatusChangedEventHandler OnLinkStatusChanged;
+        public event LinkStatusChangedEventHandler LinkStatusChanged;
 
         // This isn't in OpenTK's enums for some reason.
         // https://www.khronos.org/registry/OpenGL/api/GL/glcorearb.h
