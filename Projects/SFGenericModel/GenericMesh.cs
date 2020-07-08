@@ -37,7 +37,7 @@ namespace SFGenericModel
         /// Invoke the <see cref="InvalidAttribSet"/> event with the specified args.
         /// </summary>
         /// <param name="e">The vertex attribut information</param>
-        protected virtual void OnInvalidAttributeSet(AttribSetEventArgs e)
+        protected virtual void OnInvalidAttribSet(AttribSetEventArgs e)
         {
             InvalidAttribSet?.Invoke(this, e);
         }
