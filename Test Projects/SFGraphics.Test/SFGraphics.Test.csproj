@@ -80,6 +80,7 @@
     <Compile Include="Tests\ReferenceCountTests\GetObjectsWithNoReferencesTests.cs" />
     <Compile Include="Tests\ReferenceCountTests\AddReference.cs" />
     <Compile Include="Tests\RenderbufferTests\ConstructorExceptions.cs" />
+    <Compile Include="Tests\SamplerTests\SetProperties.cs" />
     <Compile Include="Tests\ShaderObjectTests\CreateShader.cs" />
     <Compile Include="Tests\ShaderObjectTests\GetInfoLog.cs" />
     <Compile Include="Tests\ShaderObjectTests\GetShaderSource.cs" />
