@@ -27,6 +27,7 @@ uniform samplerCube texCube;
 uniform UniformBlockA
 {
 	float blockAFloat;
+	vec4 blockAVec4;
 };
 
 out vec4 fragColor;
@@ -57,6 +58,8 @@ void main()
 		fragColor *= vector4Arr[i];
 		fragColor.rgb *= vector3Arr[i];
 	}
+
+	fragColor.rgb *= blockAVec4.rgb;
 
     fragColor.rgb *= uint1;
 }

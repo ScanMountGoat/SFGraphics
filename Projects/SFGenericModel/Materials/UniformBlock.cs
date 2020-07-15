@@ -7,8 +7,8 @@ using System.Collections.Generic;
 namespace SFGenericModel.Materials
 {
     /// <summary>
-    /// Stores a collection of uniforms in a buffer to improve performance and allow sharing uniforms
-    /// between shader programs.
+    /// Stores a collection of uniforms in a <see cref="BufferObject"/>. 
+    /// Uniforms are set all at once using <see cref="BindBlock(Shader)"/>, which has better performance than setting uniforms individually.
     /// </summary>
     public class UniformBlock
     {
@@ -23,11 +23,12 @@ namespace SFGenericModel.Materials
 
         /// <summary>
         /// The binding point index for the uniform block.
+        /// This should not be shared with other <see cref="UniformBlock"/> instances.
         /// </summary>
         public int BlockBinding { get; set; } = 0;
 
         /// <summary>
-        /// Initializes the uniform buffer based on the layout of <paramref name="uniformBlockName"/> in <paramref name="shader"/>.
+        /// Initializes the buffer's storage capacity based on the declaration of <paramref name="uniformBlockName"/> in <paramref name="shader"/>.
         /// </summary>
         /// <param name="shader">The shader containing the uniform block</param>
         /// <param name="uniformBlockName">The name of the uniform block in <paramref name="shader"/></param>
@@ -56,10 +57,14 @@ namespace SFGenericModel.Materials
         /// </summary>
         /// <param name="uniformName">The name of the uniform inside the uniform block</param>
         /// <param name="value">The new value for the uniform</param>
-        public void SetValue<T>(string uniformName, T value) where T : struct
+        /// <returns><c>true</c> if <paramref name="uniformName"/> was set successfully</returns>
+        public bool SetValue<T>(string uniformName, T value) where T : struct
         {
-            if (offsetByUniformName.ContainsKey(uniformName))
-                uniformBuffer.SetSubData(new [] { value }, offsetByUniformName[uniformName]);
+            if (!offsetByUniformName.ContainsKey(uniformName))
+                return false;
+
+            uniformBuffer.SetSubData(new [] { value }, offsetByUniformName[uniformName]);
+            return true;
         }
 
         /// <summary>
@@ -67,10 +72,14 @@ namespace SFGenericModel.Materials
         /// </summary>
         /// <param name="uniformName">The name of the uniform inside the uniform block</param>
         /// <param name="values">The new value for the uniform</param>
-        public void SetValues<T>(string uniformName, T[] values) where T : struct
+        /// <returns><c>true</c> if <paramref name="uniformName"/> was set successfully</returns>
+        public bool SetValues<T>(string uniformName, T[] values) where T : struct
         {
-            if (offsetByUniformName.ContainsKey(uniformName))
-                uniformBuffer.SetSubData(values, offsetByUniformName[uniformName]);
+            if (!offsetByUniformName.ContainsKey(uniformName))
+                return false;
+
+            uniformBuffer.SetSubData(values, offsetByUniformName[uniformName]);
+            return true;
         }
 
         private static int[] GetUniformOffsets(Shader shader, int uniformCount, int[] uniformIndices)

@@ -19,7 +19,7 @@ namespace SFGraphics.Test.ShaderTests.ProgramCreationTests
 
             Assert.IsTrue(shader.LinkStatusIsOk);
 
-            Assert.AreEqual(18, shader.ActiveUniformCount);
+            Assert.AreEqual(19, shader.ActiveUniformCount);
             Assert.AreEqual(0, shader.ActiveAttributeCount);
             Assert.AreEqual(1, shader.ActiveUniformBlockCount);
         }
