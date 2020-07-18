@@ -1,5 +1,6 @@
 # SFGraphics
 [![Build status](https://ci.appveyor.com/api/projects/status/2u86186wtxiq77jw/branch/master?svg=true)](https://ci.appveyor.com/project/ScanMountGoat/sfgraphics/branch/master)  
+[Online Code Documentation](https://scanmountgoat.github.io/SFGraphics/)
 
 ### Overview
 SFGraphics is a C# OpenGL utility library using OpenTK. The provided projects allow for safer, simpler ways of using OpenGL to render model and texture data without adding excessive overhead.
@@ -41,15 +42,6 @@ Open the .sln and build in Visual Studio 2017 with .NET framework 4.0 or later.
 # Releases
 [Latest Commit](https://github.com/ScanMountGoat/SFGraphics/releases)  
 The latest commit to master built by Appveyor. These builds are unstable.
-
-# Documentation
-The online documentation is updated less
-frequently than the doc comments. To see doc comments in Visual Studio, simply place the XML file in the same directory
-as the DLL.
-
-[Online Code Documentation](https://scanmountgoat.github.io/SFGraphics/)
-
-TODO: [Wiki]()
 
 # Credits
 ### OpenTK  
