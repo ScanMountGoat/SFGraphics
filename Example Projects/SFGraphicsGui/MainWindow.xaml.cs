@@ -24,10 +24,14 @@ namespace SFGraphicsGui
             // The context isn't current yet, so don't call any OpenTK methods here.
             InitializeComponent();
             glViewport.VSync = false;
-            glViewport.OnRenderFrame += RenderFrame;
+            glViewport.FrameRendering += RenderFrame;
+            glViewport.HandleCreated += GlViewport_HandleCreated;
+        }
 
+        private void GlViewport_HandleCreated(object sender, EventArgs e)
+        {
+            // The context is created when the handle is created.
             SetUpRendering();
-            glViewport.RestartRendering();
         }
 
         private void RenderFrame(object sender, EventArgs e)

@@ -2,15 +2,17 @@
 using OpenTK.Graphics.OpenGL;
 using System.Threading;
 using System.Diagnostics;
+using System;
 
 namespace SFGraphics.Controls
 {
     /// <summary>
-    /// Provides functionality similar to <see cref="OpenTK.GameWindow"/> for <see cref="OpenTK.GLControl"/>.
+    /// Adds a dedicated rendering thread to <see cref="OpenTK.GLControl"/>.
     /// <para></para><para></para>
-    /// Frame timing can be handled manually or with a dedicated thread using <see cref="RestartRendering"/>.
+    /// Add rendering code to <see cref="FrameRendering"/>. Frames can be rendered on the rendering thread with 
+    /// <see cref="RestartRendering"/> or on the calling thread with <see cref="RenderFrame"/>.
     /// </summary>
-    public class GLViewport : OpenTK.GLControl, System.IDisposable
+    public class GLViewport : OpenTK.GLControl, IDisposable
     {
         /// <summary>
         /// The default graphics mode for rendering. Enables depth/stencil buffers and anti-aliasing. 
@@ -18,16 +20,10 @@ namespace SFGraphics.Controls
         public static readonly GraphicsMode defaultGraphicsMode = new GraphicsMode(new ColorFormat(8, 8, 8, 8), 24, 8, 2);
 
         /// <summary>
-        /// Describes the arguments used for a rendered frame. 
+        /// Occurs after frame and context setup and before the front and back buffer are swapped. 
+        /// This effects <see cref="RenderFrame"/> and the dedicated render thread.
         /// </summary>
-        /// <param name="sender">The control rendering the frame</param>
-        /// <param name="e">information about the rendered frame</param>
-        public delegate void OnRenderFrameEventHandler(object sender, System.EventArgs e);
-
-        /// <summary>
-        /// Occurs after frame setup and before the front and back buffer are swapped. To render a frame, use <see cref="SetUpAndRenderFrame"/>.
-        /// </summary>
-        public event OnRenderFrameEventHandler OnRenderFrame;
+        public event EventHandler FrameRendering;
 
         /// <summary>
         /// The minimum time in milliseconds between frames.
@@ -64,7 +60,7 @@ namespace SFGraphics.Controls
         /// </summary>
         public GLViewport() : this(defaultGraphicsMode)
         {
-         
+
         }
 
         /// <summary>
@@ -76,7 +72,15 @@ namespace SFGraphics.Controls
         }
 
         /// <summary>
-        /// Renders and displays a frame on the current thread. Subscribe to <see cref="OnRenderFrame"/> to add custom rendering code.
+        /// Raises the <see cref="FrameRendering"/> event.
+        /// </summary>
+        protected virtual void OnNextFrameSetUp()
+        {
+            FrameRendering?.Invoke(this, EventArgs.Empty);
+        }
+
+        /// <summary>
+        /// Renders and displays a frame on the current thread. Subscribe to <see cref="FrameRendering"/> to add custom rendering code.
         /// </summary>
         public void RenderFrame()
         {
@@ -100,7 +104,7 @@ namespace SFGraphics.Controls
             MakeCurrent();
             GL.Viewport(ClientRectangle);
 
-            OnRenderFrame?.Invoke(this, null);
+            FrameRendering?.Invoke(this, null);
 
             // Display the content on screen.
             SwapBuffers();
@@ -152,7 +156,7 @@ namespace SFGraphics.Controls
         {
             Dispose(true);
             shouldRender.Dispose();
-            System.GC.SuppressFinalize(this);
+            GC.SuppressFinalize(this);
         }
 
         /// <summary>

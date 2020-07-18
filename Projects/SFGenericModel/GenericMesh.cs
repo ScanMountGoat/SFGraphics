@@ -1,9 +1,9 @@
 ﻿using OpenTK.Graphics.OpenGL;
 using SFGenericModel.MeshEventArgs;
-using SFGenericModel.Utils;
 using SFGenericModel.VertexAttributes;
 using SFGraphics.GLObjects.BufferObjects;
 using SFGraphics.GLObjects.Shaders;
+using System;
 using System.Collections.Generic;
 
 namespace SFGenericModel
@@ -21,20 +21,12 @@ namespace SFGenericModel
         private readonly BufferObject vertexBuffer = new BufferObject(BufferTarget.ArrayBuffer);
 
         /// <summary>
-        /// Contains information about the arguments used to set a vertex attribute.
-        /// </summary>
-        /// <param name="sender">The object generating the event/> 
-        /// instance that generated the error</param>
-        /// <param name="e">The vertex attribute information</param>
-        public delegate void InvalidAttribSetEventHandler(object sender, AttribSetEventArgs e);
-
-        /// <summary>
         /// Occurs when specified vertex attribute information does not match the shader.
         /// </summary>
-        public event InvalidAttribSetEventHandler InvalidAttribSet;
+        public event EventHandler<AttribSetEventArgs> InvalidAttribSet;
 
         /// <summary>
-        /// Invoke the <see cref="InvalidAttribSet"/> event with the specified args.
+        /// Raises the <see cref="InvalidAttribSet"/> event with the specified args.
         /// </summary>
         /// <param name="e">The vertex attribut information</param>
         protected virtual void OnInvalidAttribSet(AttribSetEventArgs e)

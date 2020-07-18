@@ -75,42 +75,20 @@ namespace SFGraphics.GLObjects.Shaders
         public bool ValidateStatusIsOk => ShaderValidation.GetProgramValidateStatus(Id);
 
         /// <summary>
-        /// Handles invalid uniforms.
-        /// </summary>
-        /// <param name="sender">The shader that generated the error</param>
-        /// <param name="e">The arguments used to set the uniform</param>
-        public delegate void InvalidUniformSetEventHandler(object sender, UniformSetEventArgs e);
-
-        /// <summary>
-        /// Handles incorrect texture sets.
-        /// </summary>
-        /// <param name="sender">The shader that generated the error</param>
-        /// <param name="e">The arguments used to set the uniform</param>
-        public delegate void InvalidTextureSetEventHandler(object sender, TextureSetEventArgs e);
-
-        /// <summary>
-        /// Handles changes to the link status.
-        /// </summary>
-        /// <param name="sender">The shader that generated the event</param>
-        /// <param name="e">Information about the previous shader program linking. 
-        /// <c>true</c> when linking was successful</param>
-        public delegate void LinkStatusChangedEventHandler(object sender, LinkStatusEventArgs e);
-
-        /// <summary>
         /// Occurs when arguments for setting a uniform don't match the shader.
         /// </summary>
-        public event InvalidUniformSetEventHandler InvalidUniformSet;
+        public event EventHandler<UniformSetEventArgs> InvalidUniformSet;
 
         /// <summary>
         /// Occurs when a call to <see cref="SetTexture(string, Textures.Texture, int)"/>
         /// is made to a previously used texture unit but with a different sampler type.
         /// </summary>
-        public event InvalidTextureSetEventHandler TextureUnitTypeMismatched;
+        public event EventHandler<TextureSetEventArgs> TextureUnitTypeMismatched;
 
         /// <summary>
         /// Occurs when the value of <see cref="LinkStatusIsOk"/> changes.
         /// </summary>
-        public event LinkStatusChangedEventHandler LinkStatusChanged;
+        public event EventHandler<LinkStatusEventArgs> LinkStatusChanged;
 
         // This isn't in OpenTK's enums for some reason.
         // https://www.khronos.org/registry/OpenGL/api/GL/glcorearb.h
