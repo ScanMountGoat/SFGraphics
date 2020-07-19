@@ -21,8 +21,8 @@ namespace SFGraphics.GLObjects.Shaders
         private Dictionary<string, ActiveAttribInfo> activeAttribByName = new Dictionary<string, ActiveAttribInfo>();
         private Dictionary<string, int> activeUniformBlockIndexByName = new Dictionary<string, int>();
 
-        // Keeping another reference will make shader objects eligible for cleanup later, 
-        // but it reduces the number of GL calls required for some methods.
+        // Keeping another reference will make shader objects ineligible for cleanup 
+        // until the shader is finalized, but it reduces the number of GL calls required for some methods.
         private readonly List<ShaderObject> attachedShaders = new List<ShaderObject>();
 
         /// <summary>

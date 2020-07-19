@@ -13,7 +13,7 @@ namespace SFGraphics.GLObjects.Samplers
         /// <summary>
         /// Updates the SamplerParameter.
         /// </summary>
-        public TextureMinFilter MinFilter { set => SetSamplerParameter(SamplerParameterName.TextureMagFilter, (int)value); }
+        public TextureMinFilter MinFilter { set => SetSamplerParameter(SamplerParameterName.TextureMinFilter, (int)value); }
 
         /// <summary>
         /// Updates the SamplerParameter.
