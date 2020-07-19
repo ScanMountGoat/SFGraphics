@@ -8,6 +8,22 @@ namespace SFGraphics.Test.SamplerTests
     public class SetProperties : GraphicsContextTest
     {
         [TestMethod]
+        public void MinFilter()
+        {
+            var sampler = new SamplerObject { MinFilter = TextureMinFilter.LinearMipmapLinear };
+            GL.GetSamplerParameter(sampler.Id, SamplerParameterName.TextureMinFilter, out int param);
+            Assert.AreEqual((int)TextureMinFilter.LinearMipmapLinear, param);
+        }
+
+        [TestMethod]
+        public void MagFilter()
+        {
+            var sampler = new SamplerObject { MagFilter = TextureMagFilter.Linear };
+            GL.GetSamplerParameter(sampler.Id, SamplerParameterName.TextureMagFilter, out int param);
+            Assert.AreEqual((int)TextureMagFilter.Linear, param);
+        }
+
+        [TestMethod]
         public void TextureWrapS()
         {
             var sampler = new SamplerObject { TextureWrapS = TextureWrapMode.MirroredRepeat };
