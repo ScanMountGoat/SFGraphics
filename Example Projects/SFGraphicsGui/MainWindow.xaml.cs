@@ -63,14 +63,14 @@ namespace SFGraphicsGui
             // Display compilation warnings.
             if (!graphicsResources.screenTextureShader.LinkStatusIsOk)
             {
-                MessageBox.Show(graphicsResources.screenTextureShader.GetErrorLog(),
-                    "The texture shader did not link successfully.");
+                System.Diagnostics.Debug.WriteLine("The texture shader did not link successfully.");
+                System.Diagnostics.Debug.WriteLine(graphicsResources.screenTextureShader.GetErrorLog());
             }
 
             if (!graphicsResources.objModelShader.LinkStatusIsOk)
             {
-                MessageBox.Show(graphicsResources.objModelShader.GetErrorLog(),
-                    "The attribute shader did not link successfully.");
+                System.Diagnostics.Debug.WriteLine("The attribute shader did not link successfully.");
+                System.Diagnostics.Debug.WriteLine(graphicsResources.objModelShader.GetErrorLog());
             }
 
             // Start rendering on the dedicated thread.

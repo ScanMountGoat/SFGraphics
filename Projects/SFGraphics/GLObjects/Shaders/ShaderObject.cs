@@ -28,6 +28,8 @@ namespace SFGraphics.GLObjects.Shaders
         /// <param name="shaderType">determines which shader stage this shader will be used for when linking the program.</param>
         public ShaderObject(string shaderSource, ShaderType shaderType) : base(GL.CreateShader(shaderType))
         {
+            ShaderType = shaderType;
+
             if (!string.IsNullOrEmpty(shaderSource))
             {
                 GL.ShaderSource(Id, shaderSource);
