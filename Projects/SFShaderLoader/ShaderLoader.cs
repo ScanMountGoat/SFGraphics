@@ -29,17 +29,22 @@ namespace SFShaderLoader
         }
 
         /// <summary>
-        /// Creates and links a new <see cref="Shader"/> based on 
+        /// Creates and links a new <see cref="Shader"/> from <see cref="ShaderObject"/>
+        /// based on the keys in <paramref name="sourceNames"/>. Invalid keys are ignored.
         /// </summary>
         /// <param name="name">A unique name for the shader program</param>
         /// <param name="sourceNames">A collection of shader object names/></param>
-        /// <returns></returns>
+        /// <returns><c>true</c> if the shader was added and linked successfully</returns>
         public bool AddShader(string name, params string[] sourceNames)
         {
             var shader = new Shader();
-            var shaderObjects = sourceNames.Where(sourceName => shaderObjectByName.ContainsKey(sourceName))
-                                           .Select(sourceName => shaderObjectByName[sourceName]).ToArray();
+
+            // Ignore invalid keys.
+            var shaderObjects = (from sourceName in sourceNames 
+                                where shaderObjectByName.ContainsKey(sourceName) 
+                                select shaderObjectByName[sourceName]).ToArray();
             shader.LoadShaders(shaderObjects);
+
             shaderByName[name] = shader;
             return shader.LinkStatusIsOk;
         }
@@ -52,7 +57,7 @@ namespace SFShaderLoader
         /// <param name="vertexSources">The source code for vertex shaders</param>
         /// <param name="fragmentSources">The source code for fragment shaders</param>
         /// <param name="geometrySources">The source code for geometry shaders</param>
-        /// <returns><c>true</c> if the shader was successfully linked</returns>
+        /// <returns><c>true</c> if the shader was added and linked successfully</returns>
         public bool AddShader(string name, IEnumerable<string> vertexSources, IEnumerable<string> fragmentSources, IEnumerable<string> geometrySources)
         {
             var shaderSources = CreateShaderObjects(vertexSources, fragmentSources, geometrySources);
