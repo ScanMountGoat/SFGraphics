@@ -1,6 +1,7 @@
 ﻿using SFGraphics.GLObjects.Shaders;
 using System.Collections.Generic;
 using OpenTK.Graphics.OpenGL;
+using System.Linq;
 
 namespace SFShaderLoader
 {
@@ -10,12 +11,44 @@ namespace SFShaderLoader
     public class ShaderLoader
     {
         private readonly Dictionary<string, Shader> shaderByName = new Dictionary<string, Shader>();
+        private readonly Dictionary<string, ShaderObject> shaderObjectByName = new Dictionary<string, ShaderObject>();
 
         /// <summary>
-        /// Compiles a shader from the given source files and adds it to the shader list.
+        /// Creates and compiles a new <see cref="ShaderObject"/> to be accessed by <paramref name="name"/>
+        /// for subsequent calls to <see cref="AddShader(string, string[])"/>.
+        /// </summary>
+        /// <param name="name">The unique identifier to associate with <paramref name="shaderSource"/></param>
+        /// <param name="shaderSource">The shader's GLSL source code</param>
+        /// <param name="shaderType">Determines which shader stage this shader will be used for when linking the program</param>
+        /// <returns><c>true</c> if the shader was added and compiled successfully</returns>
+        public bool AddSource(string name, string shaderSource, ShaderType shaderType)
+        {
+            var shader = new ShaderObject(shaderSource, shaderType);
+            shaderObjectByName[name] = shader;
+            return shader.WasCompiledSuccessfully;
+        }
+
+        /// <summary>
+        /// Creates and links a new <see cref="Shader"/> based on 
+        /// </summary>
+        /// <param name="name">A unique name for the shader program</param>
+        /// <param name="sourceNames">A collection of shader object names/></param>
+        /// <returns></returns>
+        public bool AddShader(string name, params string[] sourceNames)
+        {
+            var shader = new Shader();
+            var shaderObjects = sourceNames.Where(sourceName => shaderObjectByName.ContainsKey(sourceName))
+                                           .Select(sourceName => shaderObjectByName[sourceName]).ToArray();
+            shader.LoadShaders(shaderObjects);
+            shaderByName[name] = shader;
+            return shader.LinkStatusIsOk;
+        }
+
+        /// <summary>
+        /// Compiles a <see cref="Shader"/> from the given source files and adds it to the shader list.
         /// Replaces the existing shader for <paramref name="name"/> if found.
         /// </summary>
-        /// <param name="name">A unique shader name</param>
+        /// <param name="name">A unique name for the shader program</param>
         /// <param name="vertexSources">The source code for vertex shaders</param>
         /// <param name="fragmentSources">The source code for fragment shaders</param>
         /// <param name="geometrySources">The source code for geometry shaders</param>

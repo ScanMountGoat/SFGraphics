@@ -53,13 +53,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddShaderFromBinary.cs" />
+    <Compile Include="AddShaderFromNames.cs" />
     <Compile Include="AddShaderFromSource.cs" />
+    <Compile Include="AddSource.cs" />
     <Compile Include="CreateProgramBinary.cs" />
     <Compile Include="GetShader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Shaders\FunctionA.glsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Shaders\MultipleFunctions.frag">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Shaders\valid.frag">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

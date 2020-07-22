@@ -24,7 +24,7 @@ namespace SFGraphics.GLObjects.Shaders
         /// <summary>
         /// Creates and compiles a shader object from <paramref name="shaderSource"/>.
         /// </summary>
-        /// <param name="shaderSource">The shader's source code</param>
+        /// <param name="shaderSource">The shader's GLSL source code</param>
         /// <param name="shaderType">determines which shader stage this shader will be used for when linking the program.</param>
         public ShaderObject(string shaderSource, ShaderType shaderType) : base(GL.CreateShader(shaderType))
         {
