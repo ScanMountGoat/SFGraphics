@@ -2,11 +2,9 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/2u86186wtxiq77jw/branch/master?svg=true)](https://ci.appveyor.com/project/ScanMountGoat/sfgraphics/branch/master)  
 [Online Code Documentation](https://scanmountgoat.github.io/SFGraphics/)
 
-### Overview
-SFGraphics is a C# OpenGL utility library using OpenTK. The provided projects allow for safer, simpler ways of using OpenGL to render model and texture data without adding excessive overhead.
-
 ### Getting Started
-See the provided example project for information on how to prevent common errors and render model and texture data.
+See the provided example project (SFGraphics GUI) for information on basic usage and how to render model and texture data.
+
 ### Requirements
 | Component | Minimum Required Version |
 | ---     | ---------------------- |
@@ -26,12 +24,14 @@ Contains helpful methods for working with colors and vectors. Provides methods t
 ## SFGenericModel
 Provides classes for rendering generic vertex data of a specified struct. The `GenericMesh<T>` class handles the management of buffers and vertex attributes internally. This class can be subclassed to allow for simplified rendering of vastly different vertex data.
 
-
 ## SFShapes - WIP
 Uses the SFGenericModel classes to provide rendering of basic 3d geometric primitives.
 
 ## SFShaderLoader
 Provides methods for simplifying shader loading from text and precompiled binary sources. Note that shader binaries require more modern versions of OpenGL.  
+
+## SFGraphics GUI
+An simple example of using the provided libraries in a WPF application to open and display Obj and Collada files using various debug rendering modes for vertex attributes.
 
 # Issues
 Please report all bugs or feature requests in the [bug tracker](https://github.com/ScanMountGoat/SFGraphics/issues).
