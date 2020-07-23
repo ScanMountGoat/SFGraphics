@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenTK.Graphics.OpenGL;
 using System.IO;
+using System.Collections.Generic;
 
 namespace SFShaderLoader.Test
 {
@@ -36,7 +37,8 @@ namespace SFShaderLoader.Test
         {
             var loader = new ShaderLoader();
             loader.AddSource("b", File.ReadAllText("Shaders/MultipleFunctions.frag"), ShaderType.FragmentShader);
-            Assert.IsFalse(loader.AddShader("shader", "b", "(╯ຈل͜ຈ) ╯︵ ┻━┻"));
+            var e = Assert.ThrowsException<KeyNotFoundException>(() => loader.AddShader("shader", "b", "(╯ຈل͜ຈ) ╯︵ ┻━┻"));
+            Assert.AreEqual("Source not found for key (╯ຈل͜ຈ) ╯︵ ┻━┻", e.Message);
         }
     }
 }

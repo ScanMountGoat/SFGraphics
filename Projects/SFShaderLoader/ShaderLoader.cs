@@ -35,14 +35,19 @@ namespace SFShaderLoader
         /// <param name="name">A unique name for the shader program</param>
         /// <param name="sourceNames">A collection of shader object names/></param>
         /// <returns><c>true</c> if the shader was added and linked successfully</returns>
+        /// <exception cref="KeyNotFoundException">A key in <paramref name="sourceNames"/> 
+        /// does not refer to an available shader source</exception>
         public bool AddShader(string name, params string[] sourceNames)
         {
             var shader = new Shader();
 
-            // Ignore invalid keys.
-            var shaderObjects = (from sourceName in sourceNames 
-                                where shaderObjectByName.ContainsKey(sourceName) 
-                                select shaderObjectByName[sourceName]).ToArray();
+            var shaderObjects = new ShaderObject[sourceNames.Length];
+            for (int i = 0; i < sourceNames.Length; i++)
+            {
+                // Throw an exception because this is likely a design time typo.
+                if (!shaderObjectByName.TryGetValue(sourceNames[i], out shaderObjects[i]))
+                    throw new KeyNotFoundException($"Source not found for key {sourceNames[i]}");
+            }
             shader.LoadShaders(shaderObjects);
 
             shaderByName[name] = shader;
