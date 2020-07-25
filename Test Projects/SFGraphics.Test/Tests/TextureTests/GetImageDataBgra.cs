@@ -8,7 +8,7 @@ using SFGraphics.GLObjects.Textures.TextureFormats;
 namespace SFGraphics.Test.TextureTests
 {
     [TestClass]
-    public class GetBitmap : GraphicsContextTest
+    public class GetImageDataBgra : GraphicsContextTest
     {
         private readonly byte[] originalData = { 128, 0, 10, 255 };
 
@@ -19,11 +19,9 @@ namespace SFGraphics.Test.TextureTests
             texture.LoadImageData(1, 1, originalData,
                 new TextureFormatUncompressed(PixelInternalFormat.Rgba, PixelFormat.Rgba, PixelType.UnsignedByte));
 
-            using (var bmp = texture.GetBitmap())
-            {
-                // The channels will be swapped by OpenGL.
-                Assert.AreEqual(Color.FromArgb(255, 128, 0, 10), bmp.GetPixel(0, 0));
-            }
+            // The channels will be swapped by OpenGL.
+            byte[] imageData = texture.GetImageDataBgra(0);
+            CollectionAssert.AreEqual(new byte[] { 10, 0, 128, 255 }, imageData);
         }
     }
 }

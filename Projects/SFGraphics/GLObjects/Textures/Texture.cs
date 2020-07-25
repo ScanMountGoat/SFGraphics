@@ -131,11 +131,11 @@ namespace SFGraphics.GLObjects.Textures
 
         /// <summary>
         /// Gets the image data for <paramref name="mipLevel"/>
-        /// in an RGBA unsigned byte format.
+        /// converted to an RGBA unsigned byte format.
         /// </summary>
         /// <param name="mipLevel">The mip level to read</param>
         /// <returns>The image data for <paramref name="mipLevel"/></returns>
-        public byte[] GetImageData(int mipLevel)
+        public byte[] GetImageDataRgba(int mipLevel)
         {
             int channels = 4;
             byte[] data = new byte[Width * Height * sizeof(byte) * channels];
@@ -145,17 +145,18 @@ namespace SFGraphics.GLObjects.Textures
         }
 
         /// <summary>
-        /// Gets the image data for <paramref name="mipLevel"/> in an unsigned byte format.
+        /// Gets the image data for <paramref name="mipLevel"/> 
+        /// converted to a BGRA unsigned byte format used for Bitmaps (PNG).
         /// </summary>
         /// <param name="mipLevel">The mip level to read</param>
         /// <returns>The image data for <paramref name="mipLevel"/></returns>
-        public System.Drawing.Bitmap GetBitmap(int mipLevel = 0)
+        public byte[] GetImageDataBgra(int mipLevel = 0)
         {
             int channels = 4;
             byte[] data = new byte[Width * Height * sizeof(byte) * channels];
-            GL.GetTexImage(TextureTarget, mipLevel, PixelFormat.Bgra, PixelType.UnsignedByte, data);
 
-            return SFGraphics.Utils.BitmapUtils.GetBitmap(Width, Height, data);
+            GL.GetTexImage(TextureTarget, mipLevel, PixelFormat.Bgra, PixelType.UnsignedByte, data);
+            return data;
         }
 
         private void SetTexParameter(TextureParameterName param, int value)

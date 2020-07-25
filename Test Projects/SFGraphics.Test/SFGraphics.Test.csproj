@@ -117,8 +117,8 @@
     <Compile Include="Tests\ShaderTests\ShaderTestValidShader.cs" />
     <Compile Include="Tests\ShaderTests\UniformBlockBinding.cs" />
     <Compile Include="Tests\ShaderTests\UseProgram.cs" />
-    <Compile Include="Tests\TextureTests\GetBitmap.cs" />
-    <Compile Include="Tests\TextureTests\GetImageData.cs" />
+    <Compile Include="Tests\TextureTests\GetImageDataBgra.cs" />
+    <Compile Include="Tests\TextureTests\GetImageDataRgba.cs" />
     <Compile Include="Tests\TextureTests\Texture2DTests\LoadImageData.cs" />
     <Compile Include="Tests\TextureTests\CompressedImageSize.cs" />
     <Compile Include="Tests\TextureTests\DepthTextureConstructor.cs" />

@@ -7,7 +7,7 @@ using SFGraphics.GLObjects.Textures.TextureFormats;
 namespace SFGraphics.Test.TextureTests
 {
     [TestClass]
-    public class GetImageData : GraphicsContextTest
+    public class GetImageDataRgba : GraphicsContextTest
     {
         private readonly byte[] originalData = { 128, 255, 0, 10 };
 
@@ -18,7 +18,7 @@ namespace SFGraphics.Test.TextureTests
             texture.LoadImageData(1, 1, originalData, 
                 new TextureFormatUncompressed(PixelInternalFormat.Rgba, PixelFormat.Rgba, PixelType.UnsignedByte));
 
-            byte[] imageData = texture.GetImageData(0);
+            byte[] imageData = texture.GetImageDataRgba(0);
             CollectionAssert.AreEqual(originalData, imageData);
         }
     }
