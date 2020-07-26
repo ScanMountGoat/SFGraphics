@@ -59,6 +59,7 @@ namespace SFGenericModel
         /// <exception cref="ArgumentException"><paramref name="bufferName"/> has already been added</exception>
         public void AddBuffer<T>(string bufferName, T[] bufferData) where T : struct
         {
+            // Check for duplicate keys.
             if (bufferByName.ContainsKey(bufferName))
                 throw new ArgumentException("A buffer with the given name already exists.", nameof(bufferName));
 
@@ -66,6 +67,24 @@ namespace SFGenericModel
             buffer.SetData(bufferData, BufferUsageHint.StaticDraw);
             bufferByName.Add(bufferName, buffer);
             attributesByBuffer.Add(buffer, new List<VertexAttributeExtended>());
+        }
+
+        /// <summary>
+        /// Creates and stores a new <see cref="BufferObject"/> called <paramref name="bufferName"/> with data <paramref name="buffer"/>.
+        /// Attributes can be associated with this buffer using <see cref="ConfigureAttribute(VertexAttribute, string, int, int)"/>.
+        /// </summary>
+        /// <param name="bufferName">The name to associate with this buffer</param>
+        /// <param name="buffer">The buffer containing the vertex data</param>
+        /// <exception cref="ArgumentException"><paramref name="bufferName"/> has already been added</exception>
+        public void AddBuffer(string bufferName, BufferObject buffer)
+        {
+            // Check for duplicate keys.
+            if (bufferByName.ContainsKey(bufferName))
+                throw new ArgumentException("A buffer with the given name already exists.", nameof(bufferName));
+
+            bufferByName.Add(bufferName, buffer);
+            if (!attributesByBuffer.ContainsKey(buffer))
+                attributesByBuffer.Add(buffer, new List<VertexAttributeExtended>());
         }
 
         /// <summary>

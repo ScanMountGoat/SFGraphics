@@ -56,7 +56,9 @@
     <Compile Include="Tests\AttribPointerSize.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tests\GenericMeshNonInterleavedTests\AddBuffer.cs" />
+    <Compile Include="Tests\GenericMeshNonInterleavedTests\AddBufferFromExistingBuffer.cs" />
     <Compile Include="Tests\GenericMeshNonInterleavedTests\ConfigureAttribute.cs" />
+    <Compile Include="Tests\GenericMeshNonInterleavedTests\ConfigureAttributeFromExistingBuffer.cs" />
     <Compile Include="Tests\GenericMeshNonInterleavedTests\Constructors.cs" />
     <Compile Include="Tests\GenericMeshTests\Constructors.cs" />
     <Compile Include="Tests\IndexUtilsTests\GenerateIndices.cs" />
