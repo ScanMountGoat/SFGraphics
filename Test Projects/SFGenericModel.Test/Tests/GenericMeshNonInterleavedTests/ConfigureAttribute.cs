@@ -26,8 +26,8 @@ namespace SFGenericModel.Test.GenericMeshNonInterleavedTests
         public void InvaidAttributeNoBuffers()
         {
             var mesh = new MeshA();
-            var e = Assert.ThrowsException<System.ArgumentException>(() =>
-                mesh.ConfigureAttribute(new VertexFloatAttribute("attr1", ValueCount.Four, VertexAttribPointerType.Byte, false), "buffer1", 0, sizeof(byte) * 4));
+            var e = Assert.ThrowsException<ArgumentException>(() =>
+                mesh.ConfigureAttribute(new VertexFloatAttribute("attr1", ValueCount.Four, VertexAttribPointerType.Byte, false), "buffer1", 0, 4));
             Assert.AreEqual("bufferName", e.ParamName);
             Assert.IsTrue(e.Message.Contains("The buffer buffer1 has not been added."));
         }
@@ -36,17 +36,17 @@ namespace SFGenericModel.Test.GenericMeshNonInterleavedTests
         public void ValidAttributeSingleBuffer()
         {
             var mesh = new MeshA();
-            mesh.AddBuffer("buffer1", new byte[vertexCount * 4 * sizeof(byte)]);
-            mesh.ConfigureAttribute(new VertexFloatAttribute("attr1", ValueCount.Four, VertexAttribPointerType.Byte, false), "buffer1", 0, sizeof(byte) * 4);
+            mesh.AddBuffer("buffer1", new byte[vertexCount * 4]);
+            mesh.ConfigureAttribute(new VertexFloatAttribute("attr1", ValueCount.Four, VertexAttribPointerType.Byte, false), "buffer1", 0, 4);
         }
 
         [TestMethod]
         public void InvalidAttributeNegativeOffset()
         {
             var mesh = new MeshA();
-            mesh.AddBuffer("buffer1", new byte[vertexCount * 4 * sizeof(byte)]);
+            mesh.AddBuffer("buffer1", new byte[vertexCount * 4]);
             var e = Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                mesh.ConfigureAttribute(new VertexFloatAttribute("attr1", ValueCount.Four, VertexAttribPointerType.Byte, false), "buffer1", -5, sizeof(byte) * 4));
+                mesh.ConfigureAttribute(new VertexFloatAttribute("attr1", ValueCount.Four, VertexAttribPointerType.Byte, false), "buffer1", -5, 4));
             Assert.IsTrue(e.Message.Contains("One or more attribute data accesses will not be within the specified buffer's data storage"));
         }
 
@@ -54,9 +54,9 @@ namespace SFGenericModel.Test.GenericMeshNonInterleavedTests
         public void InvalidAttributeNegativeStride()
         {
             var mesh = new MeshA();
-            mesh.AddBuffer("buffer1", new byte[vertexCount * 4 * sizeof(byte)]);
+            mesh.AddBuffer("buffer1", new byte[vertexCount * 4]);
             var e = Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                mesh.ConfigureAttribute(new VertexFloatAttribute("attr1", ValueCount.Four, VertexAttribPointerType.Byte, false), "buffer1", 0, -1 * sizeof(byte) * 4));
+                mesh.ConfigureAttribute(new VertexFloatAttribute("attr1", ValueCount.Four, VertexAttribPointerType.Byte, false), "buffer1", 0, -1 * 4));
             Assert.AreEqual("strideInBytes", e.ParamName);
             Assert.IsTrue(e.Message.Contains("One or more attribute data accesses will not be within the specified buffer's data storage"));
         }
@@ -67,21 +67,28 @@ namespace SFGenericModel.Test.GenericMeshNonInterleavedTests
             // The attribute data size is larger than stride.
             // It's unclear what OpenGL would do in this case.
             var mesh = new MeshA();
-            mesh.AddBuffer("buffer1", new byte[vertexCount * 4 * sizeof(byte)]);
+            mesh.AddBuffer("buffer1", new byte[vertexCount * 4]);
             var e = Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                mesh.ConfigureAttribute(new VertexFloatAttribute("attr1", ValueCount.Four, VertexAttribPointerType.Double, false), "buffer1", 0, sizeof(byte) * 4));
-            Assert.AreEqual("strideInBytes", e.ParamName);
-            Assert.IsTrue(e.Message.Contains("The size of the attribute's type must not exceed the stride."));
+                mesh.ConfigureAttribute(new VertexFloatAttribute("attr1", ValueCount.Four, VertexAttribPointerType.Double, false), "buffer1", 0, 4));
+            Assert.IsTrue(e.Message.Contains("One or more attribute data accesses will not be within the specified buffer's data storage"));
         }
 
         [TestMethod]
-        public void InvalidAttributeStrideTooBig()
+        public void ValidAttributeSizeLessThanStride()
         {
-            // Attribute would read too many bytes.
+            // The last element won't actually read one byte past the end of the buffer.
             var mesh = new MeshA();
-            mesh.AddBuffer("buffer1", new byte[vertexCount * 4 * sizeof(byte)]);
+            mesh.AddBuffer("buffer1", new byte[(vertexCount * 5)- 1]);
+            mesh.ConfigureAttribute(new VertexFloatAttribute("attr1", ValueCount.Four, VertexAttribPointerType.Byte, false), "buffer1", 0, 5);
+        }
+
+        [TestMethod]
+        public void ValidAttributeStrideTooLarge()
+        {
+            var mesh = new MeshA();
+            mesh.AddBuffer("buffer1", new byte[vertexCount * 3]);
             var e = Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-                mesh.ConfigureAttribute(new VertexFloatAttribute("attr1", ValueCount.Four, VertexAttribPointerType.Byte, false), "buffer1", 0, sizeof(byte) * 5));
+                mesh.ConfigureAttribute(new VertexFloatAttribute("attr1", ValueCount.Four, VertexAttribPointerType.Byte, false), "buffer1", 0, 4));
             Assert.IsTrue(e.Message.Contains("One or more attribute data accesses will not be within the specified buffer's data storage"));
         }
 
@@ -90,11 +97,11 @@ namespace SFGenericModel.Test.GenericMeshNonInterleavedTests
         {
             // Buffer 2 and 3 wouldn't be valid.
             var mesh = new MeshA();
-            mesh.AddBuffer("buffer2", new byte[vertexCount * 3 * sizeof(byte)]);
-            mesh.AddBuffer("buffer1", new byte[vertexCount * 4 * sizeof(byte)]);
-            mesh.AddBuffer("buffer3", new byte[vertexCount * 1 * sizeof(byte)]);
+            mesh.AddBuffer("buffer2", new byte[vertexCount * 3]);
+            mesh.AddBuffer("buffer1", new byte[vertexCount * 4]);
+            mesh.AddBuffer("buffer3", new byte[vertexCount * 1]);
 
-            mesh.ConfigureAttribute(new VertexFloatAttribute("attr1", ValueCount.Four, VertexAttribPointerType.Byte, false), "buffer1", 0, sizeof(byte) * 4);
+            mesh.ConfigureAttribute(new VertexFloatAttribute("attr1", ValueCount.Four, VertexAttribPointerType.Byte, false), "buffer1", 0, 4);
         }
     }
 }

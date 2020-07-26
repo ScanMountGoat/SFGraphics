@@ -101,14 +101,12 @@ namespace SFGenericModel
             if (strideInBytes < 0)
                 throw new ArgumentOutOfRangeException(nameof(strideInBytes), invalidAccessMessage);
 
-            if (AttribPointerUtils.GetSizeInBytes(vertexAttribute.Type) > strideInBytes)
-                throw new ArgumentOutOfRangeException(nameof(strideInBytes), "The size of the attribute's type must not exceed the stride.");
-
             if (!bufferByName.ContainsKey(bufferName))
                 throw new ArgumentException($"The buffer {bufferName} has not been added.", nameof(bufferName));
             var buffer = bufferByName[bufferName];
 
-            if (!BufferValidation.IsValidAccess(offsetInBytes, strideInBytes, VertexCount, buffer.SizeInBytes))
+            var elementSize = AttribPointerUtils.GetSizeInBytes(vertexAttribute.Type) * (int)vertexAttribute.ValueCount;
+            if (!BufferValidation.IsValidAccess(offsetInBytes, strideInBytes, elementSize, VertexCount, buffer.SizeInBytes))
                 throw new ArgumentOutOfRangeException("", invalidAccessMessage);
 
             // Associate attributes with the appropriate buffer, so the buffer can be bound later.
