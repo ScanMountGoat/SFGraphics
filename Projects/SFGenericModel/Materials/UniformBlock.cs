@@ -3,6 +3,7 @@ using OpenTK.Graphics.OpenGL;
 using SFGraphics.GLObjects.BufferObjects;
 using SFGraphics.GLObjects.Shaders;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace SFGenericModel.Materials
 {
@@ -58,12 +59,13 @@ namespace SFGenericModel.Materials
         /// <param name="uniformName">The name of the uniform inside the uniform block</param>
         /// <param name="value">The new value for the uniform</param>
         /// <returns><c>true</c> if <paramref name="uniformName"/> was set successfully</returns>
+        /// <exception cref="ArgumentOutOfRangeException">Setting <paramref name="value"/> would result in an invalid buffer access</exception>
         public bool SetValue<T>(string uniformName, T value) where T : struct
         {
             if (!offsetByUniformName.ContainsKey(uniformName))
                 return false;
 
-            uniformBuffer.SetSubData(new [] { value }, offsetByUniformName[uniformName]);
+            uniformBuffer.SetSubData(value, offsetByUniformName[uniformName]);
             return true;
         }
 
@@ -73,6 +75,7 @@ namespace SFGenericModel.Materials
         /// <param name="uniformName">The name of the uniform inside the uniform block</param>
         /// <param name="values">The new value for the uniform</param>
         /// <returns><c>true</c> if <paramref name="uniformName"/> was set successfully</returns>
+        /// <exception cref="ArgumentOutOfRangeException">Setting <paramref name="values"/> would result in an invalid buffer access</exception>
         public bool SetValues<T>(string uniformName, T[] values) where T : struct
         {
             if (!offsetByUniformName.ContainsKey(uniformName))

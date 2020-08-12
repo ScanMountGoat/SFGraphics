@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SFGenericModel.Materials;
 using SFGraphics.GLObjects.Shaders;
+using System;
 
 namespace SFGenericModel.Test.UniformBlockTests
 {
@@ -23,6 +24,14 @@ namespace SFGenericModel.Test.UniformBlockTests
         {
             var uniformBlock = new UniformBlock(shader, "UniformBlockA");
             Assert.IsTrue(uniformBlock.SetValues("blockAVec4", new float[4]));
+        }
+
+        [TestMethod]
+        public void ValidNameLargerThanBlock()
+        {
+            var uniformBlock = new UniformBlock(shader, "UniformBlockA");
+            var e = Assert.ThrowsException<ArgumentOutOfRangeException>(() => 
+                uniformBlock.SetValues("blockAVec4", new float[100]));
         }
 
         [TestMethod]

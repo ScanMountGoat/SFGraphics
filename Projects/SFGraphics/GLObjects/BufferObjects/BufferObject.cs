@@ -130,6 +130,23 @@ namespace SFGraphics.GLObjects.BufferObjects
         }
 
         /// <summary>
+        /// Initializes a portion of the buffer's data with the specified data.
+        /// </summary>
+        /// <typeparam name="T">The type of each item.</typeparam>
+        /// <param name="data">The data used to initialize the buffer's data.</param>
+        /// <param name="offsetInBytes">The offset where data replacement will begin</param>
+        /// <exception cref="ArgumentOutOfRangeException">The specified range includes data 
+        /// outside the buffer's current capacity.</exception>        
+        public void SetSubData<T>(T data, int offsetInBytes) where T : struct
+        {
+            int itemSizeInBytes = System.Runtime.InteropServices.Marshal.SizeOf(typeof(T));
+            if (!BufferValidation.IsValidAccess(offsetInBytes, itemSizeInBytes, 1, SizeInBytes))
+                throw new ArgumentOutOfRangeException("", BufferExceptionMessages.outOfRange);
+
+            GL.BufferSubData(Target, new IntPtr(offsetInBytes), itemSizeInBytes, ref data);
+        }
+
+        /// <summary>
         /// Reads the buffer's data into structs of type <typeparamref name="T"/>.
         /// <para></para><para></para>
         /// The data returned may not be valid if the buffer's data is modified using <see cref="MapBuffer(BufferAccess)"/>.
