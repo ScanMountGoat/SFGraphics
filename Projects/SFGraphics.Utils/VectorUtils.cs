@@ -64,8 +64,8 @@ namespace SFGraphics.Utils
         /// <param name="uv3">The UV coordinates of the third vertex</param>
         /// <param name="tangent">The generated tangent vector</param>
         /// <param name="bitangent">The generated bitangent vector</param>
-        public static void GenerateTangentBitangent(Vector3 v1, Vector3 v2, Vector3 v3, 
-                                                    Vector2 uv1, Vector2 uv2, Vector2 uv3, 
+        public static void GenerateTangentBitangent(Vector3 v1, Vector3 v2, Vector3 v3,
+                                                    Vector2 uv1, Vector2 uv2, Vector2 uv3,
                                                     out Vector3 tangent, out Vector3 bitangent)
         {
             Vector3 posA = v2 - v1;
@@ -101,7 +101,7 @@ namespace SFGraphics.Utils
         /// <param name="v2">The position of the second vertex</param>
         /// <param name="v3">The position of the third vertex</param>
         /// <returns>The calculated face normal</returns>
-        public static  Vector3 CalculateNormal(Vector3 v1, Vector3 v2, Vector3 v3)
+        public static Vector3 CalculateNormal(Vector3 v1, Vector3 v2, Vector3 v3)
         {
             Vector3 U = v2 - v1;
             Vector3 V = v3 - v1;
@@ -117,10 +117,11 @@ namespace SFGraphics.Utils
         /// <param name="normal">The vertex normal</param>
         /// <param name="tangent"></param>
         /// <param name="bitangent"></param>
-        /// <returns><code>1.0</code> if the bitangent should not be flipped, <code>-1.0</code> if the bitangent should be flipped</returns>
+        /// <returns><code>1.0</code> if the bitangent should not be flipped or <code>-1.0</code> if the bitangent should be flipped</returns>
         public static float CalculateTangentW(Vector3 normal, Vector3 tangent, Vector3 bitangent)
         {
-            return Math.Sign(Vector3.Dot(Vector3.Cross(tangent, bitangent), normal));
+            // 0.0f should stil return 1.0f to avoid generating black bitangents.
+            return Vector3.Dot(Vector3.Cross(tangent, bitangent), normal) >= 0.0f ? 1.0f : -1.0f;
         }
 
         private static Vector3 CalculateBitangent(Vector3 posA, Vector3 posB, Vector2 uvA, Vector2 uvB, float r)
