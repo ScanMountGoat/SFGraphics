@@ -26,10 +26,10 @@ namespace SFGraphics.Controls
         public event EventHandler FrameRendering;
 
         /// <summary>
-        /// The minimum time in milliseconds between frames.
-        /// A value of <c>0</c> unlocks the frame rate but can result in very high CPU usage.
+        /// The time in milliseconds between the start of each frame update.
+        /// A value of <c>0</c> unlocks the frame rate but results in very high CPU usage.
         /// </summary>
-        public int RenderFrameInterval { get; set; } = 16;
+        public float RenderFrameInterval { get; set; } = 16.6f;
 
         /// <summary>
         /// <c>true</c> when frame updates are being run from the dedicated rendering thread.
@@ -188,7 +188,8 @@ namespace SFGraphics.Controls
 
                 // The reset event has to be set for the thread to exit gracefully.
                 // Don't attempt to render a frame if the thread is flagged to close.
-                if (stopwatch.ElapsedMilliseconds >= RenderFrameInterval && !renderThreadShouldClose)
+                // Precision is implementation dependend but should be more precise than ElapsedMilliseconds.
+                if (((float)stopwatch.ElapsedTicks * 1000 / Stopwatch.Frequency) >= RenderFrameInterval && !renderThreadShouldClose)
                 {
                     stopwatch.Restart();
                     SetUpAndRenderFrame(true);
