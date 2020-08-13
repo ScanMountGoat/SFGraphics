@@ -188,7 +188,7 @@ namespace SFGraphics.Controls
 
                 // The reset event has to be set for the thread to exit gracefully.
                 // Don't attempt to render a frame if the thread is flagged to close.
-                // Precision is implementation dependend but should be more precise than ElapsedMilliseconds.
+                // Precision is implementation dependent but should be more precise than ElapsedMilliseconds.
                 if (((float)stopwatch.ElapsedTicks * 1000 / Stopwatch.Frequency) >= RenderFrameInterval && !renderThreadShouldClose)
                 {
                     stopwatch.Restart();
