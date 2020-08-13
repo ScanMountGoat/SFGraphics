@@ -190,8 +190,8 @@ namespace SFGraphics.Controls
                 // Don't attempt to render a frame if the thread is flagged to close.
                 if (stopwatch.ElapsedMilliseconds >= RenderFrameInterval && !renderThreadShouldClose)
                 {
-                    SetUpAndRenderFrame(true);
                     stopwatch.Restart();
+                    SetUpAndRenderFrame(true);
                 }
             }
         }
