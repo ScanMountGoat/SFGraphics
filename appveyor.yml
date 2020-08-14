@@ -50,4 +50,6 @@ after_build:
     - 7z a "SFGraphics.zip" "%APPVEYOR_BUILD_FOLDER%\Projects\SFShapes\bin\Release\SFShapes.xml"
     - 7z a "SFGraphics.zip" "%APPVEYOR_BUILD_FOLDER%\Projects\SFShaderLoader\bin\Release\SFShaderLoader.dll"
     - 7z a "SFGraphics.zip" "%APPVEYOR_BUILD_FOLDER%\Projects\SFShaderLoader\bin\Release\SFShaderLoader.xml"
+    - 7z a "SFGraphics.zip" "%APPVEYOR_BUILD_FOLDER%\Projects\SFGraphics.Timing\bin\Release\SFGraphics.Timing.dll"
+    - 7z a "SFGraphics.zip" "%APPVEYOR_BUILD_FOLDER%\Projects\SFGraphics.Timing\bin\Release\SFGraphics.Timing.xml"
     - appveyor PushArtifact "SFGraphics.zip"
