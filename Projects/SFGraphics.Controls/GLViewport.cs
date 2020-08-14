@@ -156,6 +156,7 @@ namespace SFGraphics.Controls
         {
             Dispose(true);
             shouldRender.Dispose();
+            isNotRenderingFrame.Dispose();
             GC.SuppressFinalize(this);
         }
 
