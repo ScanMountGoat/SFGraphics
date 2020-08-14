@@ -55,5 +55,11 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SFGraphics.Timing\SFGraphics.Timing.csproj">
+      <Project>{bc77c458-2016-48fc-a957-7924dca08ced}</Project>
+      <Name>SFGraphics.Timing</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,7 +1,6 @@
 ﻿using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
-using System.Threading;
-using System.Diagnostics;
+using SFGraphics.Timing;
 using System;
 
 namespace SFGraphics.Controls
@@ -27,22 +26,21 @@ namespace SFGraphics.Controls
 
         /// <summary>
         /// The time in milliseconds between the start of each frame update.
+        /// Defaults to 60 fps.
         /// A value of <c>0</c> unlocks the frame rate but results in very high CPU usage.
         /// </summary>
-        public float RenderFrameInterval { get; set; } = 16.6f;
+        public double RenderFrameInterval 
+        { 
+            get => frameTimer.UpdateInterval; 
+            set { frameTimer.UpdateInterval = value; }
+        }
 
         /// <summary>
         /// <c>true</c> when frame updates are being run from the dedicated rendering thread.
         /// </summary>
-        public bool IsRendering { get; private set; }
+        public bool IsRendering => frameTimer.IsUpdating;
 
-        private readonly Thread renderThread;
-
-        private bool renderThreadShouldClose;
-
-        // Use a reset event to avoid busy waiting.
-        private readonly ManualResetEvent shouldRender = new ManualResetEvent(true);
-        private readonly ManualResetEvent isNotRenderingFrame = new ManualResetEvent(true);
+        private readonly ThreadTimer frameTimer;
 
         private bool disposed;
 
@@ -51,8 +49,8 @@ namespace SFGraphics.Controls
         /// </summary>
         public GLViewport(GraphicsMode graphicsMode) : base(graphicsMode)
         {
-            // Rendering should stop when the application exits.
-            renderThread = new Thread(FrameTimingLoop) { IsBackground = true };
+            frameTimer = new ThreadTimer() { UpdateInterval = 16.6 };
+            SetUpFrameRenderingEvents();
         }
 
         /// <summary>
@@ -69,6 +67,25 @@ namespace SFGraphics.Controls
         ~GLViewport()
         {
             Dispose(false);
+        }
+
+
+        /// <summary>
+        /// Starts or resumes frame updates with interval specified by <see cref="RenderFrameInterval"/>.
+        /// The context is made current on the rendering thread.
+        /// </summary>
+        public void RestartRendering()
+        {
+            frameTimer.Restart();
+        }
+
+        /// <summary>
+        /// Pauses the rendering thread and blocks until the current frame has finished.
+        /// The context is made current on the calling thread.
+        /// </summary>
+        public void PauseRendering()
+        {
+            frameTimer.Stop();
         }
 
         /// <summary>
@@ -96,10 +113,20 @@ namespace SFGraphics.Controls
                 RestartRendering();
         }
 
+        private void SetUpFrameRenderingEvents()
+        {
+            // Make sure the context is only current on a single thread.
+            frameTimer.Starting += (s, e) =>
+            {
+                if (Context.IsCurrent)
+                    Context.MakeCurrent(null);
+            };
+            frameTimer.Stopped += (s, e) => MakeCurrent();
+            frameTimer.Updating += (s, e) => SetUpAndRenderFrame(true);
+        }
+
         private void SetUpAndRenderFrame(bool wasRenderingOnThread)
         {
-            isNotRenderingFrame.Reset();
-
             // Set the drawable area to the current dimensions.
             MakeCurrent();
             GL.Viewport(ClientRectangle);
@@ -112,41 +139,6 @@ namespace SFGraphics.Controls
             // Unbind the context so it can be used on the render thread.
             if (wasRenderingOnThread)
                 Context.MakeCurrent(null);
-
-            isNotRenderingFrame.Set();
-        }
-
-        /// <summary>
-        /// Starts or resumes frame updates with interval specified by <see cref="RenderFrameInterval"/>.
-        /// The context is made current on the rendering thread.
-        /// </summary>
-        public void RestartRendering()
-        {
-            IsRendering = true;
-
-            // Make sure the context is only current on a single thread.
-            if (Context.IsCurrent)
-                Context.MakeCurrent(null);
-
-            shouldRender.Set();
-
-            if (!renderThread.IsAlive)
-                renderThread.Start();
-        }
-
-        /// <summary>
-        /// Pauses the rendering thread and blocks until the current frame has finished.
-        /// The context is made current on the calling thread.
-        /// </summary>
-        public void PauseRendering()
-        {
-            IsRendering = false;
-
-            shouldRender.Reset();
-
-            // Block until rendering has actually stopped before the making context current on the current thread.
-            isNotRenderingFrame.WaitOne();
-            MakeCurrent();
         }
 
         /// <summary>
@@ -155,8 +147,6 @@ namespace SFGraphics.Controls
         public new void Dispose()
         {
             Dispose(true);
-            shouldRender.Dispose();
-            isNotRenderingFrame.Dispose();
             GC.SuppressFinalize(this);
         }
 
@@ -169,32 +159,11 @@ namespace SFGraphics.Controls
             if (!disposed)
             {
                 // Make sure the rendering thread exits.
-                renderThreadShouldClose = true;
-                shouldRender.Set();
-                if (renderThread.IsAlive)
-                    renderThread.Join();
+                frameTimer.Dispose();
 
                 base.Dispose(disposing);
 
                 disposed = true;
-            }
-        }
-
-        private void FrameTimingLoop()
-        {
-            var stopwatch = Stopwatch.StartNew();
-            while (!renderThreadShouldClose)
-            {
-                shouldRender.WaitOne();
-
-                // The reset event has to be set for the thread to exit gracefully.
-                // Don't attempt to render a frame if the thread is flagged to close.
-                // Precision is implementation dependent but should be more precise than ElapsedMilliseconds.
-                if (((float)stopwatch.ElapsedTicks * 1000 / Stopwatch.Frequency) >= RenderFrameInterval && !renderThreadShouldClose)
-                {
-                    stopwatch.Restart();
-                    SetUpAndRenderFrame(true);
-                }
             }
         }
     }
