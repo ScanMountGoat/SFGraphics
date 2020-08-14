@@ -8,7 +8,7 @@ See the provided example project (SFGraphics GUI) for information on basic usage
 ### Requirements
 | Component | Minimum Required Version |
 | ---     | ---------------------- |
-| .NET | 4.0 |
+| .NET | 4.6.1 |
 | OpenGL / GLSL | 3.30 |
 | OpenTK | 3.0 |
 
