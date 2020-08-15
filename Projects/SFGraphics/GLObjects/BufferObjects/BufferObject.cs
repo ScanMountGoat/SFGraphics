@@ -143,6 +143,7 @@ namespace SFGraphics.GLObjects.BufferObjects
             if (!BufferValidation.IsValidAccess(offsetInBytes, itemSizeInBytes, 1, SizeInBytes))
                 throw new ArgumentOutOfRangeException("", BufferExceptionMessages.outOfRange);
 
+            Bind();
             GL.BufferSubData(Target, new IntPtr(offsetInBytes), itemSizeInBytes, ref data);
         }
 
