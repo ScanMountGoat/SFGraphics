@@ -10,9 +10,9 @@ namespace SFGraphics.Cameras
     public class Camera
     {
         /// <summary>
-        /// The position of the camera in scene units, taking into account translation and rotation.
+        /// The position of the camera in scene units, taking into account translation, rotation, and scale.
         /// </summary>
-        public Vector3 TransformedPosition { get; private set; }
+        public Vector3 PositionWorldSpace { get; private set; }
 
         /// <summary>
         /// The translation component of the camera's transforms in scene units.
@@ -37,6 +37,7 @@ namespace SFGraphics.Cameras
             set
             {
                 translation.X = value;
+                UpdateTransformationMatrices();
             }
         }
 
@@ -49,6 +50,7 @@ namespace SFGraphics.Cameras
             set
             {
                 translation.Y = value;
+                UpdateTransformationMatrices();
             }
         }
 
@@ -61,6 +63,7 @@ namespace SFGraphics.Cameras
             set
             {
                 translation.Z = value;
+                UpdateTransformationMatrices();
             }
         }
 
@@ -282,7 +285,7 @@ namespace SFGraphics.Cameras
         protected Matrix4 translationMatrix = Matrix4.Identity;
 
         /// <summary>
-        /// The result of <see cref="Matrix4.CreateTranslation(float, float, float)"/> for X, -Y, Z of <see cref="TransformedPosition"/>
+        /// The result of <see cref="Matrix4.CreateTranslation(float, float, float)"/> for X, -Y, Z of <see cref="Translation"/>
         /// </summary>
         public Matrix4 TranslationMatrix => translationMatrix;
 
@@ -341,7 +344,7 @@ namespace SFGraphics.Cameras
         /// </summary>
         /// <param name="amount">The amount to zoom in scene units</param>
         /// <param name="scaleByDistanceToOrigin">When <c>true</c>, the <paramref name="amount"/> 
-        /// is multiplied by the magnitude of <see cref="TransformedPosition"/></param>
+        /// is multiplied by the magnitude of <see cref="PositionWorldSpace"/></param>
         public void Zoom(float amount, bool scaleByDistanceToOrigin = true)
         {
             // Increase zoom speed when zooming out. 
@@ -368,7 +371,7 @@ namespace SFGraphics.Cameras
             UpdateMvpMatrix();
 
             // Ensure the vector used for shading gets updated.
-            TransformedPosition = (rotationMatrix * new Vector4(translation, 1)).Xyz;
+            PositionWorldSpace = ModelViewMatrix.Inverted().ExtractTranslation();
         }
 
         /// <summary>
