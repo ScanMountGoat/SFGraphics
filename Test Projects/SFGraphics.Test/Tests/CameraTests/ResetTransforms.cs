@@ -13,7 +13,7 @@ namespace SFGraphics.Test.CameraTests
             Camera camera = new Camera { Translation = new Vector3(-1, -1, -1) };
             camera.ResetTransforms();
             Assert.AreEqual(Vector3.Zero, camera.Translation);
-            Assert.AreEqual(Vector3.Zero, camera.TransformedPosition);
+            Assert.AreEqual(Vector3.Zero, camera.PositionWorldSpace);
             Assert.AreEqual(0, camera.RotationXDegrees);
             Assert.AreEqual(0, camera.RotationYDegrees);
         }
