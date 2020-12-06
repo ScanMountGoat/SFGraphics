@@ -14,6 +14,11 @@ namespace SFShaderLoader
         private readonly Dictionary<string, ShaderObject> shaderObjectByName = new Dictionary<string, ShaderObject>();
 
         /// <summary>
+        /// The names of all the currently added shaders.
+        /// </summary>
+        public IEnumerable<string> ShaderNames => shaderByName.Keys;
+
+        /// <summary>
         /// Creates and compiles a new <see cref="ShaderObject"/> to be accessed by <paramref name="name"/>
         /// for subsequent calls to <see cref="AddShader(string, string[])"/>.
         /// </summary>
