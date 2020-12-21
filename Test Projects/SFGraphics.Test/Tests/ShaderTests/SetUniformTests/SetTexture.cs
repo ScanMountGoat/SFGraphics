@@ -71,5 +71,12 @@ namespace SFGraphics.Test.ShaderTests.SetterTests
             Assert.IsTrue(shader.GetErrorLog().Contains(expected));
             Assert.AreEqual(1, invalidUniformSets.Count);
         }
+
+        [TestMethod]
+        public void NullTexture()
+        {
+            shader.SetTexture("texCube", null, 0);
+            Assert.AreEqual(0, invalidUniformSets.Count);
+        }
     }
 }

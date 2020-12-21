@@ -314,8 +314,8 @@ namespace SFGraphics.GLObjects.Shaders
         }
 
         /// <summary>
-        /// <paramref name="texture"/> is bound to <paramref name="textureUnit"/> before 
-        /// setting the uniform. 
+        /// <paramref name="texture"/> is bound to <paramref name="textureUnit"/> before setting the uniform. 
+        /// <c>null</c> values for <paramref name="texture"/> are ignored.
         /// Invalid values are logged and not set.
         /// </summary>
         /// <param name="name">The uniform variable name</param>
@@ -336,6 +336,9 @@ namespace SFGraphics.GLObjects.Shaders
 
         private bool CheckIfTextureSetIsValid(string name, Texture texture, int textureUnit)
         {
+            if (texture == null)
+                return false;
+
             ActiveUniformType uniformType = ShaderTypeConversions.GetUniformType(texture.TextureTarget);
             bool validUniform = errorLog.IsValidUniform(activeUniformByName, name, uniformType);
             if (!validUniform)
