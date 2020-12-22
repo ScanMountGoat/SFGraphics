@@ -1,6 +1,5 @@
 # SFGraphics
 [![Build status](https://ci.appveyor.com/api/projects/status/2u86186wtxiq77jw/branch/master?svg=true)](https://ci.appveyor.com/project/ScanMountGoat/sfgraphics/branch/master)  
-[Online Code Documentation](https://scanmountgoat.github.io/SFGraphics/)
 
 ### Getting Started
 See the provided example project (SFGraphics GUI) for information on basic usage and how to render model and texture data.
