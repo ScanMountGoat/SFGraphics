@@ -36,7 +36,7 @@ test:
     - '**\Test Projects\SFGenericModel.Test\bin\Release\SFGenericModel.Test.dll'
     - '**\Test Projects\SFShaderLoader.Test\bin\Release\SFShaderLoader.Test.dll'
     - '**\Test Projects\SFGraphics.Controls.Test\bin\Release\SFGraphics.Controls.Test.dll'
-    - '**\Test Projects\SFGraphics.ShaderGen.Test\bin\Release\SFGraphics.ShaderGen.Test.dll'
+    - '**\Test Projects\SFGraphics.ShaderGen.Test\bin\Release\netcoreapp3.1\SFGraphics.ShaderGen.Test.dll'
 
 after_build:
     - 7z a "SFGraphics.zip" "%APPVEYOR_BUILD_FOLDER%\Projects\SFGraphics\bin\Release\netstandard2.0\SFGraphics.dll"
