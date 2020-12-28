@@ -15,14 +15,17 @@ namespace SFGraphics.ShaderGen.GlslShaderUtils
 
         public static readonly string vertexOutputPrefix = "vs_";
 
-        public static string CreateVertexShaderSource(IEnumerable<VertexAttribute> attributes, int glslVersionMajor, int glslVersionMinor, string mvpMatrixName)
+        public static string CreateVertexShaderSource(IEnumerable<VertexAttribute> attributes, IEnumerable<ShaderUniform> uniforms, int glslVersionMajor, int glslVersionMinor, string positionMatrixName)
         {
             var template = Template.Parse(@"
 #version {{ major_version }}{{ minor_version }}0
 
 {{ vertex_inputs }}
 {{ vertex_outputs }}
-{{ matrix4_uniforms }}
+
+{{~ for uniform in uniforms ~}}
+uniform {{ uniform.type }} {{ uniform.name }};
+{{~ end ~}}
 
 void main() 
 {
@@ -36,21 +39,25 @@ void main()
                 MinorVersion = glslVersionMinor,
                 VertexInputs = GetVertexInputs(attributes),
                 VertexOutputs = GetVertexOutputs(attributes),
-                Matrix4Uniforms = GetMatrix4Uniforms(mvpMatrixName),
+                Uniforms = uniforms,
                 VertexOutputAssignments = GetVertexOutputAssignments(attributes),
-                PositionAssignment = GetPositionAssignment(attributes, mvpMatrixName)
+                PositionAssignment = GetPositionAssignment(attributes, positionMatrixName)
             });
 
             return shaderText;
         }
 
-        public static string CreateFragmentShaderSource(IEnumerable<VertexAttribute> attributes, int glslVersionMajor, int glslVersionMinor, string renderModeName)
+        public static string CreateFragmentShaderSource(IEnumerable<VertexAttribute> attributes, IEnumerable<ShaderUniform> uniforms, int glslVersionMajor, int glslVersionMinor, string renderModeName)
         {
             var template = Template.Parse(@"
 #version {{ major_version }}{{ minor_version }}0
 {{ fragment_inputs }}
 
 out vec4 {{ output_name }};
+
+{{~ for uniform in uniforms ~}}
+uniform {{ uniform.type }} {{ uniform.name }};
+{{~ end ~}}
 
 uniform int {{ render_mode_name }};
 
@@ -59,11 +66,11 @@ void main()
     {{ output_name }} = vec4(0.0, 0.0, 0.0, 1.0);
     switch ({{ render_mode_name }})
     {
-{{ for val in cases }}
-        case {{ val.switch_value }}:
-            {{ output_name }}.rgb = {{ val.case_body }};
+{{~ for item in cases ~}}
+        case {{ item.switch_value }}:
+            {{ output_name }}.rgb = {{ item.case_body }};
             break;
-{{ end }}
+{{~ end ~}}
     }
 }
 ");
@@ -74,12 +81,12 @@ void main()
                 OutputName = outputName,
                 FragmentInputs = GetFragmentInputs(attributes),
                 RenderModeName = renderModeName,
+                Uniforms = uniforms,
                 Cases = GetCases(attributes)
             });
 
             return shaderText;
         }
-
 
         private static List<CaseStatement> GetCases(IEnumerable<VertexAttribute> attributes)
         {

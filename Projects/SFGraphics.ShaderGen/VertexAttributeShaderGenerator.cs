@@ -55,8 +55,14 @@ namespace SFGraphics.ShaderGen
         /// <param name="fragmentSource">The generated GLSL fragment shader source</param>
         public void CreateShader(List<VertexAttribute> attributes, out string vertexSource, out string fragmentSource)
         {
-            vertexSource = GlslUtils.CreateVertexShaderSource(attributes, GlslVersionMajor, GlslVersionMinor, MvpMatrixName);
-            fragmentSource = GlslUtils.CreateFragmentShaderSource(attributes, GlslVersionMajor, GlslVersionMinor, AttribIndexName);
+            // TODO: Use an enum for the uniform type.
+            var uniforms = new List<ShaderUniform>
+            {
+                new ShaderUniform(MvpMatrixName, "mat4")
+            };
+
+            vertexSource = GlslUtils.CreateVertexShaderSource(attributes, uniforms, GlslVersionMajor, GlslVersionMinor, MvpMatrixName);
+            fragmentSource = GlslUtils.CreateFragmentShaderSource(attributes, uniforms, GlslVersionMajor, GlslVersionMinor, AttribIndexName);
         }
     }
 }

@@ -98,7 +98,7 @@ namespace SFGraphics.ShaderGen
 
         private string CreateVertexSource(IEnumerable<VertexAttribute> attributes)
         {
-            var shaderText = GlslUtils.CreateVertexShaderSource(attributes, GlslVersionMajor, GlslVersionMinor, MvpMatrixName);
+            var shaderText = GlslUtils.CreateVertexShaderSource(attributes, new List<ShaderUniform>(), GlslVersionMajor, GlslVersionMinor, MvpMatrixName);
 
             return shaderText;
         }
