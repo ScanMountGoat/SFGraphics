@@ -8,6 +8,10 @@
     <DocumentationFile>bin\release\$(TargetFramework)\SFGraphics.ShaderGen.xml</DocumentationFile>
     <OutputPath></OutputPath>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Scriban" Version="3.2.2" />
+  </ItemGroup>
   
   <ItemGroup>
     <ProjectReference Include="..\SFGenericModel\SFGenericModel.csproj" />

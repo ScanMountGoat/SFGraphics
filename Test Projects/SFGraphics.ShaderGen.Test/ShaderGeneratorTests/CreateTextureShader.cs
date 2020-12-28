@@ -46,7 +46,7 @@ namespace SFGraphics.ShaderGen.Test.ShaderGeneratorTests
         public void NoTextures()
         {
             Shader shader = CreateShader(new List<TextureRenderInfo>(), correctAttributes);
-            Assert.IsTrue(shader.LinkStatusIsOk);
+            Assert.IsTrue(shader.LinkStatusIsOk, shader.GetErrorLog());
         }
 
         [TestMethod]
@@ -113,7 +113,7 @@ namespace SFGraphics.ShaderGen.Test.ShaderGeneratorTests
             };
 
             Shader shader = CreateShader(new List<TextureRenderInfo>(), attributes);
-            Assert.IsTrue(shader.LinkStatusIsOk);
+            Assert.IsTrue(shader.LinkStatusIsOk, shader.GetErrorLog());
         }
 
         [TestMethod]
@@ -125,7 +125,7 @@ namespace SFGraphics.ShaderGen.Test.ShaderGeneratorTests
             };
 
             Shader shader = CreateShader(textures, correctAttributes);
-            Assert.IsTrue(shader.LinkStatusIsOk);
+            Assert.IsTrue(shader.LinkStatusIsOk, shader.GetErrorLog());
         }
 
         [TestMethod]
@@ -137,7 +137,7 @@ namespace SFGraphics.ShaderGen.Test.ShaderGeneratorTests
             };
 
             Shader shader = CreateShader<VertexStruct>(textures);
-            Assert.IsTrue(shader.LinkStatusIsOk);
+            Assert.IsTrue(shader.LinkStatusIsOk, shader.GetErrorLog());
         }
 
         [TestMethod]
@@ -149,7 +149,7 @@ namespace SFGraphics.ShaderGen.Test.ShaderGeneratorTests
             };
 
             Shader shader = CreateShader(textures, correctAttributes);
-            Assert.IsTrue(shader.LinkStatusIsOk);
+            Assert.IsTrue(shader.LinkStatusIsOk, shader.GetErrorLog());
         }
 
         [TestMethod]
@@ -161,7 +161,7 @@ namespace SFGraphics.ShaderGen.Test.ShaderGeneratorTests
             };
 
             Shader shader = CreateShader(textures, attributesScalarNormal);
-            Assert.IsTrue(shader.LinkStatusIsOk);
+            Assert.IsTrue(shader.LinkStatusIsOk, shader.GetErrorLog());
         }
 
         [TestMethod]
@@ -173,7 +173,7 @@ namespace SFGraphics.ShaderGen.Test.ShaderGeneratorTests
             };
 
             Shader shader = CreateShader(textures, correctAttributes);
-            Assert.IsTrue(shader.LinkStatusIsOk);
+            Assert.IsTrue(shader.LinkStatusIsOk, shader.GetErrorLog());
         }
 
         [TestMethod]
@@ -186,7 +186,7 @@ namespace SFGraphics.ShaderGen.Test.ShaderGeneratorTests
             };
 
             Shader shader = CreateShader(textures, correctAttributes);
-            Assert.IsTrue(shader.LinkStatusIsOk);
+            Assert.IsTrue(shader.LinkStatusIsOk, shader.GetErrorLog());
         }
 
         private static Shader CreateShader(List<TextureRenderInfo> textures, List<VertexAttribute> attributes)

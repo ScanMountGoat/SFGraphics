@@ -26,7 +26,7 @@ namespace SFGraphics.ShaderGen.Test.ShaderGeneratorTests
         public void NoAttributes()
         {
             var shader = CreateShader(new List<VertexAttribute>());
-            Assert.IsTrue(shader.LinkStatusIsOk);
+            Assert.IsTrue(shader.LinkStatusIsOk, shader.GetErrorLog());
         }
 
         [TestMethod]
@@ -38,14 +38,14 @@ namespace SFGraphics.ShaderGen.Test.ShaderGeneratorTests
             };
 
             var shader = CreateShader(attributes);
-            Assert.IsTrue(shader.LinkStatusIsOk);
+            Assert.IsTrue(shader.LinkStatusIsOk, shader.GetErrorLog());
         }
 
         [TestMethod]
         public void SingleVec3AttributeFromStruct()
         {
             var shader = CreateShader<VertexStruct>();
-            Assert.IsTrue(shader.LinkStatusIsOk);
+            Assert.IsTrue(shader.LinkStatusIsOk, shader.GetErrorLog());
         }
 
         [TestMethod]
@@ -57,7 +57,7 @@ namespace SFGraphics.ShaderGen.Test.ShaderGeneratorTests
             };
 
             var shader = CreateShader(attributes);
-            Assert.IsTrue(shader.LinkStatusIsOk);
+            Assert.IsTrue(shader.LinkStatusIsOk, shader.GetErrorLog());
         }
 
         [TestMethod]
@@ -69,7 +69,7 @@ namespace SFGraphics.ShaderGen.Test.ShaderGeneratorTests
             };
 
             var shader = CreateShader(attributes);
-            Assert.IsTrue(shader.LinkStatusIsOk);
+            Assert.IsTrue(shader.LinkStatusIsOk, shader.GetErrorLog());
         }
 
         [TestMethod]
@@ -92,7 +92,7 @@ namespace SFGraphics.ShaderGen.Test.ShaderGeneratorTests
             };
 
             var shader = CreateShader(attributes);
-            Assert.IsTrue(shader.LinkStatusIsOk);
+            Assert.IsTrue(shader.LinkStatusIsOk, shader.GetErrorLog());
         }
 
         [TestMethod]
@@ -104,7 +104,7 @@ namespace SFGraphics.ShaderGen.Test.ShaderGeneratorTests
             };
 
             var shader = CreateShader(attributes);
-            Assert.IsTrue(shader.LinkStatusIsOk);
+            Assert.IsTrue(shader.LinkStatusIsOk, shader.GetErrorLog());
         }
 
         [TestMethod]
@@ -116,7 +116,7 @@ namespace SFGraphics.ShaderGen.Test.ShaderGeneratorTests
             };
 
             var shader = CreateShader(attributes);
-            Assert.IsTrue(shader.LinkStatusIsOk);
+            Assert.IsTrue(shader.LinkStatusIsOk, shader.GetErrorLog());
         }
 
         [TestMethod]
@@ -128,7 +128,7 @@ namespace SFGraphics.ShaderGen.Test.ShaderGeneratorTests
             };
 
             var shader = CreateShader(attributes);
-            Assert.IsTrue(shader.LinkStatusIsOk);
+            Assert.IsTrue(shader.LinkStatusIsOk, shader.GetErrorLog());
         }
 
         [TestMethod]
@@ -140,7 +140,7 @@ namespace SFGraphics.ShaderGen.Test.ShaderGeneratorTests
             };
 
             var shader = CreateShader(attributes);
-            Assert.IsTrue(shader.LinkStatusIsOk);
+            Assert.IsTrue(shader.LinkStatusIsOk, shader.GetErrorLog());
         }
 
         [TestMethod]
@@ -154,7 +154,7 @@ namespace SFGraphics.ShaderGen.Test.ShaderGeneratorTests
             };
 
             Shader shader = CreateShader(attributes);
-            Assert.IsTrue(shader.LinkStatusIsOk);
+            Assert.IsTrue(shader.LinkStatusIsOk, shader.GetErrorLog());
         }
 
         private static Shader CreateShader(List<VertexAttribute> attributes)

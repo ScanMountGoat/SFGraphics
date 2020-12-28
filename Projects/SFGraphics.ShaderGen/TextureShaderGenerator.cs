@@ -77,7 +77,7 @@ namespace SFGraphics.ShaderGen
             if (normals == null)
                 throw new System.ArgumentException("No matching vertex normal attribute was found.", nameof(attributes));
 
-            vertexSource = CreateVertexSource(attributes, normals);
+            vertexSource = CreateVertexSource(attributes);
             fragmentSource = CreateFragmentSource(textures, attributes, texcoords, normals);
         }
 
@@ -96,25 +96,11 @@ namespace SFGraphics.ShaderGen
             }
         }
 
-        private string CreateVertexSource(IEnumerable<VertexAttribute> attributes, VertexAttribute normals)
+        private string CreateVertexSource(IEnumerable<VertexAttribute> attributes)
         {
-            StringBuilder shaderSource = new StringBuilder();
-            AppendVertexShader(attributes, normals, shaderSource);
+            var shaderText = GlslUtils.CreateVertexShaderSource(attributes, GlslVersionMajor, GlslVersionMinor, MvpMatrixName);
 
-            return shaderSource.ToString();
-        }
-
-        private void AppendVertexShader(IEnumerable<VertexAttribute> attributes, VertexAttribute normals, StringBuilder shaderSource)
-        {
-            GlslUtils.AppendShadingLanguageVersion(shaderSource, GlslVersionMajor, GlslVersionMinor);
-
-            GlslUtils.AppendVertexInputs(attributes, shaderSource);
-            GlslUtils.AppendVertexOutputs(attributes, shaderSource);
-            AppendViewNormalOutput(shaderSource);
-
-            GlslUtils.AppendMatrix4Uniforms(shaderSource, MvpMatrixName, SphereMatrixName);
-
-            AppendVertexMainFunction(attributes, normals, shaderSource);
+            return shaderText;
         }
 
         private void AppendViewNormalOutput(StringBuilder shaderSource)
@@ -127,19 +113,10 @@ namespace SFGraphics.ShaderGen
             shaderSource.AppendLine($"in vec3 {GlslUtils.vertexOutputPrefix}{viewNormalName};");
         }
 
-        private void AppendVertexMainFunction(IEnumerable<VertexAttribute> attributes, VertexAttribute normals, StringBuilder shaderSource)
-        {
-            GlslUtils.AppendBeginMain(shaderSource);
-
-            GlslUtils.AppendVertexOutputAssignments(attributes, shaderSource);
-            AppendViewNormalAssignment(normals, shaderSource);
-            GlslUtils.AppendPositionAssignment(shaderSource, attributes, MvpMatrixName);
-
-            GlslUtils.AppendEndMain(shaderSource);
-        }
-
         private void AppendViewNormalAssignment(VertexAttribute normals, StringBuilder shaderSource)
         {
+            // TODO: Move this to the fragment shader?
+
             // Transforms the vertex normals to view space.
             // The effect is similar to a "matcap" material in 3d modeling programs.
             string normalVector = GlslVectorUtils.ConstructVector(ValueCount.Three, normals);
@@ -162,13 +139,13 @@ namespace SFGraphics.ShaderGen
         {
             GlslUtils.AppendShadingLanguageVersion(shaderSource, GlslVersionMajor, GlslVersionMinor);
 
-            GlslUtils.AppendFragmentInputs(attributes, shaderSource);
+            //GlslUtils.GetFragmentInputs(attributes, shaderSource);
             AppendViewNormalInput(shaderSource);
 
             GlslUtils.AppendFragmentOutput(shaderSource);
 
             AppendTextureUniforms(textures, shaderSource);
-            GlslUtils.AppendMatrix4Uniforms(shaderSource, MvpMatrixName, SphereMatrixName);
+            shaderSource.AppendLine(GlslUtils.GetMatrix4Uniforms(MvpMatrixName, SphereMatrixName));
 
             shaderSource.AppendLine($"uniform int {attribIndexName};");
 
@@ -194,9 +171,9 @@ namespace SFGraphics.ShaderGen
 
         private void AppendFragmentMainFunction(IEnumerable<TextureRenderInfo> textures, StringBuilder shaderSource, VertexAttribute uv0, VertexAttribute normal)
         {
-            GlslUtils.AppendBeginMain(shaderSource);
-            AppendMainFunctionBody(textures, shaderSource, uv0, normal);
-            GlslUtils.AppendEndMain(shaderSource);
+            //GlslUtils.AppendBeginMain(shaderSource);
+            //AppendMainFunctionBody(textures, shaderSource, uv0, normal);
+            //GlslUtils.AppendEndMain(shaderSource);
         }
 
         private void AppendMainFunctionBody(IEnumerable<TextureRenderInfo> attributes, StringBuilder shaderSource, 
