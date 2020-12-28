@@ -1,93 +1,17 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A62E9240-EF67-41E5-A4E1-43F0AFA759F4}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SFGraphics</RootNamespace>
-    <AssemblyName>SFGraphics</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+    <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\SFGraphics.xml</DocumentationFile>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\SFGraphics.xml</DocumentationFile>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SFGraphics.Utils\SFGraphics.Utils.csproj" />
+  </ItemGroup>
+
   <ItemGroup>
     <Reference Include="OpenTK">
       <HintPath>..\..\lib\OpenTK.dll</HintPath>
-      <Private>False</Private>
+      <Private>true</Private>
     </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Cameras\Camera.cs" />
-    <Compile Include="GLObjects\BufferObjects\BufferObject.cs" />
-    <Compile Include="GLObjects\BufferObjects\BufferExceptionMessages.cs" />
-    <Compile Include="GLObjects\Framebuffers\Framebuffer.cs" />
-    <Compile Include="GLObjects\Framebuffers\FramebufferReading.cs" />
-    <Compile Include="GLObjects\GLObjectManagement\GLObjectManager.cs" />
-    <Compile Include="GLObjects\GLObject.cs" />
-    <Compile Include="GLObjects\GLObjectManagement\ReferenceCounting.cs" />
-    <Compile Include="GLObjects\Framebuffers\IFramebufferAttachment.cs" />
-    <Compile Include="GLObjects\Renderbuffers\Renderbuffer.cs" />
-    <Compile Include="GLObjects\Samplers\SamplerObject.cs" />
-    <Compile Include="GLObjects\Shaders\ShaderEventArgs\LinkStatusEventArgs.cs" />
-    <Compile Include="GLObjects\Shaders\ShaderEventArgs\TextureSetEventArgs.cs" />
-    <Compile Include="GLObjects\Shaders\ShaderLoaders.cs" />
-    <Compile Include="GLObjects\Shaders\ShaderObject.cs" />
-    <Compile Include="GLObjects\Shaders\Utils\ActiveAttribInfo.cs" />
-    <Compile Include="GLObjects\Shaders\Utils\ActiveUniformInfo.cs" />
-    <Compile Include="GLObjects\Shaders\Utils\ShaderTypeConversions.cs" />
-    <Compile Include="GLObjects\Shaders\ShaderSetters.cs" />
-    <Compile Include="GLObjects\Shaders\Shader.cs" />
-    <Compile Include="GLObjects\Shaders\Utils\ShaderLog.cs" />
-    <Compile Include="GLObjects\Shaders\ShaderEventArgs\UniformSetEventArgs.cs" />
-    <Compile Include="GLObjects\Shaders\Utils\ShaderValidation.cs" />
-    <Compile Include="GLObjects\Textures\Texture3D.cs" />
-    <Compile Include="GLObjects\Textures\Utils\MipmapLoading.cs" />
-    <Compile Include="GLObjects\Textures\TextureFormats\CompressedBlockSize.cs" />
-    <Compile Include="GLObjects\Textures\Texture2DMultisample.cs" />
-    <Compile Include="GLObjects\Textures\Utils\TextureExceptionMessages.cs" />
-    <Compile Include="GLObjects\Textures\TextureFormats\TextureFormatUncompressed.cs" />
-    <Compile Include="GLObjects\Textures\TextureFormats\TextureFormatTools.cs" />
-    <Compile Include="GLObjects\Textures\DepthTexture.cs" />
-    <Compile Include="GLObjects\Textures\Texture.cs" />
-    <Compile Include="GLObjects\Textures\Texture2D.cs" />
-    <Compile Include="GLObjects\Textures\TextureCubemap.cs" />
-    <Compile Include="GLObjects\VertexArrays\VertexArrayObject.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="GlUtils\OpenGLExtensions.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\SFGraphics.Utils\SFGraphics.Utils.csproj">
-      <Project>{d78b8153-c955-4ef6-b02f-6d824bfd949e}</Project>
-      <Name>SFGraphics.Utils</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
