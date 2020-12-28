@@ -1,91 +1,22 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A94B234E-9F97-42BB-A405-8C713481A463}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SFGenericModel</RootNamespace>
-    <AssemblyName>SFGenericModel</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <Deterministic>true</Deterministic>
-    <TargetFrameworkProfile />
+    <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\SFGenericModel.xml</DocumentationFile>
-    <Prefer32Bit>false</Prefer32Bit>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>bin\release\$(TargetFramework)\SFGenericModel.xml</DocumentationFile>
+    <OutputPath></OutputPath>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\SFGenericModel.xml</DocumentationFile>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SFGraphics\SFGraphics.csproj" />
+  </ItemGroup>
+
   <ItemGroup>
     <Reference Include="OpenTK">
       <HintPath>..\..\lib\OpenTK.dll</HintPath>
-      <Private>False</Private>
+      <Private>true</Private>
     </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="GenericMeshBase.cs" />
-    <Compile Include="GenericMeshNonInterleaved.cs" />
-    <Compile Include="IndexedVertexData.cs" />
-    <Compile Include="Materials\UniformBlock.cs" />
-    <Compile Include="RenderState\PolygonModeSettings.cs" />
-    <Compile Include="ShaderGenerators\GlslShaderUtils\CaseStatement.cs" />
-    <Compile Include="ShaderGenerators\GlslShaderUtils\SwitchUtils.cs" />
-    <Compile Include="ShaderGenerators\GlslShaderUtils\GlslUtils.cs" />
-    <Compile Include="ShaderGenerators\GlslShaderUtils\GlslVectorUtils.cs" />
-    <Compile Include="ShaderGenerators\TextureRenderInfo.cs" />
-    <Compile Include="ShaderGenerators\TextureShaderGenerator.cs" />
-    <Compile Include="Utils\IndexUtils.cs" />
-    <Compile Include="VertexAttributes\AttribPointerUtils.cs" />
-    <Compile Include="MeshEventArgs\AttribSetEventArgs.cs" />
-    <Compile Include="RenderState\AlphaBlendSettings.cs" />
-    <Compile Include="RenderState\AlphaTestSettings.cs" />
-    <Compile Include="RenderState\DepthTestSettings.cs" />
-    <Compile Include="RenderState\FaceCullingSettings.cs" />
-    <Compile Include="Materials\GenericMaterial.cs" />
-    <Compile Include="GenericMesh.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RenderState\RenderSettings.cs" />
-    <Compile Include="RenderState\GLRenderSettings.cs" />
-    <Compile Include="Utils\MeshBatchUtils.cs" />
-    <Compile Include="VertexAttributes\VertexAttribute.cs" />
-    <Compile Include="VertexAttributes\VertexIntAttribute.cs" />
-    <Compile Include="VertexAttributes\VertexAttributeUtils.cs" />
-    <Compile Include="VertexAttributes\VertexFloatAttribute.cs" />
-    <Compile Include="ShaderGenerators\VertexAttributeShaderGenerator.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\SFGraphics.Utils\SFGraphics.Utils.csproj">
-      <Project>{D78B8153-C955-4EF6-B02F-6D824BFD949E}</Project>
-      <Name>SFGraphics.Utils</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SFGraphics\SFGraphics.csproj">
-      <Project>{a62e9240-ef67-41e5-a4e1-43f0afa759f4}</Project>
-      <Name>SFGraphics</Name>
-      <Private>False</Private>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
