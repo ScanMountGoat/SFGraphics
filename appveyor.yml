@@ -36,6 +36,7 @@ test:
     - '**\Test Projects\SFGenericModel.Test\bin\Release\SFGenericModel.Test.dll'
     - '**\Test Projects\SFShaderLoader.Test\bin\Release\SFShaderLoader.Test.dll'
     - '**\Test Projects\SFGraphics.Controls.Test\bin\Release\SFGraphics.Controls.Test.dll'
+    - '**\Test Projects\SFGraphics.ShaderGen.Test\bin\Release\SFGraphics.ShaderGen.Test.dll'
 
 after_build:
     - 7z a "SFGraphics.zip" "%APPVEYOR_BUILD_FOLDER%\Projects\SFGraphics\bin\Release\netstandard2.0\SFGraphics.dll"
@@ -52,4 +53,6 @@ after_build:
     - 7z a "SFGraphics.zip" "%APPVEYOR_BUILD_FOLDER%\Projects\SFShaderLoader\bin\Release\netstandard2.0\SFShaderLoader.xml"
     - 7z a "SFGraphics.zip" "%APPVEYOR_BUILD_FOLDER%\Projects\SFGraphics.Timing\bin\Release\netstandard2.0\SFGraphics.Timing.dll"
     - 7z a "SFGraphics.zip" "%APPVEYOR_BUILD_FOLDER%\Projects\SFGraphics.Timing\bin\Release\netstandard2.0\SFGraphics.Timing.xml"
+    - 7z a "SFGraphics.zip" "%APPVEYOR_BUILD_FOLDER%\Projects\SFGraphics.ShaderGen\bin\Release\netstandard2.0\SFGraphics.ShaderGen.dll"
+    - 7z a "SFGraphics.zip" "%APPVEYOR_BUILD_FOLDER%\Projects\SFGraphics.ShaderGen\bin\Release\netstandard2.0\SFGraphics.ShaderGen.xml"
     - appveyor PushArtifact "SFGraphics.zip"

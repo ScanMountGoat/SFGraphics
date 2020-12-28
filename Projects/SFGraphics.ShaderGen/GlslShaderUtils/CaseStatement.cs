@@ -1,4 +1,4 @@
-﻿namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
+﻿namespace SFGraphics.ShaderGen.GlslShaderUtils
 {
     /// <summary>
     /// Stores information for the cases of a switch statement.

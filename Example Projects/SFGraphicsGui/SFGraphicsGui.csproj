@@ -154,6 +154,10 @@
       <Project>{1108246f-fe39-4018-a107-b9b1028b5cdb}</Project>
       <Name>SFGraphics.Controls</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Projects\SFGraphics.ShaderGen\SFGraphics.ShaderGen.csproj">
+      <Project>{67269b0f-3a96-43ed-a8a3-60be86a8b5e8}</Project>
+      <Name>SFGraphics.ShaderGen</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Projects\SFGraphics.Utils\SFGraphics.Utils.csproj">
       <Project>{d78b8153-c955-4ef6-b02f-6d824bfd949e}</Project>
       <Name>SFGraphics.Utils</Name>

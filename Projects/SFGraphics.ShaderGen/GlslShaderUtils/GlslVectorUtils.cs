@@ -1,7 +1,7 @@
 ﻿using SFGenericModel.VertexAttributes;
 using System;
 
-namespace SFGenericModel.ShaderGenerators.GlslShaderUtils
+namespace SFGraphics.ShaderGen.GlslShaderUtils
 {
     internal static class GlslVectorUtils
     {

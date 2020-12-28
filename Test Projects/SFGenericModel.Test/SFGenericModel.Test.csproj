@@ -71,8 +71,6 @@
     <Compile Include="Tests\RenderSettingsTests\FaceCullSettingsEquality.cs" />
     <Compile Include="Tests\RenderSettingsTests\PolygonModeSettingsEquality.cs" />
     <Compile Include="Tests\RenderSettingsTests\RenderSettingsEquality.cs" />
-    <Compile Include="Tests\ShaderGeneratorTests\CreateTextureShader.cs" />
-    <Compile Include="Tests\ShaderGeneratorTests\CreateAttributeShader.cs" />
     <Compile Include="Tests\UniformBlockTests\BindBlock.cs" />
     <Compile Include="Tests\UniformBlockTests\SetValue.cs" />
     <Compile Include="Tests\UniformBlockTests\SetValues.cs" />

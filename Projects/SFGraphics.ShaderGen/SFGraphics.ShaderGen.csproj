@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>bin\release\$(TargetFramework)\SFGraphics.ShaderGen.xml</DocumentationFile>
+    <OutputPath></OutputPath>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\SFGenericModel\SFGenericModel.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="OpenTK">
+      <HintPath>..\..\lib\OpenTK.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+  </ItemGroup>
+</Project>

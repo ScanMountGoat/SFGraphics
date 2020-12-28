@@ -1,12 +1,11 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenTK;
+using OpenTK.Graphics.OpenGL;
+using SFGenericModel.VertexAttributes;
 using SFGraphics.GLObjects.Shaders;
 using System.Collections.Generic;
-using SFGenericModel.VertexAttributes;
-using SFGenericModel.ShaderGenerators;
-using OpenTK.Graphics.OpenGL;
-using OpenTK;
 
-namespace SFGenericModel.Test.ShaderGeneratorTests
+namespace SFGraphics.ShaderGen.Test.ShaderGeneratorTests
 {
     [TestClass]
     public class CreateTextureShader

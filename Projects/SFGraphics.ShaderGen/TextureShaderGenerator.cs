@@ -1,9 +1,9 @@
-﻿using SFGenericModel.ShaderGenerators.GlslShaderUtils;
+﻿using SFGraphics.ShaderGen.GlslShaderUtils;
 using SFGenericModel.VertexAttributes;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SFGenericModel.ShaderGenerators
+namespace SFGraphics.ShaderGen
 {
     /// <summary>
     /// Contains methods for generating a texture debug shader. 

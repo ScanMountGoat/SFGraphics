@@ -13,19 +13,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test Projects", "Test Proje
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Example Projects", "Example Projects", "{B7BAD9C1-C7D9-4CDE-B9AF-68ACAD0BAF40}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFGenericModel", "Projects\SFGenericModel\SFGenericModel.csproj", "{A94B234E-9F97-42BB-A405-8C713481A463}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SFGenericModel", "Projects\SFGenericModel\SFGenericModel.csproj", "{A94B234E-9F97-42BB-A405-8C713481A463}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFGraphics.Utils", "Projects\SFGraphics.Utils\SFGraphics.Utils.csproj", "{D78B8153-C955-4EF6-B02F-6D824BFD949E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SFGraphics.Utils", "Projects\SFGraphics.Utils\SFGraphics.Utils.csproj", "{D78B8153-C955-4EF6-B02F-6D824BFD949E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFGenericModel.Test", "Test Projects\SFGenericModel.Test\SFGenericModel.Test.csproj", "{7BE87B94-CA49-4F44-905A-298DED4884F9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RenderTestUtils", "Test Projects\RenderTestUtils\RenderTestUtils.csproj", "{53CBDEA3-F60C-4B16-B57F-21B6CE665040}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFShapes", "Projects\SFShapes\SFShapes.csproj", "{C70C5DB4-C934-4D59-BA34-D25F3A9A56D5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SFShapes", "Projects\SFShapes\SFShapes.csproj", "{C70C5DB4-C934-4D59-BA34-D25F3A9A56D5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFGraphics.Controls", "Projects\SFGraphics.Controls\SFGraphics.Controls.csproj", "{1108246F-FE39-4018-A107-B9B1028B5CDB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SFGraphics.Controls", "Projects\SFGraphics.Controls\SFGraphics.Controls.csproj", "{1108246F-FE39-4018-A107-B9B1028B5CDB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFShaderLoader", "Projects\SFShaderLoader\SFShaderLoader.csproj", "{33FFA062-9FE2-4C96-A546-D76F43CE54D5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SFShaderLoader", "Projects\SFShaderLoader\SFShaderLoader.csproj", "{33FFA062-9FE2-4C96-A546-D76F43CE54D5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFShaderLoader.Test", "Test Projects\SFShaderLoader.Test\SFShaderLoader.Test.csproj", "{CE0AB008-0C14-4DC0-8F66-8C6F902E0315}"
 EndProject
@@ -33,11 +33,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFGraphicsGui", "Example Pr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFGraphics.Controls.Test", "Test Projects\SFGraphics.Controls.Test\SFGraphics.Controls.Test.csproj", "{C2177742-6B80-4410-B146-8054F28DC022}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFGraphics.Timing", "Projects\SFGraphics.Timing\SFGraphics.Timing.csproj", "{BC77C458-2016-48FC-A957-7924DCA08CED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SFGraphics.Timing", "Projects\SFGraphics.Timing\SFGraphics.Timing.csproj", "{BC77C458-2016-48FC-A957-7924DCA08CED}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFTiming.Test", "Test Projects\SFTiming.Test\SFTiming.Test.csproj", "{F25C04BD-761A-4676-9BB2-C04E445CC362}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFGraphics", "Projects\SFGraphics\SFGraphics.csproj", "{AAB11034-531E-4207-8C70-9403460481F8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SFGraphics", "Projects\SFGraphics\SFGraphics.csproj", "{AAB11034-531E-4207-8C70-9403460481F8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFGraphics.ShaderGen", "Projects\SFGraphics.ShaderGen\SFGraphics.ShaderGen.csproj", "{67269B0F-3A96-43ED-A8A3-60BE86A8B5E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFGraphics.ShaderGen.Test", "Test Projects\SFGraphics.ShaderGen.Test\SFGraphics.ShaderGen.Test.csproj", "{03F8667E-0906-4616-93E3-E3DD726D4740}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -105,6 +109,14 @@ Global
 		{AAB11034-531E-4207-8C70-9403460481F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AAB11034-531E-4207-8C70-9403460481F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AAB11034-531E-4207-8C70-9403460481F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67269B0F-3A96-43ED-A8A3-60BE86A8B5E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67269B0F-3A96-43ED-A8A3-60BE86A8B5E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67269B0F-3A96-43ED-A8A3-60BE86A8B5E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67269B0F-3A96-43ED-A8A3-60BE86A8B5E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03F8667E-0906-4616-93E3-E3DD726D4740}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03F8667E-0906-4616-93E3-E3DD726D4740}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03F8667E-0906-4616-93E3-E3DD726D4740}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03F8667E-0906-4616-93E3-E3DD726D4740}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -125,6 +137,8 @@ Global
 		{BC77C458-2016-48FC-A957-7924DCA08CED} = {EF1FFAC2-D7BD-4A7B-8802-D0F8A17AB9DA}
 		{F25C04BD-761A-4676-9BB2-C04E445CC362} = {AE6192C9-298F-470D-AE6F-DF2B29554CE4}
 		{AAB11034-531E-4207-8C70-9403460481F8} = {EF1FFAC2-D7BD-4A7B-8802-D0F8A17AB9DA}
+		{67269B0F-3A96-43ED-A8A3-60BE86A8B5E8} = {EF1FFAC2-D7BD-4A7B-8802-D0F8A17AB9DA}
+		{03F8667E-0906-4616-93E3-E3DD726D4740} = {AE6192C9-298F-470D-AE6F-DF2B29554CE4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A5FFF81B-43BA-4824-9A6D-EC21147BDC9C}

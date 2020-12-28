@@ -2,10 +2,10 @@
 using SFGraphics.GLObjects.Shaders;
 using System.Collections.Generic;
 using SFGenericModel.VertexAttributes;
-using SFGenericModel.ShaderGenerators;
+using SFGraphics.ShaderGen;
 using OpenTK.Graphics.OpenGL;
 
-namespace SFGenericModel.Test.ShaderGeneratorTests
+namespace SFGraphics.ShaderGen.Test.ShaderGeneratorTests
 {
     [TestClass]
     public class CreateAttributeShader
