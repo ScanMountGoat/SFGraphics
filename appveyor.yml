@@ -28,11 +28,7 @@ deploy:
   on:
     branch: master
 
-test:
-  assemblies:
-    except:
-    # Skip tests because they require an OpenGL context to work.
-    - '*.*'
+test: off
 
 after_build:
     - 7z a "SFGraphics.zip" "%APPVEYOR_BUILD_FOLDER%\Projects\SFGraphics\bin\Release\netstandard2.0\SFGraphics.dll"
