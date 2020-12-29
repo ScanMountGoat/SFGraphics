@@ -77,7 +77,7 @@ namespace SFGraphics.ShaderGen
             if (normals == null)
                 throw new System.ArgumentException("No matching vertex normal attribute was found.", nameof(attributes));
 
-            vertexSource = CreateVertexSource(attributes);
+            vertexSource = GlslUtils.CreateVertexShaderSource(attributes, new List<ShaderUniform>(), GlslVersionMajor, GlslVersionMinor, MvpMatrixName);
             fragmentSource = CreateFragmentSource(textures, attributes, texcoords, normals);
         }
 
@@ -94,13 +94,6 @@ namespace SFGraphics.ShaderGen
                 else if (attribute.AttributeUsage == AttributeUsage.Normal)
                     normals = attribute;
             }
-        }
-
-        private string CreateVertexSource(IEnumerable<VertexAttribute> attributes)
-        {
-            var shaderText = GlslUtils.CreateVertexShaderSource(attributes, new List<ShaderUniform>(), GlslVersionMajor, GlslVersionMinor, MvpMatrixName);
-
-            return shaderText;
         }
 
         private void AppendViewNormalOutput(StringBuilder shaderSource)
@@ -129,29 +122,12 @@ namespace SFGraphics.ShaderGen
             IEnumerable<VertexAttribute> attributes, VertexAttribute texcoords, VertexAttribute normals)
         {
             StringBuilder shaderSource = new StringBuilder();
-            AppendFragmentShader(textures, attributes, shaderSource, texcoords, normals);
+            //AppendFragmentShader(textures, attributes, shaderSource, texcoords, normals);
 
             return shaderSource.ToString();
         }
 
-        private void AppendFragmentShader(IEnumerable<TextureRenderInfo> textures, IEnumerable<VertexAttribute> attributes, StringBuilder shaderSource, 
-            VertexAttribute texcoords, VertexAttribute normal)
-        {
-            GlslUtils.AppendShadingLanguageVersion(shaderSource, GlslVersionMajor, GlslVersionMinor);
-
-            //GlslUtils.GetFragmentInputs(attributes, shaderSource);
-            AppendViewNormalInput(shaderSource);
-
-            GlslUtils.AppendFragmentOutput(shaderSource);
-
-            AppendTextureUniforms(textures, shaderSource);
-            shaderSource.AppendLine(GlslUtils.GetMatrix4Uniforms(MvpMatrixName, SphereMatrixName));
-
-            shaderSource.AppendLine($"uniform int {attribIndexName};");
-
-            AppendFragmentMainFunction(textures, shaderSource, texcoords, normal);
-        }
-
+       
         private void AppendTextureUniforms(IEnumerable<TextureRenderInfo> textures, StringBuilder shaderSource)
         {
             HashSet<string> previousNames = new HashSet<string>();

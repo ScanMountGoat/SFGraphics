@@ -15,7 +15,7 @@ namespace SFGraphics.ShaderGen.GlslShaderUtils
 
         public static readonly string vertexOutputPrefix = "vs_";
 
-        public static string CreateVertexShaderSource(IEnumerable<VertexAttribute> attributes, IEnumerable<ShaderUniform> uniforms, int glslVersionMajor, int glslVersionMinor, string positionMatrixName)
+        public static string CreateVertexShaderSource(IEnumerable<VertexAttribute> attributes, IEnumerable<ShaderUniform> uniforms, int glslVersionMajor, int glslVersionMinor, string mvpMatrixName)
         {
             var template = Template.Parse(@"
 #version {{ major_version }}{{ minor_version }}0
@@ -29,10 +29,14 @@ uniform {{ uniform.type }} {{ uniform.name }};
 
 void main() 
 {
+
 {{ vertex_output_assignments }}
 {{ position_assignment }}
 }
 ");
+            var positionAttribute = GetPositionAttribute(attributes);
+            var normalAttribute = GetNormalAttribute(attributes);
+
             var shaderText = template.Render(new
             {
                 MajorVersion = glslVersionMajor,
@@ -41,7 +45,7 @@ void main()
                 VertexOutputs = GetVertexOutputs(attributes),
                 Uniforms = uniforms,
                 VertexOutputAssignments = GetVertexOutputAssignments(attributes),
-                PositionAssignment = GetPositionAssignment(attributes, positionMatrixName)
+                PositionAssignment = GetPositionAssignment(attributes, mvpMatrixName)
             });
 
             return shaderText;
@@ -283,6 +287,11 @@ void main()
         public static VertexAttribute GetPositionAttribute(IEnumerable<VertexAttribute> attributes)
         {
             return attributes.FirstOrDefault(attribute => attribute.AttributeUsage == AttributeUsage.Position);
+        }
+
+        public static VertexAttribute GetNormalAttribute(IEnumerable<VertexAttribute> attributes)
+        {
+            return attributes.FirstOrDefault(attribute => attribute.AttributeUsage == AttributeUsage.Normal);
         }
 
         public static string GetMatrix4Uniforms(params string[] matrixNames)
