@@ -95,6 +95,39 @@ namespace SFGraphics.ShaderGen.GlslShaderUtils
             }
         }
 
+        public static AttributeType GetAttributeType(string type)
+        {
+            switch (type)
+            {
+                case "uint":
+                    return AttributeType.UnsignedInt;
+                case "int":
+                    return AttributeType.Int;
+                case "float":
+                    return AttributeType.Float;
+                case "vec2":
+                    return AttributeType.Vec2;
+                case "vec3":
+                    return AttributeType.Vec3;
+                case "vec4":
+                    return AttributeType.Vec4;
+                case "ivec2":
+                    return AttributeType.IVec2;
+                case "ivec3":
+                    return AttributeType.IVec3;
+                case "ivec4":
+                    return AttributeType.IVec4;
+                case "uvec2":
+                    return AttributeType.UVec2;
+                case "uvec3":
+                    return AttributeType.UVec3;
+                case "uvec4":
+                    return AttributeType.UVec4;
+                default:
+                    throw new NotSupportedException($"No matching attribute type for {type}");
+            }
+        }
+
         private static string GetInterpolationQualifier(AttributeType type)
         {
             switch (type)

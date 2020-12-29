@@ -1,7 +1,5 @@
 ﻿using SFGraphics.ShaderGen.GlslShaderUtils;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace SFGraphics.ShaderGen
@@ -20,6 +18,18 @@ namespace SFGraphics.ShaderGen
             return uniforms;
         }
 
+        public static List<ShaderAttribute> GetAttributes(string shaderSource)
+        {
+            var uniforms = new List<ShaderAttribute>();
 
+            foreach (Match match in Regex.Matches(shaderSource, @"in .* .*;"))
+            {
+                var parts = match.Value.Split(' ');
+                var name = parts[2].TrimEnd(';');
+                var type = ShaderAttribute.GetAttributeType(parts[1]);
+                uniforms.Add(new ShaderAttribute(name, type));
+            }
+            return uniforms;
+        }
     }
 }
