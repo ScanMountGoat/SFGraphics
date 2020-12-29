@@ -18,26 +18,8 @@ namespace SFGenericModel.VertexAttributes
         /// <param name="name">The name of the attribute in the shader</param>
         /// <param name="valueCount">The number of components for the value</param>
         /// <param name="type">The data type of the value</param>
-        /// <param name="normalized">When <c>true</c>, integer values are converted to floats. Ex: <c>float = int / INT_MAX</c></param>
-        /// <param name="attributeUsage">How the attribute should be rendered</param>
-        /// <param name="normalizeVector">Normalize the vector before rendering</param>
-        /// <param name="remapToVisibleRange">Remap the vector before rendering</param>
         /// <exception cref="System.NotImplementedException"><paramref name="type"/> is not an implemented attribute type.</exception>
-        public VertexFloatAttribute(string name, ValueCount valueCount, VertexAttribPointerType type, bool normalized, AttributeUsage attributeUsage, bool normalizeVector, bool remapToVisibleRange) 
-            : base(name, valueCount, type, attributeUsage, normalizeVector, remapToVisibleRange)
-        {
-            Normalized = normalized;
-            SizeInBytes = (int)valueCount * AttribPointerUtils.GetSizeInBytes(type);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="name">The name of the attribute</param>
-        /// <param name="valueCount">The number of vector components</param>
-        /// <param name="type">The data type</param>
-        /// <param name="normalized">When <c>true</c>, integer values are converted to floats. Ex: <c>float = int / INT_MAX</c></param>
-        public VertexFloatAttribute(string name, ValueCount valueCount, VertexAttribPointerType type, bool normalized) : base(name, valueCount, type, AttributeUsage.Default, false, false)
+        public VertexFloatAttribute(string name, ValueCount valueCount, VertexAttribPointerType type, bool normalized) : base(name, valueCount, type)
         {
             Normalized = normalized;
             SizeInBytes = (int)valueCount * AttribPointerUtils.GetSizeInBytes(type);

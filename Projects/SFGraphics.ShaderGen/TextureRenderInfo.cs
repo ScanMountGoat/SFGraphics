@@ -1,6 +1,4 @@
-﻿using SFGraphics.GLObjects.Textures;
-
-namespace SFGraphics.ShaderGen
+﻿namespace SFGraphics.ShaderGen
 {
     /// <summary>
     /// The texture coordinate values used for rendering.

@@ -5,13 +5,13 @@ namespace SFGraphicsGui
 {
     struct RenderVertex
     {
-        [VertexFloat("position", ValueCount.Three, OpenTK.Graphics.OpenGL.VertexAttribPointerType.Float, false, AttributeUsage.Position, true, true)]
+        [VertexFloat("position", ValueCount.Three, OpenTK.Graphics.OpenGL.VertexAttribPointerType.Float, false)]
         public Vector3 Position { get; }
 
-        [VertexFloat("normal", ValueCount.Three, OpenTK.Graphics.OpenGL.VertexAttribPointerType.Float, false, AttributeUsage.Normal, true, true)]
+        [VertexFloat("normal", ValueCount.Three, OpenTK.Graphics.OpenGL.VertexAttribPointerType.Float, false)]
         public Vector3 Normal { get; }
 
-        [VertexFloat("texcoord0", ValueCount.Two, OpenTK.Graphics.OpenGL.VertexAttribPointerType.Float, false, AttributeUsage.TexCoord0, false, false)]
+        [VertexFloat("texcoord0", ValueCount.Two, OpenTK.Graphics.OpenGL.VertexAttribPointerType.Float, false)]
         public Vector2 TexCoord0 { get; }
 
         public RenderVertex(Vector3 position, Vector3 normal, Vector2 texCoord0)

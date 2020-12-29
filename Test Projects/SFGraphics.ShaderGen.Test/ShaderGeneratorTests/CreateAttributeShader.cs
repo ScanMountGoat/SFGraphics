@@ -1,21 +1,13 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SFGraphics.GLObjects.Shaders;
+using SFGraphics.ShaderGen.GlslShaderUtils;
 using System.Collections.Generic;
-using SFGenericModel.VertexAttributes;
-using SFGraphics.ShaderGen;
-using OpenTK.Graphics.OpenGL;
 
 namespace SFGraphics.ShaderGen.Test.ShaderGeneratorTests
 {
     [TestClass]
     public class CreateAttributeShader
     {
-        private struct VertexStruct
-        {
-            [VertexFloat("pos", ValueCount.Three, VertexAttribPointerType.Float, false, AttributeUsage.Position, true, true)]
-            OpenTK.Vector3 position;
-        }
-
         [TestInitialize]
         public void Initialize()
         {
@@ -25,16 +17,16 @@ namespace SFGraphics.ShaderGen.Test.ShaderGeneratorTests
         [TestMethod]
         public void NoAttributes()
         {
-            var shader = CreateShader(new List<VertexAttribute>());
+            var shader = CreateShader(new List<ShaderAttribute>());
             Assert.IsTrue(shader.LinkStatusIsOk, shader.GetErrorLog());
         }
 
         [TestMethod]
         public void SingleVec3Attribute()
         {
-            var attributes = new List<VertexAttribute>()
+            var attributes = new List<ShaderAttribute>()
             {
-                new VertexFloatAttribute("test", ValueCount.Three, VertexAttribPointerType.Float, false, AttributeUsage.Position, false, false)
+                new ShaderAttribute("test", AttributeType.Vec3)
             };
 
             var shader = CreateShader(attributes);
@@ -42,18 +34,35 @@ namespace SFGraphics.ShaderGen.Test.ShaderGeneratorTests
         }
 
         [TestMethod]
-        public void SingleVec3AttributeFromStruct()
+        public void SingleIntVec2Attribute()
         {
-            var shader = CreateShader<VertexStruct>();
+            var attributes = new List<ShaderAttribute>()
+            {
+                new ShaderAttribute("test", AttributeType.IVec2)
+            };
+
+            var shader = CreateShader(attributes);
             Assert.IsTrue(shader.LinkStatusIsOk, shader.GetErrorLog());
         }
 
         [TestMethod]
         public void SingleIntVec3Attribute()
         {
-            var attributes = new List<VertexAttribute>()
+            var attributes = new List<ShaderAttribute>()
             {
-                new VertexIntAttribute("test", ValueCount.Three, VertexAttribIntegerType.Int, AttributeUsage.Default, false, false)
+                new ShaderAttribute("test", AttributeType.IVec3)
+            };
+
+            var shader = CreateShader(attributes);
+            Assert.IsTrue(shader.LinkStatusIsOk, shader.GetErrorLog());
+        }
+
+        [TestMethod]
+        public void SingleUnsignedIntVec2Attribute()
+        {
+            var attributes = new List<ShaderAttribute>()
+            {
+                new ShaderAttribute("test", AttributeType.UVec2)
             };
 
             var shader = CreateShader(attributes);
@@ -63,9 +72,9 @@ namespace SFGraphics.ShaderGen.Test.ShaderGeneratorTests
         [TestMethod]
         public void SingleUnsignedIntVec3Attribute()
         {
-            var attributes = new List<VertexAttribute>()
+            var attributes = new List<ShaderAttribute>()
             {
-                new VertexIntAttribute("test", ValueCount.Three, VertexAttribIntegerType.UnsignedInt, AttributeUsage.Default, false, false)
+                new ShaderAttribute("test", AttributeType.UVec3)
             };
 
             var shader = CreateShader(attributes);
@@ -73,22 +82,11 @@ namespace SFGraphics.ShaderGen.Test.ShaderGeneratorTests
         }
 
         [TestMethod]
-        public void SingleByteAttribute()
-        {
-            var attributes = new List<VertexAttribute>()
-            {
-                new VertexIntAttribute("test", ValueCount.One, VertexAttribIntegerType.Byte, AttributeUsage.Position, false, false)
-            };
-            var e = Assert.ThrowsException<System.NotImplementedException>(() =>
-                CreateShader(attributes));
-        }
-
-        [TestMethod]
         public void SingleVec2Attribute()
         {
-            var attributes = new List<VertexAttribute>()
+            var attributes = new List<ShaderAttribute>()
             {
-                new VertexFloatAttribute("test", ValueCount.Two, VertexAttribPointerType.Float, false, AttributeUsage.Default, false, false)
+                new ShaderAttribute("test", AttributeType.Vec2)
             };
 
             var shader = CreateShader(attributes);
@@ -98,9 +96,9 @@ namespace SFGraphics.ShaderGen.Test.ShaderGeneratorTests
         [TestMethod]
         public void SingleVec4Attribute()
         {
-            var attributes = new List<VertexAttribute>()
+            var attributes = new List<ShaderAttribute>()
             {
-                new VertexFloatAttribute("test", ValueCount.Four, VertexAttribPointerType.Float, false, AttributeUsage.Position, false, false)
+                new ShaderAttribute("test", AttributeType.Vec4)
             };
 
             var shader = CreateShader(attributes);
@@ -110,9 +108,9 @@ namespace SFGraphics.ShaderGen.Test.ShaderGeneratorTests
         [TestMethod]
         public void SingleFloatAttribute()
         {
-            var attributes = new List<VertexAttribute>()
+            var attributes = new List<ShaderAttribute>()
             {
-                new VertexFloatAttribute("test", ValueCount.One, VertexAttribPointerType.Float, false, AttributeUsage.Position, false, false)
+                new ShaderAttribute("test", AttributeType.Float)
             };
 
             var shader = CreateShader(attributes);
@@ -122,9 +120,9 @@ namespace SFGraphics.ShaderGen.Test.ShaderGeneratorTests
         [TestMethod]
         public void SingleIntAttribute()
         {
-            var attributes = new List<VertexAttribute>()
+            var attributes = new List<ShaderAttribute>()
             {
-                new VertexIntAttribute("test", ValueCount.One, VertexAttribIntegerType.Int, AttributeUsage.Default, false, false)
+                new ShaderAttribute("test", AttributeType.Int)
             };
 
             var shader = CreateShader(attributes);
@@ -134,9 +132,9 @@ namespace SFGraphics.ShaderGen.Test.ShaderGeneratorTests
         [TestMethod]
         public void SingleUnsignedIntAttribute()
         {
-            var attributes = new List<VertexAttribute>()
+            var attributes = new List<ShaderAttribute>()
             {
-                new VertexIntAttribute("test", ValueCount.One, VertexAttribIntegerType.UnsignedInt, AttributeUsage.Default, false, false)
+                new ShaderAttribute("test", AttributeType.UnsignedInt)
             };
 
             var shader = CreateShader(attributes);
@@ -146,32 +144,22 @@ namespace SFGraphics.ShaderGen.Test.ShaderGeneratorTests
         [TestMethod]
         public void MixedVectorAttributes()
         {
-            var attributes = new List<VertexAttribute>()
+            var attributes = new List<ShaderAttribute>()
             {
-                new VertexFloatAttribute("test2", ValueCount.Two, VertexAttribPointerType.Float, false, AttributeUsage.Default, false, false),
-                new VertexFloatAttribute("test3", ValueCount.Three, VertexAttribPointerType.Float, false, AttributeUsage.Default, false, false),
-                new VertexFloatAttribute("test4", ValueCount.Four, VertexAttribPointerType.Float, false, AttributeUsage.Default, false, false)
+                new ShaderAttribute("test2", AttributeType.Vec2),
+                new ShaderAttribute("test3", AttributeType.Vec3),
+                new ShaderAttribute("test4", AttributeType.Vec4)
             };
 
             Shader shader = CreateShader(attributes);
             Assert.IsTrue(shader.LinkStatusIsOk, shader.GetErrorLog());
         }
 
-        private static Shader CreateShader(List<VertexAttribute> attributes)
+        private static Shader CreateShader(List<ShaderAttribute> attributes)
         {
             var generator = new VertexAttributeShaderGenerator();
             generator.CreateShader(attributes, out string vertSource, out string fragSource);
             Shader shader = new Shader();
-            shader.LoadShaders(vertSource, fragSource);
-            return shader;
-        }
-
-        private static Shader CreateShader<T>() where T : struct
-        {
-            var generator = new VertexAttributeShaderGenerator();
-            generator.CreateShader<T>(out string vertSource, out string fragSource);
-
-            var shader = new Shader();
             shader.LoadShaders(vertSource, fragSource);
             return shader;
         }

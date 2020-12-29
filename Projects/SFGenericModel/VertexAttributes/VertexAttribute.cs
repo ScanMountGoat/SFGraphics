@@ -3,7 +3,7 @@
 namespace SFGenericModel.VertexAttributes
 {
     /// <summary>
-    /// The number of vector components for a vertex attribute. Scalars should use <see cref="ValueCount.One"/>.
+    /// The number of vector components for a vertex attribute. Scalars should use <see cref="One"/>.
     /// </summary>
     public enum ValueCount
     {
@@ -26,32 +26,6 @@ namespace SFGenericModel.VertexAttributes
         /// A four component vector value
         /// </summary>
         Four = 4
-    }
-
-    /// <summary>
-    /// Determines the additional usage for the generated shader.
-    /// </summary>
-    public enum AttributeUsage
-    {
-        /// <summary>
-        /// The attribute will only be used for the render modes.
-        /// </summary>
-        Default,
-
-        /// <summary>
-        /// The attribute will also be used as the vertex positions.
-        /// </summary>
-        Position,
-
-        /// <summary>
-        /// The attribute will also be used as the vertex normals.
-        /// </summary>
-        Normal,
-
-        /// <summary>
-        /// The attribute will also be used as the vertex UVs.
-        /// </summary>
-        TexCoord0
     }
 
     /// <summary>
@@ -81,37 +55,16 @@ namespace SFGenericModel.VertexAttributes
         public VertexAttribPointerType Type { get; }
 
         /// <summary>
-        /// How the attribute should be used for generated shaders.
-        /// </summary>
-        public AttributeUsage AttributeUsage { get; }
-
-        /// <summary>
-        /// Normalize the vector before rendering.
-        /// </summary>
-        public bool NormalizeVector { get; }
-
-        /// <summary>
-        /// Remap values in range [-1, 1] to range [0, 1]. This occurs after normalization.
-        /// </summary>
-        public bool RemapToVisibleRange { get; }
-
-        /// <summary>
         /// 
         /// </summary>
         /// <param name="name">The name of the attribute in the shader</param>
         /// <param name="valueCount">The number of components</param>
         /// <param name="type">The data type</param>
-        /// <param name="attributeUsage">How the attribute will be rendered</param>
-        /// <param name="normalizeVector">Normalize the vector before rendering</param>
-        /// <param name="remapToVisibleRange">Remap the vector before rendering</param>
-        protected VertexAttribute(string name, ValueCount valueCount, VertexAttribPointerType type, AttributeUsage attributeUsage, bool normalizeVector, bool remapToVisibleRange)
+        protected VertexAttribute(string name, ValueCount valueCount, VertexAttribPointerType type)
         {
             Name = name;
             ValueCount = valueCount;
             Type = type;
-            AttributeUsage = attributeUsage;
-            NormalizeVector = normalizeVector;
-            RemapToVisibleRange = remapToVisibleRange;
         }
 
         /// <summary>

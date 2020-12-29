@@ -1,5 +1,4 @@
-﻿using SFGenericModel.VertexAttributes;
-using SFGraphics.ShaderGen.GlslShaderUtils;
+﻿using SFGraphics.ShaderGen.GlslShaderUtils;
 using System.Collections.Generic;
 
 namespace SFGraphics.ShaderGen
@@ -36,24 +35,12 @@ namespace SFGraphics.ShaderGen
         public int GlslVersionMinor { get; set; } = 3;
 
         /// <summary>
-        /// Generates a shader for rendering each of the vertex attributes individually. 
-        /// </summary>
-        /// <typeparam name="T">The vertex struct containing the <see cref="VertexAttribute"/> attributes.</typeparam>
-        /// <param name="vertexSource">The generated GLSL vertex shader source</param>
-        /// <param name="fragmentSource">The generated GLSL fragment shader source</param>
-        public void CreateShader<T>(out string vertexSource, out string fragmentSource) where T : struct
-        {
-            var attributes = VertexAttributeUtils.GetAttributesFromType<T>();
-            CreateShader(attributes, out vertexSource, out fragmentSource);
-        }
-
-        /// <summary>
         /// Generates a shader for rendering each of the vertex attributes individually.      
         /// </summary>
         /// <param name="attributes">Attributes used to generate render modes</param>
         /// <param name="vertexSource">The generated GLSL vertex shader source</param>
         /// <param name="fragmentSource">The generated GLSL fragment shader source</param>
-        public void CreateShader(List<VertexAttribute> attributes, out string vertexSource, out string fragmentSource)
+        public void CreateShader(IEnumerable<ShaderAttribute> attributes, out string vertexSource, out string fragmentSource)
         {
             // TODO: Use an enum for the uniform type.
             var uniforms = new List<ShaderUniform>

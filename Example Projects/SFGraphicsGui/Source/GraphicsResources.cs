@@ -4,6 +4,8 @@ using SFGraphics.GLObjects.Samplers;
 using SFGraphics.GLObjects.Shaders;
 using SFGraphics.GLObjects.Textures;
 using System.IO;
+using System.Collections.Generic;
+using SFGraphics.ShaderGen.GlslShaderUtils;
 
 namespace SFGraphicsGui
 {
@@ -49,7 +51,13 @@ namespace SFGraphicsGui
         private void CreateObjModelShader()
         {
             var generator = new SFGraphics.ShaderGen.VertexAttributeShaderGenerator();
-            generator.CreateShader<RenderVertex>(out string vertexSource, out string fragmentSource);
+            var attributes = new List<ShaderAttribute>
+            {
+                new ShaderAttribute("position", SFGraphics.ShaderGen.GlslShaderUtils.AttributeType.Vec3),
+                new ShaderAttribute("normal", SFGraphics.ShaderGen.GlslShaderUtils.AttributeType.Vec3),
+                new ShaderAttribute("texCoord0", SFGraphics.ShaderGen.GlslShaderUtils.AttributeType.Vec2)
+            };
+            generator.CreateShader(attributes, out string vertexSource, out string fragmentSource);
             objModelShader = new Shader();
             objModelShader.LoadShaders(vertexSource, fragmentSource);
         }

@@ -1,5 +1,4 @@
-﻿using SFGenericModel.VertexAttributes;
-using System;
+﻿using System;
 
 namespace SFGraphics.ShaderGen.GlslShaderUtils
 {
@@ -22,7 +21,7 @@ namespace SFGraphics.ShaderGen.GlslShaderUtils
             return $"vec{targetCount}({sourceName}.{components}{paddingValues})";
         }
 
-        public static string ConstructVector(ValueCount targetValueCount, VertexAttribute source)
+        public static string ConstructVector(ValueCount targetValueCount, ShaderAttribute source)
         {
             return ConstructVector(targetValueCount, source.ValueCount, source.Name);
         }

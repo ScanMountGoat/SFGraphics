@@ -13,25 +13,9 @@ namespace SFGenericModel.VertexAttributes
         /// <param name="name">The name of the attribute in the shader</param>
         /// <param name="valueCount">The number of components for the value</param>
         /// <param name="type">The data type of the value</param>
-        /// <param name="attributeUsage">How the attribute should be rendered</param>
-        /// <param name="normalizeVector">Normalize the vector before rendering</param>
-        /// <param name="remapToVisibleRange">Remap the vector before rendering</param>
         /// <exception cref="System.NotSupportedException"><paramref name="type"/> is not 
         /// a supported attribute type.</exception>
-        public VertexIntAttribute(string name, ValueCount valueCount, VertexAttribIntegerType type, AttributeUsage attributeUsage, bool normalizeVector, bool remapToVisibleRange) 
-            : base(name, valueCount, (VertexAttribPointerType)type, attributeUsage, normalizeVector, remapToVisibleRange)
-        {
-            // The default attribute pointer type enum contains all the integer values.
-            SizeInBytes = (int)valueCount * AttribPointerUtils.GetSizeInBytes(type);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="name">The name of the attribute</param>
-        /// <param name="valueCount">The number of vector components</param>
-        /// <param name="type">The data type</param>
-        public VertexIntAttribute(string name, ValueCount valueCount, VertexAttribIntegerType type) : base(name, valueCount, (VertexAttribPointerType)type, AttributeUsage.Default, false, false)
+        public VertexIntAttribute(string name, ValueCount valueCount, VertexAttribIntegerType type) : base(name, valueCount, (VertexAttribPointerType)type)
         {
             // The default attribute pointer type enum contains all the integer values.
             SizeInBytes = (int)valueCount * AttribPointerUtils.GetSizeInBytes(type);

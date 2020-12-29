@@ -1,5 +1,4 @@
 ﻿using OpenTK.Graphics.OpenGL;
-using SFGenericModel.VertexAttributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,13 +14,18 @@ namespace SFGraphics.ShaderGen.GlslShaderUtils
 
         public static readonly string vertexOutputPrefix = "vs_";
 
-        public static string CreateVertexShaderSource(IEnumerable<VertexAttribute> attributes, IEnumerable<ShaderUniform> uniforms, int glslVersionMajor, int glslVersionMinor, string mvpMatrixName)
+        public static string CreateVertexShaderSource(IEnumerable<ShaderAttribute> attributes, IEnumerable<ShaderUniform> uniforms, int glslVersionMajor, int glslVersionMinor, string mvpMatrixName)
         {
             var template = Template.Parse(@"
 #version {{ major_version }}{{ minor_version }}0
 
-{{ vertex_inputs }}
-{{ vertex_outputs }}
+{{~ for attribute in attributes ~}}
+in {{ attribute.type_declaration }} {{ attribute.name }};
+{{~ end ~}}
+
+{{~ for attribute in attributes ~}}
+out {{ attribute.type_declaration }} {{ vertex_output_prefix }}{{ attribute.name }};
+{{~ end ~}}
 
 {{~ for uniform in uniforms ~}}
 uniform {{ uniform.type }} {{ uniform.name }};
@@ -30,32 +34,34 @@ uniform {{ uniform.type }} {{ uniform.name }};
 void main() 
 {
 
-{{ vertex_output_assignments }}
-{{ position_assignment }}
+{{~ for attribute in attributes ~}}
+    {{ vertex_output_prefix }}{{ attribute.name }} = {{ attribute.name }};
+{{~ end ~}}
+
+    {{ position_assignment }}
 }
 ");
-            var positionAttribute = GetPositionAttribute(attributes);
-            var normalAttribute = GetNormalAttribute(attributes);
-
             var shaderText = template.Render(new
             {
                 MajorVersion = glslVersionMajor,
                 MinorVersion = glslVersionMinor,
-                VertexInputs = GetVertexInputs(attributes),
-                VertexOutputs = GetVertexOutputs(attributes),
+                Attributes = attributes,
                 Uniforms = uniforms,
-                VertexOutputAssignments = GetVertexOutputAssignments(attributes),
+                VertexOutputPrefix = vertexOutputPrefix,
                 PositionAssignment = GetPositionAssignment(attributes, mvpMatrixName)
             });
 
             return shaderText;
         }
 
-        public static string CreateFragmentShaderSource(IEnumerable<VertexAttribute> attributes, IEnumerable<ShaderUniform> uniforms, int glslVersionMajor, int glslVersionMinor, string renderModeName)
+        public static string CreateFragmentShaderSource(IEnumerable<ShaderAttribute> attributes, IEnumerable<ShaderUniform> uniforms, int glslVersionMajor, int glslVersionMinor, string renderModeName)
         {
             var template = Template.Parse(@"
 #version {{ major_version }}{{ minor_version }}0
-{{ fragment_inputs }}
+
+{{~ for attribute in attributes ~}}
+{{ attribute.interpolation }} in {{ attribute.type_declaration }} {{ vertex_output_prefix }}{{ attribute.name }};
+{{~ end ~}}
 
 out vec4 {{ output_name }};
 
@@ -83,8 +89,9 @@ void main()
                 MajorVersion = glslVersionMajor,
                 MinorVersion = glslVersionMinor,
                 OutputName = outputName,
-                FragmentInputs = GetFragmentInputs(attributes),
+                Attributes = attributes,
                 RenderModeName = renderModeName,
+                VertexOutputPrefix = vertexOutputPrefix,
                 Uniforms = uniforms,
                 Cases = GetCases(attributes)
             });
@@ -92,7 +99,7 @@ void main()
             return shaderText;
         }
 
-        private static List<CaseStatement> GetCases(IEnumerable<VertexAttribute> attributes)
+        private static List<CaseStatement> GetCases(IEnumerable<ShaderAttribute> attributes)
         {
             var cases = new List<CaseStatement>();
             var index = 0;
@@ -106,192 +113,15 @@ void main()
             return cases;
         }
 
-        private static string GetVertexInputs(IEnumerable<VertexAttribute> attributes)
-        {
-            var shaderSource = new StringBuilder();
-            var previousNames = new HashSet<string>();
-            foreach (var attribute in attributes)
-            {
-                // Ignore duplicates to prevent shader compile errors.
-                if (previousNames.Contains(attribute.Name))
-                    continue;
-
-                string type = GetTypeDeclaration(attribute);
-                shaderSource.AppendLine($"in {type} {attribute.Name};");
-
-                previousNames.Add(attribute.Name);
-            }
-
-            return shaderSource.ToString();
-        }
-
-        public static string GetVertexOutputs(IEnumerable<VertexAttribute> attributes)
-        {
-            var shaderSource = new StringBuilder();
-
-            var previousNames = new HashSet<string>();
-            foreach (var attribute in attributes)
-            {
-                // Ignore duplicates to prevent shader compile errors.
-                if (previousNames.Contains(attribute.Name))
-                    continue;
-
-                AppendVertexOutput(shaderSource, attribute);
-
-                previousNames.Add(attribute.Name);
-            }
-
-            return shaderSource.ToString();
-        }
-
-        public static void AppendVertexOutput(StringBuilder shaderSource, VertexAttribute attribute)
-        {
-            string type = GetTypeDeclaration(attribute);
-            string interpolation = GetInterpolationQualifier(attribute.Type);
-            shaderSource.AppendLine($"{interpolation}out {type} {vertexOutputPrefix}{attribute.Name};");
-        }
-
-        private static string GetInterpolationQualifier(VertexAttribPointerType type)
-        {
-            if (type == VertexAttribPointerType.Int || type == VertexAttribPointerType.UnsignedInt)
-                return "flat ";
-            else
-                return "";
-        }
-
-        private static string GetVertexOutputAssignments(IEnumerable<VertexAttribute> attributes)
-        {
-            var assignments = new StringBuilder();
-            var previousNames = new HashSet<string>();
-
-            foreach (var attribute in attributes)
-            {
-                // Ignore duplicates to prevent shader compile errors.
-                if (previousNames.Contains(attribute.Name))
-                    continue;
-
-                string output = $"{vertexOutputPrefix}{attribute.Name}";
-                string input = $"{ attribute.Name}";
-
-                string function = GetAttributeFunctionName(attribute);
-                string remapOperation = GetAttributeRemapOperation(attribute);
-
-                assignments.AppendLine($"{output} = {function}({input}){remapOperation};");
-
-                previousNames.Add(attribute.Name);
-            }
-
-            return assignments.ToString();
-        }
-
-        private static string GetAttributeRemapOperation(VertexAttribute attribute)
-        {
-            if (attribute.RemapToVisibleRange)
-                return " * 0.5 + 0.5";
-            else
-                return "";
-        }
-
-        private static string GetAttributeFunctionName(VertexAttribute attribute)
-        {
-            if (attribute.NormalizeVector)
-                return "normalize";
-            else
-                return "";
-        }
-
-        public static string GetFragmentInputs(IEnumerable<VertexAttribute> attributes)
-        {
-            var shaderSource = new StringBuilder();
-
-            var previousNames = new HashSet<string>();
-
-            foreach (var attribute in attributes)
-            {
-                // Ignore duplicates to prevent shader compile errors.
-                if (previousNames.Contains(attribute.Name))
-                    continue;
-
-                string interpolation = GetInterpolationQualifier(attribute.Type);
-                string type = GetTypeDeclaration(attribute);
-                string variableName = $"{vertexOutputPrefix}{attribute.Name}";
-
-                shaderSource.AppendLine($"{interpolation}in {type} {variableName};");
-
-                previousNames.Add(attribute.Name);
-            }
-
-            return shaderSource.ToString();
-        }
-
-        private static string GetTypeDeclaration(VertexAttribute attribute)
-        {
-            if (attribute.ValueCount == ValueCount.One)
-                return GetScalarType(attribute);
-            else
-                return GetVectorType(attribute);
-        }
-
-        private static string GetVectorType(VertexAttribute attribute)
-        {
-            string typeName = GetVectorTypeName(attribute.Type, attribute is VertexIntAttribute);
-            return $"{typeName}{(int)attribute.ValueCount}";
-        }
-
-        private static string GetVectorTypeName(VertexAttribPointerType type, bool isInteger)
-        {
-            if (isInteger)
-            {
-                if (type == VertexAttribPointerType.Int)
-                    return "ivec";
-                else if (type == VertexAttribPointerType.UnsignedInt)
-                    return "uvec";
-                else
-                    throw new NotImplementedException($"Type {type} is not supported.");
-            }
-            else
-            {
-                if (type == VertexAttribPointerType.Float)
-                    return "vec";
-                else
-                    throw new NotImplementedException($"Type {type} is not supported.");
-            }
-        }
-
-        private static string GetScalarType(VertexAttribute attribute)
-        {
-            switch (attribute.Type)
-            {
-                case VertexAttribPointerType.Int:
-                    return "int";
-                case VertexAttribPointerType.UnsignedInt:
-                    return "uint";
-                case VertexAttribPointerType.Float:
-                    return "float";
-                default:
-                    throw new NotImplementedException($"Type {attribute.Type} is not supported.");
-            }
-        }
-
-        public static string GetPositionAssignment(IEnumerable<VertexAttribute> attributes, string matrixName)
+        public static string GetPositionAssignment(IEnumerable<ShaderAttribute> attributes, string matrixName)
         {
             // TODO: Use the first attribute as position?
-            var positionAttribute = GetPositionAttribute(attributes);
+            var positionAttribute = attributes.FirstOrDefault();
             if (positionAttribute == null)
                 return "";
 
             string positionVariable = GlslVectorUtils.ConstructVector(ValueCount.Four, positionAttribute.ValueCount, positionAttribute.Name);
-            return $"\tgl_Position = {matrixName} * {positionVariable};";
-        }
-
-        public static VertexAttribute GetPositionAttribute(IEnumerable<VertexAttribute> attributes)
-        {
-            return attributes.FirstOrDefault(attribute => attribute.AttributeUsage == AttributeUsage.Position);
-        }
-
-        public static VertexAttribute GetNormalAttribute(IEnumerable<VertexAttribute> attributes)
-        {
-            return attributes.FirstOrDefault(attribute => attribute.AttributeUsage == AttributeUsage.Normal);
+            return $"gl_Position = {matrixName} * {positionVariable};";
         }
 
         public static string GetMatrix4Uniforms(params string[] matrixNames)
