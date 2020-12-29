@@ -39,9 +39,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFTiming.Test", "Test Proje
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SFGraphics", "Projects\SFGraphics\SFGraphics.csproj", "{AAB11034-531E-4207-8C70-9403460481F8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFGraphics.ShaderGen", "Projects\SFGraphics.ShaderGen\SFGraphics.ShaderGen.csproj", "{67269B0F-3A96-43ED-A8A3-60BE86A8B5E8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SFGraphics.ShaderGen", "Projects\SFGraphics.ShaderGen\SFGraphics.ShaderGen.csproj", "{67269B0F-3A96-43ED-A8A3-60BE86A8B5E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFGraphics.ShaderGen.Test", "Test Projects\SFGraphics.ShaderGen.Test\SFGraphics.ShaderGen.Test.csproj", "{03F8667E-0906-4616-93E3-E3DD726D4740}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SFGraphics.ShaderGen.Test", "Test Projects\SFGraphics.ShaderGen.Test\SFGraphics.ShaderGen.Test.csproj", "{03F8667E-0906-4616-93E3-E3DD726D4740}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
