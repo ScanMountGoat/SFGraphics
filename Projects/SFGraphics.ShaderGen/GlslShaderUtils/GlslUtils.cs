@@ -24,7 +24,7 @@ in {{ attribute.type_declaration }} {{ attribute.name }};
 {{~ end ~}}
 
 {{~ for attribute in attributes ~}}
-out {{ attribute.type_declaration }} {{ vertex_output_prefix }}{{ attribute.name }};
+{{ attribute.interpolation }} out {{ attribute.type_declaration }} {{ vertex_output_prefix }}{{ attribute.name }};
 {{~ end ~}}
 
 {{~ for uniform in uniforms ~}}
