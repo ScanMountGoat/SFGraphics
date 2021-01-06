@@ -45,7 +45,7 @@ namespace SFGraphics.ShaderGen
             // TODO: Use an enum for the uniform type.
             var uniforms = new List<ShaderUniform>
             {
-                new ShaderUniform(MvpMatrixName, "mat4")
+                new ShaderUniform(MvpMatrixName, UniformType.Mat4)
             };
 
             vertexSource = GlslUtils.CreateVertexShaderSource(attributes, uniforms, GlslVersionMajor, GlslVersionMinor, MvpMatrixName);

@@ -28,7 +28,7 @@ in {{ attribute.type_declaration }} {{ attribute.name }};
 {{~ end ~}}
 
 {{~ for uniform in uniforms ~}}
-uniform {{ uniform.type }} {{ uniform.name }};
+uniform {{ uniform.type_declaration }} {{ uniform.name }};
 {{~ end ~}}
 
 void main() 
@@ -66,7 +66,7 @@ void main()
 out vec4 {{ output_name }};
 
 {{~ for uniform in uniforms ~}}
-uniform {{ uniform.type }} {{ uniform.name }};
+uniform {{ uniform.type_declaration }} {{ uniform.name }};
 {{~ end ~}}
 
 uniform int {{ render_mode_name }};

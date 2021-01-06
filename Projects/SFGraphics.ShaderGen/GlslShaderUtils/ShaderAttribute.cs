@@ -53,6 +53,22 @@ namespace SFGraphics.ShaderGen.GlslShaderUtils
         public string Interpolation { get; }
         public ValueCount ValueCount { get; }
 
+        private static readonly Dictionary<AttributeType, string> nameByType = new Dictionary<AttributeType, string>
+        {
+            { AttributeType.UnsignedInt, "uint" },
+            { AttributeType.Int, "int" },
+            { AttributeType.Float, "float" },
+            { AttributeType.Vec2, "vec2" },
+            { AttributeType.Vec3, "vec3" },
+            { AttributeType.Vec4, "vec4" },
+            { AttributeType.IVec2, "ivec2" },
+            { AttributeType.IVec3, "ivec3" },
+            { AttributeType.IVec4, "ivec4" },
+            { AttributeType.UVec2, "uvec2" },
+            { AttributeType.UVec3, "uvec3" },
+            { AttributeType.UVec4, "uvec4" },
+        };
+
         public ShaderAttribute(string name, AttributeType type)
         {
             Name = name;
@@ -62,70 +78,35 @@ namespace SFGraphics.ShaderGen.GlslShaderUtils
             TypeDeclaration = GetTypeDeclaration(type);
         }
 
-        private string GetTypeDeclaration(AttributeType type)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="type"></param>
+        /// <exception cref="NotSupportedException"><paramref name="type"/> is not a supported attribute type</exception>
+        public ShaderAttribute(string name, string type) : this(name, GetAttributeType(type))
         {
-            switch (type)
-            {
-                case AttributeType.UnsignedInt:
-                    return "uint";
-                case AttributeType.Int:
-                    return "int";
-                case AttributeType.Float:
-                    return "float";
-                case AttributeType.Vec2:
-                    return "vec2";
-                case AttributeType.Vec3:
-                    return "vec3";
-                case AttributeType.Vec4:
-                    return "vec4";
-                case AttributeType.IVec2:
-                    return "ivec2";
-                case AttributeType.IVec3:
-                    return "ivec3";
-                case AttributeType.IVec4:
-                    return "ivec4";
-                case AttributeType.UVec2:
-                    return "uvec2";
-                case AttributeType.UVec3:
-                    return "uvec3";
-                case AttributeType.UVec4:
-                    return "uvec4";
-                default:
-                    return "";
-            }
+
         }
 
-        public static AttributeType GetAttributeType(string type)
+
+        private string GetTypeDeclaration(AttributeType type)
         {
-            switch (type)
+            if (nameByType.TryGetValue(type, out string name))
+                return name;
+
+            throw new NotSupportedException($"Unsupported uniform type {type}");
+        }
+
+        public static AttributeType GetAttributeType(string name)
+        {
+            foreach (var pair in nameByType)
             {
-                case "uint":
-                    return AttributeType.UnsignedInt;
-                case "int":
-                    return AttributeType.Int;
-                case "float":
-                    return AttributeType.Float;
-                case "vec2":
-                    return AttributeType.Vec2;
-                case "vec3":
-                    return AttributeType.Vec3;
-                case "vec4":
-                    return AttributeType.Vec4;
-                case "ivec2":
-                    return AttributeType.IVec2;
-                case "ivec3":
-                    return AttributeType.IVec3;
-                case "ivec4":
-                    return AttributeType.IVec4;
-                case "uvec2":
-                    return AttributeType.UVec2;
-                case "uvec3":
-                    return AttributeType.UVec3;
-                case "uvec4":
-                    return AttributeType.UVec4;
-                default:
-                    throw new NotSupportedException($"No matching attribute type for {type}");
+                if (pair.Value == name)
+                    return pair.Key;
             }
+
+            throw new NotSupportedException($"Unsupported uniform type {name}");
         }
 
         private static string GetInterpolationQualifier(AttributeType type)

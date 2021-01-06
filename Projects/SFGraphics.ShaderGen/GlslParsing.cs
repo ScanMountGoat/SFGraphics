@@ -26,8 +26,7 @@ namespace SFGraphics.ShaderGen
             {
                 var parts = match.Value.Split(' ');
                 var name = parts[2].TrimEnd(';');
-                var type = ShaderAttribute.GetAttributeType(parts[1]);
-                uniforms.Add(new ShaderAttribute(name, type));
+                uniforms.Add(new ShaderAttribute(name, parts[1]));
             }
             return uniforms;
         }
