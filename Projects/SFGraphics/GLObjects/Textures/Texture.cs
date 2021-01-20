@@ -27,7 +27,7 @@ namespace SFGraphics.GLObjects.Textures
 
         /// <summary>
         /// The algorithm used when scaling the texture below its actual size.
-        /// Defaults to LinearMipMapLinear.
+        /// Defaults to <see cref="TextureMinFilter.Linear"/>.
         /// </summary>
         public TextureMinFilter MinFilter
         {
@@ -38,11 +38,11 @@ namespace SFGraphics.GLObjects.Textures
                 SetTexParameter(TextureParameterName.TextureMinFilter, (int)value);
             }
         }
-        private TextureMinFilter minFilter;
+        private TextureMinFilter minFilter = TextureMinFilter.Linear;
 
         /// <summary>
         /// The algorithm used when scaling the texture above its actual size.
-        /// Defaults to linear.
+        /// Defaults to <see cref="TextureMagFilter.Linear"/>.
         /// </summary>
         public TextureMagFilter MagFilter
         {
@@ -53,11 +53,11 @@ namespace SFGraphics.GLObjects.Textures
                 SetTexParameter(TextureParameterName.TextureMagFilter, (int)value);
             }
         }
-        private TextureMagFilter magFilter;
+        private TextureMagFilter magFilter = TextureMagFilter.Linear;
 
         /// <summary>
         /// The wrap mode for the first component of texture coordinates.
-        /// Defaults to ClampToEdge.
+        /// Defaults to <see cref="TextureWrapMode.ClampToEdge"/>.
         /// </summary>
         public TextureWrapMode TextureWrapS
         {
@@ -68,11 +68,11 @@ namespace SFGraphics.GLObjects.Textures
                 SetTexParameter(TextureParameterName.TextureWrapS, (int)value);
             }
         }
-        private TextureWrapMode textureWrapS;
+        private TextureWrapMode textureWrapS = TextureWrapMode.ClampToEdge;
 
         /// <summary>
         /// The wrap mode for the second component of texture coordinates.
-        /// Defaults to ClampToEdge.
+        /// Defaults to <see cref="TextureWrapMode.ClampToEdge"/>.
         /// </summary>
         public TextureWrapMode TextureWrapT
         {
@@ -83,11 +83,11 @@ namespace SFGraphics.GLObjects.Textures
                 SetTexParameter(TextureParameterName.TextureWrapT, (int)value);
             }
         }
-        private TextureWrapMode textureWrapT;
+        private TextureWrapMode textureWrapT = TextureWrapMode.ClampToEdge;
 
         /// <summary>
         /// The wrap mode for the third component of texture coordinates.
-        /// Defaults to ClampToEdge.
+        /// Defaults to <see cref="TextureWrapMode.ClampToEdge"/>.
         /// </summary>
         public TextureWrapMode TextureWrapR
         {
@@ -98,7 +98,7 @@ namespace SFGraphics.GLObjects.Textures
                 SetTexParameter(TextureParameterName.TextureWrapR, (int)value);
             }
         }
-        private TextureWrapMode textureWrapR;
+        private TextureWrapMode textureWrapR = TextureWrapMode.ClampToEdge;
 
         /// <summary>
         /// Creates an empty texture of the specified target.
