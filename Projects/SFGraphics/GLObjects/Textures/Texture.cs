@@ -38,7 +38,7 @@ namespace SFGraphics.GLObjects.Textures
                 SetTexParameter(TextureParameterName.TextureMinFilter, (int)value);
             }
         }
-        private TextureMinFilter minFilter = TextureMinFilter.Linear;
+        private TextureMinFilter minFilter;
 
         /// <summary>
         /// The algorithm used when scaling the texture above its actual size.
@@ -53,7 +53,7 @@ namespace SFGraphics.GLObjects.Textures
                 SetTexParameter(TextureParameterName.TextureMagFilter, (int)value);
             }
         }
-        private TextureMagFilter magFilter = TextureMagFilter.Linear;
+        private TextureMagFilter magFilter;
 
         /// <summary>
         /// The wrap mode for the first component of texture coordinates.
@@ -68,7 +68,7 @@ namespace SFGraphics.GLObjects.Textures
                 SetTexParameter(TextureParameterName.TextureWrapS, (int)value);
             }
         }
-        private TextureWrapMode textureWrapS = TextureWrapMode.ClampToEdge;
+        private TextureWrapMode textureWrapS;
 
         /// <summary>
         /// The wrap mode for the second component of texture coordinates.
@@ -83,7 +83,7 @@ namespace SFGraphics.GLObjects.Textures
                 SetTexParameter(TextureParameterName.TextureWrapT, (int)value);
             }
         }
-        private TextureWrapMode textureWrapT = TextureWrapMode.ClampToEdge;
+        private TextureWrapMode textureWrapT;
 
         /// <summary>
         /// The wrap mode for the third component of texture coordinates.
@@ -98,7 +98,7 @@ namespace SFGraphics.GLObjects.Textures
                 SetTexParameter(TextureParameterName.TextureWrapR, (int)value);
             }
         }
-        private TextureWrapMode textureWrapR = TextureWrapMode.ClampToEdge;
+        private TextureWrapMode textureWrapR;
 
         /// <summary>
         /// Creates an empty texture of the specified target.
@@ -107,6 +107,13 @@ namespace SFGraphics.GLObjects.Textures
         protected Texture(TextureTarget textureTarget) : base(GL.GenTexture())
         {
             TextureTarget = textureTarget;
+
+            // Set some reasonable defaults to avoid common issues with mipmaps or uvs.
+            TextureWrapS = TextureWrapMode.ClampToEdge;
+            TextureWrapT = TextureWrapMode.ClampToEdge;
+            TextureWrapR = TextureWrapMode.ClampToEdge;
+            MagFilter = TextureMagFilter.Linear;
+            MinFilter = TextureMinFilter.Linear;
         }
 
         /// <summary>
