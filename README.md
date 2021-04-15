@@ -52,7 +52,3 @@ Used as the C# wrapper for OpenGL functions. Provides vector and matrix types.
 Much of the OpenGL object wrappers and utility code is adapted from code I originally wrote for Smash Forge.
 * [Github](https://github.com/jam1garner/Smash-Forge)
 * [License](https://github.com/jam1garner/Smash-Forge/blob/master/License.txt)
-
-### Sandcastle
-Online documentation for all classes and methods in SFGraphics is generated using Sandcastle.
-* [Github](https://github.com/EWSoftware/SHFB)
