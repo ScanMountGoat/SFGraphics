@@ -187,17 +187,19 @@ namespace SFGenericModel.Materials
                 var value = textureValues[i];
 
                 // If the same texture is bound to this texture unit, we don't need to set it again.
-                bool shouldSkip = previousMaterial != null 
+                bool shouldSkipTextureSet = previousMaterial != null 
                     && i < previousMaterial.textureUniformNames.Count 
                     && previousMaterial.textureUniformNames[i] == name 
                     && previousMaterial.textureValues[i] == value;
 
-                if (!shouldSkip)
+                if (!shouldSkipTextureSet)
                 {
                     shader.SetTexture(name, value, textureIndex);
-                    if (samplerValues[i] != null)
-                        samplerValues[i].Bind(textureIndex);
                 }
+
+                // Even if the textures are the same, the bound sampler may be different.
+                if (samplerValues[i] != null)
+                    samplerValues[i].Bind(textureIndex);
 
                 textureIndex++;
             }
